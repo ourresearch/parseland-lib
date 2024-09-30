@@ -1,4 +1,4 @@
-from exceptions import UnusualTrafficError
+from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.parsers.parser import PublisherParser
 
 from parseland_lib.parsers.utils import email_matches_name

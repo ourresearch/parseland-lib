@@ -1,6 +1,6 @@
 import re
 
-from exceptions import UnusualTrafficError
+from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import Author, Affiliation
 from parseland_lib.parsers.parser import PublisherParser
 

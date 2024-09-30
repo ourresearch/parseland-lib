@@ -6,7 +6,7 @@ import boto3
 import botocore
 
 from utils import normalize_doi
-from exceptions import S3FileNotFoundError
+from parseland_lib.exceptions import S3FileNotFoundError
 
 S3_LANDING_PAGE_BUCKET = 'unpaywall-doi-landing-page'
 

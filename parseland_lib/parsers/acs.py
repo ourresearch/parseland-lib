@@ -1,4 +1,4 @@
-from exceptions import UnusualTrafficError
+from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.parsers.parser import PublisherParser
 
