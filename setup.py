@@ -10,7 +10,6 @@ setup(
     name='parseland-lib',
     version='0.0.1',
     install_requires=parse_requirements('./requirements.txt'),
-    packages=['parseland_lib'],
     url='',
     license='',
     author='nolanmccafferty',
