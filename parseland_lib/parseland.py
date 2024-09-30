@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from parseland_lib.exceptions import ParserNotFoundError
 from parseland_lib.parsers.generic import GenericPublisherParser
 from parseland_lib.parsers.parser import PublisherParser
-from s3 import get_landing_page
+from parseland_lib.s3 import get_landing_page
 
 
 def _best_parser_msg(soup: BeautifulSoup) -> (PublisherParser, dict):
