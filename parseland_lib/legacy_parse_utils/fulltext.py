@@ -55,9 +55,19 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
     if is_ojs_full_index(soup_copy):
         return None
 
+    pdf_link = None
+
+    if am_ovs := detect_sd_author_manuscript(soup):
+        open_version_source_string = am_ovs
+        version = 'acceptedVersion'
+        pdf_link = DuckLink(re.sub(
+            r'/article/(?:abs/)?pii/', '/article/am/pii/', resolved_url),
+            'download')
+
     pdf_link = find_pdf_link(resolved_url, page=str(soup_copy),
                              page_with_scripts=soup_str,
-                             publisher=publisher)
+                             publisher=publisher) if not pdf_link else pdf_link
+
     if pdf_link is None:
         if resolved_host.endswith('ieeexplore.ieee.org') and (
         ieee_pdf := re.search(r'"pdfPath":\s*"(/ielx?7/[\d/]*\.pdf)"',
@@ -83,11 +93,11 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
 
     if (hybrid_parse := detect_hybrid(soup_str, license_search_substr,
                                       publisher, resolved_url)) and \
-            hybrid_parse[0] is not None:
+            hybrid_parse[0] is not None and open_version_source_string is None:
         open_version_source_string, license = hybrid_parse
         oa_status = 'hybrid'
 
-    return [{'url': pdf_link.href,
+    return [{'url': pdf_url,
              'open_version_source_string': open_version_source_string,
              'license': license,
              'oa_status': oa_status,

@@ -225,7 +225,7 @@ def detect_hybrid(page, license_search_substr, publisher, resolved_url):
     return open_version_string, license
 
 def detect_sd_author_manuscript(soup):
-    if bool(soup.select('#view-open-manuscript-btn')):
+    if bool(soup.find(lambda tag: tag.text == 'View Open Manuscript')):
         return 'open (author manuscript)'
 
     return None

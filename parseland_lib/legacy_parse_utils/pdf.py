@@ -823,7 +823,7 @@ def find_pdf_link(resolved_url, page, page_with_scripts=None, publisher=None) ->
 
     for link in links:
 
-        if is_known_bad_link(link):
+        if is_known_bad_link(resolved_url, link):
             continue
 
         # there are some links that are SURELY NOT the pdf for this article
