@@ -1,7 +1,7 @@
 import re
 from dataclasses import asdict, is_dataclass
 
-from parseland_lib.parsers.utils import EMAIL_RE, strip_prefix
+from parseland_lib.publisher.parsers.utils import EMAIL_RE, strip_prefix
 import ftfy
 
 

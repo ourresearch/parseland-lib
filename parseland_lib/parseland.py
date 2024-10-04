@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 
 from parseland_lib.exceptions import ParserNotFoundError
-from parseland_lib.parsers.generic import GenericPublisherParser
-from parseland_lib.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.generic import GenericPublisherParser
+from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.s3 import get_landing_page
 
 
