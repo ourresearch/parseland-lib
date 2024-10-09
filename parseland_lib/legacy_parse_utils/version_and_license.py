@@ -6,6 +6,13 @@ from parseland_lib.legacy_parse_utils.pdf import get_pdf_in_meta, \
     trust_publisher_license, find_normalized_license
 from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal, \
     get_tree
+from parseland_lib.publisher.parsers.cup import CUP
+from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
+from parseland_lib.publisher.parsers.ieee import IEEE
+from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
+from parseland_lib.publisher.parsers.oxford import Oxford
+from parseland_lib.publisher.parsers.rsc import RSC
+from parseland_lib.publisher.parsers.wiley import Wiley
 
 
 def page_potential_license_text(page):
@@ -35,7 +42,8 @@ def page_potential_license_text(page):
         return page
 
 
-def detect_bronze(page, publisher, resolved_url):
+def detect_bronze(soup, resolved_url):
+    page = str(soup)
     open_version_string = None
     bronze_url_snippet_patterns = [
         ('sciencedirect.com/',
@@ -70,19 +78,16 @@ def detect_bronze(page, publisher, resolved_url):
             open_version_string = "open (via free article)"
 
     bronze_publisher_patterns = [
-        ("New England Journal of Medicine (NEJM/MMS)",
+        (lambda : NewEnglandJournalOfMedicine(soup).is_publisher_specific_parser(),
          '<meta content="yes" name="evt-free"'),
-        (
-        "Massachusetts Medical Society", '<meta content="yes" name="evt-free"'),
-        ("University of Chicago Press",
+        (lambda: soup.find('meta', {'name': 'dc.Publisher', 'content': lambda x: 'university of chicago press' in x.lower()}),
          r'<img[^>]*class="[^"]*accessIconLocation'),
-        ("Elsevier BV",
+        (lambda: ElsevierBV(soup).is_publisher_specific_parser(),
          r'<span[^>]*class="[^"]*article-header__access[^"]*"[^>]*>Open Archive</span>'),
     ]
 
-    for (publisher_, pattern) in bronze_publisher_patterns:
-        if normalized_strings_equal(publisher_, publisher) and re.findall(pattern, page,
-                                                            re.IGNORECASE | re.DOTALL):
+    for (publisher_func, pattern) in bronze_publisher_patterns:
+        if publisher_func() and re.findall(pattern, page, re.IGNORECASE | re.DOTALL):
             open_version_string = "open (via free article)"
 
     # bronze_journal_patterns = [
@@ -110,7 +115,8 @@ def detect_bronze(page, publisher, resolved_url):
     return open_version_string
 
 
-def detect_hybrid(page, license_search_substr, publisher, resolved_url):
+def detect_hybrid(soup, license_search_substr, resolved_url):
+    page = str(soup)
     open_version_string, license = None, None
     hybrid_url_snippet_patterns = [
         ('projecteuclid.org/', '<strong>Full-text: Open access</strong>'),
@@ -177,21 +183,21 @@ def detect_hybrid(page, license_search_substr, publisher, resolved_url):
     #                     f'found license {self.scraped_license} on license tab')
 
     hybrid_publisher_patterns = [
-        ("Informa UK Limited", "/accessOA.png"),
-        ("Oxford University Press (OUP)", "<i class='icon-availability_open'"),
-        ("Institute of Electrical and Electronics Engineers (IEEE)",
+        # Informa UK Limited? Always returning true for now
+        (lambda: True, "/accessOA.png"),
+        (Oxford(soup).is_publisher_specific_parser(), "<i class='icon-availability_open'"),
+        (IEEE(soup).is_publisher_specific_parser(),
          r'"isOpenAccess":true'),
-        ("Institute of Electrical and Electronics Engineers (IEEE)",
+        (IEEE(soup).is_publisher_specific_parser(),
          r'"openAccessFlag":"yes"'),
-        ("Informa UK Limited", "/accessOA.png"),
-        ("Royal Society of Chemistry (RSC)", "/open_access_blue.png"),
-        ("Cambridge University Press (CUP)",
+        (RSC(soup).is_publisher_specific_parser(), "/open_access_blue.png"),
+        (CUP(soup).is_publisher_specific_parser(),
          '<span class="icon access open-access cursorDefault">'),
-        ("Wiley", r'<div[^>]*class="doi-access"[^>]*>Open Access</div>'),
+        (Wiley(soup).is_publisher_specific_parser(), r'<div[^>]*class="doi-access"[^>]*>Open Access</div>'),
     ]
 
-    for (publisher_, pattern) in hybrid_publisher_patterns:
-        if normalized_strings_equal(publisher_, publisher) and re.findall(pattern, page,
+    for (publisher_func, pattern) in hybrid_publisher_patterns:
+        if publisher_func() and re.findall(pattern, page,
                                                             re.IGNORECASE | re.DOTALL):
             open_version_string = "open (via page says Open Access)"
             license = "unspecified-oa"

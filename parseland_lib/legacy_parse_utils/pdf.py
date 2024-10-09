@@ -4,6 +4,7 @@ from urllib.parse import urlparse, urljoin
 
 from parseland_lib.legacy_parse_utils.strings import decode_escaped_href, \
     normalized_strings_equal, strip_jsessionid_from_url, get_tree
+from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
 
 repo_dont_scrape_list = [
     "ncbi.nlm.nih.gov",
@@ -808,7 +809,7 @@ def get_pdf_from_javascript(page):
 
     return None
 
-def find_pdf_link(resolved_url, page, page_with_scripts=None, publisher=None) -> DuckLink:
+def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
 
     # before looking in links, look in meta for the pdf link
     # = open journal http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2011.01645.x/abstract
@@ -817,6 +818,7 @@ def find_pdf_link(resolved_url, page, page_with_scripts=None, publisher=None) ->
     # = open http://handle.unsw.edu.au/1959.4/unsworks_38708 cc-by
 
     # logger.info(page)
+    page = str(soup)
 
     links = [get_pdf_in_meta(page)] + [get_pdf_from_javascript(page_with_scripts or page)] + get_useful_links(page)
     links = [link for link in links if link is not None]
@@ -850,8 +852,7 @@ def find_pdf_link(resolved_url, page, page_with_scripts=None, publisher=None) ->
         if link.anchor and "pdf" in link.anchor.lower():
             # handle https://utpjournals.press/doi/full/10.3138/tjt-2021-0016
             if (
-                publisher
-                and normalized_strings_equal("University of Toronto Press Inc. (UTPress)", publisher)
+                UniversityOfTorontoPress(soup).is_publisher_specific_parser()
                 and "epdf" in link.href
             ):
                 continue
@@ -871,9 +872,8 @@ def find_pdf_link(resolved_url, page, page_with_scripts=None, publisher=None) ->
         # want it to match for this one https://doi.org/10.2298/SGS0603181L
         # but not this one: 10.1097/00003643-201406001-00238
         if (
-            publisher
-            and not normalized_strings_equal("Ovid Technologies (Wolters Kluwer Health)", publisher)
-            and not normalized_strings_equal("University of Toronto Press Inc. (UTPress)", publisher)
+            not soup.find('meta', {'name': lambda x: 'wkhealth' in x})
+            and not UniversityOfTorontoPress(soup).is_publisher_specific_parser()
         ):
             if link.anchor and "full text" in link.anchor.lower():
                 return link

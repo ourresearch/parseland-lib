@@ -6,13 +6,13 @@ from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     find_normalized_license, DuckLink, get_link_target, clean_pdf_url, \
     find_version, find_pdf_link, discard_pdf_url, find_doc_download_link, \
     try_pdf_link_as_doc, find_bhl_view_link
-from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal
 from parseland_lib.legacy_parse_utils.version_and_license import \
     page_potential_license_text, detect_sd_author_manuscript, detect_bronze, \
     detect_hybrid
+from parseland_lib.publisher.parsers.wiley import Wiley
 
 
-def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
+def parse_publisher_fulltext_locations(soup, resolved_url):
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_copy = copy.deepcopy(soup)
     soup_str = str(soup)
@@ -21,7 +21,7 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
     open_version_source_string, oa_status, license = None, None, trust_publisher_license(
         resolved_url) and find_normalized_license(license_search_substr)
 
-    def cleanup_soup(soup, publisher):
+    def cleanup_soup(soup):
         try:
             [script.extract() for script in soup('script')]
             [div.extract() for div in
@@ -29,19 +29,18 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
             [div.extract() for div in
              soup.find_all("li", {'class': 'linked-article__item'})]
 
-            if normalized_strings_equal('Wiley', publisher):
+            if Wiley(soup).is_publisher_specific_parser():
                 [div.extract() for div in
                  soup.find_all('div', {'class': 'hubpage-menu'})]
 
-            if normalized_strings_equal('Oncology Nursing Society (ONS)',
-                                        publisher):
+            if soup.find('meta', {'property': 'og:site_name', 'content': lambda x: 'Oncology Nursing Society' in x}):
                 [div.extract() for div in
                  soup.find_all('div', {'class': 'view-issue-articles'})]
         except Exception as e:
             pass
         return soup
 
-    soup_copy = cleanup_soup(soup_copy, publisher)
+    soup_copy = cleanup_soup(soup_copy)
 
     def is_ojs_full_index(soup):
         ojs_meta = soup.find('meta', {'name': 'generator',
@@ -64,9 +63,8 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
             r'/article/(?:abs/)?pii/', '/article/am/pii/', resolved_url),
             'download')
 
-    pdf_link = find_pdf_link(resolved_url, page=str(soup_copy),
-                             page_with_scripts=soup_str,
-                             publisher=publisher) if not pdf_link else pdf_link
+    pdf_link = find_pdf_link(resolved_url, soup=soup_copy,
+                             page_with_scripts=soup_str) if not pdf_link else pdf_link
 
     if pdf_link is None:
         if resolved_host.endswith('ieeexplore.ieee.org') and (
@@ -87,12 +85,11 @@ def parse_publisher_fulltext_locations(soup, publisher, resolved_url):
     pdf_url = get_link_target(pdf_link.href, resolved_url)
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link)
 
-    if bronze_ovs := detect_bronze(soup_str, publisher, resolved_url):
+    if bronze_ovs := detect_bronze(soup, resolved_url):
         open_version_source_string = bronze_ovs
         oa_status = 'bronze'
 
-    if (hybrid_parse := detect_hybrid(soup_str, license_search_substr,
-                                      publisher, resolved_url)) and \
+    if (hybrid_parse := detect_hybrid(soup, license_search_substr, resolved_url)) and \
             hybrid_parse[0] is not None and open_version_source_string is None:
         open_version_source_string, license = hybrid_parse
         oa_status = 'hybrid'
@@ -144,7 +141,7 @@ def parse_repo_fulltext_locations(soup, resolved_url):
 
     # otherwise look for it the normal way
     else:
-        pdf_download_link = find_pdf_link(resolved_url, page, page_with_scripts=soup_str)
+        pdf_download_link = find_pdf_link(resolved_url, soup_copy, page_with_scripts=soup_str)
 
     if pdf_download_link is None:
         if re.search(
