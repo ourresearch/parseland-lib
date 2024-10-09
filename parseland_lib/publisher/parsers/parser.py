@@ -1,18 +1,13 @@
 import copy
 import re
 from abc import ABC, abstractmethod
-from urllib.parse import urlparse
 
 from parseland_lib.elements import AuthorAffiliations, Author
 from parseland_lib.legacy_parse_utils.fulltext import \
     parse_publisher_fulltext_locations
-
-from parseland_lib.legacy_parse_utils.pdf import find_pdf_link, DuckLink, \
-    get_link_target, clean_pdf_url, find_normalized_license, trust_publisher_license
-from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal
-from parseland_lib.legacy_parse_utils.version_and_license import detect_bronze, \
-    detect_hybrid, page_potential_license_text, detect_sd_author_manuscript
-from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, strip_prefix, \
+from parseland_lib.legacy_parse_utils.strings import cleanup_soup
+from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, \
+    strip_prefix, \
     is_h_tag
 
 
@@ -262,7 +257,7 @@ class PublisherParser(Parser, ABC):
         return None
 
     def parse_fulltext_locations(self, resolved_url):
-        return parse_publisher_fulltext_locations(self.soup, resolved_url)
+        return parse_publisher_fulltext_locations(self.soup, cleanup_soup(copy.deepcopy(self.soup)), resolved_url)
 
 
     test_cases = []

@@ -1,4 +1,3 @@
-import copy
 import re
 from urllib.parse import urlparse
 
@@ -9,39 +8,15 @@ from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
 from parseland_lib.legacy_parse_utils.version_and_license import \
     page_potential_license_text, detect_sd_author_manuscript, detect_bronze, \
     detect_hybrid
-from parseland_lib.publisher.parsers.wiley import Wiley
 
 
-def parse_publisher_fulltext_locations(soup, resolved_url):
+def parse_publisher_fulltext_locations(soup, cleaned_soup, resolved_url):
     resolved_host = urlparse(resolved_url).hostname or ''
-    soup_copy = copy.deepcopy(soup)
     soup_str = str(soup)
     license_search_substr = page_potential_license_text(soup_str)
     version = 'publishedVersion'
     open_version_source_string, oa_status, license = None, None, trust_publisher_license(
         resolved_url) and find_normalized_license(license_search_substr)
-
-    def cleanup_soup(soup):
-        try:
-            [script.extract() for script in soup('script')]
-            [div.extract() for div in
-             soup.find_all("div", {'class': 'table-of-content'})]
-            [div.extract() for div in
-             soup.find_all("li", {'class': 'linked-article__item'})]
-
-            if Wiley(soup).is_publisher_specific_parser():
-                [div.extract() for div in
-                 soup.find_all('div', {'class': 'hubpage-menu'})]
-
-            if soup.find('meta', {'property': 'og:site_name', 'content': lambda x: 'Oncology Nursing Society' in x}):
-                [div.extract() for div in
-                 soup.find_all('div', {'class': 'view-issue-articles'})]
-        except Exception as e:
-            pass
-        return soup
-
-    soup_copy = cleanup_soup(soup_copy)
-
     def is_ojs_full_index(soup):
         ojs_meta = soup.find('meta', {'name': 'generator',
                                       'content': re.compile(
@@ -51,7 +26,7 @@ def parse_publisher_fulltext_locations(soup, resolved_url):
                 'div[role="main"] li a[id^="article-"]')
             return len(main_article_elements) > 1
 
-    if is_ojs_full_index(soup_copy):
+    if is_ojs_full_index(cleaned_soup):
         return None
 
     pdf_link = None
@@ -63,7 +38,7 @@ def parse_publisher_fulltext_locations(soup, resolved_url):
             r'/article/(?:abs/)?pii/', '/article/am/pii/', resolved_url),
             'download')
 
-    pdf_link = find_pdf_link(resolved_url, soup=soup_copy,
+    pdf_link = find_pdf_link(resolved_url, soup=cleaned_soup,
                              page_with_scripts=soup_str) if not pdf_link else pdf_link
 
     if pdf_link is None:
@@ -102,8 +77,7 @@ def parse_publisher_fulltext_locations(soup, resolved_url):
              }]
 
 
-def parse_repo_fulltext_locations(soup, resolved_url):
-    soup_copy = copy.deepcopy(soup)
+def parse_repo_fulltext_locations(soup, cleaned_soup, resolved_url):
     soup_str = str(soup)
     license_search_substr = page_potential_license_text(soup_str)
     version = find_version(resolved_url, soup_str)
@@ -112,15 +86,7 @@ def parse_repo_fulltext_locations(soup, resolved_url):
 
     location_candidates = []
 
-    def cleanup_soup(soup):
-        try:
-            [script.extract() for script in soup('script')]
-        except Exception as e:
-            pass
-        return soup
-
-    soup_copy = cleanup_soup(soup_copy)
-    page = str(soup_copy)
+    page = str(cleaned_soup)
 
     pdf_download_link = None
     # special exception for citeseer because we want the pdf link where
@@ -141,7 +107,7 @@ def parse_repo_fulltext_locations(soup, resolved_url):
 
     # otherwise look for it the normal way
     else:
-        pdf_download_link = find_pdf_link(resolved_url, soup_copy, page_with_scripts=soup_str)
+        pdf_download_link = find_pdf_link(resolved_url, cleaned_soup, page_with_scripts=soup_str)
 
     if pdf_download_link is None:
         if re.search(

@@ -4,11 +4,33 @@ from bs4 import UnicodeDammit
 from lxml import html, etree
 from unidecode import unidecode
 
+from parseland_lib.publisher.parsers.wiley import Wiley
+
 
 def clean_html(raw_html):
     cleanr = re.compile('<\w+.*?>')
     cleantext = re.sub(cleanr, '', raw_html)
     return cleantext
+
+def cleanup_soup(soup):
+    try:
+        [script.extract() for script in soup('script')]
+        [div.extract() for div in
+         soup.find_all("div", {'class': 'table-of-content'})]
+        [div.extract() for div in
+         soup.find_all("li", {'class': 'linked-article__item'})]
+
+        if Wiley(soup).is_publisher_specific_parser():
+            [div.extract() for div in
+             soup.find_all('div', {'class': 'hubpage-menu'})]
+
+        if soup.find('meta', {'property': 'og:site_name', 'content': lambda
+                x: 'Oncology Nursing Society' in x}):
+            [div.extract() for div in
+             soup.find_all('div', {'class': 'view-issue-articles'})]
+    except Exception as e:
+        pass
+    return soup
 
 def remove_punctuation(input_string):
     # from http://stackoverflow.com/questions/265960/best-way-to-strip-punctuation-from-a-string-in-python
