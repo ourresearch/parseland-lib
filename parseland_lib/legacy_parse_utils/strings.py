@@ -4,7 +4,6 @@ from bs4 import UnicodeDammit
 from lxml import html, etree
 from unidecode import unidecode
 
-from parseland_lib.publisher.parsers.wiley import Wiley
 
 
 def clean_html(raw_html):
@@ -13,6 +12,7 @@ def clean_html(raw_html):
     return cleantext
 
 def cleanup_soup(soup):
+    from parseland_lib.publisher.parsers.wiley import Wiley
     try:
         [script.extract() for script in soup('script')]
         [div.extract() for div in

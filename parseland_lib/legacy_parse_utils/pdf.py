@@ -4,7 +4,6 @@ from urllib.parse import urlparse, urljoin
 
 from parseland_lib.legacy_parse_utils.strings import decode_escaped_href, \
     normalized_strings_equal, strip_jsessionid_from_url, get_tree
-from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
 
 repo_dont_scrape_list = [
     "ncbi.nlm.nih.gov",
@@ -810,7 +809,7 @@ def get_pdf_from_javascript(page):
     return None
 
 def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
-
+    from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
     # before looking in links, look in meta for the pdf link
     # = open journal http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2011.01645.x/abstract
     # = open journal http://doi.org/10.1002/meet.2011.14504801327

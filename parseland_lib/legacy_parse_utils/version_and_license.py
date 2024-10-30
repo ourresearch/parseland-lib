@@ -6,13 +6,6 @@ from parseland_lib.legacy_parse_utils.pdf import get_pdf_in_meta, \
     trust_publisher_license, find_normalized_license
 from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal, \
     get_tree
-from parseland_lib.publisher.parsers.cup import CUP
-from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
-from parseland_lib.publisher.parsers.ieee import IEEE
-from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
-from parseland_lib.publisher.parsers.oxford import Oxford
-from parseland_lib.publisher.parsers.rsc import RSC
-from parseland_lib.publisher.parsers.wiley import Wiley
 
 
 def page_potential_license_text(page):
@@ -116,6 +109,14 @@ def detect_bronze(soup, resolved_url):
 
 
 def detect_hybrid(soup, license_search_substr, resolved_url):
+    from parseland_lib.publisher.parsers.cup import CUP
+    from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
+    from parseland_lib.publisher.parsers.ieee import IEEE
+    from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
+    from parseland_lib.publisher.parsers.oxford import Oxford
+    from parseland_lib.publisher.parsers.rsc import RSC
+    from parseland_lib.publisher.parsers.wiley import Wiley
+
     page = str(soup)
     open_version_string, license = None, None
     hybrid_url_snippet_patterns = [
