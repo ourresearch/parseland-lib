@@ -36,6 +36,8 @@ def page_potential_license_text(page):
 
 
 def detect_bronze(soup, resolved_url):
+    from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
+    from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
     page = str(soup)
     open_version_string = None
     bronze_url_snippet_patterns = [
@@ -71,11 +73,11 @@ def detect_bronze(soup, resolved_url):
             open_version_string = "open (via free article)"
 
     bronze_publisher_patterns = [
-        (lambda : NewEnglandJournalOfMedicine(soup).is_publisher_specific_parser(),
+        (NewEnglandJournalOfMedicine(soup).is_publisher_specific_parser,
          '<meta content="yes" name="evt-free"'),
         (lambda: soup.find('meta', {'name': 'dc.Publisher', 'content': lambda x: 'university of chicago press' in x.lower()}),
          r'<img[^>]*class="[^"]*accessIconLocation'),
-        (lambda: ElsevierBV(soup).is_publisher_specific_parser(),
+        (ElsevierBV(soup).is_publisher_specific_parser,
          r'<span[^>]*class="[^"]*article-header__access[^"]*"[^>]*>Open Archive</span>'),
     ]
 
@@ -110,9 +112,7 @@ def detect_bronze(soup, resolved_url):
 
 def detect_hybrid(soup, license_search_substr, resolved_url):
     from parseland_lib.publisher.parsers.cup import CUP
-    from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
     from parseland_lib.publisher.parsers.ieee import IEEE
-    from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
     from parseland_lib.publisher.parsers.oxford import Oxford
     from parseland_lib.publisher.parsers.rsc import RSC
     from parseland_lib.publisher.parsers.wiley import Wiley
@@ -186,15 +186,15 @@ def detect_hybrid(soup, license_search_substr, resolved_url):
     hybrid_publisher_patterns = [
         # Informa UK Limited? Always returning true for now
         (lambda: True, "/accessOA.png"),
-        (Oxford(soup).is_publisher_specific_parser(), "<i class='icon-availability_open'"),
-        (IEEE(soup).is_publisher_specific_parser(),
+        (Oxford(soup).is_publisher_specific_parser, "<i class='icon-availability_open'"),
+        (IEEE(soup).is_publisher_specific_parser,
          r'"isOpenAccess":true'),
-        (IEEE(soup).is_publisher_specific_parser(),
+        (IEEE(soup).is_publisher_specific_parser,
          r'"openAccessFlag":"yes"'),
-        (RSC(soup).is_publisher_specific_parser(), "/open_access_blue.png"),
-        (CUP(soup).is_publisher_specific_parser(),
+        (RSC(soup).is_publisher_specific_parser, "/open_access_blue.png"),
+        (CUP(soup).is_publisher_specific_parser,
          '<span class="icon access open-access cursorDefault">'),
-        (Wiley(soup).is_publisher_specific_parser(), r'<div[^>]*class="doi-access"[^>]*>Open Access</div>'),
+        (Wiley(soup).is_publisher_specific_parser, r'<div[^>]*class="doi-access"[^>]*>Open Access</div>'),
     ]
 
     for (publisher_func, pattern) in hybrid_publisher_patterns:

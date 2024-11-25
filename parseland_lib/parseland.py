@@ -55,11 +55,3 @@ def parse_doi(doi, s3=None):
     lp_content = get_landing_page(doi, s3)
     return parse_landing_page(lp_content)
 
-
-
-if __name__ == '__main__':
-    lp = get_landing_page('10.1016/j.ecoser.2021.101332')
-    parser, msg = parse_landing_page(lp)
-    print(msg)
-    fulltext = parser.parse_fulltext_locations('elsevier', 'https://www.sciencedirect.com/science/article/abs/pii/S2212041621000905?via%3Dihub')
-    print(fulltext)
