@@ -827,6 +827,9 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
         if is_known_bad_link(resolved_url, link):
             continue
 
+        if is_purchase_link(link):
+            continue
+
         # there are some links that are SURELY NOT the pdf for this article
         if has_bad_anchor_word(link.anchor):
             continue
