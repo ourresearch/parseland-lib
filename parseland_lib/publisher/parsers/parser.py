@@ -241,7 +241,7 @@ class PublisherParser(Parser, ABC):
                 if 'abstract' in str(value).lower() or (
                         tag.text.lower() == 'abstract' and is_h_tag(tag)):
                     for desc in tag.descendants:
-                        abs_txt = strip_seq('\s',
+                        abs_txt = strip_seq(r'\s',
                                             strip_prefix('abstract', desc.text,
                                                          flags=re.IGNORECASE))
                         if len(desc.text) > 100 and desc.name in {'p', 'div',
