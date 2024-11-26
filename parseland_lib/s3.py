@@ -41,8 +41,18 @@ def get_landing_page_from_s3(url, s3=DEFAULT_S3):
         s3 = DEFAULT_S3
     key = get_key(url)
     obj = get_obj(S3_LANDING_PAGE_BUCKET, key, s3)
-    contents = decompress(obj['Body'].read())
-    return contents
+    content = obj['Body'].read()
+
+    try:
+        # check if content starts with gzip magic number
+        if content.startswith(b'\x1f\x8b\x08'):
+            return decompress(content)
+        # if not compressed, return as is
+        return content
+    except Exception as e:
+        print(f"Error decompressing content for {url}: {str(e)}")
+        # Return uncompressed content as fallback
+        return content
 
 
 def is_pdf(contents: bytes):
