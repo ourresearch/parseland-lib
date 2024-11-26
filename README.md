@@ -10,9 +10,6 @@ url = 'https://doi.org/10.7759/cureus.13004'
 lp = get_landing_page_from_s3(url)
 authors_and_abstract = get_authors_and_abstract(lp)
 fulltext_location = parse_publisher_fulltext_location(lp)
-result = {
-    **authors_and_abstract,
-    **fulltext_location
-}
-print(result)
+print(authors_and_abstract)
+print(fulltext_location)
 ```
