@@ -871,7 +871,7 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
         # want it to match for this one https://doi.org/10.2298/SGS0603181L
         # but not this one: 10.1097/00003643-201406001-00238
         if (
-            not soup.find('meta', {'name': lambda x: 'wkhealth' in x})
+            not soup.find('meta', {'name': lambda x: x and 'wkhealth' in x})
             and not UniversityOfTorontoPress(soup).is_publisher_specific_parser()
         ):
             if link.anchor and "full text" in link.anchor.lower():
