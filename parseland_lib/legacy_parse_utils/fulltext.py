@@ -1,6 +1,8 @@
 import re
 from urllib.parse import urlparse
 
+from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
+
 from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     find_normalized_license, DuckLink, get_link_target, clean_pdf_url, \
     find_version, find_pdf_link, discard_pdf_url, find_doc_download_link, \
@@ -10,7 +12,8 @@ from parseland_lib.legacy_parse_utils.version_and_license import \
     detect_hybrid
 
 
-def parse_publisher_fulltext_locations(soup, cleaned_soup, resolved_url):
+def parse_publisher_fulltext_locations(soup, cleaned_soup):
+    resolved_url = get_base_url_from_soup(soup)
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_str = str(soup)
     license_search_substr = page_potential_license_text(soup_str)

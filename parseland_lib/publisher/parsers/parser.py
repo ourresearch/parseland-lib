@@ -256,8 +256,8 @@ class PublisherParser(Parser, ABC):
                             return abs_txt
         return None
 
-    def parse_fulltext_locations(self, resolved_url):
-        return parse_publisher_fulltext_locations(self.soup, cleanup_soup(copy.deepcopy(self.soup)), resolved_url)
+    def parse_fulltext_locations(self):
+        return parse_publisher_fulltext_locations(self.soup, cleanup_soup(copy.deepcopy(self.soup)))
 
 
     test_cases = []
