@@ -36,7 +36,7 @@ def get_key(url: str):
     return quote(url.lower()).replace('/', '_')
 
 
-def get_landing_page(url, s3=DEFAULT_S3):
+def get_landing_page_from_s3(url, s3=DEFAULT_S3):
     if not s3:
         s3 = DEFAULT_S3
     key = get_key(url)
