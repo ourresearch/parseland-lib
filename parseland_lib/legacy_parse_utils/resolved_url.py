@@ -31,4 +31,5 @@ def get_base_url_from_soup(soup):
             parsed = urlparse(content)
             return f"{parsed.scheme}://{parsed.netloc}"
 
-    return None
+    # default
+    return ""
