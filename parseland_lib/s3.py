@@ -5,10 +5,9 @@ from urllib.parse import quote
 import boto3
 import botocore
 
-from parseland_lib.utils import normalize_doi
 from parseland_lib.exceptions import S3FileNotFoundError
 
-S3_LANDING_PAGE_BUCKET = 'unpaywall-doi-landing-page'
+S3_LANDING_PAGE_BUCKET = 'openalex-harvested-content'
 
 
 def make_s3():
@@ -23,11 +22,6 @@ def make_s3():
 DEFAULT_S3 = make_s3()
 
 
-def s3_last_modified(doi, s3=DEFAULT_S3):
-    return get_obj(S3_LANDING_PAGE_BUCKET, doi_to_lp_key(doi), s3)[
-        'LastModified']
-
-
 def get_obj(bucket, key, s3=DEFAULT_S3):
     try:
         obj = s3.get_object(Bucket=bucket,
@@ -38,15 +32,14 @@ def get_obj(bucket, key, s3=DEFAULT_S3):
             raise S3FileNotFoundError()
 
 
-def doi_to_lp_key(doi: str):
-    doi = normalize_doi(doi)
-    return quote(doi.lower(), safe='')
+def get_key(url: str):
+    return quote(url.lower()).replace('/', '_')
 
 
-def get_landing_page(doi, s3=DEFAULT_S3):
+def get_landing_page(url, s3=DEFAULT_S3):
     if not s3:
         s3 = DEFAULT_S3
-    key = doi_to_lp_key(doi)
+    key = get_key(url)
     obj = get_obj(S3_LANDING_PAGE_BUCKET, key, s3)
     contents = decompress(obj['Body'].read())
     return contents
