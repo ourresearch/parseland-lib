@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from parseland_lib.elements import AuthorAffiliations, Author
 from parseland_lib.legacy_parse_utils.fulltext import \
-    parse_publisher_fulltext_locations
+    parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
 from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, \
     strip_prefix, \
@@ -257,7 +257,7 @@ class PublisherParser(Parser, ABC):
         return None
 
     def parse_fulltext_locations(self):
-        return parse_publisher_fulltext_locations(self.soup, cleanup_soup(copy.deepcopy(self.soup)))
+        return parse_publisher_fulltext_location(self.soup, cleanup_soup(copy.deepcopy(self.soup)))
 
 
     test_cases = []

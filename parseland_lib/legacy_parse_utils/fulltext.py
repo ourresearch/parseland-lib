@@ -1,8 +1,9 @@
 import re
 from urllib.parse import urlparse
 
-from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
+from bs4 import BeautifulSoup
 
+from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
 from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     find_normalized_license, DuckLink, get_link_target, clean_pdf_url, \
     find_version, find_pdf_link, discard_pdf_url, find_doc_download_link, \
@@ -10,9 +11,12 @@ from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
 from parseland_lib.legacy_parse_utils.version_and_license import \
     page_potential_license_text, detect_sd_author_manuscript, detect_bronze, \
     detect_hybrid
+from parseland_lib.legacy_parse_utils.strings import cleanup_soup
 
 
-def parse_publisher_fulltext_locations(soup, cleaned_soup):
+def parse_publisher_fulltext_location(lp_content):
+    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
+    cleaned_soup = cleanup_soup(soup)
     resolved_url = get_base_url_from_soup(soup)
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_str = str(soup)
@@ -72,12 +76,12 @@ def parse_publisher_fulltext_locations(soup, cleaned_soup):
         open_version_source_string, license = hybrid_parse
         oa_status = 'hybrid'
 
-    return [{'url': pdf_url,
+    return {'pdf_url': pdf_url,
              'open_version_source_string': open_version_source_string,
              'license': license,
              'oa_status': oa_status,
              'version': version
-             }]
+             }
 
 
 def parse_repo_fulltext_locations(soup, cleaned_soup, resolved_url):

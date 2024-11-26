@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 
-from parseland_lib.exceptions import ParserNotFoundError
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.s3 import get_landing_page
 
 
-def _best_parser_msg(soup: BeautifulSoup) -> (PublisherParser, dict):
+def get_authors_and_abstract(lp_content):
+    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
+
     both_conditions_parsers = []
     authors_found_parsers = []
 
@@ -28,7 +28,7 @@ def _best_parser_msg(soup: BeautifulSoup) -> (PublisherParser, dict):
         try:
             parsed = parser.parse()
             if has_affs(parsed):
-                return parser, parsed
+                return parsed
         except Exception as e:
             continue
 
@@ -36,22 +36,12 @@ def _best_parser_msg(soup: BeautifulSoup) -> (PublisherParser, dict):
         try:
             parsed = parser.parse()
             if has_affs(parsed):
-                return parser, parsed
+                return parsed
         except Exception as e:
             continue
 
     generic_parser = GenericPublisherParser(soup)
     if generic_parser.authors_found():
-        return generic_parser, generic_parser.parse()
+        return generic_parser.parse()
 
-    raise ParserNotFoundError(f"Parser not found")
-
-def parse_landing_page(lp_content):
-    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
-    return _best_parser_msg(soup)
-
-
-def parse_doi(doi, s3=None):
-    lp_content = get_landing_page(doi, s3)
-    return parse_landing_page(lp_content)
-
+    return None
