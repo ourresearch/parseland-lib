@@ -416,6 +416,14 @@ def get_useful_links(page):
         if hasattr(link, "anchor") and hasattr(link, "href"):
             links.append(link)
 
+    # parent classes are used to find the pdf download links
+    for link in tree.xpath("//a"):
+        parent_classes = ' '.join(link.xpath("./parent::*[1]/@class")).lower()
+        if "pdf-download" in parent_classes or "pdf-container" in parent_classes:
+            links.append(DuckLink(href=link.attrib.get("href"), anchor=link.text_content()))
+
+    links += get_pdf_links_from_buttons(page)
+
     return links
 
 
@@ -796,17 +804,19 @@ def is_known_bad_link(resolved_url, link: DuckLink):
     return False
 
 def get_pdf_from_javascript(page):
-    matches = re.findall('"pdfUrl":"(.*?)"', page)
+    patterns = [
+        r'"pdfUrl":"(.*?)"',
+        r'"exportPdfDownloadUrl": ?"(.*?)"',
+        r'"downloadPdfUrl":"(.*?)"',
+        r'"fullTextPdfUrl":"(.*?)"'
+    ]
+    matches = []
+    for pattern in patterns:
+        matches += re.findall(pattern, page)
     if matches:
-        link = DuckLink(href=decode_escaped_href(matches[0]), anchor="pdfUrl")
-        return link
-
-    matches = re.findall('"exportPdfDownloadUrl": ?"(.*?)"', page)
-    if matches:
-        link = DuckLink(href=decode_escaped_href(matches[0]), anchor="exportPdfDownloadUrl")
-        return link
-
+        return DuckLink(href=decode_escaped_href(matches[0]), anchor="JavaScript PDF")
     return None
+
 
 def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
     from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
@@ -984,6 +994,19 @@ def discard_pdf_url(pdf_url, landing_url):
         return True
 
     return False
+
+def get_pdf_links_from_buttons(page):
+    tree = get_tree(page)
+    pdf_links = []
+    if tree is not None:
+        button_elements = tree.xpath("//button[@onclick]")
+        for button in button_elements:
+            onclick = button.attrib.get("onclick", "")
+            match = re.search(r"(https?:\/\/[^\s'\"]+\.pdf)", onclick)
+            if match:
+                pdf_links.append(DuckLink(href=match.group(1), anchor="<button onclick>"))
+    return pdf_links
+
 
 def find_doc_download_link(page):
     for link in get_useful_links(page):
