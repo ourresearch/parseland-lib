@@ -64,7 +64,7 @@ def parse_publisher_fulltext_location(lp_content):
             pdf_link = DuckLink(resolved_url.replace(
                 '/article/pii/', '/article/am/pii/'), 'download')
 
-    pdf_url = get_link_target(pdf_link.href, resolved_url) if pdf_link else None
+    pdf_url = get_link_target(pdf_link.href, resolved_url) if pdf_link is not None else None
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
 
     if bronze_ovs := detect_bronze(soup, resolved_url):
