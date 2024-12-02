@@ -1,4 +1,3 @@
-import os
 from gzip import decompress
 from urllib.parse import quote
 
@@ -12,11 +11,7 @@ S3_LANDING_PAGE_BUCKET = 'openalex-harvested-content'
 
 def make_s3():
     session = boto3.session.Session()
-    return session.client('s3',
-                          aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-                          aws_secret_access_key=os.getenv(
-                              'AWS_SECRET_ACCESS_KEY'),
-                          region_name=os.getenv('AWS_DEFAULT_REGION'))
+    return session.client('s3')
 
 
 DEFAULT_S3 = make_s3()
