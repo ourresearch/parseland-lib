@@ -5,21 +5,34 @@ def parse_page(lp_content):
     authors_and_abstract = get_authors_and_abstract(lp_content)
     fulltext_location = parse_publisher_fulltext_location(lp_content)
 
+    # Ensure authors are consistently processed
     if authors_and_abstract and 'authors' in authors_and_abstract:
-        authors_and_abstract['authors'] = [
-            {
-                'name': author["name"] if isinstance(author, dict) else author.name,
-                'affiliations': [{'name': aff} for aff in
-                                 (author["affiliations"] if isinstance(author, dict) else author.affiliations)],
-                'is_corresponding': author["is_corresponding"] if isinstance(author, dict) else author.is_corresponding
-            }
-            for author in authors_and_abstract['authors']
-        ]
+        authors = []
+        for author in authors_and_abstract['authors']:
+            # handle both dict and object formats
+            name = author.get("name", "") if isinstance(author, dict) else getattr(author, "name", "")
+            affiliations = (
+                [{"name": aff} for aff in author.get("affiliations", [])]
+                if isinstance(author, dict)
+                else [{"name": aff} for aff in getattr(author, "affiliations", [])]
+            )
+            is_corresponding = (
+                author.get("is_corresponding", None)
+                if isinstance(author, dict)
+                else getattr(author, "is_corresponding", None)
+            )
+            authors.append({
+                "name": name,
+                "affiliations": affiliations,
+                "is_corresponding": is_corresponding,
+            })
+        authors_and_abstract['authors'] = authors
     else:
         authors_and_abstract = {'authors': [], 'abstract': None}
 
-    # merge into a single response
+    # Merge into a single response
     response = authors_and_abstract
     response.update(fulltext_location)
 
     return response
+

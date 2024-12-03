@@ -76,6 +76,10 @@ def parse_publisher_fulltext_location(lp_content):
         open_version_source_string, license = hybrid_parse
         oa_status = 'hybrid'
 
+    # ensure pdf_url starts with http
+    if pdf_url and not pdf_url.startswith('http'):
+        pdf_url = None
+
     return {'pdf_url': pdf_url,
              'open_version_source_string': open_version_source_string,
              'license': license,
