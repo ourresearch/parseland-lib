@@ -30,10 +30,29 @@ def get_key(url: str):
     return quote(url.lower()).replace('/', '_')
 
 
+def is_pdf_in_s3(bucket, key, s3):
+    try:
+        resp = s3.get_object(
+            Bucket=bucket,
+            Key=key,
+            Range='bytes=0-4'  # %PDF- is 5 bytes
+        )
+        content = resp['Body'].read()
+        return content.startswith(b'%PDF-')
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] in {"404", "NoSuchKey"}:
+            raise S3FileNotFoundError()
+
+
 def get_landing_page_from_s3(url, s3=None):
     if not s3:
         s3 = make_s3()
     key = get_key(url)
+
+    # Check if PDF before downloading whole file
+    if is_pdf_in_s3(S3_LANDING_PAGE_BUCKET, key, s3):
+        return None
+
     obj = get_obj(S3_LANDING_PAGE_BUCKET, key, s3)
     content = obj['Body'].read()
 
