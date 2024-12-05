@@ -830,7 +830,7 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
     page = str(soup)
 
     links = [get_pdf_in_meta(page)] + [get_pdf_from_javascript(page_with_scripts or page)] + get_useful_links(page)
-    links = [link for link in links if link is not None]
+    links = [link for link in links if link is not None][:50]  # limit to 50 links
 
     for link in links:
 
