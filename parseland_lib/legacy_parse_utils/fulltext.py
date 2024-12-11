@@ -14,10 +14,12 @@ from parseland_lib.legacy_parse_utils.version_and_license import \
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
 
 
-def parse_publisher_fulltext_location(lp_content):
+def parse_publisher_fulltext_location(lp_content, resolved_url):
     soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
     cleaned_soup = cleanup_soup(soup)
-    resolved_url = get_base_url_from_soup(soup)
+    detected_resolved_url = get_base_url_from_soup(soup)
+    if not resolved_url:
+        resolved_url = detected_resolved_url
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_str = str(soup)
     license_search_substr = page_potential_license_text(soup_str)
