@@ -1,20 +1,10 @@
 from gzip import decompress
-from urllib.parse import quote
 import boto3
 import botocore
 
 from parseland_lib.exceptions import S3FileNotFoundError
 
-S3_LANDING_PAGE_BUCKET = 'openalex-harvested-content'
-
-
-def make_s3(aws_access_key_id=None, aws_secret_access_key=None, region_name=None):
-    session = boto3.session.Session(
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        region_name=region_name
-    )
-    return session.client('s3')
+S3_LANDING_PAGE_BUCKET = 'openalex-harvested-html'
 
 
 def get_obj(bucket, key, s3):
@@ -24,10 +14,6 @@ def get_obj(bucket, key, s3):
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] in {"404", "NoSuchKey"}:
             raise S3FileNotFoundError()
-
-
-def get_key(url: str):
-    return quote(url.lower()).replace('/', '_')
 
 
 def is_pdf_in_s3(bucket, key, s3):
@@ -44,10 +30,8 @@ def is_pdf_in_s3(bucket, key, s3):
             raise S3FileNotFoundError()
 
 
-def get_landing_page_from_s3(url, s3=None):
-    if not s3:
-        s3 = make_s3()
-    key = get_key(url)
+def get_landing_page_from_s3(harvest_id, s3):
+    key = f"{harvest_id}.html.gz"
 
     # Check if PDF before downloading whole file
     if is_pdf_in_s3(S3_LANDING_PAGE_BUCKET, key, s3):
@@ -63,10 +47,15 @@ def get_landing_page_from_s3(url, s3=None):
         # if not compressed, return as is
         return content
     except Exception as e:
-        print(f"Error decompressing content for {url}: {str(e)}")
+        print(f"Error decompressing content for {harvest_id}: {str(e)}")
         # Return uncompressed content as fallback
         return content
 
-
-def is_pdf(contents: bytes):
-    return contents.startswith(b"%PDF-")
+def get_resolved_url(harvest_id, dynamodb):
+    response = dynamodb.get_item(
+        TableName='harvested-html',
+        Key={
+            'id': {'S': str(harvest_id)}
+        }
+    )
+    return response['Item']['resolved_url']['S'] if 'Item' in response else None
