@@ -17,7 +17,7 @@ def index():
         "msg": "Parser is running"
     })
 
-@app.route("/parse/<uuid:harvest_id>", methods=['GET'])
+@app.route("/parseland/<uuid:harvest_id>", methods=['GET'])
 def parse_landing_page(harvest_id):
     lp = get_landing_page_from_s3(harvest_id, s3_client)
     resolved_url = get_resolved_url(harvest_id, dynamodb_client)
