@@ -34,5 +34,20 @@ def parse_page(lp_content, resolved_url):
     response = authors_and_abstract
     response.update(fulltext_location)
 
-    return response
+    urls = []
+    if response.get("pdf_url"):
+        urls.append({"url": response["pdf_url"], "content_type": "pdf"})
+    if response.get("resolved_url"):
+        urls.append({"url": response["resolved_url"], "content_type": "html"})
+
+    # reorder the response
+    ordered_response = {
+        "authors": response["authors"],
+        "urls": urls,
+        "license": response["license"],
+        "version": response["version"],
+        "abstract": response["abstract"],
+    }
+
+    return ordered_response
 

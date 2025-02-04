@@ -5,6 +5,7 @@ from parseland_lib.parse import parse_page
 from parseland_lib.s3 import get_landing_page_from_s3, get_resolved_url
 
 app = Flask(__name__)
+app.json.sort_keys = False
 
 s3_client = boto3.client("s3", region_name="us-east-1")
 dynamodb_client = boto3.client("dynamodb", region_name="us-east-1")
