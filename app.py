@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import boto3
 
 from parseland_lib.parse import parse_page
@@ -26,6 +26,17 @@ def parse_landing_page(harvest_id):
             "msg": "No landing page found"
         }), 404
     response = parse_page(lp, resolved_url)
+    return jsonify(response)
+
+
+@app.route("/parseland", methods=['POST'])
+def parse_landing_page_raw():
+    data = request.get_json()
+    if 'html' not in data:
+        return jsonify({
+            "msg": "No html in request body"
+        }), 400
+    response = parse_page(data['html'], None)
     return jsonify(response)
 
 
