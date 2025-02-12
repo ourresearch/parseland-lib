@@ -1,5 +1,4 @@
 from gzip import decompress
-import boto3
 import botocore
 
 from parseland_lib.exceptions import S3FileNotFoundError
@@ -51,11 +50,24 @@ def get_landing_page_from_s3(harvest_id, s3):
         # Return uncompressed content as fallback
         return content
 
+
 def get_resolved_url(harvest_id, dynamodb):
-    response = dynamodb.get_item(
-        TableName='harvested-html',
-        Key={
-            'id': {'S': str(harvest_id)}
-        }
-    )
-    return response['Item']['resolved_url']['S'] if 'Item' in response else None
+    try:
+        response = dynamodb.get_item(
+            TableName='harvested-html',
+            Key={
+                'id': {'S': str(harvest_id)}
+            }
+        )
+
+        if 'Item' not in response:
+            return None
+
+        if 'resolved_url' not in response['Item']:
+            return None
+
+        return response['Item']['resolved_url']['S']
+
+    except Exception as e:
+        print(f"Error getting resolved URL for harvest_id {harvest_id}: {str(e)}")
+        return None
