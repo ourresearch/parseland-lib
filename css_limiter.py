@@ -9,7 +9,7 @@ class CSSLimitExceeded(Exception):
     pass
 
 class CSSLimiter:
-    CALL_LIMIT = 2000
+    CALL_LIMIT = 10000
     WARN_THRESHOLD = 500
     _call_count = 0
     _call_locations = {}
