@@ -14,27 +14,23 @@ def get_authors_and_abstract(soup):
 
     for cls in PublisherParser.__subclasses__():
         parser = cls(soup)
-        if parser.authors_found():
-            if parser.is_publisher_specific_parser():
-                both_conditions_parsers.append(parser)
-            else:
-                authors_found_parsers.append(parser)
-
-    for parser in both_conditions_parsers:
         try:
-            parsed = parser.parse()
-            if has_affs(parsed):
-                return parsed
-        except Exception as e:
+            if parser.authors_found():
+                parsed = parser.parse()
+                if parser.is_publisher_specific_parser():
+                    both_conditions_parsers.append((parser, parsed))
+                else:
+                    authors_found_parsers.append((parser, parsed))
+        except Exception:
             continue
 
-    for parser in authors_found_parsers:
-        try:
-            parsed = parser.parse()
-            if has_affs(parsed):
-                return parsed
-        except Exception as e:
-            continue
+    for parser, parsed in both_conditions_parsers:
+        if has_affs(parsed):
+            return parsed
+
+    for parser, parsed in authors_found_parsers:
+        if has_affs(parsed):
+            return parsed
 
     generic_parser = GenericPublisherParser(soup)
     if generic_parser.authors_found():
