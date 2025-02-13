@@ -6,11 +6,17 @@ from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstr
 def parse_page(lp_content, resolved_url):
     soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
 
-    authors_and_abstract = get_authors_and_abstract(soup)
+    raw_authors_and_abstract = get_authors_and_abstract(soup)
     fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
 
-    # Ensure authors are consistently processed
-    if authors_and_abstract and 'authors' in authors_and_abstract:
+    if raw_authors_and_abstract is None:
+        authors_and_abstract = {'authors': [], 'abstract': None}
+    elif isinstance(raw_authors_and_abstract, list):
+        authors_and_abstract = {'authors': raw_authors_and_abstract, 'abstract': None}
+    else:
+        authors_and_abstract = raw_authors_and_abstract
+
+    if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []
         for author in authors_and_abstract['authors']:
             # handle both dict and object formats
@@ -31,12 +37,10 @@ def parse_page(lp_content, resolved_url):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
-    else:
-        authors_and_abstract = {'authors': [], 'abstract': None}
 
     # Merge into a single response
     response = authors_and_abstract
-    response.update(fulltext_location)
+    response.update(fulltext_location or {})
 
     urls = []
     if response.get("pdf_url"):
@@ -46,11 +50,11 @@ def parse_page(lp_content, resolved_url):
 
     # reorder the response
     ordered_response = {
-        "authors": response["authors"],
+        "authors": response.get("authors", []),
         "urls": urls,
-        "license": response["license"],
-        "version": response["version"],
-        "abstract": response["abstract"],
+        "license": response.get("license"),
+        "version": response.get("version"),
+        "abstract": response.get("abstract"),
     }
 
     return ordered_response

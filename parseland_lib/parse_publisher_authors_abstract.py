@@ -7,10 +7,16 @@ def get_authors_and_abstract(soup):
     authors_found_parsers = []
 
     def has_affs(parsed):
-        if not parsed['authors']:
-            return False
-        return any([author['affiliations'] if isinstance(parsed['authors'][0],
-                                                         dict) else author.affiliations for author in parsed['authors']])
+        if isinstance(parsed, list):
+            if not parsed:
+                return False
+            return any(author.affiliations for author in parsed)
+        elif isinstance(parsed, dict):
+            if not parsed.get('authors'):
+                return False
+            return any([author['affiliations'] if isinstance(author, dict)
+                        else author.affiliations for author in parsed['authors']])
+        return False
 
     for cls in PublisherParser.__subclasses__():
         parser = cls(soup)
