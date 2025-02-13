@@ -1,8 +1,6 @@
 import re
 from urllib.parse import urlparse
 
-from bs4 import BeautifulSoup
-
 from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
 from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     find_normalized_license, DuckLink, get_link_target, clean_pdf_url, \
@@ -14,8 +12,7 @@ from parseland_lib.legacy_parse_utils.version_and_license import \
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
 
 
-def parse_publisher_fulltext_location(lp_content, resolved_url):
-    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
+def parse_publisher_fulltext_location(soup, resolved_url):
     cleaned_soup = cleanup_soup(soup)
     detected_resolved_url = get_base_url_from_soup(soup)
     if not resolved_url:

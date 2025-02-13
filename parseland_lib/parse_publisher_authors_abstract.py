@@ -1,12 +1,8 @@
-from bs4 import BeautifulSoup
-
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
-def get_authors_and_abstract(lp_content):
-    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
-
+def get_authors_and_abstract(soup):
     both_conditions_parsers = []
     authors_found_parsers = []
 
