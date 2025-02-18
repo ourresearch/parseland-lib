@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request
 import boto3
 
 from parseland_lib.parse import parse_page
-from parseland_lib.s3 import get_landing_page_from_s3, get_resolved_url
+from parseland_lib.s3 import get_landing_page_from_s3
+from parseland_lib.dynamodb import get_namespace, get_resolved_url
 
 app = Flask(__name__)
 app.json.sort_keys = False
@@ -20,14 +21,15 @@ def index():
 @app.route("/parseland/<uuid:harvest_id>", methods=['GET'])
 def parse_landing_page(harvest_id):
     lp = get_landing_page_from_s3(harvest_id, s3_client)
-    resolved_url = get_resolved_url(harvest_id, dynamodb_client)
+    namespace = get_namespace(harvest_id, dynamodb_client)
 
     if lp is None:
         return jsonify({
             "msg": "No landing page found"
         }), 404
 
-    response = parse_page(lp, resolved_url)
+    resolved_url = get_resolved_url(harvest_id, dynamodb_client)
+    response = parse_page(lp, namespace, resolved_url)
     return jsonify(response)
 
 

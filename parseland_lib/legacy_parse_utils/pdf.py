@@ -142,20 +142,10 @@ def _transform_meta_pdf(link, page):
     return link
 
 # For repo landing page
-def find_version(url, page):
-    hostname = urlparse(url).hostname
-
-    if hostname and hostname.endswith('serval.unil.ch'):
-        if "Version: Final published version" in page:
-            return 'publishedVersion'
-        if "Version: Author's accepted manuscript" in page:
-            return 'acceptedVersion'
-
-    if hostname and hostname.endswith('repository.lboro.ac.uk'):
-        if "AM (Accepted Manuscript)" in page:
-            return 'acceptedVersion'
-
-    return None
+def find_repo_version(page):
+    if "accepted manuscript" in page:
+        return "acceptedVersion"
+    return "submittedVersion"
 
 
 def get_pdf_in_meta(page):

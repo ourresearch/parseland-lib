@@ -1,18 +1,8 @@
-import copy
-import re
 from abc import ABC, abstractmethod
-from pydoc import resolve
-from urllib.parse import urlparse
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.legacy_parse_utils.fulltext import \
-    parse_repo_fulltext_locations
-from parseland_lib.legacy_parse_utils.pdf import DuckLink, find_pdf_link, \
-    trust_publisher_license, find_normalized_license, find_version, \
-    get_link_target, discard_pdf_url, find_doc_download_link, \
-    try_pdf_link_as_doc, find_bhl_view_link, trust_repo_license
-from parseland_lib.legacy_parse_utils.version_and_license import \
-    page_potential_license_text
+    parse_repo_fulltext_location
 
 
 class RepositoryParser(ABC):
@@ -110,6 +100,6 @@ class RepositoryParser(ABC):
         return results
 
     def parse_fulltext_locations(self, resolved_url):
-        return parse_repo_fulltext_locations(self.soup, resolved_url)
+        return parse_repo_fulltext_location(self.soup, resolved_url)
 
     test_cases = []

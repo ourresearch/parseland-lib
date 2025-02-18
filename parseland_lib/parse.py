@@ -1,13 +1,17 @@
 from bs4 import BeautifulSoup
 
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
+from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 
-def parse_page(lp_content, resolved_url):
+def parse_page(lp_content, namespace, resolved_url=None):
     soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
 
-    raw_authors_and_abstract = get_authors_and_abstract(soup)
-    fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
+    raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
+    if namespace == "doi":
+        fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
+    elif namespace == "pmh":
+        fulltext_location = parse_repo_fulltext_location(soup, resolved_url)
 
     if raw_authors_and_abstract is None:
         authors_and_abstract = {'authors': [], 'abstract': None}
