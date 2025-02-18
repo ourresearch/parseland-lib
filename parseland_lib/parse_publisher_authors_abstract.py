@@ -9,7 +9,6 @@ def get_authors_and_abstract(soup, namespace):
 
     def has_affs(parsed):
         if isinstance(parsed, list):
-            print(f"Checking affs for {parsed}")
             if not parsed:
                 return False
             return any(author.get('affiliations') for author in parsed)

@@ -89,6 +89,8 @@ def parse_publisher_fulltext_location(soup, resolved_url):
 
 def parse_repo_fulltext_location(soup, resolved_url):
     soup_str = str(soup)
+    if not resolved_url:
+        resolved_url = get_base_url_from_soup(soup)
 
     # license
     license_search_substr = page_potential_license_text(soup_str)
