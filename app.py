@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import boto3
 
-from parseland_lib.parse import parse_page
+from parseland_lib.parse import parse_page, find_pdf_link
 from parseland_lib.s3 import get_landing_page_from_s3
 from parseland_lib.dynamodb import get_dynamodb_record
 
@@ -32,6 +32,24 @@ def parse_landing_page(harvest_id):
 
     response = parse_page(lp, namespace, resolved_url)
     return jsonify(response)
+
+@app.route("/parseland/find-pdf/<uuid:harvest_id>", methods=['GET'])
+def get_pdf_url(harvest_id):
+    lp = get_landing_page_from_s3(harvest_id, s3_client)
+
+    dynamo_record = get_dynamodb_record(harvest_id, dynamodb_client)
+    namespace = dynamo_record['namespace']
+    resolved_url = dynamo_record['resolved_url']
+
+    pdf_link = find_pdf_link(lp, namespace, resolved_url)
+
+    if pdf_link is None:
+        return jsonify({
+            "msg": "No PDF link found"
+        }), 404
+    return jsonify({
+        "pdf_url": pdf_link
+    })
 
 
 @app.route("/parseland", methods=['POST'])

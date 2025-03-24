@@ -63,3 +63,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
 
     return ordered_response
 
+def find_pdf_link(lp_content, namespace, resolved_url):
+    soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
+    if namespace == "doi":
+        fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
+    elif namespace == "pmh":
+        fulltext_location = parse_repo_fulltext_location(soup, resolved_url)
+    else:
+        fulltext_location = None
+    return fulltext_location.get("pdf_url") if fulltext_location else None
