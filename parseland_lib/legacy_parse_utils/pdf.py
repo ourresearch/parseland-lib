@@ -219,7 +219,6 @@ def find_normalized_license(text, is_dataset=False):
         ("creativecommons.org/publicdomain/mark", "public-domain"),
         ("publicdomain", "public-domain"),
 
-        ("openaccess", "other-oa"),
         ("arxiv.orgperpetual", "publisher-specific-oa"),
         ("arxiv.orgnonexclusive", "publisher-specific-oa"),
     ]
