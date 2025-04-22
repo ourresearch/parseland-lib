@@ -384,7 +384,7 @@ def get_useful_links(page):
             link.anchor = link.attrib['data-tooltip']
             if 'href' in link.attrib:
                 link.href = link.attrib['href']
-        elif 'title' in link.attrib and 'download fulltext' in link.attrib['title'].lower():
+        elif 'title' in link.attrib and ('download fulltext' in link.attrib['title'].lower() or 'download pdf' in link.attrib['title'].lower()):
             link.anchor = 'title: {}'.format(link.attrib['title'])
             if 'href' in link.attrib:
                 link.href = link.attrib['href']

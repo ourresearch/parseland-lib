@@ -1,5 +1,6 @@
 import re
 
+import bs4
 from bs4 import UnicodeDammit
 from lxml import html, etree
 from unidecode import unidecode
@@ -72,6 +73,19 @@ def decode_escaped_href(href):
     return href
 
 def get_tree(page):
+    if page is None:
+        return None
+
+    if isinstance(page, bs4.BeautifulSoup):
+        page = str(page)
+    elif not isinstance(page, str):
+        # handle any other non-string types
+        try:
+            page = str(page)
+        except UnicodeDecodeError:
+            # Handle the case where page cannot be converted to string
+            return None
+
     page = page.replace("&nbsp;",
                         " ")  # otherwise starts-with for lxml doesn't work
     try:
