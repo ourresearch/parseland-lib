@@ -807,6 +807,60 @@ def get_pdf_from_javascript(page):
     return None
 
 
+def find_sciencedirect_pdf_link(resolved_url, soup, page_with_scripts=None):
+    """
+    Find PDF link specifically for ScienceDirect pages
+    """
+    if "sciencedirect.com" not in resolved_url:
+        return None
+
+    # First check for the ViewPDF link in the accessbar
+    pdf_links = soup.select('.ViewPDF a')
+    if pdf_links:
+        href = pdf_links[0].get('href')
+        # If href is directly available
+        if href and href.startswith('http'):
+            return DuckLink(href=href, anchor="View PDF")
+
+    # If no direct link, construct the PDF URL from page metadata
+    page_str = str(soup)
+
+    # Extract the pii value (article identifier)
+    pii_match = re.search(r'<meta\s+content="([^"]+)"\s+name="citation_pii"', page_str)
+    if not pii_match:
+        pii_match = re.search(r'"pii":"([^"]+)"', page_str)
+
+    if pii_match:
+        pii = pii_match.group(1)
+
+        # For ScienceDirect, we can construct the PDF URL with a standard pattern
+        # The format is typically:
+        # https://www.sciencedirect.com/science/article/pii/{PII}/pdfft?md5={MD5_HASH}&pid={PID}
+
+        # First, try to find these values in the page
+        md5_match = re.search(r'"md5":"([^"]+)"', page_str)
+        pid_match = re.search(r'"pid":"([^"]+)"', page_str)
+
+        if md5_match and pid_match:
+            md5 = md5_match.group(1)
+            pid = pid_match.group(1)
+            pdf_url = f"https://www.sciencedirect.com/science/article/pii/{pii}/pdfft?md5={md5}&pid={pid}"
+            return DuckLink(href=pdf_url, anchor="ScienceDirect PDF")
+        else:
+            # If we can't find the md5 and pid, we can still construct a URL that will redirect
+            # This may not work for all articles but is worth trying
+            pdf_url = f"https://www.sciencedirect.com/science/article/pii/{pii}/pdf"
+            return DuckLink(href=pdf_url, anchor="ScienceDirect PDF")
+
+    # Look for PDF links with specific patterns in the URL
+    pdf_url_pattern = re.search(
+        r'(https://www\.sciencedirect\.com/science/article/pii/[A-Za-z0-9]+/pdf(?:ft)?(?:\?[^"\'&\s]+)?)', page_str)
+    if pdf_url_pattern:
+        return DuckLink(href=pdf_url_pattern.group(1), anchor="ScienceDirect PDF")
+
+    return None
+
+
 def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
     from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
     # before looking in links, look in meta for the pdf link
@@ -817,6 +871,11 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
 
     # logger.info(page)
     page = str(soup)
+
+    if "sciencedirect.com" in resolved_url:
+        sd_link = find_sciencedirect_pdf_link(resolved_url, soup, page_with_scripts)
+        if sd_link:
+            return sd_link
 
     links = [get_pdf_in_meta(page)] + [get_pdf_from_javascript(page_with_scripts or page)] + get_useful_links(page)
     links = [link for link in links if link is not None][:50]  # limit to 50 links
