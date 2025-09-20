@@ -1,14 +1,26 @@
+import os
+
 from flask import Flask, jsonify, request
 import boto3
 
 from parseland_lib.parse import parse_page, find_pdf_link
-from parseland_lib.s3 import get_landing_page_from_s3
+from parseland_lib.s3 import get_landing_page_from_r2
 from parseland_lib.dynamodb import get_dynamodb_record
 
 app = Flask(__name__)
 app.json.sort_keys = False
 
-s3_client = boto3.client("s3", region_name="us-east-1")
+r2_account_id = os.environ.get('R2_ACCOUNT_ID')
+r2_access_key = os.environ.get('R2_ACCESS_KEY_ID')
+r2_secret_key = os.environ.get('R2_SECRET_ACCESS_KEY')
+
+s3_client = boto3.client(
+    's3',
+    endpoint_url=f'https://{r2_account_id}.r2.cloudflarestorage.com',
+    aws_access_key_id=r2_access_key,
+    aws_secret_access_key=r2_secret_key,
+    region_name='auto'  # R2 uses 'auto' as region
+)
 dynamodb_client = boto3.client("dynamodb", region_name="us-east-1")
 
 @app.route("/")
@@ -20,7 +32,7 @@ def index():
 
 @app.route("/parseland/<uuid:harvest_id>", methods=['GET'])
 def parse_landing_page(harvest_id):
-    lp = get_landing_page_from_s3(harvest_id, s3_client)
+    lp = get_landing_page_from_r2(harvest_id, s3_client)
     if lp is None:
         return jsonify({
             "msg": "No landing page found"
@@ -35,7 +47,7 @@ def parse_landing_page(harvest_id):
 
 @app.route("/parseland/find-pdf/<uuid:harvest_id>", methods=['GET'])
 def get_pdf_url(harvest_id):
-    lp = get_landing_page_from_s3(harvest_id, s3_client)
+    lp = get_landing_page_from_r2(harvest_id, s3_client)
 
     dynamo_record = get_dynamodb_record(harvest_id, dynamodb_client)
     namespace = dynamo_record['namespace']

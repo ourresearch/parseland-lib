@@ -3,7 +3,7 @@ import botocore
 
 from parseland_lib.exceptions import S3FileNotFoundError
 
-S3_LANDING_PAGE_BUCKET = 'openalex-harvested-html'
+LANDING_PAGE_BUCKET = 'openalex-html'
 
 
 def get_obj(bucket, key, s3):
@@ -15,7 +15,7 @@ def get_obj(bucket, key, s3):
             raise S3FileNotFoundError()
 
 
-def is_pdf_in_s3(bucket, key, s3):
+def is_pdf_in_r2(bucket, key, s3):
     try:
         resp = s3.get_object(
             Bucket=bucket,
@@ -29,14 +29,14 @@ def is_pdf_in_s3(bucket, key, s3):
             raise S3FileNotFoundError()
 
 
-def get_landing_page_from_s3(harvest_id, s3):
+def get_landing_page_from_r2(harvest_id, s3):
     key = f"{harvest_id}.html.gz"
 
     # Check if PDF before downloading whole file
-    if is_pdf_in_s3(S3_LANDING_PAGE_BUCKET, key, s3):
+    if is_pdf_in_r2(LANDING_PAGE_BUCKET, key, s3):
         return None
 
-    obj = get_obj(S3_LANDING_PAGE_BUCKET, key, s3)
+    obj = get_obj(LANDING_PAGE_BUCKET, key, s3)
     content = obj['Body'].read()
 
     try:
