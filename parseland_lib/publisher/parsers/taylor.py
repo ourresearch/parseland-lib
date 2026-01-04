@@ -1,5 +1,7 @@
 import re
 
+from bs4 import NavigableString
+
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
@@ -31,9 +33,15 @@ class Taylor(PublisherParser):
 
             affiliations = []
             affiliation = author.find("span", class_="overlay")
-            if affiliation:
-                affiliation_trimmed = re.sub('^[a-z0-9] ', '', affiliation.contents[0].text)
-                affiliations.append(affiliation_trimmed)
+            if affiliation and affiliation.contents:
+                first_content = affiliation.contents[0]
+                # Only extract affiliation if it's a text node (not an ORCID link or other tag)
+                if isinstance(first_content, NavigableString):
+                    aff_text = str(first_content).strip()
+                    # Skip if it looks like a URL or is empty
+                    if aff_text and not aff_text.startswith('http'):
+                        affiliation_trimmed = re.sub('^[a-z0-9] ', '', aff_text)
+                        affiliations.append(affiliation_trimmed)
             results.append(
                 AuthorAffiliations(
                     name=name,
@@ -78,6 +86,17 @@ class Taylor(PublisherParser):
                 {
                     "name": "Manuel Tejada Moral",
                     "affiliations": ["University of Seville, Seville, SPAIN"],
+                    "is_corresponding": False,
+                },
+            ],
+        },
+        {
+            # ORCID link in overlay - should not extract URL as affiliation
+            "doi": "10.1080/14746700.2023.2294530",
+            "result": [
+                {
+                    "name": "Mois Navon",
+                    "affiliations": [],
                     "is_corresponding": False,
                 },
             ],
