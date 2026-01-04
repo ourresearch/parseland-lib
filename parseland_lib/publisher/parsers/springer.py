@@ -118,8 +118,78 @@ class Springer(PublisherParser):
         if not authors_affiliations:
             authors_affiliations = self.parse_ld_json(article_metadatas)
 
+        # Try to detect corresponding author from "Correspondence to" text
+        authors_affiliations = self._mark_corresponding_author(authors_affiliations)
+
         return {"authors": authors_affiliations,
                 "abstract": abstract or self.parse_abstract(), }
+
+    def _get_correspondence_name(self):
+        """Extract corresponding author name from 'Correspondence to' section."""
+        # Look for "Correspondence to" paragraph
+        corr_p = self.soup.find(lambda tag: (
+            tag.name == 'p' and
+            'correspondence to' in tag.text.lower()[:30]
+        ))
+        if corr_p:
+            text = corr_p.text
+            # Extract name after "Correspondence to"
+            import re
+            match = re.search(r'[Cc]orrespondence\s+to\s*[:\.]?\s*(.+?)(?:\.|$)', text)
+            if match:
+                return match.group(1).strip()
+
+        # Also check for "Corresponding author" section
+        corr_section = self.soup.find(lambda tag: (
+            tag.name in ('p', 'div', 'section') and
+            'corresponding author' in tag.text.lower()[:30]
+        ))
+        if corr_section:
+            # Try to find email link to identify corresponding author
+            email_link = corr_section.find('a', href=lambda x: x and 'mailto:' in x)
+            if email_link:
+                # Return the text before the email as potential name
+                text = corr_section.text.split('@')[0]
+                import re
+                match = re.search(r'[Cc]orresponding\s+author[:\s]*(.+?)(?:\s*[,\(]|$)', text)
+                if match:
+                    return match.group(1).strip()
+
+        return None
+
+    def _mark_corresponding_author(self, authors):
+        """Mark corresponding author based on 'Correspondence to' section."""
+        if not authors:
+            return authors
+
+        corr_name = self._get_correspondence_name()
+        if not corr_name:
+            return authors
+
+        # Normalize for comparison
+        corr_name_lower = corr_name.lower().strip()
+        corr_name_parts = set(corr_name_lower.replace(',', ' ').split())
+
+        for author in authors:
+            # Handle both dict and dataclass
+            if hasattr(author, 'name'):
+                author_name = author.name
+            else:
+                author_name = author.get('name', '')
+
+            author_name_lower = author_name.lower().strip()
+            author_name_parts = set(author_name_lower.replace(',', ' ').split())
+
+            # Check if names match (at least 2 parts in common, or exact match)
+            common_parts = corr_name_parts & author_name_parts
+            if len(common_parts) >= 2 or corr_name_lower == author_name_lower:
+                if hasattr(author, 'is_corresponding'):
+                    author.is_corresponding = True
+                else:
+                    author['is_corresponding'] = True
+                break
+
+        return authors
 
     def parse_abstract(self):
         if abstract_soup := self.soup.find("section", class_="Abstract"):
