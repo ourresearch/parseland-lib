@@ -92,6 +92,48 @@ class Sage(PublisherParser):
                     author['is_corresponding'] = False
         return authors
 
+    def _parse_affiliations_from_notes(self):
+        """Extract author affiliations from the Notes section.
+
+        Some SAGE pages have affiliations in a Notes section like:
+        "Nawar N. Chaker is Assistant Professor of Marketing, E.J. Ourso
+        College of Business, Louisiana State University, USA (email: ...)"
+
+        Multiple authors may be in one text block, separated by "). "
+
+        Returns dict mapping author names to affiliation strings.
+        """
+        affs_by_author = {}
+        notes_section = self.soup.select_one('section.core-authors-notes')
+        if not notes_section:
+            return affs_by_author
+
+        text = notes_section.get_text()
+
+        # Split on "). " to separate multiple authors in one block
+        # Pattern: "Name is Title, Affiliation (email: xyz). NextName is ..."
+        author_blocks = re.split(r'\)\.\s+(?=[A-Z])', text)
+
+        for block in author_blocks:
+            # Pattern: "Name is Title, Affiliation (email: ...)"
+            if ' is ' in block:
+                parts = block.split(' is ', 1)
+                if len(parts) == 2:
+                    name = parts[0].strip()
+                    # Clean up name - remove "Notes" prefix if present
+                    if name.startswith('Notes'):
+                        name = name[5:].strip()
+                    rest = parts[1]
+                    # Remove email and everything after
+                    if '(email' in rest.lower():
+                        rest = re.split(r'\s*\(email', rest, flags=re.I)[0]
+                    # The affiliation is what remains
+                    affiliation = rest.strip().rstrip('.')
+                    if affiliation and name:
+                        affs_by_author[name] = affiliation
+
+        return affs_by_author
+
     def parse_authors_2(self):
         author_tags = self.soup.select(
             'section.core-authors div[typeof=Person]')
@@ -111,6 +153,21 @@ class Sage(PublisherParser):
             is_corresponding = bool(author_tag.select_one('a[property=email]'))
             authors.append({'name': name, 'affiliations': affs,
                             'is_corresponding': is_corresponding})
+
+        # If no affiliations found, try extracting from Notes section
+        if authors and not any(a['affiliations'] for a in authors):
+            notes_affs = self._parse_affiliations_from_notes()
+            if notes_affs:
+                for author in authors:
+                    # Try to match author name to notes
+                    for notes_name, aff in notes_affs.items():
+                        # Check if author name matches (may be partial match)
+                        if (author['name'] in notes_name or
+                                notes_name in author['name'] or
+                                author['name'].split()[-1] in notes_name):
+                            author['affiliations'] = [aff]
+                            break
+
         return authors
 
     def parse_authors_3(self):
@@ -302,6 +359,40 @@ class Sage(PublisherParser):
                     "name": "Bosede Ngozi Adeleye",
                     "affiliations": [
                         "Department of Economics and Development Studies, Covenant University, Nigeria"
+                    ],
+                    "is_corresponding": False,
+                },
+            ],
+        },
+        {
+            # Affiliations in Notes section format
+            "doi": "10.1177/1069031x231224712",
+            "result": [
+                {
+                    "name": "Nawar N. Chaker",
+                    "affiliations": [
+                        "Assistant Professor of Marketing, E.J. Ourso College of Business, Louisiana State University, USA"
+                    ],
+                    "is_corresponding": True,
+                },
+                {
+                    "name": "Johannes Habel",
+                    "affiliations": [
+                        "Associate Professor of Marketing, C.T. Bauer College of Business, University of Houston, USA"
+                    ],
+                    "is_corresponding": False,
+                },
+                {
+                    "name": "Kelly Hewett",
+                    "affiliations": [
+                        "Professor of Marketing, Reagan Professor of Business, Haslam College of Business, University of Tennessee, USA, and Editor in Chief of the Journal of International Marketing"
+                    ],
+                    "is_corresponding": False,
+                },
+                {
+                    "name": "Alex Ricardo Zablah",
+                    "affiliations": [
+                        "Gerber/Taylor Professor of Marketing, Haslam College of Business, University of Tennessee, USA"
                     ],
                     "is_corresponding": False,
                 },
