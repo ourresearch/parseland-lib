@@ -210,9 +210,10 @@ class ScienceDirect(PublisherParser):
     def extract_json(self):
         """Finds and loads json that contains affiliation data.
 
-        Tries two methods:
+        Tries three methods:
         1. <script type="application/json"> tag (older pages)
-        2. window.__PRELOADED_STATE__ = {...} in regular script (newer pages)
+        2. window.__PRELOADED_STATE__ = {...} in regular script (raw JSON)
+        3. window.__PRELOADED_STATE__ = JSON.parse("...") in regular script (escaped JSON)
         """
         # Method 1: Look for <script type="application/json">
         json_script = self.soup.find("script", type="application/json")
@@ -223,16 +224,37 @@ class ScienceDirect(PublisherParser):
                 loaded_json = json.loads(loaded_json)
             return loaded_json
 
-        # Method 2: Look for __PRELOADED_STATE__ in script tags
+        # Method 2: Look for __PRELOADED_STATE__ = {...} (raw JSON)
         for script in self.soup.find_all("script"):
             content = script.string or ""
-            if "__PRELOADED_STATE__" in content:
+            if "__PRELOADED_STATE__" in content and "JSON.parse" not in content:
                 match = re.search(r"__PRELOADED_STATE__\s*=\s*(\{.*\})\s*;?\s*$", content, re.DOTALL)
                 if match:
                     try:
                         return json.loads(match.group(1))
                     except json.JSONDecodeError:
                         continue
+
+        # Method 3: Look for __PRELOADED_STATE__ = JSON.parse("...") (escaped JSON string)
+        for script in self.soup.find_all("script"):
+            content = script.string or ""
+            if "__PRELOADED_STATE__" in content and "JSON.parse" in content:
+                # Find the JSON string inside JSON.parse("...")
+                for marker in ['window.__PRELOADED_STATE__ = JSON.parse("', '__PRELOADED_STATE__ = JSON.parse("']:
+                    start_idx = content.find(marker)
+                    if start_idx != -1:
+                        start_idx += len(marker)
+                        # Find closing ") - use rfind to get the LAST occurrence
+                        # since there can be ") inside the escaped JSON strings
+                        end_idx = content.rfind('")')
+                        if end_idx != -1 and end_idx > start_idx:
+                            json_str = content[start_idx:end_idx]
+                            # Unescape: \" -> " and \\ -> \
+                            json_str = json_str.replace('\\"', '"').replace('\\\\', '\\')
+                            try:
+                                return json.loads(json_str)
+                            except json.JSONDecodeError:
+                                continue
 
         return None
 
@@ -455,6 +477,57 @@ class ScienceDirect(PublisherParser):
                     },
                 ],
                 "abstract": None,
+            },
+        },
+        # Test case for JSON.parse("...") wrapper format (newer ScienceDirect pages)
+        {
+            "doi": "10.1016/j.jad.2023.05.008",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Guoshuai Luo",
+                        "affiliations": [
+                            "Laboratory of Biological Psychiatry, Institute of Mental Health, Tianjin Anding Hospital, Mental Health Center of Tianjin Medical University, Tianjin, China, 300222",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Yaxi Li",
+                        "affiliations": [
+                            "Shanghai Mental Health Center, Shanghai Jiao Tong University School of Medicine, 3210 Humin Rd, Shanghai 201108, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Cong Yao",
+                        "affiliations": [
+                            "Laboratory of Biological Psychiatry, Institute of Mental Health, Tianjin Anding Hospital, Mental Health Center of Tianjin Medical University, Tianjin, China, 300222",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Meijuan Li",
+                        "affiliations": [
+                            "Laboratory of Biological Psychiatry, Institute of Mental Health, Tianjin Anding Hospital, Mental Health Center of Tianjin Medical University, Tianjin, China, 300222",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Jie Li",
+                        "affiliations": [
+                            "Laboratory of Biological Psychiatry, Institute of Mental Health, Tianjin Anding Hospital, Mental Health Center of Tianjin Medical University, Tianjin, China, 300222",
+                        ],
+                        "is_corresponding": True,
+                    },
+                    {
+                        "name": "Xiangyang Zhang",
+                        "affiliations": [
+                            "Key Laboratory of Mental Health, Institute of Psychology, Chinese Academy of Sciences, Beijing 100101, China",
+                        ],
+                        "is_corresponding": True,
+                    },
+                ],
+                "abstract": "Anxiety is a common comorbidity in major depressive disorder (MDD)",
             },
         },
     ]
