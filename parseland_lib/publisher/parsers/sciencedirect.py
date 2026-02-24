@@ -31,9 +31,68 @@ class ScienceDirect(PublisherParser):
         authors = []
         if self.has_collab():
             authors = self.get_collab_authors()
-        resp = self.get_json_authors_affiliations_abstract()
+
+        # Use HTML extraction for expanded pages (after "Show more" click)
+        # which have one div.author-group per author with inline affiliations.
+        # Non-expanded pages have at most 1 div.author-group and rely on JSON.
+        html_authors = self.get_html_authors()
+        if html_authors:
+            abstract = None
+            if abstract_tags := self.soup.select('div.abstract.author p'):
+                abstract = '\n'.join([tag.text for tag in abstract_tags])
+            if not abstract:
+                if science_direct_json := self.extract_json():
+                    abstracts_content = science_direct_json.get(
+                        "abstracts", {}).get("content", [])
+                    if abstracts_content:
+                        abstract = self.abstract_text(abstracts_content)
+                        abstract = re.sub(r" +", " ", abstract).strip()
+            resp = {"authors": html_authors, "abstract": abstract}
+        else:
+            resp = self.get_json_authors_affiliations_abstract()
+
         resp['authors'].extend(authors)
         return resp
+
+    def get_html_authors(self):
+        """Extract authors from expanded HTML (after 'Show more' click).
+
+        Expanded ScienceDirect pages render each author as a separate
+        div.author-group containing inline dl.affiliation elements.
+        Returns a list of author dicts, or empty list if not expanded format.
+        """
+        author_groups = self.soup.select('div.author-group')
+        # Non-expanded pages have 0-1 author-group divs; expanded have many
+        groups_with_names = [
+            ag for ag in author_groups
+            if ag.select_one('span.given-name') or ag.select_one('span.text.surname')
+        ]
+        if len(groups_with_names) < 2:
+            return []
+
+        authors = []
+        for ag in groups_with_names:
+            given_el = ag.select_one('span.given-name')
+            surname_el = ag.select_one('span.text.surname')
+            given = given_el.text.strip() if given_el else None
+            family = surname_el.text.strip() if surname_el else None
+            if not (given or family):
+                continue
+
+            name = " ".join([n for n in [given, family] if n])
+            affiliations = [
+                dd.text.strip()
+                for dd in ag.select('dl.affiliation > dd')
+                if dd.text.strip()
+            ]
+            is_corresponding = bool(ag.select_one('svg[title*="orrespond"]'))
+
+            authors.append({
+                "name": name,
+                "affiliations": affiliations,
+                "is_corresponding": is_corresponding,
+            })
+        return authors
 
     @staticmethod
     def _get_corresponding_ids(author_group):
