@@ -32,24 +32,23 @@ class ScienceDirect(PublisherParser):
         if self.has_collab():
             authors = self.get_collab_authors()
 
-        # Use HTML extraction for expanded pages (after "Show more" click)
-        # which have one div.author-group per author with inline affiliations.
-        # Non-expanded pages have at most 1 div.author-group and rely on JSON.
+        # Try both HTML and JSON extraction, use whichever has more authors.
+        # Tier 1 (<=100 authors): expanded HTML has all authors after
+        #   "Show more" click, JSON may be truncated to ~20.
+        # Tier 2 (100+ authors): React hard-caps rendered DOM at ~25,
+        #   but embedded JSON has all authors.
+        # Non-expanded pages: HTML has 0-1 author-groups, JSON is authoritative.
         html_authors = self.get_html_authors()
-        if html_authors:
-            abstract = None
-            if abstract_tags := self.soup.select('div.abstract.author p'):
-                abstract = '\n'.join([tag.text for tag in abstract_tags])
+        json_resp = self.get_json_authors_affiliations_abstract()
+
+        if len(html_authors) > len(json_resp['authors']):
+            abstract = json_resp.get('abstract')
             if not abstract:
-                if science_direct_json := self.extract_json():
-                    abstracts_content = science_direct_json.get(
-                        "abstracts", {}).get("content", [])
-                    if abstracts_content:
-                        abstract = self.abstract_text(abstracts_content)
-                        abstract = re.sub(r" +", " ", abstract).strip()
+                if abstract_tags := self.soup.select('div.abstract.author p'):
+                    abstract = '\n'.join([tag.text for tag in abstract_tags])
             resp = {"authors": html_authors, "abstract": abstract}
         else:
-            resp = self.get_json_authors_affiliations_abstract()
+            resp = json_resp
 
         resp['authors'].extend(authors)
         return resp
