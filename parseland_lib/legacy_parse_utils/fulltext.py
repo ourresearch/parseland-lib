@@ -103,7 +103,7 @@ def parse_repo_fulltext_location(soup, resolved_url):
     pdf_url = None
     doc_url = None
     pdf_download_link = find_pdf_link(resolved_url, soup, page_with_scripts=soup_str)
-    if pdf_download_link:
+    if pdf_download_link is not None:
         pdf_url = get_link_target(pdf_download_link.href, resolved_url) if hasattr(pdf_download_link, 'href') else None
 
     doc_link = find_doc_download_link(soup_str)

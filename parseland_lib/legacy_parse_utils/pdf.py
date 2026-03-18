@@ -929,6 +929,11 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
             else:
                 return link
 
+        # DSpace 7 bitstream download links
+        # = open repo https://openrepository.aut.ac.nz/items/3d5db77d-22ff-44b4-b460-6b5949e958a7
+        if link.href and "/bitstreams/" in link.href and link.href.rstrip("/").endswith("/download"):
+            return link
+
         # want it to match for this one https://doi.org/10.2298/SGS0603181L
         # but not this one: 10.1097/00003643-201406001-00238
         if (
