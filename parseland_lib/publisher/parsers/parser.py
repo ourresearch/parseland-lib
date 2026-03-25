@@ -95,7 +95,7 @@ class PublisherParser(Parser, ABC):
                 corresponding_tag, corresponding_class
             )
 
-        author_meta_keys = {'citation_author', 'dc.Creator'}
+        author_meta_keys = {'citation_author', 'dc.Creator', 'bepress_citation_author'}
 
         result = None
         for meta in metas:
@@ -118,7 +118,7 @@ class PublisherParser(Parser, ABC):
                     "is_corresponding": is_corresponding,
                 }
             if meta.get("name", None) and meta[
-                "name"] == "citation_author_institution":
+                "name"] in ("citation_author_institution", "bepress_citation_author_institution"):
                 if meta.get("content") and meta["content"].strip():
                     result["affiliations"].append(meta["content"].strip())
 
