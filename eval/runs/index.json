@@ -1,6 +1,52 @@
 {
   "runs": [
     {
+      "file": "baseline-holdout-20260417T184059Z.json",
+      "run_id": "20260417T184059Z",
+      "label": "baseline-holdout",
+      "timestamp_utc": "2026-04-17T18:40:59.273253+00:00",
+      "summary": {
+        "rows": 50,
+        "authors_scored_rows": 49,
+        "authors_f1_strict": 0.31815803244374674,
+        "authors_f1_soft": 0.3344845630559916,
+        "affiliations_f1_strict": 0.696078431372549,
+        "affiliations_f1_soft": 0.8235294117647058,
+        "affiliations_f1_fuzzy": 0.8529411764705882,
+        "abstract_ratio_soft": 0.2537531806615776,
+        "abstract_ratio_fuzzy": 0.25338358098035585,
+        "abstract_strict_match_rate": 0.2,
+        "abstract_present_rate": 0.26,
+        "pdf_url_accuracy": 0.16,
+        "pdf_url_divergence_rate": 0.22,
+        "errors": 1,
+        "duration_ms_mean": 105.00250082463026
+      }
+    },
+    {
+      "file": "prompt-claude-sonnet-4-6-sonnet-v1-extraction_v1-20260417T184004Z.json",
+      "run_id": "20260417T184004Z",
+      "label": "prompt-claude-sonnet-4-6-sonnet-v1-extraction_v1",
+      "timestamp_utc": "2026-04-17T18:40:04.858351+00:00",
+      "summary": {
+        "rows": 50,
+        "authors_scored_rows": 49,
+        "authors_f1_strict": 0.30612244897959184,
+        "authors_f1_soft": 0.30612244897959184,
+        "affiliations_f1_strict": 0.5333333333333333,
+        "affiliations_f1_soft": 0.8,
+        "affiliations_f1_fuzzy": 0.8222222222222222,
+        "abstract_ratio_soft": 0.22238728509588593,
+        "abstract_ratio_fuzzy": 0.22210806109826256,
+        "abstract_strict_match_rate": 0.16,
+        "abstract_present_rate": 0.26,
+        "pdf_url_accuracy": 0.12,
+        "pdf_url_divergence_rate": 0.26,
+        "errors": 1,
+        "duration_ms_mean": 6182.014985026326
+      }
+    },
+    {
       "file": "baseline-20260416T184013Z.json",
       "run_id": "20260416T184013Z",
       "label": "baseline",

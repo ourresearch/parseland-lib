@@ -20,12 +20,20 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from parseland_eval.fetch import read_cached
-from parseland_eval.paths import GOLD_SEED_JSON, PROMPTS_DIR, SILVER_DIR
+from parseland_eval.paths import EVAL_DIR, GOLD_SEED_JSON, PROMPTS_DIR, SILVER_DIR
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(EVAL_DIR / ".env")
+except ImportError:
+    pass
 
 log = logging.getLogger(__name__)
 
-DEFAULT_MODEL = "claude-sonnet-4-6"
-HTML_EXCERPT_CHARS = 40_000
+DEFAULT_MODEL = "claude-sonnet-4-6"  # 1M context at standard pricing
+HTML_EXCERPT_CHARS = 30_000
+FEW_SHOT_EXCERPT_CHARS = 12_000
+FEW_SHOT_MAX = 10  # take up to 10 seed rows with one per publisher domain for diversity
 PROMPT_VERSION = "extraction_v1"
 
 
@@ -56,29 +64,58 @@ def _system_prompt() -> str:
     return text.replace("{N}", str(len(seed)))
 
 
-def _few_shot_messages() -> list[dict]:
-    """Turn the seed rows into alternating user/assistant messages."""
+def _pick_diverse_seed() -> list[dict]:
+    """Up to FEW_SHOT_MAX seed rows, one per DOI prefix (publisher registrant)
+    for diversity. Includes at least one Status=FALSE row so the model also
+    learns the bot-check / paywall / broken-DOI pattern.
+    """
     seed = json.loads(GOLD_SEED_JSON.read_text(encoding="utf-8"))
-    msgs: list[dict] = []
+    seen_prefix: set[str] = set()
+    clean: list[dict] = []
+    blocked: list[dict] = []
     for row in seed:
-        html = read_cached(row["DOI"]) or ""
-        html_excerpt = html[:HTML_EXCERPT_CHARS]
-        if not html_excerpt:
+        if not read_cached(row["DOI"]):
+            continue
+        prefix = (row.get("DOI") or "").split("/")[0]  # e.g. "10.1016"
+        if prefix in seen_prefix:
+            continue
+        seen_prefix.add(prefix)
+        (clean if row.get("Status") == "TRUE" else blocked).append(row)
+    picks = clean[: FEW_SHOT_MAX - 1] + blocked[:1]
+    return picks[:FEW_SHOT_MAX]
+
+
+def _few_shot_messages() -> list[dict]:
+    """Turn a diverse subset of seed rows into alternating user/assistant messages.
+
+    Marks the final assistant message of the few-shot block with
+    `cache_control: ephemeral` so the entire seed block is reused across
+    subsequent holdout calls for ~90% input cost reduction.
+    """
+    picks = _pick_diverse_seed()
+    msgs: list[dict] = []
+    for i, row in enumerate(picks):
+        html = (read_cached(row["DOI"]) or "")[:FEW_SHOT_EXCERPT_CHARS]
+        if not html:
             continue
         msgs.append({
             "role": "user",
-            "content": f"Extract from this HTML (DOI {row['DOI']}):\n\n{html_excerpt}",
+            "content": [{"type": "text",
+                         "text": f"Extract from this HTML (DOI {row['DOI']}):\n\n{html}"}],
         })
-        msgs.append({
-            "role": "assistant",
-            "content": json.dumps({
-                "authors": row.get("Authors") if isinstance(row.get("Authors"), list) else [],
-                "abstract": row.get("Abstract") or None,
-                "pdf_url": row.get("PDF URL") or None,
-                "confidence": "high" if row.get("Status") == "TRUE" else "low",
-                "notes": row.get("Notes") or "",
-            }, ensure_ascii=False),
-        })
+        assistant_text = json.dumps({
+            "authors": row.get("Authors") if isinstance(row.get("Authors"), list) else [],
+            "abstract": row.get("Abstract") or None,
+            "pdf_url": row.get("PDF URL") or None,
+            "confidence": "high" if row.get("Status") == "TRUE" else "low",
+            "notes": row.get("Notes") or "",
+        }, ensure_ascii=False)
+        content_block = {"type": "text", "text": assistant_text}
+        # cache_control on the last few-shot assistant turn makes the whole
+        # prefix (system + all few-shot) reusable across the 50 holdout calls
+        if i == len(picks) - 1:
+            content_block["cache_control"] = {"type": "ephemeral"}
+        msgs.append({"role": "assistant", "content": [content_block]})
     return msgs
 
 
