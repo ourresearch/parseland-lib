@@ -1,0 +1,15 @@
+{
+  "name": "parseland-lib-dashboard-deploy",
+  "private": true,
+  "description": "Heroku entrypoint that builds and serves the parseland eval dashboard. Python parseland-lib library is unaffected.",
+  "scripts": {
+    "heroku-postbuild": "cd dashboard && rm -f public/runs && cp -r ../eval/runs public/runs && npm ci && npm run build",
+    "start": "serve -s dashboard/dist -l tcp://0.0.0.0:$PORT"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "serve": "14.2.3"
+  }
+}
