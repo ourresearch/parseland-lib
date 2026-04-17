@@ -1,0 +1,27 @@
+{
+  "runs": [
+    {
+      "file": "baseline-20260416T184013Z.json",
+      "run_id": "20260416T184013Z",
+      "label": "baseline",
+      "timestamp_utc": "2026-04-16T18:40:13.254248+00:00",
+      "summary": {
+        "rows": 100,
+        "authors_scored_rows": 98,
+        "authors_f1_strict": 0.3122591694020265,
+        "authors_f1_soft": 0.33062651634080203,
+        "affiliations_f1_strict": 0.6652777777777777,
+        "affiliations_f1_soft": 0.7961601307189542,
+        "affiliations_f1_fuzzy": 0.8108660130718954,
+        "abstract_ratio_soft": 0.26421454260731647,
+        "abstract_ratio_fuzzy": 0.2635383597653138,
+        "abstract_strict_match_rate": 0.2,
+        "abstract_present_rate": 0.27,
+        "pdf_url_accuracy": 0.12,
+        "pdf_url_divergence_rate": 0.25,
+        "errors": 1,
+        "duration_ms_mean": 97.58032124838792
+      }
+    }
+  ]
+}

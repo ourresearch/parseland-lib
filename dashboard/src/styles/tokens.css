@@ -1,0 +1,82 @@
+:root {
+  /* Surface palette — editorial newsroom with a subtle ink tint */
+  --ink: oklch(17% 0.02 260);
+  --ink-soft: oklch(35% 0.015 260);
+  --ink-muted: oklch(55% 0.01 260);
+  --ink-faint: oklch(72% 0.008 260);
+
+  --paper: oklch(97.5% 0.005 90);
+  --paper-raised: oklch(99% 0 0);
+  --paper-sunken: oklch(94.5% 0.006 90);
+  --hairline: oklch(87% 0.008 90);
+  --hairline-soft: oklch(92% 0.006 90);
+
+  /* Accent — muted editorial blue + amber pull */
+  --accent: oklch(48% 0.16 256);
+  --accent-soft: oklch(70% 0.09 256);
+  --accent-wash: oklch(94% 0.03 256);
+  --amber: oklch(74% 0.15 70);
+  --amber-wash: oklch(95% 0.04 70);
+
+  /* Status — red-green continuum used in heatmaps */
+  --bad: oklch(52% 0.20 28);
+  --bad-wash: oklch(94% 0.04 28);
+  --warn: oklch(74% 0.17 80);
+  --ok: oklch(60% 0.15 145);
+  --ok-wash: oklch(94% 0.04 145);
+
+  --text-micro: clamp(0.72rem, 0.68rem + 0.1vw, 0.78rem);
+  --text-small: clamp(0.82rem, 0.78rem + 0.15vw, 0.9rem);
+  --text-body: clamp(0.94rem, 0.88rem + 0.25vw, 1.05rem);
+  --text-lead: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+  --text-h3: clamp(1.4rem, 1.2rem + 0.8vw, 1.7rem);
+  --text-h2: clamp(2rem, 1.6rem + 1.8vw, 2.75rem);
+  --text-hero: clamp(3rem, 2rem + 4vw, 5.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-section: clamp(3rem, 2rem + 4vw, 6rem);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-1: 0 1px 0 oklch(0% 0 0 / 0.04), 0 1px 3px oklch(0% 0 0 / 0.06);
+  --shadow-2: 0 8px 24px oklch(20% 0.02 260 / 0.08), 0 1px 2px oklch(0% 0 0 / 0.04);
+
+  --duration-fast: 120ms;
+  --duration-normal: 240ms;
+  --duration-slow: 480ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-serif: "Fraunces", "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: oklch(93% 0.008 90);
+    --ink-soft: oklch(80% 0.01 90);
+    --ink-muted: oklch(65% 0.012 90);
+    --ink-faint: oklch(45% 0.012 260);
+
+    --paper: oklch(14% 0.01 260);
+    --paper-raised: oklch(18% 0.012 260);
+    --paper-sunken: oklch(11% 0.012 260);
+    --hairline: oklch(27% 0.012 260);
+    --hairline-soft: oklch(22% 0.012 260);
+
+    --accent: oklch(72% 0.13 256);
+    --accent-soft: oklch(58% 0.1 256);
+    --accent-wash: oklch(25% 0.05 256);
+    --amber-wash: oklch(28% 0.05 70);
+    --bad-wash: oklch(28% 0.06 28);
+    --ok-wash: oklch(25% 0.04 145);
+  }
+}
