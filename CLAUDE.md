@@ -85,9 +85,8 @@ cd eval
 ## External dependencies
 
 - **Anthropic API** — Claude Sonnet 4.6 default for gold expansion. Key in `eval/.env` as `ANTHROPIC_API_KEY`.
-- **OpenAI API** — GPT reviewer for pilot + gold-expansion validation. Key in `eval/.env` as `OPENAI_API_KEY` (chmod 600).
+- **OpenAI API** — planned as a comparison model for the gold-expansion prompt (key TBD, will live alongside `OPENAI_API_KEY` in the same `.env`).
 - **Anthropic SDK 0.42**, **python-dotenv 1.0**, **rich** — pinned in `eval/pyproject.toml`.
-- **Vercel `agent-browser`** — global CLI (`npm install -g agent-browser && agent-browser install`). Headless Chrome binary installs to `~/.agent-browser/browsers/`. Used for JS-rendered landing pages. Known limitation: UA string advertises `HeadlessChrome` so bot-checked publishers (ScienceDirect, Wiley) block it — Zyte cloud mode is the mitigation for Phase 4.
 
 ## Where to put new work
 

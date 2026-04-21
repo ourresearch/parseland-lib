@@ -1,9 +1,0 @@
-{
-  "doi": "10.1007/springerreference_36112",
-  "resolved_url": "chrome-error://chromewebdata/",
-  "head_html": "\n",
-  "body_text": "\n",
-  "errors": [
-    "open failed rc=1: ⚠ --headed ignored: daemon already running. Use 'agent-browser close' first to restart with new options.\n✗ Navigation failed: net::ERR_BLOCKED_BY_CLIENT"
-  ]
-}
