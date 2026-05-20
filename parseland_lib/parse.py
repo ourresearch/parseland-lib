@@ -12,6 +12,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
     elif namespace == "pmh":
         fulltext_location = parse_repo_fulltext_location(soup, resolved_url)
+    else:
+        fulltext_location = None
 
     if raw_authors_and_abstract is None:
         authors_and_abstract = {'authors': [], 'abstract': None}

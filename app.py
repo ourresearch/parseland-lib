@@ -1,7 +1,10 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 import boto3
+
+load_dotenv()
 
 from parseland_lib.parse import parse_page, find_pdf_link
 from parseland_lib.s3 import get_landing_page_from_r2
@@ -71,7 +74,9 @@ def parse_landing_page_raw():
         return jsonify({
             "msg": "No html in request body"
         }), 400
-    response = parse_page(data['html'], None)
+    namespace = data.get('namespace')
+    resolved_url = data.get('resolved_url')
+    response = parse_page(data['html'], namespace, resolved_url)
     return jsonify(response)
 
 

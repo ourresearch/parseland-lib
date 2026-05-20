@@ -1,0 +1,275 @@
+    test_cases = [
+        {  # bot-check in gold | harvest UUID: de73d3e8-3f51-40af-9933-df4ae7d197d7
+            "doi": "10.1016/j.clpl.2024.100067",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Giulia Alessandri",
+                        "affiliations": [
+                            "Scuola Superiore Sant’Anna, Piazza Martiri della Libertà 33, Pisa, PI, 56127, Italy",
+                        ],
+                        "is_corresponding": True,
+                    },
+                    {
+                        "name": "Tiberio Daddi",
+                        "affiliations": [
+                            "Scuola Superiore Sant’Anna, Piazza Martiri della Libertà 33, Pisa, PI, 56127, Italy",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Fabio Iraldo",
+                        "affiliations": [
+                            "Scuola Superiore Sant’Anna, Piazza Martiri della Libertà 33, Pisa, PI, 56127, Italy",
+                        ],
+                        "is_corresponding": False,
+                    },
+                ],
+                "abstract": "The issue of sustainable food production has become increasingly important in recent years, starting from Sustainable Development Goals in 2015, moving through important events like Farm to Fork strategy up until the United Nations Food System Summit in 2021. The wine industry also, as a niche of the agri-food sector, has been influenced by this change, but despite its economic and cultural value, its sustainability issues have not been sufficiently explored by academia. The present research expands the debate on environmental sustainability in the wine industry by observing how management academia has addressed this topic over the last twelve years, defining the state of the art of a quite new and unexplored topic. The research has been structured as a systematic literature review of academic papers from 2009 till the first half of 2022. This methodology provides a clear overview of sustainable management practices, effective and potential, throughout the entire agri-food wine production process. The papers identified are categorized and divided into major (most recurrent) and secondary topics, according to the prevalence criterion. The findings and discussion section provides an in-depth description and analysis of each category, as well as research gaps identification and possible academic issues. Since it was not possible to find similar works, this research would like to be seen as an opportunity to develop the research on environmental sustainability in the wine industry and align the interest of academia and wine stakeholders defining the path for future research. • Balance shift between “old world” and “new world “countries. • Wine industry plays an important role in the national cultural heritage. • Necessity of a shift in the business paradigm due to the sustainability challenges. • Climate change could have both positive and negative impacts on wine production.",
+            },
+        },
+        # SKIPPED 10.1016/j.celrep.2018.10.057 — no harvest UUID
+        {  # harvest UUID: 660e907b-ba7f-4b22-9bdd-14457729d3b5
+            "doi": "10.1016/s0264-410x(15)00643-x",
+            "result": {
+                "authors": [
+                ],
+                "abstract": None,
+            },
+        },
+        {  # harvest UUID: 21dea0e1-68ef-4ec5-b6fa-da24a389e9dc
+            "doi": "10.1016/j.mee.2007.12.032",
+            "result": {
+                "authors": [
+                    {
+                        "name": "N. Vourdas",
+                        "affiliations": [
+                            "Institute of Microelectronics, NCSR Demokritos, Aghia Paraskevi 15310, Greece",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "A. Tserepi",
+                        "affiliations": [
+                            "Institute of Microelectronics, NCSR Demokritos, Aghia Paraskevi 15310, Greece",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "A.G. Boudouvis",
+                        "affiliations": [
+                            "School of Chemical Engineering, National Technical University of Athens, Zografou Campus 15780, Greece",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "E. Gogolides",
+                        "affiliations": [
+                            "Institute of Microelectronics, NCSR Demokritos, Aghia Paraskevi 15310, Greece",
+                        ],
+                        "is_corresponding": True,
+                    },
+                ],
+                "abstract": "We report on the fabrication and electrokinetic characterization of poly-methyl methacrylate (PMMA) microfluidics by deep O 2 plasma etching , utilizing a photosensitive poly-(dimethyl siloxane) (PDMS) as a resist (in situ mask). The mass production amenability, the high throughput without the use of mold, the dry character along with the flexibility to control surface properties towards specific demands are some of the advantages of this method. Intense ion bombardment ensures high etch rates (∼1.5 μm/min) and anisotropy. A PMMA lid was thermally bonded to the plasma fabricated microchannel under 1.8 kg/cm 2 at 120 °C. Surface roughness and hydrophilization are some unique features induced by plasma processing , affecting the electrokinetic performance of the microfluidic and resulting in relatively high electroosmotic flow (EOF) mobilities of 2.83 × 10 −4 cm 2 /V s. Teflon-like coating deposition on the engraved part modified the surface into a super-hydrophobic and resulted in even higher EOF mobility (3.89 × 10 −4 cm 2 /V s), thus proposing an alternative means in microfluidic surface modification and EOF control .",
+            },
+        },
+        {  # bot-check in gold | harvest UUID: dedff03c-1336-4ead-8ad8-ece99a6a396f
+            "doi": "10.1016/s0166-4115(08)62220-7",
+            "result": {
+                "authors": [
+                ],
+                "abstract": None,
+            },
+        },
+        {  # harvest UUID: 1dac41a2-f543-4aa4-b945-980d75cfcb67
+            "doi": "10.1016/j.jallcom.2006.06.063",
+            "result": {
+                "authors": [
+                    {
+                        "name": "R.V. Wandekar",
+                        "affiliations": [
+                            "Chemistry Division, Bhabha Atomic Research Centre, Trombay, Mumbai 400 085, India",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "B.N. Wani",
+                        "affiliations": [
+                            "Chemistry Division, Bhabha Atomic Research Centre, Trombay, Mumbai 400 085, India",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "S.R. Bharadwaj",
+                        "affiliations": [
+                            "Chemistry Division, Bhabha Atomic Research Centre, Trombay, Mumbai 400 085, India",
+                        ],
+                        "is_corresponding": True,
+                    },
+                ],
+                "abstract": "The rare earth deficient manganites Ln 0.95 MnO 3+ δ (Ln = La, Nd or Gd) have been prepared by conventional ceramic method as well as by wet chemical methods like nitrate route and sol–gel route. Structural transformation, thermal expansion and electrical conductivity at elevated temperature were investigated on Ln 0.95 MnO 3+ δ . The X-ray diffraction studies revealed that crystal symmetry of all the rare earth deficient manganites prepared either by sol–gel or solid-state route showed orthorhombic symmetry except lanthanum manganite prepared by solid-state route and the nitrate route. The thermal expansion behavior was studied using thermo-dilatometry and high temperature XRD techniques. The electrical conductivity studies of Ln 0.95 MnO 3+ δ showed a clear phase transformation in case of La 0.95 MnO 3+ δ synthesized by solid state route which was missing in all other rare earth manganites prepared by solid state and nitrate routes and wet chemical method. A comparative study on their linear thermal expansion behavior indicates that the value of coefficient of thermal expansion ( α ) reduces to half as it goes from La to Gd. The electrical conductivity of sample synthesized by nitrate route was more as compared to sample prepared by other route like ceramic or sol–gel.",
+            },
+        },
+        {  # bot-check in gold | harvest UUID: 7ecd3f26-dbc7-4584-9252-50f30d9c3c56
+            "doi": "10.1016/j.patcog.2011.03.031",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Xinjun Peng",
+                        "affiliations": [
+                            "Department of Mathematics, Shanghai Normal University, 200234, PR China",
+                            "Scientific Computing Key Laboratory of Shanghai Universities, 200234, PR China",
+                        ],
+                        "is_corresponding": True,
+                    },
+                ],
+                "abstract": "A novel twin parametric-margin support vector machine (TPMSVM) for classification is proposed in this paper. This TPMSVM, in the spirit of the twin support vector machine (TWSVM), determines indirectly the separating hyperplane through a pair of nonparallel parametric-margin hyperplanes solved by two smaller sized support vector machine (SVM)-type problems. Similar to the parametric-margin ν ‐ support vector machine (par- ν ‐ SVM ), this TPMSVM is suitable for many cases, especially when the data has heteroscedastic error structure, that is, the noise strongly depends on the input value. But there is an advantage in the learning speed compared with the par- ν ‐ SVM . The experimental results on several artificial and benchmark datasets indicate that the TPMSVM not only obtains fast learning speed, but also shows good generalization. ► A twin parametric-margin support vector machine (TPMSVM) classifier is proposed. ► The TPMSVM is suitable for data with heteroscedastic error structure. ► The TPMSVM has faster learning speed than classical SVMs. ► The TPMSVM obtains comparable generalization.",
+            },
+        },
+        {  # harvest UUID: 751d1778-d9ee-4f8a-b4f6-b8910c3c2bf3
+            "doi": "10.1016/s0378-1097(99)00346-8",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Wang, Guiqing",
+                        "affiliations": [
+                            "Department of Medical Microbiology, Academic Medical Centre, University of Amsterdam, Meibergdreef 15, 1105 AZ Amsterdam, The Netherlands",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "van Dam, Alje P.",
+                        "affiliations": [
+                            "Department of Medical Microbiology, Academic Medical Centre, University of Amsterdam, Meibergdreef 15, 1105 AZ Amsterdam, The Netherlands",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Dankert, Jacob",
+                        "affiliations": [
+                            "Department of Medical Microbiology, Academic Medical Centre, University of Amsterdam, Meibergdreef 15, 1105 AZ Amsterdam, The Netherlands",
+                        ],
+                        "is_corresponding": False,
+                    },
+                ],
+                "abstract": None,
+            },
+        },
+        {  # harvest UUID: d8302ce3-52f8-4933-b141-60794c2a9943
+            "doi": "10.1016/0963-8695(91)90937-x",
+            "result": {
+                "authors": [
+                ],
+                "abstract": None,
+            },
+        },
+        # SKIPPED 10.1016/0016-5085(95)22767-9 — html_too_small_174b  # harvest UUID: fee59c80-c258-4ebb-9f82-fc80ac679889
+        {  # bot-check in gold | harvest UUID: f256820a-36d5-4c4f-8ce7-21c91db6f806
+            "doi": "10.1016/j.epsl.2025.119420",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Emily Stoll",
+                        "affiliations": [
+                            "Department of Earth and Planetary Sciences, Harvard University, Cambridge, Massachusetts, 02138, USA",
+                        ],
+                        "is_corresponding": True,
+                    },
+                    {
+                        "name": "Nadja Drabon",
+                        "affiliations": [
+                            "Department of Earth and Planetary Sciences, Harvard University, Cambridge, Massachusetts, 02138, USA",
+                        ],
+                        "is_corresponding": False,
+                    },
+                ],
+                "abstract": "• Model proposed for potential non-uniformitarian Archean tectonic basins. • Basin model draws on observations from diapiric salt minibasins worldwide. • Three characteristics of partial convective overturn basins are defined. • No studied Archean basin fully meets all three characteristics of the proposed model. Early Earth tectonic processes remain enigmatic. One proposed regime that does not exist on Earth today is partial convective overturn (PCO), where dominantly vertical tectonism is driven by density instabilities. Predicted effects of PCO on the rock record focus on structural, igneous, and metamorphic evidence, many of which are non-unique. To supplement this, we propose a qualitative model of PCO basin sedimentology, stratigraphy, and architecture based on characteristics of salt minibasins. We argue that halotectonics provide an appropriate analogue for PCO surface processes as both have density-driven diapirism resulting in surficial patterns of domal relief and inter-diapir accommodation. Our PCO basin model is characterized by the combination of (1) paleohighs over domes, (2) syn-depositional diapirism, and (3) diapir-influenced basin shape. We propose several lines of evidence for each of these characteristics, including an unroofing provenance sequence, reduced depositional energy away from domes, paleoflow shedding off of the domes, and progressive angular unconformities observed on multiple sides of a dome or basin. We compare our model to previously proposed features of PCO basins and demonstrate that the most optimistic assessment of prior sedimentological studies that suggest PCO formed specific Archean basins often lack evidence of all three characteristics or provide observations from only one side of a dome or basin, leaving ambiguity about whether the basin is truly shaped by diapirism.",
+            },
+        },
+        {  # harvest UUID: f67f71e2-92eb-4772-b51d-1d4a436afeae
+            "doi": "10.1016/j.surfcoat.2023.129748",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Mengmeng Wu",
+                        "affiliations": [
+                            "School of Material Science and Engineering, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Yuan Liu",
+                        "affiliations": [
+                            "Institute of Aero Engine Research, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": True,
+                    },
+                    {
+                        "name": "Weiwei Qu",
+                        "affiliations": [
+                            "AECC Shenyang Engine Research Institute, Shenyang 110015, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Wenqi Guo",
+                        "affiliations": [
+                            "Institute of Aero Engine Research, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Heng Zhang",
+                        "affiliations": [
+                            "School of Material Science and Engineering, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Yanling Pei",
+                        "affiliations": [
+                            "School of Material Science and Engineering, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Shusuo Li",
+                        "affiliations": [
+                            "Institute of Aero Engine Research, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Shengkai Gong",
+                        "affiliations": [
+                            "School of Material Science and Engineering, Beihang University, No. 37 Xueyuan Road, Beijing 100191, China",
+                        ],
+                        "is_corresponding": False,
+                    },
+                ],
+                "abstract": "The ZrO2–7 wt% Y2O3 (7YSZ) is the most commonly used ceramic layer in the thermal barrier coating (TBC) system due to its low thermal conductivity . However, the thermal stress-induced coating failure would damage its performance and limit its application. In the present study, a burner rig is employed to attain the operating temperature field and conduct the thermal gradient cycling tests of the coating. Moreover, the failure modes of the YSZ coating with different thicknesses (100, 200, and 400 μm) are investigated. The results show that the coating with 200 μm thickness has the most extended cyclic lifetime (>340 cycles), while 100 μm and 400 μm thick coatings have cyclic lifetimes of 240 and 80 cycles, respectively. The coating microstructure evolution , thermal growth oxides (TGO) thickness, and coating sintering behaviors are considered to explain the phenomenon. Furthermore, a TGO growth/sintering competitive failure model is proposed to describe the failure behaviors and elucidate the failure mechanisms of the coating with different thicknesses. The coatings with different thicknesses have different temperature distributions in the same external conditions. It results in different TGO growth rates and different degrees of coating sintering. The balance of TGO growth and coating sintering makes the 200 μm thick coating the most extended cyclic lifetime. • The TBC failure modes are investigated in the thermal gradient cycling condition. • Different failure modes are found in the TBC samples with various YSZ thickness. • YSZ thickness changes the temperature distribution of the TBCs. • TGO growth and YSZ sintering behavior co-determine the failure mode of TBCs.",
+            },
+        },
+        {  # harvest UUID: f715e78a-1281-4580-8a94-8a5bd631737d
+            "doi": "10.1016/0021-9673(93)80418-8",
+            "result": {
+                "authors": [
+                    {
+                        "name": "Igor Yu. Galaev",
+                        "affiliations": [
+                            "Department of Biotechnology, Chemical Centre, Lund University, P.O. Box 124, S-221 00 Lund Sweden",
+                        ],
+                        "is_corresponding": False,
+                    },
+                    {
+                        "name": "Bo Mattiasson",
+                        "affiliations": [
+                            "Department of Biotechnology, Chemical Centre, Lund University, P.O. Box 124, S-221 00 Lund Sweden",
+                        ],
+                        "is_corresponding": True,
+                    },
+                ],
+                "abstract": "The synthetic polymers poly(N-vinyl pyrrolidone) and poly(N-vinyl caprolactam) are shown to be more efficient eluting agents of porcine muscle lactate",
+            },
+        },
+    ]

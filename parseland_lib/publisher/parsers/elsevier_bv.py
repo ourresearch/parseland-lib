@@ -101,6 +101,20 @@ class ElsevierBV(PublisherParser):
         return {"authors": author_results,
                 "abstract": self.parse_abstract() or self.parse_abstract_meta_tags(),}
 
+    # Per-DOI test cases. The single `jvs.2021.03.049` entry is the existing
+    # canonical Elsevier test. Iter 1 of oxjob #202 (parseland-elsevier-iter1,
+    # 2026-05-20) attempted to extend this with 11 snapshots from the human-goldie
+    # gold standard but discovered that ElsevierBV.parse() directly returns 0
+    # authors on many real Elsevier pages (e.g. 0021-9673, mee.2007.12.032,
+    # 0021-9673(93)80418-8) because `authors_found()` returns False on those
+    # markup variants — the live POST /parseland path routes those pages through
+    # a generic citation_author-meta fallback parser instead. Encoding the
+    # generic-parser output as ElsevierBV test_cases would be wrong.
+    #
+    # Snapshot fragment for the 13 gold rows is preserved at
+    # `tests/fixtures/elsevier-test-cases-snapshot.py.fragment` for iter 2's
+    # work on either expanding ElsevierBV's markup coverage or routing per-DOI
+    # tests through the dispatcher.
     test_cases = [
         {
             "doi": "10.1016/j.jvs.2021.03.049",
