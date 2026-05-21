@@ -52,6 +52,9 @@ from parseland_eval.score.abstract import score_abstract  # noqa: E402
 from parseland_eval.score.affiliations import score_affiliations  # noqa: E402
 from parseland_eval.score.authors import score_authors, score_corresponding  # noqa: E402
 from parseland_eval.score.pdf_url import score_pdf_url  # noqa: E402
+from parseland_lib.legacy_parse_utils.fulltext import (  # noqa: E402
+    parse_publisher_fulltext_location,
+)
 from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV  # noqa: E402
 from parseland_lib.s3 import get_landing_page_from_r2  # noqa: E402
 
@@ -110,6 +113,12 @@ def parse_in_process(html: str) -> dict:
     it identically. If ``authors_found()`` is False, we still call parse() and
     record what it returns (almost certainly empty) — that's the iter 2
     before-snapshot we want to measure against.
+
+    For PDF / license / version we also call
+    ``parse_publisher_fulltext_location``, which is what the production
+    ``parse_page`` pipeline runs. ``ElsevierBV.parse()`` alone only handles
+    authors + abstract; without this call the in-process eval would report
+    zero PDFs even when production extracts them.
     """
     soup = BeautifulSoup(html, "lxml")
     parser = ElsevierBV(soup)
@@ -126,6 +135,22 @@ def parse_in_process(html: str) -> dict:
             "version": None,
             "abstract": None,
         }
+
+    # Fulltext / pdf_url / license / version. ``parse_publisher_fulltext_location``
+    # falls back to ``get_base_url_from_soup`` when ``resolved_url`` is None, so
+    # we can pass None safely here. Defensive: any exception is recorded but
+    # doesn't kill the row.
+    fulltext = None
+    fulltext_error: str | None = None
+    try:
+        fulltext = parse_publisher_fulltext_location(soup, None)
+    except Exception as e:  # noqa: BLE001
+        fulltext_error = f"{type(e).__name__}: {e}"
+
+    pdf_url = (fulltext or {}).get("pdf_url")
+    urls: list[dict] = []
+    if pdf_url:
+        urls.append({"url": pdf_url, "content_type": "pdf"})
 
     # parse() returns {"authors": [AuthorAffiliations...], "abstract": "..."}.
     # Normalize into parseland's HTTP response shape so the scorers consume it
@@ -147,14 +172,17 @@ def parse_in_process(html: str) -> dict:
             }
         )
 
-    return {
+    out = {
         "_authors_found": authors_found,
         "authors": authors,
-        "urls": [],  # ElsevierBV.parse() doesn't populate fulltext_location
-        "license": None,
-        "version": None,
+        "urls": urls,
+        "license": (fulltext or {}).get("license"),
+        "version": (fulltext or {}).get("version"),
         "abstract": raw.get("abstract"),
     }
+    if fulltext_error:
+        out["_fulltext_error"] = fulltext_error
+    return out
 
 
 def _gold_authors_for_scoring(annotation: dict) -> list:
@@ -384,7 +412,21 @@ def main():
 
     n_authors_found = sum(1 for r in scored if r.get("authors_found"))
 
-    print(f"\n=== Aggregate (n={n}) ===")
+    # Print the failure list FIRST so the aggregate stays at the very bottom of
+    # the log. At 10K scale (317 failures for Elsevier), the failure list is
+    # long; if the aggregate prints above it, the aggregate scrolls off-screen
+    # when you `tail` the log. The aggregate is the actionable summary — keep
+    # it at the tail.
+    if failed:
+        print(f"\n=== Failures ({len(failed)}) ===")
+        for f in failed:
+            print(f"    {f['doi']}  stage={f['stage']}  err={f['error']}")
+    else:
+        print(f"\nfailed: 0")
+
+    # The aggregate block — final, tail-friendly. This is what graders, devs,
+    # and CI parsers should look at first.
+    print(f"\n========== TL;DR AGGREGATE (n={n}) ==========")
     print(f"  ElsevierBV.authors_found(): {n_authors_found}/{n} rows")
     if a_mean is not None:
         print(f"  Authors      mean F1_soft: {a_mean:.3f}  ({len(eligible_a)}/{n} eligible)")
@@ -401,11 +443,8 @@ def main():
         print(f"  Corresp      micro F1:     {corresp_f1:.3f}  (P {prec:.3f} / R {rec:.3f}, tp/fp/fn = {tp}/{fp}/{fn})")
     else:
         print(f"  Corresp      micro F1:     n/a (tp/fp/fn = {tp}/{fp}/{fn})")
-
-    print(f"\n  failed: {len(failed)}")
-    if failed:
-        for f in failed:
-            print(f"    {f['doi']}  stage={f['stage']}  err={f['error']}")
+    print(f"  failed: {len(failed)} / {n + len(failed)} input rows")
+    print(f"=" * 47)
 
     artifact = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
