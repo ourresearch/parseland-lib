@@ -14,7 +14,241 @@ class ElsevierBV(PublisherParser):
         ) and not self.domain_in_canonical_link("papers.ssrn.com")
 
     def authors_found(self):
-        return bool(self.soup.findAll("li", class_="author"))
+        # Legacy ScienceDirect template uses <li class="author">.
+        # Modern React-based ScienceDirect (post-2019 redesign) uses
+        # <div class="author-group">. Match either so the dispatcher routes
+        # both layouts through ElsevierBV rather than falling back to generic.
+        return bool(
+            self.soup.findAll("li", class_="author")
+            or self.soup.find("div", class_="author-group")
+        )
+
+    def _parse_modern_author_group(self):
+        """Extract authors from the modern <div class="author-group"> layout.
+
+        Markup shape (modern ScienceDirect, post-2019 React template):
+
+            <div class="author-group" id="author-group">
+              <button data-xocs-content-type="author">    (or <a class="anchor">)
+                <span class="given-name">First</span>
+                <span class="text surname">Last</span>
+                <span class="author-ref"><sup>a</sup></span>
+                <svg class="icon icon-person ..." title="Correspondence author icon">
+                <svg class="icon icon-envelope ..." title="Author email ...">
+              </button>
+              ...
+            </div>
+
+        Affiliations live in <dl class="affiliation"> blocks elsewhere on the
+        page; the <sup> letter in author-ref maps to the matching <sup> in
+        <dl><dt><sup>a</sup></dt><dd>institution</dd></dl>.
+        """
+        results = []
+        ag = self.soup.find("div", class_="author-group")
+        if not ag:
+            return results
+
+        # Affiliations live in <dl class="affiliation"> blocks. Two layouts:
+        #   (1) Labeled: <dt>a</dt><dd>institution</dd>. Authors point at the
+        #       letter via <span class="author-ref"><sup>a</sup></span>.
+        #   (2) Unlabeled: <dt></dt><dd>institution</dd>. There's typically one
+        #       affiliation shared by every author (e.g. clpl.2024.100067).
+        aff_map = {}             # letter -> text (labeled case)
+        unlabeled_affs = []      # texts that apply to all authors (unlabeled)
+        for dl in self.soup.find_all("dl", class_="affiliation"):
+            dt = dl.find("dt")
+            dd = dl.find("dd")
+            if not dd:
+                continue
+            text = dd.get_text(" ", strip=True)
+            label = dt.get_text(strip=True) if dt else ""
+            if label:
+                aff_map[label] = text
+            else:
+                unlabeled_affs.append(text)
+
+        # Each author block contains a span.surname. The enclosing element is
+        # either <a class="anchor"> (e.g. mee.2007.12.032) or <button> (e.g.
+        # clpl.2024.100067). Walking up from each surname gives us the right
+        # author container regardless of layout. Note: data-xocs-content-type
+        # ="author" is unreliable — it sometimes appears only on the
+        # "show all authors" toggle button.
+        seen = set()
+        author_tags = []
+        for s in ag.find_all("span", class_="surname"):
+            t = s.find_parent(["button", "a"])
+            if t is not None and id(t) not in seen:
+                seen.add(id(t))
+                author_tags.append(t)
+
+        for tag in author_tags:
+            surname_el = tag.find("span", class_="surname")
+            if not surname_el:
+                continue
+            given_el = tag.find("span", class_="given-name")
+            name_parts = []
+            if given_el:
+                name_parts.append(given_el.get_text(strip=True))
+            name_parts.append(surname_el.get_text(strip=True))
+            name = " ".join(p for p in name_parts if p).strip()
+            if not name:
+                continue
+
+            # Corresponding-author detection: the "Correspondence author icon"
+            # is an SVG with class containing "icon-person" (in this template,
+            # the person icon means corresponding, not just "author"). The
+            # envelope icon also appears for corresponding-only on most pages.
+            is_corresponding = False
+            for svg in tag.find_all("svg"):
+                cls = svg.get("class", []) or []
+                title = (svg.get("title") or "") + " " + (svg.get("aria-label") or "")
+                if any("icon-person" in c for c in cls):
+                    is_corresponding = True
+                    break
+                if "correspond" in title.lower():
+                    is_corresponding = True
+                    break
+
+            # Affiliation letter refs (e.g. <sup>a</sup>, <sup>b</sup>). When
+            # the page has labeled <dl> blocks, each author cross-references
+            # one or more letters. When labels are absent (single shared
+            # affiliation case), the author has no author-ref spans — fall
+            # back to all unlabeled affiliations.
+            affiliations = []
+            for ref in tag.find_all("span", class_="author-ref"):
+                letter = ref.get_text(strip=True)
+                if letter and letter in aff_map and aff_map[letter] not in affiliations:
+                    affiliations.append(aff_map[letter])
+            if not affiliations and unlabeled_affs:
+                for u in unlabeled_affs:
+                    if u not in affiliations:
+                        affiliations.append(u)
+
+            results.append(
+                AuthorAffiliations(
+                    name=name,
+                    affiliations=affiliations,
+                    is_corresponding=is_corresponding,
+                )
+            )
+
+        # JSON enrichment from window.__PRELOADED_STATE__. ScienceDirect
+        # embeds the full structured author + affiliation + correspondence
+        # data as JSON in a <script> tag. We use it as a fallback when the
+        # DOM signal is missing — corresponding flags and affiliations both
+        # frequently live only in the JSON on older or simpler page layouts.
+        json_data = self._authors_data_from_preloaded_state()
+        if json_data:
+            by_surname = json_data.get("by_surname", {})
+            for r in results:
+                surname_tail = (r.name or "").rstrip().rsplit(" ", 1)[-1]
+                info = by_surname.get(surname_tail)
+                if not info:
+                    continue
+                if info.get("is_corresponding") and not r.is_corresponding:
+                    r.is_corresponding = True
+                if not r.affiliations and info.get("affiliations"):
+                    r.affiliations = list(info["affiliations"])
+
+        return results
+
+    def _authors_data_from_preloaded_state(self):
+        """Pull structured author data from window.__PRELOADED_STATE__.
+
+        Returns ``{"by_surname": {surname: {"is_corresponding": bool,
+        "affiliations": list[str]}}}`` or None if the JSON blob is missing
+        or shaped unexpectedly. Defensive — never raises.
+
+        ScienceDirect's __PRELOADED_STATE__ shape (relevant slice):
+
+            authors:
+              content: [{$$: [{#name: "author", $$: [
+                {#name: "given-name", _: "..."},
+                {#name: "surname", _: "..."},
+                {#name: "cross-ref", $: {refid: "aff1"}},
+                {#name: "cross-ref", $: {refid: "cor1"}},
+              ]}]}]
+              affiliations: {aff1: {$$: [{#name: "textfn", _: "..."}]}, ...}
+              correspondences: {cor1: {...}, ...}
+        """
+        try:
+            import json
+            import re
+            data = None
+            for script in self.soup.find_all("script"):
+                text = script.string or script.text or ""
+                if "__PRELOADED_STATE__" not in text:
+                    continue
+                m = re.search(r"__PRELOADED_STATE__\s*=\s*(\{.*?\})\s*;?\s*$", text, re.DOTALL)
+                if not m:
+                    continue
+                data = json.loads(m.group(1))
+                break
+            if not isinstance(data, dict):
+                return None
+
+            authors_node = data.get("authors") or {}
+            content = authors_node.get("content")
+            if not isinstance(content, list):
+                return None
+
+            # Build affiliation refid -> text map first
+            aff_lookup = {}
+            for refid, blob in (authors_node.get("affiliations") or {}).items():
+                if not isinstance(blob, dict):
+                    continue
+                # textfn child has the human-readable text
+                textfn = None
+                for child in blob.get("$$") or []:
+                    if isinstance(child, dict) and child.get("#name") == "textfn":
+                        textfn = (child.get("_") or "").strip()
+                        break
+                if textfn:
+                    aff_lookup[refid] = textfn
+
+            by_surname = {}
+            for author_group in content:
+                if not isinstance(author_group, dict):
+                    continue
+                for entry in author_group.get("$$") or []:
+                    if not isinstance(entry, dict) or entry.get("#name") != "author":
+                        continue
+                    surname = None
+                    is_corresp = False
+                    refids = []
+                    for child in entry.get("$$") or []:
+                        if not isinstance(child, dict):
+                            continue
+                        name = child.get("#name")
+                        if name == "surname":
+                            surname = (child.get("_") or "").strip()
+                        elif name == "cross-ref":
+                            refid = (child.get("$") or {}).get("refid", "")
+                            # Some pages (e.g. 0021-9673(93)80418-8) emit
+                            # refid="COR1" in uppercase. Match case-insensitively.
+                            if refid.lower().startswith("cor"):
+                                is_corresp = True
+                            else:
+                                refids.append(refid)
+                    if not surname:
+                        continue
+                    affs = []
+                    for rid in refids:
+                        if rid in aff_lookup and aff_lookup[rid] not in affs:
+                            affs.append(aff_lookup[rid])
+                    # Single-shared-affiliation fallback: if the author has no
+                    # explicit refs and there's exactly one affiliation in the
+                    # JSON, attribute it to every author (mirrors how the page
+                    # actually renders these single-aff layouts).
+                    if not affs and len(aff_lookup) == 1:
+                        affs = list(aff_lookup.values())
+                    by_surname[surname] = {
+                        "is_corresponding": is_corresp,
+                        "affiliations": affs,
+                    }
+            return {"by_surname": by_surname}
+        except Exception:
+            return None
 
     def parse_abstract(self):
 
@@ -97,6 +331,12 @@ class ElsevierBV(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+
+        # If the legacy <li class="author"> path found nothing, try the modern
+        # <div class="author-group"> layout. This catches the React-based
+        # ScienceDirect template that all 13 Elsevier gold rows use.
+        if not author_results:
+            author_results = self._parse_modern_author_group()
 
         return {"authors": author_results,
                 "abstract": self.parse_abstract() or self.parse_abstract_meta_tags(),}
