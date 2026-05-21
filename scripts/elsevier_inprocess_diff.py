@@ -56,7 +56,10 @@ from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV  # noqa: E402
 from parseland_lib.s3 import get_landing_page_from_r2  # noqa: E402
 
 GOLD_NDJSON = Path(
-    "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/tests/fixtures/elsevier-gold.ndjson"
+    os.environ.get(
+        "GOLD_NDJSON",
+        "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/tests/fixtures/elsevier-gold.ndjson",
+    )
 )
 ARTIFACT = Path(
     os.environ.get(
@@ -164,8 +167,15 @@ def _gold_authors_for_scoring(annotation: dict) -> list:
     """
     out = []
     for a in annotation.get("authors") or []:
-        # _coerce_author handles the rasses→affiliations rename + tuple coercion.
-        coerced = _coerce_author(a)
+        # At 10K scale, some rows have malformed gold (strings instead of dicts,
+        # nulls, etc.). Skip those defensively so one bad row doesn't kill the
+        # whole eval.
+        if not isinstance(a, dict):
+            continue
+        try:
+            coerced = _coerce_author(a)
+        except Exception:
+            continue
         if coerced is not None:
             out.append(coerced)
     return out
