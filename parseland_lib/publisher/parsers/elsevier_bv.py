@@ -157,6 +157,22 @@ class ElsevierBV(PublisherParser):
                 if not r.affiliations and info.get("affiliations"):
                     r.affiliations = list(info["affiliations"])
 
+        # citation_author_email meta enrichment. On many modern ScienceDirect
+        # pages the icon-person SVG marker is shown next to only ONE
+        # corresponding author even when gold flags multiple — but the page's
+        # <meta name="citation_author_email"> tags always sit adjacent to
+        # every CA's citation_author meta. Use those as an additive signal
+        # (only ever turns CA on, never off) so we don't regress the icon
+        # path.
+        email_ca_map = self._citation_author_email_map()
+        if email_ca_map:
+            for r in results:
+                if r.is_corresponding or not r.name:
+                    continue
+                surname = r.name.rsplit(" ", 1)[-1]
+                if email_ca_map.get(r.name) or email_ca_map.get(surname):
+                    r.is_corresponding = True
+
         return results
 
     def _authors_data_from_preloaded_state(self):
@@ -386,24 +402,35 @@ class ElsevierBV(PublisherParser):
     def _parse_citation_author_meta(self):
         """Read <meta name="citation_author"> and follow with any
         <meta name="citation_author_institution"> tags that appear before
-        the next author meta.
+        the next author meta. Also detect corresponding-author flags from
+        adjacent <meta name="citation_author_email"> tags — Highwire's
+        convention is that an author with an email meta is a corresponding
+        author (the email meta sits immediately after that author's
+        citation_author meta in document order).
 
         Most academic publishers (including Elsevier on legacy and
         supplement pages) include these Google Scholar / Highwire metadata
         tags for indexing-service compatibility. When the structured DOM
         author markup is missing, the meta-tag list is still complete.
 
-        We honor document order so that institution metas attach to the
-        preceding author. If an institution meta appears before any author
-        meta, it's dropped.
+        We honor document order so that institution and email metas attach
+        to the preceding author. If an institution/email meta appears
+        before any author meta, it's dropped.
         """
         results = []
         metas = self.soup.find_all(
             "meta",
-            attrs={"name": ["citation_author", "citation_author_institution"]},
+            attrs={
+                "name": [
+                    "citation_author",
+                    "citation_author_institution",
+                    "citation_author_email",
+                ],
+            },
         )
         current_name = None
         current_affs: list = []
+        current_corresponding = False
         for m in metas:
             name = m.get("name")
             content = (m.get("content") or "").strip()
@@ -415,23 +442,57 @@ class ElsevierBV(PublisherParser):
                         AuthorAffiliations(
                             name=current_name,
                             affiliations=current_affs,
-                            is_corresponding=False,
+                            is_corresponding=current_corresponding,
                         )
                     )
                 current_name = content
                 current_affs = []
+                current_corresponding = False
             elif name == "citation_author_institution":
                 if current_name and content not in current_affs:
                     current_affs.append(content)
+            elif name == "citation_author_email":
+                if current_name:
+                    current_corresponding = True
         if current_name:
             results.append(
                 AuthorAffiliations(
                     name=current_name,
                     affiliations=current_affs,
-                    is_corresponding=False,
+                    is_corresponding=current_corresponding,
                 )
             )
         return results
+
+    def _citation_author_email_map(self):
+        """Build a name→is_corresponding map from <meta name='citation_author'>
+        + adjacent <meta name='citation_author_email'> tags.
+
+        Returned dict maps both the full author name and its surname-tail
+        to True when an email meta follows that author's name meta in
+        document order. Used by ``_parse_modern_author_group`` to augment
+        corresponding-author detection on modern pages whose DOM doesn't
+        carry the icon-person SVG for every CA but whose meta tags do.
+        """
+        mapping: dict = {}
+        metas = self.soup.find_all(
+            "meta",
+            attrs={"name": ["citation_author", "citation_author_email"]},
+        )
+        current_name = None
+        for m in metas:
+            name = m.get("name")
+            content = (m.get("content") or "").strip()
+            if not content:
+                continue
+            if name == "citation_author":
+                current_name = content
+            elif name == "citation_author_email" and current_name:
+                mapping[current_name] = True
+                surname = current_name.rsplit(" ", 1)[-1]
+                if surname:
+                    mapping[surname] = True
+        return mapping
 
     # Per-DOI test cases. The single `jvs.2021.03.049` entry is the existing
     # canonical Elsevier test. Iter 1 of oxjob #202 (parseland-elsevier-iter1,
