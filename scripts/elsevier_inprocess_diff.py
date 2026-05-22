@@ -73,11 +73,23 @@ ARTIFACT = Path(
 
 
 def resolve_latest_harvest_uuid(doi: str) -> str | None:
-    """Return the most-recently-created harvest UUID for ``doi``.
+    """Return the best harvest UUID for ``doi`` for in-process parsing.
 
-    Mirrors the helper in ``elsevier_baseline_diff.py``. Taxicab's html[] array
-    is not sorted by recency; the bot-check Zyte re-fetch UUID lives in the
-    array but is not always index 0. Pick the max by created_date.
+    Taxicab's html[] array can contain multiple records per DOI — the article
+    landing page (e.g. ``www.sciencedirect.com/...``) AND any redirect targets
+    that the harvester followed (e.g. ``pdf.sciencedirectassets.com/...``,
+    which is a signed PDF-binary URL whose stored "html" is just a 242-byte
+    PDF-viewer stub with no article content). Picking max-by-created_date
+    gets the binary-stub record on ~12 Elsevier rows where the harvest hit
+    the asset endpoint last.
+
+    Preference order:
+      1. Records whose resolved_url is on an article landing-page host
+         (sciencedirect.com, linkinghub.elsevier.com, gastrojournal.org,
+         cell.com, thelancet.com, ...). Within this group, pick the most
+         recent by created_date.
+      2. Otherwise, any non-asset record by created_date.
+      3. Otherwise, fall back to max-by-created_date over all records.
     """
     try:
         resp = requests.get(f"{TAXICAB_BASE}/taxicab/doi/{doi}", timeout=30)
@@ -89,6 +101,24 @@ def resolve_latest_harvest_uuid(doi: str) -> str | None:
     records = body.get("html") or []
     if not records:
         return None
+
+    # Hosts that serve binary content / non-article stubs — never first choice.
+    ASSET_HOSTS = (
+        "pdf.sciencedirectassets.com",
+        "ars.els-cdn.com",
+        "linkinghub.elsevier.com",  # redirector — has minimal HTML, prefer the redirect target
+    )
+
+    def _host(rec: dict) -> str:
+        from urllib.parse import urlparse
+        return (urlparse(rec.get("resolved_url") or "").hostname or "").lower()
+
+    article_records = [r for r in records if _host(r) and not any(_host(r).endswith(h) for h in ASSET_HOSTS)]
+    if article_records:
+        best = max(article_records, key=lambda h: h.get("created_date") or "")
+        return best.get("id")
+
+    # Fallback: max by date over whatever's left
     latest = max(records, key=lambda h: h.get("created_date") or "")
     return latest.get("id")
 
