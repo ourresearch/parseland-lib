@@ -276,6 +276,31 @@ class ElsevierBV(PublisherParser):
             # if prev_sibling and is_h_tag(prev_sibling) and 'conclusion' in prev_sibling.text.lower():
             #     break
 
+        if abs_text:
+            return abs_text
+
+        # Modern ScienceDirect template fallback: the abstract lives in
+        # <div class="abstract author">. Pages also often have
+        # <div class="abstract author-highlights"> for the highlights
+        # bullet list — the `.abstract.author` selector (both classes
+        # exact) correctly excludes that because `author-highlights` is
+        # a single class string, not two classes.
+        #
+        # Older Elsevier pages (e.g. j.vetpar.2003) and modern ones
+        # (e.g. j.buildenv.2024, j.yofte.2019) share this markup, so the
+        # selector covers both. We strip a leading "Abstract" header
+        # word that the publisher template prepends to the text node.
+        if abs_div := self.soup.select_one("div.abstract.author"):
+            text = abs_div.get_text(" ", strip=True)
+            if text:
+                # Strip the leading "Abstract" / "Summary" header word
+                # that the template injects in front of the body text.
+                for prefix in ("Abstract", "Summary"):
+                    if text.startswith(prefix):
+                        text = text[len(prefix):].lstrip()
+                        break
+                return text
+
         return abs_text
 
     def parse(self):
