@@ -16,11 +16,18 @@ class ElsevierBV(PublisherParser):
     def authors_found(self):
         # Legacy ScienceDirect template uses <li class="author">.
         # Modern React-based ScienceDirect (post-2019 redesign) uses
-        # <div class="author-group">. Match either so the dispatcher routes
-        # both layouts through ElsevierBV rather than falling back to generic.
+        # <div class="author-group">. Older / supplement / legacy pages
+        # (pre-2000s reprints, conference abstracts, journal supplements)
+        # have neither but DO carry the Highwire/Google Scholar
+        # <meta name="citation_author"> tags — fall back to those so the
+        # dispatcher routes the page through ElsevierBV instead of the
+        # generic fallback (which loses Elsevier-specific abstract /
+        # affiliation handling). Match any of the four signals.
         return bool(
             self.soup.findAll("li", class_="author")
             or self.soup.find("div", class_="author-group")
+            or self.soup.find("meta", attrs={"name": "citation_author"})
+            or self.soup.find("a", class_="author-name")
         )
 
     def _parse_modern_author_group(self):
@@ -363,8 +370,68 @@ class ElsevierBV(PublisherParser):
         if not author_results:
             author_results = self._parse_modern_author_group()
 
+        # Final fallback for older / supplement / legacy pages where neither
+        # <li class="author"> nor <div class="author-group"> exists but the
+        # Highwire/Google Scholar <meta name="citation_author"> tags do.
+        # Affiliations come from <meta name="citation_author_institution">
+        # which immediately follow each author meta in document order.
+        # is_corresponding is unknowable from meta tags alone (the spec
+        # has no field for it); defaults to False.
+        if not author_results:
+            author_results = self._parse_citation_author_meta()
+
         return {"authors": author_results,
                 "abstract": self.parse_abstract() or self.parse_abstract_meta_tags(),}
+
+    def _parse_citation_author_meta(self):
+        """Read <meta name="citation_author"> and follow with any
+        <meta name="citation_author_institution"> tags that appear before
+        the next author meta.
+
+        Most academic publishers (including Elsevier on legacy and
+        supplement pages) include these Google Scholar / Highwire metadata
+        tags for indexing-service compatibility. When the structured DOM
+        author markup is missing, the meta-tag list is still complete.
+
+        We honor document order so that institution metas attach to the
+        preceding author. If an institution meta appears before any author
+        meta, it's dropped.
+        """
+        results = []
+        metas = self.soup.find_all(
+            "meta",
+            attrs={"name": ["citation_author", "citation_author_institution"]},
+        )
+        current_name = None
+        current_affs: list = []
+        for m in metas:
+            name = m.get("name")
+            content = (m.get("content") or "").strip()
+            if not content:
+                continue
+            if name == "citation_author":
+                if current_name:
+                    results.append(
+                        AuthorAffiliations(
+                            name=current_name,
+                            affiliations=current_affs,
+                            is_corresponding=False,
+                        )
+                    )
+                current_name = content
+                current_affs = []
+            elif name == "citation_author_institution":
+                if current_name and content not in current_affs:
+                    current_affs.append(content)
+        if current_name:
+            results.append(
+                AuthorAffiliations(
+                    name=current_name,
+                    affiliations=current_affs,
+                    is_corresponding=False,
+                )
+            )
+        return results
 
     # Per-DOI test cases. The single `jvs.2021.03.049` entry is the existing
     # canonical Elsevier test. Iter 1 of oxjob #202 (parseland-elsevier-iter1,
