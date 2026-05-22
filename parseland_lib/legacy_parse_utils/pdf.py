@@ -878,7 +878,24 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
             return sd_link
 
     links = [get_pdf_in_meta(page)] + [get_pdf_from_javascript(page_with_scripts or page)] + get_useful_links(page)
-    links = [link for link in links if link is not None][:50]  # limit to 50 links
+    links = [link for link in links if link is not None]
+
+    # Prioritize PDF-shaped candidates before applying the 50-link safety cap.
+    # On busy publisher pages (e.g. www.jacc.org, www.auajournals.org), the
+    # actual PDF anchor sits past 50+ navigation / sidebar / related-articles
+    # links — the unsorted cap was silently clipping them. Sorting PDF-shaped
+    # links to the front keeps the 50-cap as a hard upper bound while ensuring
+    # every plausible PDF link is evaluated.
+    def _is_pdf_shaped(l) -> bool:
+        h = (l.href or "").lower()
+        return any(
+            t in h
+            for t in ("/pdf", "/epdf", "pdfft", ".pdf", "downloadpdf")
+        )
+
+    pdf_shaped = [l for l in links if _is_pdf_shaped(l)]
+    others = [l for l in links if not _is_pdf_shaped(l)]
+    links = (pdf_shaped + others)[:50]  # limit to 50 links
 
     for link in links:
 
