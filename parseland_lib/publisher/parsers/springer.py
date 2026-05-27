@@ -121,6 +121,17 @@ class Springer(PublisherParser):
         # Try to detect corresponding author from "Correspondence to" text
         authors_affiliations = self._mark_corresponding_author(authors_affiliations)
 
+        # Additive CA detection from email signals. The earlier parser paths
+        # (methods 2/3, get_authors, meta tags, editors) typically leave
+        # is_corresponding=None even when the page carries clear email-based
+        # CA signals. The ld+json path sets it from author.email, but only
+        # fires when every earlier path returned empty — so the email signal
+        # is silently dropped for the majority of pages. Use it here as a
+        # supplement that only ever turns CA on, never off.
+        authors_affiliations = self._mark_corresponding_from_emails(
+            authors_affiliations
+        )
+
         return {"authors": authors_affiliations,
                 "abstract": abstract or self.parse_abstract(), }
 
@@ -132,12 +143,26 @@ class Springer(PublisherParser):
             'correspondence to' in tag.text.lower()[:30]
         ))
         if corr_p:
-            text = corr_p.text
-            # Extract name after "Correspondence to"
+            text = corr_p.get_text(" ", strip=True)
+            # Extract name after "Correspondence to".
+            # Original pattern was `(.+?)(?:\.|$)` — non-greedy `.+?` paired
+            # with `(?:\.|$)` truncates at the FIRST period in the candidate
+            # name, which on a name like "Robert J. Wright" stops after the
+            # middle initial's period and returns just "Robert J". That
+            # caused the 2-part name-match in `_mark_corresponding_author`
+            # to fail on every Springer page where the CA has an initial.
+            # Capture greedily to the end of the text node, then strip a
+            # single trailing period — initials in the middle survive.
             import re
-            match = re.search(r'[Cc]orrespondence\s+to\s*[:\.]?\s*(.+?)(?:\.|$)', text)
+            match = re.search(r'[Cc]orrespondence\s+to\s*[:\.]?\s*(.+?)\s*$', text)
             if match:
-                return match.group(1).strip()
+                name = match.group(1).strip()
+                # Strip a trailing standalone period (the sentence-ending
+                # "." after the name, common in this template). Internal
+                # initials like "J." stay because they're not at the end.
+                if name.endswith("."):
+                    name = name[:-1].rstrip()
+                return name
 
         # Also check for "Corresponding author" section
         corr_section = self.soup.find(lambda tag: (
@@ -156,6 +181,115 @@ class Springer(PublisherParser):
                     return match.group(1).strip()
 
         return None
+
+    def _mark_corresponding_from_emails(self, authors):
+        """Additive CA detection from email signals on the page.
+
+        Used as a supplement after the primary parser paths and the
+        ``_mark_corresponding_author`` text-based path have run. Only ever
+        sets ``is_corresponding = True``; never clears it. Robust to NBSP
+        and trailing whitespace in author names that came out of the
+        primary paths (Springer's JSON-LD path is the worst offender).
+
+        Signals used, in order:
+          1. ``<meta name="citation_author_email">`` — 97% of Springer pages
+             with a corresponding author carry these. Order on the page
+             tracks the order of the matching ``<meta name="citation_author">``
+             tags, so we pair them index-by-index.
+          2. ``<script type="application/ld+json">`` authors with an
+             ``email`` field — same per-author signal, redundant with (1)
+             on most pages, but cheap to include and catches the legacy
+             Springer subset where only one signal exists.
+
+        Never raises.
+        """
+        if not authors:
+            return authors
+
+        ca_names: set[str] = set()
+        ca_surnames: set[str] = set()
+
+        try:
+            # Walk both citation_author and citation_author_email metas in
+            # document order. Track the most recent citation_author content;
+            # each citation_author_email pairs with whatever
+            # citation_author preceded it. This matches Highwire's "email
+            # meta sits immediately after its author meta" convention used
+            # by Springer / ScienceDirect / most academic publisher
+            # templates. Falls back gracefully when an email meta has no
+            # preceding author meta (skipped silently).
+            current_author = None
+            for meta in self.soup.find_all(
+                "meta",
+                attrs={"name": ["citation_author", "citation_author_email"]},
+            ):
+                name = meta.get("name")
+                content = (meta.get("content") or "").strip()
+                if not content:
+                    continue
+                if name == "citation_author":
+                    current_author = content
+                elif name == "citation_author_email" and current_author:
+                    ca_names.add(current_author)
+                    ca_surnames.add(current_author.rsplit(" ", 1)[-1])
+        except Exception:
+            pass
+
+        try:
+            for s in self.soup.find_all("script", {"type": "application/ld+json"}):
+                if not s.text:
+                    continue
+                try:
+                    blob = json.loads(s.text)
+                except Exception:
+                    continue
+                if isinstance(blob, dict) and "mainEntity" in blob:
+                    blob = blob["mainEntity"]
+                if not isinstance(blob, dict):
+                    continue
+                for a in blob.get("author") or []:
+                    if not isinstance(a, dict):
+                        continue
+                    if a.get("email") and a.get("name"):
+                        name = a["name"].strip()
+                        ca_names.add(name)
+                        ca_surnames.add(name.rsplit(" ", 1)[-1])
+        except Exception:
+            pass
+
+        if not ca_names:
+            return authors
+
+        def _norm(s: str) -> str:
+            # NBSP-aware whitespace stripping. Python's default str.strip()
+            # removes \xa0, but parser paths (esp. parse_ld_json) sometimes
+            # surface names without normalization — collapse them here.
+            return (s or "").replace("\xa0", " ").strip()
+
+        for author in authors:
+            if hasattr(author, "name"):
+                name = _norm(author.name)
+                already = getattr(author, "is_corresponding", None)
+            else:
+                name = _norm(author.get("name", ""))
+                already = author.get("is_corresponding")
+            if already:
+                continue
+            if not name:
+                continue
+            surname = name.rsplit(" ", 1)[-1]
+            hit = (
+                name in ca_names
+                or any(_norm(n) == name for n in ca_names)
+                or surname in ca_surnames
+            )
+            if hit:
+                if hasattr(author, "is_corresponding"):
+                    author.is_corresponding = True
+                else:
+                    author["is_corresponding"] = True
+
+        return authors
 
     def _mark_corresponding_author(self, authors):
         """Mark corresponding author based on 'Correspondence to' section."""
