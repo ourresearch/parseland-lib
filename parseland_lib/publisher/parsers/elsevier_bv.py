@@ -395,9 +395,82 @@ class ElsevierBV(PublisherParser):
         # has no field for it); defaults to False.
         if not author_results:
             author_results = self._parse_citation_author_meta()
+            # Cell Press / Elsevier journal portals (cell.com, ajconline.org,
+            # ajo.com, americanjournalofsurgery.com, bjoms.com,
+            # annalsthoracicsurgery.org, onlinejcf.com, ...) emit the author
+            # names via <meta name="citation_author"> but omit
+            # citation_author_institution. Per-author affiliations and the
+            # corresponding-author flag live in the rendered DOM instead —
+            # enrich the meta-based results from those nodes when shapes line
+            # up. Skipped when the meta path already produced affiliations
+            # (institution metas are authoritative when present).
+            self._enrich_from_core_author_blocks(author_results)
 
         return {"authors": author_results,
                 "abstract": self.parse_abstract() or self.parse_abstract_meta_tags(),}
+
+    def _enrich_from_core_author_blocks(self, results):
+        """Cell Press / Elsevier journal portal enrichment.
+
+        Pages on hosts like cell.com, ajconline.org, ajo.com,
+        americanjournalofsurgery.com, bjoms.com, annalsthoracicsurgery.org,
+        and onlinejcf.com render under a shared portal template that emits:
+
+            <div class="core-author-affiliations">
+              Affiliations &lt;institution text&gt;
+            </div>
+
+        — one per author, in the same document order as the
+        <meta name="citation_author"> tags. The same template wraps the
+        corresponding author in <span class="corresponding-author">. None of
+        this surfaces through <meta name="citation_author_institution">, so
+        the meta-only fallback leaves affiliations empty on these pages.
+
+        Mutates ``results`` in place. Skipped when the meta path already
+        produced affiliations (institution metas remain authoritative). Skipped
+        when the count of core-author-affiliations blocks does not match the
+        author count (defensive — never misalign).
+
+        Never raises. Used by ``parse()`` only on the meta-fallback path.
+        """
+        if not results:
+            return
+        # Don't overwrite affiliations the meta path already populated.
+        if any(r.affiliations for r in results):
+            return
+
+        aff_blocks = self.soup.find_all(
+            "div", class_=lambda c: c and "core-author-affiliations" in c
+        )
+        if aff_blocks and len(aff_blocks) == len(results):
+            for r, block in zip(results, aff_blocks):
+                text = block.get_text(" ", strip=True)
+                # Template prepends a literal "Affiliations" header word in
+                # front of the body text — strip it. Whitespace collapse via
+                # get_text(" ", strip=True) means we don't need to handle
+                # newlines or nested children explicitly.
+                if text.lower().startswith("affiliations"):
+                    text = text[len("affiliations"):].lstrip()
+                if text:
+                    r.affiliations = [text]
+
+        # Corresponding-author signal. The portal wraps the CA author block in
+        # <span class="corresponding-author">; surname/given-name inside it
+        # match one of the parsed names. Augments the email-meta CA signal
+        # without ever clearing it (additive only).
+        for span in self.soup.find_all(
+            "span", class_=lambda c: c and "corresponding-author" in c
+        ):
+            ca_text = span.get_text(" ", strip=True)
+            if not ca_text:
+                continue
+            for r in results:
+                if r.is_corresponding or not r.name:
+                    continue
+                surname = r.name.rsplit(" ", 1)[-1]
+                if surname and surname in ca_text:
+                    r.is_corresponding = True
+                    break
 
     def _parse_citation_author_meta(self):
         """Read <meta name="citation_author"> and follow with any

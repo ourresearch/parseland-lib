@@ -127,6 +127,124 @@ def test_parse_modern_unlabeled_single_shared_affiliation():
     assert by_name["Anna Daddi"].is_corresponding is False
 
 
+CELL_PRESS_PORTAL = """
+<html>
+  <head>
+    <meta name="citation_author" content="Glenn Kabell" />
+    <meta name="citation_author" content="Benjamin J. Scherlag" />
+    <meta name="citation_author" content="Ronald R. Hope" />
+    <meta name="citation_author" content="Ralph Lazzara" />
+  </head>
+  <body>
+    <div class="core-author-affiliations">
+      Affiliations From the Veterans Administration Medical Center,
+      University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA
+    </div>
+    <span class="corresponding-author">Benjamin J. Scherlag , PhD, FACC</span>
+    <div class="core-author-affiliations">
+      Affiliations From the Veterans Administration Medical Center,
+      University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA
+    </div>
+    <div class="core-author-affiliations">
+      Affiliations From the Veterans Administration Medical Center,
+      University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA
+    </div>
+    <div class="core-author-affiliations">
+      Affiliations From the Veterans Administration Medical Center,
+      University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA
+    </div>
+  </body>
+</html>
+"""
+
+
+CELL_PRESS_MULTI_AFFS = """
+<html>
+  <head>
+    <meta name="citation_author" content="K.V. Lakshmi" />
+    <meta name="citation_author" content="Sergey Milikisiyants" />
+    <meta name="citation_author" content="Ruchira Chatterjee" />
+  </head>
+  <body>
+    <div class="core-author-affiliations">
+      Affiliations Rensselaer Polytechnic Institute, Troy, NY, USA
+    </div>
+    <div class="core-author-affiliations">
+      Affiliations Rensselaer Polytechnic Institute, Troy, NY, USA
+    </div>
+    <div class="core-author-affiliations">
+      Affiliations Princeton University, Princeton, NJ, USA
+    </div>
+  </body>
+</html>
+"""
+
+
+CELL_PRESS_COUNT_MISMATCH = """
+<html>
+  <head>
+    <meta name="citation_author" content="A. One" />
+    <meta name="citation_author" content="B. Two" />
+    <meta name="citation_author" content="C. Three" />
+  </head>
+  <body>
+    <!-- only one aff div for three authors — never misalign -->
+    <div class="core-author-affiliations">Affiliations Some Place</div>
+  </body>
+</html>
+"""
+
+
+def test_cell_press_portal_attaches_per_author_affs_and_ca():
+    """Cell Press / Elsevier journal portal pages (ajconline.org, cell.com,
+    etc.) emit per-author <div class="core-author-affiliations"> blocks in
+    document order matching <meta name="citation_author"> tags. The portal
+    template prepends a literal 'Affiliations' header word — strip it.
+    The corresponding author is wrapped in <span class="corresponding-author">."""
+    soup = BeautifulSoup(CELL_PRESS_PORTAL, "lxml")
+    result = ElsevierBV(soup).parse()
+    authors = result["authors"]
+    assert len(authors) == 4
+
+    by_name = {a.name: a for a in authors}
+    # All four authors got the shared affiliation
+    for a in authors:
+        assert len(a.affiliations) == 1
+        assert "Veterans Administration" in a.affiliations[0]
+        # "Affiliations" prefix must be stripped
+        assert not a.affiliations[0].lower().startswith("affiliations")
+
+    # Scherlag is the corresponding author via <span class="corresponding-author">
+    assert by_name["Benjamin J. Scherlag"].is_corresponding is True
+    assert by_name["Glenn Kabell"].is_corresponding is False
+
+
+def test_cell_press_portal_preserves_distinct_per_author_affs():
+    """When per-author affiliation divs hold DIFFERENT institution text, each
+    author gets the affiliation at its own document position (not merged)."""
+    soup = BeautifulSoup(CELL_PRESS_MULTI_AFFS, "lxml")
+    result = ElsevierBV(soup).parse()
+    authors = result["authors"]
+    assert len(authors) == 3
+
+    by_name = {a.name: a for a in authors}
+    assert "Rensselaer" in by_name["K.V. Lakshmi"].affiliations[0]
+    assert "Rensselaer" in by_name["Sergey Milikisiyants"].affiliations[0]
+    assert "Princeton" in by_name["Ruchira Chatterjee"].affiliations[0]
+
+
+def test_cell_press_portal_skips_when_aff_count_mismatches():
+    """Defensive: when the count of core-author-affiliations blocks does not
+    match the author count, leave affiliations empty rather than risk
+    misalignment."""
+    soup = BeautifulSoup(CELL_PRESS_COUNT_MISMATCH, "lxml")
+    result = ElsevierBV(soup).parse()
+    authors = result["authors"]
+    assert len(authors) == 3
+    for a in authors:
+        assert a.affiliations == []
+
+
 def test_parse_uppercase_cor_refid_still_detected():
     """Some older Elsevier pages emit refid='COR1' in uppercase. The JSON
     matcher must be case-insensitive."""
