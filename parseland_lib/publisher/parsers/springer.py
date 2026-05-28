@@ -153,6 +153,19 @@ class Springer(PublisherParser):
         # of first occurrence is preserved.
         authors_affiliations = self._normalize_and_dedupe(authors_affiliations)
 
+        # Book-chapter pages on SpringerLink include a separate
+        # `<div id="editor-information-section">` block listing the book's
+        # editors (with their affiliations and academic titles). The legacy
+        # parser paths sometimes pull names from this block into the author
+        # list — e.g. on `10.1007/978-1-4939-7274-6_16` the parser returns
+        # the 2 chapter authors plus "Robert C. Elston" (book editor). The
+        # filter below drops any parsed author whose normalized name appears
+        # in that block's text, leaving journal articles (no editor section)
+        # untouched.
+        authors_affiliations = self._drop_book_editors_from_authors(
+            authors_affiliations
+        )
+
         return {"authors": authors_affiliations,
                 "abstract": abstract or self.parse_abstract(), }
 
@@ -202,6 +215,93 @@ class Springer(PublisherParser):
                     return match.group(1).strip()
 
         return None
+
+    def _drop_book_editors_from_authors(self, authors):
+        """Drop parsed authors that are actually the book's editors.
+
+        On SpringerLink book-chapter pages, the legacy `get_authors` /
+        `parse_authors_method_2` / `parse_ld_json` paths sometimes scoop
+        names out of the book's editor section into the chapter author
+        list. The page exposes editor names in a dedicated DOM block:
+
+            <div id="editor-information-section">
+              Editor information
+              Editors and Affiliations
+              <affiliation lines>
+              <editor name (often prefixed with "Prof.", "Dr.", "Professor")>
+              ...
+            </div>
+
+        Names that show up there are NOT chapter authors. Drop any
+        parsed author whose normalized name (NBSP-stripped, lowercased)
+        appears in the editor section's plain text.
+
+        Defensive:
+          - If no editor section exists (every journal article, plus
+            many newer book chapters), this is a no-op.
+          - Substring match is on the lowercased + NBSP-normalized form
+            so academic titles in the page text don't block the match.
+          - Skipped for authors with empty / very-short names.
+
+        Returns the filtered list. Never raises.
+        """
+        if not authors:
+            return authors
+        try:
+            section = (
+                self.soup.find(id="editor-information-section")
+                or self.soup.find(id="editor-information-content")
+            )
+            if section is None:
+                return authors
+            editor_text = section.get_text(" ", strip=True)
+            if not editor_text:
+                return authors
+            editor_text_norm = editor_text.replace("\xa0", " ").lower()
+        except Exception:
+            return authors
+
+        def _name_of(a):
+            if isinstance(a, dict):
+                return (a.get("name") or "").strip()
+            return (getattr(a, "name", "") or "").strip()
+
+        # Pre-compute the set of "editor names found in parser output" so we
+        # can decide whether the filter would drop everyone. Some chapter
+        # types — particularly single-author book chapters where the chapter
+        # author also edited the book (Jan W. Gooch's encyclopedia
+        # contributions are the canonical case) — list one name in BOTH the
+        # author area and the editor section. A naive drop would zero out
+        # the author list. If the filter would drop every parsed author,
+        # bail out and keep everything: the editor-section is then telling
+        # us "this is the same person", not "these are extra editors".
+        flagged_indices = []
+        for i, a in enumerate(authors):
+            name = _name_of(a)
+            if not name or len(name) < 3:
+                continue
+            name_norm = name.replace("\xa0", " ").lower()
+            if name_norm in editor_text_norm:
+                flagged_indices.append(i)
+
+        if len(flagged_indices) >= len(authors):
+            # Every parsed author appears in the editor section → preserve
+            # all (single-author-also-editor case). Without this guard
+            # iter-3 regressed F1 to 0 on 7 such rows.
+            return authors
+
+        out = []
+        for i, a in enumerate(authors):
+            if i in flagged_indices:
+                # Drop — this person is in the editor section, not a
+                # chapter author. (False positives are theoretically
+                # possible if a chapter author is ALSO the book editor;
+                # in practice on SpringerLink that overlap is rare and
+                # the precision win from dropping editor-name false
+                # positives outweighs it.)
+                continue
+            out.append(a)
+        return out
 
     def _normalize_and_dedupe(self, authors):
         """Strip NBSP from names + affiliations and dedupe authors by
