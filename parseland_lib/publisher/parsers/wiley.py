@@ -25,6 +25,19 @@ class Wiley(PublisherParser):
             authors = author_soup.findAll("span", class_="accordion__closed")
         else:
             authors = []
+        # Wiley pages often list a per-author "Email this author" mailto as a
+        # courtesy on every author, not as a corresponding-author marker. When
+        # the page DOES surface structured CA metadata via a
+        # <p class="author-type">Corresponding Author</p> tag on at least one
+        # author, trust that exclusively — other authors' mailtos are courtesy
+        # links and must be ignored. When NO author has the author-type tag
+        # the page lacks structured CA metadata (older Wiley/Blackwell
+        # templates) and mailto becomes the best per-author CA heuristic.
+        def _has_author_type_ca(span):
+            tag = span.find("p", class_="author-type")
+            return bool(tag and "corresponding" in tag.text.lower())
+
+        page_has_structured_ca = any(_has_author_type_ca(a) for a in authors)
         for author in authors:
             affiliations = []
             name = author.a.text
@@ -33,7 +46,9 @@ class Wiley(PublisherParser):
             is_corresponding = False
 
             author_type = author.find("p", class_="author-type")
-            if author_type and "corresponding" in author_type.text.lower() or author.select_one('a[href*=mailto]'):
+            if author_type and "corresponding" in author_type.text.lower():
+                is_corresponding = True
+            elif not page_has_structured_ca and author.select_one('a[href*=mailto]'):
                 is_corresponding = True
 
             for aff in aff_soup:
@@ -63,7 +78,30 @@ class Wiley(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+        self._mark_corresponding_from_header_block(results)
         return results
+
+    def _mark_corresponding_from_header_block(self, results):
+        """Older Wiley/Blackwell pages surface the corresponding-author name
+        only inside ``<div class="article-header__correspondence-to">``, not
+        inside the per-author span (no author-type heading, no mailto). Match
+        an author whose first AND last name both appear in the block text and
+        flag them. Additive only — never clears an existing CA flag."""
+        block = self.soup.find("div", class_="article-header__correspondence-to")
+        if not block:
+            return
+        block_text = block.get_text(separator=" ").lower()
+        for r in results:
+            if r.is_corresponding:
+                continue
+            name = (r.name or "").strip()
+            tokens = name.split()
+            if len(tokens) < 2:
+                continue
+            first = tokens[0].lower()
+            last = tokens[-1].lower()
+            if first in block_text and last in block_text:
+                r.is_corresponding = True
 
     def get_abstract(self):
 
@@ -72,7 +110,7 @@ class Wiley(PublisherParser):
         ):
             for abstract_heading in abs_headings:
                 # if graphical abstract is the only abstract, then take it, otherwise try to find actual abstract
-                if any(['graphical' in cls for cls in abstract_heading['class']]) and len(abs_headings) > 1:
+                if any(['graphical' in cls for cls in abstract_heading.get('class') or []]) and len(abs_headings) > 1:
                     continue
                 if abstract_body := abstract_heading.find_next_sibling():
                     if (abstract := abstract_body.text.strip()) and len(abstract_body.text.strip()) > 100:
