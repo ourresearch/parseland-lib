@@ -48,9 +48,28 @@ class IEEE(PublisherParser):
     def get_abstract(self):
         if og_description := self.soup.find("meta", {"property": "og:description"}):
             if description := og_description.get("content").strip():
-                return description
+                return self._clean_abstract(description)
 
         return None
+
+    @staticmethod
+    def _clean_abstract(text: str) -> str:
+        """Strip IEEE's inline MathML / XML markup from og:description.
+
+        IEEE bakes raw inline tags like <inf xmlns:mml="..." xmlns:xlink="..."> and
+        <sub ...>, <sup ...> into og:description. Gold abstracts capture clean
+        rendered text. Strip the tags and collapse whitespace so length / fuzzy
+        scoring sees the same surface form. Adjacent whitespace around stripped
+        tags is also collapsed to avoid "MoS 2" / "10 18 cm -3" artifacts where
+        the original rendered as "MoS2" / "1018 cm-3".
+        """
+        if not text:
+            return text
+        # Strip tags including any leading/trailing whitespace that flanked them.
+        cleaned = re.sub(r"\s*<[^>]+>\s*", "", text)
+        # Final whitespace normalization.
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        return cleaned
 
     test_cases = [
         {
