@@ -6,3 +6,9 @@ test.py
 venv/
 .venv/
 scripts-out/
+
+# multi-agent sprint outputs
+mismatches/*.ndjson
+mismatches/sprint-*.json
+mismatches/gold-drafts/*.ndjson
+
