@@ -303,18 +303,78 @@ class ElsevierBV(PublisherParser):
             return abs_text
 
         # Modern ScienceDirect template fallback: the abstract lives in
-        # <div class="abstract author">. Pages also often have
-        # <div class="abstract author-highlights"> for the highlights
-        # bullet list — the `.abstract.author` selector (both classes
-        # exact) correctly excludes that because `author-highlights` is
-        # a single class string, not two classes.
+        # <div class="abstract author">. Pages also often emit sibling
+        # blocks the gold abstract is NOT — Highlights and Graphical
+        # abstracts. The shape is:
+        #
+        #   <div class="abstracts">
+        #     <div class="abstract author-highlights">
+        #       <h2>Highlights</h2>
+        #       <div class="abstract author"> bullets </div>  ← naive select_one wins here
+        #     </div>
+        #     <div class="abstract author"> <h2>Abstract</h2> body </div>  ← the one we want
+        #     <div class="abstract graphical"> Graphical abstract... </div>
+        #   </div>
+        #
+        # `select_one("div.abstract.author")` matches the FIRST occurrence
+        # in document order, which is the nested div inside the highlights
+        # wrapper — yielding the bullet list instead of the abstract body.
+        # Filter to top-level `div.abstract.author` blocks (no
+        # `author-highlights` or `graphical` ancestor) and prefer one whose
+        # leading <h2> reads "Abstract" or "Summary".
         #
         # Older Elsevier pages (e.g. j.vetpar.2003) and modern ones
         # (e.g. j.buildenv.2024, j.yofte.2019) share this markup, so the
-        # selector covers both. We strip a leading "Abstract" header
-        # word that the publisher template prepends to the text node.
-        if abs_div := self.soup.select_one("div.abstract.author"):
-            text = abs_div.get_text(" ", strip=True)
+        # selector covers both. We strip a leading "Abstract" header word
+        # that the publisher template prepends to the text node.
+        candidates = []
+        # Prefer walking the .abstracts container's direct-child layout
+        # when present: that's where ScienceDirect lays out the disjoint
+        # blocks (Highlights, Abstract, Graphical abstract). When the
+        # container is absent (older pages), fall back to a global scan
+        # with the same filters applied.
+        abstracts_root = self.soup.select_one(".abstracts")
+        if abstracts_root is not None:
+            scope = abstracts_root.find_all(
+                "div",
+                class_=lambda c: c and "abstract" in c,
+                recursive=True,
+            )
+        else:
+            scope = self.soup.select("div.abstract.author")
+
+        for div in scope:
+            cls = set(div.get("class") or [])
+            # The selector must require both "abstract" and "author" classes
+            # (graphical / author-highlights are the rejects).
+            if "abstract" not in cls or "author" not in cls:
+                continue
+            # Skip the highlights wrapper itself when scoping the whole
+            # .abstracts container.
+            if "author-highlights" in cls or "graphical" in cls:
+                continue
+            # Skip nested div inside the Highlights wrapper. The wrapper has
+            # the `author-highlights` class; its nested abstract.author child
+            # carries the bullets.
+            bad_ancestor = div.find_parent(
+                "div",
+                class_=lambda c: c
+                and any(token in c for token in ("author-highlights", "graphical")),
+            )
+            if bad_ancestor is not None:
+                continue
+            candidates.append(div)
+
+        # Take the first surviving block. Don't preference English "Abstract"
+        # h2 over other languages — bilingual pages (e.g.
+        # 10.1016/s0294-1260(02)00149-8) emit the primary-language
+        # block first (Résumé) and the translated block second; gold
+        # captures the primary block. Skipping highlights/graphical and
+        # taking the first match preserves that ordering.
+        chosen = candidates[0] if candidates else None
+
+        if chosen is not None:
+            text = chosen.get_text(" ", strip=True)
             if text:
                 # Strip the leading "Abstract" / "Summary" header word
                 # that the template injects in front of the body text.
