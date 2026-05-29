@@ -40,8 +40,23 @@ from typing import Callable
 from urllib.parse import urlparse
 
 # parseland-eval and parseland-lib on the path. Read-only imports.
-sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval")
-sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-lib")
+#
+# The parseland-lib path resolves to THIS file's repo root so the script picks
+# up worktree-local parser code when invoked from inside a git worktree. The
+# previous hardcoded absolute path silently loaded main's parsers regardless
+# of the cwd, breaking the multi-agent regression-sentinel's worktree
+# isolation: a sentinel applying a patch in its worktree was still importing
+# main's parser code and reporting the unpatched results.
+_THIS_FILE = Path(__file__).resolve()
+_REPO_ROOT_FROM_FILE = _THIS_FILE.parent.parent  # scripts/ -> repo root
+sys.path.insert(0, str(_REPO_ROOT_FROM_FILE))
+# parseland-eval lives outside the repo. Allow override via env var; fall back
+# to the conventional sibling path.
+_PARSELAND_EVAL_PATH = os.environ.get(
+    "PARSELAND_EVAL_PATH",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval",
+)
+sys.path.insert(0, _PARSELAND_EVAL_PATH)
 
 import boto3  # noqa: E402
 import requests  # noqa: E402
