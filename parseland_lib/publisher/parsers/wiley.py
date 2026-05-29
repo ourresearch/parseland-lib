@@ -1,6 +1,8 @@
 import re
 from unicodedata import normalize
 
+from bs4 import NavigableString
+
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import is_h_tag, strip_prefix, strip_suffix
@@ -71,6 +73,37 @@ class Wiley(PublisherParser):
                 aff_txt = strip_prefix('Authors are with ', aff_txt)
                 aff_txt = aff_txt.strip().split('Fax')[0].strip()
                 affiliations.append(normalize("NFKD", aff_txt))
+
+            # CAND3: bare-text fallback + author-jobTitle pickup.
+            # Legacy Wiley/Blackwell pages (e.g. 10.1111/j.1540-6261.1970...)
+            # place the affiliation as a bare text node inside
+            # <div class="author-info">. Some such pages embed the job title
+            # as <p class="author-jobTitle"> and the rest as a bare text node
+            # that REPEATS the job title at its start ("Professor of
+            # Economics, University of Missouri-St. Louis" alongside a
+            # separate <p class="author-jobTitle">Professor of Economics</p>).
+            # The bare text IS the canonical affiliation in gold annotation.
+            # Strategy: when no <p class=None> affs, scan ALL direct
+            # NavigableString children of author-info for any text >= 20
+            # chars with a comma (institution+location signal), excluding
+            # known UI strings.
+            if not affiliations:
+                info_div = author.find("div", class_="author-info")
+                if info_div is not None:
+                    for child in info_div.children:
+                        if not isinstance(child, NavigableString):
+                            continue
+                        text = str(child).strip()
+                        if len(text) < 20 or "," not in text:
+                            continue
+                        low = text.lower()
+                        if low.startswith("search for more papers"):
+                            continue
+                        cleaned = text.rstrip(".").strip()
+                        if cleaned:
+                            affiliations.append(normalize("NFKD", cleaned))
+                            break  # only take first matching text node
+
             results.append(
                 AuthorAffiliations(
                     name=name,
