@@ -86,11 +86,23 @@ class Wiley(PublisherParser):
         only inside ``<div class="article-header__correspondence-to">``, not
         inside the per-author span (no author-type heading, no mailto). Match
         an author whose first AND last name both appear in the block text and
-        flag them. Additive only — never clears an existing CA flag."""
+        flag them. Additive only — never clears an existing CA flag.
+
+        Tokens are punctuation-stripped before substring matching: parsed
+        author names often carry initials like ``C.`` while the correspondence
+        block strips the period (``C Elliott``). Failing to strip the trailing
+        period on the parsed token means ``c.`` is searched inside ``c elliott``
+        and the match fails. Example DOI: ``10.1111/j.1467-789x.2007.00418.x``.
+        """
         block = self.soup.find("div", class_="article-header__correspondence-to")
         if not block:
             return
         block_text = block.get_text(separator=" ").lower()
+
+        def _norm(tok: str) -> str:
+            # Strip trailing punctuation that appears on initials/abbreviations.
+            return tok.lower().strip(".,;:")
+
         for r in results:
             if r.is_corresponding:
                 continue
@@ -98,9 +110,9 @@ class Wiley(PublisherParser):
             tokens = name.split()
             if len(tokens) < 2:
                 continue
-            first = tokens[0].lower()
-            last = tokens[-1].lower()
-            if first in block_text and last in block_text:
+            first = _norm(tokens[0])
+            last = _norm(tokens[-1])
+            if first and last and first in block_text and last in block_text:
                 r.is_corresponding = True
 
     def get_abstract(self):
