@@ -1,0 +1,7173 @@
+{
+  "generated_at": "2026-05-23T04:41:33Z",
+  "n_scored": 388,
+  "n_discrepancies": 309,
+  "verdict_tally": {
+    "disjoint_names_gold_likely_wrong": 163,
+    "gold_missing_parser_has": 83,
+    "names_overlap_format_diff": 19,
+    "partial_overlap_unclear": 42,
+    "parser_miss": 2
+  },
+  "rows": [
+    {
+      "doi": "10.1109/ccdc.2018.8408173",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8408173/",
+      "gold_authors": [
+        "Chenglong Chen",
+        "Hongbing Ji",
+        "Wenqiang Zhang"
+      ],
+      "parser_authors": [
+        "Lei Sun",
+        "Baojie Fan",
+        "Yan Peng"
+      ],
+      "json_authors_raw": [
+        "Lei Sun",
+        "Baojie Fan",
+        "Yan Peng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ictc.2015.7354772",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7354772/",
+      "gold_authors": [
+        "Hye-Soo Shin",
+        "Seung-Hoon Hwang",
+        "Dong-Ho Cho"
+      ],
+      "parser_authors": [
+        "Junhyeong Kim",
+        "Hee-Sang Chung",
+        "Il Gyu Kim",
+        "Hoon Lee",
+        "Myong Sik Lee"
+      ],
+      "json_authors_raw": [
+        "Junhyeong Kim",
+        "Hee-Sang Chung",
+        "Il Gyu Kim",
+        "Hoon Lee",
+        "Myong Sik Lee"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/soi.1992.664822",
+      "resolved_url": "https://ieeexplore.ieee.org/document/664822/",
+      "gold_authors": [],
+      "parser_authors": [
+        "A. Caviglia",
+        "A.A. Iliadis"
+      ],
+      "json_authors_raw": [
+        "A. Caviglia",
+        "A.A. Iliadis"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/taes.2018.2849901",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8395008/",
+      "gold_authors": [
+        "Ilan Rusnak",
+        "Tal Shima"
+      ],
+      "parser_authors": [
+        "Martin Weiss",
+        "Tal Shima"
+      ],
+      "json_authors_raw": [
+        "Martin Weiss",
+        "Tal Shima"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.5,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tpami.2017.2784424",
+      "resolved_url": "",
+      "gold_authors": [
+        "Chao-Kai Wen",
+        "Bin-Huang Lin",
+        "Tyng-Luh Liu",
+        "Shang-Hong Lai"
+      ],
+      "parser_authors": [
+        "Donghoon Lee",
+        "Ming-Hsuan Yang",
+        "Songhwai Oh"
+      ],
+      "json_authors_raw": [
+        "Donghoon Lee",
+        "Ming-Hsuan Yang",
+        "Songhwai Oh"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icaeccs68240.2025.11384737",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11384737/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Redouane Kaibou",
+        "Mohamed Salah Azzaz",
+        "Bachir Madani",
+        "Hadj Abdelkader Benzater"
+      ],
+      "json_authors_raw": [
+        "Redouane Kaibou",
+        "Mohamed Salah Azzaz",
+        "Bachir Madani",
+        "Hadj Abdelkader Benzater"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iceconf65644.2025.11379491",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11379491/",
+      "gold_authors": [],
+      "parser_authors": [
+        "P. Shyamala Bharathi",
+        "A. Shankar"
+      ],
+      "json_authors_raw": [
+        "P. Shyamala Bharathi",
+        "A. Shankar"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/radioelek.2011.5936478",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5936478/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Lukáš Klozar",
+        "Jan Prokopec"
+      ],
+      "json_authors_raw": [
+        "Lukáš Klozar",
+        "Jan Prokopec"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ieecon60677.2024.10537844",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10537844/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Pichai Janmanee",
+        "Piyapong Kumkoon",
+        "Paiboon Yaemphuan",
+        "Rattikorn Saodaen",
+        "Chutharat Sarod",
+        "Kritsana Uamnuson"
+      ],
+      "json_authors_raw": [
+        "Pichai Janmanee",
+        "Piyapong Kumkoon",
+        "Paiboon Yaemphuan",
+        "Rattikorn Saodaen",
+        "Chutharat Sarod",
+        "Kritsana Uamnuson"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/lcn.2014.6925816",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6925816/",
+      "gold_authors": [
+        "Michael Menth",
+        "Matthias Hartmann",
+        "Dominik Klein"
+      ],
+      "parser_authors": [
+        "Daniel Herrmann",
+        "Martin Turba",
+        "Arjan Kuijper",
+        "Immanuel Schweizer"
+      ],
+      "json_authors_raw": [
+        "Daniel Herrmann",
+        "Martin Turba",
+        "Arjan Kuijper",
+        "Immanuel Schweizer"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icicsp50920.2020.9232043",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9232043/",
+      "gold_authors": [
+        "Xiangyu Bao",
+        "Chao Cheng",
+        "Yibing Li",
+        "Kai Chen"
+      ],
+      "parser_authors": [
+        "Tao Wang",
+        "Jian Cao",
+        "Yingbiao Luo",
+        "Wenyu Sun",
+        "Ying Zhang",
+        "Yuan Wang"
+      ],
+      "json_authors_raw": [
+        "Tao Wang",
+        "Jian Cao",
+        "Yingbiao Luo",
+        "Wenyu Sun",
+        "Ying Zhang",
+        "Yuan Wang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nlpke.2007.4368024",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4368024/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Shoushan Li",
+        "Chengqing Zong",
+        "Xia Wang"
+      ],
+      "json_authors_raw": [
+        "Shoushan Li",
+        "Chengqing Zong",
+        "Xia Wang"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/telsiks46999.2019.9002329",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9002329/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Raja N. Mir",
+        "William R. Frensley"
+      ],
+      "json_authors_raw": [
+        "Raja N. Mir",
+        "William R. Frensley"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isttca53489.2021.9654604",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9654604/",
+      "gold_authors": [
+        "Xinyu Lu",
+        "Zhiwen Wang",
+        "Baoshou Zhang"
+      ],
+      "parser_authors": [
+        "HongYu Fu",
+        "YaoLiang Huang",
+        "WeiFeng Li"
+      ],
+      "json_authors_raw": [
+        "HongYu Fu",
+        "YaoLiang Huang",
+        "WeiFeng Li"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ivs.1992.252259",
+      "resolved_url": "https://ieeexplore.ieee.org/document/252259/",
+      "gold_authors": [],
+      "parser_authors": [
+        "K. Hashimoto",
+        "S. Nakayama",
+        "T. Saito",
+        "S. Ishida",
+        "K. Unuora",
+        "J. Ishii",
+        "N. Oono",
+        "Y. Okada"
+      ],
+      "json_authors_raw": [
+        "K. Hashimoto",
+        "S. Nakayama",
+        "T. Saito",
+        "S. Ishida",
+        "K. Unuora",
+        "J. Ishii",
+        "N. Oono",
+        "Y. Okada"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/miel66332.2025.11261189",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11261189/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Aleksandar Pantić",
+        "Adriana Petković",
+        "Neda Branković",
+        "Sanja Aleksić",
+        "Dragan Pantić"
+      ],
+      "json_authors_raw": [
+        "Aleksandar Pantić",
+        "Adriana Petković",
+        "Neda Branković",
+        "Sanja Aleksić",
+        "Dragan Pantić"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/rfic.2005.1489796",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1489796/",
+      "gold_authors": [
+        "Hsien-Ku Chen",
+        "Yi-Jen Chan",
+        "Tao Wang"
+      ],
+      "parser_authors": [
+        "Day-Uei Li",
+        "Li-Ren Huang",
+        "Chia-Ming Tsai"
+      ],
+      "json_authors_raw": [
+        "Day-Uei Li",
+        "Li-Ren Huang",
+        "Chia-Ming Tsai"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/scc.2014.44",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6930544/",
+      "gold_authors": [
+        "Eunmi Choi",
+        "Mehmet Can Vuran",
+        "Sergiu M. Dascalu",
+        "Frederick C. Harris"
+      ],
+      "parser_authors": [
+        "Sungchul Lee",
+        "Juyeon Jo",
+        "Yoohwan Kim",
+        "Haroon Stephen"
+      ],
+      "json_authors_raw": [
+        "Sungchul Lee",
+        "Juyeon Jo",
+        "Yoohwan Kim",
+        "Haroon Stephen"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/chicc.2006.4347156",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4347156/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yin Xiaohu",
+        "Wen Xisen",
+        "Qian Yanling",
+        "Yang Yongmin"
+      ],
+      "json_authors_raw": [
+        "Yin Xiaohu",
+        "Wen Xisen",
+        "Qian Yanling",
+        "Yang Yongmin"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccad64771.2025.11099457",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11099457/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Weiwei Jiang",
+        "Jianbin Mu",
+        "Miao He",
+        "Weixi Gu",
+        "Xirong Cheng",
+        "Ahmad Taher Azar",
+        "Nashwa Ahmad Kamal"
+      ],
+      "json_authors_raw": [
+        "Weiwei Jiang",
+        "Jianbin Mu",
+        "Miao He",
+        "Weixi Gu",
+        "Xirong Cheng",
+        "Ahmad Taher Azar",
+        "Nashwa Ahmad Kamal"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icet55676.2022.9824086",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9824086/",
+      "gold_authors": [
+        "Yanan Wang",
+        "Ziqiang Zhang",
+        "Dong Wang",
+        "Mengmeng Wang",
+        "Yu Han"
+      ],
+      "parser_authors": [
+        "Alexandr Vinogradov",
+        "Peng Sun",
+        "Chongshan Liu"
+      ],
+      "json_authors_raw": [
+        "Alexandr Vinogradov",
+        "Peng Sun",
+        "Chongshan Liu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/wsc57314.2022.10015452",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10015452/",
+      "gold_authors": [
+        "Basmah Alotaibi",
+        "Charles Nicholson"
+      ],
+      "parser_authors": [
+        "Shima Mohebbi",
+        "Pavithra Sripathanallur Murali"
+      ],
+      "json_authors_raw": [
+        "Shima Mohebbi",
+        "Pavithra Sripathanallur Murali"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isceic53685.2021.00019",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9599206/",
+      "gold_authors": [
+        "Ning Wang",
+        "Wanlin Gao",
+        "Chunjiang Zhao",
+        "Huarui Wu"
+      ],
+      "parser_authors": [
+        "Si Chen",
+        "Fang Lv",
+        "Ping Huo"
+      ],
+      "json_authors_raw": [
+        "Si Chen",
+        "Fang Lv",
+        "Ping Huo"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/taes.2026.3665166",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11407958/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yong Yang",
+        "Buhong Wang",
+        "Peng Luo",
+        "Jiwei Tian"
+      ],
+      "json_authors_raw": [
+        "Yong Yang",
+        "Buhong Wang",
+        "Peng Luo",
+        "Jiwei Tian"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsmc.2004.1399865",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1399865/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Chung-Yang Liu",
+        "Da-Yin Liao"
+      ],
+      "json_authors_raw": [
+        "Chung-Yang Liu",
+        "Da-Yin Liao"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jqe.2004.837953",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1375030/",
+      "gold_authors": [
+        "E. A. Avrutin",
+        "J. H. Marsh",
+        "E. L. Portnoi"
+      ],
+      "parser_authors": [
+        "H. Dery",
+        "G. Eisenstein"
+      ],
+      "json_authors_raw": [
+        "H. Dery",
+        "G. Eisenstein"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/hipcw63042.2024.00087",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10898240/",
+      "gold_authors": [
+        "Anubhav Srivastava",
+        "Biswabandan Panda"
+      ],
+      "parser_authors": [
+        "Sadhana Rai",
+        "Basavaraj Talawar"
+      ],
+      "json_authors_raw": [
+        "Sadhana Rai",
+        "Basavaraj Talawar"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2023.3286540",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10153583/",
+      "gold_authors": [
+        "Afra Bibi",
+        "Kifayat Ullah",
+        "Uzma Ahmad",
+        "Dragan Pamucar"
+      ],
+      "parser_authors": [
+        "Irfan Ullah",
+        "Fazal Ghani",
+        "Saleem Abdullah",
+        "Faisal Khan",
+        "Saifullah Khan"
+      ],
+      "json_authors_raw": [
+        "Irfan Ullah",
+        "Fazal Ghani",
+        "Saleem Abdullah",
+        "Faisal Khan",
+        "Saifullah Khan"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ssci.2017.8280958",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8280958/",
+      "gold_authors": [
+        "Amin Milani Fard",
+        "Alireza Maheri"
+      ],
+      "parser_authors": [
+        "Ilyes Jenhani",
+        "Zied Elouedi"
+      ],
+      "json_authors_raw": [
+        "Ilyes Jenhani",
+        "Zied Elouedi"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ascc.2013.6606052",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6606052/",
+      "gold_authors": [
+        "Yuhong Liu",
+        "Shenghua Sun"
+      ],
+      "parser_authors": [
+        "Zhiqiang Zhu",
+        "Kun Liu",
+        "Yuqing He",
+        "Juntong Qi",
+        "Jianda Han"
+      ],
+      "json_authors_raw": [
+        "Zhiqiang Zhu",
+        "Kun Liu",
+        "Yuqing He",
+        "Juntong Qi",
+        "Jianda Han"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ecce.2018.8558403",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8558403/",
+      "gold_authors": [
+        "Xiangwei Guan",
+        "Zhiqiang Wang",
+        "Qian Fang",
+        "Ling Jiang",
+        "Min Li",
+        "Yicheng Zhang",
+        "Leon M. Tolbert"
+      ],
+      "parser_authors": [
+        "Slavko Mocevic",
+        "Jun Wang",
+        "Rolando Burgos",
+        "Dushan Boroyevich",
+        "Marko Jaksic",
+        "Mehrdad Teimor",
+        "Brian Peaslee"
+      ],
+      "json_authors_raw": [
+        "Slavko Mocevic",
+        "Jun Wang",
+        "Rolando Burgos",
+        "Dushan Boroyevich",
+        "Marko Jaksic",
+        "Mehrdad Teimor",
+        "Brian Peaslee"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/irmmw-thz50926.2021.9567479",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9567479/",
+      "gold_authors": [
+        "Huiliang Ou",
+        "Fukun Sun",
+        "Yachen Gao"
+      ],
+      "parser_authors": [
+        "Jun Zhou",
+        "Zheng Zhu",
+        "Jiajia Qian",
+        "Zhenzhen Ge",
+        "Shuting Wu"
+      ],
+      "json_authors_raw": [
+        "Jun Zhou",
+        "Zheng Zhu",
+        "Jiajia Qian",
+        "Zhenzhen Ge",
+        "Shuting Wu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nnsp.1991.239522",
+      "resolved_url": "https://ieeexplore.ieee.org/document/239522/",
+      "gold_authors": [
+        "C. L. Giles",
+        "T. Maxwell"
+      ],
+      "parser_authors": [
+        "H. Drucker",
+        "Y. Le Cun"
+      ],
+      "json_authors_raw": [
+        "H. Drucker",
+        "Y. Le Cun"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tits.2025.3582930",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11077786/",
+      "gold_authors": [
+        "Pengfei Zhang",
+        "Jing Liu",
+        "Yanfeng Ouyang"
+      ],
+      "parser_authors": [
+        "Sandong Qing",
+        "Mi Gan",
+        "Zhu Yao",
+        "Hao Yu"
+      ],
+      "json_authors_raw": [
+        "Sandong Qing",
+        "Mi Gan",
+        "Zhu Yao",
+        "Hao Yu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icce.2007.341529",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4146187/",
+      "gold_authors": [
+        "Author name not visible"
+      ],
+      "parser_authors": [
+        "Chia-Wei Wang",
+        "Wen-Huang Cheng",
+        "Ja-Ling Wu"
+      ],
+      "json_authors_raw": [
+        "Chia-Wei Wang",
+        "Wen-Huang Cheng",
+        "Ja-Ling Wu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icmmt61774.2024.10671744",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10671744/",
+      "gold_authors": [
+        "Zhibin Feng",
+        "Ligang Shao",
+        "Shouzheng Zhu",
+        "Zhipeng Liang",
+        "Yanan Sui",
+        "Dingkang Xiong"
+      ],
+      "parser_authors": [
+        "Chen He",
+        "Zhao Kejia",
+        "Li Xiangjun",
+        "Li Bo",
+        "Li Lanlan"
+      ],
+      "json_authors_raw": [
+        "Chen He",
+        "Zhao Kejia",
+        "Li Xiangjun",
+        "Li Bo",
+        "Li Lanlan"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cicc63670.2025.10982737",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10982737/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Ramin Javadi",
+        "Tejasvi Anand"
+      ],
+      "json_authors_raw": [
+        "Ramin Javadi",
+        "Tejasvi Anand"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cleoe-iqec.2013.6800898",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6800898/",
+      "gold_authors": [
+        "E. U. Rafailov"
+      ],
+      "parser_authors": [
+        "K. A. Fedorova",
+        "G. S. Sokolovskii",
+        "I. L. Krestnikov",
+        "O.A. Livshits",
+        "E. U. Rafailov"
+      ],
+      "json_authors_raw": [
+        "K. A. Fedorova",
+        "G. S. Sokolovskii",
+        "I. L. Krestnikov",
+        "O.A. Livshits",
+        "E. U. Rafailov"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icempe51623.2021.9509217",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9509217/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Pawel Rozga",
+        "Filip Stuchala",
+        "Dariusz Hantsz",
+        "Feipeng Wang",
+        "Zijia Shen",
+        "Jian Li"
+      ],
+      "json_authors_raw": [
+        "Pawel Rozga",
+        "Filip Stuchala",
+        "Dariusz Hantsz",
+        "Feipeng Wang",
+        "Zijia Shen",
+        "Jian Li"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icps.1988.10970",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10970/",
+      "gold_authors": [
+        "E. S. Keeping"
+      ],
+      "parser_authors": [
+        "N. Nichols"
+      ],
+      "json_authors_raw": [
+        "N. Nichols"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/freq.1980.200411",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1537351/",
+      "gold_authors": [],
+      "parser_authors": [
+        "R. Davidheiser"
+      ],
+      "json_authors_raw": [
+        "R. Davidheiser"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iecon.2019.8926695",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8926695/",
+      "gold_authors": [
+        "Piotr Dworakowski",
+        "Andrzej Wilk",
+        "Michal Michna",
+        "Bartlomiej Borowski",
+        "Pawel Przybysz",
+        "Marcin Lefik"
+      ],
+      "parser_authors": [
+        "Piotr Dworakowski",
+        "Andrzej Wilk",
+        "Michal Michna",
+        "Bruno Lefebvre",
+        "Thomas Lagier"
+      ],
+      "json_authors_raw": [
+        "Piotr Dworakowski",
+        "Andrzej Wilk",
+        "Michal Michna",
+        "Bruno Lefebvre",
+        "Thomas Lagier"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.545,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/noms54207.2022.9789872",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9789872/",
+      "gold_authors": [
+        "Khaled Haseeb",
+        "Kashif Bilal",
+        "Abdulaziz Aldribi",
+        "Taisir Eljack"
+      ],
+      "parser_authors": [
+        "Omar Houidi",
+        "Sihem Bakri",
+        "Djamal Zeghlache"
+      ],
+      "json_authors_raw": [
+        "Omar Houidi",
+        "Sihem Bakri",
+        "Djamal Zeghlache"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tasc.2005.849464",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1440078/",
+      "gold_authors": [
+        "T. Yazawa",
+        "K. Koyanagi",
+        "M. Takahashi",
+        "Y. Ono",
+        "K. Tsutsumi",
+        "T. Oide",
+        "M. Toba",
+        "Y. Shirai"
+      ],
+      "parser_authors": [
+        "Y. Shirai",
+        "A. Mochida",
+        "T. Morimoto",
+        "M. Shiotsu",
+        "T. Oide",
+        "M. Chiba",
+        "T. Nitta"
+      ],
+      "json_authors_raw": [
+        "Y. Shirai",
+        "A. Mochida",
+        "T. Morimoto",
+        "M. Shiotsu",
+        "T. Oide",
+        "M. Chiba",
+        "T. Nitta"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.267,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cloudcom67567.2025.11331368",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11331368/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Shuo Liu",
+        "Yue Liu",
+        "Wenxin Hu"
+      ],
+      "json_authors_raw": [
+        "Shuo Liu",
+        "Yue Liu",
+        "Wenxin Hu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsme.2018.00087",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8530090/",
+      "gold_authors": [
+        "Simone Scalabrino",
+        "Gabriele Bavota",
+        "Christopher Vendome",
+        "Mario Linares-Vásquez",
+        "Denys Poshyvanyk",
+        "Rocco Oliveto"
+      ],
+      "parser_authors": [
+        "Matthieu Jimenez",
+        "Cordy Maxime",
+        "Yves Le Traon",
+        "Mike Papadakis"
+      ],
+      "json_authors_raw": [
+        "Matthieu Jimenez",
+        "Cordy Maxime",
+        "Yves Le Traon",
+        "Mike Papadakis"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isdea.2014.205",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6977746/",
+      "gold_authors": [
+        "Ning Gu"
+      ],
+      "parser_authors": [
+        "Zhang Hua",
+        "Shen Huajie"
+      ],
+      "json_authors_raw": [
+        "Zhang Hua",
+        "Shen Huajie"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tmtt.2018.2884412",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8579205/",
+      "gold_authors": [
+        "Wireless-Coupled Oscillator Systems Author"
+      ],
+      "parser_authors": [
+        "Mabel Pontón",
+        "Amparo Herrera",
+        "Almudena Suárez"
+      ],
+      "json_authors_raw": [
+        "Mabel Pontón",
+        "Amparo Herrera",
+        "Almudena Suárez"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/t-ed.1984.21686",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1483971/",
+      "gold_authors": [
+        "R. L. Kubena",
+        "F. P. Stratton",
+        "T. M. Mayer",
+        "R. J. Joyce",
+        "P. Williams",
+        "J. R. Maldonado"
+      ],
+      "parser_authors": [
+        "R.L. Kubena",
+        "J.Y.-M. Lee",
+        "R.A. Jullens",
+        "R.G. Brault",
+        "P.L. Middleton",
+        "E.H. Stevens"
+      ],
+      "json_authors_raw": [
+        "R.L. Kubena",
+        "J.Y.-M. Lee",
+        "R.A. Jullens",
+        "R.G. Brault",
+        "P.L. Middleton",
+        "E.H. Stevens"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.167,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tsg.2014.2372038",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6979245/",
+      "gold_authors": [
+        "Amin Khodaei",
+        "Mohammad Shahidehpour"
+      ],
+      "parser_authors": [
+        "Jonglak Pahasa",
+        "Issarachai Ngamroo"
+      ],
+      "json_authors_raw": [
+        "Jonglak Pahasa",
+        "Issarachai Ngamroo"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/3477.499792",
+      "resolved_url": "https://ieeexplore.ieee.org/document/499792/",
+      "gold_authors": [
+        "C. Fernández",
+        "D. Borrajo"
+      ],
+      "parser_authors": [
+        "J.del.R. Millan"
+      ],
+      "json_authors_raw": [
+        "J.del.R. Millan"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cdc.2012.6427114",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6427114/",
+      "gold_authors": [
+        "Humberto Stein Shiromoto",
+        "Victor A. Oliveira",
+        "Alessandro N. Vargas"
+      ],
+      "parser_authors": [
+        "Grace S. Deaecto",
+        "José C. Geromel",
+        "Luca Galbusera",
+        "Paolo Bolzern"
+      ],
+      "json_authors_raw": [
+        "Grace S. Deaecto",
+        "José C. Geromel",
+        "Luca Galbusera",
+        "Paolo Bolzern"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cieec58067.2023.10165951",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10165951/",
+      "gold_authors": [
+        "Xueqin Liu",
+        "Guangning Wu",
+        "Ruijin Zhu",
+        "Ying Wang",
+        "Xueliang Huang"
+      ],
+      "parser_authors": [
+        "Na Liu",
+        "Tianye Zhang",
+        "Guifu Du",
+        "Ziyuan Kang",
+        "Qiaoyue Li",
+        "Xiaoping Zhang"
+      ],
+      "json_authors_raw": [
+        "Na Liu",
+        "Tianye Zhang",
+        "Guifu Du",
+        "Ziyuan Kang",
+        "Qiaoyue Li",
+        "Xiaoping Zhang"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iciteics61368.2024.10625138",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10625138/",
+      "gold_authors": [
+        "R. N. Sree Madhuri",
+        "K. Chandra Sekhar",
+        "M. Harika",
+        "A. Saketh",
+        "K. Vikas"
+      ],
+      "parser_authors": [
+        "A Gopala Krushna",
+        "Valam Deekshith",
+        "Peram Nani",
+        "K. Gagan Yashwanth",
+        "R. Uday"
+      ],
+      "json_authors_raw": [
+        "A Gopala Krushna",
+        "Valam Deekshith",
+        "Peram Nani",
+        "K. Gagan Yashwanth",
+        "R. Uday"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tssa.2014.7065935",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7065935/",
+      "gold_authors": [
+        "Fahmi",
+        "Romi Satria Wahono",
+        "Kurnianingsih"
+      ],
+      "parser_authors": [
+        "Iskandar",
+        "H. Situmorang",
+        "L. Adhy"
+      ],
+      "json_authors_raw": [
+        "Iskandar",
+        "H. Situmorang",
+        "L. Adhy"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ats.2006.261031",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4030779/",
+      "gold_authors": [
+        "P. Engelke",
+        "I. C. Teixeira",
+        "J. P. Teixeira",
+        "M. Renovell",
+        "Y. Bertrand"
+      ],
+      "parser_authors": [
+        "M. Renovell",
+        "M. Comte",
+        "I. Polian",
+        "P. Engelke",
+        "B. Becker"
+      ],
+      "json_authors_raw": [
+        "M. Renovell",
+        "M. Comte",
+        "I. Polian",
+        "P. Engelke",
+        "B. Becker"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icmree.2011.5930935",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5930935/",
+      "gold_authors": [
+        "Hao Wu",
+        "Yongfeng Qi",
+        "Wenhui Ma",
+        "Bin Wang",
+        "Jianguo Zhang"
+      ],
+      "parser_authors": [
+        "Chen Zhen-song",
+        "Yang Guo-hua",
+        "Huang San",
+        "Yu Jian-wei",
+        "Sheng Wei-peng",
+        "Tan Jun-jun"
+      ],
+      "json_authors_raw": [
+        "Chen Zhen-song",
+        "Yang Guo-hua",
+        "Huang San",
+        "Yu Jian-wei",
+        "Sheng Wei-peng",
+        "Tan Jun-jun"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/igarss39084.2020.9323686",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9323686/",
+      "gold_authors": [
+        "Huimin Yan",
+        "Congmou Zhu",
+        "Shiqian Nie",
+        "Jiali Feng",
+        "Chengming Ye"
+      ],
+      "parser_authors": [
+        "Yue He",
+        "Xiaobo Zhang",
+        "Jibao Shi",
+        "Jun Xia",
+        "Kai Chen",
+        "Tao Weng",
+        "Zezhong Zheng"
+      ],
+      "json_authors_raw": [
+        "Yue He",
+        "Xiaobo Zhang",
+        "Jibao Shi",
+        "Jun Xia",
+        "Kai Chen",
+        "Tao Weng",
+        "Zezhong Zheng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iecon.2019.8927588",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8927588/",
+      "gold_authors": [
+        "Monitoring of Load-Fault-Induced Torsional Resonances in High-Speed Alternators by Speed and Torque Estimation"
+      ],
+      "parser_authors": [
+        "Andrea Fedele",
+        "Claudio Bruzzese",
+        "Ezio Santini",
+        "Vincenzo Anastasio"
+      ],
+      "json_authors_raw": [
+        "Andrea Fedele",
+        "Claudio Bruzzese",
+        "Ezio Santini",
+        "Vincenzo Anastasio"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/lcn.1992.228117",
+      "resolved_url": "https://ieeexplore.ieee.org/document/228117/",
+      "gold_authors": [],
+      "parser_authors": [
+        "A.J. Rindos",
+        "S.P. Woolet",
+        "L.A. Sendelbach"
+      ],
+      "json_authors_raw": [
+        "A.J. Rindos",
+        "S.P. Woolet",
+        "L.A. Sendelbach"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/rast.2009.5158237",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5158237/",
+      "gold_authors": [
+        "C. Ozdemir",
+        "H. Lken",
+        "H. Karabulut",
+        "O. Odabasi"
+      ],
+      "parser_authors": [
+        "Alper Kaya",
+        "Mesut Kartal"
+      ],
+      "json_authors_raw": [
+        "Alper Kaya",
+        "Mesut Kartal"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tsp.2021.3070987",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9397376/",
+      "gold_authors": [
+        "Moslem Forouzesh",
+        "Mohammad Mahdi Naghsh",
+        "Shahram ShahbazPanahi"
+      ],
+      "parser_authors": [
+        "Reza Ebrahimi",
+        "Hossein Zamiri-Jafarian",
+        "Morteza Khademi"
+      ],
+      "json_authors_raw": [
+        "Reza Ebrahimi",
+        "Hossein Zamiri-Jafarian",
+        "Morteza Khademi"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icassp.2007.366161",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4217334/",
+      "gold_authors": [
+        "Franz Franchetti",
+        "Yevgen Voronenko",
+        "Markus Püschel"
+      ],
+      "parser_authors": [
+        "Franz Franchetti",
+        "Markus Puschel"
+      ],
+      "json_authors_raw": [
+        "Franz Franchetti",
+        "Markus Puschel"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.8,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ieeeconf53624.2021.9668079",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9668079/",
+      "gold_authors": [
+        "Hamna Shaukat",
+        "Aamir Farooq",
+        "Muhammad Aamir",
+        "Zeeshan Najam"
+      ],
+      "parser_authors": [
+        "Saba Ayub",
+        "Beh Hoe Guan",
+        "Faiz Ahmad",
+        "Zaib Un Nisa"
+      ],
+      "json_authors_raw": [
+        "Saba Ayub",
+        "Beh Hoe Guan",
+        "Faiz Ahmad",
+        "Zaib Un Nisa"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nmitcon65824.2025.11187935",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11187935/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Sunil Kumar V",
+        "Zahraa Alkhafajy",
+        "Abhishek Kumar Verma",
+        "S. S. Bhaviya",
+        "C. Sudhakar"
+      ],
+      "json_authors_raw": [
+        "Sunil Kumar V",
+        "Zahraa Alkhafajy",
+        "Abhishek Kumar Verma",
+        "S. S. Bhaviya",
+        "C. Sudhakar"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tasc.2020.2964219",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8950394/",
+      "gold_authors": [
+        "Iain R. Dixon",
+        "Tim P. Murphy",
+        "Jack Toth",
+        "Eric A. Palm",
+        "Jan H. P. M. Chamuleau"
+      ],
+      "parser_authors": [
+        "Jack Toth",
+        "Scott Bole"
+      ],
+      "json_authors_raw": [
+        "Jack Toth",
+        "Scott Bole"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.286,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/fasta61401.2024.10595108",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10595108/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Junpeng Mai",
+        "Hanzhao Shao",
+        "Shaojie Liu",
+        "Yuanzhuo Zhang",
+        "Liangming Chen",
+        "Huijuan Feng"
+      ],
+      "json_authors_raw": [
+        "Junpeng Mai",
+        "Hanzhao Shao",
+        "Shaojie Liu",
+        "Yuanzhuo Zhang",
+        "Liangming Chen",
+        "Huijuan Feng"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icat.2013.6728903",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6728903/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Mhd Yamen Saraiji",
+        "Charith Lasantha Fernando",
+        "Masahiro Furukawa",
+        "Kouta Minarnizawa",
+        "Susumu Tachi"
+      ],
+      "json_authors_raw": [
+        "Mhd Yamen Saraiji",
+        "Charith Lasantha Fernando",
+        "Masahiro Furukawa",
+        "Kouta Minarnizawa",
+        "Susumu Tachi"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccs56273.2022.9988470",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9988470/",
+      "gold_authors": [
+        "Yu-Chia Chih",
+        "Jing-Shiuan Niu",
+        "Jin-Yan Wang",
+        "Jia-Xun Li",
+        "Hao-Chung Kuo",
+        "Wen-Chau Liu"
+      ],
+      "parser_authors": [
+        "Fuchun Jia",
+        "Qingyuan Chang",
+        "Xiaosheng Chen",
+        "Bin Hou",
+        "Ling Yang",
+        "Xiaohua Ma"
+      ],
+      "json_authors_raw": [
+        "Fuchun Jia",
+        "Qingyuan Chang",
+        "Xiaosheng Chen",
+        "Bin Hou",
+        "Ling Yang",
+        "Xiaohua Ma"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icems.2001.971797",
+      "resolved_url": "https://ieeexplore.ieee.org/document/971797/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Xiong Guangyu",
+        "Bo Qinghua",
+        "T. Mizuno",
+        "H. Yamada"
+      ],
+      "json_authors_raw": [
+        "Xiong Guangyu",
+        "Bo Qinghua",
+        "T. Mizuno",
+        "H. Yamada"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ijcnn.2000.861446",
+      "resolved_url": "https://ieeexplore.ieee.org/document/861446/",
+      "gold_authors": [
+        "J. Kuusela",
+        "A. Honkela",
+        "K. Lagus"
+      ],
+      "parser_authors": [
+        "F. Virili",
+        "B. Freisleben"
+      ],
+      "json_authors_raw": [
+        "F. Virili",
+        "B. Freisleben"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/polyakhov.2015.7106765",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7106765/",
+      "gold_authors": [
+        "V. I. Grytsuk",
+        "A. S. Gavrilieva"
+      ],
+      "parser_authors": [
+        "Sergey Peregudin",
+        "Svetlana Kholodova"
+      ],
+      "json_authors_raw": [
+        "Sergey Peregudin",
+        "Svetlana Kholodova"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/lgrs.2009.2018490",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4982707/",
+      "gold_authors": [
+        "J. Boutin",
+        "P. Waldteufel",
+        "N. Martin",
+        "G. Caudal",
+        "E. Dinnat"
+      ],
+      "parser_authors": [
+        "Carolina Gabarro",
+        "Marcos Portabella",
+        "Marco Talone",
+        "Jordi Font"
+      ],
+      "json_authors_raw": [
+        "Carolina Gabarro",
+        "Marcos Portabella",
+        "Marco Talone",
+        "Jordi Font"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nanoarch53687.2021.9642245",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9642245/",
+      "gold_authors": [
+        "Dynamically Configurable Physical Unclonable Function based on RRAM Crossbar"
+      ],
+      "parser_authors": [
+        "Jiang Li",
+        "Yijun Cui",
+        "Chongyan Gu",
+        "Chenghua Wang",
+        "Weiqiang Liu"
+      ],
+      "json_authors_raw": [
+        "Jiang Li",
+        "Yijun Cui",
+        "Chongyan Gu",
+        "Chenghua Wang",
+        "Weiqiang Liu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ecce.2017.8096019",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8096019/",
+      "gold_authors": [
+        "Performance improvement of simplified synchronous generators using an active power filter"
+      ],
+      "parser_authors": [
+        "Al-Hussein Abu-Jalala",
+        "Tom Cox",
+        "Chris Gerada",
+        "Mohamed Rashed",
+        "Tahar Hamiti",
+        "Neil Brown"
+      ],
+      "json_authors_raw": [
+        "Al-Hussein Abu-Jalala",
+        "Tom Cox",
+        "Chris Gerada",
+        "Mohamed Rashed",
+        "Tahar Hamiti",
+        "Neil Brown"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icbbe.2011.5781486",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5781486/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Qian Li",
+        "Fengqing Zhao",
+        "Hao Li",
+        "Shaojie Liu",
+        "He Li"
+      ],
+      "json_authors_raw": [
+        "Qian Li",
+        "Fengqing Zhao",
+        "Hao Li",
+        "Shaojie Liu",
+        "He Li"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icca62237.2024.10928113",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10928113/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Joseph Grannum",
+        "Leo Siiman",
+        "Anna-Liisa Tamm"
+      ],
+      "json_authors_raw": [
+        "Joseph Grannum",
+        "Leo Siiman",
+        "Anna-Liisa Tamm"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icpr.1994.576989",
+      "resolved_url": "https://ieeexplore.ieee.org/document/576989/",
+      "gold_authors": [
+        "R. M. Hjelm"
+      ],
+      "parser_authors": [
+        "H.C. Palm"
+      ],
+      "json_authors_raw": [
+        "H.C. Palm"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isie.2007.4374961",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4374961/",
+      "gold_authors": [
+        "V. Slapak",
+        "M. Petrica",
+        "T. Brehm",
+        "R. Kamnik"
+      ],
+      "parser_authors": [
+        "Mitja Nemec",
+        "Uros Flisar",
+        "David Nedeljkovic",
+        "Vanja Ambrozic"
+      ],
+      "json_authors_raw": [
+        "Mitja Nemec",
+        "Uros Flisar",
+        "David Nedeljkovic",
+        "Vanja Ambrozic"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isse61612.2024.10604210",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10604210/",
+      "gold_authors": [
+        "Janusz Chrzanowski",
+        "Konrad Wojtasiak"
+      ],
+      "parser_authors": [
+        "Milan Z. Bodic",
+        "Stanko O. Aleksic",
+        "Vladimir M. Rajs",
+        "Mirjana S. Damnjanovic",
+        "Milica G. Kisic"
+      ],
+      "json_authors_raw": [
+        "Milan Z. Bodic",
+        "Stanko O. Aleksic",
+        "Vladimir M. Rajs",
+        "Mirjana S. Damnjanovic",
+        "Milica G. Kisic"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/milcom.2013.304",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6735886/",
+      "gold_authors": [
+        "Aishwarya Keshav",
+        "Anurag Kumar"
+      ],
+      "parser_authors": [
+        "Shalabh Jain",
+        "John S. Baras"
+      ],
+      "json_authors_raw": [
+        "Shalabh Jain",
+        "John S. Baras"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/vtcspring.2017.8108357",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8108357/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Ronald Nissel",
+        "Erich Zochmann",
+        "Markus Rupp"
+      ],
+      "json_authors_raw": [
+        "Ronald Nissel",
+        "Erich Zochmann",
+        "Markus Rupp"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/3m-nano56083.2022.9941675",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9941675/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yikun Zhao",
+        "Peter Bryansyon-Cross"
+      ],
+      "json_authors_raw": [
+        "Yikun Zhao",
+        "Peter Bryansyon-Cross"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isca45697.2020.00032",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9138967/",
+      "gold_authors": [
+        "Hongzheng Chen",
+        "Minghua Shen",
+        "Hanchen Jin",
+        "Ang Li",
+        "Tony Nowatzki",
+        "Timothy Sherwood"
+      ],
+      "parser_authors": [
+        "Jian Weng",
+        "Sihao Liu",
+        "Vidushi Dadu",
+        "Zhengrong Wang",
+        "Preyas Shah",
+        "Tony Nowatzki"
+      ],
+      "json_authors_raw": [
+        "Jian Weng",
+        "Sihao Liu",
+        "Vidushi Dadu",
+        "Zhengrong Wang",
+        "Preyas Shah",
+        "Tony Nowatzki"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.167,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/msieid52046.2020.00119",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9382569/",
+      "gold_authors": [
+        "Chenguang Li",
+        "Ruochen Wang",
+        "Jing Yuan",
+        "Jierui Fan"
+      ],
+      "parser_authors": [
+        "XinYu Zhuang"
+      ],
+      "json_authors_raw": [
+        "XinYu Zhuang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tcomm.2017.2786665",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8239659/",
+      "gold_authors": [
+        "Julian Cheng",
+        "Sanya Duan"
+      ],
+      "parser_authors": [
+        "Bingcheng Zhu",
+        "Zhaoquan Zeng",
+        "Julian Cheng",
+        "Norman C. Beaulieu"
+      ],
+      "json_authors_raw": [
+        "Bingcheng Zhu",
+        "Zhaoquan Zeng",
+        "Julian Cheng",
+        "Norman C. Beaulieu"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ichpca.2014.7045309",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7045309/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Purna Chandra Sethi",
+        "Prafulla Kumar Behera"
+      ],
+      "json_authors_raw": [
+        "Purna Chandra Sethi",
+        "Prafulla Kumar Behera"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tron.1996.566182",
+      "resolved_url": "https://ieeexplore.ieee.org/document/566182/",
+      "gold_authors": [
+        "H. Tokuda"
+      ],
+      "parser_authors": [
+        "T. Wasano",
+        "T. Ohkubo"
+      ],
+      "json_authors_raw": [
+        "T. Wasano",
+        "T. Ohkubo"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cbms.2007.3",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4262655/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Jose Antonio Fernandes de Macedo",
+        "Fabio Porto",
+        "Sergio Lifschitz",
+        "Philippe Picouet"
+      ],
+      "json_authors_raw": [
+        "Jose Antonio Fernandes de Macedo",
+        "Fabio Porto",
+        "Sergio Lifschitz",
+        "Philippe Picouet"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cvpr52688.2022.01157",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9879815/",
+      "gold_authors": [
+        "Miao Zhang",
+        "Huiqi Li",
+        "Shirui Pan",
+        "Xiaojun Chang",
+        "Chuan Zhou",
+        "Xinwang Liu",
+        "Steven Su"
+      ],
+      "parser_authors": [
+        "Miao Zhang",
+        "Shirui Pan",
+        "Xiaojun Chang",
+        "Steven Su",
+        "Jilin Hu",
+        "Gholamreza Haffari",
+        "Bin Yang"
+      ],
+      "json_authors_raw": [
+        "Miao Zhang",
+        "Shirui Pan",
+        "Xiaojun Chang",
+        "Steven Su",
+        "Jilin Hu",
+        "Gholamreza Haffari",
+        "Bin Yang"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.571,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icce-tw52618.2021.9602944",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9602944/",
+      "gold_authors": [
+        "Shaojie Yin",
+        "Haiyan Wang",
+        "Xiaohui Wang",
+        "Yangyang Sun",
+        "Chenyang Zhang"
+      ],
+      "parser_authors": [
+        "Tao Tao",
+        "Ren Lei",
+        "Zhang Funan",
+        "Wang Hui",
+        "Wang Xiaolin"
+      ],
+      "json_authors_raw": [
+        "Tao Tao",
+        "Ren Lei",
+        "Zhang Funan",
+        "Wang Hui",
+        "Wang Xiaolin"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iedm.1986.191304",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1486562/",
+      "gold_authors": [
+        "T. Asano",
+        "H. Ishiwara",
+        "H. Tango",
+        "S. Furukawa"
+      ],
+      "parser_authors": [
+        "K. Tsutsui",
+        "T. Asano",
+        "H. Ishiwara",
+        "S. Furukawa"
+      ],
+      "json_authors_raw": [
+        "K. Tsutsui",
+        "T. Asano",
+        "H. Ishiwara",
+        "S. Furukawa"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.75,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cogsima.2017.7929591",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7929591/",
+      "gold_authors": [
+        "Alexey Kashevnik",
+        "Nikolay Shilov",
+        "Nikolay Teslya"
+      ],
+      "parser_authors": [
+        "Alexander Smirnov",
+        "Nikolay Shilov",
+        "Oleg Gusikhin"
+      ],
+      "json_authors_raw": [
+        "Alexander Smirnov",
+        "Nikolay Shilov",
+        "Oleg Gusikhin"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icnc.2009.697",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5365636/",
+      "gold_authors": [
+        "Shi Weihua",
+        "Tang Hong",
+        "Liu Shufen",
+        "Huang Rui"
+      ],
+      "parser_authors": [
+        "Qu Bin"
+      ],
+      "json_authors_raw": [
+        "Qu Bin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jlt.2021.3062503",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9364671/",
+      "gold_authors": [
+        "Hu Zhang",
+        "Xiaoguang Zhang",
+        "Hui Li",
+        "Yudong Deng",
+        "Lixia Xi",
+        "Wenbo Zhang",
+        "Xianfeng Tang"
+      ],
+      "parser_authors": [
+        "Qichang Ma",
+        "Aiping Luo",
+        "Weiyi Hong"
+      ],
+      "json_authors_raw": [
+        "Qichang Ma",
+        "Aiping Luo",
+        "Weiyi Hong"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icdmw.2019.00144",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8955492/",
+      "gold_authors": [
+        "Soumya Shreeram",
+        "Haichuan Shang",
+        "B. Aditya Prakash",
+        "Jeffrey Xu Yu"
+      ],
+      "parser_authors": [
+        "Srikumar Krishnamoorthy",
+        "Debjit Roy"
+      ],
+      "json_authors_raw": [
+        "Srikumar Krishnamoorthy",
+        "Debjit Roy"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isqed.2010.5450427",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5450427/",
+      "gold_authors": [
+        "M. T. Delgado Restituto",
+        "M. Baghtash",
+        "F. Azaïs",
+        "M. Renovell"
+      ],
+      "parser_authors": [
+        "Pablo Petrashin",
+        "Gabriela Peretti",
+        "Eduardo Romero"
+      ],
+      "json_authors_raw": [
+        "Pablo Petrashin",
+        "Gabriela Peretti",
+        "Eduardo Romero"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/crmico.2003.158929",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1256615/",
+      "gold_authors": [
+        "L. Gogolinskaya",
+        "M. Gubanov",
+        "V. Makarov"
+      ],
+      "parser_authors": [
+        "V.F. Vzyatyshev",
+        "V.V. Krutskikh"
+      ],
+      "json_authors_raw": [
+        "V.F. Vzyatyshev",
+        "V.V. Krutskikh"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/leos.2009.5343161",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5343161/",
+      "gold_authors": [
+        "G. Anetsberger",
+        "E. Gavartin",
+        "O. Arcizet",
+        "Q. P. Unterreithmeier",
+        "E. M. Weig",
+        "J. P. Kotthaus",
+        "T. J. Kippenberg"
+      ],
+      "parser_authors": [
+        "Kwan H. Lee",
+        "Terry G. McRae",
+        "Joachim Knittel",
+        "Warwick P. Bowen"
+      ],
+      "json_authors_raw": [
+        "Kwan H. Lee",
+        "Terry G. McRae",
+        "Joachim Knittel",
+        "Warwick P. Bowen"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nigeriacomputconf45974.2019.8949661",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8949661/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Idris Garba",
+        "Yusuf Abubakar Sha’aban",
+        "Mohammed Bashir Mu’azu",
+        "Zaraddeen Haruna"
+      ],
+      "json_authors_raw": [
+        "Idris Garba",
+        "Yusuf Abubakar Sha’aban",
+        "Mohammed Bashir Mu’azu",
+        "Zaraddeen Haruna"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ecce.2018.8558324",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8558324/",
+      "gold_authors": [
+        "Mohamed A. Ahmed",
+        "Islam Safwat",
+        "Osama A. Mohammed"
+      ],
+      "parser_authors": [
+        "Shoeib Heydari",
+        "Poria Fajri",
+        "Iqbal Husain",
+        "Jong-Won Shin"
+      ],
+      "json_authors_raw": [
+        "Shoeib Heydari",
+        "Poria Fajri",
+        "Iqbal Husain",
+        "Jong-Won Shin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icem60801.2024.10700395",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10700395/",
+      "gold_authors": [],
+      "parser_authors": [
+        "James Pecotich",
+        "David Klink",
+        "Greg Heins",
+        "Behrooz Bahrani"
+      ],
+      "json_authors_raw": [
+        "James Pecotich",
+        "David Klink",
+        "Greg Heins",
+        "Behrooz Bahrani"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isscc42614.2022.9731636",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9731636/",
+      "gold_authors": [],
+      "parser_authors": [
+        "G. Gangasani",
+        "D. Hanson",
+        "D. Storaska",
+        "H. H. Xu",
+        "M. Kelly",
+        "M. Shannon",
+        "M. Sorna",
+        "M. Wielgos",
+        "P. B. Ramakrishna",
+        "S. Shi",
+        "S. Parker",
+        "U. K. Shukla",
+        "W. Kelly",
+        "W. Su",
+        "Z. Yu"
+      ],
+      "json_authors_raw": [
+        "G. Gangasani",
+        "D. Hanson",
+        "D. Storaska",
+        "H. H. Xu",
+        "M. Kelly",
+        "M. Shannon",
+        "M. Sorna",
+        "M. Wielgos",
+        "P. B. Ramakrishna",
+        "S. Shi",
+        "S. Parker",
+        "U. K. Shukla",
+        "W. Kelly",
+        "W. Su",
+        "Z. Yu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pgec.1966.264471",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4038932/",
+      "gold_authors": [
+        "S. R. Petrick",
+        "R. E. Miller"
+      ],
+      "parser_authors": [
+        "B. B. Gordon",
+        "R. W. House",
+        "A. P. Lechler",
+        "L. D. Nelson",
+        "T. Rado"
+      ],
+      "json_authors_raw": [
+        "B. B. Gordon",
+        "R. W. House",
+        "A. P. Lechler",
+        "L. D. Nelson",
+        "T. Rado"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/apsec.2012.37",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6462665/",
+      "gold_authors": [
+        "W. Eric Wong",
+        "Vidroha Debroy",
+        "Yihao Li",
+        "Ruizhi Gao"
+      ],
+      "parser_authors": [
+        "Yiwei Zhang",
+        "Eric Lo",
+        "Ben Kao"
+      ],
+      "json_authors_raw": [
+        "Yiwei Zhang",
+        "Eric Lo",
+        "Ben Kao"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ias.1993.299136",
+      "resolved_url": "https://ieeexplore.ieee.org/document/299136/",
+      "gold_authors": [
+        "A. Mizuno",
+        "A. Nagura",
+        "T. Miyamoto",
+        "A. Chakrabarti",
+        "T. Sato",
+        "K. Kimura"
+      ],
+      "parser_authors": [
+        "A. Mizuno",
+        "A. Nagura",
+        "T. Miyamoto",
+        "A. Chakrabarti",
+        "T. Sato",
+        "K. Kimura",
+        "T. Kimura",
+        "M. Kobayashi"
+      ],
+      "json_authors_raw": [
+        "A. Mizuno",
+        "A. Nagura",
+        "T. Miyamoto",
+        "A. Chakrabarti",
+        "T. Sato",
+        "K. Kimura",
+        "T. Kimura",
+        "M. Kobayashi"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.857,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/itsc.2014.6958014",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6958014/",
+      "gold_authors": [
+        "A novel fair cooperation strategy based on Kalai-Smorodinsky bargaining solution for selfish cooperative relay networks"
+      ],
+      "parser_authors": [
+        "Chuang Zhang",
+        "Honglin Zhao"
+      ],
+      "json_authors_raw": [
+        "Chuang Zhang",
+        "Honglin Zhao"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tap.2009.2029275",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5191125/",
+      "gold_authors": [
+        "J. A. Encinar",
+        "M. Arrebola",
+        "L. F. de la Fuente",
+        "G. Toso"
+      ],
+      "parser_authors": [
+        "Wenfei Hu",
+        "Manuel Arrebola",
+        "Robert Cahill",
+        "JosÉ A. Encinar",
+        "Vincent Fusco",
+        "Harold S. Gamble",
+        "Yuri Alvarez",
+        "Fernando Las-Heras"
+      ],
+      "json_authors_raw": [
+        "Wenfei Hu",
+        "Manuel Arrebola",
+        "Robert Cahill",
+        "JosÉ A. Encinar",
+        "Vincent Fusco",
+        "Harold S. Gamble",
+        "Yuri Alvarez",
+        "Fernando Las-Heras"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2019.2902465",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8664090/",
+      "gold_authors": [
+        "Seyed Amir Mansouri",
+        "Arman Ahmarinejad",
+        "Mohammad Sadegh Javadi",
+        "Mahdi Nezhad",
+        "João P. S. Catalão"
+      ],
+      "parser_authors": [
+        "Mohamed A. Mohamed",
+        "Ameena Saad Al-Sumaiti",
+        "Mohamed Krid",
+        "Emad Mahrous Awwad",
+        "Abdollah Kavousi-Fard"
+      ],
+      "json_authors_raw": [
+        "Mohamed A. Mohamed",
+        "Ameena Saad Al-Sumaiti",
+        "Mohamed Krid",
+        "Emad Mahrous Awwad",
+        "Abdollah Kavousi-Fard"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cogsima68896.2026.11481238",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11481238/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Zoe Gozzi",
+        "Axel Schulte"
+      ],
+      "json_authors_raw": [
+        "Zoe Gozzi",
+        "Axel Schulte"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/issrew.2017.52",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8109303/",
+      "gold_authors": [
+        "Jianing Zhang",
+        "Tingting Sun",
+        "Yufeng Chen"
+      ],
+      "parser_authors": [
+        "Biao Xu",
+        "Minyan Lu",
+        "Dajian Zhang"
+      ],
+      "json_authors_raw": [
+        "Biao Xu",
+        "Minyan Lu",
+        "Dajian Zhang"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2020.2980566",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9035424/",
+      "gold_authors": [
+        "Xiaohang Li",
+        "Qingling Zhang",
+        "Dongmei Zhang",
+        "Xinggang Yan"
+      ],
+      "parser_authors": [
+        "Yanfeng Wang",
+        "Ping He",
+        "Heng Li",
+        "Xiaoyue Sun",
+        "Wei Wei",
+        "Haoyang Mi",
+        "Yangmin Li"
+      ],
+      "json_authors_raw": [
+        "Yanfeng Wang",
+        "Ping He",
+        "Heng Li",
+        "Xiaoyue Sun",
+        "Wei Wei",
+        "Haoyang Mi",
+        "Yangmin Li"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ingarss61818.2024.10984172",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10984172/",
+      "gold_authors": [
+        "Ashitha K. Babu",
+        "Athira P.",
+        "Sangeeta M.",
+        "Reshmi Pushpangathan"
+      ],
+      "parser_authors": [
+        "B Atheeswaran",
+        "Shrutee Jain",
+        "Abhigyan Chakraborty",
+        "Shruti Upadhyaya"
+      ],
+      "json_authors_raw": [
+        "B Atheeswaran",
+        "Shrutee Jain",
+        "Abhigyan Chakraborty",
+        "Shruti Upadhyaya"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/nssmic.2003.1352384",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1352384/",
+      "gold_authors": [
+        "A multiscanner evaluation of PET image quality using phantom studies"
+      ],
+      "parser_authors": [
+        "S. Surti",
+        "R.D. Badawi",
+        "C.H. Holdsworth",
+        "G.E. Fakhri",
+        "P.E. Kinahan",
+        "J.S. Karp"
+      ],
+      "json_authors_raw": [
+        "S. Surti",
+        "R.D. Badawi",
+        "C.H. Holdsworth",
+        "G.E. Fakhri",
+        "P.E. Kinahan",
+        "J.S. Karp"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/secon.1992.202432",
+      "resolved_url": "https://ieeexplore.ieee.org/document/202432/",
+      "gold_authors": [
+        "Author name not available"
+      ],
+      "parser_authors": [
+        "G. Ritchie",
+        "T.C. Jannett"
+      ],
+      "json_authors_raw": [
+        "G. Ritchie",
+        "T.C. Jannett"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/elinsl.2008.4570333",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4570333/",
+      "gold_authors": [
+        "C. de Tourreil",
+        "D. Pargamin"
+      ],
+      "parser_authors": [
+        "SiHui Hu",
+        "Eric Euvrard",
+        "Xuedong Wang",
+        "Ruzhang Wang"
+      ],
+      "json_authors_raw": [
+        "SiHui Hu",
+        "Eric Euvrard",
+        "Xuedong Wang",
+        "Ruzhang Wang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icbats54253.2022.9759042",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9759042/",
+      "gold_authors": [
+        "Sai Charitha Busa",
+        "M. Janga Reddy"
+      ],
+      "parser_authors": [
+        "T. Sravani",
+        "M.Raja Suguna"
+      ],
+      "json_authors_raw": [
+        "T. Sravani",
+        "M.Raja Suguna"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icma.2014.6885899",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6885899",
+      "gold_authors": [
+        "Chuanyi Wang",
+        "Lijun Han",
+        "Zhengyan Shi"
+      ],
+      "parser_authors": [
+        "Zhao Hui",
+        "Shen Ji-hong"
+      ],
+      "json_authors_raw": [
+        "Zhao Hui",
+        "Shen Ji-hong"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2025.3604635",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11145447/",
+      "gold_authors": [
+        "Gustavo P. Rehder",
+        "Rodrigo R. M. Filho",
+        "Rebeca R. Rola"
+      ],
+      "parser_authors": [
+        "João F. Justo",
+        "Wesley Beccaro",
+        "Antonio M. De Oliveira Neto",
+        "Alexandre M. De Oliveira"
+      ],
+      "json_authors_raw": [
+        "João F. Justo",
+        "Wesley Beccaro",
+        "Antonio M. De Oliveira Neto",
+        "Alexandre M. De Oliveira"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icm.2014.7071813",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7071813/",
+      "gold_authors": [
+        "M. Shahjahan",
+        "K. Endo",
+        "S. Sato",
+        "T. Matsukawa",
+        "M. Masahara"
+      ],
+      "parser_authors": [
+        "Ahmed T. El-Thakeb",
+        "Hamdy Abd Elhamid",
+        "Hassan Mostafa",
+        "Yehea Ismail"
+      ],
+      "json_authors_raw": [
+        "Ahmed T. El-Thakeb",
+        "Hamdy Abd Elhamid",
+        "Hassan Mostafa",
+        "Yehea Ismail"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iros.2009.5354062",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5354062/",
+      "gold_authors": [
+        "Takuto Kojima",
+        "Fumihito Arai"
+      ],
+      "parser_authors": [
+        "Benoît Chapurlat",
+        "Hisataka Maruyama",
+        "Yoko Yamanishi",
+        "Kyosuke Kotani",
+        "Fumihito Arai"
+      ],
+      "json_authors_raw": [
+        "Benoît Chapurlat",
+        "Hisataka Maruyama",
+        "Yoko Yamanishi",
+        "Kyosuke Kotani",
+        "Fumihito Arai"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.286,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tcyb.2017.2764918",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8098564/",
+      "gold_authors": [
+        "Yong Zheng",
+        "Bamshad Mobasher",
+        "Robin Burke"
+      ],
+      "parser_authors": [
+        "Peng Hao",
+        "Guangquan Zhang",
+        "Luis Martinez",
+        "Jie Lu"
+      ],
+      "json_authors_raw": [
+        "Peng Hao",
+        "Guangquan Zhang",
+        "Luis Martinez",
+        "Jie Lu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cic.2003.1291255",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1291255/",
+      "gold_authors": [
+        "M. Ferrario",
+        "M. G. Signorini",
+        "G. Magenes",
+        "S. Cerutti"
+      ],
+      "parser_authors": [
+        "G. Merati",
+        "M. Di Rienzo",
+        "A. Veicsteinas",
+        "P. Castiglioni"
+      ],
+      "json_authors_raw": [
+        "G. Merati",
+        "M. Di Rienzo",
+        "A. Veicsteinas",
+        "P. Castiglioni"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ectc.2007.373989",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4250075/",
+      "gold_authors": [
+        "J. H. Ke",
+        "T. Y. Yang",
+        "Y. S. Lai",
+        "C. R. Kao"
+      ],
+      "parser_authors": [
+        "Kwang-Lung Lin",
+        "Ger-Pin Lin"
+      ],
+      "json_authors_raw": [
+        "Kwang-Lung Lin",
+        "Ger-Pin Lin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icc45855.2022.9838571",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9838571/",
+      "gold_authors": [
+        "Vinay Chakravarthi Gogineni",
+        "Aritra Konar",
+        "Nicholas D. Sidiropoulos"
+      ],
+      "parser_authors": [
+        "Kartik Patel",
+        "Nitin Jonathan Myers",
+        "Robert W. Heath"
+      ],
+      "json_authors_raw": [
+        "Kartik Patel",
+        "Nitin Jonathan Myers",
+        "Robert W. Heath"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icieam65163.2025.11028420",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11028420/",
+      "gold_authors": [
+        "Iryna Koshlan",
+        "Nataliya Salnikova",
+        "Volodymyr Koshlan"
+      ],
+      "parser_authors": [
+        "Yuliya Kuvayskova",
+        "Vladislav Kovalnogov",
+        "Vladimir Klyachkin"
+      ],
+      "json_authors_raw": [
+        "Yuliya Kuvayskova",
+        "Vladislav Kovalnogov",
+        "Vladimir Klyachkin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isise.2009.83",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5447254/",
+      "gold_authors": [
+        "Yao Chunyan"
+      ],
+      "parser_authors": [
+        "Yan Hou",
+        "Qingsong Peng"
+      ],
+      "json_authors_raw": [
+        "Yan Hou",
+        "Qingsong Peng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/20.92106",
+      "resolved_url": "https://ieeexplore.ieee.org/document/92106/",
+      "gold_authors": [],
+      "parser_authors": [
+        "S. Hirono",
+        "A. Furuya"
+      ],
+      "json_authors_raw": [
+        "S. Hirono",
+        "A. Furuya"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aim.2014.6878317",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6878317",
+      "gold_authors": [
+        "Yujie Wang",
+        "Zhongliang Li",
+        "Rachid Outbib",
+        "Dongdong Zhao",
+        "Noureddine Zerhouni"
+      ],
+      "parser_authors": [
+        "Zhongliang Li",
+        "Stefan Giurgea",
+        "Rachid Outbib",
+        "Daniel Hissel"
+      ],
+      "json_authors_raw": [
+        "Zhongliang Li",
+        "Stefan Giurgea",
+        "Rachid Outbib",
+        "Daniel Hissel"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.444,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/drc.2001.937914",
+      "resolved_url": "https://ieeexplore.ieee.org/document/937914/",
+      "gold_authors": [
+        "K. Ikeda",
+        "S. Aku",
+        "H. Suzuura",
+        "S. Miyashita",
+        "Y. Hirayama",
+        "N. Aoki",
+        "J.P. Bird",
+        "K. Ochiai"
+      ],
+      "parser_authors": [
+        "K. Yoh",
+        "T. Doi",
+        "S.I. Abe",
+        "Y. Katano",
+        "H. Ohno",
+        "K. Sueoka",
+        "K. Mukasa"
+      ],
+      "json_authors_raw": [
+        "K. Yoh",
+        "T. Doi",
+        "S.I. Abe",
+        "Y. Katano",
+        "H. Ohno",
+        "K. Sueoka",
+        "K. Mukasa"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/epe.2016.7521832",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7521832/",
+      "gold_authors": [
+        "V. Fedyczak",
+        "G. Benysek",
+        "R. Strzelecki"
+      ],
+      "parser_authors": [
+        "Viktor Valouch",
+        "Martin Bejvl"
+      ],
+      "json_authors_raw": [
+        "Viktor Valouch",
+        "Martin Bejvl"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jsen.2021.3092010",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9464239/",
+      "gold_authors": [
+        "Muhammad Awais",
+        "Danish Khawaja",
+        "Naveed A. Malik",
+        "Adnan Mujahid",
+        "Adeel Afzal"
+      ],
+      "parser_authors": [
+        "De-Sheng Liu",
+        "Usman Khan",
+        "Peihang Li",
+        "Mansoor Ali Khan",
+        "Jiang Wu",
+        "Zhiming Wang"
+      ],
+      "json_authors_raw": [
+        "De-Sheng Liu",
+        "Usman Khan",
+        "Peihang Li",
+        "Mansoor Ali Khan",
+        "Jiang Wu",
+        "Zhiming Wang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsens.2017.8234163",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8234163/",
+      "gold_authors": [
+        "Unai Fernandez-Gamiz",
+        "Ekaitz Zulueta",
+        "Daniel Teso-Fz-Betono",
+        "Jon Martinez-Rico",
+        "Aitor Saenz-Aguirre"
+      ],
+      "parser_authors": [
+        "Ángela Hernández",
+        "Antonio Valdovinos",
+        "David Perez-Diaz-de-Cerio",
+        "Jose Luis Valenzuela"
+      ],
+      "json_authors_raw": [
+        "Ángela Hernández",
+        "Antonio Valdovinos",
+        "David Perez-Diaz-de-Cerio",
+        "Jose Luis Valenzuela"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsm.2012.6405351",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6405351/",
+      "gold_authors": [
+        "Roberto Pérez-Castillo",
+        "Ignacio García Rodríguez de Guzmán",
+        "Mario Piattini"
+      ],
+      "parser_authors": [
+        "Ricardo Pérez-Castillo"
+      ],
+      "json_authors_raw": [
+        "Ricardo Pérez-Castillo"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.5,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/picmet.1997.653429",
+      "resolved_url": "https://ieeexplore.ieee.org/document/653429/",
+      "gold_authors": [
+        "G.H. Milward",
+        "F.W. Mortimer"
+      ],
+      "parser_authors": [
+        "N. Weston",
+        "J.E.L. Simmons"
+      ],
+      "json_authors_raw": [
+        "N. Weston",
+        "J.E.L. Simmons"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/robio.2015.7419105",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7419105/",
+      "gold_authors": [
+        "Xiaoguang Zhao",
+        "Guodong Qin",
+        "Aihong Ji",
+        "Libin Zhang",
+        "Yong Chae Kim"
+      ],
+      "parser_authors": [
+        "Jun Chen",
+        "Xiuchao Cao",
+        "Zongquan Deng"
+      ],
+      "json_authors_raw": [
+        "Jun Chen",
+        "Xiuchao Cao",
+        "Zongquan Deng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tns.2010.2083687",
+      "resolved_url": "https://s3-us-west-2.amazonaws.com/ieeeshutpages/xplore/xplore-shut-page.html",
+      "gold_authors": [
+        "Eugene Normand",
+        "Jerry L. Wert",
+        "Heather Quinn",
+        "Thomas D. Fairbanks",
+        "Sarah Michalak",
+        "Gary Grider",
+        "Paul Iwanchuk",
+        "John Morrison",
+        "Stephen Wender",
+        "Steve Johnson"
+      ],
+      "parser_authors": [],
+      "json_authors_raw": [],
+      "verdict": "parser_miss",
+      "f1_soft": 0.0,
+      "authors_found": false
+    },
+    {
+      "doi": "10.1109/68.313088",
+      "resolved_url": "https://ieeexplore.ieee.org/document/313088/",
+      "gold_authors": [
+        "R. E. Wagner",
+        "A. F. Elrefaie"
+      ],
+      "parser_authors": [
+        "D.B. Crosby",
+        "G.F. Lampard"
+      ],
+      "json_authors_raw": [
+        "D.B. Crosby",
+        "G.F. Lampard"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/apec.1992.228394",
+      "resolved_url": "https://ieeexplore.ieee.org/document/228394/",
+      "gold_authors": [
+        "C. Quinn"
+      ],
+      "parser_authors": [
+        "B.D. Cantrell"
+      ],
+      "json_authors_raw": [
+        "B.D. Cantrell"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/dicta47822.2019.8946016",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8946016/",
+      "gold_authors": [
+        "Peter Sudholz",
+        "Nhan Duy Truong",
+        "Levin Kuhlmann",
+        "Omid Kavehei"
+      ],
+      "parser_authors": [
+        "Dina B. Efremova",
+        "Mangalam Sankupellay",
+        "Dmitry A. Konovalov"
+      ],
+      "json_authors_raw": [
+        "Dina B. Efremova",
+        "Mangalam Sankupellay",
+        "Dmitry A. Konovalov"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icmnwc56175.2022.10031969",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10031969/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Ding Li"
+      ],
+      "json_authors_raw": [
+        "Ding Li"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mprv.2011.64",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6038717/",
+      "gold_authors": [
+        "Argos"
+      ],
+      "parser_authors": [
+        "Rich Gossweiler",
+        "Colin McDonough",
+        "James Lin",
+        "Roy Want"
+      ],
+      "json_authors_raw": [
+        "Rich Gossweiler",
+        "Colin McDonough",
+        "James Lin",
+        "Roy Want"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/2.947094",
+      "resolved_url": "https://ieeexplore.ieee.org/document/947094/",
+      "gold_authors": [
+        "R. Jasinschi",
+        "J. Louie",
+        "J.M. Levine",
+        "J. Hsia"
+      ],
+      "parser_authors": [
+        "J. Pieper",
+        "S. Srinivasan",
+        "B. Dom"
+      ],
+      "json_authors_raw": [
+        "J. Pieper",
+        "S. Srinivasan",
+        "B. Dom"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/itaic58329.2023.10408852",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10408852/",
+      "gold_authors": [
+        "Zichen Wang",
+        "Zhiqiang Wang",
+        "Chongru Liu",
+        "Zhanhong Wei",
+        "Miao Yu",
+        "Jian Zhu",
+        "Shuheng Li",
+        "Changjiang Yu"
+      ],
+      "parser_authors": [
+        "Li Kuan",
+        "Huang Qiang",
+        "Fan Rongqi",
+        "Li Yudun",
+        "Wang Anning",
+        "Liu Meng",
+        "Sun Yuntao"
+      ],
+      "json_authors_raw": [
+        "Li Kuan",
+        "Huang Qiang",
+        "Fan Rongqi",
+        "Li Yudun",
+        "Wang Anning",
+        "Liu Meng",
+        "Sun Yuntao"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mascot.2002.1167093",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1167093/",
+      "gold_authors": [],
+      "parser_authors": [
+        "C.O. Cismasu",
+        "C. Tropper"
+      ],
+      "json_authors_raw": [
+        "C.O. Cismasu",
+        "C. Tropper"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/phm.2016.7819768",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7819768/",
+      "gold_authors": [
+        "Xue-yan Zhou",
+        "Xiao-qing Gong",
+        "Liang Liu",
+        "Qing-guo Shao",
+        "Quan-hui Liu"
+      ],
+      "parser_authors": [
+        "Liqing Xu",
+        "Cheng Zhang",
+        "Huiyun Wang",
+        "Xingwang Li",
+        "Yong Shen",
+        "Zhaohua He"
+      ],
+      "json_authors_raw": [
+        "Liqing Xu",
+        "Cheng Zhang",
+        "Huiyun Wang",
+        "Xingwang Li",
+        "Yong Shen",
+        "Zhaohua He"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pvsc.1990.111796",
+      "resolved_url": "https://ieeexplore.ieee.org/document/111796/",
+      "gold_authors": [
+        "M. F. Lamorte",
+        "D. H. Abbott"
+      ],
+      "parser_authors": [
+        "M.E. Klausmeier-Brown",
+        "B.-C. Chung",
+        "M.L. Ristow",
+        "N.R. Kaminar",
+        "J.G. Werthen",
+        "G.F. Virshup"
+      ],
+      "json_authors_raw": [
+        "M.E. Klausmeier-Brown",
+        "B.-C. Chung",
+        "M.L. Ristow",
+        "N.R. Kaminar",
+        "J.G. Werthen",
+        "G.F. Virshup"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cicc.2005.1568746",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1568746/",
+      "gold_authors": [],
+      "parser_authors": [
+        "H. Chang",
+        "C. McAndrew",
+        "A. Abidi",
+        "G. Bhagavatheeswaran",
+        "J. Holmes",
+        "K. Kundert",
+        "A. Mantooth",
+        "T. Strachan"
+      ],
+      "json_authors_raw": [
+        "H. Chang",
+        "C. McAndrew",
+        "A. Abidi",
+        "G. Bhagavatheeswaran",
+        "J. Holmes",
+        "K. Kundert",
+        "A. Mantooth",
+        "T. Strachan"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccct.2011.6075126",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6075126/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Nidhi Agarwal"
+      ],
+      "json_authors_raw": [
+        "Nidhi Agarwal"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/csudet47057.2019.9214617",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9214617/",
+      "gold_authors": [
+        "Eko Sulistyanto",
+        "Tri Widodo Besar Riyadi",
+        "Hermawan"
+      ],
+      "parser_authors": [
+        "Elieser Tarigan",
+        "Lanny Sapei",
+        "Lie Hwa"
+      ],
+      "json_authors_raw": [
+        "Elieser Tarigan",
+        "Lanny Sapei",
+        "Lie Hwa"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/edssc.2014.7061272",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7061272/",
+      "gold_authors": [
+        "Cher Ming Tan",
+        "Yudie Chen",
+        "Qingfeng Liu"
+      ],
+      "parser_authors": [
+        "Changjian Zhou",
+        "Anshul Vyas",
+        "Phillip Wang",
+        "Mansun Chan",
+        "Cary Y. Yang"
+      ],
+      "json_authors_raw": [
+        "Changjian Zhou",
+        "Anshul Vyas",
+        "Phillip Wang",
+        "Mansun Chan",
+        "Cary Y. Yang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ghtc.2016.7857370",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7857370/",
+      "gold_authors": [
+        "Yutaka Matsuzaki"
+      ],
+      "parser_authors": [
+        "Yasuhiro Soshino",
+        "Akira Miyata"
+      ],
+      "json_authors_raw": [
+        "Yasuhiro Soshino",
+        "Akira Miyata"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iaeac.2015.7428604",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7428604/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Qingsong Huang",
+        "Qing Li",
+        "Yanjie Wang",
+        "Jinfeng Zhang"
+      ],
+      "json_authors_raw": [
+        "Qingsong Huang",
+        "Qing Li",
+        "Yanjie Wang",
+        "Jinfeng Zhang"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsse.2017.8030977",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8030977/",
+      "gold_authors": [
+        "Byeong-Seok Lee",
+        "Kang-Yoon Lee"
+      ],
+      "parser_authors": [
+        "Van-Ha Nguyen",
+        "Yongsea Mo",
+        "Wonju Song",
+        "Sunghyun Ji",
+        "Won-Young Jung",
+        "Hanjung Song"
+      ],
+      "json_authors_raw": [
+        "Van-Ha Nguyen",
+        "Yongsea Mo",
+        "Wonju Song",
+        "Sunghyun Ji",
+        "Won-Young Jung",
+        "Hanjung Song"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/rtas65571.2025.00028",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11018674/",
+      "gold_authors": [
+        "Zhuoqun Zheng",
+        "Renato Mancuso",
+        "Nathan Fisher",
+        "Sibin Mohan"
+      ],
+      "parser_authors": [
+        "Jinghao Sun",
+        "Xisheng Li",
+        "Mingyang Gong",
+        "Nan Guan",
+        "Zhishan Guo",
+        "Mingsong Chen",
+        "Jun Zhao",
+        "Qingxu Deng"
+      ],
+      "json_authors_raw": [
+        "Jinghao Sun",
+        "Xisheng Li",
+        "Mingyang Gong",
+        "Nan Guan",
+        "Zhishan Guo",
+        "Mingsong Chen",
+        "Jun Zhao",
+        "Qingxu Deng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tfuzz.2024.3417907",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10568982/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Tianrun Liu",
+        "Yang-Yang Chen",
+        "Guanghui Wen"
+      ],
+      "json_authors_raw": [
+        "Tianrun Liu",
+        "Yang-Yang Chen",
+        "Guanghui Wen"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tmtt.2012.2207737",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6252019/",
+      "gold_authors": [
+        "Hiroki Oda",
+        "Tetsuya Ueda"
+      ],
+      "parser_authors": [
+        "Tetsuya Ueda",
+        "Shintaro Yamamoto",
+        "Yuichi Kado",
+        "Tatsuo Itoh"
+      ],
+      "json_authors_raw": [
+        "Tetsuya Ueda",
+        "Shintaro Yamamoto",
+        "Yuichi Kado",
+        "Tatsuo Itoh"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icassp.2010.5496264",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5496264/",
+      "gold_authors": [
+        "Tuomas Virtanen",
+        "Annamaria Mesaros",
+        "Moncef Gabbouj"
+      ],
+      "parser_authors": [
+        "Joonas Nikunen",
+        "Tuomas Virtanen"
+      ],
+      "json_authors_raw": [
+        "Joonas Nikunen",
+        "Tuomas Virtanen"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tgrs.2026.3659278",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11367773/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Mehmet Zahid Kartal",
+        "Osman Karabayır",
+        "Ahmet Serbes"
+      ],
+      "json_authors_raw": [
+        "Mehmet Zahid Kartal",
+        "Osman Karabayır",
+        "Ahmet Serbes"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/trustcom/bigdatase.2018.00059",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8455927/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Shuang Wei",
+        "Shuaifu Dai",
+        "Xinfeng Wu",
+        "Xinhui Han"
+      ],
+      "json_authors_raw": [
+        "Shuang Wei",
+        "Shuaifu Dai",
+        "Xinfeng Wu",
+        "Xinhui Han"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aibdf67964.2025.11440876",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11440876/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yuewen Liu",
+        "Peng Xu",
+        "Haoran Wang",
+        "Wangying Yang",
+        "Wanzhe Cheng"
+      ],
+      "json_authors_raw": [
+        "Yuewen Liu",
+        "Peng Xu",
+        "Haoran Wang",
+        "Wangying Yang",
+        "Wanzhe Cheng"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/esdc56251.2023.10149863",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10149863/",
+      "gold_authors": [
+        "Asmita Khichi",
+        "Dharmendra Kumar"
+      ],
+      "parser_authors": [
+        "Meenal Job",
+        "Ram Suchit Yadav"
+      ],
+      "json_authors_raw": [
+        "Meenal Job",
+        "Ram Suchit Yadav"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mcom.2015.7355554",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7355554/",
+      "gold_authors": [
+        "Howard E. Michel"
+      ],
+      "parser_authors": [
+        "Sergio Benedetto"
+      ],
+      "json_authors_raw": [
+        "Sergio Benedetto"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/amc.2004.1297934",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1297934/",
+      "gold_authors": [
+        "M. Ishii",
+        "S. Suzuki",
+        "Y. Miyazaki",
+        "N. Matsumoto"
+      ],
+      "parser_authors": [
+        "I. Jikuya",
+        "Suzuki N",
+        "M. Suzuki"
+      ],
+      "json_authors_raw": [
+        "I. Jikuya",
+        "Suzuki N",
+        "M. Suzuki"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.286,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/bmsb49480.2020.9379918",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9379918/",
+      "gold_authors": [
+        "Hyunwoo Je",
+        "Jeongdan Choi",
+        "Yoon-Hyuk Kim",
+        "Jae-Gon Kim"
+      ],
+      "parser_authors": [
+        "Jongbin Park",
+        "Kyung-Won Kim",
+        "Jong-Jin Jung",
+        "Sungjoo Park"
+      ],
+      "json_authors_raw": [
+        "Jongbin Park",
+        "Kyung-Won Kim",
+        "Jong-Jin Jung",
+        "Sungjoo Park"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/imccc.2014.81",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6995051/",
+      "gold_authors": [
+        "Shaosong Wang",
+        "Yongxiang Xu",
+        "Wei Wang",
+        "Yaoqing Chen"
+      ],
+      "parser_authors": [
+        "Jiabao Kou",
+        "Qiang Gao",
+        "Dianguo Xu",
+        "Jianyu Liu"
+      ],
+      "json_authors_raw": [
+        "Jiabao Kou",
+        "Qiang Gao",
+        "Dianguo Xu",
+        "Jianyu Liu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icassp49660.2025.10889136",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10889136/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Jing Yang",
+        "Jin Yang",
+        "Chenwei Wu",
+        "Gaozhe Jiang",
+        "Yaning Lv",
+        "Bingyan Liu",
+        "Feng Xu"
+      ],
+      "json_authors_raw": [
+        "Jing Yang",
+        "Jin Yang",
+        "Chenwei Wu",
+        "Gaozhe Jiang",
+        "Yaning Lv",
+        "Bingyan Liu",
+        "Feng Xu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jsen.2015.2459012",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7163553/",
+      "gold_authors": [
+        "Jie Zeng",
+        "Yulei Wang",
+        "Zhiwei Lu"
+      ],
+      "parser_authors": [
+        "Zhaogang Wang",
+        "Wentao Zhang",
+        "Wenzhu Huang",
+        "Fang Li"
+      ],
+      "json_authors_raw": [
+        "Zhaogang Wang",
+        "Wentao Zhang",
+        "Wenzhu Huang",
+        "Fang Li"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tr.2022.3193645",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9852720/",
+      "gold_authors": [
+        "Bouthaina Hamdaoui",
+        "Ahlem Nabli",
+        "Foutse Khomh",
+        "Mohamed Aymen Saied"
+      ],
+      "parser_authors": [
+        "Montassar Ben Messaoud",
+        "Asma Miladi",
+        "Ilyes Jenhani",
+        "Mohamed Wiem Mkaouer",
+        "Lobna Ghadhab"
+      ],
+      "json_authors_raw": [
+        "Montassar Ben Messaoud",
+        "Asma Miladi",
+        "Ilyes Jenhani",
+        "Mohamed Wiem Mkaouer",
+        "Lobna Ghadhab"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/asemd59061.2023.10369237",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10369237/",
+      "gold_authors": [
+        "Mingquan Wang",
+        "Yonghong Li",
+        "Xuejie Zhao",
+        "Jiaqi Zhang",
+        "Shanshan Zhang"
+      ],
+      "parser_authors": [
+        "Chao Zhu",
+        "Bing Zhang",
+        "Yongfang Liu"
+      ],
+      "json_authors_raw": [
+        "Chao Zhu",
+        "Bing Zhang",
+        "Yongfang Liu"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cvpr52734.2025.02064",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11094712/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Lin Bie",
+        "Shouan Pan",
+        "Siqi Li",
+        "Yining Zhao",
+        "Yue Gao"
+      ],
+      "json_authors_raw": [
+        "Lin Bie",
+        "Shouan Pan",
+        "Siqi Li",
+        "Yining Zhao",
+        "Yue Gao"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/coase.2019.8843308",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8843308/",
+      "gold_authors": [
+        "Ricardo G. Sanfelice",
+        "Yuchun Li"
+      ],
+      "parser_authors": [
+        "Vijay Muthukumaran",
+        "Ricardo G. Sanfelice",
+        "Gabriel H. Elkaim"
+      ],
+      "json_authors_raw": [
+        "Vijay Muthukumaran",
+        "Ricardo G. Sanfelice",
+        "Gabriel H. Elkaim"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/vrw50115.2020.00049",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9090488/",
+      "gold_authors": [
+        "Jillian Aurisano",
+        "Andrew Robb",
+        "Ryan Schubert",
+        "Joseph Cendan"
+      ],
+      "parser_authors": [
+        "Jonathan Flittner",
+        "John Luksas",
+        "Joseph L. Gabbard"
+      ],
+      "json_authors_raw": [
+        "Jonathan Flittner",
+        "John Luksas",
+        "Joseph L. Gabbard"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ic2ecs60824.2023.10493680",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10493680/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Lisheng Li",
+        "Wenbin Liu",
+        "Yang Liu",
+        "Min Huang",
+        "Haidong Yu",
+        "Xiangyu Wen"
+      ],
+      "json_authors_raw": [
+        "Lisheng Li",
+        "Wenbin Liu",
+        "Yang Liu",
+        "Min Huang",
+        "Haidong Yu",
+        "Xiangyu Wen"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mmm.2017.2779699",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8283900/",
+      "gold_authors": [
+        "Author information not visible"
+      ],
+      "parser_authors": [
+        "Nuno Borges Carvalho",
+        "Jon Martens"
+      ],
+      "json_authors_raw": [
+        "Nuno Borges Carvalho",
+        "Jon Martens"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/speedam.2014.6872100",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6872100/",
+      "gold_authors": [],
+      "parser_authors": [
+        "P. Thounthong",
+        "S. Sikkabut",
+        "P. Mungporn",
+        "Pietro Tricoli",
+        "B. Nahid-Mobarakeh",
+        "S. Pierfederici",
+        "B. Davat",
+        "Luigi Piegari"
+      ],
+      "json_authors_raw": [
+        "P. Thounthong",
+        "S. Sikkabut",
+        "P. Mungporn",
+        "Pietro Tricoli",
+        "B. Nahid-Mobarakeh",
+        "S. Pierfederici",
+        "B. Davat",
+        "Luigi Piegari"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tns.1976.4328581",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4328581/",
+      "gold_authors": [
+        "G. J. Brucker",
+        "S. Hogan",
+        "R. G. Downing"
+      ],
+      "parser_authors": [
+        "W. E. Horne"
+      ],
+      "json_authors_raw": [
+        "W. E. Horne"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cis.2007.109",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4415403/",
+      "gold_authors": [
+        "Zhang Jun",
+        "Yang Zhao-sheng",
+        "Li Wen-ju"
+      ],
+      "parser_authors": [
+        "Guo-zhen Tan",
+        "Qing-qing Deng",
+        "Zhu Tian",
+        "Ji-xiang Yang"
+      ],
+      "json_authors_raw": [
+        "Guo-zhen Tan",
+        "Qing-qing Deng",
+        "Zhu Tian",
+        "Ji-xiang Yang"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/i-smac.2017.8058247",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8058247/",
+      "gold_authors": [
+        "Vineet Kumar",
+        "Anurag Shrivastava"
+      ],
+      "parser_authors": [
+        "K N Fallavi",
+        "V Ravi Kumar",
+        "B M Chaithra"
+      ],
+      "json_authors_raw": [
+        "K N Fallavi",
+        "V Ravi Kumar",
+        "B M Chaithra"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/med.2014.6961395",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6961395/",
+      "gold_authors": [
+        "Edoardo Battaglia",
+        "Domenico Chiaradia",
+        "Antonio Frisoli",
+        "Marco Santello",
+        "Matteo Bianchi"
+      ],
+      "parser_authors": [
+        "A. Altobelli",
+        "M. Bianchi",
+        "A. Serio",
+        "G. Baud-Bovy",
+        "M. Gabiccini",
+        "A. Bicchi"
+      ],
+      "json_authors_raw": [
+        "A. Altobelli",
+        "M. Bianchi",
+        "A. Serio",
+        "G. Baud-Bovy",
+        "M. Gabiccini",
+        "A. Bicchi"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.182,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tsmcb.2007.908866",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4385537/",
+      "gold_authors": [
+        "Qiu-Mei Xiao",
+        "Zhen-Liang Zhang"
+      ],
+      "parser_authors": [
+        "QingE Wu",
+        "Tuo Wang",
+        "YongXuan Huang",
+        "JiSheng Li"
+      ],
+      "json_authors_raw": [
+        "QingE Wu",
+        "Tuo Wang",
+        "YongXuan Huang",
+        "JiSheng Li"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/vtc2024-fall63153.2024.10757471",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10757471/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Dennis Becker",
+        "Lukas Marcel Schalk"
+      ],
+      "json_authors_raw": [
+        "Dennis Becker",
+        "Lukas Marcel Schalk"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/compsac48688.2020.00-50",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9202683/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Faheem Akhtar",
+        "Jianqiang Li",
+        "Pei Yan",
+        "Azhar Imran",
+        "Gul Muhammad Shaikh",
+        "Chun Xu"
+      ],
+      "json_authors_raw": [
+        "Faheem Akhtar",
+        "Jianqiang Li",
+        "Pei Yan",
+        "Azhar Imran",
+        "Gul Muhammad Shaikh",
+        "Chun Xu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/fccm.2015.62",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7160032/",
+      "gold_authors": [
+        "Heterogeneous Platform to Accelerate Compute Intensive Applications"
+      ],
+      "parser_authors": [
+        "Santhosh Kumar Rethinagiri",
+        "Oscar Palomar",
+        "Javier Arias Moreno",
+        "Osman Unsal",
+        "Adrian Cristal"
+      ],
+      "json_authors_raw": [
+        "Santhosh Kumar Rethinagiri",
+        "Oscar Palomar",
+        "Javier Arias Moreno",
+        "Osman Unsal",
+        "Adrian Cristal"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pree57903.2023",
+      "resolved_url": "https://ieeexplore.ieee.org/xpl/conhome/10370003/proceeding",
+      "gold_authors": [
+        "Takashi Hiyama",
+        "Kenji Ushimaru",
+        "Masayuki Morimoto",
+        "A. R. Al-Ali",
+        "Tek-Tjing Lie",
+        "Kien Wen Sun",
+        "Juan Yu",
+        "Hakim Nesreddine",
+        "Ngoc Hieu Pham"
+      ],
+      "parser_authors": [],
+      "json_authors_raw": [],
+      "verdict": "parser_miss",
+      "f1_soft": 0.0,
+      "authors_found": false
+    },
+    {
+      "doi": "10.1109/syps59767.2023.10268141",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10268141/",
+      "gold_authors": [
+        "Huiqi Chen",
+        "Feng Yu",
+        "Xu Deng",
+        "Xiaoyong Zeng",
+        "Jie Shen"
+      ],
+      "parser_authors": [
+        "Yuxiang Ning",
+        "Dingguo Shao",
+        "Yuxing Wang",
+        "Yitong Wei"
+      ],
+      "json_authors_raw": [
+        "Yuxiang Ning",
+        "Dingguo Shao",
+        "Yuxing Wang",
+        "Yitong Wei"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/lcn.2016.97",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7796845/",
+      "gold_authors": [
+        "Kaiqiang Qi",
+        "Changjun Jiang",
+        "Yunzhou Li"
+      ],
+      "parser_authors": [
+        "Jing Xu",
+        "Wei Liu",
+        "Kai Zeng"
+      ],
+      "json_authors_raw": [
+        "Jing Xu",
+        "Wei Liu",
+        "Kai Zeng"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/led.2019.2916598",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8714074/",
+      "gold_authors": [
+        "Zhiwei Ouyang",
+        "Rui Wang",
+        "Chen Wu",
+        "Jin Wang",
+        "Qingzhu Zhang",
+        "Huaxiang Yin",
+        "Hua Wang",
+        "Zhaoji Li",
+        "Hong Wang"
+      ],
+      "parser_authors": [
+        "Hui Yang",
+        "Chen Li",
+        "Lei Yue",
+        "Chenyu Wen",
+        "Junkai Zhang",
+        "Dongping Wu"
+      ],
+      "json_authors_raw": [
+        "Hui Yang",
+        "Chen Li",
+        "Lei Yue",
+        "Chenyu Wen",
+        "Junkai Zhang",
+        "Dongping Wu"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tcst.2024.3483094",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10742113/",
+      "gold_authors": [
+        "Luis A. Soto-Vásquez",
+        "Alejandro Donaire",
+        "José Guadalupe Romero",
+        "Jacquelien M. A. Scherpen"
+      ],
+      "parser_authors": [
+        "Hayden Phillips-Brenes",
+        "Mauricio Muñoz-Arias",
+        "Roberto Pereira-Arroyo",
+        "Luis Miguel Esquivel-Sancho",
+        "Renato Rimolo-Donadio"
+      ],
+      "json_authors_raw": [
+        "Hayden Phillips-Brenes",
+        "Mauricio Muñoz-Arias",
+        "Roberto Pereira-Arroyo",
+        "Luis Miguel Esquivel-Sancho",
+        "Renato Rimolo-Donadio"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ocit66168.2025.11400377",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11400377/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Sonia",
+        "Sanjeev Mahajan"
+      ],
+      "json_authors_raw": [
+        "Sonia",
+        "Sanjeev Mahajan"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tla.2020.9398636",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9398636/",
+      "gold_authors": [
+        "No authors found"
+      ],
+      "parser_authors": [
+        "Echagüe Gary",
+        "Ayala Magno",
+        "Rodas Jorge"
+      ],
+      "json_authors_raw": [
+        "Echagüe Gary",
+        "Ayala Magno",
+        "Rodas Jorge"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tpds.2025.3586616",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11072383/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Hao Zhou",
+        "Yuanhui Chen",
+        "Wu Zeng",
+        "Lixiao Cui",
+        "Gang Wang",
+        "Xiaoguang Liu"
+      ],
+      "json_authors_raw": [
+        "Hao Zhou",
+        "Yuanhui Chen",
+        "Wu Zeng",
+        "Lixiao Cui",
+        "Gang Wang",
+        "Xiaoguang Liu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ivmc.2003.1223068",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1223068/",
+      "gold_authors": [
+        "G.A.J. Amaratunga",
+        "A. Prieto",
+        "V. Semet",
+        "V.T. Binh",
+        "E.I. Givargizov",
+        "A.N. Stepanova",
+        "P.S. Plekhanov",
+        "V.V. Zhirnov",
+        "P.I. Belobrov"
+      ],
+      "parser_authors": [
+        "A.V. Karabutov",
+        "V.I. Konov",
+        "E.D. Obraztsova",
+        "V.G. Pereverzev",
+        "S.M. Pimenov",
+        "A.S. Pozharov",
+        "S.V. Terekhov",
+        "P.Y. Detkov",
+        "E.V. Shorokhov",
+        "E.N. Loubnin"
+      ],
+      "json_authors_raw": [
+        "A.V. Karabutov",
+        "V.I. Konov",
+        "E.D. Obraztsova",
+        "V.G. Pereverzev",
+        "S.M. Pimenov",
+        "A.S. Pozharov",
+        "S.V. Terekhov",
+        "P.Y. Detkov",
+        "E.V. Shorokhov",
+        "E.N. Loubnin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/etfg61999.2025.11402550",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11402550/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Siyi Xiao",
+        "Chixin Xiao",
+        "Yutong Zhang",
+        "Dechen Jiang",
+        "Maoxin He",
+        "Xiangyun Ge"
+      ],
+      "json_authors_raw": [
+        "Siyi Xiao",
+        "Chixin Xiao",
+        "Yutong Zhang",
+        "Dechen Jiang",
+        "Maoxin He",
+        "Xiangyun Ge"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isacc56298.2023.10084138",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10084138/",
+      "gold_authors": [
+        "Prashant Singh",
+        "Ashish Kumar",
+        "Richa Gupta"
+      ],
+      "parser_authors": [
+        "Joydeb Sheet",
+        "Chanchal Ghosh",
+        "Biplab Kanti Das"
+      ],
+      "json_authors_raw": [
+        "Joydeb Sheet",
+        "Chanchal Ghosh",
+        "Biplab Kanti Das"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/leos.1993.379370",
+      "resolved_url": "https://ieeexplore.ieee.org/document/379370/",
+      "gold_authors": [],
+      "parser_authors": [
+        "F.R. Beyette",
+        "S.A. Feld",
+        "K.M. Geib",
+        "L.J. Irakliotis",
+        "P.A. Mitkas",
+        "C.W. Wilmsen"
+      ],
+      "json_authors_raw": [
+        "F.R. Beyette",
+        "S.A. Feld",
+        "K.M. Geib",
+        "L.J. Irakliotis",
+        "P.A. Mitkas",
+        "C.W. Wilmsen"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pimrc.1996.568486",
+      "resolved_url": "https://ieeexplore.ieee.org/document/568486/",
+      "gold_authors": [],
+      "parser_authors": [
+        "N.K. Lakhanpal"
+      ],
+      "json_authors_raw": [
+        "N.K. Lakhanpal"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/siu.2017.7960367",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7960367/",
+      "gold_authors": [
+        "Mehmet Emin Kurt",
+        "Bulent Yildiz",
+        "Halil I. Bülent Yildiz",
+        "K. Gürkan Özsoy",
+        "Güneş Karabulut Kurt"
+      ],
+      "parser_authors": [
+        "Emre Uzundurukan",
+        "Aysha M. Ali",
+        "Ali Kara"
+      ],
+      "json_authors_raw": [
+        "Emre Uzundurukan",
+        "Aysha M. Ali",
+        "Ali Kara"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icocn.2017.8121234",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8121234/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yongchi Xu",
+        "Huanfa Peng",
+        "Xiaofeng Peng",
+        "Yu Tian",
+        "Yuanxiang Chen",
+        "Lixin Zhu",
+        "Weiwei Hu",
+        "Zhangyuan Chen"
+      ],
+      "json_authors_raw": [
+        "Yongchi Xu",
+        "Huanfa Peng",
+        "Xiaofeng Peng",
+        "Yu Tian",
+        "Yuanxiang Chen",
+        "Lixin Zhu",
+        "Weiwei Hu",
+        "Zhangyuan Chen"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icrms.2009.5269993",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5269993/",
+      "gold_authors": [
+        "Huaizhong Li",
+        "Jinghai Gong",
+        "Yulin Wang"
+      ],
+      "parser_authors": [
+        "Huanwei Xu",
+        "Hong-Zhong Huang",
+        "Liping He",
+        "Hu Wan",
+        "Zhonglai Wang"
+      ],
+      "json_authors_raw": [
+        "Huanwei Xu",
+        "Hong-Zhong Huang",
+        "Liping He",
+        "Hu Wan",
+        "Zhonglai Wang"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/igarss.2006.246",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4241393/",
+      "gold_authors": [],
+      "parser_authors": [
+        "D. Zhang",
+        "L. Yu",
+        "Z. Cai"
+      ],
+      "json_authors_raw": [
+        "D. Zhang",
+        "L. Yu",
+        "Z. Cai"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isaf.2014.6918026",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6922817/",
+      "gold_authors": [
+        "Min-Seok Kim",
+        "Young-Bae Park",
+        "Young-Chang Joo"
+      ],
+      "parser_authors": [
+        "Ting Liu",
+        "Dongyan Ding",
+        "Yu Hu",
+        "Yihua Gong"
+      ],
+      "json_authors_raw": [
+        "Ting Liu",
+        "Dongyan Ding",
+        "Yu Hu",
+        "Yihua Gong"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ursigass.2011.6050328",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6050328/",
+      "gold_authors": [
+        "K. S. E. Eikema"
+      ],
+      "parser_authors": [
+        "Ch. Gohle",
+        "D. Z. Kandula",
+        "T. J. Pinkert",
+        "J. Morgenweg",
+        "I. Barmes",
+        "W. Ubachs",
+        "K. S. E. Eikema"
+      ],
+      "json_authors_raw": [
+        "Ch. Gohle",
+        "D. Z. Kandula",
+        "T. J. Pinkert",
+        "J. Morgenweg",
+        "I. Barmes",
+        "W. Ubachs",
+        "K. S. E. Eikema"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.25,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isci62787.2024.10668377",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10668377/",
+      "gold_authors": [
+        "Foo Fong Yee",
+        "Wong Hung Lin",
+        "Lim Mei Ling",
+        "Tan Pei Xuan"
+      ],
+      "parser_authors": [
+        "Chun Hong Lam",
+        "Chian Wen Too",
+        "Whee Yen Wong",
+        "Toong Hai Sam",
+        "Beh Hooi Ching",
+        "Hoo Meei Hao"
+      ],
+      "json_authors_raw": [
+        "Chun Hong Lam",
+        "Chian Wen Too",
+        "Whee Yen Wong",
+        "Toong Hai Sam",
+        "Beh Hooi Ching",
+        "Hoo Meei Hao"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mwscas.2008.4616810",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4616810/",
+      "gold_authors": [
+        "Shekhar Borkar",
+        "Rabi Mahapatra"
+      ],
+      "parser_authors": [
+        "Ray Robert Rydberg",
+        "Jabulani Nyathi",
+        "Jose Delgado-Frias"
+      ],
+      "json_authors_raw": [
+        "Ray Robert Rydberg",
+        "Jabulani Nyathi",
+        "Jose Delgado-Frias"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mace.2011.5987100",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5987100/",
+      "gold_authors": [
+        "Xiangjun Wang",
+        "Chunhua Jiang",
+        "Jianhua Zou"
+      ],
+      "parser_authors": [
+        "Yuanyuan Liu",
+        "GuangMing Liu"
+      ],
+      "json_authors_raw": [
+        "Yuanyuan Liu",
+        "GuangMing Liu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/sp61157.2025.00136",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11023346/",
+      "gold_authors": [
+        "Xueying Du",
+        "Yinzhi Cao",
+        "Keke Lian",
+        "Chenxiong Qian",
+        "Xiaowei Jia",
+        "Xiapu Luo",
+        "Shuai Wang"
+      ],
+      "parser_authors": [
+        "Bo Pang",
+        "Yiheng Zhang",
+        "Mingzhe Gao",
+        "Junzhe Zhang",
+        "Ligeng Chen",
+        "Mingxue Zhangt",
+        "Gang Liang"
+      ],
+      "json_authors_raw": [
+        "Bo Pang",
+        "Yiheng Zhang",
+        "Mingzhe Gao",
+        "Junzhe Zhang",
+        "Ligeng Chen",
+        "Mingxue Zhangt",
+        "Gang Liang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tns.2005.850490",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1495819/",
+      "gold_authors": [
+        "P. W. Marshall",
+        "M. A. Carts",
+        "S. Currie",
+        "R. A. Reed",
+        "B. Fodness",
+        "K. Fritz",
+        "P. Kennedy",
+        "G. Niu",
+        "K. A. LaBel",
+        "C. J. Marshall",
+        "R. Krithivasan",
+        "R. Ladbury",
+        "F. W. Sexton",
+        "D. McMorrow"
+      ],
+      "parser_authors": [
+        "D.L. Hansen",
+        "P.W. Marshall",
+        "R. Lopez-Aguado",
+        "K. Jobe",
+        "M.A. Carts",
+        "C.J. Marshall",
+        "P. Chu",
+        "S.F. Meyer"
+      ],
+      "json_authors_raw": [
+        "D.L. Hansen",
+        "P.W. Marshall",
+        "R. Lopez-Aguado",
+        "K. Jobe",
+        "M.A. Carts",
+        "C.J. Marshall",
+        "P. Chu",
+        "S.F. Meyer"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.273,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icce62051.2024.10634669",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10634669/",
+      "gold_authors": [
+        "Minh-Phuc Ton",
+        "Quang-Duong Nguyen",
+        "Ngoc-Thien Le",
+        "Thi-Thu-Trang Nguyen",
+        "Trong-Hop Do"
+      ],
+      "parser_authors": [
+        "Thuan V. A. Tong",
+        "Binh Bui-Thanh",
+        "Phuoc Nguyen T. H."
+      ],
+      "json_authors_raw": [
+        "Thuan V. A. Tong",
+        "Binh Bui-Thanh",
+        "Phuoc Nguyen T. H."
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icsse.2010.5551776",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5551776/",
+      "gold_authors": [
+        "S. Jalalimanesh",
+        "A. Haghighi",
+        "M. Ahmadi",
+        "H. Soltanian-Zadeh"
+      ],
+      "parser_authors": [
+        "Amin Hassani",
+        "M.B Naghibi.S"
+      ],
+      "json_authors_raw": [
+        "Amin Hassani",
+        "M.B Naghibi.S"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ncis.2011.138",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5948821/",
+      "gold_authors": [
+        "Peng Zhang",
+        "Dongsheng Wang",
+        "Jianping Yin"
+      ],
+      "parser_authors": [
+        "Yi-Hong Tan",
+        "Xi-Dao Luan",
+        "Ya-Ping Lin",
+        "Zhao Bi-hai"
+      ],
+      "json_authors_raw": [
+        "Yi-Hong Tan",
+        "Xi-Dao Luan",
+        "Ya-Ping Lin",
+        "Zhao Bi-hai"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tccn.2022.3222792",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9953963/",
+      "gold_authors": [
+        "Mohammad Reza Amini",
+        "Mohammad Hasan Babaei",
+        "Luiz A. DaSilva"
+      ],
+      "parser_authors": [
+        "Amir Ghasemi",
+        "Janaki Parekh"
+      ],
+      "json_authors_raw": [
+        "Amir Ghasemi",
+        "Janaki Parekh"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2018.2826225",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8336870/",
+      "gold_authors": [
+        "Aneeqa Ijaz",
+        "Muhammad Khurram Khan",
+        "Yousra Javed"
+      ],
+      "parser_authors": [
+        "Syeda Mariam Muzammal",
+        "Munam Ali Shah",
+        "Hasan Ali Khattak",
+        "Sohail Jabbar",
+        "Ghufran Ahmed",
+        "Shehzad Khalid",
+        "Shahid Hussain",
+        "Kijun Han"
+      ],
+      "json_authors_raw": [
+        "Syeda Mariam Muzammal",
+        "Munam Ali Shah",
+        "Hasan Ali Khattak",
+        "Sohail Jabbar",
+        "Ghufran Ahmed",
+        "Shehzad Khalid",
+        "Shahid Hussain",
+        "Kijun Han"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cera.2017.8343347",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8343347/",
+      "gold_authors": [
+        "S. Suhara Sufi",
+        "K. Vijayakumar"
+      ],
+      "parser_authors": [
+        "Rohit Goyal",
+        "B. Hemanth Kumar",
+        "Makarand M. Lokhande"
+      ],
+      "json_authors_raw": [
+        "Rohit Goyal",
+        "B. Hemanth Kumar",
+        "Makarand M. Lokhande"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ciycee49808.2020.9332639",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9332639/",
+      "gold_authors": [
+        "Yuxing Peng",
+        "Zhiyuan Tong",
+        "Shuping Zhao",
+        "Zhengling Lei",
+        "Lanbo Wang",
+        "Liang Liu",
+        "Tao Shao"
+      ],
+      "parser_authors": [
+        "Mengyu Zhang",
+        "Mengbing He"
+      ],
+      "json_authors_raw": [
+        "Mengyu Zhang",
+        "Mengbing He"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icnsurv.2018.8384894",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8384894/",
+      "gold_authors": [
+        "Jamey D. Jacob",
+        "Brian P. Argrow",
+        "Phillip B. Chilson",
+        "Suzanne Amatulli"
+      ],
+      "parser_authors": [
+        "Chris G. Barione",
+        "Christopher Drummond",
+        "Anthony Milluzzi"
+      ],
+      "json_authors_raw": [
+        "Chris G. Barione",
+        "Christopher Drummond",
+        "Anthony Milluzzi"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mnet.2023.3329366",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10313234/",
+      "gold_authors": [
+        "Shuai Wang",
+        "Yuntao Wang",
+        "Zhou Su",
+        "Kuan Zhang",
+        "Rui Xing",
+        "Shibo He"
+      ],
+      "parser_authors": [
+        "Cheng Qiao",
+        "Yanqing Zeng",
+        "Hui Lu",
+        "Yuan Liu",
+        "Zhihong Tian"
+      ],
+      "json_authors_raw": [
+        "Cheng Qiao",
+        "Yanqing Zeng",
+        "Hui Lu",
+        "Yuan Liu",
+        "Zhihong Tian"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/wcnc.2012.6214445",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6214445/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Xiang Chen",
+        "S.H. Song",
+        "Khaled Ben Letaief"
+      ],
+      "json_authors_raw": [
+        "Xiang Chen",
+        "S.H. Song",
+        "Khaled Ben Letaief"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icme.2013.6607569",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6607569/",
+      "gold_authors": [
+        "Sheryl Brahnam",
+        "Lakhmi C. Jain",
+        "Loris Nanni",
+        "Alessandra Lumini"
+      ],
+      "parser_authors": [
+        "Gerald Schaefer",
+        "Bartosz Krawczyk",
+        "Niraj P. Doshi"
+      ],
+      "json_authors_raw": [
+        "Gerald Schaefer",
+        "Bartosz Krawczyk",
+        "Niraj P. Doshi"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ispacs62486.2024.10868628",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10868628/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yurie Okuhara",
+        "António Oliveira Nzinga René",
+        "Kazuhide Mizukami"
+      ],
+      "json_authors_raw": [
+        "Yurie Okuhara",
+        "António Oliveira Nzinga René",
+        "Kazuhide Mizukami"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ccdc.2008.4597859",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4597859/",
+      "gold_authors": [
+        "Ding Feng",
+        "Liu Yang",
+        "Ding Yuting"
+      ],
+      "parser_authors": [
+        "Jie Ding",
+        "Feng Ding"
+      ],
+      "json_authors_raw": [
+        "Jie Ding",
+        "Feng Ding"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tce.2024.3509437",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10771972/",
+      "gold_authors": [
+        "Tianhan Gao"
+      ],
+      "parser_authors": [
+        "Fan Wu",
+        "Xiong Li",
+        "Saru Kumari",
+        "Mohammed J. F. Alenazi",
+        "Chien-Ming Chen"
+      ],
+      "json_authors_raw": [
+        "Fan Wu",
+        "Xiong Li",
+        "Saru Kumari",
+        "Mohammed J. F. Alenazi",
+        "Chien-Ming Chen"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/vtest.2000.843840",
+      "resolved_url": "https://ieeexplore.ieee.org/document/843840/",
+      "gold_authors": [],
+      "parser_authors": [
+        "V. Chickermane",
+        "S. Richter",
+        "C. Barnhart"
+      ],
+      "json_authors_raw": [
+        "V. Chickermane",
+        "S. Richter",
+        "C. Barnhart"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jcice56791.2022.00045",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9887608/",
+      "gold_authors": [
+        "Xiaoli Ding",
+        "Yichen Chen",
+        "Jian Ruan"
+      ],
+      "parser_authors": [
+        "Tingting Zhang",
+        "Shengyi Zhou",
+        "Jianbin Li",
+        "Haocheng Sun",
+        "Xiaotong Sun"
+      ],
+      "json_authors_raw": [
+        "Tingting Zhang",
+        "Shengyi Zhou",
+        "Jianbin Li",
+        "Haocheng Sun",
+        "Xiaotong Sun"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/latw.2019.8704551",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8704551/",
+      "gold_authors": [
+        "Eduardo Augusto Bezerra",
+        "Djones Vinicius Lettnin",
+        "Gabriel Luca Nazar",
+        "Eduardo Augusto Martins",
+        "Sara Dereste dos Santos"
+      ],
+      "parser_authors": [
+        "Cezar A. Rigo",
+        "Lucas M. Luza",
+        "Elder D. Tramontin",
+        "Victor Martins",
+        "Sara Vega Martinez",
+        "Leonardo K. Slongo",
+        "Laio O. Seman",
+        "Luigi Dilillo",
+        "Fabian L. Vargas",
+        "Eduardo A. Bezerra"
+      ],
+      "json_authors_raw": [
+        "Cezar A. Rigo",
+        "Lucas M. Luza",
+        "Elder D. Tramontin",
+        "Victor Martins",
+        "Sara Vega Martinez",
+        "Leonardo K. Slongo",
+        "Laio O. Seman",
+        "Luigi Dilillo",
+        "Fabian L. Vargas",
+        "Eduardo A. Bezerra"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.133,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aic61668.2024.10731073",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10731073/",
+      "gold_authors": [
+        "Srijan Patel",
+        "Abhishek Jha",
+        "Dibyendu Mukherjee"
+      ],
+      "parser_authors": [
+        "Arpanpreet Kaur",
+        "Kanwarpartap Singh Gill",
+        "Nitin Thapliyal",
+        "Ramesh Singh Rawat"
+      ],
+      "json_authors_raw": [
+        "Arpanpreet Kaur",
+        "Kanwarpartap Singh Gill",
+        "Nitin Thapliyal",
+        "Ramesh Singh Rawat"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/radar58436.2024.10994049",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10994049/",
+      "gold_authors": [
+        "M. Hoffmann",
+        "L. Wolf",
+        "M. Vossiek"
+      ],
+      "parser_authors": [
+        "Oliver Arnold",
+        "Markus Tafertshofer",
+        "Erwin Biebl"
+      ],
+      "json_authors_raw": [
+        "Oliver Arnold",
+        "Markus Tafertshofer",
+        "Erwin Biebl"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/access.2024.3443621",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10636140/",
+      "gold_authors": [
+        "Nazar A. Hussein"
+      ],
+      "parser_authors": [
+        "Farman Ali Pirzado",
+        "Awais Ahmed",
+        "Román Alejandro Mendoza-Urdiales",
+        "Hugo Terashima-Marin"
+      ],
+      "json_authors_raw": [
+        "Farman Ali Pirzado",
+        "Awais Ahmed",
+        "Román Alejandro Mendoza-Urdiales",
+        "Hugo Terashima-Marin"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/gitcon65266.2025.11379800",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11379800/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Raghavendra Sridhar",
+        "Jatin Sharma",
+        "Rashi Nimesh Kumar Dhenia",
+        "Ishva Jitendrakumar Kanani",
+        "Deepak Banerjee",
+        "Gaurav Sharma"
+      ],
+      "json_authors_raw": [
+        "Raghavendra Sridhar",
+        "Jatin Sharma",
+        "Rashi Nimesh Kumar Dhenia",
+        "Ishva Jitendrakumar Kanani",
+        "Deepak Banerjee",
+        "Gaurav Sharma"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/imsaa.2007.4559103",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4559103/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Ravindra B. Shet",
+        "S. Mahalakshmi"
+      ],
+      "json_authors_raw": [
+        "Ravindra B. Shet",
+        "S. Mahalakshmi"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cscwd.2009.4968060",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4968060",
+      "gold_authors": [
+        "Cássia Trojahn dos Santos",
+        "Marta Rosecler Bez",
+        "José Palazzo M. de Oliveira"
+      ],
+      "parser_authors": [
+        "Rafael Escalfoni",
+        "Vanessa Braganholo",
+        "Marcos R. S. Borges"
+      ],
+      "json_authors_raw": [
+        "Rafael Escalfoni",
+        "Vanessa Braganholo",
+        "Marcos R. S. Borges"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iciprm.2016.7528817",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7528817/",
+      "gold_authors": [
+        "Akihiko Hotsuki",
+        "Kumpei Adachi",
+        "Yuki Shimizu",
+        "Shinji Kaneko"
+      ],
+      "parser_authors": [
+        "Takeshi Fukuda",
+        "Katsumi Suzuki"
+      ],
+      "json_authors_raw": [
+        "Takeshi Fukuda",
+        "Katsumi Suzuki"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/asdam.1998.730156",
+      "resolved_url": "https://ieeexplore.ieee.org/document/730156/",
+      "gold_authors": [
+        "D. Caputo",
+        "G. de Cesare"
+      ],
+      "parser_authors": [
+        "M. Zeman",
+        "V. Nadazdy",
+        "E. Pincik",
+        "R.A.C.M.M. van Swaaij"
+      ],
+      "json_authors_raw": [
+        "M. Zeman",
+        "V. Nadazdy",
+        "E. Pincik",
+        "R.A.C.M.M. van Swaaij"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/globalsip.2016.7906033",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7906033/",
+      "gold_authors": [
+        "Yusnita Mohd Ali",
+        "Stephanie M. Lukin",
+        "Cynthia Matuszek",
+        "Marius Muja",
+        "Matthew R. Walter"
+      ],
+      "parser_authors": [
+        "Fasih Haider",
+        "Nick Campbell",
+        "Saturnino Luz"
+      ],
+      "json_authors_raw": [
+        "Fasih Haider",
+        "Nick Campbell",
+        "Saturnino Luz"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icip.2017.8296845",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8296845/",
+      "gold_authors": [
+        "Hua Huang",
+        "Liming Xu"
+      ],
+      "parser_authors": [
+        "Liyan Sun",
+        "Yue Huang",
+        "Congbo Cai",
+        "Xinghao Ding"
+      ],
+      "json_authors_raw": [
+        "Liyan Sun",
+        "Yue Huang",
+        "Congbo Cai",
+        "Xinghao Ding"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/powercon66300.2025.11295789",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11295789/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Weihan Hao",
+        "Jinchuan Guo",
+        "Guanglin Yu",
+        "Yongwen Chen",
+        "Yanhua Liu"
+      ],
+      "json_authors_raw": [
+        "Weihan Hao",
+        "Jinchuan Guo",
+        "Guanglin Yu",
+        "Yongwen Chen",
+        "Yanhua Liu"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aps.1964.1150153",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1150153/",
+      "gold_authors": [
+        "S. W. Lee"
+      ],
+      "parser_authors": [
+        "P. Marchin",
+        "G. Tyras"
+      ],
+      "json_authors_raw": [
+        "P. Marchin",
+        "G. Tyras"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cimps57786.2022.10035691",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10035691/",
+      "gold_authors": [
+        "José Antonio Pow-Sang",
+        "Rosalba Quiroz",
+        "Jorge Ramírez"
+      ],
+      "parser_authors": [
+        "Jezreel Mejía",
+        "Luis A. Arroyo-Morales",
+        "Antonio Tablada-Domínguez"
+      ],
+      "json_authors_raw": [
+        "Jezreel Mejía",
+        "Luis A. Arroyo-Morales",
+        "Antonio Tablada-Domínguez"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ijcnn52387.2021.9534468",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9534468/",
+      "gold_authors": [
+        "Zhijia Zhao",
+        "Shihao Zou",
+        "Yuxiang Luo",
+        "Shenghan Gao",
+        "Zhiyuan Chen",
+        "Zixuan Luo",
+        "Hong Yu"
+      ],
+      "parser_authors": [
+        "Yinghong Zhang",
+        "Song Liu",
+        "Jianhui Xie",
+        "Ruixing Liu",
+        "Yuesheng Zhu",
+        "Zhiqiang Bai"
+      ],
+      "json_authors_raw": [
+        "Yinghong Zhang",
+        "Song Liu",
+        "Jianhui Xie",
+        "Ruixing Liu",
+        "Yuesheng Zhu",
+        "Zhiqiang Bai"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jaiee.1925.6536174",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6536174/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Atherton"
+      ],
+      "json_authors_raw": [
+        "Atherton"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/atigb63471.2024.10717859",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10717859/",
+      "gold_authors": [
+        "Ngo Thi Lan",
+        "Nguyen Thi Xuan Huynh",
+        "Duong Tuan Quang",
+        "Pham Van Tat",
+        "Phung Thi Viet Bac",
+        "Nguyen Thi Thu Ha"
+      ],
+      "parser_authors": [
+        "Dinh Quy Huong",
+        "Pham Cam Nam",
+        "Nguyen Minh Thong",
+        "Mai Van Bay",
+        "Vo Van Quan"
+      ],
+      "json_authors_raw": [
+        "Dinh Quy Huong",
+        "Pham Cam Nam",
+        "Nguyen Minh Thong",
+        "Mai Van Bay",
+        "Vo Van Quan"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/fpt.2013.6718351",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6718351/",
+      "gold_authors": [
+        "Yongjoo Kim",
+        "Jongeun Lee",
+        "Aviral Shrivastava",
+        "Yunheung Paek"
+      ],
+      "parser_authors": [
+        "Jeongho Nah",
+        "Jun Lee",
+        "Hongjune Kim",
+        "Jinseok Lee",
+        "Seok Joong Hwang",
+        "Donghoon Yoo",
+        "Jaejin Lee"
+      ],
+      "json_authors_raw": [
+        "Jeongho Nah",
+        "Jun Lee",
+        "Hongjune Kim",
+        "Jinseok Lee",
+        "Seok Joong Hwang",
+        "Donghoon Yoo",
+        "Jaejin Lee"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.182,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ic2e.2018.00076",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8360361/",
+      "gold_authors": [
+        "Elise McAndrews",
+        "James Igarashi",
+        "Adrienne Leff"
+      ],
+      "parser_authors": [
+        "Garrett Lahmann",
+        "Thom McCann",
+        "Wes Lloyd"
+      ],
+      "json_authors_raw": [
+        "Garrett Lahmann",
+        "Thom McCann",
+        "Wes Lloyd"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ictta.2006.1684694",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1684694/",
+      "gold_authors": [],
+      "parser_authors": [
+        "H.I. Darwish"
+      ],
+      "json_authors_raw": [
+        "H.I. Darwish"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tcbb.2020.3002906",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9119120/",
+      "gold_authors": [
+        "Yifan Sun",
+        "Pei Wang"
+      ],
+      "parser_authors": [
+        "Yu-Ting Tan",
+        "Le Ou-Yang",
+        "Xingpeng Jiang",
+        "Hong Yan",
+        "Xiao-Fei Zhang"
+      ],
+      "json_authors_raw": [
+        "Yu-Ting Tan",
+        "Le Ou-Yang",
+        "Xingpeng Jiang",
+        "Hong Yan",
+        "Xiao-Fei Zhang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tim.2017.2682938",
+      "resolved_url": "",
+      "gold_authors": [
+        "José Luis Lázaro Galilea",
+        "Ignacio Bravo Muñoz",
+        "Alfredo Gardel Vicente",
+        "Felipe Espinosa Zapata",
+        "Diego Rodríguez"
+      ],
+      "parser_authors": [
+        "Álvaro Hernández",
+        "Enrique García",
+        "David Gualda",
+        "José M. Villadangos",
+        "Francisco Nombela",
+        "Jesús Ureña"
+      ],
+      "json_authors_raw": [
+        "Álvaro Hernández",
+        "Enrique García",
+        "David Gualda",
+        "José M. Villadangos",
+        "Francisco Nombela",
+        "Jesús Ureña"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/edm.2019.8823390",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8823390/",
+      "gold_authors": [
+        "I. Shardakov",
+        "A. Tsukanov",
+        "I. Eprikov"
+      ],
+      "parser_authors": [
+        "Vladimir N. Khmelev",
+        "Denis S. Abramenko",
+        "Dmitry V. Genne",
+        "Evgeniy V. Ilchenko",
+        "Viktor A. Nesterov",
+        "Vladislav A. Shakura"
+      ],
+      "json_authors_raw": [
+        "Vladimir N. Khmelev",
+        "Denis S. Abramenko",
+        "Dmitry V. Genne",
+        "Evgeniy V. Ilchenko",
+        "Viktor A. Nesterov",
+        "Vladislav A. Shakura"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icdacai59742.2023.00066",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10361135/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Zhang Wei"
+      ],
+      "json_authors_raw": [
+        "Zhang Wei"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/vtcspring.2018.8417809",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8417809/",
+      "gold_authors": [
+        "Wan Choi",
+        "Yeong Jun Kim",
+        "Jemin Lee",
+        "Jung-Bin Kim"
+      ],
+      "parser_authors": [
+        "Ximei Liu",
+        "Deli Qiao"
+      ],
+      "json_authors_raw": [
+        "Ximei Liu",
+        "Deli Qiao"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icbsii.2018.8524811",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8524811/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Shaik. Jakeer Hussain"
+      ],
+      "json_authors_raw": [
+        "Shaik. Jakeer Hussain"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icicse.2010.46",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6076558/",
+      "gold_authors": [
+        "Yue Sun",
+        "Yunfei Peng",
+        "Meng Li"
+      ],
+      "parser_authors": [
+        "Zhen-dong Wang",
+        "Hui-qiang Wang",
+        "Guang-sheng Feng",
+        "Bing-yang Li",
+        "Xiao-ming Chen"
+      ],
+      "json_authors_raw": [
+        "Zhen-dong Wang",
+        "Hui-qiang Wang",
+        "Guang-sheng Feng",
+        "Bing-yang Li",
+        "Xiao-ming Chen"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tct.1973.1083699",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1083699/",
+      "gold_authors": [
+        "A. Soliman"
+      ],
+      "parser_authors": [
+        "A. Sedra",
+        "W. Brown"
+      ],
+      "json_authors_raw": [
+        "A. Sedra",
+        "W. Brown"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tvt.2011.2115264",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5713850/",
+      "gold_authors": [
+        "Jia Hu",
+        "Yafeng Yin",
+        "Gang-Len Chang"
+      ],
+      "parser_authors": [
+        "Yue Liu",
+        "Gang-Len Chang",
+        "Jie Yu"
+      ],
+      "json_authors_raw": [
+        "Yue Liu",
+        "Gang-Len Chang",
+        "Jie Yu"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icarm.2016.7606967",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7606967/",
+      "gold_authors": [
+        "Jianzhong Qiao",
+        "Xiuyu He",
+        "Wei He",
+        "Jinkun Liu"
+      ],
+      "parser_authors": [
+        "Shuang Zhang",
+        "Wei He"
+      ],
+      "json_authors_raw": [
+        "Shuang Zhang",
+        "Wei He"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.333,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icassp.2004.1326470",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1326470/",
+      "gold_authors": [
+        "D. Gruyer",
+        "V. Cherfaoui",
+        "M. Thonnat"
+      ],
+      "parser_authors": [
+        "P. Dokladal",
+        "R. Enficiaud",
+        "E. Dejnozkova"
+      ],
+      "json_authors_raw": [
+        "P. Dokladal",
+        "R. Enficiaud",
+        "E. Dejnozkova"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ecoc.2010.5621242",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5621242/",
+      "gold_authors": [
+        "J. Jiménez",
+        "D. Fernández",
+        "E. Escalona",
+        "J. Ferrer Riera",
+        "A. Marotta",
+        "E. Grasa",
+        "J. A. Garcia-Espin",
+        "S. Figuerola",
+        "K. Kosmatos",
+        "J. Llorente",
+        "L. Ciavaglia",
+        "T. Ferreira",
+        "L. Ferreira Pires",
+        "V. Moreno",
+        "J. Gozdecki"
+      ],
+      "parser_authors": [
+        "S. Figuerola",
+        "R. Nejabati",
+        "E. Escalona",
+        "D. Simeonidou",
+        "J. A. Garcia-Espin",
+        "G. Landi",
+        "N. Ciulli",
+        "M. Brogle",
+        "B. Belter",
+        "P. Vicat-Blanc Primet",
+        "J. Jiménez"
+      ],
+      "json_authors_raw": [
+        "S. Figuerola",
+        "R. Nejabati",
+        "E. Escalona",
+        "D. Simeonidou",
+        "J. A. Garcia-Espin",
+        "G. Landi",
+        "N. Ciulli",
+        "M. Brogle",
+        "B. Belter",
+        "P. Vicat-Blanc Primet",
+        "J. Jiménez"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.308,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/eitce47263.2019.9095076",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9095076/",
+      "gold_authors": [
+        "Xiaowei Li",
+        "Zhen Li",
+        "Weisheng Liu",
+        "Jiang Liu"
+      ],
+      "parser_authors": [
+        "Zhihao Huang",
+        "Xiangdong Zhu",
+        "Zhiqiang Li"
+      ],
+      "json_authors_raw": [
+        "Zhihao Huang",
+        "Xiangdong Zhu",
+        "Zhiqiang Li"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.286,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tnsre.2012.2204902",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6237533/",
+      "gold_authors": [
+        "Rajesh P. N. Rao",
+        "Jared Olson",
+        "Jonathan Viventi",
+        "Visvaldis Karnitis",
+        "Brian Leber",
+        "Peter Hutchinson",
+        "Nicholas G. Hatsopoulos"
+      ],
+      "parser_authors": [
+        "Andrew G. Richardson",
+        "Eberhard E. Fetz"
+      ],
+      "json_authors_raw": [
+        "Andrew G. Richardson",
+        "Eberhard E. Fetz"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/uksim.2017.27",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8359047/",
+      "gold_authors": [
+        "Keith Mifsud",
+        "Simon M. Betts"
+      ],
+      "parser_authors": [
+        "Luca Pagan",
+        "Kelvin Lake"
+      ],
+      "json_authors_raw": [
+        "Luca Pagan",
+        "Kelvin Lake"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cdc.2017.8264187",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8264187/",
+      "gold_authors": [
+        "Yutaka Yamamoto",
+        "Masaki Ogura",
+        "Jung Hoon Kim"
+      ],
+      "parser_authors": [
+        "Jung Hoon Kim",
+        "Tomomichi Hagiwara"
+      ],
+      "json_authors_raw": [
+        "Jung Hoon Kim",
+        "Tomomichi Hagiwara"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.4,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mprv.2020.2997613",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9153871/",
+      "gold_authors": [
+        "Nadya Peek",
+        "James Coleman",
+        "Ilan Moyer"
+      ],
+      "parser_authors": [
+        "Frikk H. Fossdal",
+        "Jens Dyvik"
+      ],
+      "json_authors_raw": [
+        "Frikk H. Fossdal",
+        "Jens Dyvik"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tencon.2003.1273142",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1273142/",
+      "gold_authors": [],
+      "parser_authors": [
+        "F. Ferdousi",
+        "A. Tahseen",
+        "M. Sharmin",
+        "M. Murshed",
+        "I.R. Kabir",
+        "N. Jahan",
+        "M.R. Khan",
+        "Md.K. Hassan"
+      ],
+      "json_authors_raw": [
+        "F. Ferdousi",
+        "A. Tahseen",
+        "M. Sharmin",
+        "M. Murshed",
+        "I.R. Kabir",
+        "N. Jahan",
+        "M.R. Khan",
+        "Md.K. Hassan"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/edtm.2017.7947578",
+      "resolved_url": "",
+      "gold_authors": [
+        "Nobuyuki Yoshizawa",
+        "Tadanobu Inoue",
+        "Takeo Ohsawa",
+        "Yuki Okamoto",
+        "Toyohiro Chikyo",
+        "Shin-ichi Satoh"
+      ],
+      "parser_authors": [
+        "Shin Hirano",
+        "Jun'ichi Shimizu",
+        "Kentaro Matsuura",
+        "Takumi Ohashi",
+        "Iriya Muneta",
+        "Kuniyuki Kakushima",
+        "Kazuo Tsutsui",
+        "Hitoshi Wakabayashi"
+      ],
+      "json_authors_raw": [
+        "Shin Hirano",
+        "Jun'ichi Shimizu",
+        "Kentaro Matsuura",
+        "Takumi Ohashi",
+        "Iriya Muneta",
+        "Kuniyuki Kakushima",
+        "Kazuo Tsutsui",
+        "Hitoshi Wakabayashi"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iecon.2016.7793432",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7793432/",
+      "gold_authors": [
+        "Leandro Buss Becker",
+        "Lucas Dias Hiera Sampaio",
+        "Bruno César Manarin",
+        "Jean Everson Martina"
+      ],
+      "parser_authors": [
+        "Leandro Tavares Bruscato",
+        "Edison Pignaton de Freitas",
+        "Tales Heimfarth",
+        "João Paulo de Araujo"
+      ],
+      "json_authors_raw": [
+        "Leandro Tavares Bruscato",
+        "Edison Pignaton de Freitas",
+        "Tales Heimfarth",
+        "João Paulo de Araujo"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tkde.2018.2818163",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8322278/",
+      "gold_authors": [
+        "Rishabh Kaushal",
+        "Rainu Nandal",
+        "Anju Saha",
+        "Kamlesh Dutta"
+      ],
+      "parser_authors": [
+        "Vishal Sharma",
+        "RAVINDER KUMAR",
+        "Wen-Huang Cheng",
+        "Mohammed Atiquzzaman",
+        "Kathiravan Srinivasan",
+        "Albert Y. Zomaya"
+      ],
+      "json_authors_raw": [
+        "Vishal Sharma",
+        "RAVINDER KUMAR",
+        "Wen-Huang Cheng",
+        "Mohammed Atiquzzaman",
+        "Kathiravan Srinivasan",
+        "Albert Y. Zomaya"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/wsc.1995.478883",
+      "resolved_url": "https://ieeexplore.ieee.org/document/478883/",
+      "gold_authors": [],
+      "parser_authors": [
+        "L.L. Gardner",
+        "M.E. Grant",
+        "L.J. Rolston"
+      ],
+      "json_authors_raw": [
+        "L.L. Gardner",
+        "M.E. Grant",
+        "L.J. Rolston"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cste64638.2025.11092175",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11092175/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Shuo Chen",
+        "Zhenzhen Chen"
+      ],
+      "json_authors_raw": [
+        "Shuo Chen",
+        "Zhenzhen Chen"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/itmqis.2018.8524913",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8524913/",
+      "gold_authors": [
+        "Lubov Zemlyakova",
+        "Galina Veselova",
+        "Juliya Baranova"
+      ],
+      "parser_authors": [
+        "Sergey S. Sokolov",
+        "Anastasiya V. Mitrofanova",
+        "Nikolay B. Glebov",
+        "Nadezhda M. Kovalnogova",
+        "Vagiz D. Gaskarov"
+      ],
+      "json_authors_raw": [
+        "Sergey S. Sokolov",
+        "Anastasiya V. Mitrofanova",
+        "Nikolay B. Glebov",
+        "Nadezhda M. Kovalnogova",
+        "Vagiz D. Gaskarov"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icbme68496.2025.11392558",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11392558/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Reza Khajehsarvi",
+        "Sayed Mahmoud Sakhaei",
+        "Sadegh Jamshidpour"
+      ],
+      "json_authors_raw": [
+        "Reza Khajehsarvi",
+        "Sayed Mahmoud Sakhaei",
+        "Sadegh Jamshidpour"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/psc.2014.6808110",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6808110/",
+      "gold_authors": [
+        "Viviana Cecchi",
+        "Valentina Telang",
+        "Badrul Chowdhury"
+      ],
+      "parser_authors": [
+        "Isabelle Snyder",
+        "Travis Smith"
+      ],
+      "json_authors_raw": [
+        "Isabelle Snyder",
+        "Travis Smith"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tvlsi.2013.2282834",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6644278/",
+      "gold_authors": [
+        "Basit Riaz Sheikh",
+        "Moustafa Mohamed Elgamel",
+        "Magdy A. Bayoumi"
+      ],
+      "parser_authors": [
+        "C. K. Midhun",
+        "Jephy Joy",
+        "R. K. Kavitha"
+      ],
+      "json_authors_raw": [
+        "C. K. Midhun",
+        "Jephy Joy",
+        "R. K. Kavitha"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccic.2012.6510320",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6510320/",
+      "gold_authors": [
+        "K. K. Suresh",
+        "G. M. Kumar",
+        "A. N. Rajagopalan"
+      ],
+      "parser_authors": [
+        "N. Vishwanath",
+        "S. Somasundaram",
+        "M. Ariharan",
+        "Krishnan Nallaperumal"
+      ],
+      "json_authors_raw": [
+        "N. Vishwanath",
+        "S. Somasundaram",
+        "M. Ariharan",
+        "Krishnan Nallaperumal"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pesc.1998.701890",
+      "resolved_url": "https://ieeexplore.ieee.org/document/701890/",
+      "gold_authors": [],
+      "parser_authors": [
+        "F.F. Bernal",
+        "A. Garefa-Cerrada",
+        "R. Faure"
+      ],
+      "json_authors_raw": [
+        "F.F. Bernal",
+        "A. Garefa-Cerrada",
+        "R. Faure"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/bdkcse67969.2025.11300525",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11300525/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Teodora Noncheva",
+        "Irina Radeva"
+      ],
+      "json_authors_raw": [
+        "Teodora Noncheva",
+        "Irina Radeva"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pimrc62392.2025.11275248",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11275248/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Robbie Southam",
+        "Peizheng Li",
+        "Alexander Herzog",
+        "Aftab Khan"
+      ],
+      "json_authors_raw": [
+        "Robbie Southam",
+        "Peizheng Li",
+        "Alexander Herzog",
+        "Aftab Khan"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aset53988.2022.9734923",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9734923/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Chithirai Pon Selvan M",
+        "Ramesh Vandanapu",
+        "Vivekanandhan Chinnasamy"
+      ],
+      "json_authors_raw": [
+        "Chithirai Pon Selvan M",
+        "Ramesh Vandanapu",
+        "Vivekanandhan Chinnasamy"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icvr.2008.4625119",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4625119/",
+      "gold_authors": [
+        "Author name not visible"
+      ],
+      "parser_authors": [
+        "Yun Wang",
+        "Robert V. Kenyon",
+        "Emily A. Keshner"
+      ],
+      "json_authors_raw": [
+        "Yun Wang",
+        "Robert V. Kenyon",
+        "Emily A. Keshner"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/pvsc.2013.6744879",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6744879/",
+      "gold_authors": [
+        "Eric W. Stefanakos",
+        "Yogi Goswami",
+        "Sesha Srinivasan",
+        "Don Morel",
+        "Jonathan Toussaint"
+      ],
+      "parser_authors": [
+        "Fadong Yan",
+        "David J. Metacarpa",
+        "R. Sundaramoorthy",
+        "Dave Fobare",
+        "Pradeep Haldar"
+      ],
+      "json_authors_raw": [
+        "Fadong Yan",
+        "David J. Metacarpa",
+        "R. Sundaramoorthy",
+        "Dave Fobare",
+        "Pradeep Haldar"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/71.888645",
+      "resolved_url": "https://ieeexplore.ieee.org/document/888645/",
+      "gold_authors": [
+        "Robert O'Callahan",
+        "Jong-Deok Choi"
+      ],
+      "parser_authors": [
+        "D. Perkovic",
+        "P.J. Keleher"
+      ],
+      "json_authors_raw": [
+        "D. Perkovic",
+        "P.J. Keleher"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/aimv66517.2025.11203425",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11203425/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Mahi Shah",
+        "Tamanna Farkiwala",
+        "Honey Patel",
+        "Samir Patel"
+      ],
+      "json_authors_raw": [
+        "Mahi Shah",
+        "Tamanna Farkiwala",
+        "Honey Patel",
+        "Samir Patel"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mascots.2013.20",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6730755/",
+      "gold_authors": [
+        "Ningfang Mi",
+        "Alma Riska",
+        "Yiping Eric Ruan",
+        "Evgenia Smirni"
+      ],
+      "parser_authors": [
+        "Qais Noorshams",
+        "Kiana Rostami",
+        "Samuel Kounev",
+        "Petr Tuma",
+        "Ralf Reussner"
+      ],
+      "json_authors_raw": [
+        "Qais Noorshams",
+        "Kiana Rostami",
+        "Samuel Kounev",
+        "Petr Tuma",
+        "Ralf Reussner"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/rusautocon49822.2020.9208129",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9208129/",
+      "gold_authors": [
+        "A. I. Martyshkin",
+        "D. V. Pashchenko",
+        "D. A. Trokoz",
+        "M. V. Sinev"
+      ],
+      "parser_authors": [
+        "A. I. Martyshkin",
+        "D. A. Trokoz",
+        "I. I. Salnikov"
+      ],
+      "json_authors_raw": [
+        "A. I. Martyshkin",
+        "D. A. Trokoz",
+        "I. I. Salnikov"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.571,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tpami.2022.3205939",
+      "resolved_url": "https://ieeexplore.ieee.org/document/9888005/",
+      "gold_authors": [
+        "Vedat Baday",
+        "Hayati Mamyrbayev",
+        "Orken Mamyrbayev",
+        "Murat Oralbekova",
+        "Dinara Alimhan"
+      ],
+      "parser_authors": [
+        "Bedirhan Uzun",
+        "Hakan Cevikalp",
+        "Hasan Saribas"
+      ],
+      "json_authors_raw": [
+        "Bedirhan Uzun",
+        "Hakan Cevikalp",
+        "Hasan Saribas"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/tpwrd.2018.2798411",
+      "resolved_url": "",
+      "gold_authors": [
+        "Prashant Adhikari",
+        "David L. Whitehead",
+        "Terrence L. Koval",
+        "Siddharth Suryanarayanan",
+        "J. Gordon Edwards",
+        "Benjamin Piper"
+      ],
+      "parser_authors": [
+        "Bishnu P. Bhattarai",
+        "Jake P. Gentle",
+        "Timothy McJunkin",
+        "Porter J. Hill",
+        "Kurt S. Myers",
+        "Alexander W. Abboud",
+        "Rodger Renwick",
+        "David Hengst"
+      ],
+      "json_authors_raw": [
+        "Bishnu P. Bhattarai",
+        "Jake P. Gentle",
+        "Timothy McJunkin",
+        "Porter J. Hill",
+        "Kurt S. Myers",
+        "Alexander W. Abboud",
+        "Rodger Renwick",
+        "David Hengst"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/apec.2010.5433377",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5433377/",
+      "gold_authors": [
+        "Jiangbiao He",
+        "Yunwei Li",
+        "Changsong Chen",
+        "Fang Zheng Peng",
+        "Jih-Sheng Lai"
+      ],
+      "parser_authors": [
+        "Damoun Ahmadi",
+        "Ke Zou",
+        "Jin Wang"
+      ],
+      "json_authors_raw": [
+        "Damoun Ahmadi",
+        "Ke Zou",
+        "Jin Wang"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icassp49357.2023.10096106",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10096106/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yan Shu",
+        "Shaohui Liu",
+        "Yu Zhou",
+        "Honglei Xu",
+        "Feng Jiang"
+      ],
+      "json_authors_raw": [
+        "Yan Shu",
+        "Shaohui Liu",
+        "Yu Zhou",
+        "Honglei Xu",
+        "Feng Jiang"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icbds67396.2025.11378141",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11378141/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Sana Firoz Amin",
+        "Amit B. Jadhav",
+        "Pallavi Vasant Hatkar",
+        "Mrunmayee Mayuresh Bachate"
+      ],
+      "json_authors_raw": [
+        "Sana Firoz Amin",
+        "Amit B. Jadhav",
+        "Pallavi Vasant Hatkar",
+        "Mrunmayee Mayuresh Bachate"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccwamtip64812.2024.10873743",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10873743/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Hang Ouyang",
+        "Tailin Li",
+        "Chongru Wang",
+        "Yuanting Gu",
+        "Fan Yang",
+        "Kaixin Deng"
+      ],
+      "json_authors_raw": [
+        "Hang Ouyang",
+        "Tailin Li",
+        "Chongru Wang",
+        "Yuanting Gu",
+        "Fan Yang",
+        "Kaixin Deng"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/sielmen.2019.8905902",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8905902/",
+      "gold_authors": [
+        "A. Nechifor",
+        "D. Nechifor",
+        "E. Hudisteanu"
+      ],
+      "parser_authors": [
+        "Ion Sobor",
+        "Octavian Mangos",
+        "Stella Tărâță"
+      ],
+      "json_authors_raw": [
+        "Ion Sobor",
+        "Octavian Mangos",
+        "Stella Tărâță"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cinc.2009.43",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5230915/",
+      "gold_authors": [
+        "Zhipeng Feng",
+        "Ming Liang",
+        "Fulei Chu"
+      ],
+      "parser_authors": [
+        "Qiumian Hao",
+        "Zi-ying Wang",
+        "Mian-hao Qiu"
+      ],
+      "json_authors_raw": [
+        "Qiumian Hao",
+        "Zi-ying Wang",
+        "Mian-hao Qiu"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iccc62479.2024.10681880",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10681880/",
+      "gold_authors": [
+        "Mateen Ulhaq",
+        "Ivan V. Bajić"
+      ],
+      "parser_authors": [
+        "Hongning Ruan",
+        "Yulin Shao",
+        "Qianqian Yang",
+        "Liang Zhao",
+        "Dusit Niyato"
+      ],
+      "json_authors_raw": [
+        "Hongning Ruan",
+        "Yulin Shao",
+        "Qianqian Yang",
+        "Liang Zhao",
+        "Dusit Niyato"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iscas56072.2025.11043853",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11043853/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Guoyang Huang",
+        "Yijia Zhang",
+        "Deepika Yadav",
+        "Yanzhen He",
+        "Alexander Serb",
+        "Shiwei Wang",
+        "Themis Prodromakis"
+      ],
+      "json_authors_raw": [
+        "Guoyang Huang",
+        "Yijia Zhang",
+        "Deepika Yadav",
+        "Yanzhen He",
+        "Alexander Serb",
+        "Shiwei Wang",
+        "Themis Prodromakis"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cdc57313.2025.11312436",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11312436/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Mehdi Heydari Shahna",
+        "Eemil Haaparanta",
+        "Pauli Mustalahti",
+        "Jouni Mattila"
+      ],
+      "json_authors_raw": [
+        "Mehdi Heydari Shahna",
+        "Eemil Haaparanta",
+        "Pauli Mustalahti",
+        "Jouni Mattila"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/eucap.2016.7481546",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7481546/",
+      "gold_authors": [
+        "R. Douvenot",
+        "C. Morlaas",
+        "A. Chabory",
+        "B. Souny",
+        "V. Lebrun"
+      ],
+      "parser_authors": [
+        "Ludovic Claudepierre",
+        "Rémi Douvenot",
+        "Alexandre Chabory",
+        "Christophe Morlaas"
+      ],
+      "json_authors_raw": [
+        "Ludovic Claudepierre",
+        "Rémi Douvenot",
+        "Alexandre Chabory",
+        "Christophe Morlaas"
+      ],
+      "verdict": "names_overlap_format_diff",
+      "f1_soft": 0.667,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/gemic.2016.7461571",
+      "resolved_url": "https://ieeexplore.ieee.org/document/7461571/",
+      "gold_authors": [
+        "S. Beer",
+        "H. Gulan",
+        "C. Rusch",
+        "T. Zwick"
+      ],
+      "parser_authors": [
+        "Christoph Baer",
+        "Birk Hattenhorst",
+        "Christian Schulz",
+        "Bianca Will",
+        "Ilona Rolfes",
+        "Thomas Musch"
+      ],
+      "json_authors_raw": [
+        "Christoph Baer",
+        "Birk Hattenhorst",
+        "Christian Schulz",
+        "Bianca Will",
+        "Ilona Rolfes",
+        "Thomas Musch"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/icdcs.2008.106",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4595915/",
+      "gold_authors": [
+        "Deadlock-Free Fully Adaptive Routing"
+      ],
+      "parser_authors": [
+        "Dong Xiang",
+        "Yi Pan",
+        "Qi Wang",
+        "Zhen Chen"
+      ],
+      "json_authors_raw": [
+        "Dong Xiang",
+        "Yi Pan",
+        "Qi Wang",
+        "Zhen Chen"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ivec.2003.1286403",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1286403/",
+      "gold_authors": [
+        "A. Vlasov",
+        "S. Konoplyev",
+        "A. Borisov",
+        "S. Koval"
+      ],
+      "parser_authors": [
+        "A.A. Kornyukhin",
+        "A.A. Luchin",
+        "O.U. Maslennikov"
+      ],
+      "json_authors_raw": [
+        "A.A. Kornyukhin",
+        "A.A. Luchin",
+        "O.U. Maslennikov"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mwie.2019.2938936",
+      "resolved_url": "https://ieeexplore.ieee.org/document/8892790/",
+      "gold_authors": [
+        "Margaret Shumate"
+      ],
+      "parser_authors": [
+        "Katianne Williams"
+      ],
+      "json_authors_raw": [
+        "Katianne Williams"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/phm-beijing63284.2024.10874772",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10874772/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Yiqiong Zhang",
+        "Changping Yu",
+        "Weijie Peng"
+      ],
+      "json_authors_raw": [
+        "Yiqiong Zhang",
+        "Changping Yu",
+        "Weijie Peng"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ats.2012.22",
+      "resolved_url": "https://ieeexplore.ieee.org/document/6394210/",
+      "gold_authors": [],
+      "parser_authors": [
+        "Toru Nakura",
+        "Tetsuya Iizuka",
+        "Kunihiro Asada"
+      ],
+      "json_authors_raw": [
+        "Toru Nakura",
+        "Tetsuya Iizuka",
+        "Kunihiro Asada"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/ictai62512.2024.00021",
+      "resolved_url": "https://ieeexplore.ieee.org/document/10849509/",
+      "gold_authors": [
+        "Ruth Hoffmann",
+        "Özgür Akgün",
+        "Christopher Stone"
+      ],
+      "parser_authors": [
+        "Joan Espasa",
+        "Ian P. Gent",
+        "Ian Miguel",
+        "Peter Nightingale",
+        "András Z. Salamon",
+        "Mateu Villaret"
+      ],
+      "json_authors_raw": [
+        "Joan Espasa",
+        "Ian P. Gent",
+        "Ian Miguel",
+        "Peter Nightingale",
+        "András Z. Salamon",
+        "Mateu Villaret"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/isse.2004.1490422",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1490422/",
+      "gold_authors": [],
+      "parser_authors": [
+        "P. Dzhelekarski",
+        "V. Zerbe",
+        "D. Alexiev"
+      ],
+      "json_authors_raw": [
+        "P. Dzhelekarski",
+        "V. Zerbe",
+        "D. Alexiev"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/22.989979",
+      "resolved_url": "https://ieeexplore.ieee.org/document/989979/",
+      "gold_authors": [
+        "P. R. Stauffer",
+        "F. Rossetto",
+        "M. Prakash",
+        "D. G. Neuman",
+        "T. Lee"
+      ],
+      "parser_authors": [
+        "A. Rosen",
+        "M.A. Stuchly",
+        "A. Vander Vorst"
+      ],
+      "json_authors_raw": [
+        "A. Rosen",
+        "M.A. Stuchly",
+        "A. Vander Vorst"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/appeec.2010.5448686",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5448686/",
+      "gold_authors": [
+        "Jingjing Lu",
+        "Yong Liu",
+        "Yilu Liu",
+        "Jinghan He"
+      ],
+      "parser_authors": [
+        "Zhiying Xiang",
+        "Fei Qiao",
+        "Yumin Ma"
+      ],
+      "json_authors_raw": [
+        "Zhiying Xiang",
+        "Fei Qiao",
+        "Yumin Ma"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/cinc.2009.36",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5231051/",
+      "gold_authors": [
+        "Mu-Chen Chen",
+        "Shih-Hsien Huang"
+      ],
+      "parser_authors": [
+        "Ping Yao"
+      ],
+      "json_authors_raw": [
+        "Ping Yao"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/jssc.2004.829965",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1308593/",
+      "gold_authors": [
+        "D. Kaczman",
+        "M. Shah",
+        "M. Alam",
+        "M. Mehta",
+        "Meng-An Pan",
+        "Jinghong Chen",
+        "A. MC Clymont",
+        "M. Teshome",
+        "A. Sedano",
+        "Wei-Ling Lin",
+        "H. Dinc",
+        "Yan-Ling Tain",
+        "V. Peng",
+        "A. Zolfaghari",
+        "Baohong Liang",
+        "M. Tarsia",
+        "J. Castaneda",
+        "R. Benton",
+        "B. Nikolic"
+      ],
+      "parser_authors": [
+        "H. Waite",
+        "P. Ta",
+        "J. Chen",
+        "H. Li",
+        "M. Gao",
+        "C.S. Chang",
+        "Y.S. Chang",
+        "W. Redman-White",
+        "O. Charlon",
+        "Y. Fan",
+        "R. Perkins",
+        "D. Brunel",
+        "E. Soudee",
+        "N. Lecacheur",
+        "S. Clamagirand"
+      ],
+      "json_authors_raw": [
+        "H. Waite",
+        "P. Ta",
+        "J. Chen",
+        "H. Li",
+        "M. Gao",
+        "C.S. Chang",
+        "Y.S. Chang",
+        "W. Redman-White",
+        "O. Charlon",
+        "Y. Fan",
+        "R. Perkins",
+        "D. Brunel",
+        "E. Soudee",
+        "N. Lecacheur",
+        "S. Clamagirand"
+      ],
+      "verdict": "partial_overlap_unclear",
+      "f1_soft": 0.059,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/taes.2009.5310325",
+      "resolved_url": "https://ieeexplore.ieee.org/document/5310325/",
+      "gold_authors": [
+        "M. Rangaswamy",
+        "F. C. Robey",
+        "B. Himed"
+      ],
+      "parser_authors": [
+        "Cagatay Candan",
+        "A. Ozgur Yilmaz"
+      ],
+      "json_authors_raw": [
+        "Cagatay Candan",
+        "A. Ozgur Yilmaz"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/iembs.2007.4352368",
+      "resolved_url": "https://ieeexplore.ieee.org/document/4352368/",
+      "gold_authors": [
+        "Author name not visible in provided HTML"
+      ],
+      "parser_authors": [
+        "Xueli Zhao",
+        "Andre Arsenault",
+        "Kim L Lavoie",
+        "Bernard Meloche",
+        "Simon L Bacon"
+      ],
+      "json_authors_raw": [
+        "Xueli Zhao",
+        "Andre Arsenault",
+        "Kim L Lavoie",
+        "Bernard Meloche",
+        "Simon L Bacon"
+      ],
+      "verdict": "disjoint_names_gold_likely_wrong",
+      "f1_soft": 0.0,
+      "authors_found": true
+    },
+    {
+      "doi": "10.1109/mspec.2003.1235619",
+      "resolved_url": "https://ieeexplore.ieee.org/document/1235619/",
+      "gold_authors": [],
+      "parser_authors": [
+        "W.D. Jones"
+      ],
+      "json_authors_raw": [
+        "W.D. Jones"
+      ],
+      "verdict": "gold_missing_parser_has",
+      "f1_soft": 0.0,
+      "authors_found": true
+    }
+  ]
+}
