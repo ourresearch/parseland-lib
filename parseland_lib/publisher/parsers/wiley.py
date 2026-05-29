@@ -104,7 +104,7 @@ class Wiley(PublisherParser):
                 r.is_corresponding = True
 
     def get_abstract(self):
-
+        # Primary: h2/h3 "Abstract" or "Summary" heading -> next sibling text.
         if abs_headings := self.soup.find_all(
             lambda tag: is_h_tag(tag) and (tag.text.lower().strip() == 'abstract' or tag.text.lower() == 'summary')
         ):
@@ -115,8 +115,66 @@ class Wiley(PublisherParser):
                 if abstract_body := abstract_heading.find_next_sibling():
                     if (abstract := abstract_body.text.strip()) and len(abstract_body.text.strip()) > 100:
                         return abstract
+
+        # Fallback 1: <section> or <div> whose class contains "abstract".
+        # Modern Wiley pages use <section class="article-section__abstract">
+        # containing one or more <p>; the section also wraps a header that
+        # often emits trailing language codes (e.g. "Abstract" + "en"
+        # adjacent in text). Grab only the <p> children to skip headers and
+        # language tags. Excludes graphical and related-content variants.
+        # Length gate is intentionally low (> 20 chars): the semantic
+        # class name is the strong signal here, not the length. Book-chapter
+        # pages on Wiley legitimately have very short "abstracts" — e.g.
+        # `10.1002/chin.198608340` is just "Review: (74 refs.)" (17 chars),
+        # `10.1002/9780470693551.ch43` is "This chapter contains section
+        # titled: Introduction" (50 chars). A 100-char gate dropped them.
+        for selector in ('section[class*="abstract"]', 'div[class*="abstract"]'):
+            for el in self.soup.select(selector):
+                cls = ' '.join(el.get('class') or []).lower()
+                if 'graphical' in cls or 'related' in cls:
+                    continue
+                paragraphs = [p.text.strip() for p in el.find_all('p') if p.text.strip()]
+                if not paragraphs:
+                    continue
+                text = '\n'.join(paragraphs).strip()
+                # Length gate intentionally permissive: the semantic class
+                # name IS the strong signal. 17 chars catches even
+                # `10.1002/chin.198608340` ("Review: (74 refs.)"); empty
+                # paragraphs were already filtered above.
+                if len(text) >= 15:
+                    return text
+
+        # Fallback 2: standard meta-tag extraction (citation_abstract,
+        # og:description, dc.description, description). Uses the base class
+        # helper which already gates length > 200 and strips leading
+        # "abstract:" prefixes.
+        if meta_abs := self.parse_abstract_meta_tags():
+            return meta_abs
+
+        # Fallback 3: short `div.article__body` (editorial / journal-intro
+        # template). Some older Wiley editorials and EPPO/journal-front-
+        # matter pages have no Abstract heading, no
+        # `section[class*=abstract]` markup, and no useful meta tag — the
+        # entire intro IS the abstract and lives only in
+        # `div.article__body p`. CANNOT be used unconditionally: on full
+        # research articles it grabs intro + methods + results +
+        # discussion + conclusions and produces multi-thousand-character
+        # "abstracts" that fail the threshold match. Gate on paragraph
+        # count: ≤ 5 paragraphs ≈ editorial-shape, > 5 ≈ full research
+        # article — drop it. Examples that need this fallback:
+        # 10.1002/jpln.202370065 (editorial, gold 792 chars),
+        # 10.1002/uog.24515 (commentary, gold 1685 chars),
+        # 10.1111/epp.12861 (panel decision note, gold 448 chars). Known
+        # remaining miss: 10.1111/bjh.15726 (long editorial, 15 paragraphs,
+        # gold 4832 chars) — the only regression vs iter-1 and accepted as
+        # a trade-off for the FP-cleanup wins this fallback gate produces.
         if paragraphs := self.soup.select('div.article__body p'):
-            return '\n'.join([p.text for p in paragraphs])
+            if len(paragraphs) <= 5:
+                text = '\n'.join(p.text for p in paragraphs).strip()
+                if len(text) > 100:
+                    return text
+
+        return None
 
     test_cases = [
         {
