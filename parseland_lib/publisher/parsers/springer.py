@@ -448,6 +448,36 @@ class Springer(PublisherParser):
         ca_names: set[str] = set()
         ca_surnames: set[str] = set()
 
+        def _surname_of(meta_name: str) -> str:
+            """Derive surname from a citation_author / ld+json author name.
+
+            Springer's ``citation_author`` meta tag almost always uses the
+            "Surname, Given Names" convention (e.g. ``Ibrahim, Adel Ehab``,
+            ``O'Donnell, Patricia M.``). A naive ``rsplit(' ', 1)[-1]``
+            then picks the LAST given-name token as the surname:
+
+                - ``Ibrahim, Adel Ehab``  → ``Ehab``  (wrong; should be Ibrahim)
+                - ``O'Donnell, Patricia M.`` → ``M.``  (wrong; should be O'Donnell)
+
+            That mis-derived surname then floods ``ca_surnames`` with
+            common given names ("Ahmed", "M.") that collide with other
+            authors' real surnames (creating CA false positives) AND fails
+            to match the parser's "Given Surname" DOM-order names (creating
+            CA false negatives).
+
+            Comma-aware split: if the meta content has exactly one comma,
+            treat the part BEFORE the comma as the surname. Otherwise fall
+            back to the original ``rsplit`` behavior so ld+json names in
+            "Given Surname" form (no comma) still work.
+            """
+            if not meta_name:
+                return meta_name
+            if meta_name.count(",") == 1:
+                surname = meta_name.split(",", 1)[0].strip()
+                if surname:
+                    return surname
+            return meta_name.rsplit(" ", 1)[-1]
+
         try:
             # Walk both citation_author and citation_author_email metas in
             # document order. Track the most recent citation_author content;
@@ -457,6 +487,19 @@ class Springer(PublisherParser):
             # by Springer / ScienceDirect / most academic publisher
             # templates. Falls back gracefully when an email meta has no
             # preceding author meta (skipped silently).
+            #
+            # Discriminator: book-chapter pages on Springer's modern template
+            # routinely emit citation_author_email for EVERY chapter author —
+            # not just the one(s) annotators mark as corresponding. Treating
+            # "has email" as a CA signal then floods false positives on
+            # those rows (canonical: 978-981-10-4508-0_44 where all 5
+            # authors have emails but gold lists 1 CA). When the count of
+            # email-bearing authors equals the count of authors with metas,
+            # the per-author email signal is non-discriminative for this
+            # page — skip it and let the text-based "Correspondence to"
+            # path handle the row instead.
+            authors_in_meta: list[str] = []
+            emailed_authors: list[str] = []
             current_author = None
             for meta in self.soup.find_all(
                 "meta",
@@ -468,13 +511,40 @@ class Springer(PublisherParser):
                     continue
                 if name == "citation_author":
                     current_author = content
+                    authors_in_meta.append(content)
                 elif name == "citation_author_email" and current_author:
+                    emailed_authors.append(current_author)
+
+            n_authors = len(authors_in_meta)
+            n_emails = len(emailed_authors)
+            # Only treat emails as CA signal when fewer than ALL the
+            # citation_author metas have a paired email. ≥2 metas required
+            # so single-author pages (where the only author is by
+            # definition the CA) still benefit from the email signal.
+            email_signal_discriminative = (
+                n_authors >= 2 and 0 < n_emails < n_authors
+            )
+            if email_signal_discriminative:
+                for current_author in emailed_authors:
                     ca_names.add(current_author)
-                    ca_surnames.add(current_author.rsplit(" ", 1)[-1])
+                    ca_surnames.add(_surname_of(current_author))
+            elif n_authors < 2 and emailed_authors:
+                # Single-author page — preserve the iter-2 behavior.
+                for current_author in emailed_authors:
+                    ca_names.add(current_author)
+                    ca_surnames.add(_surname_of(current_author))
         except Exception:
             pass
 
         try:
+            # ld+json email signal — same per-author "every author has an
+            # email" discriminator as above. Springer's ld+json block tends
+            # to be a subset of the meta block (often just 1 author with
+            # email even when the meta has more) so the discriminator runs
+            # against the meta-based ``authors_in_meta`` count when
+            # available, otherwise against the ld+json author count.
+            ld_authors = 0
+            ld_emailed: list[str] = []
             for s in self.soup.find_all("script", {"type": "application/ld+json"}):
                 if not s.text:
                     continue
@@ -489,10 +559,19 @@ class Springer(PublisherParser):
                 for a in blob.get("author") or []:
                     if not isinstance(a, dict):
                         continue
+                    if a.get("name"):
+                        ld_authors += 1
                     if a.get("email") and a.get("name"):
-                        name = a["name"].strip()
-                        ca_names.add(name)
-                        ca_surnames.add(name.rsplit(" ", 1)[-1])
+                        ld_emailed.append(a["name"].strip())
+
+            ld_total = len(authors_in_meta) if authors_in_meta else ld_authors
+            ld_discriminative = (
+                ld_total >= 2 and 0 < len(ld_emailed) < ld_total
+            ) or (ld_total < 2 and ld_emailed)
+            if ld_discriminative:
+                for name in ld_emailed:
+                    ca_names.add(name)
+                    ca_surnames.add(_surname_of(name))
         except Exception:
             pass
 
