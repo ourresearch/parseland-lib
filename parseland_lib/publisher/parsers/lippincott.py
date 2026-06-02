@@ -191,6 +191,16 @@ class Lippincott(PublisherParser):
             return False
 
         def cleanup_aff(aff_text):
+            # aff.next_element.next_element is usually the NavigableString after
+            # the <sup>, but on some LWW pages it's a Tag (e.g. <em>). Calling
+            # .split on a Tag triggers bs4's child-tag lookup, which returns
+            # None and then crashes the whole parse ("NoneType not callable").
+            # Coerce to text first. NavigableString is already a str subclass.
+            if aff_text is None:
+                return ''
+            if not isinstance(aff_text, str):
+                aff_text = aff_text.get_text() if hasattr(
+                    aff_text, 'get_text') else str(aff_text)
             aff_text = aff_text.split(' to:')[-1]
             aff_text = re.split(r'correspondence', aff_text, flags=re.IGNORECASE)[-1]
             aff_text = aff_text.split('From')[-1]
@@ -216,11 +226,13 @@ class Lippincott(PublisherParser):
 
         # affiliation with no ids
         affiliations = aff_soup.findAll("p")
-        if ';' in affiliations[0].text:
+        if affiliations and ';' in affiliations[0].text:
             aff_texts = [txt.strip() for txt in affiliations[0].text.split(';')]
             for aff_text in aff_texts:
                 aff_id = self.parse_aff_ids(aff_text)
-                org = aff_text.split(aff_id)[-1]
+                # parse_aff_ids returns None when no id matches; ''.split(None)
+                # is [] and [-1] would IndexError. Fall back to the raw segment.
+                org = aff_text.split(aff_id)[-1] if aff_id else aff_text
                 results.append(Affiliation(aff_id=aff_id, organization=org))
             return results
 

@@ -131,6 +131,39 @@ PUBLISHER_REGISTRY: dict[str, PublisherSpec] = {
         asset_hosts=("ieeexplore.ieee.org/ielx", "ieeexplore.ieee.org/iel"),
         asset_match="in_url",
     ),
+    "taylor": PublisherSpec(
+        name="taylor",
+        parser_import="parseland_lib.publisher.parsers.taylor:Taylor",
+        default_gold=FIXTURES / "taylor-gold.ndjson",
+        default_artifact=FIXTURES / "taylor-iter-after.json",
+        asset_hosts=("doi.org",),
+    ),
+    "oup": PublisherSpec(
+        name="oup",
+        parser_import="parseland_lib.publisher.parsers.oxford:Oxford",
+        default_gold=FIXTURES / "oup-gold.ndjson",
+        default_artifact=FIXTURES / "oup-iter-after.json",
+        asset_hosts=("doi.org",),
+    ),
+    "sage": PublisherSpec(
+        name="sage",
+        parser_import="parseland_lib.publisher.parsers.sage:Sage",
+        default_gold=FIXTURES / "sage-gold.ndjson",
+        default_artifact=FIXTURES / "sage-iter-after.json",
+        asset_hosts=("doi.org",),
+    ),
+    "wolters_kluwer": PublisherSpec(
+        name="wolters_kluwer",
+        parser_import="parseland_lib.publisher.parsers.lippincott:Lippincott",
+        default_gold=FIXTURES / "wolters-kluwer-gold.ndjson",
+        default_artifact=FIXTURES / "wolters-kluwer-iter-after.json",
+        # LWW serves landing + PDF from the same host (journals.lww.com), so
+        # 'endswith' would wrongly drop the article landing too. Use 'in_url'
+        # and mark only the PDF-download stub paths as assets; doi.org marks
+        # un-followed redirect stubs.
+        asset_hosts=("doi.org", "downloadpdf.aspx", "oaks.journals"),
+        asset_match="in_url",
+    ),
 }
 
 

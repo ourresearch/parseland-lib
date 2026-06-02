@@ -1,3 +1,4 @@
+import html
 import re
 from urllib.parse import urlparse
 
@@ -10,6 +11,29 @@ from parseland_lib.legacy_parse_utils.version_and_license import \
     page_potential_license_text, detect_sd_author_manuscript, detect_bronze, \
     detect_hybrid
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
+
+
+# Lippincott / Wolters Kluwer (journals.lww.com) embeds the article PDF as a
+# downloadpdf.aspx link in the page markup but emits no citation_pdf_url meta
+# tag, so the generic find_pdf_link misses it entirely. The an= (article
+# number) query param identifies the resource; trckng_src_pg is a tracking
+# param. We take the first downloadpdf.aspx URL in the markup.
+_LWW_PDF_RE = re.compile(
+    r'https://journals\.lww\.com/[^\s"\'<>]*?/oaks\.journals/downloadpdf\.aspx\?[^\s"\'<>]*',
+    re.I,
+)
+
+
+def find_lww_pdf_link(page_with_scripts):
+    """Return the LWW downloadpdf.aspx URL from page markup, or None."""
+    match = _LWW_PDF_RE.search(page_with_scripts or '')
+    if not match:
+        return None
+    # The URL is HTML-escaped in markup (&amp; -> &). Unescape, then trim any
+    # trailing escaped-entity / delimiter junk the greedy class may capture.
+    url = html.unescape(match.group(0))
+    url = re.split(r'["\'<>\\]|&quot;', url)[0]
+    return url
 
 
 def parse_publisher_fulltext_location(soup, resolved_url):
@@ -62,6 +86,9 @@ def parse_publisher_fulltext_location(soup, resolved_url):
             version = 'acceptedVersion'
             pdf_link = DuckLink(resolved_url.replace(
                 '/article/pii/', '/article/am/pii/'), 'download')
+        elif resolved_host.endswith('journals.lww.com') and (
+                lww_pdf := find_lww_pdf_link(soup_str)):
+            pdf_link = DuckLink(lww_pdf, 'download')
 
     pdf_url = get_link_target(pdf_link.href, resolved_url) if pdf_link is not None else None
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
