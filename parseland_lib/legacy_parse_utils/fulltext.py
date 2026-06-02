@@ -36,6 +36,25 @@ def find_lww_pdf_link(page_with_scripts):
     return url
 
 
+# Cambridge University Press (cambridge.org) journal pages expose the PDF via a
+# citation_pdf_url meta tag (handled by find_pdf_link), but Cambridge eBook
+# (cbo*) chapter pages have no such meta and no PDF anchor — the
+# aop-cambridge-core/content/view/<hash>/<file>.pdf link only appears inside a
+# script/JSON blob. Pull it from the markup and resolve to the canonical host.
+_CUP_PDF_RE = re.compile(
+    r'/core/services/aop-cambridge-core/content/view/[^\s"\'<>\\)]+\.pdf',
+    re.I,
+)
+
+
+def find_cup_pdf_link(page_with_scripts):
+    """Return the Cambridge Core aop PDF URL from page markup, or None."""
+    match = _CUP_PDF_RE.search(page_with_scripts or '')
+    if not match:
+        return None
+    return 'https://www.cambridge.org' + html.unescape(match.group(0))
+
+
 def parse_publisher_fulltext_location(soup, resolved_url):
     cleaned_soup = cleanup_soup(soup)
     detected_resolved_url = get_base_url_from_soup(soup)
@@ -89,6 +108,9 @@ def parse_publisher_fulltext_location(soup, resolved_url):
         elif resolved_host.endswith('journals.lww.com') and (
                 lww_pdf := find_lww_pdf_link(soup_str)):
             pdf_link = DuckLink(lww_pdf, 'download')
+        elif resolved_host.endswith('cambridge.org') and (
+                cup_pdf := find_cup_pdf_link(soup_str)):
+            pdf_link = DuckLink(cup_pdf, 'download')
 
     pdf_url = get_link_target(pdf_link.href, resolved_url) if pdf_link is not None else None
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)

@@ -164,6 +164,13 @@ PUBLISHER_REGISTRY: dict[str, PublisherSpec] = {
         asset_hosts=("doi.org", "downloadpdf.aspx", "oaks.journals"),
         asset_match="in_url",
     ),
+    "cup": PublisherSpec(
+        name="cup",
+        parser_import="parseland_lib.publisher.parsers.cup:CUP",
+        default_gold=FIXTURES / "cup-gold.ndjson",
+        default_artifact=FIXTURES / "cup-iter-after.json",
+        asset_hosts=("doi.org",),
+    ),
 }
 
 

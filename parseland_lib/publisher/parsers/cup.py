@@ -39,7 +39,26 @@ class CUP(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
-        return {"authors": result_authors, "abstract": self.parse_abstract_meta_tags()}
+        # Older CUP journal pages and Cambridge eBook (cbo*) chapters use a
+        # different template with no div.author — authors live in
+        # citation_author meta tags (affiliations in citation_author_institution).
+        # Fall back to meta-tag parsing so these ~40% of pages aren't dropped.
+        if not result_authors:
+            result_authors = self.parse_author_meta_tags()
+
+        # Journal pages carry the abstract in meta tags. Cambridge eBook (cbo*)
+        # chapter pages do not — their meta og:description is just the book
+        # title ("Frank Sinatra - June 2007"), while the real chapter abstract
+        # lives in div.abstract. Fall back to it when the meta abstract is
+        # missing or too short to be a real abstract.
+        abstract = self.parse_abstract_meta_tags()
+        if not abstract or len(abstract) < 200:
+            if abs_div := self.soup.select_one("div.abstract"):
+                div_text = abs_div.get_text(" ", strip=True)
+                if len(div_text) > len(abstract or ""):
+                    abstract = div_text
+
+        return {"authors": result_authors, "abstract": abstract}
 
     test_cases = [
         {
