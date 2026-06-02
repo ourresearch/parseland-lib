@@ -18,24 +18,56 @@ class ACS(PublisherParser):
         result_authors = []
         author_soup = self.soup.find("ul", class_="loa")
         authors = author_soup.findAll("li")
+        # Alternate ACS template (older / some journals): affiliations are not
+        # per-author loa-info-affiliations divs but a page-level list of
+        # div.aff-info > span.aff-text (the main institutional affiliation,
+        # usually shared by all authors; the dagger/double-dagger footnotes are
+        # present-address / correspondence notes, captured separately). Use it as
+        # a shared fallback for authors that have no per-author affiliations.
+        shared_affs = [
+            t.get_text(" ", strip=True)
+            for t in self.soup.select("div.aff-info span.aff-text")
+        ]
+        shared_affs = [a for a in shared_affs if a]
         for author in authors:
-            # method 1
+            # Prefer loa-info-name (modern template); fall back to
+            # hlFld-ContribAuthor (alternate template — gives a clean name
+            # without the trailing author-xref-symbol superscript); finally the
+            # raw li text.
             name = author.find("div", class_="loa-info-name")
+            if not name:
+                name = author.find("span", class_="hlFld-ContribAuthor")
             if name:
                 name = name.text.strip()
             else:
                 name = author.text
 
-            if author.find("strong") and author.find("strong").text == "*":
-                is_corresponding = True
-            else:
-                is_corresponding = False
+            # ul.loa interleaves separator <li> elements (", " and " and ")
+            # between author names; without a name div they fall through to
+            # author.text and were being emitted as junk authors, tanking author
+            # precision. Skip any <li> whose text is just a separator.
+            name = (name or "").replace("\xa0", " ").strip()
+            if not name or name.strip(" ,&").lower() in ("", "and"):
+                continue
+
+            strong = author.find("strong")
+            is_corresponding = bool(strong and strong.text.strip() == "*")
+            if not is_corresponding:
+                # Alternate template marks the corresponding author with a '*'
+                # in an author-xref-symbol superscript rather than a
+                # <strong>*</strong>; the <strong> check alone missed these
+                # (recall 0.63). The '*' xref is corresponding-only on ACS.
+                is_corresponding = any(
+                    "*" in x.get_text() for x in author.select(".author-xref-symbol")
+                )
 
             affiliations = []
             affiliation_soup = author.find("div", class_="loa-info-affiliations")
             if affiliation_soup:
                 for organization in affiliation_soup.findAll("div"):
                     affiliations.append(organization.text.strip())
+            if not affiliations:
+                affiliations = list(shared_affs)
 
             result_authors.append(
                 AuthorAffiliations(

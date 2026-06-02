@@ -171,6 +171,13 @@ PUBLISHER_REGISTRY: dict[str, PublisherSpec] = {
         default_artifact=FIXTURES / "cup-iter-after.json",
         asset_hosts=("doi.org",),
     ),
+    "acs": PublisherSpec(
+        name="acs",
+        parser_import="parseland_lib.publisher.parsers.acs:ACS",
+        default_gold=FIXTURES / "acs-gold.ndjson",
+        default_artifact=FIXTURES / "acs-iter-after.json",
+        asset_hosts=("doi.org",),
+    ),
 }
 
 
