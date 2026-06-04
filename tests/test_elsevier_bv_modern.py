@@ -245,6 +245,33 @@ def test_cell_press_portal_skips_when_aff_count_mismatches():
         assert a.affiliations == []
 
 
+MULTIPLE_AUTHOR_GROUPS = """
+<html><body>
+<div class="author-group">
+  <button class="button-link button-link-primary">
+    <span class="given-name">K.</span> <span class="text surname">Alder</span>
+  </button>
+</div>
+<div class="author-group">
+  <button class="button-link button-link-primary">
+    <span class="given-name">A.</span> <span class="text surname">Winther</span>
+  </button>
+</div>
+</body></html>
+"""
+
+
+def test_parse_multiple_author_group_divs_collects_all():
+    """Older ScienceDirect reprints (e.g. Phys Lett B 1971, Reference Module
+    book chapters) wrap EACH author in their own <div class="author-group">
+    sibling rather than collecting authors in a single container. The parser
+    must iterate ALL author-group divs, not stop at the first."""
+    soup = BeautifulSoup(MULTIPLE_AUTHOR_GROUPS, "lxml")
+    result = ElsevierBV(soup).parse()
+    names = [a.name for a in result["authors"]]
+    assert names == ["K. Alder", "A. Winther"]
+
+
 def test_parse_uppercase_cor_refid_still_detected():
     """Some older Elsevier pages emit refid='COR1' in uppercase. The JSON
     matcher must be case-insensitive."""

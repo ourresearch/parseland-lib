@@ -61,8 +61,13 @@ class ElsevierBV(PublisherParser):
         <dl><dt><sup>a</sup></dt><dd>institution</dd></dl>.
         """
         results = []
-        ag = self.soup.find("div", class_="author-group")
-        if not ag:
+        # Some ScienceDirect pages (older Phys Lett B reprints, book chapters
+        # from the Reference Module series, etc.) wrap EACH author in a
+        # separate <div class="author-group"> sibling rather than collecting
+        # them all in a single container. find() returned only the first
+        # author in those cases — collect them all.
+        author_groups = self.soup.find_all("div", class_="author-group")
+        if not author_groups:
             return results
 
         # Affiliations live in <dl class="affiliation"> blocks. Two layouts:
@@ -92,11 +97,12 @@ class ElsevierBV(PublisherParser):
         # "show all authors" toggle button.
         seen = set()
         author_tags = []
-        for s in ag.find_all("span", class_="surname"):
-            t = s.find_parent(["button", "a"])
-            if t is not None and id(t) not in seen:
-                seen.add(id(t))
-                author_tags.append(t)
+        for ag in author_groups:
+            for s in ag.find_all("span", class_="surname"):
+                t = s.find_parent(["button", "a"])
+                if t is not None and id(t) not in seen:
+                    seen.add(id(t))
+                    author_tags.append(t)
 
         for tag in author_tags:
             surname_el = tag.find("span", class_="surname")

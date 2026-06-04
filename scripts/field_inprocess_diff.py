@@ -178,6 +178,13 @@ PUBLISHER_REGISTRY: dict[str, PublisherSpec] = {
         default_artifact=FIXTURES / "acs-iter-after.json",
         asset_hosts=("doi.org",),
     ),
+    "de_gruyter": PublisherSpec(
+        name="de_gruyter",
+        parser_import="parseland_lib.publisher.parsers.de_gruyter:DeGruyter",
+        default_gold=FIXTURES / "de_gruyter-gold.ndjson",
+        default_artifact=FIXTURES / "de_gruyter-iter-after.json",
+        asset_hosts=("doi.org", "degruyter.com"),
+    ),
 }
 
 
