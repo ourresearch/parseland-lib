@@ -11,4 +11,12 @@ scripts-out/
 mismatches/*.ndjson
 mismatches/sprint-*.json
 mismatches/gold-drafts/*.ndjson
+mismatches/_registrant-cache.json
+mismatches/publisher-queue.ndjson.summary.json
+mismatches/baselines/
+mismatches/gate-results/
+mismatches/whole-goldie-cache/
+
+# autonomous improver: whole-Goldie eval runs (regenerable from corpus)
+eval/runs/whole-goldie-*.json
 
