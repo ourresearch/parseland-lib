@@ -18,7 +18,14 @@ class Oxford(PublisherParser):
             raise UnusualTrafficError(
                 f"content blocked within {self.parser_name} parser"
             )
-        return self.domain_in_meta_og_url("academic.oup.com")
+        # The HTML may have og:url=dx.doi.org (the DOI router) even when the
+        # actual page is on academic.oup.com — common for cached HTML where
+        # the publisher's page sets og:url to the DOI for citation portability.
+        # Accept either signal: og:url OR canonical link.
+        return (
+            self.domain_in_meta_og_url("academic.oup.com")
+            or self.domain_in_canonical_link("academic.oup.com")
+        )
 
     def authors_found(self):
         return self.soup.find("div", class_="at-ArticleAuthors")
