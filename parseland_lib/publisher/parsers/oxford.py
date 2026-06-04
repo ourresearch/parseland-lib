@@ -61,9 +61,55 @@ class Oxford(PublisherParser):
                         is_corresponding=is_corresponding,
                     )
                 )
-        abstract = '\n'.join([tag.text for tag in self.soup.select('section.abstract p')])
+        abstract = self._extract_abstract()
         return {"authors": results,
                 "abstract": abstract,}
+
+    def _extract_abstract(self):
+        """Extract abstract with fallbacks for OUP markup variants.
+
+        Order of preference:
+          1. ``section.abstract p`` — standard OUP journal article template.
+          2. ``.chapter-para`` — conference/supplement abstracts and some
+             book-chapter templates that omit the ``section.abstract`` wrapper
+             but expose the abstract body via the ``chapter-para`` class.
+          3. ``meta[name=citation_abstract]`` content — used by a handful of
+             OUP titles, full-length abstract.
+          4. ``meta[property=og:description]`` / ``meta[name=description]``
+             content with the leading "Abstract" prefix stripped — truncated
+             at ~160 chars but better than no abstract at all.
+        """
+        primary = '\n'.join(
+            tag.text for tag in self.soup.select('section.abstract p')
+            if tag.text and tag.text.strip()
+        ).strip()
+        if primary:
+            return primary
+
+        chapter_paras = '\n'.join(
+            tag.text for tag in self.soup.select('.chapter-para')
+            if tag.text and tag.text.strip()
+        ).strip()
+        if chapter_paras:
+            return chapter_paras
+
+        citation_meta = self.soup.select_one('meta[name="citation_abstract"]')
+        if citation_meta and (citation_meta.get('content') or '').strip():
+            return citation_meta.get('content').strip()
+
+        for selector in ('meta[property="og:description"]',
+                         'meta[name="description"]'):
+            meta = self.soup.select_one(selector)
+            if not meta:
+                continue
+            content = (meta.get('content') or '').strip()
+            if not content:
+                continue
+            # Strip leading "Abstract" / "Abstract." prefix that OUP injects.
+            content = re.sub(r'^abstract[\.\s:]*', '', content, flags=re.I).strip()
+            if content:
+                return content
+        return ''
 
 
     test_cases = [

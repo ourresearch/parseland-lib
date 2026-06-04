@@ -10,7 +10,10 @@ class Taylor(PublisherParser):
     parser_name = "taylor"
 
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url("tandfonline.com")
+        return (
+            self.domain_in_meta_og_url("tandfonline.com")
+            or self.domain_in_canonical_link("tandfonline.com")
+        )
 
     def authors_found(self):
         return self.soup.find("div", class_="publicationContentAuthors")
@@ -50,7 +53,21 @@ class Taylor(PublisherParser):
                 )
             )
         abstract_tag = self.soup.find('div', class_='abstractInFull')
-        abstract = re.sub('^Abstract', '', abstract_tag.text, flags=re.IGNORECASE) if abstract_tag else None
+        if not abstract_tag:
+            # Fallback: hlFld-Abstract container covers the older/legacy
+            # Taylor & Francis layout where abstractInFull is absent.
+            abstract_tag = self.soup.find(class_='hlFld-Abstract')
+        if abstract_tag:
+            abstract = abstract_tag.text
+            # Strip duplicated leading "Abstract" / "ABSTRACT" / "RÉSUMÉ" labels
+            # (hlFld-Abstract sometimes contains the heading twice).
+            abstract = re.sub(r'^\s*(?:abstract|résumé|resumen|zusammenfassung)\s*',
+                              '', abstract, flags=re.IGNORECASE)
+            abstract = re.sub(r'^\s*(?:abstract|résumé|resumen|zusammenfassung)\s*',
+                              '', abstract, flags=re.IGNORECASE)
+            abstract = abstract.strip() or None
+        else:
+            abstract = None
         return {"authors": results, "abstract": abstract}
 
     test_cases = [

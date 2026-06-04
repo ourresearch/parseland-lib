@@ -720,6 +720,27 @@ class Springer(PublisherParser):
                     if text:
                         return text
 
+        # Legacy/older SpringerLink book-chapter pages (and many encyclopedia
+        # entries) emit no JSON-LD ``description``, no ``section.Abstract``,
+        # no ``section[data-title=Abstract|Introduction]``, and no
+        # ``section.Section1`` with an Introduction/Abstract/Summary heading.
+        # The chapter abstract on those pages lives only in the
+        # ``og:description`` / ``<meta name="description">`` tags (Springer
+        # renders them server-side from the same source the gold annotators
+        # used). Use the longer of the two as a last-resort fallback when
+        # every DOM section probe came up empty. Require >=80 chars so we
+        # don't lock in a one-line catalog blurb.
+        meta_texts = []
+        og = self.soup.find("meta", attrs={"property": "og:description"})
+        if og and og.get("content"):
+            meta_texts.append(og["content"].strip())
+        desc = self.soup.find("meta", attrs={"name": "description"})
+        if desc and desc.get("content"):
+            meta_texts.append(desc["content"].strip())
+        meta_texts = [t for t in meta_texts if len(t) >= 80]
+        if meta_texts:
+            return max(meta_texts, key=len)
+
         return None
 
     def parse_article_metadatas(self):
