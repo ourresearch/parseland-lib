@@ -9,9 +9,19 @@ class ElsevierBV(PublisherParser):
     parser_name = "Elsevier BV"
 
     def is_publisher_specific_parser(self):
-        return self.soup.find(
-            "script", {"src": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"}
-        ) and not self.domain_in_canonical_link("papers.ssrn.com")
+        # Original signal: the OneTrust cookie consent script that runs on
+        # modern ScienceDirect pages. Legacy /abs/ pages (pre-2000s reprints,
+        # older Cell Press supplements, conference abstracts) omit this
+        # script but ARE Elsevier — the canonical link points to
+        # sciencedirect.com. Accept either signal.
+        if self.domain_in_canonical_link("papers.ssrn.com"):
+            return False
+        return bool(
+            self.soup.find(
+                "script", {"src": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"}
+            )
+            or self.domain_in_canonical_link("sciencedirect.com")
+        )
 
     def authors_found(self):
         # Legacy ScienceDirect template uses <li class="author">.
