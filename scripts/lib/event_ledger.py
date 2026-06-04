@@ -50,6 +50,10 @@ AGENT_NAME_TO_ROLE: dict[str, str] = {
     "field-orchestrator": "Pathfinder",
     "rank_publishers": "Pathfinder",
     "batch_baseline": "Pathfinder",
+    "retrieval_audit": "Pathfinder",
+    "retrieval_fill": "Pathfinder",
+    "retrieval_browser": "Pathfinder",
+    "whole_goldie_eval": "Pathfinder",
     # Craftsman family
     "publisher-field-worker": "Craftsman",
     "field-distiller": "Craftsman",
