@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -51,6 +52,8 @@ class GroundingResult:
     verified_candidate_final_url: str | None = None
     verified_candidate_status: int | None = None
     verified_candidate_screenshot_path: str | None = None
+    resolved_candidate: dict[str, Any] | None = None
+    resolved_candidate_source: str | None = None
     html_excerpt: str | None = None
     selector: str | None = None
     confidence: str = "needs_referee"
@@ -143,6 +146,50 @@ def candidate_pdf_url(candidate: dict) -> str | None:
         return None
     url = payload.get("pdf_url")
     return url.strip() if isinstance(url, str) and url.strip() else None
+
+
+def candidate_author_count(candidate: dict) -> int | None:
+    if candidate.get("field") != "authors":
+        return None
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return None
+    count = payload.get("n_authors")
+    return count if isinstance(count, int) and count > 0 else None
+
+
+def extract_author_names_from_html(html: str) -> list[str]:
+    match = re.search(r'"authorNames"\s*:\s*"([^"]+)"', html)
+    if not match:
+        return []
+    raw = match.group(1)
+    try:
+        raw = json.loads(f'"{raw}"')
+    except Exception:
+        pass
+    names = [" ".join(part.split()) for part in raw.split(";")]
+    return [name for name in names if name]
+
+
+def resolve_author_count_candidate(html: str, candidate: dict) -> tuple[dict[str, Any], str] | None:
+    expected_count = candidate_author_count(candidate)
+    if not expected_count:
+        return None
+    names = extract_author_names_from_html(html)
+    if len(names) != expected_count:
+        return None
+    resolved = {
+        "authors": [
+            {
+                "name": name,
+                "affiliations": [],
+                "is_corresponding": None,
+            }
+            for name in names
+        ]
+    }
+    excerpt, _ = _matched_excerpt(html, ['"authorNames"'])
+    return resolved, excerpt or f"authorNames={';'.join(names)}"
 
 
 def candidate_quality_blocker(candidate: dict) -> str | None:
@@ -386,6 +433,16 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             screenshot_path = evidence_dir / f"{stem}.png"
             page.screenshot(path=str(screenshot_path), full_page=True)
             excerpt, selector, confidence = excerpt_for(html, candidate)
+            resolved_candidate = None
+            resolved_candidate_source = None
+            author_resolution = None
+            if field == "authors" and confidence != "candidate_text_match":
+                author_resolution = resolve_author_count_candidate(html, candidate)
+                if author_resolution:
+                    resolved_candidate, excerpt = author_resolution
+                    selector = "authorNames-count-match"
+                    confidence = "author_count_author_names_match"
+                    resolved_candidate_source = "browserbase_rendered_authorNames"
             pdf_verification = None
             if field == "pdf_url" and confidence != "candidate_text_match":
                 pdf_verification = verify_pdf_candidate_url(page, candidate, evidence_dir, stem)
@@ -395,7 +452,11 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     confidence = str(pdf_verification.get("confidence"))
             status = (
                 "candidate_evidence_needs_referee"
-                if confidence in {"candidate_text_match", "candidate_pdf_url_resolves"}
+                if confidence in {
+                    "candidate_text_match",
+                    "candidate_pdf_url_resolves",
+                    "author_count_author_names_match",
+                }
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"
                 else "weak_page_render_needs_referee"
@@ -419,6 +480,8 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                 verified_candidate_screenshot_path=(
                     pdf_verification or {}
                 ).get("candidate_screenshot_path") if pdf_verification else None,
+                resolved_candidate=resolved_candidate,
+                resolved_candidate_source=resolved_candidate_source,
                 html_excerpt=excerpt,
                 selector=selector,
                 confidence=confidence,
@@ -450,6 +513,8 @@ def write_result(out: Path, candidate: dict, result: GroundingResult) -> None:
         "verified_candidate_final_url": result.verified_candidate_final_url,
         "verified_candidate_status": result.verified_candidate_status,
         "verified_candidate_screenshot_path": result.verified_candidate_screenshot_path,
+        "resolved_candidate": result.resolved_candidate,
+        "resolved_candidate_source": result.resolved_candidate_source,
         "evidence_excerpt": result.html_excerpt,
         "dom_selector": result.selector,
         "grounding_confidence": result.confidence,

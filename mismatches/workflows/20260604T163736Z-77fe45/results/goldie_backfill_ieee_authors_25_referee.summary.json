@@ -1,0 +1,23 @@
+{
+  "run_id": "bb-ieee-authors-25-resolved-20260605T182358Z",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_25_resolved_bb-ieee-authors-25-resolved-20260605T182358Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_25_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",
+  "reviewed_at": "2026-06-05T18:26:23.315005+00:00",
+  "total": 25,
+  "status_counts": {
+    "referee_approved": 25
+  },
+  "grounding_confidence_counts": {
+    "candidate_text_match": 3,
+    "author_count_author_names_match": 22
+  },
+  "resolved_candidate_source_counts": {
+    "browserbase_rendered_authorNames": 22
+  },
+  "approved_count": 25,
+  "blocked_count": 0,
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "diagnosis": "Browserbase-grounded IEEE authors batch resolved n_authors-only candidates from rendered IEEE authorNames when counts matched. All 25 rows have candidate evidence and are approved into a derived ledger.",
+  "next_action": "Ground remaining IEEE author candidates in 25-50 row batches; keep Referee approval separate from current-Goldie KPI."
+}
