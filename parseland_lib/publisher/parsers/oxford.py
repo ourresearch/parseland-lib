@@ -90,7 +90,7 @@ class Oxford(PublisherParser):
             tag.text for tag in self.soup.select('.chapter-para')
             if tag.text and tag.text.strip()
         ).strip()
-        if chapter_paras:
+        if chapter_paras and not self._is_low_quality_abstract_fallback(chapter_paras):
             return chapter_paras
 
         citation_meta = self.soup.select_one('meta[name="citation_abstract"]')
@@ -107,9 +107,26 @@ class Oxford(PublisherParser):
                 continue
             # Strip leading "Abstract" / "Abstract." prefix that OUP injects.
             content = re.sub(r'^abstract[\.\s:]*', '', content, flags=re.I).strip()
-            if content:
+            if content and not self._is_low_quality_abstract_fallback(content):
                 return content
         return ''
+
+    @staticmethod
+    def _is_low_quality_abstract_fallback(content):
+        """Reject fallback-only snippets that are page chrome or citations."""
+        normalized = re.sub(r'\s+', ' ', content).strip().lower()
+        if not normalized:
+            return True
+        if normalized.startswith("this content is only available as a pdf"):
+            return True
+        if normalized.startswith("section editor:"):
+            return True
+        if "published on by oxford university press" in normalized:
+            return True
+        if "https://doi.org/" in normalized and re.search(
+                r'\bvolume\b.+\bissue\b.+\bpages\b', normalized):
+            return True
+        return False
 
 
     test_cases = [

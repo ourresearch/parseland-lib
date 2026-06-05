@@ -1,0 +1,108 @@
+{
+  "artifacts": {
+    "focused_after": "mismatches/workflows/20260604T163736Z-77fe45/results/oup_abstract_after_low_quality_filter.json",
+    "full_after": "eval/runs/whole-goldie-after-oxford-abstract-filter-20260605T104828Z.json",
+    "full_before": "eval/runs/whole-goldie-phase1-full10k-20260605T094337Z.json",
+    "scoped_after": "eval/runs/whole-goldie-oxford-filter-oxford-springer-gate-20260605T111543Z.json"
+  },
+  "caveats": [
+    "Full 10K after-gate showed one Springer corresponding row drift outside Oxford code path: 10.1007/978-3-319-43486-5_13.",
+    "Oxford parser/test change only touches abstract fallback filtering; Oxford authors/affiliations/pdf/corresponding were unchanged in both full and scoped gates."
+  ],
+  "created_at": "2026-06-05T11:24:25.182798+00:00",
+  "field": "abstract",
+  "full_10k_delta": {
+    "abstract_ratio_fuzzy": {
+      "after": 0.8679391199764309,
+      "before": 0.8676495127833966,
+      "delta": 0.0002896071930342803
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.921648007422582,
+      "before": 0.921648007422582,
+      "delta": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9118077207549894,
+      "before": 0.9118077207549894,
+      "delta": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9574125851495883,
+      "before": 0.9576164587479573,
+      "delta": -0.00020387359836904206
+    },
+    "gold_empty_parser_present_count": {
+      "after": 2577,
+      "before": 2588,
+      "delta": -11
+    },
+    "n_abstract_scored": {
+      "after": 5027,
+      "before": 5016,
+      "delta": 11
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9341836734693878,
+      "before": 0.9341836734693878,
+      "delta": 0.0
+    }
+  },
+  "oxford_delta": {
+    "abstract_ratio_fuzzy": {
+      "after": 0.6545186291965416,
+      "before": 0.640531529164013,
+      "delta": 0.013987100032528565
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9471905365441488,
+      "before": 0.9471905365441488,
+      "delta": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9013504611330698,
+      "before": 0.9013504611330698,
+      "delta": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9832669322709163,
+      "before": 0.9832669322709163,
+      "delta": 0.0
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9768339768339769,
+      "before": 0.9768339768339769,
+      "delta": 0.0
+    }
+  },
+  "publisher": "oxford",
+  "scoped_springer_delta": {
+    "abstract_ratio_fuzzy": {
+      "after": 0.9149642709826493,
+      "before": 0.9149642709826493,
+      "delta": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.957459999244554,
+      "before": 0.957459999244554,
+      "delta": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9541354890080626,
+      "before": 0.9541354890080626,
+      "delta": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9734101096170057,
+      "before": 0.9743420760662136,
+      "delta": -0.0009319664492078994
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9936651583710407,
+      "before": 0.9936651583710407,
+      "delta": 0.0
+    }
+  },
+  "status": "scoped_green_with_global_caveat",
+  "task_id": "v2_oxford_abstract_02a7eeb9"
+}

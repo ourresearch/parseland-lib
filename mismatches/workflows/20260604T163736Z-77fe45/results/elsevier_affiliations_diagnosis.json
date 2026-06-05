@@ -1,0 +1,39 @@
+{
+  "task_id": "v2_elsevier_affiliations_84be36c2",
+  "publisher": "elsevier",
+  "field": "affiliations",
+  "classification": "parser_owned_needs_implementation",
+  "status": "needs_referee_continue_diagnosis",
+  "baseline_artifact": "tests/fixtures/elsevier-iter-worker-before.json",
+  "baseline": {
+    "dispatched_rows": 1348,
+    "affiliations_mean_soft_f1": 0.803,
+    "matched_author_rows": 1174,
+    "zero_affiliation_rows_with_good_author_match": 167
+  },
+  "dominant_variant": {
+    "count": 145,
+    "denominator": 167,
+    "description": "Modern ScienceDirect div.author-group / AuthorGroups markup where affiliations are embedded in a script type=\"application/json\" payload under authors.affiliations with aff1/aff2 keys; DOM author refs use span.author-ref id=\"baff1\" / sup a."
+  },
+  "doi_examples": [
+    "10.1016/j.jep.2022.115840",
+    "10.1016/j.nima.2006.01.055",
+    "10.1016/j.ejmech.2022.115004",
+    "10.1016/j.gpb.2016.04.006",
+    "10.1016/j.apsusc.2020.148056",
+    "10.1016/j.tins.2005.03.003"
+  ],
+  "recommended_patch": "Add a narrow ElsevierBV JSON-affiliation fallback parallel to the existing __PRELOADED_STATE__ fallback; map AuthorGroups author refs to authors.affiliations aff ids and avoid overwriting existing affiliations.",
+  "commands_run": [
+    "python3 scripts/workflow_claim.py ... --publisher elsevier --field affiliations --n 1",
+    "PARSELAND_NO_PROGRESS=1 .venv/bin/python scripts/field_inprocess_diff.py --publisher elsevier --field affiliations --gold tests/fixtures/elsevier-10k-gold.ndjson --out tests/fixtures/elsevier-iter-worker-before.json"
+  ],
+  "blockers": [
+    "scripts/workflow_claim.py reads the v1 queue and could not claim the v2 queue cell.",
+    "No parser patch was implemented or validated by this worker."
+  ],
+  "files_changed_by_worker": [
+    "tests/fixtures/elsevier-iter-worker-before.json"
+  ]
+}

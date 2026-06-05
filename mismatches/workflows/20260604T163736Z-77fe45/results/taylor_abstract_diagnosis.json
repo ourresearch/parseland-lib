@@ -1,0 +1,73 @@
+{
+  "task_id": "v2_taylor_abstract_3e187ca5",
+  "publisher": "taylor",
+  "field": "abstract",
+  "classification": "needs_referee_gold_scorer_product_quality",
+  "status": "needs_referee_not_ship_ready",
+  "baseline": {
+    "source": "tests/fixtures/taylor-gold.ndjson",
+    "abstract_matches": 168,
+    "scored_rows": 277,
+    "match_rate": 0.606,
+    "parser_failures": 0,
+    "dispatch_skipped": 8
+  },
+  "candidate_results": [
+    {
+      "name": "candidate_0_taylor_specific_dc_description_when_no_dom_abstract",
+      "abstract_matches": 179,
+      "scored_rows": 277,
+      "match_rate": 0.646,
+      "lift_pp": 3.97,
+      "other_fields": "unchanged",
+      "verdict": "best_measured_but_not_ship_ready"
+    },
+    {
+      "name": "candidate_1_looser_fallback_without_editorial_filter",
+      "abstract_matches": 178,
+      "scored_rows": 277,
+      "match_rate": 0.643,
+      "verdict": "worse_due_metadata_false_positives"
+    },
+    {
+      "name": "candidate_2_generic_parse_abstract_meta_tags",
+      "verdict": "stopped_before_aggregate; expected regression because generic helper rejects truncated metadata gold uses"
+    }
+  ],
+  "doi_examples": [
+    {
+      "doi": "10.1080/10630730600752868",
+      "classification": "selector_gap_recovered_by_candidate_0",
+      "evidence": "No visible abstract wrapper; dc.Description matches gold."
+    },
+    {
+      "doi": "10.1080/00085006.2023.2202999",
+      "classification": "selector_gap_recovered_by_candidate_0",
+      "evidence": "Book-review page with no visible abstract wrapper; dc.Description matches gold."
+    },
+    {
+      "doi": "10.1080/16081625.2025.2587578",
+      "classification": "full_visible_abstract_vs_truncated_gold",
+      "evidence": "Visible hlFld-Abstract has a full abstract; gold matches a truncated dc.Description snippet ending in ellipsis."
+    },
+    {
+      "doi": "10.1080/10428194.2022.2034160",
+      "classification": "full_visible_abstract_vs_truncated_gold",
+      "evidence": "Parser returns fuller visible abstractInFull; gold/meta is shorter/truncated and current scorer penalizes the richer value."
+    }
+  ],
+  "files_changed_by_worker": [
+    "parseland_lib/publisher/parsers/taylor.py",
+    "tests/test_taylor_abstract_hlfld_fallback.py",
+    "tests/fixtures/taylor-iter-worker-before.json",
+    "tests/fixtures/taylor-iter-worker-cand0.json",
+    "tests/fixtures/taylor-iter-worker-cand1.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson"
+  ],
+  "tests_run": [
+    "PYTHONPATH=. .venv/bin/pytest tests/test_taylor_abstract_hlfld_fallback.py -q",
+    "field_inprocess_diff baseline and candidate 0/candidate 1 runs"
+  ],
+  "ship_readiness": "not_ready",
+  "blocker": "Parser change would improve current metric by accepting truncated dc.Description snippets, but may degrade production output when full visible abstracts exist. Requires Referee/gold/scorer decision."
+}

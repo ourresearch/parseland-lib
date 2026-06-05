@@ -106,6 +106,36 @@ def test_name_description_fallback_when_og_missing() -> None:
     assert abstract == "The meta name=description fallback content."
 
 
+def test_metadata_citation_line_is_not_abstract() -> None:
+    html = """
+    <html><head>
+      <meta property="og:description" content="Gerald Wiseman; Book Reviews, British Medical Bulletin, Volume 23, Issue 3, 1 September 1967, Pages 293, https://doi.org/10.1093/oxfordjournals.bmb.a070575" />
+    </head><body></body></html>
+    """
+    parser = _make_parser(html)
+    assert parser._extract_abstract() == ""
+
+
+def test_pdf_only_chapter_para_is_not_abstract() -> None:
+    html = """
+    <html><body>
+      <div class="chapter-para">This content is only available as a PDF.</div>
+    </body></html>
+    """
+    parser = _make_parser(html)
+    assert parser._extract_abstract() == ""
+
+
+def test_section_editor_chapter_para_is_not_abstract() -> None:
+    html = """
+    <html><body>
+      <div class="chapter-para">Section Editor: Donald Cook</div>
+    </body></html>
+    """
+    parser = _make_parser(html)
+    assert parser._extract_abstract() == ""
+
+
 def test_returns_empty_when_no_signal() -> None:
     html = "<html><head></head><body><p>Unrelated.</p></body></html>"
     parser = _make_parser(html)

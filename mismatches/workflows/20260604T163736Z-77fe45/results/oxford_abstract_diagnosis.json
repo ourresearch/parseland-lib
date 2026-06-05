@@ -1,0 +1,67 @@
+{
+  "task_id": "v2_oxford_abstract_02a7eeb9",
+  "publisher": "oxford",
+  "field": "abstract",
+  "classification": "needs_referee_gold_backfill_and_routing",
+  "status": "needs_referee_not_ship_ready",
+  "baseline_artifact": "tests/fixtures/oup-iter-worker-before.json",
+  "baseline": {
+    "scored_rows": 195,
+    "skipped_by_dispatch": 73,
+    "uuid_resolution_failures": 2,
+    "abstract_matches": 34
+  },
+  "residual_buckets": {
+    "gold_present_parser_present_low_fuzzy": 85,
+    "gold_empty_parser_present": 76,
+    "gold_present_parser_empty": 0
+  },
+  "doi_examples": [
+    {
+      "doi": "10.1093/ndt/gfw185.42",
+      "classification": "gold_truncated_vs_full_parser",
+      "evidence": "Gold is a 160-character truncation; parser returns a full 1522-character chapter-para abstract."
+    },
+    {
+      "doi": "10.1093/oso/9780192859044.003.0013",
+      "classification": "gold_truncated_vs_full_parser",
+      "evidence": "Gold is a 150-character truncation; parser returns a full 1127-character section.abstract body."
+    },
+    {
+      "doi": "10.1093/combul/14.1.16",
+      "classification": "gold_empty_parser_present_backfill",
+      "evidence": "Gold empty; page has a real section.abstract abstract."
+    },
+    {
+      "doi": "10.1093/oxfordjournals.bmb.a070575",
+      "classification": "metadata_false_positive_filtered",
+      "evidence": "Gold empty; parser had returned bibliographic metadata. Local low-quality fallback filter blocks this class."
+    },
+    {
+      "doi": "10.1093/ajcn/46.4.685",
+      "classification": "routing_blocker",
+      "evidence": "DOI resolves to ScienceDirect rather than academic.oup.com."
+    },
+    {
+      "doi": "10.1093/ei/cbg008",
+      "classification": "routing_blocker",
+      "evidence": "DOI resolves to Wiley rather than academic.oup.com."
+    }
+  ],
+  "files_changed_by_worker": [
+    "parseland_lib/publisher/parsers/oxford.py",
+    "tests/test_oxford_abstract_fallbacks.py",
+    "tests/fixtures/oup-iter-worker-before.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson"
+  ],
+  "tests_run": [
+    "PYTHONPATH=. .venv/bin/pytest tests/test_oxford_abstract_fallbacks.py tests/test_oxford_canonical_dispatch.py -v",
+    "PARSELAND_NO_PROGRESS=1 .venv/bin/python scripts/field_inprocess_diff.py --publisher oup --field abstract --gold tests/fixtures/oup-gold.ndjson --out tests/fixtures/oup-iter-worker-before.json"
+  ],
+  "ship_readiness": "not_ready_without_completed_after_diff_and_regression_comparison",
+  "next_actions": [
+    "Run a completed before/after diff for the local low-quality fallback filter.",
+    "Route truncated-gold and gold-empty rows to Goldie-backfilled/Referee, not parser KPI wins.",
+    "Open routing/onboarding tasks for non-academic.oup.com OUP product platforms and cross-publisher DOI resolutions."
+  ]
+}
