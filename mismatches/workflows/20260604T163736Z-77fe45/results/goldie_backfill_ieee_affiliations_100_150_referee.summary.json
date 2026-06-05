@@ -1,0 +1,23 @@
+{
+  "approved_count": 50,
+  "blocked_count": 0,
+  "cumulative_ieee_affiliation_approved_count": 145,
+  "cumulative_ieee_affiliation_blocked_count": 5,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_derived_v0.ndjson",
+  "diagnosis": "Browserbase-grounded IEEE affiliations batch 100-150 matched every Parseland affiliation candidate against rendered IEEE page text. Referee approved 50/50 rows into the derived ledger.",
+  "grounding_confidence_counts": {
+    "candidate_text_match": 50
+  },
+  "new_derived_rows_appended": 50,
+  "next_action": "Ground remaining 178 IEEE affiliation candidates; keep Referee approval separate from current-Goldie KPI and manually review the 5 previously blocked rows.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_100_150_referee.ndjson",
+  "remaining_ieee_affiliation_candidates": 178,
+  "reviewed_at": "2026-06-05T21:22:45.197506+00:00",
+  "run_id": "bb-ieee-affiliations-100-150-20260605T211659Z",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_100_150_resolved_bb-ieee-affiliations-100-150-20260605T211659Z.ndjson",
+  "status_counts": {
+    "referee_approved": 50
+  },
+  "total": 50
+}
