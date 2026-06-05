@@ -628,6 +628,68 @@ def render_goldie_backfilled_table(path: Path) -> str:
             parts.append(f"<td>{html.escape(str(v))}</td>")
         parts.append("</tr>")
     parts += ["</tbody>", "</table>"]
+    parts.append(render_goldie_grounding_checkpoints())
+    return "".join(parts)
+
+
+def render_goldie_grounding_checkpoints() -> str:
+    result_paths = sorted(
+        (REPO_ROOT / "mismatches" / "workflows").glob("*/results/goldie_backfill*.ndjson"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if not result_paths:
+        return ""
+    rows: list[dict] = []
+    for path in result_paths[:5]:
+        total = 0
+        by_status: dict[str, int] = {}
+        by_conf: dict[str, int] = {}
+        bad_ui_text = 0
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except Exception:
+            continue
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            total += 1
+            status = str(row.get("status") or "unknown")
+            conf = str(row.get("grounding_confidence") or "unknown")
+            by_status[status] = by_status.get(status, 0) + 1
+            by_conf[conf] = by_conf.get(conf, 0) + 1
+            if "Click to increase image size" in json.dumps(row.get("parseland_candidate"), ensure_ascii=False):
+                bad_ui_text += 1
+        rows.append({
+            "path": str(path.relative_to(REPO_ROOT)),
+            "total": total,
+            "status": " · ".join(f"{k}: {v}" for k, v in sorted(by_status.items())),
+            "confidence": " · ".join(f"{k}: {v}" for k, v in sorted(by_conf.items())),
+            "bad_ui_text": bad_ui_text,
+        })
+    if not rows:
+        return ""
+    cols = ["Artifact", "Rows", "Status", "Grounding confidence", "UI-text candidates"]
+    parts = [
+        '<h3 style="font-size:1rem; margin:1rem 0 0.25rem;">Browserbase grounding checkpoints</h3>',
+        "<table><thead><tr>",
+    ]
+    parts += [f"<th>{html.escape(c)}</th>" for c in cols]
+    parts += ["</tr></thead><tbody>"]
+    for row in rows:
+        parts.append("<tr>")
+        parts.append(f"<td><code>{html.escape(row['path'])}</code></td>")
+        parts.append(f"<td>{html.escape(str(row['total']))}</td>")
+        parts.append(f"<td>{html.escape(row['status'])}</td>")
+        parts.append(f"<td>{html.escape(row['confidence'])}</td>")
+        parts.append(f"<td>{html.escape(str(row['bad_ui_text']))}</td>")
+        parts.append("</tr>")
+    parts += ["</tbody></table>"]
     return "".join(parts)
 
 
