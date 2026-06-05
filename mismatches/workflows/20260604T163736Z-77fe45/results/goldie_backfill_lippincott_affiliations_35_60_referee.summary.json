@@ -1,0 +1,32 @@
+{
+  "approved_rows": 18,
+  "batch_end": 60,
+  "batch_start": 35,
+  "blocked_dois": [
+    "10.1097/00042560-199501000-00002",
+    "10.1097/01.ccm.0000647912.27681.b3",
+    "10.1097/01.jce.0000294918.13793.22",
+    "10.1097/01.opx.0000162654.32112.a1",
+    "10.1097/01.phm.0000242638.56060.69",
+    "10.1097/01819236-201240030-00005",
+    "10.1097/acm.0000000000002675"
+  ],
+  "blocked_rows": 7,
+  "browserbase_run_id": "bb-lippincott-affiliations-35-60-20260605T231339Z",
+  "completed_at": "2026-06-05T23:18:23.306115+00:00",
+  "cumulative_approved_rows": 41,
+  "cumulative_blocked_rows": 19,
+  "cumulative_reviewed_rows": 60,
+  "current_goldie_kpi_impact": 0.0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "publisher_id": "lippincott",
+  "recommendation": "Continue Lippincott affiliations only in cleaned/refereed batches; quality remains mixed, but institution-heavy rows are still yielding derived-corpus labels.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_35_60_referee.ndjson",
+  "remaining_current_candidates": 58,
+  "resolved_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_35_60_resolved_bb-lippincott-affiliations-35-60-20260605T231339Z.ndjson",
+  "reviewed_rows": 25,
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "goldie_backfill_referee_partial_41_approved_19_blocked",
+  "task_id": "v2_lippincott_affiliations_861e7de8"
+}
