@@ -93,11 +93,40 @@ REPORT_HTML = """<!doctype html>
 </section>
 
 <section>
+  <h2>Full 10K coverage and 98% targets</h2>
+  <div class="panel">{coverage_status}</div>
+  <div class="panel" style="margin-top: 1rem;">{field_target_table}</div>
+</section>
+
+<section>
+  <h2>Publisher × field accounting</h2>
+  <div class="panel">{publisher_field_table}</div>
+</section>
+
+<section>
   <h2>KPI-vs-publisher-count curve</h2>
-  <div class="panel"><img class="curve" src="curve-latest.png" alt="KPI curve"></div>
+  <div class="panel">{curve_svg_inline}</div>
   <p style="color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem;">
     Curve-driven termination: continue while marginal lift remains &gt; 0.25pp / 100 publishers across two consecutive batches.
+    <a href="curve-latest.png" style="margin-left:0.5rem;">PNG</a> ·
+    <a href="curve-latest.svg">SVG</a> ·
+    <a href="curve-latest.json">JSON</a>
   </p>
+</section>
+
+<section>
+  <h2>Per-field opportunity table</h2>
+  <div class="panel">{field_opportunity_table}</div>
+</section>
+
+<section>
+  <h2>Publisher queue — ready / onboarding</h2>
+  <div class="panel">{publisher_queue_table}</div>
+</section>
+
+<section>
+  <h2>Goldie-backfilled candidate status</h2>
+  <div class="panel">{goldie_backfilled_table}</div>
 </section>
 
 <section>
@@ -191,6 +220,149 @@ def render_batches_table(rows: list[dict]) -> str:
     return "".join(parts)
 
 
+def find_latest_whole_goldie_run() -> Path | None:
+    candidates = list((REPO_ROOT / "mismatches").glob("whole-goldie*.json"))
+    candidates += list((REPO_ROOT / "eval" / "runs").glob("whole-goldie*.json"))
+    candidates = [p for p in candidates if p.is_file()]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda p: p.stat().st_mtime)
+
+
+def load_latest_whole_goldie() -> dict | None:
+    path = find_latest_whole_goldie_run()
+    if not path:
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    data["_artifact_path"] = str(path)
+    return data
+
+
+def render_coverage_status(run: dict | None) -> str:
+    if not run:
+        return '<p style="color: var(--muted);">No whole-Goldie coverage artifact found yet. Target corpus: <strong>10,000</strong> rows; field target: <strong>98%</strong>.</p>'
+    cov = run.get("coverage") or {}
+    artifact = run.get("_artifact_path", "")
+    total = cov.get("total_rows", run.get("row_count_corpus", 0))
+    full_target = 10000
+    parts = [
+        '<div class="summary-grid">',
+        f'<div class="metric"><div class="label">Current artifact rows</div><div class="value">{html.escape(str(total))}</div></div>',
+        f'<div class="metric"><div class="label">Full target rows</div><div class="value">{full_target:,}</div></div>',
+        f'<div class="metric"><div class="label">HTML available</div><div class="value">{html.escape(str(cov.get("html_available", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">Retrieval blocked</div><div class="value">{html.escape(str(cov.get("retrieval_blocked_rows", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">Backfill candidates</div><div class="value">{html.escape(str(cov.get("gold_empty_parser_present_count", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">Per-field target</div><div class="value">98%</div></div>',
+        '</div>',
+        f'<p style="color: var(--muted); font-size: 0.85rem;">Latest whole-Goldie artifact: <code>{html.escape(artifact)}</code>. Full 10,000-row accounting remains the active gate until this section shows 10,000 current artifact rows.</p>',
+    ]
+    reasons = cov.get("retrieval_blocked_by_reason") or {}
+    if reasons:
+        parts.append("<p>Retrieval blocked by reason: ")
+        parts.append(" · ".join(f"{html.escape(str(k))}: {html.escape(str(v))}" for k, v in reasons.items()))
+        parts.append("</p>")
+    return "".join(parts)
+
+
+def render_field_target_table(run: dict | None) -> str:
+    if not run:
+        return '<p style="color: var(--muted);">No field target data yet.</p>'
+    summary = run.get("summary") or {}
+    overall = summary.get("overall") or {}
+    per_field = summary.get("per_field") or {}
+    metrics = [
+        ("authors", "authors_f1_soft"),
+        ("affiliations", "affiliations_f1_fuzzy"),
+        ("abstract", "abstract_ratio_fuzzy"),
+        ("pdf_url", "pdf_url_accuracy"),
+        ("corresponding", "corresponding_accuracy"),
+    ]
+    parts = ["<table><thead><tr>"]
+    cols = ["Field", "Current KPI", "Distance to 98%", "Rows", "HTML", "Blocked", "Scored", "Empty-empty", "Misses", "Backfill", "Status"]
+    parts += [f"<th>{c}</th>" for c in cols]
+    parts += ["</tr></thead><tbody>"]
+    for field, metric in metrics:
+        current = float(overall.get(metric) or 0.0)
+        counts = per_field.get(field) or {}
+        distance = max(0.0, 0.98 - current)
+        status = "above_98" if current >= 0.98 else "needs_agent_or_explanation"
+        misses = int(counts.get("gold_present_parser_empty", 0))
+        parts.append("<tr>")
+        vals = [
+            field,
+            f"{current:.3f}",
+            f"{distance:.3f}",
+            counts.get("total_rows", "—"),
+            counts.get("html_available", "—"),
+            counts.get("retrieval_blocked", "—"),
+            counts.get("scored_rows", "—"),
+            counts.get("empty_empty_pass", "—"),
+            misses,
+            counts.get("gold_empty_parser_present", "—"),
+            status,
+        ]
+        parts += [f"<td>{html.escape(str(v))}</td>" for v in vals]
+        parts.append("</tr>")
+    parts += ["</tbody></table>"]
+    return "".join(parts)
+
+
+def render_publisher_field_table(run: dict | None) -> str:
+    if not run:
+        return '<p style="color: var(--muted);">No publisher × field accounting yet.</p>'
+    summary = run.get("summary") or {}
+    per_pub = summary.get("per_publisher") or {}
+    per_pub_field = summary.get("per_publisher_field") or {}
+    field_metrics = {
+        "authors": "authors_f1_soft",
+        "affiliations": "affiliations_f1_fuzzy",
+        "abstract": "abstract_ratio_fuzzy",
+        "pdf_url": "pdf_url_accuracy",
+        "corresponding": "corresponding_accuracy",
+    }
+    rows: list[tuple[int, str, str, dict, dict]] = []
+    for pub, fields in per_pub_field.items():
+        for field, counts in fields.items():
+            blocked = int(counts.get("retrieval_blocked", 0))
+            backfill = int(counts.get("gold_empty_parser_present", 0))
+            misses = int(counts.get("gold_present_parser_empty", 0))
+            rows.append((blocked + backfill + misses, pub, field, counts, per_pub.get(pub, {})))
+    rows.sort(reverse=True)
+    if not rows:
+        return '<p style="color: var(--muted);">No publisher × field rows yet.</p>'
+    parts = ["<table><thead><tr>"]
+    cols = ["Publisher", "Field", "KPI", "Distance", "Rows", "HTML", "Blocked", "Scored", "Empty-empty", "Misses", "Backfill"]
+    parts += [f"<th>{c}</th>" for c in cols]
+    parts += ["</tr></thead><tbody>"]
+    for _, pub, field, counts, pub_summary in rows[:100]:
+        metric = field_metrics.get(field)
+        current = float(pub_summary.get(metric) or 0.0) if metric else 0.0
+        distance = max(0.0, 0.98 - current)
+        vals = [
+            pub,
+            field,
+            f"{current:.3f}",
+            f"{distance:.3f}",
+            counts.get("total_rows", "—"),
+            counts.get("html_available", "—"),
+            counts.get("retrieval_blocked", "—"),
+            counts.get("scored_rows", "—"),
+            counts.get("empty_empty_pass", "—"),
+            counts.get("gold_present_parser_empty", "—"),
+            counts.get("gold_empty_parser_present", "—"),
+        ]
+        parts.append("<tr>")
+        parts += [f"<td>{html.escape(str(v))}</td>" for v in vals]
+        parts.append("</tr>")
+    parts += ["</tbody></table>"]
+    if len(rows) > 100:
+        parts.append(f'<p style="color: var(--muted); font-size: 0.8rem;">Showing top 100 of {len(rows)} publisher × field rows by blocked/miss/backfill volume.</p>')
+    return "".join(parts)
+
+
 def update_report_yaml(yaml_path: Path) -> dict:
     """Ensure report.yaml's assets list includes all REQUIRED_ASSETS. Idempotent."""
     if not yaml_path.exists():
@@ -199,7 +371,8 @@ def update_report_yaml(yaml_path: Path) -> dict:
     lines = text.splitlines()
 
     # Find assets: block. The yaml is simple enough we do a light-touch update
-    # rather than pulling pyyaml.
+    # rather than pulling pyyaml. Robustly: leave the assets block the moment
+    # a line is NOT either (a) a `  - ...` continuation or (b) blank.
     out: list[str] = []
     in_assets = False
     assets_seen: set[str] = set()
@@ -211,20 +384,21 @@ def update_report_yaml(yaml_path: Path) -> dict:
             continue
         if in_assets:
             stripped = ln.strip()
+            # Continuation of the block: a list item.
             if stripped.startswith("- "):
                 asset = stripped[2:].strip()
                 assets_seen.add(asset)
                 out.append(ln)
                 continue
-            # Empty line or new key: insert any missing assets before leaving.
-            if stripped == "" or stripped.endswith(":"):
-                for a in REQUIRED_ASSETS:
-                    if a not in assets_seen:
-                        out.append(f"{assets_indent}{a}")
-                        assets_seen.add(a)
-                in_assets = False
-                out.append(ln)
-                continue
+            # Anything else closes the block. Flush missing assets first, then
+            # let the line through unchanged. This handles the `tags: [...]`
+            # case (which doesn't end with ":") that the previous logic
+            # mis-handled by treating it as a continuation.
+            for a in REQUIRED_ASSETS:
+                if a not in assets_seen:
+                    out.append(f"{assets_indent}{a}")
+                    assets_seen.add(a)
+            in_assets = False
         out.append(ln)
     if in_assets:
         for a in REQUIRED_ASSETS:
@@ -236,6 +410,161 @@ def update_report_yaml(yaml_path: Path) -> dict:
         yaml_path.write_text(new_text, encoding="utf-8")
         return {"updated": True, "assets": sorted(assets_seen)}
     return {"updated": False, "assets": sorted(assets_seen)}
+
+
+def load_curve_svg_inline(svg_path: Path) -> str:
+    """Embed the curve SVG directly. Strips any <?xml?> and outer comments
+    so it nests cleanly inside <div>. Falls back to an <img src=...> tag
+    if the SVG file doesn't exist (e.g. matplotlib not installed)."""
+    if not svg_path.exists():
+        return '<img class="curve" src="curve-latest.png" alt="KPI curve" style="width:100%;height:auto;">'
+    try:
+        text = svg_path.read_text(encoding="utf-8")
+    except Exception:
+        return '<img class="curve" src="curve-latest.png" alt="KPI curve" style="width:100%;height:auto;">'
+    # Drop the XML prolog if present.
+    idx = text.find("<svg")
+    if idx == -1:
+        return '<img class="curve" src="curve-latest.png" alt="KPI curve" style="width:100%;height:auto;">'
+    svg = text[idx:]
+    # Force responsive width by injecting style on the root tag if absent.
+    if "width=" not in svg[:200]:
+        svg = svg.replace("<svg", '<svg style="width:100%;height:auto;"', 1)
+    else:
+        # Strip fixed width/height for responsive sizing.
+        import re as _re
+        svg = _re.sub(r'\s(width|height)="[^"]+"', "", svg, count=2)
+        svg = svg.replace("<svg", '<svg style="width:100%;height:auto;"', 1)
+    return svg
+
+
+def render_field_opportunity_table(path: Path) -> str:
+    if not path.exists():
+        return '<p style="color: var(--muted);">no field-opportunity ranking yet — run scripts/rank_field_opportunity.py</p>'
+    try:
+        data = json.loads(path.read_text())
+    except Exception:
+        return '<p style="color: var(--muted);">field-opportunity.json unreadable</p>'
+    rows = data.get("rows", [])
+    if not rows:
+        return '<p style="color: var(--muted);">no rows</p>'
+    cols = [
+        ("field", "Field"),
+        ("current_kpi", "Current KPI"),
+        ("scored_rows", "Scored rows"),
+        ("headroom_pp", "Headroom (pp)"),
+        ("top_publisher", "Top publisher"),
+        ("active_agent", "Active agent"),
+        ("status", "Status"),
+        ("recommendation", "Recommendation"),
+    ]
+    parts = ["<table>", "<thead><tr>"]
+    parts += [f"<th>{html.escape(label)}</th>" for _, label in cols]
+    parts += ["</tr></thead>", "<tbody>"]
+    for r in rows:
+        parts.append("<tr>")
+        for k, _ in cols:
+            v = r.get(k, "")
+            if k == "current_kpi" and isinstance(v, (int, float)):
+                v = f"{float(v):.3f}"
+            parts.append(f"<td>{html.escape(str(v))}</td>")
+        parts.append("</tr>")
+    parts += ["</tbody>", "</table>"]
+    return "".join(parts)
+
+
+def render_publisher_queue_table(path: Path) -> str:
+    if not path.exists():
+        return '<p style="color: var(--muted);">no queue yet — run scripts/rank_publishers.py</p>'
+    rows: list[dict] = []
+    with open(path, "r", encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                rows.append(json.loads(ln))
+            except json.JSONDecodeError:
+                continue
+    if not rows:
+        return '<p style="color: var(--muted);">empty queue</p>'
+    cols = [
+        ("publisher_id", "Publisher"),
+        ("parser_status", "Parser status"),
+        ("row_count", "Rows"),
+        ("gold_fixture_path", "Gold fixture"),
+        ("priority", "Priority"),
+        ("confidence_tier", "Confidence"),
+    ]
+    parts = ["<table>", "<thead><tr>"]
+    parts += [f"<th>{html.escape(label)}</th>" for _, label in cols]
+    parts += ["</tr></thead>", "<tbody>"]
+    for r in rows[:20]:
+        parts.append("<tr>")
+        for k, _ in cols:
+            v = r.get(k, "")
+            if k == "priority" and isinstance(v, (int, float)):
+                v = f"{float(v):.2f}"
+            if k == "gold_fixture_path":
+                v = "YES" if v else "no"
+            parts.append(f"<td>{html.escape(str(v))}</td>")
+        parts.append("</tr>")
+    parts += ["</tbody>", "</table>"]
+    if len(rows) > 20:
+        parts.append(f'<p style="color: var(--muted); margin-top: 0.4rem; font-size: 0.8rem;">+ {len(rows) - 20} more rows in mismatches/publisher-queue.ndjson</p>')
+    return "".join(parts)
+
+
+def render_goldie_backfilled_table(path: Path) -> str:
+    if not path.exists():
+        return '<p style="color: var(--muted);">no Goldie-backfilled candidates yet</p>'
+    rows: list[dict] = []
+    with open(path, "r", encoding="utf-8") as f:
+        for ln in f:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                rows.append(json.loads(ln))
+            except json.JSONDecodeError:
+                continue
+    if not rows:
+        return '<p style="color: var(--muted);">no Goldie-backfilled candidates yet</p>'
+    # Summarize per-status + per-field
+    by_status = {}
+    by_field = {}
+    for r in rows:
+        s = r.get("status", "pending")
+        by_status[s] = by_status.get(s, 0) + 1
+        f = r.get("field", "?")
+        by_field[f] = by_field.get(f, 0) + 1
+    parts = [
+        f'<p>Candidates total: <strong>{len(rows)}</strong>. ',
+        " · ".join(f"<strong>{html.escape(s)}</strong>: {n}" for s, n in by_status.items()),
+        "</p>",
+        f'<p>By field: ',
+        " · ".join(f"{html.escape(k)}: {v}" for k, v in by_field.items()),
+        "</p>",
+    ]
+    # Show first 10 candidate rows
+    cols = [
+        ("doi", "DOI"),
+        ("publisher", "Publisher"),
+        ("field", "Field"),
+        ("status", "Status"),
+        ("approving_agent", "Reviewer"),
+    ]
+    parts += ["<table>", "<thead><tr>"]
+    parts += [f"<th>{html.escape(label)}</th>" for _, label in cols]
+    parts += ["</tr></thead>", "<tbody>"]
+    for r in rows[:10]:
+        parts.append("<tr>")
+        for k, _ in cols:
+            v = r.get(k, "")
+            parts.append(f"<td>{html.escape(str(v))}</td>")
+        parts.append("</tr>")
+    parts += ["</tbody>", "</table>"]
+    return "".join(parts)
 
 
 def main() -> int:
@@ -272,13 +601,25 @@ def main() -> int:
                 pass
 
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    whole_goldie = load_latest_whole_goldie()
+    curve_svg_inline = load_curve_svg_inline(args.evidence_dir / "curve-latest.svg")
+    field_opp_table = render_field_opportunity_table(REPO_ROOT / "mismatches" / "field-opportunity.json")
+    pub_queue_table = render_publisher_queue_table(REPO_ROOT / "mismatches" / "publisher-queue.ndjson")
+    backfill_table = render_goldie_backfilled_table(REPO_ROOT / "mismatches" / "goldie-backfilled-candidates.ndjson")
     out_html = REPORT_HTML.format(
         ts=html.escape(ts),
         run_id=html.escape(str(run_id)),
         batches_n=len(kpi_rows),
         pubs_total=pubs_total,
         metric_cards=render_metric_cards(latest),
+        coverage_status=render_coverage_status(whole_goldie),
+        field_target_table=render_field_target_table(whole_goldie),
+        publisher_field_table=render_publisher_field_table(whole_goldie),
         batches_table=render_batches_table(kpi_rows),
+        curve_svg_inline=curve_svg_inline,
+        field_opportunity_table=field_opp_table,
+        publisher_queue_table=pub_queue_table,
+        goldie_backfilled_table=backfill_table,
     )
     out_path = args.evidence_dir / "report.html"
     out_path.write_text(out_html, encoding="utf-8")
