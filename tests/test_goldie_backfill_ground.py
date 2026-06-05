@@ -1,10 +1,13 @@
 from pathlib import Path
 
+import scripts.goldie_backfill_ground as ground
 from scripts.goldie_backfill_ground import (
     GroundingResult,
+    abstract_followup_url,
     candidate_pdf_url,
     extract_author_names_from_html,
     pdf_url_resolution_is_usable,
+    resolve_abstract_len_candidate,
     resolve_author_count_candidate,
     write_result,
 )
@@ -60,6 +63,56 @@ def test_resolve_author_count_candidate_rejects_count_mismatch():
     candidate = {"field": "authors", "parseland_candidate": {"n_authors": 3}}
 
     assert resolve_author_count_candidate(html, candidate) is None
+
+
+def test_resolve_abstract_len_candidate_from_rendered_parse(monkeypatch):
+    abstract = " ".join(["Browserbase-rendered abstract evidence"] * 20)
+
+    def fake_parse_page(html, namespace, resolved_url=None):
+        assert namespace == "doi"
+        assert resolved_url == "https://journals.lww.com/example"
+        return {"abstract": abstract}
+
+    monkeypatch.setattr(ground, "parse_page", fake_parse_page)
+    candidate = {"field": "abstract", "parseland_candidate": {"abstract_len": len(abstract)}}
+
+    resolved, excerpt = resolve_abstract_len_candidate(
+        "<html>rendered page</html>",
+        candidate,
+        "https://journals.lww.com/example",
+    )
+
+    assert resolved == {"abstract": abstract}
+    assert excerpt.startswith("Browserbase-rendered abstract evidence")
+
+
+def test_resolve_abstract_len_candidate_rejects_length_mismatch(monkeypatch):
+    monkeypatch.setattr(
+        ground,
+        "parse_page",
+        lambda html, namespace, resolved_url=None: {"abstract": "short " * 40},
+    )
+    candidate = {"field": "abstract", "parseland_candidate": {"abstract_len": 5000}}
+
+    assert resolve_abstract_len_candidate("<html></html>", candidate, None) is None
+
+
+def test_abstract_followup_url_prefers_lww_meta_url():
+    html = (
+        '<meta name="wkhealth_abstract_html_url" '
+        'content="https://journals.lww.com/example/abstract/2024/01000/title.1.aspx">'
+    )
+
+    assert abstract_followup_url("https://journals.lww.com/example/citation/2024/x.aspx", html) == (
+        "https://journals.lww.com/example/abstract/2024/01000/title.1.aspx"
+    )
+
+
+def test_abstract_followup_url_falls_back_from_citation_path():
+    assert abstract_followup_url(
+        "https://journals.lww.com/example/citation/2024/01000/title.1.aspx",
+        "<html></html>",
+    ) == "https://journals.lww.com/example/abstract/2024/01000/title.1.aspx"
 
 
 def test_write_result_preserves_verified_pdf_evidence(tmp_path: Path):

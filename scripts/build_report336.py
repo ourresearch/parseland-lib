@@ -256,6 +256,25 @@ def _render_backfill_status(workflow_summary: dict | None) -> str:
             f"{html.escape(str(affs.get('blocked_rows', '—')))} blocked, "
             f"{html.escape(str(affs.get('remaining_current_ieee_affiliation_backfill', '—')))} remaining"
         )
+    lippincott_abs = workflow_summary.get("lippincott_abstract_referee_state") or {}
+    if lippincott_abs:
+        blocked_examples = lippincott_abs.get("blocked_example_dois") or []
+        blocked_suffix = ""
+        if blocked_examples:
+            blocked_suffix = (
+                "; blocked examples "
+                + ", ".join(
+                    f"<code>{html.escape(str(doi))}</code>"
+                    for doi in blocked_examples[:3]
+                )
+            )
+        parts.append(
+            "Lippincott abstracts: "
+            f"{html.escape(str(lippincott_abs.get('approved_rows', '—')))} approved, "
+            f"{html.escape(str(lippincott_abs.get('blocked_rows', '—')))} blocked, "
+            f"{html.escape(str(lippincott_abs.get('remaining_current_candidates', '—')))} remaining"
+            f"{blocked_suffix}"
+        )
     if not parts:
         return ""
     return (

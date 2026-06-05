@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html as html_lib
 import json
 import os
 import re
@@ -26,6 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.lib.event_ledger import emit, new_run_id  # noqa: E402
+from parseland_lib.parse import parse_page  # noqa: E402
 
 DEFAULT_CANDIDATES = REPO_ROOT / "mismatches" / "goldie-backfilled-candidates.ndjson"
 DEFAULT_OUT = REPO_ROOT / "mismatches" / "goldie-backfilled-grounded.ndjson"
@@ -156,6 +158,56 @@ def candidate_author_count(candidate: dict) -> int | None:
         return None
     count = payload.get("n_authors")
     return count if isinstance(count, int) and count > 0 else None
+
+
+def candidate_abstract_len(candidate: dict) -> int | None:
+    if candidate.get("field") != "abstract":
+        return None
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return None
+    if isinstance(payload.get("abstract"), str) and payload.get("abstract").strip():
+        return None
+    abstract_len = payload.get("abstract_len")
+    return abstract_len if isinstance(abstract_len, int) and abstract_len > 100 else None
+
+
+def abstract_len_matches(expected: int, actual: int) -> bool:
+    tolerance = max(25, int(expected * 0.05))
+    return abs(expected - actual) <= tolerance
+
+
+def resolve_abstract_len_candidate(
+    html: str, candidate: dict, resolved_url: str | None
+) -> tuple[dict[str, Any], str] | None:
+    expected_len = candidate_abstract_len(candidate)
+    if not expected_len:
+        return None
+    try:
+        parsed = parse_page(html, namespace="doi", resolved_url=resolved_url)
+    except Exception:
+        return None
+    abstract = (parsed or {}).get("abstract")
+    if not isinstance(abstract, str) or len(abstract.strip()) <= 100:
+        return None
+    abstract = " ".join(abstract.split())
+    if not abstract_len_matches(expected_len, len(abstract)):
+        return None
+    return {"abstract": abstract}, abstract[:1000]
+
+
+def abstract_followup_url(page_url: str, html: str) -> str | None:
+    meta_patterns = (
+        r'<meta[^>]+name=["\']wkhealth_abstract_html_url["\'][^>]+content=["\']([^"\']+)["\']',
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']wkhealth_abstract_html_url["\']',
+    )
+    for pattern in meta_patterns:
+        match = re.search(pattern, html, flags=re.IGNORECASE)
+        if match:
+            return html_lib.unescape(match.group(1))
+    if "/citation/" in page_url:
+        return page_url.replace("/citation/", "/abstract/", 1)
+    return None
 
 
 def extract_author_names_from_html(html: str) -> list[str]:
@@ -443,6 +495,33 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     selector = "authorNames-count-match"
                     confidence = "author_count_author_names_match"
                     resolved_candidate_source = "browserbase_rendered_authorNames"
+            abstract_resolution = None
+            if field == "abstract" and confidence != "candidate_text_match":
+                abstract_resolution = resolve_abstract_len_candidate(html, candidate, final_url)
+                if abstract_resolution:
+                    resolved_candidate, excerpt = abstract_resolution
+                    selector = "rendered-abstract-len-match"
+                    confidence = "abstract_len_rendered_parse_match"
+                    resolved_candidate_source = "browserbase_rendered_parse_page"
+                else:
+                    followup = abstract_followup_url(final_url, html)
+                    if followup and followup != final_url:
+                        page.goto(followup, wait_until="domcontentloaded")
+                        try:
+                            page.wait_for_load_state("networkidle", timeout=15000)
+                        except Exception:
+                            pass
+                        html = safe_page_content(page)
+                        final_url = page.url
+                        screenshot_path = evidence_dir / f"{stem}-abstract.png"
+                        page.screenshot(path=str(screenshot_path), full_page=True)
+                        excerpt, selector, confidence = excerpt_for(html, candidate)
+                        abstract_resolution = resolve_abstract_len_candidate(html, candidate, final_url)
+                        if abstract_resolution:
+                            resolved_candidate, excerpt = abstract_resolution
+                            selector = "rendered-abstract-followup-len-match"
+                            confidence = "abstract_len_rendered_parse_match"
+                            resolved_candidate_source = "browserbase_rendered_abstract_followup_parse_page"
             pdf_verification = None
             if field == "pdf_url" and confidence != "candidate_text_match":
                 pdf_verification = verify_pdf_candidate_url(page, candidate, evidence_dir, stem)
@@ -456,6 +535,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     "candidate_text_match",
                     "candidate_pdf_url_resolves",
                     "author_count_author_names_match",
+                    "abstract_len_rendered_parse_match",
                 }
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"
