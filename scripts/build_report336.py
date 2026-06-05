@@ -263,12 +263,30 @@ def render_parseland_update(rows: list[dict]) -> str:
         f"{current_label} <code>{html.escape(_format_metric(latest, key))}</code>"
         for key, _, current_label in metrics
     )
+    latest_batch_raw = str(latest.get("batch_id", "latest"))
+    if latest_batch_raw == "9":
+        batch_note = (
+            "Batch 9 is rollback recovery from the ungrounded Elsevier app-JSON path, "
+            "not a new parser-quality lift."
+        )
+    elif latest_batch_raw == "10":
+        batch_note = (
+            "Batch 10 ships the Taylor eBook/chapter JSON-LD and no-affiliation "
+            "publisher-dispatch gate. Current-Goldie KPI and Goldie-backfilled "
+            "candidate accounting remain separate."
+        )
+    else:
+        batch_note = (
+            f"Batch {html.escape(latest_batch_raw)} is the latest shipped or gated "
+            "Whole-Goldie slice; current-Goldie KPI and Goldie-backfilled candidate "
+            "accounting remain separate."
+        )
     return (
         '<section class="tldr">'
         "<h2>Parseland-only update</h2>"
         '<div class="panel">'
         "<p><strong>Report 336 is the Parseland Whole-Goldie parser/backfill report.</strong> "
-        "Batch 9 is rollback recovery from the ungrounded Elsevier app-JSON path, not a new parser-quality lift.</p>"
+        f"{batch_note}</p>"
         + "".join(table_parts)
         + f"<p><strong>Current full-10K parser KPIs:</strong> {current_kpis}.</p>"
         "<p><strong>IEEE backfill status:</strong> 95 candidates are approved into the derived ledger, "

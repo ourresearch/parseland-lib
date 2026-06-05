@@ -1,6 +1,8 @@
+import html
+import json
 import re
 
-from bs4 import NavigableString
+from bs4 import BeautifulSoup, NavigableString
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
@@ -13,15 +15,23 @@ class Taylor(PublisherParser):
         return (
             self.domain_in_meta_og_url("tandfonline.com")
             or self.domain_in_canonical_link("tandfonline.com")
+            or self.domain_in_meta_og_url("taylorfrancis.com")
+            or self.domain_in_canonical_link("taylorfrancis.com")
         )
 
     def authors_found(self):
-        return self.soup.find("div", class_="publicationContentAuthors")
+        return (
+            self.soup.find("div", class_="publicationContentAuthors")
+            or self._taylorfrancis_jsonld_chapter()
+        )
 
     def parse(self):
         results = []
         author_soup = self.soup.find("div", class_="publicationContentAuthors")
-        authors = author_soup.findAll("div", class_="entryAuthor")
+        if author_soup:
+            authors = author_soup.findAll("div", class_="entryAuthor")
+        else:
+            authors = []
         for author in authors:
             name = author.a.text
 
@@ -52,6 +62,8 @@ class Taylor(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+        if not results:
+            results = self._parse_taylorfrancis_chapter_authors()
         abstract_tag = self.soup.find('div', class_='abstractInFull')
         if not abstract_tag:
             # Fallback: hlFld-Abstract container covers the older/legacy
@@ -67,8 +79,129 @@ class Taylor(PublisherParser):
                               '', abstract, flags=re.IGNORECASE)
             abstract = abstract.strip() or None
         else:
-            abstract = None
+            abstract = self._parse_taylorfrancis_chapter_abstract()
         return {"authors": results, "abstract": abstract}
+
+    def _taylorfrancis_jsonld_chapter(self):
+        for script in self.soup.find_all("script", type="application/ld+json"):
+            raw = script.string or script.get_text("", strip=False)
+            if not raw:
+                continue
+            try:
+                payload = json.loads(raw)
+            except Exception:
+                continue
+            objects = payload if isinstance(payload, list) else [payload]
+            for obj in objects:
+                if not isinstance(obj, dict):
+                    continue
+                raw_type = obj.get("@type")
+                types = raw_type if isinstance(raw_type, list) else [raw_type]
+                if "Chapter" not in types:
+                    continue
+                url = str(obj.get("url") or "")
+                publisher = obj.get("publisher") or {}
+                publisher_name = ""
+                if isinstance(publisher, dict):
+                    publisher_name = str(publisher.get("name") or "")
+                if "taylorfrancis.com" in url or "Taylor & Francis" in publisher_name:
+                    return obj
+        return None
+
+    def _parse_taylorfrancis_chapter_authors(self):
+        chapter = self._taylorfrancis_jsonld_chapter()
+        if not chapter:
+            return []
+        raw_authors = chapter.get("author") or []
+        if isinstance(raw_authors, dict):
+            raw_authors = [raw_authors]
+        results = []
+        for author in raw_authors:
+            if not isinstance(author, dict):
+                continue
+            name = author.get("name")
+            if not name:
+                given = str(author.get("givenName") or "").strip()
+                family = str(author.get("familyName") or "").strip()
+                name = " ".join(part for part in (given, family) if part)
+            name = str(name or "").strip()
+            if name:
+                results.append(
+                    AuthorAffiliations(
+                        name=name,
+                        affiliations=[],
+                        is_corresponding=False,
+                    )
+                )
+        return results
+
+    def _parse_taylorfrancis_chapter_abstract(self):
+        product_abstract = self._parse_taylorfrancis_product_abstract()
+        if product_abstract:
+            return product_abstract
+        chapter = self._taylorfrancis_jsonld_chapter()
+        if not chapter:
+            return None
+        description = str(chapter.get("description") or "").strip()
+        if not description:
+            return None
+        return self._clean_taylorfrancis_abstract(description)
+
+    def _parse_taylorfrancis_product_abstract(self):
+        for script in self.soup.find_all("script", type="application/json"):
+            raw = script.string or script.get_text("", strip=False)
+            if not raw or "&q;abstracts&q;" not in raw:
+                continue
+            normalized = self._decode_taylorfrancis_jsonish(raw)
+            try:
+                payload = json.loads(normalized)
+            except Exception:
+                payload = None
+            value = self._find_product_abstract_value(payload) if payload else None
+            if not value:
+                match = re.search(
+                    r'&q;abstracts&q;\s*:\s*\[.*?&q;value&q;\s*:\s*&q;(.*?)&q;',
+                    raw,
+                    flags=re.DOTALL,
+                )
+                if match:
+                    value = self._decode_taylorfrancis_jsonish(match.group(1))
+            if value:
+                cleaned = self._clean_taylorfrancis_abstract(str(value))
+                if cleaned:
+                    return cleaned
+        return None
+
+    def _find_product_abstract_value(self, payload):
+        if isinstance(payload, dict):
+            abstracts = payload.get("abstracts")
+            if isinstance(abstracts, list):
+                for item in abstracts:
+                    if isinstance(item, dict) and item.get("value"):
+                        return item["value"]
+            for value in payload.values():
+                found = self._find_product_abstract_value(value)
+                if found:
+                    return found
+        elif isinstance(payload, list):
+            for item in payload:
+                found = self._find_product_abstract_value(item)
+                if found:
+                    return found
+        return None
+
+    def _decode_taylorfrancis_jsonish(self, value):
+        return html.unescape(
+            value
+            .replace("&q;", '"')
+            .replace("&l;", "<")
+            .replace("&g;", ">")
+            .replace("&a;", "&")
+        )
+
+    def _clean_taylorfrancis_abstract(self, value):
+        text = BeautifulSoup(value, "lxml").get_text(" ", strip=True)
+        return text.strip() or None
 
     test_cases = [
         {

@@ -22,6 +22,7 @@ from __future__ import annotations
 
 from bs4 import BeautifulSoup
 
+from parseland_lib.parse import parse_page
 from parseland_lib.publisher.parsers.taylor import Taylor
 
 
@@ -157,3 +158,94 @@ def test_abstract_none_when_no_abstract_wrapper_present() -> None:
     parser = _parser(html)
     out = parser.parse()
     assert out["abstract"] is None
+
+
+def test_taylorfrancis_chapter_jsonld_dispatch_and_product_abstract() -> None:
+    """Taylor eBook chapter pages parse JSON-LD authors and product abstracts."""
+    html = """
+    <html><head>
+      <link rel="canonical"
+        href="https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author",
+          "author": {"@type": "Person", "givenName": "Nigel", "familyName": "Thacker"},
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Short metadata description"
+        }
+      </script>
+      <script type="application/json">
+        {&q;product&q;:{&q;chapter&q;:{&q;abstracts&q;:[{&q;type&q;:&q;xml&q;,&q;value&q;:&q;&l;p&g;Full chapter abstract from product JSON.&l;/p&g;&q;}]}}}
+      </script>
+    </head><body></body></html>
+    """
+    parser = _parser(html)
+    assert parser.is_publisher_specific_parser()
+    assert parser.authors_found()
+
+    out = parser.parse()
+
+    assert [author.name for author in out["authors"]] == ["Nigel Thacker"]
+    assert out["authors"][0].affiliations == []
+    assert out["authors"][0].is_corresponding is False
+    assert out["abstract"] == "Full chapter abstract from product JSON."
+
+
+def test_taylorfrancis_chapter_uses_jsonld_description_without_product_abstract() -> None:
+    """JSON-LD description is a final fallback for eBook chapter pages only."""
+    html = """
+    <html><head>
+      <meta property="og:url"
+        content="https://www.taylorfrancis.com/chapters/mono/10.1201/example/chapter-author" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/mono/10.1201/example/chapter-author",
+          "author": {"@type": "Person", "givenName": "Preben W.", "familyName": "Jensen"},
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Chapter-only description fallback."
+        }
+      </script>
+    </head><body></body></html>
+    """
+    parser = _parser(html)
+    assert parser.is_publisher_specific_parser()
+
+    out = parser.parse()
+
+    assert [author.name for author in out["authors"]] == ["Preben W. Jensen"]
+    assert out["abstract"] == "Chapter-only description fallback."
+
+
+def test_parse_page_returns_taylorfrancis_chapter_without_affiliations() -> None:
+    """Publisher-specific Taylor chapter output must not be dropped for no affs."""
+    html = """
+    <html><head>
+      <link rel="canonical"
+        href="https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author",
+          "author": {"@type": "Person", "givenName": "Nigel", "familyName": "Thacker"},
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Chapter description from structured metadata."
+        }
+      </script>
+    </head><body></body></html>
+    """
+
+    out = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.4324/example")
+
+    assert out["authors"] == [
+        {
+            "name": "Nigel Thacker",
+            "affiliations": [],
+            "is_corresponding": False,
+        }
+    ]
+    assert out["abstract"] == "Chapter description from structured metadata."
