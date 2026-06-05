@@ -384,6 +384,28 @@ MULTIPLE_AUTHOR_GROUPS = """
 """
 
 
+MODERN_SIBLING_CORRESPONDING_ICON = """
+<html><body>
+<div class="author-group">
+  <span class="sr-only">Author links open overlay panel</span>
+  <button class="button-link button-link-secondary button-link-underline">
+    <span class="given-name">Chong</span> <span class="text surname">Lei</span>
+  </button>,
+  <a class="anchor anchor-secondary anchor-underline" name="bau0010-profile">
+    <span class="given-name">Michael F.</span> <span class="text surname">Simpson</span>
+  </a>
+  <button class="button-link react-xocs-icon-only-link button-link-secondary button-link-underline">
+    <svg class="icon icon-person react-xocs-author-icon" title="Correspondence author icon"></svg>
+    <svg class="icon icon-envelope react-xocs-author-icon" title="Author email or social media contact details icon"></svg>
+  </button>,
+  <a class="anchor anchor-secondary anchor-underline" name="bau0015-profile">
+    <span class="given-name">Anil V.</span> <span class="text surname">Virkar</span>
+  </a>
+</div>
+</body></html>
+"""
+
+
 def test_parse_multiple_author_group_divs_collects_all():
     """Older ScienceDirect reprints (e.g. Phys Lett B 1971, Reference Module
     book chapters) wrap EACH author in their own <div class="author-group">
@@ -393,6 +415,19 @@ def test_parse_multiple_author_group_divs_collects_all():
     result = ElsevierBV(soup).parse()
     names = [a.name for a in result["authors"]]
     assert names == ["K. Alder", "A. Winther"]
+
+
+def test_parse_modern_sibling_corresponding_icon_marks_preceding_author():
+    """ScienceDirect can render the correspondence icon as a separate
+    icon-only sibling after the author link. Attach it to the preceding author,
+    not the following one."""
+    soup = BeautifulSoup(MODERN_SIBLING_CORRESPONDING_ICON, "lxml")
+    result = ElsevierBV(soup).parse()
+    by_name = {a.name: a for a in result["authors"]}
+
+    assert by_name["Chong Lei"].is_corresponding is False
+    assert by_name["Michael F. Simpson"].is_corresponding is True
+    assert by_name["Anil V. Virkar"].is_corresponding is False
 
 
 def test_parse_uppercase_cor_refid_still_detected():

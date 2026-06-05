@@ -1,5 +1,7 @@
 import re
 
+from bs4 import Tag
+
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import is_h_tag
@@ -104,6 +106,10 @@ class ElsevierBV(PublisherParser):
                     seen.add(id(t))
                     author_tags.append(t)
 
+        sibling_corresponding_tag_ids = self._modern_sibling_corresponding_tag_ids(
+            author_groups
+        )
+
         for tag in author_tags:
             surname_el = tag.find("span", class_="surname")
             if not surname_el:
@@ -122,15 +128,10 @@ class ElsevierBV(PublisherParser):
             # the person icon means corresponding, not just "author"). The
             # envelope icon also appears for corresponding-only on most pages.
             is_corresponding = False
-            for svg in tag.find_all("svg"):
-                cls = svg.get("class", []) or []
-                title = (svg.get("title") or "") + " " + (svg.get("aria-label") or "")
-                if any("icon-person" in c for c in cls):
-                    is_corresponding = True
-                    break
-                if "correspond" in title.lower():
-                    is_corresponding = True
-                    break
+            if id(tag) in sibling_corresponding_tag_ids:
+                is_corresponding = True
+            elif self._has_corresponding_author_icon(tag):
+                is_corresponding = True
 
             # Affiliation letter refs (e.g. <sup>a</sup>, <sup>b</sup>). When
             # the page has labeled <dl> blocks, each author cross-references
@@ -190,6 +191,40 @@ class ElsevierBV(PublisherParser):
                     r.is_corresponding = True
 
         return results
+
+    def _modern_sibling_corresponding_tag_ids(self, author_groups):
+        """Map modern Elsevier icon-only sibling buttons to the preceding author.
+
+        ScienceDirect often renders the author name as one ``button``/``a`` and
+        puts the explicit "Correspondence author icon" in a separate icon-only
+        sibling immediately after that name. The existing in-tag SVG check
+        misses those. Keep this conservative: only explicit correspondence
+        person icons count, and the signal attaches only to the closest
+        preceding author before the next surname-bearing author tag.
+        """
+        corresponding_ids = set()
+        for ag in author_groups:
+            previous_author_tag = None
+            for child in ag.children:
+                if not isinstance(child, Tag):
+                    continue
+                if child.find("span", class_="surname"):
+                    previous_author_tag = child
+                    continue
+                if previous_author_tag is not None and self._has_corresponding_author_icon(child):
+                    corresponding_ids.add(id(previous_author_tag))
+        return corresponding_ids
+
+    @staticmethod
+    def _has_corresponding_author_icon(tag) -> bool:
+        for svg in tag.find_all("svg"):
+            cls = svg.get("class", []) or []
+            title = (svg.get("title") or "") + " " + (svg.get("aria-label") or "")
+            if any("icon-person" in c for c in cls):
+                return True
+            if "correspond" in title.lower():
+                return True
+        return False
 
     def _authors_data_from_preloaded_state(self):
         """Pull structured author data from window.__PRELOADED_STATE__.

@@ -1,0 +1,294 @@
+{
+  "after": {
+    "corresponding_accuracy": 0.9347858230050013,
+    "field_counts": {
+      "empty_empty_pass": 607,
+      "gold_empty_parser_present": 51,
+      "gold_present_parser_empty": 69,
+      "gold_present_parser_present": 784,
+      "html_available": 1511,
+      "retrieval_blocked": 53,
+      "scored_rows": 1460,
+      "total_rows": 1564
+    },
+    "n_corresponding_scored": 1460,
+    "rows": 1564,
+    "scored": 1511
+  },
+  "after_artifact": "eval/runs/whole-goldie-elsevier-corresponding-sibling-icon-20260605T184352Z.json",
+  "before": {
+    "corresponding_accuracy": 0.9268450615473206,
+    "field_counts": {
+      "empty_empty_pass": 608,
+      "gold_empty_parser_present": 50,
+      "gold_present_parser_empty": 81,
+      "gold_present_parser_present": 772,
+      "html_available": 1511,
+      "retrieval_blocked": 53,
+      "scored_rows": 1461,
+      "total_rows": 1564
+    },
+    "n_corresponding_scored": 1461,
+    "rows": 1564,
+    "scored": 1511
+  },
+  "before_artifact": "eval/runs/whole-goldie-taylor-ebook-jsonld-full10k-20260605T171443Z.json",
+  "created_at": "2026-06-05T18:51:32.419356+00:00",
+  "delta": {
+    "corresponding_accuracy": 0.007940761457680745,
+    "corresponding_accuracy_pp": 0.794,
+    "improved_rows": 13,
+    "n_corresponding_scored": -1,
+    "regressed_rows": 0
+  },
+  "field": "corresponding",
+  "gate": "elsevier_corresponding_sibling_icon_shield",
+  "improved_examples": [
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.ssi.2023.116433",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.actpsy.2019.01.002",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.cemconres.2024.107709",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.inoche.2011.03.040",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.cis.2020.102351",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.matchar.2024.114151",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.cca.2017.05.017",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.6666666666666666,
+      "doi": "10.1016/j.powtec.2025.120715",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.catcom.2014.10.019",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.ijbiomac.2020.04.244",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.6666666666666666,
+      "doi": "10.1016/j.ijbiomac.2019.04.183",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/s0959-6526(02)00014-8",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "doi": "10.1016/j.powtec.2019.08.084",
+      "field_status": "gold_present_parser_present"
+    }
+  ],
+  "publisher": "elsevier",
+  "regressed_examples": [],
+  "remaining_bad_examples": [
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.4398349",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.copsyc.2018.05.003",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.5,
+      "doi": "10.1016/j.micpro.2017.10.001",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.6666666666666666,
+      "doi": "10.1016/j.physa.2019.04.055",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/s2221-1691(12)60381-5",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/s0016-7037(02)00888-8",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.jdmm.2020.100435",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/0040-5809(75)90012-x",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.6632130",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.6666666666666666,
+      "doi": "10.1016/j.apsusc.2020.148056",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.6666666666666666,
+      "doi": "10.1016/j.cnsns.2014.02.010",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/s0750-7658(05)80459-9",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.ijsolstr.2006.06.007",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.femsle.2004.05.001",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.6239931",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.5847056",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.14285714285714288,
+      "doi": "10.1016/j.segan.2017.04.001",
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.5223152",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.4445663",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.2531471",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.3182/20140514-3-fr-4046.00028",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.2139/ssrn.5402712",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.oraloncology.2017.06.012",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.0,
+      "doi": "10.1016/j.jat.2015.02.005",
+      "field_status": "gold_present_parser_empty"
+    },
+    {
+      "accuracy": 0.5,
+      "doi": "10.1016/j.ridd.2017.10.003",
+      "field_status": "gold_present_parser_present"
+    }
+  ],
+  "sampled_dom_evidence": [
+    {
+      "doi": "10.1016/j.ssi.2023.116433",
+      "expected_after": [
+        [
+          "Chong Lei",
+          false
+        ],
+        [
+          "Michael F. Simpson",
+          true
+        ],
+        [
+          "Anil V. Virkar",
+          false
+        ]
+      ],
+      "pattern": "icon-only sibling button follows Michael F. Simpson author link and contains title Correspondence author icon"
+    },
+    {
+      "doi": "10.1016/j.cemconres.2024.107709",
+      "expected_after": [
+        [
+          "Jinhui Tang",
+          true
+        ],
+        [
+          "Jiaping Liu",
+          true
+        ]
+      ],
+      "pattern": "two icon-only sibling buttons follow Jinhui Tang and Jiaping Liu author links"
+    }
+  ],
+  "status": "passed",
+  "tests": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_elsevier_bv_modern.py -q",
+    "whole_goldie_eval.py run --publishers elsevier --label elsevier-corresponding-sibling-icon --concurrency 8"
+  ]
+}
