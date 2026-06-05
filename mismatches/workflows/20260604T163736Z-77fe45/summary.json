@@ -77,17 +77,17 @@
     "status": "shipped_full10k_measured"
   },
   "ieee_affiliations_referee_state": {
-    "approved_rows": 295,
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_referee.ndjson",
+    "approved_rows": 323,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_referee.ndjson",
     "blocked_rows": 5,
     "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_derived_v0.ndjson",
-    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_referee.ndjson",
-    "latest_referee_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_referee.summary.json",
-    "next_action": "ground remaining 28 IEEE affiliation candidates; manual-review 5 blocked rows",
-    "remaining_current_ieee_affiliation_backfill": 28,
-    "reviewed_rows": 300,
-    "status": "goldie_backfill_referee_partial_295_approved_5_blocked",
-    "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_referee.summary.json"
+    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_referee.ndjson",
+    "latest_referee_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_referee.summary.json",
+    "next_action": "IEEE affiliation current backfill lane complete; route approved derived candidates to gold-auditor review and manually review 5 blocked rows.",
+    "remaining_current_ieee_affiliation_backfill": 0,
+    "reviewed_rows": 328,
+    "status": "goldie_backfill_referee_complete_323_approved_5_blocked",
+    "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_referee.summary.json"
   },
   "ieee_authors_referee_state": {
     "approved_rows": 241,
@@ -140,27 +140,27 @@
     "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_referee.summary.json"
   },
   "latest_ieee_affiliations_backfill": {
-    "approved_count": 50,
+    "approved_count": 28,
     "blocked_count": 0,
-    "cumulative_ieee_affiliation_approved_count": 295,
+    "cumulative_ieee_affiliation_approved_count": 323,
     "cumulative_ieee_affiliation_blocked_count": 5,
     "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_derived_v0.ndjson",
-    "diagnosis": "Browserbase-grounded IEEE affiliations batch 250-300 matched every Parseland affiliation candidate against rendered IEEE page text. Referee approved 50/50 rows into the derived ledger.",
+    "diagnosis": "Browserbase-grounded final IEEE affiliations batch 300-328 matched every Parseland affiliation candidate against rendered IEEE page text. Referee approved 28/28 rows into the derived ledger, completing the current IEEE affiliation backfill lane except for 5 previously blocked manual-review rows.",
     "grounding_confidence_counts": {
-      "candidate_text_match": 50
+      "candidate_text_match": 28
     },
-    "new_derived_rows_appended": 50,
-    "next_action": "Ground remaining 28 IEEE affiliation candidates; keep Referee approval separate from current-Goldie KPI and manually review the 5 previously blocked rows.",
+    "new_derived_rows_appended": 28,
+    "next_action": "IEEE affiliation current Goldie-backfilled lane complete: route 323 approved derived candidates plus 5 blocked manual-review rows to gold-auditor review; move to next highest backfill lane.",
     "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
-    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_referee.ndjson",
-    "remaining_ieee_affiliation_candidates": 28,
-    "reviewed_at": "2026-06-05T22:08:34.370310+00:00",
-    "run_id": "bb-ieee-affiliations-250-300-20260605T220322Z",
-    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_250_300_resolved_bb-ieee-affiliations-250-300-20260605T220322Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_referee.ndjson",
+    "remaining_ieee_affiliation_candidates": 0,
+    "reviewed_at": "2026-06-05T22:16:46.038168+00:00",
+    "run_id": "bb-ieee-affiliations-300-328-20260605T221355Z",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_300_328_resolved_bb-ieee-affiliations-300-328-20260605T221355Z.ndjson",
     "status_counts": {
-      "referee_approved": 50
+      "referee_approved": 28
     },
-    "total": 50
+    "total": 28
   },
   "latest_ieee_authors_backfill": {
     "approved_count": 37,
@@ -211,7 +211,7 @@
     "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
     "goldie_backfill_pending": 9,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
-    "goldie_backfill_referee_partial_295_approved_5_blocked": 1,
+    "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
     "goldie_backfill_smoke_referee_approved_3": 1,
     "needs_agent": 29,
     "publisher_unknown": 5,
@@ -1366,5 +1366,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-05T22:08:34.370310+00:00"
+  "updated_at": "2026-06-05T22:16:46.038168+00:00"
 }
