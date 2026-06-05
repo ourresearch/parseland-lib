@@ -230,10 +230,22 @@ def _render_backfill_status(workflow_summary: dict | None) -> str:
     parts: list[str] = []
     authors = workflow_summary.get("ieee_authors_referee_state") or {}
     if authors:
+        blocked_examples = authors.get("blocked_example_dois") or []
+        blocked_suffix = ""
+        if blocked_examples:
+            blocked_suffix = (
+                "; blocked example "
+                + ", ".join(
+                    f"<code>{html.escape(str(doi))}</code>"
+                    for doi in blocked_examples[:3]
+                )
+            )
         parts.append(
             "IEEE authors: "
             f"{html.escape(str(authors.get('approved_rows', '—')))} approved, "
-            f"{html.escape(str(authors.get('remaining_current_candidates', '—')))} remaining; "
+            f"{html.escape(str(authors.get('blocked_rows', '—')))} blocked, "
+            f"{html.escape(str(authors.get('remaining_current_candidates', '—')))} remaining"
+            f"{blocked_suffix}; "
             f"latest <code>{html.escape(str(authors.get('latest_referee_artifact', '—')))}</code>"
         )
     affs = workflow_summary.get("ieee_affiliations_referee_state") or {}

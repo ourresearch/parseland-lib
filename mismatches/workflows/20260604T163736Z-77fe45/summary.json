@@ -89,6 +89,15 @@
   },
   "ieee_authors_referee_state": {
     "approved_rows": 241,
+    "blocked_example_dois": [
+      "10.36227/techrxiv.16545669"
+    ],
+    "blocked_examples": [
+      {
+        "doi": "10.36227/techrxiv.16545669",
+        "reason": "Browserbase rendered only a TechRxiv/page-head view without IEEE authorNames evidence."
+      }
+    ],
     "blocked_rows": 1,
     "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",
     "latest_grounding_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_204_242_resolved_bb-ieee-authors-204-242-20260605T204631Z.ndjson",
@@ -131,6 +140,12 @@
   "latest_ieee_authors_backfill": {
     "approved_count": 37,
     "blocked_count": 1,
+    "blocked_examples": [
+      {
+        "doi": "10.36227/techrxiv.16545669",
+        "reason": "Browserbase rendered only a TechRxiv/page-head view without IEEE authorNames evidence."
+      }
+    ],
     "cumulative_ieee_author_approved_count": 241,
     "current_ieee_author_blocked_count": 1,
     "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",

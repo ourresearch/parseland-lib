@@ -1,6 +1,12 @@
 {
   "approved_count": 37,
   "blocked_count": 1,
+  "blocked_examples": [
+    {
+      "doi": "10.36227/techrxiv.16545669",
+      "reason": "Browserbase rendered only a TechRxiv/page-head view without IEEE authorNames evidence."
+    }
+  ],
   "cumulative_ieee_author_approved_count": 241,
   "current_ieee_author_blocked_count": 1,
   "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",
