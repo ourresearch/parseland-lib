@@ -19,7 +19,7 @@
     "needs_referee": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_pending_courier": 1,
+    "shipped_full10k_measured": 1,
     "shipped_pending_full10k_batch": 1
   },
   "classification_counts": {
@@ -356,7 +356,7 @@
     },
     {
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_abstract_filter_shield.json",
-      "assigned_agent": null,
+      "assigned_agent": "codex-v2-oxford-abstract-02a7eeb9",
       "created_at": "2026-06-05T10:09:45.026965+00:00",
       "current_kpi": 0.6405,
       "distance_to_98": 0.3395,
@@ -368,9 +368,10 @@
       "headroom": 0.3595,
       "html_available": 265,
       "html_coverage": 0.9779,
+      "latest_full10k_artifact": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-oxford-abstract-filter-20260605T104828Z.json",
       "latest_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-phase1-full10k-20260605T094337Z.json",
       "misses": 47,
-      "next_action": "courier-ship",
+      "next_action": "monitor-next-gap",
       "parser_status": "supported",
       "priority": 103.4591,
       "publisher_class": "ready",
@@ -379,7 +380,7 @@
       "retrieval_blocked": 6,
       "row_count": 271,
       "scored_rows_for_field": 247,
-      "status": "shipped_pending_courier",
+      "status": "shipped_full10k_measured",
       "target_kpi": 0.98,
       "task_id": "v2_oxford_abstract_02a7eeb9",
       "tractability": 1.0,
@@ -512,5 +513,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-05T11:58:41.945693+00:00"
+  "updated_at": "2026-06-05T12:00:41.769367+00:00"
 }
