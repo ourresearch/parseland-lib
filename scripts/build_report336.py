@@ -41,6 +41,7 @@ REQUIRED_ASSETS = [
     "evidence/curve-latest.json",
     "evidence/live-agent-events.ndjson",
     "evidence/live-agent-console.html",
+    "evidence/ai-extraction-hard-slice-quality-run.md",
 ]
 
 
@@ -78,6 +79,12 @@ REPORT_HTML = """<!doctype html>
   .metric .value {{ font-size: 1.5rem; font-weight: 600; margin-top: 0.25rem; }}
   .console-link {{ margin: 1rem 0; }}
   .console-link a {{ display: inline-block; padding: 0.5rem 1rem; background: var(--accent); color: white; text-decoration: none; border-radius: 6px; font-weight: 500; }}
+  .delta-good {{ color: #137333; font-weight: 700; }}
+  .delta-bad {{ color: #b3261e; font-weight: 700; }}
+  .delta-neutral {{ color: var(--muted); font-weight: 700; }}
+  .tldr p {{ font-size: 1rem; margin: 0 0 0.9rem; }}
+  .tldr table {{ margin: 0.75rem 0 1rem; }}
+  .tldr .latest-note {{ color: var(--muted); font-size: 0.9rem; margin-bottom: 0; }}
   footer {{ margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }}
 </style>
 </head>
@@ -87,6 +94,8 @@ REPORT_HTML = """<!doctype html>
   <h1>Parseland Improver — Whole-Goldie KPI Sprint</h1>
   <p>Generated {ts} · run_id {run_id} · batches: {batches_n} · publishers ranked: {pubs_total} · publisher-field cells: {queue_cells}</p>
 </header>
+
+{parseland_update}
 
 <section>
   <h2>Latest KPIs</h2>
@@ -186,6 +195,90 @@ def render_metric_cards(latest: dict | None) -> str:
         except (TypeError, ValueError):
             continue
     return "".join(parts)
+
+
+def _metric_float(row: dict | None, key: str) -> float | None:
+    if not row:
+        return None
+    try:
+        return float(row.get(key))
+    except (TypeError, ValueError):
+        return None
+
+
+def _format_metric(row: dict | None, key: str) -> str:
+    value = _metric_float(row, key)
+    if value is None:
+        return "—"
+    return f"{value:.6f}"
+
+
+def _format_delta_pp(previous: dict | None, latest: dict | None, key: str) -> tuple[str, str]:
+    prev_value = _metric_float(previous, key)
+    latest_value = _metric_float(latest, key)
+    if prev_value is None or latest_value is None:
+        return "delta-neutral", "—"
+    delta = (latest_value - prev_value) * 100
+    if abs(delta) < 0.0005:
+        return "delta-neutral", "0.000pp"
+    css_class = "delta-good" if delta > 0 else "delta-bad"
+    return css_class, f"{delta:+.3f}pp"
+
+
+def render_parseland_update(rows: list[dict]) -> str:
+    if len(rows) < 2:
+        return ""
+    previous = rows[-2]
+    latest = rows[-1]
+    metrics = [
+        ("overall_authors_f1_soft", "Authors F1 soft", "authors"),
+        ("overall_affiliations_f1_fuzzy", "Affiliations F1 fuzzy", "affiliations"),
+        ("overall_abstract_ratio_fuzzy", "Abstract ratio fuzzy", "abstract"),
+        ("overall_pdf_url_accuracy", "PDF URL accuracy", "PDF URL"),
+        ("overall_corresponding_accuracy", "Corresponding accuracy", "corresponding"),
+    ]
+    prev_batch = html.escape(str(previous.get("batch_id", "previous")))
+    latest_batch = html.escape(str(latest.get("batch_id", "latest")))
+    table_parts = [
+        "<table>",
+        "<thead><tr><th>Full-10K KPI</th><th>Batch "
+        + prev_batch
+        + "</th><th>Batch "
+        + latest_batch
+        + "</th><th>Change</th></tr></thead>",
+        "<tbody>",
+    ]
+    for key, label, _ in metrics:
+        css_class, delta = _format_delta_pp(previous, latest, key)
+        table_parts.append(
+            "<tr>"
+            f"<td>{html.escape(label)}</td>"
+            f"<td>{html.escape(_format_metric(previous, key))}</td>"
+            f'<td class="{css_class}">{html.escape(_format_metric(latest, key))}</td>'
+            f'<td class="{css_class}">{html.escape(delta)}</td>'
+            "</tr>"
+        )
+    table_parts += ["</tbody>", "</table>"]
+    current_kpis = ", ".join(
+        f"{current_label} <code>{html.escape(_format_metric(latest, key))}</code>"
+        for key, _, current_label in metrics
+    )
+    return (
+        '<section class="tldr">'
+        "<h2>Parseland-only update</h2>"
+        '<div class="panel">'
+        "<p><strong>Report 336 is the Parseland Whole-Goldie parser/backfill report.</strong> "
+        "Batch 9 is rollback recovery from the ungrounded Elsevier app-JSON path, not a new parser-quality lift.</p>"
+        + "".join(table_parts)
+        + f"<p><strong>Current full-10K parser KPIs:</strong> {current_kpis}.</p>"
+        "<p><strong>IEEE backfill status:</strong> 95 candidates are approved into the derived ledger, "
+        "5 are blocked for manual review, and 228 current IEEE affiliation candidates still need grounding. "
+        "This is evidence/derived-corpus work and is not counted as a parser KPI lift.</p>"
+        '<p class="latest-note">Green means the Parseland full-10K metric improved, red means it regressed, '
+        "and gray means unchanged. No separate quality-run metrics are included in this report.</p>"
+        "</div>"
+        "</section>"
+    )
 
 
 def render_batches_table(rows: list[dict]) -> str:
@@ -841,6 +934,7 @@ def main() -> int:
         batches_n=len(kpi_rows),
         pubs_total=pubs_total,
         queue_cells=queue_cells,
+        parseland_update=render_parseland_update(kpi_rows),
         metric_cards=render_metric_cards(latest),
         coverage_status=render_coverage_status(whole_goldie, workflow_summary),
         field_target_table=render_field_target_table(whole_goldie),
