@@ -1,0 +1,29 @@
+{
+  "approved_rows": 21,
+  "batch_end": 85,
+  "batch_start": 60,
+  "blocked_dois": [
+    "10.1097/brs.0b013e3181d3cfa3",
+    "10.1097/ajp.0000000000001183",
+    "10.1097/js9.0000000000000787",
+    "10.1097/mcd.0000000000000052"
+  ],
+  "blocked_rows": 4,
+  "browserbase_run_id": "bb-lippincott-affiliations-60-85-20260605T232627Z",
+  "completed_at": "2026-06-05T23:32:19.246112+00:00",
+  "cumulative_approved_rows": 62,
+  "cumulative_blocked_rows": 23,
+  "cumulative_reviewed_rows": 85,
+  "current_goldie_kpi_impact": 0.0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "publisher_id": "lippincott",
+  "recommendation": "Continue Lippincott affiliations only in cleaned/refereed batches; this batch yielded mostly clean institution-heavy rows, but fragmented/page-identity rows remain manual-gold-auditor work.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_60_85_referee.ndjson",
+  "remaining_current_candidates": 33,
+  "resolved_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_60_85_resolved_bb-lippincott-affiliations-60-85-20260605T232627Z.ndjson",
+  "reviewed_rows": 25,
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "goldie_backfill_referee_partial_62_approved_23_blocked",
+  "task_id": "v2_lippincott_affiliations_861e7de8"
+}
