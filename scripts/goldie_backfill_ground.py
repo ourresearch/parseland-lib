@@ -216,6 +216,7 @@ def load_candidates(
     fields: set[str] | None,
     statuses: set[str] | None,
     publishers: set[str] | None,
+    skip: int,
     limit: int | None,
 ) -> list[dict]:
     candidates: list[dict] = []
@@ -249,6 +250,8 @@ def load_candidates(
             candidates.append(row)
     status_rank = {"pending_browserbase": 0, "pending": 1, "blocked_no_browserbase_credentials": 2}
     candidates.sort(key=lambda r: (status_rank.get(str(r.get("status")), 9), str(r.get("field") or ""), str(r.get("doi") or "")))
+    if skip > 0:
+        candidates = candidates[skip:]
     if limit:
         candidates = candidates[:limit]
     return candidates
@@ -362,6 +365,7 @@ def main() -> int:
     p.add_argument("--statuses", type=str, default=None)
     p.add_argument("--publishers", type=str, default=None)
     p.add_argument("--limit", type=int, default=10)
+    p.add_argument("--skip", type=int, default=0)
     p.add_argument("--concurrency", type=int, default=4)
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--run-id", type=str)
@@ -371,7 +375,7 @@ def main() -> int:
     fields = set(args.fields.split(",")) if args.fields else None
     statuses = set(args.statuses.split(",")) if args.statuses else None
     publishers = set(args.publishers.split(",")) if args.publishers else None
-    candidates = load_candidates(args.candidates, fields, statuses, publishers, args.limit)
+    candidates = load_candidates(args.candidates, fields, statuses, publishers, args.skip, args.limit)
     emit(
         run_id=run_id,
         action="goldie_backfill_ground.start",
@@ -382,6 +386,7 @@ def main() -> int:
             f"fields={sorted(fields) if fields else 'all'} "
             f"statuses={sorted(statuses) if statuses else 'all'} "
             f"publishers={sorted(publishers) if publishers else 'all'} "
+            f"skip={args.skip} "
             f"limit={args.limit}"
         ),
     )
@@ -392,6 +397,7 @@ def main() -> int:
             "candidate_count": len(candidates),
             "browserbase_credentials": have_browserbase_creds(),
             "concurrency": args.concurrency,
+            "skip": args.skip,
             "statuses": sorted(statuses) if statuses else None,
             "publishers": sorted(publishers) if publishers else None,
             "sample": candidates[:3],
