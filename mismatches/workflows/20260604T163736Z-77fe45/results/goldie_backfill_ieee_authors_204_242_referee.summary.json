@@ -1,0 +1,30 @@
+{
+  "approved_count": 37,
+  "blocked_count": 1,
+  "cumulative_ieee_author_approved_count": 241,
+  "current_ieee_author_blocked_count": 1,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",
+  "diagnosis": "Browserbase-grounded final IEEE authors batch 204-242 resolved 37 n_authors-only candidates from rendered IEEE authorNames when counts matched. One TechRxiv-rendered row lacked authorNames evidence and is blocked from the derived ledger.",
+  "grounding_confidence_counts": {
+    "author_count_author_names_match": 37,
+    "page_rendered_only": 1
+  },
+  "new_derived_rows_appended": 37,
+  "next_action": "IEEE author current Goldie-backfilled lane complete: route 241 approved derived candidates plus 1 blocked TechRxiv/page-head row to gold-auditor review; move to next highest backfill lane.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_204_242_referee.ndjson",
+  "remaining_ieee_author_candidates": 0,
+  "resolved_candidate_source_counts": {
+    "browserbase_rendered_authorNames": 37,
+    "null": 1
+  },
+  "reviewed_at": "2026-06-05T20:53:08.473580+00:00",
+  "run_id": "bb-ieee-authors-204-242-20260605T204631Z",
+  "smoke_ieee_author_approved_count": 4,
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_204_242_resolved_bb-ieee-authors-204-242-20260605T204631Z.ndjson",
+  "status_counts": {
+    "referee_approved": 37,
+    "referee_blocked": 1
+  },
+  "total": 38
+}
