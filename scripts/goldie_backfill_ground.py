@@ -103,7 +103,29 @@ def candidate_needles(candidate: dict) -> list[str]:
     elif field == "affiliations":
         affs = payload.get("affiliations") or []
         if isinstance(affs, list):
-            needles.extend(str(a).strip() for a in affs[:4] if str(a).strip())
+            for aff in affs[:4]:
+                if isinstance(aff, dict):
+                    value = aff.get("name")
+                else:
+                    value = aff
+                if str(value).strip():
+                    needles.append(str(value).strip())
+        authors = payload.get("authors") or []
+        if isinstance(authors, list):
+            for author in authors:
+                if not isinstance(author, dict):
+                    continue
+                for aff in (author.get("affiliations") or []):
+                    if isinstance(aff, dict):
+                        value = aff.get("name")
+                    else:
+                        value = aff
+                    if str(value).strip() and str(value).strip() not in needles:
+                        needles.append(str(value).strip())
+                    if len(needles) >= 4:
+                        break
+                if len(needles) >= 4:
+                    break
     return needles
 
 
@@ -193,6 +215,7 @@ def load_candidates(
     path: Path,
     fields: set[str] | None,
     statuses: set[str] | None,
+    publishers: set[str] | None,
     limit: int | None,
 ) -> list[dict]:
     candidates: list[dict] = []
@@ -210,12 +233,15 @@ def load_candidates(
                 continue
             field = str(row.get("field") or "")
             status = str(row.get("status") or "")
+            publisher = str(row.get("publisher") or "")
             key = (str(row.get("doi") or ""), field)
             if not key[0] or not field or key in seen:
                 continue
             if fields is not None and field not in fields:
                 continue
             if statuses is not None and status not in statuses:
+                continue
+            if publishers is not None and publisher not in publishers:
                 continue
             if status not in {"pending", "pending_browserbase", "blocked_no_browserbase_credentials"}:
                 continue
@@ -334,6 +360,7 @@ def main() -> int:
     p.add_argument("--evidence-dir", type=Path, default=DEFAULT_EVIDENCE_DIR)
     p.add_argument("--fields", type=str, default=None)
     p.add_argument("--statuses", type=str, default=None)
+    p.add_argument("--publishers", type=str, default=None)
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--concurrency", type=int, default=4)
     p.add_argument("--dry-run", action="store_true")
@@ -343,7 +370,8 @@ def main() -> int:
     run_id = args.run_id or new_run_id()
     fields = set(args.fields.split(",")) if args.fields else None
     statuses = set(args.statuses.split(",")) if args.statuses else None
-    candidates = load_candidates(args.candidates, fields, statuses, args.limit)
+    publishers = set(args.publishers.split(",")) if args.publishers else None
+    candidates = load_candidates(args.candidates, fields, statuses, publishers, args.limit)
     emit(
         run_id=run_id,
         action="goldie_backfill_ground.start",
@@ -353,6 +381,7 @@ def main() -> int:
         notes=(
             f"fields={sorted(fields) if fields else 'all'} "
             f"statuses={sorted(statuses) if statuses else 'all'} "
+            f"publishers={sorted(publishers) if publishers else 'all'} "
             f"limit={args.limit}"
         ),
     )
@@ -364,6 +393,7 @@ def main() -> int:
             "browserbase_credentials": have_browserbase_creds(),
             "concurrency": args.concurrency,
             "statuses": sorted(statuses) if statuses else None,
+            "publishers": sorted(publishers) if publishers else None,
             "sample": candidates[:3],
         }
         emit(
