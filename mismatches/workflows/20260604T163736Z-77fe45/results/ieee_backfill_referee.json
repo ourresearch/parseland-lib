@@ -1,0 +1,104 @@
+{
+  "task_ids": [
+    "v2_ieee_authors_f2daf6a6",
+    "v2_ieee_affiliations_e9361b70"
+  ],
+  "publisher": "ieee",
+  "fields": [
+    "authors",
+    "affiliations"
+  ],
+  "classification": "gold_empty_parser_present_backfill_owned",
+  "verdict": "Do not send these two queue cells to parser workers yet. Treat both as Browserbase/gold-backfill work.",
+  "counts": {
+    "authors": {
+      "total_rows": 395,
+      "html_available": 393,
+      "gold_empty_parser_present": 242,
+      "empty_empty_pass": 45,
+      "gold_present_parser_present": 103,
+      "gold_present_parser_empty": 3,
+      "retrieval_blocked": 2
+    },
+    "affiliations": {
+      "total_rows": 395,
+      "html_available": 393,
+      "gold_empty_parser_present": 328,
+      "empty_empty_pass": 48,
+      "gold_present_parser_present": 15,
+      "gold_present_parser_empty": 2,
+      "retrieval_blocked": 2
+    },
+    "overlap_author_and_affiliation_backfill_dois": 241
+  },
+  "ownership": {
+    "backfill_owned": "primary",
+    "scorer_owned_confirmed": 0,
+    "harvest_owned": [
+      "10.1109/tns.2010.2083687",
+      "10.1109/pree57903.2023"
+    ],
+    "parser_owned_edge_cases": [
+      "10.1109/mspec.1988.995758"
+    ]
+  },
+  "doi_examples": [
+    {
+      "doi": "10.1109/ccdc.2018.8408173",
+      "classification": "backfill_owned",
+      "evidence": "Gold has 0 authors; parser finds Lei Sun, Baojie Fan, Yan Peng from xplGlobal.document.metadata."
+    },
+    {
+      "doi": "10.1109/ictc.2015.7354772",
+      "classification": "backfill_owned",
+      "evidence": "Gold has 0 authors; parser finds 5 authors from xplGlobal.document.metadata."
+    },
+    {
+      "doi": "10.1109/iros.2006.281892",
+      "classification": "backfill_owned",
+      "evidence": "Gold author names match but affiliations are empty; page metadata has RAMP Lab, School of Engineering Science, Simon Fraser University."
+    },
+    {
+      "doi": "10.1109/access.2023.3286540",
+      "classification": "gold_page_disagreement",
+      "evidence": "Cached page DOI matches but page authors differ from Goldie authors."
+    },
+    {
+      "doi": "10.1109/tns.2010.2083687",
+      "classification": "harvest_content_owned",
+      "evidence": "Cached page is an IEEE shut page with no xplGlobal.document.metadata."
+    },
+    {
+      "doi": "10.1109/pree57903.2023",
+      "classification": "harvest_content_owned",
+      "evidence": "Cached canonical is a conference proceedings home with no article metadata."
+    }
+  ],
+  "recommended_browserbase_cohorts": [
+    {
+      "name": "ieee_authors_and_affiliations_joint_backfill",
+      "filter": "publisher=ieee AND field_status.authors=gold_empty_parser_present AND field_status.affiliations=gold_empty_parser_present",
+      "doi_count": 241,
+      "cache_mix": {
+        "cached_ok": 156,
+        "cached_bot_check": 85
+      },
+      "grounding_target": "script:contains(\"xplGlobal.document.metadata\") -> authors[]"
+    },
+    {
+      "name": "ieee_affiliations_backfill_after_author_match",
+      "filter": "publisher=ieee AND field_status.authors=gold_present_parser_present AND field_status.affiliations=gold_empty_parser_present",
+      "doi_count": 87,
+      "cache_mix": {
+        "cached_ok": 51,
+        "cached_bot_check": 36
+      },
+      "grounding_target": "script:contains(\"xplGlobal.document.metadata\") -> authors[].affiliations"
+    }
+  ],
+  "next_actions": [
+    "Route IEEE author and affiliation headroom to Browserbase/gold-backfill, not parser workers.",
+    "After backfill, open a small parser issue for 10.1109/mspec.1988.995758 author-only dispatch behavior.",
+    "Open harvest/content audit for 10.1109/tns.2010.2083687 and 10.1109/pree57903.2023."
+  ]
+}
