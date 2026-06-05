@@ -1,0 +1,13 @@
+{
+  "task_id": "t_degruyter_onboarding",
+  "publisher": "de_gruyter",
+  "field": "onboarding-fixture",
+  "diagnosis": "215 rows in merged-FINAL.csv matched DOI prefix 10.1515; 138 retained with non-empty authors or abstract (most filtered rows are book-chapter entries with empty Authors '[]' and empty Abstract). Fixture mirrors cup-gold.ndjson shape (doi, source=human-goldie, annotation{no,link,resolved_links,authors[name,rasses,corresponding_author],abstract,pdf_url,status,notes,has_bot_check,resolves_to_pdf,broken_doi,no_english}).",
+  "fixture_path": "tests/fixtures/de_gruyter-gold.ndjson",
+  "fixture_row_count": 138,
+  "patch_files_touched": [
+    "tests/fixtures/de_gruyter-gold.ndjson",
+    "scripts/field_inprocess_diff.py"
+  ],
+  "recommendation": "ship"
+}

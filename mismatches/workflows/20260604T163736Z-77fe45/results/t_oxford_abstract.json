@@ -1,0 +1,18 @@
+{
+  "task_id": "t_oxford_abstract",
+  "publisher": "oxford",
+  "field": "abstract",
+  "diagnosis": "Two failure modes in Oxford abstract extraction: (A) ~56 rows where section.abstract p returns zero tags because the HTML template is a conference/supplement abstract or reference-work entry that wraps the abstract body in .chapter-para divs without a section.abstract ancestor (e.g. 10.1093/ndt/gfw185.42, 10.1093/biolre/*, several OUP supplements). (B) ~35 rows where parsed abstract is much longer than gold (1500-1900 vs 150 chars) — this is a gold truncation artifact, not a parser bug, and was left alone. Sampled 10 failures from whole-goldie-after-elsevier-canonical-dispatch.json (random seed 11); inspected 6 HTMLs in detail and surveyed 30 empty-parsed rows. .chapter-para selector recovers content for 24/30 (80%) empty rows; og:description (Abstract-prefix stripped) covers another 1; ~4/30 are reference-work entries (acref, acrefore) with no usable abstract anywhere in the cached HTML.",
+  "classification": "missing-selector-for-supplement-and-book-templates",
+  "samples_examined": 10,
+  "patch_files_touched": [
+    "parseland_lib/publisher/parsers/oxford.py"
+  ],
+  "test_files_added": [
+    "tests/test_oxford_abstract_fallbacks.py"
+  ],
+  "focused_test_result": "passed",
+  "expected_kpi_impact_pp": 4.8,
+  "expected_kpi_impact_basis": "Among 270 Oxford rows, 56 have gold abstract >=50 chars but parser returns empty. .chapter-para fallback yields fuzzy_ratio>=0.5 against gold for 13/45 inspected (some gold is <100 chars and won't pass strict scoring, others are reference-work entries with no HTML abstract). Lower-bound projection: 13/270 = +4.8pp on Oxford abstract ratio_fuzzy (0.362 -> ~0.41). Upper bound if all 24 chapter-para recoveries score >=0.5: +8.9pp. No expected regressions on the 35 'parsed>>gold' rows because primary selector still wins when present.",
+  "recommendation": "ship"
+}

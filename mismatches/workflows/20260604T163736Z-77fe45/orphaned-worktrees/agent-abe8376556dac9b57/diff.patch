@@ -1,0 +1,119 @@
+diff --git a/parseland_lib/publisher/parsers/wiley.py b/parseland_lib/publisher/parsers/wiley.py
+index 7b6a6a4..56ad287 100644
+--- a/parseland_lib/publisher/parsers/wiley.py
++++ b/parseland_lib/publisher/parsers/wiley.py
+@@ -1,6 +1,8 @@
+ import re
+ from unicodedata import normalize
+ 
++from bs4 import NavigableString
++
+ from parseland_lib.elements import AuthorAffiliations
+ from parseland_lib.publisher.parsers.parser import PublisherParser
+ from parseland_lib.publisher.parsers.utils import is_h_tag, strip_prefix, strip_suffix
+@@ -71,6 +73,37 @@ class Wiley(PublisherParser):
+                 aff_txt = strip_prefix('Authors are with ', aff_txt)
+                 aff_txt = aff_txt.strip().split('Fax')[0].strip()
+                 affiliations.append(normalize("NFKD", aff_txt))
++
++            # CAND3: bare-text fallback + author-jobTitle pickup.
++            # Legacy Wiley/Blackwell pages (e.g. 10.1111/j.1540-6261.1970...)
++            # place the affiliation as a bare text node inside
++            # <div class="author-info">. Some such pages embed the job title
++            # as <p class="author-jobTitle"> and the rest as a bare text node
++            # that REPEATS the job title at its start ("Professor of
++            # Economics, University of Missouri-St. Louis" alongside a
++            # separate <p class="author-jobTitle">Professor of Economics</p>).
++            # The bare text IS the canonical affiliation in gold annotation.
++            # Strategy: when no <p class=None> affs, scan ALL direct
++            # NavigableString children of author-info for any text >= 20
++            # chars with a comma (institution+location signal), excluding
++            # known UI strings.
++            if not affiliations:
++                info_div = author.find("div", class_="author-info")
++                if info_div is not None:
++                    for child in info_div.children:
++                        if not isinstance(child, NavigableString):
++                            continue
++                        text = str(child).strip()
++                        if len(text) < 20 or "," not in text:
++                            continue
++                        low = text.lower()
++                        if low.startswith("search for more papers"):
++                            continue
++                        cleaned = text.rstrip(".").strip()
++                        if cleaned:
++                            affiliations.append(normalize("NFKD", cleaned))
++                            break  # only take first matching text node
++
+             results.append(
+                 AuthorAffiliations(
+                     name=name,
+@@ -86,11 +119,23 @@ class Wiley(PublisherParser):
+         only inside ``<div class="article-header__correspondence-to">``, not
+         inside the per-author span (no author-type heading, no mailto). Match
+         an author whose first AND last name both appear in the block text and
+-        flag them. Additive only — never clears an existing CA flag."""
++        flag them. Additive only — never clears an existing CA flag.
++
++        Tokens are punctuation-stripped before substring matching: parsed
++        author names often carry initials like ``C.`` while the correspondence
++        block strips the period (``C Elliott``). Failing to strip the trailing
++        period on the parsed token means ``c.`` is searched inside ``c elliott``
++        and the match fails. Example DOI: ``10.1111/j.1467-789x.2007.00418.x``.
++        """
+         block = self.soup.find("div", class_="article-header__correspondence-to")
+         if not block:
+             return
+         block_text = block.get_text(separator=" ").lower()
++
++        def _norm(tok: str) -> str:
++            # Strip trailing punctuation that appears on initials/abbreviations.
++            return tok.lower().strip(".,;:")
++
+         for r in results:
+             if r.is_corresponding:
+                 continue
+@@ -98,9 +143,9 @@ class Wiley(PublisherParser):
+             tokens = name.split()
+             if len(tokens) < 2:
+                 continue
+-            first = tokens[0].lower()
+-            last = tokens[-1].lower()
+-            if first in block_text and last in block_text:
++            first = _norm(tokens[0])
++            last = _norm(tokens[-1])
++            if first and last and first in block_text and last in block_text:
+                 r.is_corresponding = True
+ 
+     def get_abstract(self):
+diff --git a/scripts/field_inprocess_diff.py b/scripts/field_inprocess_diff.py
+index 36de14f..41a62b4 100644
+--- a/scripts/field_inprocess_diff.py
++++ b/scripts/field_inprocess_diff.py
+@@ -40,8 +40,23 @@ from typing import Callable
+ from urllib.parse import urlparse
+ 
+ # parseland-eval and parseland-lib on the path. Read-only imports.
+-sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval")
+-sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-lib")
++#
++# The parseland-lib path resolves to THIS file's repo root so the script picks
++# up worktree-local parser code when invoked from inside a git worktree. The
++# previous hardcoded absolute path silently loaded main's parsers regardless
++# of the cwd, breaking the multi-agent regression-sentinel's worktree
++# isolation: a sentinel applying a patch in its worktree was still importing
++# main's parser code and reporting the unpatched results.
++_THIS_FILE = Path(__file__).resolve()
++_REPO_ROOT_FROM_FILE = _THIS_FILE.parent.parent  # scripts/ -> repo root
++sys.path.insert(0, str(_REPO_ROOT_FROM_FILE))
++# parseland-eval lives outside the repo. Allow override via env var; fall back
++# to the conventional sibling path.
++_PARSELAND_EVAL_PATH = os.environ.get(
++    "PARSELAND_EVAL_PATH",
++    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval",
++)
++sys.path.insert(0, _PARSELAND_EVAL_PATH)
+ 
+ import boto3  # noqa: E402
+ import requests  # noqa: E402

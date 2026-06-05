@@ -1,0 +1,107 @@
+diff --git a/parseland_lib/publisher/parsers/springer.py b/parseland_lib/publisher/parsers/springer.py
+index 8980bca..96c754e 100644
+--- a/parseland_lib/publisher/parsers/springer.py
++++ b/parseland_lib/publisher/parsers/springer.py
+@@ -26,7 +26,15 @@ class Springer(PublisherParser):
+     def _try_find_abstract_in_metadatas(metadatas):
+         for md in metadatas:
+             if 'description' in md:
+-                return md['description']
++                desc = md['description']
++                # Springer book-chapter templates sometimes emit a
++                # whitespace-only ``description`` (the chapter has no
++                # formal Abstract section so the JSON-LD slot was
++                # rendered empty). Treat strip-empty as missing so the
++                # ``parse_abstract`` DOM fallback can fire instead of
++                # locking in 400+ chars of pure whitespace.
++                if isinstance(desc, str) and desc.strip():
++                    return desc
+         return None
+ 
+     def parse_authors_method_3(self):
+@@ -166,8 +174,17 @@ class Springer(PublisherParser):
+             authors_affiliations
+         )
+ 
++        # Prefer the DOM Abstract section when present: on multi-paragraph
++        # book-chapter abstracts the JSON-LD ``description`` carried only
++        # the opening paragraph (truncated at ~600-700 chars), while the
++        # DOM section had every paragraph. When both exist, the longer of
++        # the two wins (DOM nearly always is).
++        dom_abstract = self.parse_abstract()
++        if dom_abstract and (not abstract or len(dom_abstract) > len(abstract)):
++            abstract = dom_abstract
++
+         return {"authors": authors_affiliations,
+-                "abstract": abstract or self.parse_abstract(), }
++                "abstract": abstract or dom_abstract, }
+ 
+     def _get_correspondence_name(self):
+         """Extract corresponding author name from 'Correspondence to' section."""
+@@ -571,14 +588,58 @@ class Springer(PublisherParser):
+ 
+             return abstract_soup.text.strip()
+ 
+-        elif abstract_soup := self.soup.select_one(
+-                'section[data-title=Abstract] div[class*=c-article-section] p'):
+-            for abstract_heading in abstract_soup.find_all(
+-                    re.compile("^h[1-6]$"), string="Abstract"
+-            ):
+-                abstract_heading.decompose()
+-
+-            return abstract_soup.text.strip()
++        # Modern SpringerLink template. The legacy lookup picked the FIRST
++        # <p> only (``select_one``), which silently truncated multi-paragraph
++        # abstracts to their opening paragraph — a common book-chapter
++        # shape where the abstract is split into 4-6 enumerated paragraphs
++        # under the same section. Iterate every <p> instead and join with
++        # blank lines preserved between paragraphs.
++        if abs_section := self.soup.select_one('section[data-title=Abstract]'):
++            ps = abs_section.select('div[class*=c-article-section] p')
++            if not ps:
++                ps = abs_section.find_all('p')
++            if ps:
++                chunks = [p.get_text(" ", strip=True) for p in ps]
++                chunks = [c for c in chunks if c]
++                if chunks:
++                    return "\n".join(chunks)
++
++        # Book-chapter fallback (modern SpringerLink template).
++        # Many SpringerLink book chapters have NO formal Abstract section
++        # — only an "Introduction" section whose opening paragraph IS the
++        # chapter abstract (and is what gold annotators captured). The
++        # canonical example is ``978-1-4614-7612-2_16-1``: no
++        # ``section.Abstract``, no ``section[data-title=Abstract]``, but
++        # ``section[data-title=Introduction]`` carries the 978-char gold
++        # text. Use Introduction's first <p> only when no Abstract section
++        # was found; journal articles always carry a real Abstract so this
++        # branch never fires for them.
++        if intro_section := self.soup.select_one('section[data-title=Introduction]'):
++            first_p = intro_section.find('p')
++            if first_p:
++                text = first_p.get_text(" ", strip=True)
++                if text:
++                    return text
++
++        # Legacy SpringerLink template (pre-2018 reference works / older
++        # book chapters). DOM shape is ``<section class="Section1">`` with
++        # ``<h2 class="Heading">Introduction</h2>`` followed by the
++        # chapter intro paragraph. Canonical example:
++        # ``978-3-030-30018-0_1052`` (Encyclopedia of Global Archaeology).
++        # Scan the first few ``Section1`` sections, take the first whose
++        # ``<h2>`` text is Introduction (or Abstract / Summary, which the
++        # legacy template also uses), and return its first <p>.
++        for sec in self.soup.select('section.Section1, section[class*=Section1]')[:5]:
++            h2 = sec.find('h2')
++            if not h2:
++                continue
++            head = (h2.get_text(" ", strip=True) or "").lower()
++            if head in ('introduction', 'abstract', 'summary'):
++                first_p = sec.find('p')
++                if first_p:
++                    text = first_p.get_text(" ", strip=True)
++                    if text:
++                        return text
+ 
+         return None
+ 

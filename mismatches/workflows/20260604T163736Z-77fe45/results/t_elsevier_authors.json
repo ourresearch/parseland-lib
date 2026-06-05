@@ -1,0 +1,13 @@
+{
+  "task_id": "t_elsevier_authors",
+  "publisher": "elsevier",
+  "field": "authors",
+  "diagnosis": "Two distinct issues found across 8 partial-F1 Elsevier rows. (1) PARSER BUG on 0370-2693(71)90623-x and b978-0-12-811407-0.00020-9: _parse_modern_author_group used self.soup.find('div', class_='author-group') which returns only the first match. Older Phys Lett B reprints and Reference Module book chapters wrap EACH author in their own sibling <div class='author-group'> div, so the parser collected only the first author (Alder, Silva) and missed the rest (Winther; Redondo, Dillard). Confirmed by HTML inspection: surname spans 'Alder','Winther' and 'Fernando Silva','Redondo','Dillard' each in separate author-group siblings. (2) GOLD-QUALITY on remaining 6 rows: gold authors reference a different paper than the cached HTML (j.jat.2015.02.005 gold=Szwarc, HTML=Lubinsky; j.aej.2017.04.016 gold=Abdelgawad/Antoniou/Abdulhai, HTML=Abdel-Aal; j.eats.2017.03.016 gold=Locks,Ryan/1 author, HTML=6 authors led by Renato Locks; j.jspi/j.ijsolstr/j.amc gold has 4-5 authors but HTML surname spans only show the trailing 2). Parser fix: replace find() with find_all() and iterate, preserving existing dedupe.",
+  "classification": "single-pattern parser bug + gold-quality residual",
+  "samples_examined": 8,
+  "patch_files_touched": ["parseland_lib/publisher/parsers/elsevier_bv.py"],
+  "test_files_added": ["tests/test_elsevier_bv_modern.py"],
+  "focused_test_result": "passed",
+  "expected_kpi_impact_pp": 0.15,
+  "recommendation": "ship"
+}

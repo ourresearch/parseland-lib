@@ -1,0 +1,18 @@
+{
+  "task_id": "t_taylor_abstract",
+  "publisher": "taylor",
+  "field": "abstract",
+  "diagnosis": "Of 93 Taylor (10.1080) abstract failures in the elsevier-canonical-dispatch run, 100% manifested as present=False (parser returned None). The Taylor parser only looked at div.abstractInFull, but 57 of 93 failing rows expose the abstract via class='hlFld-Abstract' on legacy/older tandfonline templates (no abstractInFull child), and 22 rows do have abstractInFull but most still scored zero — 3 of those fail dispatch entirely because og:url points at the legacy informahealthcare.com host while the canonical link correctly identifies tandfonline.com. Two narrow parser-side fixes recover both populations: (a) fall back to .hlFld-Abstract when div.abstractInFull is absent and strip duplicated leading ABSTRACT/RÉSUMÉ headings that sit inside that container; (b) extend is_publisher_specific_parser to also accept canonical-link tandfonline.com matches (same pattern Oxford and Elsevier received earlier).",
+  "classification": "parser-owned",
+  "samples_examined": 10,
+  "patch_files_touched": [
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/parseland_lib/publisher/parsers/taylor.py"
+  ],
+  "test_files_added": [
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/tests/test_taylor_abstract_hlfld_fallback.py"
+  ],
+  "focused_test_result": "passed",
+  "expected_kpi_impact_pp": 16.0,
+  "expected_kpi_impact_basis": "57/93 failing Taylor rows are recoverable by the hlFld-Abstract fallback and 2 more by the canonical-link dispatch addition (~59/93 = 63% of current fails). 93 fails / 375 scored ~= 24.8% of the cohort. Lifting 63% of those clears ~15.6 percentage points; conservative estimate 16pp lift to ratio_fuzzy. Pre-existing abstractInFull rows still verified unchanged.",
+  "recommendation": "ship"
+}

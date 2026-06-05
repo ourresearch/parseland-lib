@@ -1,0 +1,7 @@
+## worktree-agent-a15fd10149ccade60
+ M scripts/field_inprocess_diff.py
+?? .venv
+?? mismatches/
+?? parseland_lib/audit/
+?? tests/fixtures/springer-iter-worker-cand1.json
+?? tests/fixtures/springer-iter-worker-cand2.json

@@ -1,0 +1,4 @@
+error: patch failed: parseland_lib/publisher/parsers/wiley.py:1
+error: parseland_lib/publisher/parsers/wiley.py: patch does not apply
+error: patch failed: scripts/field_inprocess_diff.py:40
+error: scripts/field_inprocess_diff.py: patch does not apply

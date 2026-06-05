@@ -1,0 +1,16 @@
+{
+  "task_id": "t_wiley_abstract",
+  "publisher": "wiley",
+  "field": "abstract",
+  "diagnosis": "The 86 Wiley abstract fuzzy<0.7 failures in whole-goldie-after-elsevier-canonical-dispatch.json split into two buckets. Bucket A (54 rows, parsed_len=0): these ALREADY recover in the current Wiley parser — sampled 30, 24/30 (80%) now extract correctly via the existing section[class*=abstract] paragraph-extraction fallback and the editorial div.article__body fallback gated at <=5 paragraphs. The eval JSON reflects an older parser snapshot. The 6 still-broken cases split into: (a) cookie-wall HTML where canonical is /action/cookieAbsent so nothing parseable exists, (b) long-editorial bodies (e.g. 10.1111/j.1466-7657.2010.00842.x has 17 article__body paragraphs where gold is only the first ~3 paras), (c) cross-publisher canonicals where DOI 10.1002/* actually serves academic.oup.com or cochranelibrary.com content. Bucket B (32 rows, parsed_len>gold_len): parser returns the full real abstract while gold stores either the 200-char og:description truncation (e.g. 10.1002/int.22632) or only the first structured section (e.g. 10.1002/mds.29816 gold=Background+conclusion only). One real bug found: Plant-Environment Interactions (10.1002/pei3.10101) puts the Significance Statement inside section.article-section__abstract while the real abstract lives only in og:description — but this is a Wiley HTML mislabel, not a fixable parser bug, and the og:description is truncated with ellipsis so cannot be used as a higher-precision source.",
+  "classification": "no-parser-fix-needed",
+  "samples_examined": 30,
+  "patch_files_touched": [],
+  "test_files_added": [
+    "tests/test_wiley_abstract_recovery.py"
+  ],
+  "focused_test_result": "passed",
+  "expected_kpi_impact_pp": 0.0,
+  "expected_kpi_impact_basis": "No new parser fix shipped. The existing parser already recovers ~80% of the 54 zero-parse Wiley cases; re-running whole-goldie against current parseland-lib should lift Wiley abstract ratio_fuzzy by an estimated +8 to +9pp (~43 of 483 scored rows newly passing) without any code change. Defensive tests pin that recovery so future regressions surface immediately. No additional fix is available without overfitting to gold-truncation artifacts (og:description shortened to 200 chars) or to mislabeled-section Wiley HTML.",
+  "recommendation": "hold-for-referee"
+}

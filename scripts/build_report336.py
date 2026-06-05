@@ -32,6 +32,7 @@ REPORT_JOB_DIR = Path(
 )
 EVIDENCE_DIR_DEFAULT = REPORT_JOB_DIR / "evidence"
 REPORT_YAML_DEFAULT = REPORT_JOB_DIR / "report.yaml"
+WORKFLOW_DIR_DEFAULT = REPO_ROOT / "mismatches" / "workflows" / "20260604T163736Z-77fe45"
 
 REQUIRED_ASSETS = [
     "evidence/kpi-by-publisher-count.csv",
@@ -84,7 +85,7 @@ REPORT_HTML = """<!doctype html>
 <div class="container">
 <header>
   <h1>Parseland Improver — Whole-Goldie KPI Sprint</h1>
-  <p>Generated {ts} · run_id {run_id} · batches: {batches_n} · publishers ranked: {pubs_total}</p>
+  <p>Generated {ts} · run_id {run_id} · batches: {batches_n} · publishers ranked: {pubs_total} · publisher-field cells: {queue_cells}</p>
 </header>
 
 <section>
@@ -241,13 +242,26 @@ def load_latest_whole_goldie() -> dict | None:
     return data
 
 
-def render_coverage_status(run: dict | None) -> str:
+def load_workflow_summary() -> dict:
+    path = WORKFLOW_DIR_DEFAULT / "summary.json"
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def render_coverage_status(run: dict | None, workflow_summary: dict | None = None) -> str:
     if not run:
         return '<p style="color: var(--muted);">No whole-Goldie coverage artifact found yet. Target corpus: <strong>10,000</strong> rows; field target: <strong>98%</strong>.</p>'
     cov = run.get("coverage") or {}
+    workflow_summary = workflow_summary or {}
     artifact = run.get("_artifact_path", "")
     total = cov.get("total_rows", run.get("row_count_corpus", 0))
     full_target = 10000
+    queue_cells = workflow_summary.get("total_tasks") or "—"
+    ranked_publishers = workflow_summary.get("total_publishers") or "—"
     parts = [
         '<div class="summary-grid">',
         f'<div class="metric"><div class="label">Current artifact rows</div><div class="value">{html.escape(str(total))}</div></div>',
@@ -256,9 +270,16 @@ def render_coverage_status(run: dict | None) -> str:
         f'<div class="metric"><div class="label">Retrieval blocked</div><div class="value">{html.escape(str(cov.get("retrieval_blocked_rows", "—")))}</div></div>',
         f'<div class="metric"><div class="label">Backfill candidates</div><div class="value">{html.escape(str(cov.get("gold_empty_parser_present_count", "—")))}</div></div>',
         f'<div class="metric"><div class="label">Per-field target</div><div class="value">98%</div></div>',
+        f'<div class="metric"><div class="label">Publisher-field cells</div><div class="value">{html.escape(str(queue_cells))}</div></div>',
+        f'<div class="metric"><div class="label">Publishers ranked</div><div class="value">{html.escape(str(ranked_publishers))}</div></div>',
         '</div>',
         f'<p style="color: var(--muted); font-size: 0.85rem;">Latest whole-Goldie artifact: <code>{html.escape(artifact)}</code>. Full 10,000-row accounting remains the active gate until this section shows 10,000 current artifact rows.</p>',
     ]
+    by_status = workflow_summary.get("by_status") or {}
+    if by_status:
+        parts.append("<p>Publisher-field queue status: ")
+        parts.append(" · ".join(f"{html.escape(str(k))}: {html.escape(str(v))}" for k, v in by_status.items()))
+        parts.append("</p>")
     reasons = cov.get("retrieval_blocked_by_reason") or {}
     if reasons:
         parts.append("<p>Retrieval blocked by reason: ")
@@ -623,11 +644,15 @@ def main() -> int:
     kpi_rows = load_kpi(args.evidence_dir / "kpi-by-publisher-count.csv")
     latest = kpi_rows[-1] if kpi_rows else None
     pubs_total = 0
-    if args.queue_summary.exists():
+    workflow_summary = load_workflow_summary()
+    if workflow_summary:
+        pubs_total = int(workflow_summary.get("total_publishers") or 0)
+    elif args.queue_summary.exists():
         try:
             pubs_total = int(json.loads(args.queue_summary.read_text()).get("publisher_count") or 0)
         except Exception:
             pass
+    queue_cells = int(workflow_summary.get("total_tasks") or 0) if workflow_summary else 0
 
     run_id = "—"
     ledger = args.evidence_dir / "live-agent-events.ndjson"
@@ -654,8 +679,9 @@ def main() -> int:
         run_id=html.escape(str(run_id)),
         batches_n=len(kpi_rows),
         pubs_total=pubs_total,
+        queue_cells=queue_cells,
         metric_cards=render_metric_cards(latest),
-        coverage_status=render_coverage_status(whole_goldie),
+        coverage_status=render_coverage_status(whole_goldie, workflow_summary),
         field_target_table=render_field_target_table(whole_goldie),
         publisher_field_table=render_publisher_field_table(whole_goldie),
         batches_table=render_batches_table(kpi_rows),

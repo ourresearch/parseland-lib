@@ -1,0 +1,2 @@
+error: patch failed: parseland_lib/publisher/parsers/springer.py:588
+error: parseland_lib/publisher/parsers/springer.py: patch does not apply

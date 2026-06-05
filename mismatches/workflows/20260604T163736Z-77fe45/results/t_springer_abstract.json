@@ -1,0 +1,18 @@
+{
+  "task_id": "t_springer_abstract",
+  "publisher": "springer",
+  "field": "abstract",
+  "diagnosis": "Legacy SpringerLink book-chapter / encyclopedia pages (DOI prefix 10.1007/978-*, 10.1007/bf*) emit no JSON-LD 'description', no section.Abstract, no section[data-title=Abstract|Introduction], and no section.Section1 with an Introduction/Abstract/Summary heading. The chapter abstract on those pages lives only in og:description and <meta name=description>. parse_abstract() returned None for them. Of 62 Springer rows with gold abstract_len>=50 but parser.present=false, 57 are recoverable from those meta tags (>=80 chars).",
+  "classification": "parser-owned",
+  "samples_examined": 10,
+  "patch_files_touched": [
+    "parseland_lib/publisher/parsers/springer.py"
+  ],
+  "test_files_added": [
+    "tests/test_springer_abstract_meta_fallback.py"
+  ],
+  "focused_test_result": "passed",
+  "expected_kpi_impact_pp": 6.0,
+  "expected_kpi_impact_basis": "57 of 954 Springer rows recover an abstract >=80 chars from og:description/meta description (57/954 = 5.97 pp gross presence lift). fuzzy_ratio lift is bounded above by the fraction whose meta blurb matches the gold annotation; conservatively ~4-6 pp on ratio_fuzzy. No regression: DOM Abstract / data-title=Abstract / Introduction / Section1 branches all still fire first; meta fallback is final-resort. Verified 4 already-working samples unchanged (lens 360/394/661/1018).",
+  "recommendation": "ship"
+}

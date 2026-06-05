@@ -1,0 +1,18 @@
+diff --git a/scripts/field_inprocess_diff.py b/scripts/field_inprocess_diff.py
+index 36de14f..b826f94 100644
+--- a/scripts/field_inprocess_diff.py
++++ b/scripts/field_inprocess_diff.py
+@@ -40,8 +40,12 @@ from typing import Callable
+ from urllib.parse import urlparse
+ 
+ # parseland-eval and parseland-lib on the path. Read-only imports.
++# Derive parseland-lib root from __file__ so this script can run inside a
++# worktree without silently loading main's parser code. (See pattern
++# infra-script-sys-path-must-be-relative-for-worktree-isolation.)
++_THIS_REPO_ROOT = Path(__file__).resolve().parents[1]
+ sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval")
+-sys.path.insert(0, "/Users/shubh-trips/Documents/OpenAlex/parseland-lib")
++sys.path.insert(0, str(_THIS_REPO_ROOT))
+ 
+ import boto3  # noqa: E402
+ import requests  # noqa: E402
