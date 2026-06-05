@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
@@ -45,7 +46,22 @@ class GroundingResult:
 
 
 def have_browserbase_creds() -> bool:
-    return bool(os.environ.get("BROWSERBASE_API_KEY") and os.environ.get("BROWSERBASE_PROJECT_ID"))
+    return bool(os.environ.get("BROWSERBASE_API_KEY"))
+
+
+def resolve_browserbase_project_id(bb: Any) -> str | None:
+    explicit = os.environ.get("BROWSERBASE_PROJECT_ID")
+    if explicit:
+        return explicit
+    try:
+        projects = bb.projects.list()
+    except Exception:
+        return None
+    rows = projects if isinstance(projects, list) else list(projects)
+    if not rows:
+        return None
+    project_id = getattr(rows[0], "id", None)
+    return str(project_id) if project_id else None
 
 
 def doi_url(doi: str) -> str:
@@ -83,7 +99,30 @@ def candidate_needles(candidate: dict) -> list[str]:
     return needles
 
 
-def excerpt_for(html: str, needles: list[str]) -> tuple[str | None, str | None]:
+def _science_direct_pii(url: str) -> str | None:
+    parts = [p for p in urlparse(url).path.split("/") if p]
+    for i, part in enumerate(parts):
+        if part == "pii" and i + 1 < len(parts):
+            return parts[i + 1]
+    return None
+
+
+def identity_needles(candidate: dict) -> list[str]:
+    needles: list[str] = []
+    doi = str(candidate.get("doi") or "").strip()
+    if doi:
+        needles.append(doi)
+    payload = candidate.get("parseland_candidate")
+    if isinstance(payload, dict):
+        url = payload.get("pdf_url")
+        if isinstance(url, str):
+            pii = _science_direct_pii(url)
+            if pii:
+                needles.append(pii)
+    return needles
+
+
+def _matched_excerpt(html: str, needles: list[str]) -> tuple[str | None, str | None]:
     lower = html.lower()
     for needle in needles:
         needle = needle.strip()
@@ -94,10 +133,37 @@ def excerpt_for(html: str, needles: list[str]) -> tuple[str | None, str | None]:
             start = max(0, pos - 240)
             end = min(len(html), pos + len(needle) + 240)
             return html[start:end].replace("\n", " ").strip(), "text-match"
-    return html[:800].replace("\n", " ").strip() if html else None, "page-head"
+    return None, None
 
 
-def load_candidates(path: Path, fields: set[str] | None, limit: int | None) -> list[dict]:
+def excerpt_for(html: str, candidate: dict) -> tuple[str | None, str | None, str]:
+    excerpt, _ = _matched_excerpt(html, candidate_needles(candidate))
+    if excerpt:
+        return excerpt, "candidate-text-match", "candidate_text_match"
+    excerpt, _ = _matched_excerpt(html, identity_needles(candidate))
+    if excerpt:
+        return excerpt, "page-identity", "page_identity_only"
+    return html[:800].replace("\n", " ").strip() if html else None, "page-head", "page_rendered_only"
+
+
+def safe_page_content(page: Any) -> str:
+    for _ in range(3):
+        try:
+            return page.content()
+        except Exception:
+            try:
+                page.wait_for_timeout(1000)
+            except Exception:
+                pass
+    return page.content()
+
+
+def load_candidates(
+    path: Path,
+    fields: set[str] | None,
+    statuses: set[str] | None,
+    limit: int | None,
+) -> list[dict]:
     candidates: list[dict] = []
     if not path.exists():
         return candidates
@@ -118,12 +184,16 @@ def load_candidates(path: Path, fields: set[str] | None, limit: int | None) -> l
                 continue
             if fields is not None and field not in fields:
                 continue
+            if statuses is not None and status not in statuses:
+                continue
             if status not in {"pending", "pending_browserbase", "blocked_no_browserbase_credentials"}:
                 continue
             seen.add(key)
             candidates.append(row)
-            if limit and len(candidates) >= limit:
-                break
+    status_rank = {"pending_browserbase": 0, "pending": 1, "blocked_no_browserbase_credentials": 2}
+    candidates.sort(key=lambda r: (status_rank.get(str(r.get("status")), 9), str(r.get("field") or ""), str(r.get("doi") or "")))
+    if limit:
+        candidates = candidates[:limit]
     return candidates
 
 
@@ -134,7 +204,15 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
     doi = str(candidate.get("doi") or "")
     field = str(candidate.get("field") or "")
     bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
-    session = bb.sessions.create(project_id=os.environ["BROWSERBASE_PROJECT_ID"])
+    project_id = resolve_browserbase_project_id(bb)
+    if not project_id:
+        return GroundingResult(
+            doi=doi,
+            field=field,
+            status="blocked_no_browserbase_project",
+            error="Browserbase API key is set but no project id could be resolved",
+        )
+    session = bb.sessions.create(project_id=project_id)
     session_id = getattr(session, "id", None)
     t0 = time.time()
     try:
@@ -148,18 +226,24 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                 page.wait_for_load_state("networkidle", timeout=20000)
             except Exception:
                 pass
-            html = page.content()
+            html = safe_page_content(page)
             final_url = page.url
             evidence_dir.mkdir(parents=True, exist_ok=True)
             stem = hashlib.sha1(f"{doi}|{field}".encode()).hexdigest()[:12]
             screenshot_path = evidence_dir / f"{stem}.png"
             page.screenshot(path=str(screenshot_path), full_page=True)
-            excerpt, selector = excerpt_for(html, candidate_needles(candidate))
-            confidence = "grounded_needs_referee" if excerpt else "weak_needs_referee"
+            excerpt, selector, confidence = excerpt_for(html, candidate)
+            status = (
+                "candidate_evidence_needs_referee"
+                if confidence == "candidate_text_match"
+                else "page_rendered_needs_referee"
+                if confidence == "page_identity_only"
+                else "weak_page_render_needs_referee"
+            )
             return GroundingResult(
                 doi=doi,
                 field=field,
-                status="grounded_needs_referee",
+                status=status,
                 final_url=final_url,
                 browserbase_session=str(session_id) if session_id else None,
                 screenshot_path=str(screenshot_path),
@@ -208,6 +292,7 @@ def main() -> int:
     p.add_argument("--out", type=Path, default=DEFAULT_OUT)
     p.add_argument("--evidence-dir", type=Path, default=DEFAULT_EVIDENCE_DIR)
     p.add_argument("--fields", type=str, default=None)
+    p.add_argument("--statuses", type=str, default=None)
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--concurrency", type=int, default=4)
     p.add_argument("--dry-run", action="store_true")
@@ -216,14 +301,19 @@ def main() -> int:
 
     run_id = args.run_id or new_run_id()
     fields = set(args.fields.split(",")) if args.fields else None
-    candidates = load_candidates(args.candidates, fields, args.limit)
+    statuses = set(args.statuses.split(",")) if args.statuses else None
+    candidates = load_candidates(args.candidates, fields, statuses, args.limit)
     emit(
         run_id=run_id,
         action="goldie_backfill_ground.start",
         agent_name="gold-auditor",
         progress_total=len(candidates),
         artifact_path=str(args.out),
-        notes=f"fields={sorted(fields) if fields else 'all'} limit={args.limit}",
+        notes=(
+            f"fields={sorted(fields) if fields else 'all'} "
+            f"statuses={sorted(statuses) if statuses else 'all'} "
+            f"limit={args.limit}"
+        ),
     )
 
     if args.dry_run:
@@ -232,6 +322,7 @@ def main() -> int:
             "candidate_count": len(candidates),
             "browserbase_credentials": have_browserbase_creds(),
             "concurrency": args.concurrency,
+            "statuses": sorted(statuses) if statuses else None,
             "sample": candidates[:3],
         }
         emit(
@@ -254,7 +345,8 @@ def main() -> int:
         summary = {
             "status": "blocked_no_browserbase_credentials",
             "candidate_count": len(candidates),
-            "required_env": ["BROWSERBASE_API_KEY", "BROWSERBASE_PROJECT_ID"],
+            "required_env": ["BROWSERBASE_API_KEY"],
+            "optional_env": ["BROWSERBASE_PROJECT_ID"],
             "out": str(args.out),
         }
         emit(

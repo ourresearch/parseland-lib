@@ -45,6 +45,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
@@ -80,8 +81,22 @@ class BrowserOutcome:
 
 
 def _have_browserbase_creds() -> bool:
-    return bool(os.environ.get("BROWSERBASE_API_KEY")
-                and os.environ.get("BROWSERBASE_PROJECT_ID"))
+    return bool(os.environ.get("BROWSERBASE_API_KEY"))
+
+
+def _resolve_browserbase_project_id(bb: Any) -> str | None:
+    explicit = os.environ.get("BROWSERBASE_PROJECT_ID")
+    if explicit:
+        return explicit
+    try:
+        projects = bb.projects.list()
+    except Exception:
+        return None
+    rows = projects if isinstance(projects, list) else list(projects)
+    if not rows:
+        return None
+    project_id = getattr(rows[0], "id", None)
+    return str(project_id) if project_id else None
 
 
 def _retrieve_via_browserbase(url: str) -> tuple[str, int, str | None]:
@@ -90,7 +105,10 @@ def _retrieve_via_browserbase(url: str) -> tuple[str, int, str | None]:
     from playwright.sync_api import sync_playwright
 
     bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
-    session = bb.sessions.create(project_id=os.environ["BROWSERBASE_PROJECT_ID"])
+    project_id = _resolve_browserbase_project_id(bb)
+    if not project_id:
+        return "", "nav_error", "Browserbase API key is set but no project id could be resolved"
+    session = bb.sessions.create(project_id=project_id)
     try:
         with sync_playwright() as p:
             browser = p.chromium.connect_over_cdp(session.connect_url)
