@@ -216,23 +216,13 @@ class ElsevierBV(PublisherParser):
             import re
             data = None
 
-            for script in self.soup.find_all("script", type="application/json"):
-                text = script.string or script.text or ""
-                if not text.strip():
-                    continue
-                try:
-                    candidate = json.loads(text)
-                    if isinstance(candidate, str):
-                        candidate = json.loads(candidate)
-                except json.JSONDecodeError:
-                    continue
-                if isinstance(candidate, dict) and isinstance(candidate.get("authors"), dict):
-                    data = candidate
-                    break
-
+            # Keep the legacy ScienceDirect preloaded-state blob as the only
+            # structured author-affiliation source for now. A broad
+            # script[type=application/json] fallback improved one focused
+            # slice, but regressed the full 10K current-Goldie gate because
+            # those payloads can carry mismatched affiliation/correspondence
+            # refs. Re-enable only behind DOI-grounded evidence.
             for script in self.soup.find_all("script"):
-                if data is not None:
-                    break
                 text = script.string or script.text or ""
                 if "__PRELOADED_STATE__" not in text:
                     continue

@@ -14,13 +14,13 @@
   },
   "by_status": {
     "above_98": 2,
+    "blocked_goldie_backfill_needed": 1,
     "goldie_backfill_pending": 12,
     "needs_agent": 33,
     "needs_referee": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 1,
-    "shipped_pending_full10k_batch": 1
+    "shipped_full10k_measured": 1
   },
   "classification_counts": {
     "generic_only": 5,
@@ -28,11 +28,37 @@
     "ready": 11,
     "unknown": 1
   },
-  "coverage_gold_empty_parser_present_count": 2588,
+  "coverage_gold_empty_parser_present_count": 2577,
   "coverage_html_available": 5146,
   "coverage_retrieval_blocked_rows": 4854,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-05T10:09:45.026965+00:00",
+  "elsevier_affiliations_referee_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_disable_app_json_shield.json",
+    "decision": "ship_regression_rollback",
+    "elsevier_disabled_minus_app_json": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": -0.0018487069685406698,
+      "affiliations_f1_fuzzy": 0.005493078183770983,
+      "affiliations_f1_strict": 0.003765583611629819,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": -0.00013245033112585514,
+      "corresponding_accuracy": 0.010946844002141076,
+      "pdf_url_accuracy": 0.0
+    },
+    "latest_full10k_after": "eval/runs/whole-goldie-after-elsevier-disable-app-json-20260605T151433Z.json",
+    "overall_disabled_minus_app_json": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": -0.0005547662476965698,
+      "affiliations_f1_fuzzy": 0.0017739228756176173,
+      "affiliations_f1_strict": 0.0012160494872360816,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": -4.1017227235595755e-05,
+      "corresponding_accuracy": 0.003076861321302804,
+      "pdf_url_accuracy": 0.0
+    },
+    "status": "blocked_goldie_backfill_needed"
+  },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",

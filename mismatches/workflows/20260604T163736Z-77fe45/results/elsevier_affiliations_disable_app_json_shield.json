@@ -1,0 +1,474 @@
+{
+  "classification": "parser_regression_rollback_goldie_backfill_needed",
+  "code_change": {
+    "parser": "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "summary": "Disable broad script[type=application/json] author-affiliation fallback; keep __PRELOADED_STATE__ as the only structured Elsevier source until app JSON rows are DOI-grounded.",
+    "tests": "tests/test_elsevier_bv_modern.py"
+  },
+  "decision": "ship_regression_rollback_and_route_app_json_to_goldie_backfilled",
+  "field": "affiliations",
+  "focused_metrics": {
+    "app_json_disabled": {
+      "affiliations_mean_soft_f1": 0.8028364565587733,
+      "corresponding_micro_f1": 0.8704209950792783
+    },
+    "app_json_enabled": {
+      "affiliations_mean_soft_f1": 0.8324838160136289,
+      "corresponding_micro_f1": 0.8686648501362397
+    },
+    "before": {
+      "affiliations_mean_soft_f1": 0.8028364565587733,
+      "corresponding_micro_f1": 0.8704209950792783
+    }
+  },
+  "full10k_elsevier": {
+    "app_json_disabled": {
+      "abstract_present_rate": 0.685638649900728,
+      "abstract_ratio_fuzzy": 0.9003828032053875,
+      "affiliations_f1_fuzzy": 0.8512663943953306,
+      "affiliations_f1_strict": 0.7164030986896626,
+      "authors_f1_soft": 0.8984232103437402,
+      "authors_f1_strict": 0.8891948935905888,
+      "corresponding_accuracy": 0.9214231429005715,
+      "pdf_url_accuracy": 0.7712
+    },
+    "app_json_enabled": {
+      "abstract_present_rate": 0.685638649900728,
+      "abstract_ratio_fuzzy": 0.9022315101739282,
+      "affiliations_f1_fuzzy": 0.8457733162115596,
+      "affiliations_f1_strict": 0.7126375150780327,
+      "authors_f1_soft": 0.8984232103437402,
+      "authors_f1_strict": 0.8893273439217146,
+      "corresponding_accuracy": 0.9104762988984304,
+      "pdf_url_accuracy": 0.7712
+    },
+    "baseline": {
+      "abstract_present_rate": 0.685638649900728,
+      "abstract_ratio_fuzzy": 0.9003828032053878,
+      "affiliations_f1_fuzzy": 0.8512663943953306,
+      "affiliations_f1_strict": 0.7164030986896626,
+      "authors_f1_soft": 0.8984232103437402,
+      "authors_f1_strict": 0.8891948935905888,
+      "corresponding_accuracy": 0.9214231429005715,
+      "pdf_url_accuracy": 0.7712
+    },
+    "disabled_minus_app_json": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": -0.0018487069685406698,
+      "affiliations_f1_fuzzy": 0.005493078183770983,
+      "affiliations_f1_strict": 0.003765583611629819,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": -0.00013245033112585514,
+      "corresponding_accuracy": 0.010946844002141076,
+      "pdf_url_accuracy": 0.0
+    },
+    "disabled_minus_baseline": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": -2.220446049250313e-16,
+      "affiliations_f1_fuzzy": 0.0,
+      "affiliations_f1_strict": 0.0,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": 0.0,
+      "corresponding_accuracy": 0.0,
+      "pdf_url_accuracy": 0.0
+    }
+  },
+  "full10k_overall": {
+    "app_json_disabled": {
+      "abstract_present_rate": 0.6381655654877575,
+      "abstract_ratio_fuzzy": 0.8679391199764309,
+      "affiliations_f1_fuzzy": 0.921648007422582,
+      "affiliations_f1_strict": 0.7175658966896249,
+      "authors_f1_soft": 0.9118077207549894,
+      "authors_f1_strict": 0.8984907450841376,
+      "corresponding_accuracy": 0.9574125851495883,
+      "pdf_url_accuracy": 0.9341836734693878
+    },
+    "app_json_enabled": {
+      "abstract_present_rate": 0.6381655654877575,
+      "abstract_ratio_fuzzy": 0.8684938862241275,
+      "affiliations_f1_fuzzy": 0.9198740845469644,
+      "affiliations_f1_strict": 0.7163498472023888,
+      "authors_f1_soft": 0.9118077207549894,
+      "authors_f1_strict": 0.8985317623113732,
+      "corresponding_accuracy": 0.9543357238282855,
+      "pdf_url_accuracy": 0.9341836734693878
+    },
+    "baseline": {
+      "abstract_present_rate": 0.6381655654877575,
+      "abstract_ratio_fuzzy": 0.8679391199764309,
+      "affiliations_f1_fuzzy": 0.921648007422582,
+      "affiliations_f1_strict": 0.7175658966896249,
+      "authors_f1_soft": 0.9118077207549894,
+      "authors_f1_strict": 0.8984907450841376,
+      "corresponding_accuracy": 0.9574125851495883,
+      "pdf_url_accuracy": 0.9341836734693878
+    },
+    "disabled_minus_app_json": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": -0.0005547662476965698,
+      "affiliations_f1_fuzzy": 0.0017739228756176173,
+      "affiliations_f1_strict": 0.0012160494872360816,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": -4.1017227235595755e-05,
+      "corresponding_accuracy": 0.003076861321302804,
+      "pdf_url_accuracy": 0.0
+    },
+    "disabled_minus_baseline": {
+      "abstract_present_rate": 0.0,
+      "abstract_ratio_fuzzy": 0.0,
+      "affiliations_f1_fuzzy": 0.0,
+      "affiliations_f1_strict": 0.0,
+      "authors_f1_soft": 0.0,
+      "authors_f1_strict": 0.0,
+      "corresponding_accuracy": 0.0,
+      "pdf_url_accuracy": 0.0
+    }
+  },
+  "gates": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_elsevier_bv_modern.py -q",
+      "name": "focused_tests",
+      "result": "12 passed in 0.06s",
+      "status": "passed"
+    },
+    {
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_after_app_json_disabled.json",
+      "command": "PARSELAND_NO_PROGRESS=1 ./.venv/bin/python scripts/field_inprocess_diff.py --publisher elsevier --field affiliations --gold tests/fixtures/elsevier-10k-gold.ndjson --out mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_after_app_json_disabled.json",
+      "dispatch_skipped": 106,
+      "failed": 5,
+      "n_rows": 1348,
+      "name": "focused_elsevier_inprocess",
+      "status": "passed"
+    },
+    {
+      "artifact": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-elsevier-disable-app-json-20260605T151433Z.json",
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PARSELAND_NO_PROGRESS=1 ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-elsevier-disable-app-json --concurrency 8",
+      "coverage": {
+        "gold_empty_parser_present_count": 2577,
+        "html_available": 5146,
+        "per_publisher": {
+          "aaas": {
+            "html_available": 0,
+            "retrieval_blocked": 24,
+            "scored_rows": 0,
+            "total_rows": 24
+          },
+          "aacr": {
+            "html_available": 0,
+            "retrieval_blocked": 34,
+            "scored_rows": 0,
+            "total_rows": 34
+          },
+          "acm": {
+            "html_available": 0,
+            "retrieval_blocked": 37,
+            "scored_rows": 0,
+            "total_rows": 37
+          },
+          "acs": {
+            "html_available": 130,
+            "retrieval_blocked": 0,
+            "scored_rows": 130,
+            "total_rows": 130
+          },
+          "aip_publishing": {
+            "html_available": 0,
+            "retrieval_blocked": 57,
+            "scored_rows": 0,
+            "total_rows": 57
+          },
+          "ame": {
+            "html_available": 0,
+            "retrieval_blocked": 3,
+            "scored_rows": 0,
+            "total_rows": 3
+          },
+          "ams": {
+            "html_available": 0,
+            "retrieval_blocked": 10,
+            "scored_rows": 0,
+            "total_rows": 10
+          },
+          "apa": {
+            "html_available": 0,
+            "retrieval_blocked": 25,
+            "scored_rows": 0,
+            "total_rows": 25
+          },
+          "aps": {
+            "html_available": 0,
+            "retrieval_blocked": 38,
+            "scored_rows": 0,
+            "total_rows": 38
+          },
+          "asa": {
+            "html_available": 0,
+            "retrieval_blocked": 10,
+            "scored_rows": 0,
+            "total_rows": 10
+          },
+          "asco": {
+            "html_available": 0,
+            "retrieval_blocked": 17,
+            "scored_rows": 0,
+            "total_rows": 17
+          },
+          "ash": {
+            "html_available": 0,
+            "retrieval_blocked": 12,
+            "scored_rows": 0,
+            "total_rows": 12
+          },
+          "asme": {
+            "html_available": 0,
+            "retrieval_blocked": 26,
+            "scored_rows": 0,
+            "total_rows": 26
+          },
+          "bentham": {
+            "html_available": 0,
+            "retrieval_blocked": 15,
+            "scored_rows": 0,
+            "total_rows": 15
+          },
+          "bmj": {
+            "html_available": 0,
+            "retrieval_blocked": 69,
+            "scored_rows": 0,
+            "total_rows": 69
+          },
+          "brill": {
+            "html_available": 0,
+            "retrieval_blocked": 65,
+            "scored_rows": 0,
+            "total_rows": 65
+          },
+          "cairn": {
+            "html_available": 0,
+            "retrieval_blocked": 49,
+            "scored_rows": 0,
+            "total_rows": 49
+          },
+          "company_biologists": {
+            "html_available": 0,
+            "retrieval_blocked": 3,
+            "scored_rows": 0,
+            "total_rows": 3
+          },
+          "copernicus": {
+            "html_available": 0,
+            "retrieval_blocked": 27,
+            "scored_rows": 0,
+            "total_rows": 27
+          },
+          "cshlp": {
+            "html_available": 0,
+            "retrieval_blocked": 29,
+            "scored_rows": 0,
+            "total_rows": 29
+          },
+          "cup": {
+            "html_available": 151,
+            "retrieval_blocked": 3,
+            "scored_rows": 151,
+            "total_rows": 154
+          },
+          "de_gruyter": {
+            "html_available": 0,
+            "retrieval_blocked": 226,
+            "scored_rows": 0,
+            "total_rows": 226
+          },
+          "edp_sciences": {
+            "html_available": 0,
+            "retrieval_blocked": 21,
+            "scored_rows": 0,
+            "total_rows": 21
+          },
+          "elsevier": {
+            "html_available": 1511,
+            "retrieval_blocked": 53,
+            "scored_rows": 1511,
+            "total_rows": 1564
+          },
+          "emerald": {
+            "html_available": 0,
+            "retrieval_blocked": 27,
+            "scored_rows": 0,
+            "total_rows": 27
+          },
+          "f1000": {
+            "html_available": 0,
+            "retrieval_blocked": 2,
+            "scored_rows": 0,
+            "total_rows": 2
+          },
+          "frontiers": {
+            "html_available": 0,
+            "retrieval_blocked": 48,
+            "scored_rows": 0,
+            "total_rows": 48
+          },
+          "hindawi": {
+            "html_available": 0,
+            "retrieval_blocked": 32,
+            "scored_rows": 0,
+            "total_rows": 32
+          },
+          "ieee": {
+            "html_available": 393,
+            "retrieval_blocked": 2,
+            "scored_rows": 393,
+            "total_rows": 395
+          },
+          "iop": {
+            "html_available": 0,
+            "retrieval_blocked": 75,
+            "scored_rows": 0,
+            "total_rows": 75
+          },
+          "karger": {
+            "html_available": 0,
+            "retrieval_blocked": 37,
+            "scored_rows": 0,
+            "total_rows": 37
+          },
+          "lippincott": {
+            "html_available": 190,
+            "retrieval_blocked": 0,
+            "scored_rows": 190,
+            "total_rows": 190
+          },
+          "mary_ann_liebert": {
+            "html_available": 0,
+            "retrieval_blocked": 15,
+            "scored_rows": 0,
+            "total_rows": 15
+          },
+          "mdpi": {
+            "html_available": 0,
+            "retrieval_blocked": 137,
+            "scored_rows": 0,
+            "total_rows": 137
+          },
+          "nejm": {
+            "html_available": 0,
+            "retrieval_blocked": 5,
+            "scored_rows": 0,
+            "total_rows": 5
+          },
+          "optica": {
+            "html_available": 0,
+            "retrieval_blocked": 27,
+            "scored_rows": 0,
+            "total_rows": 27
+          },
+          "oxford": {
+            "html_available": 265,
+            "retrieval_blocked": 6,
+            "scored_rows": 265,
+            "total_rows": 271
+          },
+          "plos": {
+            "html_available": 0,
+            "retrieval_blocked": 32,
+            "scored_rows": 0,
+            "total_rows": 32
+          },
+          "portland_press": {
+            "html_available": 0,
+            "retrieval_blocked": 5,
+            "scored_rows": 0,
+            "total_rows": 5
+          },
+          "research_square": {
+            "html_available": 0,
+            "retrieval_blocked": 24,
+            "scored_rows": 0,
+            "total_rows": 24
+          },
+          "rsc": {
+            "html_available": 0,
+            "retrieval_blocked": 61,
+            "scored_rows": 0,
+            "total_rows": 61
+          },
+          "rsna": {
+            "html_available": 0,
+            "retrieval_blocked": 5,
+            "scored_rows": 0,
+            "total_rows": 5
+          },
+          "sage": {
+            "html_available": 198,
+            "retrieval_blocked": 2,
+            "scored_rows": 198,
+            "total_rows": 200
+          },
+          "scielo": {
+            "html_available": 0,
+            "retrieval_blocked": 33,
+            "scored_rows": 0,
+            "total_rows": 33
+          },
+          "spie": {
+            "html_available": 0,
+            "retrieval_blocked": 46,
+            "scored_rows": 0,
+            "total_rows": 46
+          },
+          "springer": {
+            "html_available": 1118,
+            "retrieval_blocked": 5,
+            "scored_rows": 1118,
+            "total_rows": 1123
+          },
+          "taylor": {
+            "html_available": 499,
+            "retrieval_blocked": 7,
+            "scored_rows": 499,
+            "total_rows": 506
+          },
+          "thieme": {
+            "html_available": 0,
+            "retrieval_blocked": 61,
+            "scored_rows": 0,
+            "total_rows": 61
+          },
+          "unknown": {
+            "html_available": 0,
+            "retrieval_blocked": 3303,
+            "scored_rows": 0,
+            "total_rows": 3303
+          },
+          "wiley": {
+            "html_available": 691,
+            "retrieval_blocked": 4,
+            "scored_rows": 691,
+            "total_rows": 695
+          }
+        },
+        "retrieval_blocked_by_reason": {
+          "cached_too_small": 44,
+          "js_rendered_required": 1,
+          "missing": 4809
+        },
+        "retrieval_blocked_rows": 4854,
+        "scored_rows": 5146,
+        "total_rows": 10000
+      },
+      "name": "whole_goldie_full10k",
+      "status": "passed"
+    }
+  ],
+  "generated_at": "2026-06-05T15:41:10.209415+00:00",
+  "publisher": "elsevier",
+  "referee_notes": [
+    "Focused app-JSON source lifted Elsevier affiliations slice but regressed full current-Goldie affiliations and corresponding metrics.",
+    "Preloaded-first ordering was a no-op at full 10K.",
+    "Disabling broad app JSON restores full current-Goldie metrics exactly to the pre-app-JSON baseline.",
+    "Do not claim app JSON as parser truth; route app-JSON-only values to Goldie-backfilled Browserbase grounding and Referee approval."
+  ],
+  "task_id": "v2_elsevier_affiliations_84be36c2"
+}
