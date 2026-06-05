@@ -1,0 +1,26 @@
+{
+  "approved_count": 25,
+  "blocked_count": 0,
+  "cumulative_ieee_author_approved_count": 79,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_derived_v0.ndjson",
+  "diagnosis": "Browserbase-grounded IEEE authors batch 54-79 resolved n_authors-only candidates from rendered IEEE authorNames when counts matched. All 25 rows have candidate evidence and are approved into the derived ledger.",
+  "grounding_confidence_counts": {
+    "author_count_author_names_match": 25
+  },
+  "new_derived_rows_appended": 25,
+  "next_action": "Ground remaining 163 IEEE author candidates in 25-50 row batches; keep Referee approval separate from current-Goldie KPI.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_54_79_referee.ndjson",
+  "remaining_ieee_author_candidates": 163,
+  "resolved_candidate_source_counts": {
+    "browserbase_rendered_authorNames": 25
+  },
+  "reviewed_at": "2026-06-05T20:07:07.982362+00:00",
+  "run_id": "bb-ieee-authors-54-79-20260605T200334Z",
+  "smoke_ieee_author_approved_count": 4,
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_authors_54_79_resolved_bb-ieee-authors-54-79-20260605T200334Z.ndjson",
+  "status_counts": {
+    "referee_approved": 25
+  },
+  "total": 25
+}
