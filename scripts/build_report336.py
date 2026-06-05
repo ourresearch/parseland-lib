@@ -225,7 +225,35 @@ def _format_delta_pp(previous: dict | None, latest: dict | None, key: str) -> tu
     return css_class, f"{delta:+.3f}pp"
 
 
-def render_parseland_update(rows: list[dict]) -> str:
+def _render_backfill_status(workflow_summary: dict | None) -> str:
+    workflow_summary = workflow_summary or {}
+    parts: list[str] = []
+    authors = workflow_summary.get("ieee_authors_referee_state") or {}
+    if authors:
+        parts.append(
+            "IEEE authors: "
+            f"{html.escape(str(authors.get('approved_rows', '—')))} approved, "
+            f"{html.escape(str(authors.get('remaining_current_candidates', '—')))} remaining; "
+            f"latest <code>{html.escape(str(authors.get('latest_referee_artifact', '—')))}</code>"
+        )
+    affs = workflow_summary.get("ieee_affiliations_referee_state") or {}
+    if affs:
+        parts.append(
+            "IEEE affiliations: "
+            f"{html.escape(str(affs.get('approved_rows', '—')))} approved, "
+            f"{html.escape(str(affs.get('blocked_rows', '—')))} blocked, "
+            f"{html.escape(str(affs.get('remaining_current_ieee_affiliation_backfill', '—')))} remaining"
+        )
+    if not parts:
+        return ""
+    return (
+        "<p><strong>Goldie-backfilled status:</strong> "
+        + " · ".join(parts)
+        + ". This is evidence/derived-corpus work and is not counted as a parser KPI lift.</p>"
+    )
+
+
+def render_parseland_update(rows: list[dict], workflow_summary: dict | None = None) -> str:
     if len(rows) < 2:
         return ""
     previous = rows[-2]
@@ -289,10 +317,8 @@ def render_parseland_update(rows: list[dict]) -> str:
         f"{batch_note}</p>"
         + "".join(table_parts)
         + f"<p><strong>Current full-10K parser KPIs:</strong> {current_kpis}.</p>"
-        "<p><strong>IEEE backfill status:</strong> 95 candidates are approved into the derived ledger, "
-        "5 are blocked for manual review, and 228 current IEEE affiliation candidates still need grounding. "
-        "This is evidence/derived-corpus work and is not counted as a parser KPI lift.</p>"
-        '<p class="latest-note">Green means the Parseland full-10K metric improved, red means it regressed, '
+        + _render_backfill_status(workflow_summary)
+        + '<p class="latest-note">Green means the Parseland full-10K metric improved, red means it regressed, '
         "and gray means unchanged. No separate quality-run metrics are included in this report.</p>"
         "</div>"
         "</section>"
@@ -952,7 +978,7 @@ def main() -> int:
         batches_n=len(kpi_rows),
         pubs_total=pubs_total,
         queue_cells=queue_cells,
-        parseland_update=render_parseland_update(kpi_rows),
+        parseland_update=render_parseland_update(kpi_rows, workflow_summary),
         metric_cards=render_metric_cards(latest),
         coverage_status=render_coverage_status(whole_goldie, workflow_summary),
         field_target_table=render_field_target_table(whole_goldie),
