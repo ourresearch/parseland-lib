@@ -199,26 +199,31 @@
     "total": 38
   },
   "latest_lippincott_abstract_backfill": {
-    "approved_rows": 20,
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_0_24_referee.ndjson",
-    "blocked_rows": 4,
-    "completed_at": "2026-06-05T22:35:24.922866+00:00",
+    "approved_rows": 23,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_all_32_referee.ndjson",
+    "blocked_rows": 9,
+    "completed_at": "2026-06-05T22:42:40.540144+00:00",
     "task_id": "v2_lippincott_abstract_1826aa8b"
   },
   "lippincott_abstract_referee_state": {
-    "approved_rows": 20,
+    "approved_rows": 23,
     "blocked_example_dois": [
+      "10.1097/00007890-200407271-00493",
       "10.1097/00024382-200610001-00034",
       "10.1097/01.ccm.0000910592.68498.c0",
       "10.1097/01.ccm.0001184240.46751.c7",
+      "10.1097/01.ccm.0001188776.54536.5d",
+      "10.1097/01.cot.0000531179.45070.65",
+      "10.1097/01.mog.0000264955.83800.df",
+      "10.1097/aog.0000000000003844",
       "10.1097/lbr.0b013e31817eedd5"
     ],
-    "blocked_rows": 4,
-    "completed_at": "2026-06-05T22:35:24.922866+00:00",
+    "blocked_rows": 9,
+    "completed_at": "2026-06-05T22:42:40.540144+00:00",
     "latest_derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_derived_v0.ndjson",
-    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_0_24_referee.ndjson",
-    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_0_24_referee.summary.json",
-    "next_action": "Route 20 approved Lippincott abstract derived candidates plus 4 blocked citation/weak-render rows to gold-auditor review; continue next highest non-PDF publisher-field lane.",
+    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_all_32_referee.ndjson",
+    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_all_32_referee.summary.json",
+    "next_action": "Lippincott abstract current backfill lane complete: route 23 approved derived candidates plus 9 blocked citation/weak-render rows to gold-auditor review; continue next highest non-PDF publisher-field lane.",
     "remaining_current_candidates": 0
   },
   "outputs": {

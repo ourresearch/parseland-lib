@@ -1,0 +1,52 @@
+{
+  "agent_id": "codex-goldie-backfilled-lippincott-abstract",
+  "approved_example_dois": [
+    "10.1097/00001648-200007000-00041",
+    "10.1097/00003226-199001000-00003",
+    "10.1097/00003643-201406001-00370",
+    "10.1097/00004032-199611000-00020",
+    "10.1097/00004032-199807000-00001"
+  ],
+  "approved_rows": 23,
+  "blocked_example_dois": [
+    "10.1097/00007890-200407271-00493",
+    "10.1097/00024382-200610001-00034",
+    "10.1097/01.ccm.0000910592.68498.c0",
+    "10.1097/01.ccm.0001184240.46751.c7",
+    "10.1097/01.ccm.0001188776.54536.5d",
+    "10.1097/01.cot.0000531179.45070.65",
+    "10.1097/01.mog.0000264955.83800.df",
+    "10.1097/aog.0000000000003844",
+    "10.1097/lbr.0b013e31817eedd5"
+  ],
+  "blocked_rows": 9,
+  "browserbase_run_ids": [
+    "bb-lippincott-abstract-0-24-20260605T222740Z",
+    "bb-lippincott-abstract-retry-4-20260605T223237Z",
+    "bb-lippincott-abstract-pending-browserbase-8-20260605T223927Z"
+  ],
+  "candidate_rows": 32,
+  "catchup_resolved_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_pending_browserbase_8_resolved_bb-lippincott-abstract-pending-browserbase-8-20260605T223927Z.ndjson",
+  "completed_at": "2026-06-05T22:42:40.540144+00:00",
+  "derived_corpus_policy": "Goldie-backfilled candidate approvals only; current-Goldie KPI unchanged; merged-FINAL.csv untouched.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_derived_v0.ndjson",
+  "expected_current_goldie_kpi_impact": 0.0,
+  "field": "abstract",
+  "grounding_confidence_counts": {
+    "abstract_len_rendered_parse_match": 20,
+    "candidate_text_match": 3,
+    "page_identity_only": 7,
+    "page_rendered_only": 2
+  },
+  "next_action": "Lippincott abstract current backfill lane complete: route 23 approved derived candidates plus 9 blocked citation/weak-render rows to gold-auditor review; continue next highest non-PDF publisher-field lane.",
+  "publisher_id": "lippincott",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_all_32_referee.ndjson",
+  "remaining_current_candidates": 0,
+  "run_id": "20260604T163736Z-77fe45",
+  "source_policy_branch": "gold_empty_parser_present",
+  "status_counts": {
+    "referee_approved": 23,
+    "referee_blocked": 9
+  },
+  "task_id": "v2_lippincott_abstract_1826aa8b"
+}

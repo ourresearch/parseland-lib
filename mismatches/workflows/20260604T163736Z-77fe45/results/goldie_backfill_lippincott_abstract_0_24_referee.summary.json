@@ -41,5 +41,7 @@
     "referee_approved": 20,
     "referee_blocked": 4
   },
+  "superseded_by": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_abstract_all_32_referee.summary.json",
+  "superseded_reason": "Catch-up processed 8 pending_browserbase Lippincott abstract rows so the final lane state matches the latest full-10K 32-row denominator.",
   "task_id": "v2_lippincott_abstract_1826aa8b"
 }
