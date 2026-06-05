@@ -1,0 +1,43 @@
+{
+  "after_artifact": "eval/runs/whole-goldie-after-elsevier-corresponding-sibling-icon-full10k-20260605T1935Z.json",
+  "before_artifact": "eval/runs/whole-goldie-taylor-ebook-jsonld-full10k-20260605T171443Z.json",
+  "composite_marginal_lift": 0.0004337843760622739,
+  "coverage_html_available": 5146,
+  "coverage_retrieval_blocked_rows": 4854,
+  "coverage_total_rows": 10000,
+  "created_at": "2026-06-05T19:37:05.659410+00:00",
+  "elsevier_corresponding_after": 0.9347858230050013,
+  "elsevier_corresponding_before": 0.9268450615473206,
+  "elsevier_corresponding_delta_pp": 0.794076,
+  "gate": "elsevier_corresponding_sibling_icon_full10k",
+  "overall_after": {
+    "abstract_ratio_fuzzy": 0.9007486125647127,
+    "affiliations_f1_fuzzy": 0.921648007422582,
+    "authors_f1_soft": 0.9391948789499855,
+    "corresponding_accuracy": 0.9632194687398768,
+    "pdf_url_accuracy": 0.9341836734693878
+  },
+  "overall_before": {
+    "abstract_ratio_fuzzy": 0.9007486125647127,
+    "affiliations_f1_fuzzy": 0.921648007422582,
+    "authors_f1_soft": 0.9391948789499855,
+    "corresponding_accuracy": 0.9610505468595655,
+    "pdf_url_accuracy": 0.9341836734693878
+  },
+  "overall_delta": {
+    "abstract_ratio_fuzzy": 0.0,
+    "affiliations_f1_fuzzy": 0.0,
+    "authors_f1_soft": 0.0,
+    "corresponding_accuracy": 0.0021689218803113697,
+    "pdf_url_accuracy": 0.0
+  },
+  "overall_delta_pp": {
+    "abstract_ratio_fuzzy": 0.0,
+    "affiliations_f1_fuzzy": 0.0,
+    "authors_f1_soft": 0.0,
+    "corresponding_accuracy": 0.216892,
+    "pdf_url_accuracy": 0.0
+  },
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_sibling_icon_shield.json",
+  "status": "passed"
+}
