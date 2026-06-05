@@ -1,0 +1,59 @@
+{
+  "change_summary": "Parse modern ScienceDirect script[type=application/json] AuthorGroups payloads so DOM authors with aff1/aff2 refs can be enriched with JSON affiliation text.",
+  "classification": "parser_owned_shipped_pending_full10k_batch",
+  "created_at": "2026-06-05T11:58:41.940740+00:00",
+  "decision": "ship_small_verified_slice_and_measure_full10k_next",
+  "field": "affiliations",
+  "focused_tests": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_elsevier_bv_modern.py -q",
+      "result": "11 passed in 0.06s"
+    }
+  ],
+  "publisher": "elsevier",
+  "publisher_slice_gate": {
+    "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_after_app_json.json",
+    "before_artifact": "tests/fixtures/elsevier-iter-worker-before.json",
+    "caveats": [
+      "Corresponding micro F1 changed by -0.1756pp on the Elsevier slice, below the 1pp regression guardrail; likely due JSON corresponding ref interpretation on a small set.",
+      "Full 10K whole-Goldie batch still required before updating global KPI curve.",
+      "Some DOI rows fail UUID resolution or dispatch-reject to non-Elsevier pages; those are tracked as retrieval/harness noise, not parser exceptions."
+    ],
+    "command": "PARSELAND_NO_PROGRESS=1 ./.venv/bin/python scripts/field_inprocess_diff.py --publisher elsevier --field affiliations --gold tests/fixtures/elsevier-10k-gold.ndjson --out mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_after_app_json.json",
+    "dispatch_skipped_rows": 106,
+    "failed_rows": 5,
+    "input_rows": 1459,
+    "metric_deltas": {
+      "abstract_match_at_074": {
+        "after": 1229,
+        "before": 1229,
+        "delta": 0
+      },
+      "affiliations_mean_soft_f1": {
+        "after": 0.8324838160136289,
+        "before": 0.8028364565587733,
+        "delta": 0.029647359454855526
+      },
+      "authors_mean_f1_soft": {
+        "after": 0.9672650701899257,
+        "before": 0.9672650701899257,
+        "delta": 0.0
+      },
+      "corresponding_micro_f1": {
+        "after": 0.8686648501362397,
+        "before": 0.8704209950792783,
+        "delta": -0.0017561449430385512
+      },
+      "pdf_strict_match": {
+        "after": 359,
+        "before": 359,
+        "delta": 0
+      }
+    },
+    "scored_rows": 1348,
+    "target_delta_pp": 2.9647359454855526
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "green_with_minor_caveat",
+  "task_id": "v2_elsevier_affiliations_84be36c2"
+}

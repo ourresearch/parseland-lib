@@ -15,11 +15,12 @@
   "by_status": {
     "above_98": 2,
     "goldie_backfill_pending": 12,
-    "needs_agent": 34,
+    "needs_agent": 33,
     "needs_referee": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_pending_courier": 1
+    "shipped_pending_courier": 1,
+    "shipped_pending_full10k_batch": 1
   },
   "classification_counts": {
     "generic_only": 5,
@@ -134,8 +135,8 @@
       "worktree_path": null
     },
     {
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_diagnosis.json",
-      "assigned_agent": null,
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_app_json_shield.json",
+      "assigned_agent": "codex-elsevier-affiliations",
       "created_at": "2026-06-05T10:09:45.026965+00:00",
       "current_kpi": 0.8513,
       "distance_to_98": 0.1287,
@@ -148,8 +149,11 @@
       "html_available": 1511,
       "html_coverage": 0.9661,
       "latest_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-phase1-full10k-20260605T094337Z.json",
+      "latest_slice_after": 0.8324838160136289,
+      "latest_slice_before": 0.8028364565587733,
+      "latest_slice_delta": 0.029647359454855526,
       "misses": 74,
-      "next_action": "implement-json-affiliation-fallback",
+      "next_action": "run-full-10k-whole-goldie-batch-and-monitor-next-gap",
       "parser_status": "supported",
       "priority": 256.0165,
       "publisher_class": "ready",
@@ -158,7 +162,7 @@
       "retrieval_blocked": 53,
       "row_count": 1564,
       "scored_rows_for_field": 1429,
-      "status": "needs_agent",
+      "status": "shipped_pending_full10k_batch",
       "target_kpi": 0.98,
       "task_id": "v2_elsevier_affiliations_84be36c2",
       "tractability": 1.0,
@@ -507,5 +511,6 @@
     }
   ],
   "total_publishers": 50,
-  "total_tasks": 250
+  "total_tasks": 250,
+  "updated_at": "2026-06-05T11:58:41.945693+00:00"
 }

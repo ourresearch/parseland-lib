@@ -67,6 +67,47 @@ MODERN_UNLABELED = """
 """
 
 
+MODERN_APP_JSON_AFFILIATIONS = """
+<html><body>
+<div class="author-group" id="author-group">
+  <button class="button-link workspace-trigger button-link-primary" name="baep-author-id1">
+    <span class="button-link-text">
+      <span class="given-name">Janelly</span> <span class="text surname">Burgos-Pino</span>
+      <span class="author-ref" id="baff1"><sup>a</sup></span>
+    </span>
+  </button>
+  <button class="button-link workspace-trigger button-link-primary" name="baep-author-id2">
+    <span class="button-link-text">
+      <span class="given-name">Brandon</span> <span class="text surname">Gual-Orozco</span>
+      <span class="author-ref" id="baff2"><sup>b</sup></span>
+    </span>
+  </button>
+</div>
+<script type="application/json">{
+  "authors": {
+    "content": [{"#name": "author-group", "$$": [
+      {"#name": "author", "$$": [
+        {"#name": "given-name", "_": "Janelly"},
+        {"#name": "surname", "_": "Burgos-Pino"},
+        {"#name": "cross-ref", "$": {"refid": "aff1"}}
+      ]},
+      {"#name": "author", "$$": [
+        {"#name": "given-name", "_": "Brandon"},
+        {"#name": "surname", "_": "Gual-Orozco"},
+        {"#name": "cross-ref", "$": {"refid": "aff2"}},
+        {"#name": "cross-ref", "$": {"refid": "cor1"}}
+      ]}
+    ]}],
+    "affiliations": {
+      "aff1": {"$$": [{"#name": "textfn", "_": "Unidad de Biotecnologia, Centro de Investigacion Cientifica de Yucatan, Merida, Mexico"}]},
+      "aff2": {"$$": [{"#name": "textfn", "_": "Tecnologico de Monterrey, School of Engineering and Sciences, Monterrey, Mexico"}]}
+    }
+  }
+}</script>
+</body></html>
+"""
+
+
 def test_authors_found_matches_modern_div_author_group():
     """Regression for iter 2: authors_found() must detect <div class="author-group">."""
     soup = BeautifulSoup(MODERN_LABELED, "lxml")
@@ -125,6 +166,20 @@ def test_parse_modern_unlabeled_single_shared_affiliation():
     assert by_name["Giulia Alessandri"].is_corresponding is True
     # Daddi has no corresp signal
     assert by_name["Anna Daddi"].is_corresponding is False
+
+
+def test_parse_modern_application_json_enriches_affiliations():
+    """Modern ScienceDirect pages often omit rendered <dl class=affiliation>
+    blocks but embed the same aff1/aff2 map in script[type=application/json]."""
+    soup = BeautifulSoup(MODERN_APP_JSON_AFFILIATIONS, "lxml")
+    result = ElsevierBV(soup).parse()
+    authors = result["authors"]
+    assert len(authors) == 2
+
+    by_name = {a.name: a for a in authors}
+    assert any("Yucatan" in aff for aff in by_name["Janelly Burgos-Pino"].affiliations)
+    assert any("Tecnologico de Monterrey" in aff for aff in by_name["Brandon Gual-Orozco"].affiliations)
+    assert by_name["Brandon Gual-Orozco"].is_corresponding is True
 
 
 CELL_PRESS_PORTAL = """

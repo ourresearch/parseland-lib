@@ -198,7 +198,8 @@ class ElsevierBV(PublisherParser):
         "affiliations": list[str]}}}`` or None if the JSON blob is missing
         or shaped unexpectedly. Defensive — never raises.
 
-        ScienceDirect's __PRELOADED_STATE__ shape (relevant slice):
+        ScienceDirect's application/json and __PRELOADED_STATE__ shapes both
+        expose this relevant slice:
 
             authors:
               content: [{$$: [{#name: "author", $$: [
@@ -214,7 +215,24 @@ class ElsevierBV(PublisherParser):
             import json
             import re
             data = None
+
+            for script in self.soup.find_all("script", type="application/json"):
+                text = script.string or script.text or ""
+                if not text.strip():
+                    continue
+                try:
+                    candidate = json.loads(text)
+                    if isinstance(candidate, str):
+                        candidate = json.loads(candidate)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(candidate, dict) and isinstance(candidate.get("authors"), dict):
+                    data = candidate
+                    break
+
             for script in self.soup.find_all("script"):
+                if data is not None:
+                    break
                 text = script.string or script.text or ""
                 if "__PRELOADED_STATE__" not in text:
                     continue
