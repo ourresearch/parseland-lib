@@ -13,7 +13,7 @@
     "unknown": 5
   },
   "by_status": {
-    "blocked_pdf_grounding_needs_candidate_url_evidence": 1,
+    "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
     "goldie_backfill_smoke_referee_approved_4": 1,
     "goldie_backfill_referee_partial": 1,
     "blocked_goldie_backfill_needed": 1,
@@ -603,15 +603,16 @@
       "publisher_class": "ready",
       "gold_status": "fixture-present",
       "gold_fixture_path": "tests/fixtures/elsevier-10k-gold.ndjson",
-      "assigned_agent": "codex-goldie-backfilled-browserbase-smoke",
+      "assigned_agent": "codex-goldie-backfilled-pdf-verifier",
       "worktree_path": null,
-      "status": "blocked_pdf_grounding_needs_candidate_url_evidence",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_referee.ndjson",
-      "next_action": "enhance-pdf-grounding-to-check-candidate-url-or-citation_pdf_url-before-scale",
+      "status": "blocked_pdf_candidate_urls_resolve_to_abs_pages",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_referee.ndjson",
+      "next_action": "do-not-scale-elsevier-pdf-backfill-until-candidate-url-or-visible-pdf-link-is-grounded",
       "latest_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-phase1-full10k-20260605T094337Z.json",
       "created_at": "2026-06-05T10:09:45.026965+00:00",
       "latest_goldie_backfill_smoke": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_referee.summary.json",
-      "updated_at": "2026-06-05T18:04:55.323835+00:00"
+      "updated_at": "2026-06-05T18:14:00.877178+00:00",
+      "latest_pdf_grounding_smoke": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_referee.summary.json"
     },
     {
       "task_id": "v2_ieee_authors_f2daf6a6",
@@ -1221,7 +1222,7 @@
       "created_at": "2026-06-05T10:09:45.026965+00:00"
     }
   ],
-  "last_updated_at": "2026-06-05T18:04:55.323835+00:00",
+  "last_updated_at": "2026-06-05T18:14:00.877178+00:00",
   "latest_goldie_backfill_smoke": {
     "run_id": "bb-smoke-20260605T180203Z",
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_referee.ndjson",
@@ -1230,5 +1231,26 @@
     "approved_count": 7,
     "blocked_count": 3,
     "status": "referee_reviewed"
+  },
+  "latest_elsevier_pdf_grounding_smoke": {
+    "run_id": "bb-pdf-smoke-20260605T181253Z",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_bb-pdf-smoke-20260605T181253Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_referee.ndjson",
+    "reviewed_at": "2026-06-05T18:14:00.877178+00:00",
+    "total": 3,
+    "status_counts": {
+      "referee_blocked": 3
+    },
+    "grounding_confidence_counts": {
+      "page_identity_only": 3
+    },
+    "verified_candidate_status_counts": {
+      "200": 3
+    },
+    "approved_count": 0,
+    "blocked_count": 3,
+    "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+    "diagnosis": "Patched PDF candidate verifier navigated the proposed Elsevier /pdf URLs. All three sample URLs returned HTTP 200 but resolved to ScienceDirect abstract pages, so they are not approved as PDF labels.",
+    "next_action": "Do not scale Elsevier pdf_url backfill on /pdf candidates until a candidate URL resolves to /pdf, pdfft, .pdf, citation_pdf_url, or a visible PDF link."
   }
 }

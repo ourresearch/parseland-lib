@@ -47,6 +47,10 @@ class GroundingResult:
     final_url: str | None = None
     browserbase_session: str | None = None
     screenshot_path: str | None = None
+    verified_candidate_url: str | None = None
+    verified_candidate_final_url: str | None = None
+    verified_candidate_status: int | None = None
+    verified_candidate_screenshot_path: str | None = None
     html_excerpt: str | None = None
     selector: str | None = None
     confidence: str = "needs_referee"
@@ -129,6 +133,18 @@ def candidate_needles(candidate: dict) -> list[str]:
     return needles
 
 
+def candidate_pdf_url(candidate: dict) -> str | None:
+    if candidate.get("field") != "pdf_url":
+        return None
+    payload = candidate.get("parseland_candidate")
+    if isinstance(payload, str):
+        payload = {"pdf_url": payload}
+    if not isinstance(payload, dict):
+        return None
+    url = payload.get("pdf_url")
+    return url.strip() if isinstance(url, str) and url.strip() else None
+
+
 def candidate_quality_blocker(candidate: dict) -> str | None:
     """Return a conservative rejection reason for clear non-label candidates.
 
@@ -197,6 +213,73 @@ def excerpt_for(html: str, candidate: dict) -> tuple[str | None, str | None, str
     if excerpt:
         return excerpt, "page-identity", "page_identity_only"
     return html[:800].replace("\n", " ").strip() if html else None, "page-head", "page_rendered_only"
+
+
+def pdf_url_resolution_is_usable(status_code: int | None, final_url: str) -> bool:
+    if status_code is not None and status_code >= 400:
+        return False
+    final_lower = final_url.lower()
+    if not final_lower.startswith(("http://", "https://")):
+        return False
+    blocked_markers = ("error", "denied", "captcha", "login", "signin")
+    if any(marker in final_lower for marker in blocked_markers):
+        return False
+    return any(marker in final_lower for marker in ("/pdf", "pdfft", ".pdf"))
+
+
+def verify_pdf_candidate_url(page: Any, candidate: dict, evidence_dir: Path, stem: str) -> dict[str, Any] | None:
+    """Verify the proposed PDF URL itself, not just the DOI landing page.
+
+    A successful result is still candidate evidence that needs Referee approval.
+    It only proves that the parser-emitted URL resolves through Browserbase.
+    """
+    url = candidate_pdf_url(candidate)
+    if not url:
+        return None
+    try:
+        response = page.goto(url, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=15000)
+        except Exception:
+            pass
+        final_url = page.url
+        status_code = response.status if response is not None else None
+        if not pdf_url_resolution_is_usable(status_code, final_url):
+            return {
+                "candidate_url": url,
+                "candidate_final_url": final_url,
+                "candidate_status": status_code,
+                "confidence": "candidate_pdf_url_not_verified",
+                "selector": "candidate-pdf-url-navigation",
+                "excerpt": (
+                    f"candidate_pdf_url={url} final_url={final_url} "
+                    f"status={status_code}"
+                ),
+            }
+        screenshot_path = evidence_dir / f"{stem}-pdf.png"
+        page.screenshot(path=str(screenshot_path), full_page=True)
+        return {
+            "candidate_url": url,
+            "candidate_final_url": final_url,
+            "candidate_status": status_code,
+            "candidate_screenshot_path": str(screenshot_path),
+            "confidence": "candidate_pdf_url_resolves",
+            "selector": "candidate-pdf-url-navigation",
+            "excerpt": (
+                f"candidate_pdf_url={url} final_url={final_url} "
+                f"status={status_code}"
+            ),
+        }
+    except Exception as exc:  # noqa: BLE001
+        return {
+            "candidate_url": url,
+            "candidate_final_url": None,
+            "candidate_status": None,
+            "confidence": "candidate_pdf_url_navigation_failed",
+            "selector": "candidate-pdf-url-navigation",
+            "excerpt": f"candidate_pdf_url={url}",
+            "error": f"{type(exc).__name__}: {exc}",
+        }
 
 
 def safe_page_content(page: Any) -> str:
@@ -303,9 +386,16 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             screenshot_path = evidence_dir / f"{stem}.png"
             page.screenshot(path=str(screenshot_path), full_page=True)
             excerpt, selector, confidence = excerpt_for(html, candidate)
+            pdf_verification = None
+            if field == "pdf_url" and confidence != "candidate_text_match":
+                pdf_verification = verify_pdf_candidate_url(page, candidate, evidence_dir, stem)
+                if pdf_verification and pdf_verification.get("confidence") == "candidate_pdf_url_resolves":
+                    excerpt = pdf_verification.get("excerpt")
+                    selector = pdf_verification.get("selector")
+                    confidence = str(pdf_verification.get("confidence"))
             status = (
                 "candidate_evidence_needs_referee"
-                if confidence == "candidate_text_match"
+                if confidence in {"candidate_text_match", "candidate_pdf_url_resolves"}
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"
                 else "weak_page_render_needs_referee"
@@ -317,9 +407,22 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                 final_url=final_url,
                 browserbase_session=str(session_id) if session_id else None,
                 screenshot_path=str(screenshot_path),
+                verified_candidate_url=(
+                    pdf_verification or {}
+                ).get("candidate_url") if pdf_verification else None,
+                verified_candidate_final_url=(
+                    pdf_verification or {}
+                ).get("candidate_final_url") if pdf_verification else None,
+                verified_candidate_status=(
+                    pdf_verification or {}
+                ).get("candidate_status") if pdf_verification else None,
+                verified_candidate_screenshot_path=(
+                    pdf_verification or {}
+                ).get("candidate_screenshot_path") if pdf_verification else None,
                 html_excerpt=excerpt,
                 selector=selector,
                 confidence=confidence,
+                error=(pdf_verification or {}).get("error") if pdf_verification else None,
             )
     except Exception as exc:  # noqa: BLE001
         return GroundingResult(
@@ -343,6 +446,10 @@ def write_result(out: Path, candidate: dict, result: GroundingResult) -> None:
         "browserbase_url": result.final_url,
         "browserbase_session": result.browserbase_session,
         "screenshot_path": result.screenshot_path,
+        "verified_candidate_url": result.verified_candidate_url,
+        "verified_candidate_final_url": result.verified_candidate_final_url,
+        "verified_candidate_status": result.verified_candidate_status,
+        "verified_candidate_screenshot_path": result.verified_candidate_screenshot_path,
         "evidence_excerpt": result.html_excerpt,
         "dom_selector": result.selector,
         "grounding_confidence": result.confidence,

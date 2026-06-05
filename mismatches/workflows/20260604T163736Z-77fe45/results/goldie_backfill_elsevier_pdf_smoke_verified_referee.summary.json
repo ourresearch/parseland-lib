@@ -1,0 +1,21 @@
+{
+  "run_id": "bb-pdf-smoke-20260605T181253Z",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_bb-pdf-smoke-20260605T181253Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_smoke_verified_referee.ndjson",
+  "reviewed_at": "2026-06-05T18:14:00.877178+00:00",
+  "total": 3,
+  "status_counts": {
+    "referee_blocked": 3
+  },
+  "grounding_confidence_counts": {
+    "page_identity_only": 3
+  },
+  "verified_candidate_status_counts": {
+    "200": 3
+  },
+  "approved_count": 0,
+  "blocked_count": 3,
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "diagnosis": "Patched PDF candidate verifier navigated the proposed Elsevier /pdf URLs. All three sample URLs returned HTTP 200 but resolved to ScienceDirect abstract pages, so they are not approved as PDF labels.",
+  "next_action": "Do not scale Elsevier pdf_url backfill on /pdf candidates until a candidate URL resolves to /pdf, pdfft, .pdf, citation_pdf_url, or a visible PDF link."
+}
