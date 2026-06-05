@@ -310,12 +310,34 @@ def render_field_target_table(run: dict | None) -> str:
     return "".join(parts)
 
 
+def load_publisher_field_tasks() -> dict[tuple[str, str], dict]:
+    path = REPO_ROOT / "mismatches" / "workflows" / "20260604T163736Z-77fe45" / "publisher-field-queue.v2.ndjson"
+    if not path.exists():
+        return {}
+    tasks: dict[tuple[str, str], dict] = {}
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            pub = str(row.get("publisher_id") or "")
+            field = str(row.get("field") or "")
+            if pub and field:
+                tasks[(pub, field)] = row
+    return tasks
+
+
 def render_publisher_field_table(run: dict | None) -> str:
     if not run:
         return '<p style="color: var(--muted);">No publisher × field accounting yet.</p>'
     summary = run.get("summary") or {}
     per_pub = summary.get("per_publisher") or {}
     per_pub_field = summary.get("per_publisher_field") or {}
+    task_by_cell = load_publisher_field_tasks()
     field_metrics = {
         "authors": "authors_f1_soft",
         "affiliations": "affiliations_f1_fuzzy",
@@ -334,13 +356,30 @@ def render_publisher_field_table(run: dict | None) -> str:
     if not rows:
         return '<p style="color: var(--muted);">No publisher × field rows yet.</p>'
     parts = ["<table><thead><tr>"]
-    cols = ["Publisher", "Field", "KPI", "Distance", "Rows", "HTML", "Blocked", "Scored", "Empty-empty", "Misses", "Backfill"]
+    cols = [
+        "Publisher",
+        "Field",
+        "KPI",
+        "Distance",
+        "Rows",
+        "HTML",
+        "Blocked",
+        "Scored",
+        "Empty-empty",
+        "Misses",
+        "Backfill",
+        "Active agent",
+        "Status",
+        "Next action",
+        "Latest artifact",
+    ]
     parts += [f"<th>{c}</th>" for c in cols]
     parts += ["</tr></thead><tbody>"]
     for _, pub, field, counts, pub_summary in rows[:100]:
         metric = field_metrics.get(field)
         current = float(pub_summary.get(metric) or 0.0) if metric else 0.0
         distance = max(0.0, 0.98 - current)
+        task = task_by_cell.get((pub, field), {})
         vals = [
             pub,
             field,
@@ -353,6 +392,10 @@ def render_publisher_field_table(run: dict | None) -> str:
             counts.get("empty_empty_pass", "—"),
             counts.get("gold_present_parser_empty", "—"),
             counts.get("gold_empty_parser_present", "—"),
+            task.get("assigned_agent") or "—",
+            task.get("status") or "—",
+            task.get("next_action") or "—",
+            task.get("artifact_path") or "—",
         ]
         parts.append("<tr>")
         parts += [f"<td>{html.escape(str(v))}</td>" for v in vals]
