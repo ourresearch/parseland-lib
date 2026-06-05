@@ -1,0 +1,34 @@
+{
+  "approved_rows": 95,
+  "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_referee_100.ndjson",
+  "blocked_reasons": {
+    "empty_candidate_affiliations": 2,
+    "grounding_confidence_needs_referee": 1,
+    "grounding_confidence_page_identity_only": 2,
+    "grounding_status_grounding_failed": 1,
+    "grounding_status_page_rendered_needs_referee": 2,
+    "missing_author_affiliation_payload_excerpt": 3,
+    "missing_ieee_browserbase_url": 1,
+    "missing_screenshot_path": 1
+  },
+  "blocked_rows": 5,
+  "by_status": {
+    "referee_approved": 95,
+    "referee_blocked": 5
+  },
+  "by_verdict": {
+    "approved_for_goldie_backfilled_derived_candidate": 95,
+    "blocked_needs_manual_referee": 5
+  },
+  "current_full10k_rows": 100,
+  "latest_full10k_run": "eval/runs/whole-goldie-after-elsevier-disable-app-json-20260605T151433Z.json",
+  "policy": "Referee approval creates a derived candidate artifact only; merged-FINAL.csv is not mutated.",
+  "reviewed_at": "2026-06-05T16:12:11.843315+00:00",
+  "rows_reviewed": 100,
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_smoke_10.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_50.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ieee_affiliations_50_100.ndjson"
+  ],
+  "unique_doi_field_rows": 100
+}
