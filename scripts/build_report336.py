@@ -221,12 +221,37 @@ def render_batches_table(rows: list[dict]) -> str:
     return "".join(parts)
 
 
+def _load_run_json(path: Path) -> dict | None:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def _run_total_rows(run: dict) -> int:
+    cov = run.get("coverage") or {}
+    try:
+        return int(cov.get("total_rows", run.get("row_count_corpus", 0)) or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
 def find_latest_whole_goldie_run() -> Path | None:
     candidates = list((REPO_ROOT / "mismatches").glob("whole-goldie*.json"))
     candidates += list((REPO_ROOT / "eval" / "runs").glob("whole-goldie*.json"))
     candidates = [p for p in candidates if p.is_file()]
     if not candidates:
         return None
+
+    # The live report is the full-corpus control surface. Scoped gates are still
+    # valuable evidence, but they must not replace the main 10K KPI/coverage view.
+    full_10k = []
+    for path in candidates:
+        run = _load_run_json(path)
+        if run and _run_total_rows(run) >= 10000:
+            full_10k.append(path)
+    if full_10k:
+        return max(full_10k, key=lambda p: p.stat().st_mtime)
     return max(candidates, key=lambda p: p.stat().st_mtime)
 
 
@@ -234,9 +259,8 @@ def load_latest_whole_goldie() -> dict | None:
     path = find_latest_whole_goldie_run()
     if not path:
         return None
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    data = _load_run_json(path)
+    if data is None:
         return None
     data["_artifact_path"] = str(path)
     return data
@@ -262,6 +286,17 @@ def render_coverage_status(run: dict | None, workflow_summary: dict | None = Non
     full_target = 10000
     queue_cells = workflow_summary.get("total_tasks") or "—"
     ranked_publishers = workflow_summary.get("total_publishers") or "—"
+    if int(total or 0) >= full_target:
+        artifact_note = (
+            "Report is using the latest full 10,000-row whole-Goldie artifact. "
+            "Scoped publisher gates remain available through the live ledger."
+        )
+    else:
+        artifact_note = (
+            "Full 10,000-row accounting remains the active gate until this section "
+            "shows 10,000 current artifact rows."
+        )
+
     parts = [
         '<div class="summary-grid">',
         f'<div class="metric"><div class="label">Current artifact rows</div><div class="value">{html.escape(str(total))}</div></div>',
@@ -273,7 +308,7 @@ def render_coverage_status(run: dict | None, workflow_summary: dict | None = Non
         f'<div class="metric"><div class="label">Publisher-field cells</div><div class="value">{html.escape(str(queue_cells))}</div></div>',
         f'<div class="metric"><div class="label">Publishers ranked</div><div class="value">{html.escape(str(ranked_publishers))}</div></div>',
         '</div>',
-        f'<p style="color: var(--muted); font-size: 0.85rem;">Latest whole-Goldie artifact: <code>{html.escape(artifact)}</code>. Full 10,000-row accounting remains the active gate until this section shows 10,000 current artifact rows.</p>',
+        f'<p style="color: var(--muted); font-size: 0.85rem;">Latest whole-Goldie artifact: <code>{html.escape(artifact)}</code>. {html.escape(artifact_note)}</p>',
     ]
     by_status = workflow_summary.get("by_status") or {}
     if by_status:
