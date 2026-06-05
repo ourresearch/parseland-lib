@@ -1,0 +1,21 @@
+{
+  "approved_rows": 9,
+  "blocked_dois": [
+    "10.1097/00002030-199902040-00005"
+  ],
+  "blocked_rows": 1,
+  "browserbase_run_id": "bb-lippincott-affiliations-smoke-10-20260605T225034Z",
+  "completed_at": "2026-06-05T22:54:04.571583+00:00",
+  "current_goldie_kpi_impact": 0.0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "publisher_id": "lippincott",
+  "recommendation": "Smoke evidence is strong enough to continue Lippincott affiliation grounding, but only with Referee cleaning; do not promote raw parser affiliation arrays because LWW boilerplate and fragmented lines appear in candidates.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_smoke_10_referee.ndjson",
+  "remaining_current_candidates": 108,
+  "resolved_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_smoke_10_resolved_bb-lippincott-affiliations-smoke-10-20260605T225034Z.ndjson",
+  "reviewed_rows": 10,
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "goldie_backfill_smoke_referee_9_approved_1_blocked",
+  "task_id": "v2_lippincott_affiliations_861e7de8"
+}
