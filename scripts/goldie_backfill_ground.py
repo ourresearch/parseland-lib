@@ -30,6 +30,14 @@ DEFAULT_CANDIDATES = REPO_ROOT / "mismatches" / "goldie-backfilled-candidates.nd
 DEFAULT_OUT = REPO_ROOT / "mismatches" / "goldie-backfilled-grounded.ndjson"
 DEFAULT_EVIDENCE_DIR = REPO_ROOT / "mismatches" / "goldie-backfilled-evidence"
 
+ABSTRACT_LOW_QUALITY_EXACT = {
+    "this article has no abstract",
+}
+ABSTRACT_LOW_QUALITY_SNIPPETS = (
+    "click to increase image size",
+    "click to decrease image size",
+)
+
 
 @dataclass
 class GroundingResult:
@@ -97,6 +105,29 @@ def candidate_needles(candidate: dict) -> list[str]:
         if isinstance(affs, list):
             needles.extend(str(a).strip() for a in affs[:4] if str(a).strip())
     return needles
+
+
+def candidate_quality_blocker(candidate: dict) -> str | None:
+    """Return a conservative rejection reason for clear non-label candidates.
+
+    This precheck prevents Browserbase spend on parser output that is visibly
+    page chrome or an explicit no-abstract placeholder. Ambiguous short text is
+    still grounded and sent to Referee.
+    """
+    if candidate.get("field") != "abstract":
+        return None
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return None
+    abstract = payload.get("abstract")
+    if not isinstance(abstract, str):
+        return None
+    normalized = " ".join(abstract.split()).strip().lower()
+    if normalized in ABSTRACT_LOW_QUALITY_EXACT:
+        return "abstract_placeholder_no_abstract"
+    if any(snippet in normalized for snippet in ABSTRACT_LOW_QUALITY_SNIPPETS):
+        return "abstract_ui_chrome"
+    return None
 
 
 def _science_direct_pii(url: str) -> str | None:
@@ -198,11 +229,21 @@ def load_candidates(
 
 
 def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
+    doi = str(candidate.get("doi") or "")
+    field = str(candidate.get("field") or "")
+    blocker = candidate_quality_blocker(candidate)
+    if blocker:
+        return GroundingResult(
+            doi=doi,
+            field=field,
+            status="candidate_rejected_low_quality",
+            confidence="candidate_precheck_failed",
+            error=blocker,
+        )
+
     from browserbase import Browserbase
     from playwright.sync_api import sync_playwright
 
-    doi = str(candidate.get("doi") or "")
-    field = str(candidate.get("field") or "")
     bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
     project_id = resolve_browserbase_project_id(bb)
     if not project_id:
