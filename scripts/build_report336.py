@@ -614,7 +614,38 @@ def render_publisher_queue_table(path: Path) -> str:
     return "".join(parts)
 
 
-def render_goldie_backfilled_table(path: Path) -> str:
+def _current_backfill_keys(run: dict | None) -> set[tuple[str, str]]:
+    if not run:
+        return set()
+    keys: set[tuple[str, str]] = set()
+    for row in run.get("rows") or []:
+        doi = str(row.get("doi") or "").lower()
+        if not doi:
+            continue
+        for field, status in (row.get("field_status") or {}).items():
+            if status == "gold_empty_parser_present":
+                keys.add((doi, str(field)))
+    return keys
+
+
+def _count_by_field(rows: list[dict]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        field = str(row.get("field") or "?")
+        counts[field] = counts.get(field, 0) + 1
+    return counts
+
+
+def _format_counts(counts: dict[str, int]) -> str:
+    if not counts:
+        return "none"
+    return " · ".join(
+        f"{html.escape(k)}: {html.escape(str(v))}"
+        for k, v in sorted(counts.items())
+    )
+
+
+def render_goldie_backfilled_table(path: Path, run: dict | None = None) -> str:
     if not path.exists():
         return '<p style="color: var(--muted);">no Goldie-backfilled candidates yet</p>'
     rows: list[dict] = []
@@ -629,21 +660,45 @@ def render_goldie_backfilled_table(path: Path) -> str:
                 continue
     if not rows:
         return '<p style="color: var(--muted);">no Goldie-backfilled candidates yet</p>'
-    # Summarize per-status + per-field
+    current_keys = _current_backfill_keys(run)
+    if current_keys:
+        current_rows = [
+            r for r in rows
+            if (str(r.get("doi") or "").lower(), str(r.get("field") or "")) in current_keys
+        ]
+        historical_rows = [
+            r for r in rows
+            if (str(r.get("doi") or "").lower(), str(r.get("field") or "")) not in current_keys
+        ]
+        ledger_keys = {
+            (str(r.get("doi") or "").lower(), str(r.get("field") or ""))
+            for r in rows
+        }
+        missing_current = current_keys - ledger_keys
+    else:
+        current_rows = rows
+        historical_rows = []
+        missing_current = set()
+
+    # Summarize per-status + per-field. Keep current 10K opportunities separate
+    # from historical candidates so the live control surface does not imply old
+    # parser/scorer states are still current gaps.
     by_status = {}
-    by_field = {}
-    for r in rows:
+    for r in current_rows:
         s = r.get("status", "pending")
         by_status[s] = by_status.get(s, 0) + 1
-        f = r.get("field", "?")
-        by_field[f] = by_field.get(f, 0) + 1
+    current_by_field = _count_by_field(current_rows)
+    ledger_by_field = _count_by_field(rows)
+    historical_by_field = _count_by_field(historical_rows)
     parts = [
-        f'<p>Candidates total: <strong>{len(rows)}</strong>. ',
-        " · ".join(f"<strong>{html.escape(s)}</strong>: {n}" for s, n in by_status.items()),
+        f'<p>Current full-10K opportunities: <strong>{len(current_rows)}</strong>. ',
+        " · ".join(f"<strong>{html.escape(s)}</strong>: {n}" for s, n in sorted(by_status.items())) or "no current statuses",
         "</p>",
-        f'<p>By field: ',
-        " · ".join(f"{html.escape(k)}: {v}" for k, v in by_field.items()),
-        "</p>",
+        f'<p>Current by field: {_format_counts(current_by_field)}</p>',
+        f'<p>Candidate ledger rows: <strong>{len(rows)}</strong>. Historical/not-current rows: <strong>{len(historical_rows)}</strong>. Missing current DOI+field rows from ledger: <strong>{len(missing_current)}</strong>.</p>',
+        f'<p>Ledger by field: {_format_counts(ledger_by_field)}</p>',
+        f'<p>Historical/not-current by field: {_format_counts(historical_by_field)}</p>',
+        '<p style="color: var(--muted); font-size: 0.85rem;">Current opportunities come from the latest full-10K whole-Goldie run. Historical rows are retained as evidence but are not counted as current-Goldie backfill headroom.</p>',
     ]
     # Show first 10 candidate rows
     cols = [
@@ -651,15 +706,21 @@ def render_goldie_backfilled_table(path: Path) -> str:
         ("publisher", "Publisher"),
         ("field", "Field"),
         ("status", "Status"),
+        ("current_10k", "Current 10K"),
         ("approving_agent", "Reviewer"),
     ]
     parts += ["<table>", "<thead><tr>"]
     parts += [f"<th>{html.escape(label)}</th>" for _, label in cols]
     parts += ["</tr></thead>", "<tbody>"]
-    for r in rows[:10]:
+    display_rows = current_rows if current_keys else rows
+    for r in display_rows[:10]:
         parts.append("<tr>")
         for k, _ in cols:
-            v = r.get(k, "")
+            if k == "current_10k":
+                key = (str(r.get("doi") or "").lower(), str(r.get("field") or ""))
+                v = "yes" if not current_keys or key in current_keys else "no"
+            else:
+                v = r.get(k, "")
             parts.append(f"<td>{html.escape(str(v))}</td>")
         parts.append("</tr>")
     parts += ["</tbody>", "</table>"]
@@ -770,7 +831,10 @@ def main() -> int:
     curve_svg_inline = load_curve_svg_inline(args.evidence_dir / "curve-latest.svg")
     field_opp_table = render_field_opportunity_table(REPO_ROOT / "mismatches" / "field-opportunity.json")
     pub_queue_table = render_publisher_queue_table(REPO_ROOT / "mismatches" / "publisher-queue.ndjson")
-    backfill_table = render_goldie_backfilled_table(REPO_ROOT / "mismatches" / "goldie-backfilled-candidates.ndjson")
+    backfill_table = render_goldie_backfilled_table(
+        REPO_ROOT / "mismatches" / "goldie-backfilled-candidates.ndjson",
+        whole_goldie,
+    )
     out_html = REPORT_HTML.format(
         ts=html.escape(ts),
         run_id=html.escape(str(run_id)),
