@@ -1,0 +1,28 @@
+{
+  "run_id": "bb-smoke-20260605T180203Z",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_bb-smoke-20260605T180203Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_smoke_10_browserbase_derived_v0.ndjson",
+  "reviewed_at": "2026-06-05T18:03:57.783938+00:00",
+  "total": 10,
+  "status_counts": {
+    "referee_blocked": 3,
+    "referee_approved": 7
+  },
+  "field_counts": {
+    "pdf_url": 3,
+    "authors": 4,
+    "abstract": 3
+  },
+  "grounding_confidence_counts": {
+    "page_identity_only": 3,
+    "candidate_text_match": 7
+  },
+  "approved_count": 7,
+  "blocked_count": 3,
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "next_actions": [
+    "Scale IEEE authors and Lippincott abstracts after report 336 publish if no new quality issue appears.",
+    "Patch PDF grounding to verify direct candidate URL or citation_pdf_url before approving Elsevier pdf_url candidates."
+  ]
+}
