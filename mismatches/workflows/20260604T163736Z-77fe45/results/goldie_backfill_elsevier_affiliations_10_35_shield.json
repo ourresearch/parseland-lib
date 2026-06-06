@@ -1,0 +1,42 @@
+{
+  "status": "green",
+  "gate": "goldie_backfill_elsevier_affiliations_10_35_partial_blocker",
+  "generated_at": "2026-06-06T04:15:00Z",
+  "publisher": "elsevier",
+  "field": "affiliations",
+  "scope": "Goldie-backfilled evidence and blocker classification only; no current-Goldie KPI lift claimed",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_referee.ndjson",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_referee.summary.json",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "selected_rows": 25,
+  "grounded_or_completed_rows": 17,
+  "approved_derived_candidates": 8,
+  "blocked_or_retry_completed_rows": 9,
+  "unprocessed_due_timeout_rows": 8,
+  "cumulative_approved_derived_candidates": 14,
+  "cumulative_blocked_or_retry_rows": 13,
+  "remaining_current_candidates_estimate": 55,
+  "blocker": "Browserbase API TLS/connect timeout crashed the batch after 17/25 rows; retry failed/unprocessed rows with lower concurrency or script-level per-row timeout handling before further scale.",
+  "checks": [
+    {
+      "name": "json_ndjson_validation",
+      "command": "python3 - <<'PY' ... validate workflow summary, queue, task-results, blocked, grounded, referee, derived ledger, and batch summary ... PY",
+      "status": "passed"
+    },
+    {
+      "name": "secret_scan",
+      "command": "rg -n \"bb_live_[A-Za-z0-9_-]+|BROWSERBASE_API_KEY\\\\s*=|(^|[\\\\\\\"'=])sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}\" <staged candidate artifacts>",
+      "status": "passed"
+    },
+    {
+      "name": "diff_check",
+      "command": "git diff --check -- <staged workflow and result artifacts>",
+      "status": "passed"
+    }
+  ],
+  "not_staged": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_evidence/"
+  ],
+  "next_action": "Refresh report 336, then retry the failed/unprocessed Elsevier affiliation rows only after lowering Browserbase concurrency or adding per-row timeout handling."
+}

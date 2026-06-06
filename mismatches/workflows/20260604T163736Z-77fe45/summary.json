@@ -1730,5 +1730,28 @@
     "next_action": "Scale Elsevier affiliation Browserbase grounding in 25-50 row batches if report/Shield gates remain green; keep approvals in derived ledger only until gold-auditor review.",
     "policy": "Goldie-backfilled stays separate from current-Goldie KPI and merged-FINAL.csv is not mutated.",
     "updated_at": "2026-06-06T03:47:43.238458Z"
+  },
+  "latest_elsevier_affiliations_backfill_batch_10_35": {
+    "publisher_id": "elsevier",
+    "field": "affiliations",
+    "task_id": "v2_elsevier_affiliations_84be36c2",
+    "run_id": "bb-elsevier-affiliations-10-35-20260606T0400Z",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_grounded.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_referee.ndjson",
+    "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_referee.summary.json",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T04:13:27.196509+00:00",
+    "selected_rows": 25,
+    "grounded_or_completed_rows": 17,
+    "approved_rows": 8,
+    "blocked_or_retry_completed_rows": 9,
+    "unprocessed_due_timeout_rows": 8,
+    "cumulative_approved_rows": 14,
+    "cumulative_blocked_or_retry_rows": 13,
+    "remaining_current_candidates_estimate": 55,
+    "status": "goldie_backfill_partial_timeout_14_approved_13_blocked_retry_55_remaining",
+    "status_detail": "Elsevier affiliation batch 10-35 partially completed before a Browserbase API timeout: 8 new derived candidates approved, 9 completed rows blocked/retry-needed, and 8 selected rows unprocessed.",
+    "next_action": "Do not continue 25-row Elsevier affiliation scale until Browserbase timeout/project failures are retried with lower concurrency or more robust per-row exception handling. Commit this as a partial blocker/evidence checkpoint only.",
+    "policy": "Goldie-backfilled stays separate from current-Goldie KPI and merged-FINAL.csv is not mutated."
   }
 }

@@ -1,0 +1,51 @@
+{
+  "approved": 8,
+  "approved_example_dois": [
+    "10.1016/0022-1996(75)90021-5",
+    "10.1016/0022-0248(78)90334-2",
+    "10.1016/0025-5408(74)90141-x",
+    "10.1016/0020-7683(78)90074-4",
+    "10.1016/0040-5809(75)90012-x"
+  ],
+  "blocked_or_retry_completed_rows": 9,
+  "blocked_retry_example_dois": [
+    "10.1016/0168-9002(92)90621-a",
+    "10.1016/0304-3991(93)90020-x",
+    "10.1016/0307-904x(88)90030-3",
+    "10.1016/0379-6779(87)90979-9",
+    "10.1016/0735-1097(90)90396-7",
+    "10.1016/0304-3959(84)90204-5",
+    "10.1016/0955-0674(89)90080-x",
+    "10.1016/0584-8539(87)80013-2"
+  ],
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "grounded_or_completed_rows": 17,
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 8,
+    "needs_referee": 9
+  },
+  "next_action": "Do not continue 25-row Elsevier affiliation scale until Browserbase timeout/project failures are retried with lower concurrency or more robust per-row exception handling. Commit this as a partial blocker/evidence checkpoint only.",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI and merged-FINAL.csv is not mutated.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_referee.ndjson",
+  "reviewed_at": "2026-06-06T04:13:27.196509+00:00",
+  "run_id": "bb-elsevier-affiliations-10-35-20260606T0400Z",
+  "selected_rows": 25,
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_grounded.ndjson",
+  "status": "partial_referee_reviewed_timeout_blocked",
+  "status_counts": {
+    "blocked_no_browserbase_project": 2,
+    "candidate_evidence_needs_referee": 8,
+    "grounding_failed": 7
+  },
+  "unprocessed_due_timeout_dois": [
+    "10.1016/0735-1097(91)90871-6",
+    "10.1016/0928-4346(96)00253-8",
+    "10.1016/b978-0-12-811865-8.00004-0",
+    "10.1016/b978-0-7236-0369-6.50011-3",
+    "10.1016/b978-008044559-5/50163-0",
+    "10.1016/j.advwatres.2014.12.005",
+    "10.1016/j.aprim.2011.11.007",
+    "10.1016/j.cbpra.2015.08.003"
+  ],
+  "unprocessed_due_timeout_rows": 8
+}
