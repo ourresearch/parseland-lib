@@ -25,10 +25,10 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 18,
+    "needs_agent": 17,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 10,
+    "shipped_full10k_measured": 11,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_truncated_gold_prefix": 1
   },
@@ -38,9 +38,9 @@
     "ready": 55,
     "unknown": 5
   },
-  "coverage_gold_empty_parser_present_count": 2664,
-  "coverage_html_available": 5131,
-  "coverage_retrieval_blocked_rows": 4869,
+  "coverage_gold_empty_parser_present_count": 2653,
+  "coverage_html_available": 5113,
+  "coverage_retrieval_blocked_rows": 4887,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-05T10:09:45.026965+00:00",
   "elsevier_affiliations_referee_state": {
@@ -147,19 +147,19 @@
     "remaining_current_candidates": 0,
     "status": "goldie_backfill_referee_complete_241_approved_1_blocked"
   },
-  "last_updated_at": "2026-06-06T16:05:28.771446+00:00",
+  "last_updated_at": "2026-06-06T19:26:41.137959+00:00",
   "latest_batch": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_corresponding_email_key_shield.json",
-    "batch_id": 19,
-    "delta_pp": 0.29889495406738575,
-    "field": "corresponding",
-    "kpi_after": 0.9776416810899566,
-    "kpi_before": 0.9746527315492828,
-    "overall_corresponding_delta_pp": 0.06565287322708446,
-    "publisher": "springer",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_affiliation_cache_stub_classification_shield.json",
+    "batch_id": 20,
+    "delta_pp": 1.586486260350195,
+    "field": "affiliations",
+    "kpi_after": 0.9814651416122004,
+    "kpi_before": 0.9656002790086985,
+    "overall_affiliations_delta_pp": 0.2663339435716616,
+    "publisher": "wiley",
     "status": "shipped_full10k_measured",
-    "updated_at": "2026-06-06T18:42:28.663393+00:00",
-    "whole_goldie_artifact": "eval/runs/whole-goldie-after-springer-corresponding-email-key-20260606T1815Z.json"
+    "updated_at": "2026-06-06T19:26:41.137959+00:00",
+    "whole_goldie_artifact": "eval/runs/whole-goldie-after-wiley-affiliation-cache-stub-classification-20260606T1900Z.json"
   },
   "latest_batch_candidate": "wiley_pdf_url_normalization_fmatter",
   "latest_elsevier_affiliations_backfill_35_60": {
@@ -2747,6 +2747,22 @@
     "wiley_abstract_after": 0.9169130130599888,
     "wiley_abstract_before": 0.9008907193166575,
     "wiley_abstract_delta_pp": 1.6022293743331306
+  },
+  "wiley_affiliations_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_affiliation_cache_stub_classification_shield.json",
+    "coverage_html_available_after": 5113,
+    "coverage_retrieval_blocked_after": 4887,
+    "field": "affiliations",
+    "next_action": "Continue: global fields remain below 98%; rerank Taylor affiliations, ACS abstract/corresponding, Wiley corresponding/authors, and mandatory Browserbase backfill lanes.",
+    "overall_affiliations_after": 0.9322194624541384,
+    "overall_affiliations_before": 0.9295561230184218,
+    "overall_affiliations_delta_pp": 0.2663339435716616,
+    "publisher_id": "wiley",
+    "status": "shipped_full10k_measured",
+    "task_id": "v2_wiley_affiliations_87ac36a3",
+    "wiley_affiliations_after": 0.9814651416122004,
+    "wiley_affiliations_before": 0.9656002790086985,
+    "wiley_affiliations_delta_pp": 1.586486260350195
   },
   "wiley_pdf_url_normalization_state": {
     "completed_at": "2026-06-06T16:05:28.771446+00:00",

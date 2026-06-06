@@ -29,3 +29,30 @@ def test_cookie_reload_challenge_cache_is_bot_blocked() -> None:
     </script></head><body>Loading...</body></html>
     """
     assert _html_block_reason(html) == "cached_bot_check"
+
+
+def test_just_a_moment_cache_is_bot_blocked() -> None:
+    html = """
+    <html><head><title>Just a moment...</title></head>
+      <body>Please wait while we check your browser.</body>
+    </html>
+    """
+    assert _html_block_reason(html) == "cached_bot_check"
+
+
+def test_cookies_turned_off_cache_is_bot_blocked() -> None:
+    html = """
+    <html><head><title>Error - Cookies Turned Off</title></head>
+      <body>Cookies turned off. Please enable cookies.</body>
+    </html>
+    """
+    assert _html_block_reason(html) == "cached_bot_check"
+
+
+def test_unrelated_error_page_is_retrieval_blocked() -> None:
+    html = """
+    <html><head><title>Cybercrime - FBI</title></head>
+      <body>This cached page is not the publisher article landing page.</body>
+    </html>
+    """
+    assert _html_block_reason(html) == "cached_error_page"

@@ -65,25 +65,40 @@ class Wiley(PublisherParser):
                 is_corresponding = True
 
             for aff in aff_soup:
-                if "correspondence" in aff.text.lower() or "e-mail" in aff.text.lower():
+                if "correspondence" in aff.get_text(" ", strip=True).lower() or "e-mail" in aff.get_text(" ", strip=True).lower():
                     is_corresponding = True
 
             for aff in aff_soup:
+                aff_text = aff.get_text(" ", strip=True)
+                aff_text_lower = aff_text.lower()
                 if (
-                    "correspond" in aff.text.lower()[:25]
-                    or "address reprint" in aff.text.lower()[:40]
-                    or "author deceased" in aff.text.lower()
-                    or "e-mail:" in aff.text.lower()
-                    or aff.text.lower().startswith("contribution")
-                    or aff.text.lower().startswith("joint first authors")
-                    or aff.text.lower().startswith("†joint")
+                    "correspond" in aff_text_lower[:25]
+                    or "address reprint" in aff_text_lower[:40]
+                    or "author deceased" in aff_text_lower
+                    or "e-mail:" in aff_text_lower
+                    or aff_text_lower.startswith("contribution")
+                    or aff_text_lower.startswith("joint first authors")
+                    or aff_text_lower.startswith("†joint")
                 ) and len(aff_soup) > 1:
                     break
-                aff_txt = aff.text.strip()
+                aff_txt = aff_text
                 aff_txt = strip_suffix('Direct inquiries.*', aff_txt)
                 aff_txt = strip_prefix('Authors are with ', aff_txt)
                 aff_txt = aff_txt.strip().split('Fax')[0].strip()
                 affiliations.append(normalize("NFKD", aff_txt))
+
+            if not affiliations:
+                for aff in author.select("div.author-affiliation, p.author-affiliation"):
+                    aff_txt = aff.get_text(" ", strip=True)
+                    if aff_txt:
+                        affiliations.append(normalize("NFKD", aff_txt))
+
+            if not affiliations:
+                for aff in aff_soup:
+                    aff_txt = self._correspondence_address_affiliation(aff, name)
+                    if aff_txt:
+                        affiliations.append(normalize("NFKD", aff_txt))
+                        break
 
             # CAND3: bare-text fallback + author-jobTitle pickup.
             # Legacy Wiley/Blackwell pages (e.g. 10.1111/j.1540-6261.1970...)
@@ -124,6 +139,29 @@ class Wiley(PublisherParser):
             )
         self._mark_corresponding_from_header_block(results)
         return results
+
+    @staticmethod
+    def _correspondence_address_affiliation(aff, author_name):
+        """Recover older Wiley addresses that only live in a correspondence line.
+
+        These are only used when no better affiliation source was found for the
+        author. That keeps correspondence metadata from polluting modern pages
+        that already expose institutional affiliations.
+        """
+        text = aff.get_text(" ", strip=True)
+        if not text.lower().startswith("correspondence:"):
+            return None
+        text = re.sub(r"(?i)^correspondence:\s*", "", text).strip()
+        if author_name:
+            text = re.sub(
+                rf"(?i)^{re.escape(author_name.strip())}\s*,\s*",
+                "",
+                text,
+            ).strip()
+        text = re.split(r"(?i)\b(?:e-?mail|email):", text)[0].strip(" .;,")
+        if "," not in text or not re.search(r"\d", text):
+            return None
+        return text
 
     def _mark_corresponding_from_header_block(self, results):
         """Older Wiley/Blackwell pages surface the corresponding-author name

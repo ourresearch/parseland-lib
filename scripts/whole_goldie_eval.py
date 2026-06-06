@@ -92,6 +92,10 @@ def _html_block_reason(html: str | None) -> str | None:
     stripped = html.strip()
     lower = stripped.lower()
     text_only = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", lower)).strip()
+    if "<title>just a moment" in lower or ">just a moment..." in lower[:5000]:
+        return "cached_bot_check"
+    if "<title>error - cookies turned off" in lower or "cookies turned off" in text_only:
+        return "cached_bot_check"
     if "checking your browser" in lower or "cf-browser-verification" in lower or "cf-chl" in lower:
         return "cached_bot_check"
     if "help us confirm that you are not a robot" in text_only:
@@ -104,6 +108,8 @@ def _html_block_reason(html: str | None) -> str | None:
         return "js_rendered_required"
     if "<title>doi.org" in lower or "the doi system" in lower:
         return "cached_router_only"
+    if "<title>cybercrime" in lower or "<title>cyber crime" in lower:
+        return "cached_error_page"
     if len(stripped) < 512:
         return "cached_too_small"
     return None
