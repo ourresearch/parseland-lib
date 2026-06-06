@@ -1,0 +1,165 @@
+{
+  "agent_id": "codex-wiley-pdf-url-current-kpi",
+  "before": {
+    "artifact": "eval/runs/whole-goldie-after-springer-affiliations-method2-merge-20260606T1451Z.json",
+    "overall_pdf_url_accuracy": 0.9364916773367478,
+    "wiley_pdf_url_accuracy": 0.9568452380952381
+  },
+  "classification": "parser_and_scorer_owned_shipped_full10k_measured",
+  "completed_at": "2026-06-06T16:05:28.771446+00:00",
+  "deltas": {
+    "overall_pdf_url_delta_pp": 0.48655569782329877,
+    "wiley_pdf_url_delta_pp": 2.5297619047618958
+  },
+  "field": "pdf_url",
+  "files_touched": [
+    "parseland_lib/legacy_parse_utils/pdf.py",
+    "tests/test_parse_page.py",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/parseland_eval/score/normalize.py",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/tests/test_normalize.py"
+  ],
+  "full_after": {
+    "abstract_ratio_fuzzy": 0.915753091931381,
+    "affiliations_f1_fuzzy": 0.9298246558073652,
+    "artifact": "eval/runs/whole-goldie-after-wiley-pdf-normalization-fmatter-20260606T1548Z.json",
+    "authors_f1_soft": 0.945886521212447,
+    "corresponding_accuracy": 0.9637206544166625,
+    "coverage_total_rows": 10000,
+    "errors": 1,
+    "overall_pdf_url_accuracy": 0.9413572343149808,
+    "retrieval_blocked_rows": 4869,
+    "wiley_pdf_url_accuracy": 0.9821428571428571
+  },
+  "gates": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_parse_page.py -q",
+      "result": "17 passed"
+    },
+    {
+      "command": "eval/.venv/bin/pytest eval/tests/test_normalize.py eval/tests/test_empty_policy.py -q",
+      "result": "35 passed"
+    },
+    {
+      "command": "eval/.venv/bin/pytest eval/tests -q",
+      "result": "222 passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_parse_page.py tests/test_wiley_abstract.py tests/test_wiley_abstract_recovery.py tests/test_wiley_corresp.py -q",
+      "result": "45 passed"
+    },
+    {
+      "artifact": "eval/runs/whole-goldie-wiley-pdf-normalization-fmatter-20260606T1542Z.json",
+      "command": "whole_goldie_eval.py run --publishers wiley --label wiley-pdf-normalization-fmatter",
+      "result": "695 rows, retrieval_blocked=4, errors=0"
+    },
+    {
+      "artifact": "eval/runs/whole-goldie-after-wiley-pdf-normalization-fmatter-20260606T1548Z.json",
+      "command": "whole_goldie_eval.py run --label after-wiley-pdf-normalization-fmatter",
+      "result": "10000 rows, retrieval_blocked=4869, errors=1"
+    }
+  ],
+  "publisher_id": "wiley",
+  "recommendation": "Ship. Wiley pdf_url crosses 98% on the current 10K slice; remaining rows are retrieval/cache/manual-DOM or gold/cross-publisher conflicts rather than broad parser/scorer patterns.",
+  "remaining_misses": {
+    "count": 12,
+    "examples": [
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1002/9780470186558.ch12",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/epdf/10.1002/9780470186558.ch12",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1002/suco.201700200",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/epdf/10.1002/suco.201700200",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.2134/1999.precisionagproc4.c10",
+        "gold_pdf_url": "https://acsess.onlinelibrary.wiley.com/doi/epdf/10.2134/1999.precisionagproc4.c10",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1111/j.1399-3054.1984.tb05925.x",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1399-3054.1984.tb05925.x",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1111/ases.12072",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/ases.12072",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1096/fasebj.31.1_supplement.686.2",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1096/fasebj.31.1_supplement.686.2",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "gold_or_cross_publisher_conflict",
+        "doi": "10.1111/j.1540-6253.1984.tb00315.x",
+        "gold_pdf_url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1056203.pdf",
+        "parsed_pdf_urls": [
+          "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/j.1540-6253.1984.tb00315.x"
+        ],
+        "status": "gold_present_parser_present"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1002/9780470142851.ch3",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9780470142851.ch3",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1111/j.1600-0471.2008.00293.x",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1600-0471.2008.00293.x",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1029/2006jd007451",
+        "gold_pdf_url": "https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/2006JD007451",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1029/2008jg000787",
+        "gold_pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1029/2008JG000787",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      },
+      {
+        "classification": "parser_empty_or_retrieval/cache_owned",
+        "doi": "10.1111/j.2153-3490.1965.tb00198.x",
+        "gold_pdf_url": "https://tellusjournal.org/articles/3133/files/submission/proof/3133-1-47360-1-10-20221021.pdf",
+        "parsed_pdf_urls": [],
+        "status": "gold_present_parser_empty"
+      }
+    ],
+    "summary": "11 parser-empty/cache/manual-DOM rows plus one gold/cross-publisher conflict remain; Wiley pdf_url now exceeds the 98% current-Goldie target."
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "scoped_after": {
+    "artifact": "eval/runs/whole-goldie-wiley-pdf-normalization-fmatter-20260606T1542Z.json",
+    "wiley_n_pdf_scored": 672,
+    "wiley_pdf_url_accuracy": 0.9821428571428571,
+    "wiley_rows": 695
+  },
+  "status": "green",
+  "task_id": "v2_wiley_pdf_url_ed30e1b3",
+  "wave_id": 52
+}

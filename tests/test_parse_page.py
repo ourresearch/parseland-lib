@@ -133,3 +133,27 @@ def test_parse_page_resolves_relative_doi_pdf_links_off_publisher_host(doi, href
     result = parse_page(html, "doi", f"https://doi.org/{doi}")
 
     assert result["urls"] == [{"url": expected, "content_type": "pdf"}]
+
+
+def test_parse_page_keeps_wiley_fmatter_citation_pdf_url():
+    doi = "10.1002/9781119818915.fmatter"
+    html = f"""
+    <html>
+      <head>
+        <meta property="og:url" content="https://onlinelibrary.wiley.com/doi/{doi}" />
+        <meta name="citation_pdf_url" content="https://onlinelibrary.wiley.com/doi/pdf/{doi}" />
+      </head>
+      <body>
+        <a class="coolBar__ctrl pdf-download" href="/doi/pdf/{doi}">PDF</a>
+      </body>
+    </html>
+    """
+
+    result = parse_page(html, "doi", f"https://doi.org/{doi}")
+
+    assert result["urls"] == [
+        {
+            "url": f"https://onlinelibrary.wiley.com/doi/pdfdirect/{doi}",
+            "content_type": "pdf",
+        }
+    ]

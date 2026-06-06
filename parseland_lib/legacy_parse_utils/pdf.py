@@ -618,9 +618,20 @@ def has_bad_href_word(href):
         # https://archive.nyu.edu/handle/2451/34777?mode=full
         'Using%20Google%20Forms%20to%20Track%20Library%20Space%20Usage%20w%20figures.pdf',
     ]
+    href_whitelist_patterns = [
+        # Wiley book front-matter landing pages expose the article PDF via
+        # citation_pdf_url and /doi/pdf/10.1002/...fmatter anchors. The global
+        # ".fmatter" blacklist is meant to avoid unrelated book front matter,
+        # not to suppress a DOI-scoped Wiley PDF for the current row.
+        r'(?:^|onlinelibrary\.wiley\.com)/doi/(?:pdfdirect|pdf|epdf)/10\.1002/[^?#\s"\'<>]+\.fmatter(?:[?#].*)?$',
+    ]
 
     for good_word in href_whitelist:
         if good_word.lower() in href.lower():
+            return False
+
+    for good_pattern in href_whitelist_patterns:
+        if re.search(good_pattern, href, re.IGNORECASE):
             return False
 
     for bad_word in href_blacklist:
