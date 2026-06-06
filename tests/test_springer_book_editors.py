@@ -290,3 +290,132 @@ def test_keeps_author_whose_name_is_not_in_editor_section():
     result = Springer(soup).parse()
     names = _names(result)
     assert names == ["Author One", "Author Two", "Author Three"]
+
+
+def test_short_author_list_fills_missing_coauthor_and_preserves_affiliation():
+    """Some Springer chapter pages expose the complete chapter-author list
+    only in `ul.c-article-author-list`, while an earlier parser path returns
+    a partial list. When the page has one parsed affiliation, the repair can
+    safely attach it to the added coauthor too."""
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/example" />
+      </head>
+      <body>
+        <ul class="c-article-author-list c-article-author-list--short">
+          <li class="c-article-author-list__item">
+            <a data-test="author-name">Muhammad Qasim</a>
+          </li>
+          <li class="c-article-author-list__item">
+            <a data-test="author-name">Zarook Shareefdeen</a>
+          </li>
+        </ul>
+        <ol class="c-article-author-affiliation__list">
+          <li id="Aff1">
+            <p class="c-article-author-affiliation__address">Department A</p>
+            <p class="c-article-author-affiliation__authors-list">Muhammad Qasim</p>
+          </li>
+        </ol>
+      </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names == ["Muhammad Qasim", "Zarook Shareefdeen"]
+    assert result["authors"][0]["affiliations"] == ["Department A"]
+    assert result["authors"][1]["affiliations"] == ["Department A"]
+
+
+def test_short_author_list_drops_extra_editor_name():
+    """When the short author list is a strict subset of the parsed list,
+    prefer the short list. This pins rows where the legacy parser adds a
+    book editor beside the actual chapter author."""
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/example" />
+      </head>
+      <body>
+        <ul class="c-article-author-list c-article-author-list--short">
+          <li class="c-article-author-list__item">
+            <a data-test="author-name">Colin M. Lewis</a>
+          </li>
+        </ul>
+        <ol class="c-article-author-affiliation__list">
+          <li id="Aff1">
+            <p class="c-article-author-affiliation__address">Chapter Affiliation</p>
+            <p class="c-article-author-affiliation__authors-list">
+              Christopher Abel, Colin M. Lewis
+            </p>
+          </li>
+        </ol>
+      </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names == ["Colin M. Lewis"]
+    assert result["authors"][0]["affiliations"] == ["Chapter Affiliation"]
+
+
+def test_short_author_list_replaces_all_editor_section_names():
+    """If all parsed names came from the editor section but the page has a
+    distinct short chapter-author list, replace the editor list with the
+    short list."""
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/example" />
+      </head>
+      <body>
+        <ul class="c-article-author-list c-article-author-list--short">
+          <li><a data-test="author-name">L. A. S. Johnson</a></li>
+          <li><a data-test="author-name">K. L. Wilson</a></li>
+        </ul>
+        <ol class="c-article-author-affiliation__list">
+          <li id="Aff1">
+            <p class="c-article-author-affiliation__address">Editor Affiliation</p>
+            <p class="c-article-author-affiliation__authors-list">
+              Klaus Kubitzki, Volker Bittrich, Jens G. Rohwer
+            </p>
+          </li>
+        </ol>
+        <div id="editor-information-section">
+          Editors and Affiliations
+          Klaus Kubitzki
+          Volker Bittrich
+          Jens G. Rohwer
+        </div>
+      </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names == ["L. A. S. Johnson", "K. L. Wilson"]
+
+
+def test_short_author_list_recovers_corporate_author_when_no_primary_path():
+    """Corporate chapter authors can appear only in the short author list,
+    with no citation_author metadata or affiliation list."""
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/example" />
+      </head>
+      <body>
+        <ul class="c-article-author-list c-article-author-list--short">
+          <li class="c-article-author-list__item">
+            <a data-test="author-name">National Industrial Fuel Efficiency Service Ltd.</a>
+          </li>
+        </ul>
+      </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names == ["National Industrial Fuel Efficiency Service Ltd."]

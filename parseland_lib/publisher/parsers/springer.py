@@ -83,7 +83,9 @@ class Springer(PublisherParser):
             'DDS',
             'DMD',
             'DPHIL',
+            'FBA',
             'FACP',
+            'FRS',
             'FRCPC',
             'FRCP',
             'FRCPCH',
@@ -110,6 +112,176 @@ class Springer(PublisherParser):
                 continue
             merged.append(name)
         return merged
+
+    @classmethod
+    def _author_match_key(cls, name):
+        if not name:
+            return None
+
+        name = name.replace('\xa0', ' ').strip()
+        honorifics = {
+            'dr',
+            'dipl',
+            'ing',
+            'prof',
+            'professor',
+            'sir',
+            'wirt',
+        }
+
+        def _tokens(value):
+            return re.findall(r'[^\W\d_]+', value, flags=re.UNICODE)
+
+        if ',' in name:
+            last_part, rest = name.split(',', 1)
+            last_tokens = _tokens(last_part)
+            first_tokens = _tokens(rest)
+            while first_tokens and first_tokens[0].lower() in honorifics:
+                first_tokens.pop(0)
+            if last_tokens and first_tokens:
+                return (normalize('NFKD', last_tokens[-1]).casefold(),
+                        normalize('NFKD', first_tokens[0][:1]).casefold())
+
+        tokens = _tokens(name)
+        while tokens and tokens[0].lower() in honorifics:
+            tokens.pop(0)
+        while len(tokens) > 1 and (
+            cls._is_author_suffix_token(tokens[-1])
+            or (len(tokens[-1]) == 1 and tokens[-1].isupper())
+        ):
+            tokens.pop()
+        if not tokens:
+            return None
+        return (normalize('NFKD', tokens[-1]).casefold(),
+                normalize('NFKD', tokens[0][:1]).casefold())
+
+    @staticmethod
+    def _author_name(author):
+        if isinstance(author, dict):
+            return (author.get('name') or '').replace('\xa0', ' ').strip()
+        return (getattr(author, 'name', '') or '').replace('\xa0', ' ').strip()
+
+    @staticmethod
+    def _author_affiliations(author):
+        if isinstance(author, dict):
+            return list(author.get('affiliations') or [])
+        return list(getattr(author, 'affiliations', None) or [])
+
+    @staticmethod
+    def _author_is_corresponding(author):
+        if isinstance(author, dict):
+            return author.get('is_corresponding')
+        return getattr(author, 'is_corresponding', None)
+
+    def _parse_short_author_list(self):
+        names = []
+        seen = set()
+        for tag in self.soup.select(
+            'ul.c-article-author-list [data-test="author-name"]'
+        ):
+            name = tag.get_text(' ', strip=True).replace('\xa0', ' ').strip(' ,')
+            if not name:
+                continue
+            key = re.sub(r'\s+', ' ', name).casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            names.append(name)
+        return [
+            {
+                'name': name,
+                'affiliations': [],
+                'is_corresponding': None,
+            }
+            for name in names
+        ]
+
+    def _editor_text_norm(self):
+        try:
+            section = (
+                self.soup.find(id="editor-information-section")
+                or self.soup.find(id="editor-information-content")
+            )
+            if section is None:
+                return ''
+            return section.get_text(' ', strip=True).replace('\xa0', ' ').lower()
+        except Exception:
+            return ''
+
+    def _repair_authors_from_short_list(self, authors):
+        short_authors = self._parse_short_author_list()
+        if not short_authors:
+            return authors
+
+        if not authors:
+            return short_authors
+
+        current_by_key = {}
+        current_keys = []
+        for author in authors:
+            key = self._author_match_key(self._author_name(author))
+            if not key:
+                continue
+            current_keys.append(key)
+            current_by_key.setdefault(key, author)
+
+        short_keys = [
+            self._author_match_key(short_author['name'])
+            for short_author in short_authors
+        ]
+        short_keys = [key for key in short_keys if key]
+        if not short_keys:
+            return authors
+        if not current_keys:
+            return short_authors
+
+        current_set = set(current_keys)
+        short_set = set(short_keys)
+        editor_text = self._editor_text_norm()
+        current_names = [self._author_name(author) for author in authors]
+        current_all_in_editor_section = bool(editor_text) and all(
+            name and name.lower() in editor_text
+            for name in current_names
+        )
+
+        should_replace = (
+            current_set < short_set
+            or short_set < current_set
+            or (current_all_in_editor_section and short_set != current_set)
+        )
+        if not should_replace:
+            return authors
+
+        unique_current_affiliations = []
+        seen_affiliations = set()
+        for author in authors:
+            affs = tuple(self._author_affiliations(author))
+            if not affs or affs in seen_affiliations:
+                continue
+            seen_affiliations.add(affs)
+            unique_current_affiliations.append(affs)
+        shared_affiliations = (
+            list(unique_current_affiliations[0])
+            if current_set < short_set and len(unique_current_affiliations) == 1
+            else []
+        )
+
+        repaired = []
+        for short_author in short_authors:
+            key = self._author_match_key(short_author['name'])
+            current = current_by_key.get(key)
+            repaired.append({
+                'name': short_author['name'],
+                'affiliations': (
+                    self._author_affiliations(current)
+                    if current else shared_affiliations
+                ),
+                'is_corresponding': (
+                    self._author_is_corresponding(current)
+                    if current else None
+                ),
+            })
+        return repaired
 
     def parse_authors_method_2(self):
         author_tags = self.soup.select(
@@ -221,6 +393,9 @@ class Springer(PublisherParser):
         # in that block's text, leaving journal articles (no editor section)
         # untouched.
         authors_affiliations = self._drop_book_editors_from_authors(
+            authors_affiliations
+        )
+        authors_affiliations = self._repair_authors_from_short_list(
             authors_affiliations
         )
 

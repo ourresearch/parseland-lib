@@ -1,4 +1,5 @@
 {
+  "active_task": null,
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -147,6 +148,16 @@
     "status": "goldie_backfill_referee_complete_241_approved_1_blocked"
   },
   "last_updated_at": "2026-06-06T16:05:28.771446+00:00",
+  "latest_batch": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_authors_short_list_shared_aff_shield.json",
+    "batch": 18,
+    "field": "authors",
+    "full_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-springer-authors-short-list-shared-aff-20260606T1740Z.json",
+    "overall_authors_f1_soft": 0.9500907895979035,
+    "publisher_id": "springer",
+    "springer_authors_f1_soft": 0.9855897007607392,
+    "status": "shipped_full10k_measured"
+  },
   "latest_batch_candidate": "wiley_pdf_url_normalization_fmatter",
   "latest_elsevier_affiliations_backfill_35_60": {
     "approved_rows": 25,
@@ -829,10 +840,10 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 22,
+    "needs_agent": 19,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 6,
+    "shipped_full10k_measured": 9,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_truncated_gold_prefix": 1
   },
@@ -2710,7 +2721,7 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-06T16:05:28.771446+00:00",
+  "updated_at": "2026-06-06T17:45:49.428426+00:00",
   "wiley_abstract_dispatch_state": {
     "after_artifact": "eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json",
     "agent_id": "codex-wiley-abstract-current-kpi",

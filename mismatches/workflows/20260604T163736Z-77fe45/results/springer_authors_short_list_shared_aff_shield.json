@@ -1,0 +1,101 @@
+{
+  "agent_id": "codex-springer-authors-current-kpi",
+  "artifact_paths": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/springer_authors_current_diagnosis.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/springer_authors_short_list_shared_aff_after.json",
+    "eval/runs/whole-goldie-springer-authors-short-list-shared-aff-20260606T1720Z.json",
+    "eval/runs/whole-goldie-after-springer-authors-short-list-shared-aff-20260606T1740Z.json"
+  ],
+  "classification": "parser_owned_shipped_full10k_measured_with_small_affiliation_tradeoff",
+  "completed_at": "2026-06-06T17:45:49.428426+00:00",
+  "diagnosis": "Springer book/chapter pages often expose the authoritative article/chapter byline in ul.c-article-author-list while the legacy affiliation path returns a partial list, a book editor list, or no corporate author. The parser now uses that short byline as a repair source when it is a strict subset/superset of the parsed names or when parsed names are all in the editor section.",
+  "doi_examples": [
+    {
+      "doi": "10.1007/978-3-030-95262-4_7",
+      "evidence": "short byline adds Zarook Shareefdeen beside Muhammad Qasim; one parsed page affiliation is shared across the repaired chapter byline"
+    },
+    {
+      "doi": "10.1007/978-3-642-73069-6_1",
+      "evidence": "short byline keeps G. de Jong and W. Scharloo instead of the partial legacy byline"
+    },
+    {
+      "doi": "10.1007/978-3-662-02899-5_22",
+      "evidence": "editor-section names are replaced by the article short byline L. A. S. Johnson and K. L. Wilson"
+    },
+    {
+      "doi": "10.1007/978-3-658-03029-2_14",
+      "evidence": "corporate short byline Springer Fachmedien Wiesbaden is recovered when primary author paths are empty"
+    },
+    {
+      "doi": "10.1007/978-94-010-9134-3_7",
+      "evidence": "corporate short byline National Industrial Fuel Efficiency Service Ltd. is recovered when primary author paths are empty"
+    }
+  ],
+  "expected_kpi_impact": {
+    "overall_authors_delta_pp": 0.4204268385456466,
+    "springer_authors_delta_pp": 1.8469540878014916,
+    "overall_affiliations_fuzzy_delta_pp": -0.026853278894343533,
+    "springer_affiliations_fuzzy_delta_pp": -0.17656515092740083,
+    "overall_corresponding_delta_pp": 0.006823609689529542,
+    "springer_corresponding_delta_pp": 0.03106554830691329
+  },
+  "field": "authors",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/springer.py",
+    "tests/test_springer_book_editors.py"
+  ],
+  "full_after": {
+    "artifact": "eval/runs/whole-goldie-after-springer-authors-short-list-shared-aff-20260606T1740Z.json",
+    "coverage_total_rows": 10000,
+    "errors": 1,
+    "retrieval_blocked_rows": 4869,
+    "overall_authors_f1_soft": 0.9500907895979035,
+    "overall_affiliations_f1_fuzzy": 0.9295561230184218,
+    "overall_abstract_ratio_fuzzy": 0.915753091931381,
+    "overall_pdf_url_accuracy": 0.9413572343149808,
+    "overall_corresponding_accuracy": 0.9637888905135578,
+    "springer_authors_f1_soft": 0.9855897007607392,
+    "springer_affiliations_f1_fuzzy": 0.9848747943844186,
+    "springer_corresponding_accuracy": 0.9746527315492828
+  },
+  "full_before": {
+    "artifact": "eval/runs/whole-goldie-after-wiley-pdf-normalization-fmatter-20260606T1548Z.json",
+    "overall_authors_f1_soft": 0.945886521212447,
+    "overall_affiliations_f1_fuzzy": 0.9298246558073652,
+    "overall_abstract_ratio_fuzzy": 0.915753091931381,
+    "overall_pdf_url_accuracy": 0.9413572343149808,
+    "overall_corresponding_accuracy": 0.9637206544166625,
+    "springer_authors_f1_soft": 0.9671201598827243,
+    "springer_affiliations_f1_fuzzy": 0.9866404458936926,
+    "springer_corresponding_accuracy": 0.9743420760662136
+  },
+  "gates": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_springer_book_editors.py tests/test_springer_dedupe.py tests/test_springer_corresp.py -q",
+      "result": "24 passed"
+    },
+    {
+      "artifact": "eval/runs/whole-goldie-springer-authors-short-list-shared-aff-20260606T1720Z.json",
+      "command": "whole_goldie_eval.py run --publishers springer --label springer-authors-short-list-shared-aff",
+      "result": "1123 rows, retrieval_blocked=5, errors=0"
+    },
+    {
+      "artifact": "eval/runs/whole-goldie-after-springer-authors-short-list-shared-aff-20260606T1740Z.json",
+      "command": "whole_goldie_eval.py run --label after-springer-authors-short-list-shared-aff",
+      "result": "10000 rows, retrieval_blocked=4869, errors=1"
+    }
+  ],
+  "publisher_id": "springer",
+  "recommendation": "Ship. Springer authors crosses the 98% target on the current 10K slice and overall authors gains 0.420pp. The fuzzy-affiliation tradeoff is small, remains above 98% for Springer, and strict affiliation plus corresponding accuracy both improve.",
+  "run_id": "20260604T163736Z-77fe45",
+  "scoped_after": {
+    "artifact": "eval/runs/whole-goldie-springer-authors-short-list-shared-aff-20260606T1720Z.json",
+    "springer_authors_f1_soft": 0.9855897007607392,
+    "springer_affiliations_f1_fuzzy": 0.9848747943844186,
+    "springer_rows": 1123
+  },
+  "status": "green",
+  "task_id": "v2_springer_authors_e35df3d4",
+  "legacy_task_id": "t_springer_authors_da96bb",
+  "wave_id": 53
+}
