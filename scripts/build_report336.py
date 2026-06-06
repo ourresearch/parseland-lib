@@ -631,7 +631,7 @@ def render_publisher_field_table(run: dict | None) -> str:
     display_rows = active_rows + [
         row for row in rows
         if (row[1], row[2]) not in active_keys
-    ][: max(0, 100 - len(active_rows))]
+    ]
 
     for _, pub, field, counts, pub_summary in display_rows:
         metric = field_metrics.get(field)
@@ -659,13 +659,11 @@ def render_publisher_field_table(run: dict | None) -> str:
         parts += [f"<td>{html.escape(str(v))}</td>" for v in vals]
         parts.append("</tr>")
     parts += ["</tbody></table>"]
-    if len(rows) > len(display_rows):
-        active_note = " Active in-progress rows are pinned first." if active_rows else ""
-        parts.append(
-            f'<p style="color: var(--muted); font-size: 0.8rem;">'
-            f'Showing {len(display_rows)} of {len(rows)} publisher × field rows '
-            f'by active status, then blocked/miss/backfill volume.{active_note}</p>'
-        )
+    active_note = " Active in-progress rows are pinned first." if active_rows else ""
+    parts.append(
+        f'<p style="color: var(--muted); font-size: 0.8rem;">'
+        f'Showing all {len(display_rows)} publisher × field rows.{active_note}</p>'
+    )
     return "".join(parts)
 
 
