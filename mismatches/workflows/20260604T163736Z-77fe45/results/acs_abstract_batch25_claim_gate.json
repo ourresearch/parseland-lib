@@ -1,0 +1,33 @@
+{
+  "status": "green",
+  "kind": "report_claim_publish_gate",
+  "batch": 25,
+  "publisher_id": "acs",
+  "field": "abstract",
+  "task_id": "v2_acs_abstract_1772d606",
+  "agent_id": "codex-acs-abstract-b25",
+  "created_at": "2026-06-06T23:38:56Z",
+  "checks": [
+    {
+      "name": "workflow_claim",
+      "status": "green",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson"
+    },
+    {
+      "name": "event_ledger_append",
+      "status": "green",
+      "artifact": "/Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence/live-agent-events.ndjson"
+    },
+    {
+      "name": "build_console_html",
+      "status": "green",
+      "command": "./.venv/bin/python scripts/build_console_html.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence"
+    },
+    {
+      "name": "build_report336",
+      "status": "green",
+      "command": "./.venv/bin/python scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml"
+    }
+  ],
+  "notes": "Batch 25 ACS abstract task claimed and report 336 rebuilt before parser diagnosis."
+}
