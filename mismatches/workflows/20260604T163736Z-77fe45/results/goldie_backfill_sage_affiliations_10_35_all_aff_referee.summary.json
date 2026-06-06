@@ -1,0 +1,39 @@
+{
+  "publisher_id": "sage",
+  "field": "affiliations",
+  "task_id": "v2_sage_affiliations_72755779",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_10_35_all_aff_resolved_bb-sage-affiliations-10-35-all-aff-20260606T0110Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_10_35_all_aff_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+  "reviewed_at": "2026-06-06T00:58:57.988451+00:00",
+  "reviewed_rows": 25,
+  "approved_rows": 20,
+  "blocked_rows": 5,
+  "cumulative_approved_rows": 28,
+  "cumulative_blocked_rows": 7,
+  "remaining_current_candidates": 59,
+  "status": "goldie_backfill_referee_partial_28_approved_7_blocked",
+  "status_detail": "Cumulative SAGE affiliations: 28 approved / 7 blocked / 59 remaining after all-affiliation evidence and conservative quality filtering.",
+  "approved_example_dois": [
+    "10.1177/0025817213491916",
+    "10.1177/00220345660450036601",
+    "10.1177/00332941221121563",
+    "10.1177/003368828101200108",
+    "10.1177/004051757104100401"
+  ],
+  "blocked_example_dois": [
+    "10.1177/002205741708501017",
+    "10.1177/004908570403400312",
+    "10.1177/0165551509358487",
+    "10.1177/026765910001500509",
+    "10.1177/02601079x9600700202"
+  ],
+  "blocked_reasons": {
+    "10.1177/002205741708501017": "candidate_location_date_only",
+    "10.1177/004908570403400312": "candidate_address_only",
+    "10.1177/0165551509358487": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Biomedical Knowledge Engineering Laboratory, Seoul National University, Korea, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/026765910001500509": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Department of Cardiac Surgery, University of Leicester, Leicester, UK, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/02601079x9600700202": "candidate_contains_contact_metadata"
+  },
+  "next_action": "Continue SAGE affiliations in 25-row batches with all-affiliation evidence; manually audit date/address/email/contact-metadata rows."
+}
