@@ -1,0 +1,40 @@
+{
+  "publisher_id": "sage",
+  "field": "affiliations",
+  "task_id": "v2_sage_affiliations_72755779",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_35_60_all_aff_resolved_bb-sage-affiliations-35-60-all-aff-20260606T0120Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_35_60_all_aff_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+  "reviewed_at": "2026-06-06T01:08:55.494964+00:00",
+  "reviewed_rows": 25,
+  "approved_rows": 19,
+  "blocked_rows": 6,
+  "cumulative_approved_rows": 47,
+  "cumulative_blocked_rows": 13,
+  "remaining_current_candidates": 34,
+  "status": "goldie_backfill_referee_partial_47_approved_13_blocked",
+  "status_detail": "Cumulative SAGE affiliations: 47 approved / 13 blocked / 34 remaining after all-affiliation evidence and conservative quality filtering.",
+  "approved_example_dois": [
+    "10.1177/089686089301300221",
+    "10.1177/0734242x0001800407",
+    "10.1177/08862605251412358",
+    "10.1177/09691413251334587",
+    "10.1177/0956797614525786"
+  ],
+  "blocked_example_dois": [
+    "10.1177/0739532917722970",
+    "10.1177/097226291001400406",
+    "10.1177/101269029102600204",
+    "10.1177/1039856217751784",
+    "10.1177/1077559507310368"
+  ],
+  "blocked_reasons": {
+    "10.1177/0739532917722970": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1177/097226291001400406": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1177/101269029102600204": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1177/1039856217751784": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1177/1077559507310368": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Evan B. Donaldson Adoption Institute, New York, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/1350508406063487": "not all cleaned affiliation values were present in Browserbase evidence excerpt: SCORE, Stockholm School of Economics, [email protected]; SCORE, Stockholm University, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied"
+  },
+  "next_action": "Continue final SAGE affiliation candidates with all-affiliation evidence; manually audit role/email/page-identity rows."
+}
