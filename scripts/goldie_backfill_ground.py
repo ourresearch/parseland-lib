@@ -172,6 +172,59 @@ def candidate_abstract_len(candidate: dict) -> int | None:
     return abstract_len if isinstance(abstract_len, int) and abstract_len > 100 else None
 
 
+def _clean_affiliation_value(value: Any) -> str:
+    text = html_lib.unescape(str(value or ""))
+    text = re.sub(r"\s+", " ", text).strip(" ;,.")
+    return text
+
+
+def candidate_affiliation_values(candidate: dict) -> list[str]:
+    if candidate.get("field") != "affiliations":
+        return []
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return []
+    values: list[str] = []
+
+    def add(value: Any) -> None:
+        if isinstance(value, dict):
+            value = value.get("name") or value.get("value")
+        cleaned = _clean_affiliation_value(value)
+        if cleaned and cleaned not in values:
+            values.append(cleaned)
+
+    for aff in payload.get("affiliations") or []:
+        add(aff)
+    for author in payload.get("authors") or []:
+        if not isinstance(author, dict):
+            continue
+        for aff in author.get("affiliations") or []:
+            add(aff)
+    return values
+
+
+def resolve_affiliation_candidate(
+    html: str,
+    candidate: dict,
+) -> tuple[dict[str, Any], str] | None:
+    values = candidate_affiliation_values(candidate)
+    if not values:
+        return None
+    html_unescaped = html_lib.unescape(html)
+    lower = html_unescaped.lower()
+    chunks: list[str] = []
+    for value in values:
+        pos = lower.find(value.lower())
+        if pos < 0:
+            return None
+        start = max(0, pos - 180)
+        end = min(len(html_unescaped), pos + len(value) + 180)
+        chunk = html_unescaped[start:end].replace("\n", " ").strip()
+        if chunk and chunk not in chunks:
+            chunks.append(chunk)
+    return {"affiliations": values}, " ... ".join(chunks)
+
+
 def abstract_len_matches(expected: int, actual: int) -> bool:
     tolerance = max(25, int(expected * 0.05))
     return abs(expected - actual) <= tolerance
@@ -487,6 +540,13 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             excerpt, selector, confidence = excerpt_for(html, candidate)
             resolved_candidate = None
             resolved_candidate_source = None
+            if field == "affiliations":
+                affiliation_resolution = resolve_affiliation_candidate(html, candidate)
+                if affiliation_resolution:
+                    resolved_candidate, excerpt = affiliation_resolution
+                    selector = "all-affiliation-candidate-text-match"
+                    confidence = "all_affiliation_candidate_text_match"
+                    resolved_candidate_source = "browserbase_rendered_affiliations"
             author_resolution = None
             if field == "authors" and confidence != "candidate_text_match":
                 author_resolution = resolve_author_count_candidate(html, candidate)
@@ -536,6 +596,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     "candidate_pdf_url_resolves",
                     "author_count_author_names_match",
                     "abstract_len_rendered_parse_match",
+                    "all_affiliation_candidate_text_match",
                 }
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"

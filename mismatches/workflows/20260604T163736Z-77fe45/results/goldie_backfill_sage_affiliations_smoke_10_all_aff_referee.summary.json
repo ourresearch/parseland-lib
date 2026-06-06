@@ -1,0 +1,27 @@
+{
+  "publisher_id": "sage",
+  "field": "affiliations",
+  "task_id": "v2_sage_affiliations_72755779",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_all_aff_resolved_bb-sage-affiliations-smoke-10-all-aff-20260606T0100Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_all_aff_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+  "reviewed_at": "2026-06-06T00:48:00.244081+00:00",
+  "reviewed_rows": 10,
+  "approved_rows": 8,
+  "blocked_rows": 2,
+  "remaining_current_candidates": 84,
+  "status": "goldie_backfill_referee_partial_8_approved_2_blocked",
+  "status_detail": "8 approved / 2 blocked after all-affiliation Browserbase evidence; strict referee requires every unique cleaned affiliation to appear in evidence.",
+  "approved_example_dois": [
+    "10.1177/00031348211011110",
+    "10.1177/000276488031003002",
+    "10.1177/000348949009901110",
+    "10.1177/00031348241241730",
+    "10.1177/001112877301900418"
+  ],
+  "blocked_example_dois": [
+    "10.1177/0013124509333577",
+    "10.1177/00219347251346189"
+  ],
+  "next_action": "Continue SAGE affiliations in conservative batches using all-affiliation evidence; manually audit obfuscated-email/page-identity rows."
+}

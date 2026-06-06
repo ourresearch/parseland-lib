@@ -4,10 +4,12 @@ import scripts.goldie_backfill_ground as ground
 from scripts.goldie_backfill_ground import (
     GroundingResult,
     abstract_followup_url,
+    candidate_affiliation_values,
     candidate_pdf_url,
     extract_author_names_from_html,
     pdf_url_resolution_is_usable,
     resolve_abstract_len_candidate,
+    resolve_affiliation_candidate,
     resolve_author_count_candidate,
     write_result,
 )
@@ -95,6 +97,77 @@ def test_resolve_abstract_len_candidate_rejects_length_mismatch(monkeypatch):
     candidate = {"field": "abstract", "parseland_candidate": {"abstract_len": 5000}}
 
     assert resolve_abstract_len_candidate("<html></html>", candidate, None) is None
+
+
+def test_candidate_affiliation_values_dedupes_and_cleans_values():
+    candidate = {
+        "field": "affiliations",
+        "parseland_candidate": {
+            "affiliations": [
+                " Medical School, University of Minnesota, Minneapolis, MN, USA; ",
+                "Medical School, University of Minnesota, Minneapolis, MN, USA",
+                {"name": "Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA."},
+            ],
+            "authors": [
+                {
+                    "affiliations": [
+                        "Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA"
+                    ]
+                }
+            ],
+        },
+    }
+
+    assert candidate_affiliation_values(candidate) == [
+        "Medical School, University of Minnesota, Minneapolis, MN, USA",
+        "Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA",
+    ]
+
+
+def test_resolve_affiliation_candidate_requires_all_unique_values():
+    candidate = {
+        "field": "affiliations",
+        "parseland_candidate": {
+            "affiliations": [
+                "Medical School, University of Minnesota, Minneapolis, MN, USA",
+                "Medical School, University of Minnesota, Minneapolis, MN, USA",
+                "Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA",
+            ]
+        },
+    }
+    html = """
+    <section property="author">
+      <span property="name">Medical School, University of Minnesota, Minneapolis, MN, USA</span>
+    </section>
+    <section property="author">
+      <span property="name">Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA</span>
+    </section>
+    """
+
+    resolved, excerpt = resolve_affiliation_candidate(html, candidate)
+
+    assert resolved == {
+        "affiliations": [
+            "Medical School, University of Minnesota, Minneapolis, MN, USA",
+            "Department of Surgery, Ridgeview Medical Center, Waconia, MN, USA",
+        ]
+    }
+    assert "Medical School, University of Minnesota" in excerpt
+    assert "Department of Surgery, Ridgeview" in excerpt
+
+
+def test_resolve_affiliation_candidate_rejects_partial_evidence():
+    candidate = {
+        "field": "affiliations",
+        "parseland_candidate": {
+            "affiliations": [
+                "Dallas, Texas",
+                "Arlington, Texas",
+            ]
+        },
+    }
+
+    assert resolve_affiliation_candidate("<html>Dallas, Texas</html>", candidate) is None
 
 
 def test_abstract_followup_url_prefers_lww_meta_url():
