@@ -78,6 +78,32 @@ CORRESP_FROM_CITATION_EMAIL_META = """
 """
 
 
+# Same-surname coauthor case: the email meta points at Anders Wahlin only.
+# Surname-only matching used to also flag Björn E. Wahlin.
+CORRESP_EMAIL_META_SHARED_SURNAME = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/article/10.1007/example" />
+    <meta name="citation_author" content="Wahlin, Anders" />
+    <meta name="citation_author_email" content="anders@example.org" />
+    <meta name="citation_author" content="Wahlin, Björn E." />
+  </head>
+  <body>
+    <ul>
+      <li class="c-article-authors-listing__item">
+        <span class="search-name">Anders Wahlin</span>
+        <ol class="c-article-author-affiliation__list"><li><p>Inst</p></li></ol>
+      </li>
+      <li class="c-article-authors-listing__item">
+        <span class="search-name">Björn E. Wahlin</span>
+        <ol class="c-article-author-affiliation__list"><li><p>Inst</p></li></ol>
+      </li>
+    </ul>
+  </body>
+</html>
+"""
+
+
 # Page with ld+json author email — must surface CA flag even when an earlier
 # parser path already populated authors (was previously only honored when
 # parse_ld_json was the primary path).
@@ -203,6 +229,14 @@ def test_citation_author_email_meta_flags_ca():
     assert any("Ye Peixin" in n for n in ca_names), (
         f"expected 'Ye Peixin' from citation_author_email meta but got {ca_names!r}"
     )
+
+
+def test_citation_author_email_meta_does_not_overmark_shared_surname():
+    """Email-meta CA matching must not mark every same-surname coauthor."""
+    soup = BeautifulSoup(CORRESP_EMAIL_META_SHARED_SURNAME, "lxml")
+    result = Springer(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["Anders Wahlin"]
 
 
 def test_ldjson_email_flags_ca_even_when_not_primary_path():

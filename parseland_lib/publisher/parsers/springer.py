@@ -705,6 +705,30 @@ class Springer(PublisherParser):
                     return surname
             return meta_name.rsplit(" ", 1)[-1]
 
+        def _norm_name(s: str) -> str:
+            return " ".join((s or "").replace("\xa0", " ").lower().split())
+
+        def _person_key(name: str) -> tuple[str, str]:
+            """Return a conservative (surname, first-initial) key.
+
+            Springer meta names are commonly "Surname, Given" while DOM
+            names are "Given Surname". Matching only on surname created false
+            positives whenever coauthors shared a surname. This key keeps the
+            useful comma-order bridge without marking every same-surname
+            coauthor as corresponding.
+            """
+            name = _norm_name(name)
+            if not name:
+                return ("", "")
+            if name.count(",") == 1:
+                surname, given = [p.strip() for p in name.split(",", 1)]
+                first = given.split()[0] if given.split() else ""
+                return (surname, first[:1])
+            parts = name.split()
+            if len(parts) == 1:
+                return (parts[0], "")
+            return (parts[-1], parts[0][:1])
+
         try:
             # Walk both citation_author and citation_author_email metas in
             # document order. Track the most recent citation_author content;
@@ -811,6 +835,19 @@ class Springer(PublisherParser):
             # surface names without normalization — collapse them here.
             return (s or "").replace("\xa0", " ").strip()
 
+        ca_norms = {_norm_name(n) for n in ca_names if _norm_name(n)}
+        ca_keys = {_person_key(n) for n in ca_names if _person_key(n)[0]}
+
+        parsed_surname_counts: dict[str, int] = {}
+        for author in authors:
+            if hasattr(author, "name"):
+                candidate = _norm(author.name)
+            else:
+                candidate = _norm(author.get("name", ""))
+            surname, _initial = _person_key(candidate)
+            if surname:
+                parsed_surname_counts[surname] = parsed_surname_counts.get(surname, 0) + 1
+
         for author in authors:
             if hasattr(author, "name"):
                 name = _norm(author.name)
@@ -822,22 +859,21 @@ class Springer(PublisherParser):
                 continue
             if not name:
                 continue
-            surname = name.rsplit(" ", 1)[-1]
+            surname, _initial = _person_key(name)
             # Match if (a) exact-string match, (b) NBSP-normalized exact
-            # match, or (c) the parser's surname matches one of the CA
-            # surnames (the rsplit-derived surname). Iter-2 tried adding a
-            # token-set-equality rule to bridge "Ye Peixin" (DOM) vs
-            # "Peixin, Ye" (citation_author meta), but that addition
-            # tanked corresp precision from 0.961 → 0.596 on the 894-row
-            # eval — Springer book-chapter pages frequently list emails
-            # for ALL authors in ld+json, so a loose matcher floods false
-            # positives. Reverted to the iter-1 matcher; the Ye-Peixin
-            # reversed-name case is parked for iter-3 with a more
-            # discriminating rule.
+            # match, (c) comma-order aware person-key match, or (d) a
+            # surname-only fallback only when that surname is unique among
+            # parsed authors. The previous unconditional surname match
+            # overmarked same-surname coauthors (e.g. "Anders Wahlin" and
+            # "Björn E. Wahlin") when only one was the visible CA.
             hit = (
                 name in ca_names
-                or any(_norm(n) == name for n in ca_names)
-                or surname in ca_surnames
+                or _norm_name(name) in ca_norms
+                or _person_key(name) in ca_keys
+                or (
+                    surname in ca_surnames
+                    and parsed_surname_counts.get(surname, 0) == 1
+                )
             )
             if hit:
                 if hasattr(author, "is_corresponding"):

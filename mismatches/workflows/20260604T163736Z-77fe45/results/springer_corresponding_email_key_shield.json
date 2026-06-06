@@ -1,0 +1,64 @@
+{
+  "status": "green",
+  "run_id": "20260606T181748Z-46286c",
+  "task_id": "v2_springer_corresponding_687a18fc",
+  "publisher": "springer",
+  "field": "corresponding",
+  "change": "Narrow Springer email-based corresponding-author fallback from surname-only matching to exact/comma-aware person-key matching, with surname fallback only when unique among parsed authors.",
+  "focused_gate": {
+    "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_springer_corresp.py tests/test_springer_book_editors.py tests/test_springer_dedupe.py -q",
+    "result": "25 passed in 0.07s"
+  },
+  "whole_goldie_gate": {
+    "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-springer-corresponding-email-key --concurrency 8 --out eval/runs/whole-goldie-after-springer-corresponding-email-key-20260606T1815Z.json",
+    "artifact": "eval/runs/whole-goldie-after-springer-corresponding-email-key-20260606T1815Z.json",
+    "coverage": {
+      "total_rows": 10000,
+      "html_available": 5131,
+      "scored_rows": 5131,
+      "retrieval_blocked_rows": 4869,
+      "errors": 1
+    }
+  },
+  "metrics": {
+    "overall": {
+      "authors_f1_soft_before": 0.9500907895979035,
+      "authors_f1_soft_after": 0.9500907895979035,
+      "affiliations_f1_fuzzy_before": 0.9295561230184218,
+      "affiliations_f1_fuzzy_after": 0.9295561230184218,
+      "abstract_ratio_fuzzy_before": 0.915753091931381,
+      "abstract_ratio_fuzzy_after": 0.915753091931381,
+      "pdf_url_accuracy_before": 0.9413572343149808,
+      "pdf_url_accuracy_after": 0.9413572343149808,
+      "corresponding_accuracy_before": 0.9637888905135578,
+      "corresponding_accuracy_after": 0.9644454192458286,
+      "corresponding_delta_pp": 0.06565287322708446
+    },
+    "springer": {
+      "authors_f1_soft_before": 0.9855897007607392,
+      "authors_f1_soft_after": 0.9855897007607392,
+      "affiliations_f1_fuzzy_before": 0.9848747943844186,
+      "affiliations_f1_fuzzy_after": 0.9848747943844186,
+      "abstract_ratio_fuzzy_before": 0.952443175605292,
+      "abstract_ratio_fuzzy_after": 0.952443175605292,
+      "pdf_url_accuracy_before": 0.9936651583710407,
+      "pdf_url_accuracy_after": 0.9936651583710407,
+      "corresponding_accuracy_before": 0.9746527315492828,
+      "corresponding_accuracy_after": 0.9776416810899566,
+      "corresponding_delta_pp": 0.29889495406738575,
+      "distance_to_98_after": 0.002358318910043386
+    }
+  },
+  "doi_examples": [
+    "10.1007/s12032-010-9496-1",
+    "10.1007/s12303-015-0052-z",
+    "10.1023/b:appa.0000032954.71165.9e",
+    "10.1007/s11432-019-2797-4",
+    "10.1007/s12206-020-1015-5"
+  ],
+  "referee_notes": [
+    "The previous email fallback treated a CA meta surname as sufficient to flag every parsed author sharing that surname.",
+    "The new rule preserves exact and comma-order meta matching while blocking same-surname spillover.",
+    "Springer corresponding remains below 98%; ship this parser-owned precision fix and rerank the remaining gap."
+  ]
+}
