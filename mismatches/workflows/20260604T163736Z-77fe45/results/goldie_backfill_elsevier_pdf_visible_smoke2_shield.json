@@ -1,0 +1,53 @@
+{
+  "status": "green_blocker_artifact",
+  "created_at": "2026-06-06T05:58:34.292380+00:00",
+  "scope": "Elsevier pdf_url Goldie-backfilled visible/meta PDF grounding smoke",
+  "policy": "No merged-FINAL.csv mutation; no current-Goldie KPI lift claimed; Browserbase evidence is grounding only.",
+  "gates": [
+    {
+      "name": "py_compile_grounder_and_report_builder",
+      "command": "./.venv/bin/python -m py_compile scripts/build_report336.py scripts/goldie_backfill_ground.py",
+      "result": "passed"
+    },
+    {
+      "name": "synthetic_pdf_link_extractor",
+      "command": "./.venv/bin/python - <<PY ... extract_pdf_link_candidates synthetic citation_pdf_url/rendered pdfft/md5-pid ...",
+      "result": "passed",
+      "observed_selectors": [
+        "meta[citation_pdf_url]",
+        "rendered-pdf-link",
+        "sciencedirect-md5-pid-pdfft"
+      ]
+    },
+    {
+      "name": "browserbase_elsevier_pdf_visible_smoke",
+      "command": "scripts/goldie_backfill_ground.py --fields pdf_url --publishers elsevier --limit 5 --concurrency 1",
+      "result": "completed",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_visible_smoke2_raw.ndjson",
+      "state_counts": {
+        "weak_page_render_needs_referee": 5
+      }
+    },
+    {
+      "name": "referee_review",
+      "command": "manual structured referee from smoke artifact",
+      "result": "blocked_all_5",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_visible_smoke2_referee.summary.json",
+      "approved": 0,
+      "blocked": 5
+    },
+    {
+      "name": "report336_build",
+      "command": "./.venv/bin/python scripts/build_report336.py",
+      "result": "passed",
+      "artifact": "/Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence/report.html"
+    },
+    {
+      "name": "local_report_contains_lane",
+      "command": "rg -n \"Elsevier PDFs|visible_or_metadata_pdf_url_not_found|blocked_no_visible_or_metadata_pdf_url|10,000|98%|Publisher \u00d7 field\" evidence/report.html",
+      "result": "passed"
+    }
+  ],
+  "diagnosis": "Five Browserbase-rendered Elsevier ScienceDirect rows exposed no citation_pdf_url, visible PDF link, pdf.sciencedirectassets.com URL, or md5/pid pdfft URL; parser-emitted /pdf URLs redirected to /abs pages with HTTP 200.",
+  "next_action": "Do not scale Elsevier pdf_url backfill until a harvest/access/parser lane can ground a real PDF-like URL. Continue next ranked publisher-field lane."
+}

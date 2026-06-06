@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
@@ -379,6 +379,194 @@ def pdf_url_resolution_is_usable(status_code: int | None, final_url: str) -> boo
     return any(marker in final_lower for marker in ("/pdf", "pdfft", ".pdf"))
 
 
+def _pdf_shaped_url(url: str) -> bool:
+    lower = url.lower()
+    return any(
+        marker in lower
+        for marker in (
+            "pdf.sciencedirectassets.com",
+            "/pdfft",
+            "/pdf",
+            ".pdf",
+            "downloadpdf",
+            "pdfdownload",
+            "citation_pdf_url",
+        )
+    )
+
+
+def _clean_url(value: str, base_url: str) -> str | None:
+    url = html_lib.unescape(str(value or "")).strip()
+    if not url or url.startswith(("javascript:", "mailto:", "#")):
+        return None
+    return urljoin(base_url or "https://www.sciencedirect.com", url)
+
+
+def _meta_content(html: str, name: str) -> list[str]:
+    values: list[str] = []
+    for tag_match in re.finditer(r"<meta\b[^>]*>", html, flags=re.IGNORECASE):
+        tag = tag_match.group(0)
+        if not re.search(
+            rf"\b(?:name|property)=['\"]{re.escape(name)}['\"]",
+            tag,
+            flags=re.IGNORECASE,
+        ):
+            continue
+        content = re.search(r"\bcontent=['\"]([^'\"]+)['\"]", tag, flags=re.IGNORECASE)
+        if content:
+            values.append(content.group(1))
+    return values
+
+
+def _raw_pdf_urls(html: str) -> list[str]:
+    patterns = (
+        r"https?://pdf\.sciencedirectassets\.com/[^'\"<>\s\\]+",
+        r"https?://www\.sciencedirect\.com/science/article/pii/[^'\"<>\s\\]+/(?:pdf|pdfft)[^'\"<>\s\\]*",
+        r"https?://[^'\"<>\s\\]+\.pdf(?:\?[^'\"<>\s\\]*)?",
+    )
+    urls: list[str] = []
+    for pattern in patterns:
+        urls.extend(re.findall(pattern, html, flags=re.IGNORECASE))
+    return urls
+
+
+def _science_direct_pdfft_from_metadata(html: str, candidate: dict, page_url: str) -> str | None:
+    if "sciencedirect.com" not in page_url and "sciencedirect.com" not in str(candidate_pdf_url(candidate) or ""):
+        return None
+    pii = None
+    for value in _meta_content(html, "citation_pii"):
+        if value.strip():
+            pii = value.strip()
+            break
+    if not pii:
+        match = re.search(r'"pii"\s*:\s*"([^"]+)"', html)
+        if match:
+            pii = match.group(1)
+    if not pii:
+        pii = _science_direct_pii(str(candidate_pdf_url(candidate) or "")) or _science_direct_pii(page_url)
+    md5_match = re.search(r'"md5"\s*:\s*"([^"]+)"', html)
+    pid_match = re.search(r'"pid"\s*:\s*"([^"]+)"', html)
+    if not pii or not md5_match or not pid_match:
+        return None
+    md5 = html_lib.unescape(md5_match.group(1)).strip()
+    pid = html_lib.unescape(pid_match.group(1)).strip()
+    if not md5 or not pid:
+        return None
+    return f"https://www.sciencedirect.com/science/article/pii/{pii}/pdfft?md5={md5}&pid={pid}"
+
+
+def extract_pdf_link_candidates(html: str, page_url: str, candidate: dict) -> list[dict[str, str]]:
+    """Return rendered/meta PDF-like links that still need navigation proof."""
+    html_unescaped = html_lib.unescape(html or "")
+    candidates: list[dict[str, str]] = []
+    seen: set[str] = set()
+
+    def add(url_value: str | None, selector: str) -> None:
+        if not url_value:
+            return
+        cleaned = _clean_url(url_value, page_url)
+        if not cleaned or not _pdf_shaped_url(cleaned):
+            return
+        if cleaned in seen:
+            return
+        seen.add(cleaned)
+        candidates.append({"url": cleaned, "selector": selector})
+
+    for value in _meta_content(html_unescaped, "citation_pdf_url"):
+        add(value, "meta[citation_pdf_url]")
+
+    for attr_match in re.finditer(
+        r"\b(?:href|data-href|action|content)=['\"]([^'\"]+)['\"]",
+        html_unescaped,
+        flags=re.IGNORECASE,
+    ):
+        value = attr_match.group(1)
+        if _pdf_shaped_url(value):
+            add(value, "rendered-pdf-link")
+
+    for raw_url in _raw_pdf_urls(html_unescaped):
+        add(raw_url, "raw-pdf-url")
+
+    add(_science_direct_pdfft_from_metadata(html_unescaped, candidate, page_url), "sciencedirect-md5-pid-pdfft")
+    return candidates
+
+
+def verify_pdf_links_from_page(
+    page: Any,
+    html: str,
+    page_url: str,
+    candidate: dict,
+    evidence_dir: Path,
+    stem: str,
+) -> dict[str, Any] | None:
+    links = extract_pdf_link_candidates(html, page_url, candidate)
+    if not links:
+        return {
+            "candidate_url": candidate_pdf_url(candidate),
+            "candidate_final_url": None,
+            "candidate_status": None,
+            "confidence": "visible_or_metadata_pdf_url_not_found",
+            "selector": "rendered-or-metadata-pdf-link-discovery",
+            "excerpt": "extracted_pdf_link_count=0",
+        }
+    attempts: list[dict[str, Any]] = []
+    for i, link in enumerate(links[:8], start=1):
+        url = link["url"]
+        try:
+            response = page.goto(url, wait_until="domcontentloaded")
+            try:
+                page.wait_for_load_state("networkidle", timeout=15000)
+            except Exception:
+                pass
+            final_url = page.url
+            status_code = response.status if response is not None else None
+            attempts.append(
+                {
+                    "url": url,
+                    "final_url": final_url,
+                    "status": status_code,
+                    "selector": link["selector"],
+                }
+            )
+            if not pdf_url_resolution_is_usable(status_code, final_url):
+                continue
+            screenshot_path = evidence_dir / f"{stem}-pdf-link-{i}.png"
+            page.screenshot(path=str(screenshot_path), full_page=True)
+            return {
+                "candidate_url": url,
+                "candidate_final_url": final_url,
+                "candidate_status": status_code,
+                "candidate_screenshot_path": str(screenshot_path),
+                "confidence": "visible_or_metadata_pdf_url_resolves",
+                "selector": link["selector"],
+                "resolved_candidate": {"pdf_url": final_url or url},
+                "resolved_candidate_source": "browserbase_visible_or_metadata_pdf_url",
+                "excerpt": (
+                    f"verified_pdf_url={url} final_url={final_url} "
+                    f"status={status_code} selector={link['selector']}"
+                ),
+            }
+        except Exception as exc:  # noqa: BLE001
+            attempts.append(
+                {
+                    "url": url,
+                    "final_url": None,
+                    "status": None,
+                    "selector": link["selector"],
+                    "error": f"{type(exc).__name__}: {exc}",
+                }
+            )
+    first = attempts[0]
+    return {
+        "candidate_url": first.get("url"),
+        "candidate_final_url": first.get("final_url"),
+        "candidate_status": first.get("status"),
+        "confidence": "visible_or_metadata_pdf_url_not_verified",
+        "selector": "rendered-or-metadata-pdf-link-navigation",
+        "excerpt": f"tried_pdf_link_count={len(attempts)} attempts={json.dumps(attempts[:3], ensure_ascii=False)}",
+    }
+
+
 def verify_pdf_candidate_url(page: Any, candidate: dict, evidence_dir: Path, stem: str) -> dict[str, Any] | None:
     """Verify the proposed PDF URL itself, not just the DOI landing page.
 
@@ -591,11 +779,53 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     excerpt = pdf_verification.get("excerpt")
                     selector = pdf_verification.get("selector")
                     confidence = str(pdf_verification.get("confidence"))
+                else:
+                    link_verification = verify_pdf_links_from_page(
+                        page,
+                        html,
+                        final_url,
+                        candidate,
+                        evidence_dir,
+                        stem,
+                    )
+                    if link_verification:
+                        if (
+                            pdf_verification
+                            and link_verification.get("confidence")
+                            in {
+                                "visible_or_metadata_pdf_url_not_found",
+                                "visible_or_metadata_pdf_url_not_verified",
+                            }
+                        ):
+                            link_verification["candidate_final_url"] = pdf_verification.get("candidate_final_url")
+                            link_verification["candidate_status"] = pdf_verification.get("candidate_status")
+                            link_verification["excerpt"] = (
+                                f"{link_verification.get('excerpt')}; "
+                                f"direct_candidate_final_url={pdf_verification.get('candidate_final_url')} "
+                                f"direct_candidate_status={pdf_verification.get('candidate_status')}"
+                            )
+                        pdf_verification = link_verification
+                    if pdf_verification and pdf_verification.get("confidence") == "visible_or_metadata_pdf_url_resolves":
+                        excerpt = pdf_verification.get("excerpt")
+                        selector = pdf_verification.get("selector")
+                        confidence = str(pdf_verification.get("confidence"))
+                        resolved_candidate = pdf_verification.get("resolved_candidate")
+                        resolved_candidate_source = str(pdf_verification.get("resolved_candidate_source"))
+                    elif pdf_verification and pdf_verification.get("confidence") in {
+                        "candidate_pdf_url_not_verified",
+                        "candidate_pdf_url_navigation_failed",
+                        "visible_or_metadata_pdf_url_not_found",
+                        "visible_or_metadata_pdf_url_not_verified",
+                    }:
+                        excerpt = pdf_verification.get("excerpt")
+                        selector = pdf_verification.get("selector")
+                        confidence = str(pdf_verification.get("confidence"))
             status = (
                 "candidate_evidence_needs_referee"
                 if confidence in {
                     "candidate_text_match",
                     "candidate_pdf_url_resolves",
+                    "visible_or_metadata_pdf_url_resolves",
                     "author_count_author_names_match",
                     "abstract_len_rendered_parse_match",
                     "all_affiliation_candidate_text_match",

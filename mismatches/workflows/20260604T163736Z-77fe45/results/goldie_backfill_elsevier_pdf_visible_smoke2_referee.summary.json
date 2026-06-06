@@ -1,0 +1,23 @@
+{
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_visible_smoke2_raw.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_visible_smoke2_referee.ndjson",
+  "total": 5,
+  "status_counts": {
+    "referee_blocked": 5
+  },
+  "grounding_confidence_counts": {
+    "visible_or_metadata_pdf_url_not_found": 5
+  },
+  "verified_candidate_final_url_counts": {
+    "https://www.sciencedirect.com/science/article/abs/pii/S1075996497901128": 1,
+    "https://www.sciencedirect.com/science/article/abs/pii/S0024407485700460": 1,
+    "https://www.sciencedirect.com/science/article/abs/pii/S0147651300920360": 1,
+    "https://www.sciencedirect.com/science/article/abs/pii/S0014482701953182": 1,
+    "https://www.sciencedirect.com/science/article/abs/pii/S0022285202985164": 1
+  },
+  "approved_count": 0,
+  "blocked_count": 5,
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "diagnosis": "Visible/meta PDF grounding was added and tested on five Elsevier pdf_url candidates. Browserbase rendered the ScienceDirect pages, but the proposed /pdf URLs redirected to /abs pages and no rendered/meta PDF URL was discoverable in the captured HTML.",
+  "next_action": "Do not scale Elsevier pdf_url backfill until the lane can ground a real PDF-like URL from citation_pdf_url, visible PDF link, pdf.sciencedirectassets.com, or md5/pid pdfft evidence."
+}

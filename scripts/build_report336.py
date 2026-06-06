@@ -289,6 +289,16 @@ def _render_backfill_status(workflow_summary: dict | None) -> str:
             f"{html.escape(str(elsevier_affs.get('remaining_current_candidates_estimate', '—')))} remaining"
             f"{hardening}"
         )
+    elsevier_pdf = workflow_summary.get("elsevier_pdf_referee_state") or {}
+    if elsevier_pdf:
+        parts.append(
+            "Elsevier PDFs: "
+            f"{html.escape(str(elsevier_pdf.get('approved_rows', '—')))} approved, "
+            f"{html.escape(str(elsevier_pdf.get('blocked_rows', '—')))} blocked in latest visible/meta smoke, "
+            f"{html.escape(str(elsevier_pdf.get('remaining_current_candidates', '—')))} current candidates held; "
+            f"{html.escape(str(elsevier_pdf.get('status', 'blocked')))}; "
+            f"latest <code>{html.escape(str(elsevier_pdf.get('latest_referee_artifact', '—')))}</code>"
+        )
     if not parts:
         return ""
     return (
