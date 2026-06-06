@@ -16,7 +16,7 @@
     "above_98": 3,
     "blocked_goldie_backfill_needed": 1,
     "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
-    "goldie_backfill_pending": 7,
+    "goldie_backfill_pending": 6,
     "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
@@ -25,7 +25,8 @@
     "retrieval_blocked": 195,
     "shipped_full10k_measured": 4,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "blocked_pdf_candidate_urls_not_grounded": 1
+    "blocked_pdf_candidate_urls_not_grounded": 1,
+    "goldie_backfill_referee_partial_4_approved_6_blocked": 1
   },
   "classification_counts": {
     "generic_only": 25,
@@ -1483,5 +1484,63 @@
       "10.1177/0003603x9704200207"
     ],
     "next_action": "Patch SAGE PDF grounding to discover a visible PDF link or citation_pdf_url before scaling, or route to harvest/access specialist if publisher blocks PDF fetches with 403."
+  },
+  "sage_affiliations_referee_state": {
+    "publisher_id": "sage",
+    "field": "affiliations",
+    "task_id": "v2_sage_affiliations_72755779",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_resolved_bb-sage-affiliations-smoke-10-20260606T003023Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_referee.ndjson",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T00:34:12.356426+00:00",
+    "reviewed_rows": 10,
+    "approved_rows": 4,
+    "blocked_rows": 6,
+    "remaining_current_candidates": 84,
+    "status": "goldie_backfill_referee_partial_4_approved_6_blocked",
+    "status_detail": "4 approved / 6 blocked; strict referee required all unique cleaned affiliations to appear in Browserbase evidence excerpt.",
+    "approved_example_dois": [
+      "10.1177/00031348241241730",
+      "10.1177/000276488031003002",
+      "10.1177/001112877301900418",
+      "10.1177/0021934716658862"
+    ],
+    "blocked_example_dois": [
+      "10.1177/00031348211011110",
+      "10.1177/000348949009901110",
+      "10.1177/0013124509333577",
+      "10.1177/001857870504000307",
+      "10.1177/002013249604100404"
+    ],
+    "next_action": "Continue SAGE affiliations in conservative batches, but improve/widen DOM evidence for multi-affiliation rows before approving incomplete candidates."
+  },
+  "latest_sage_affiliations_backfill_smoke": {
+    "publisher_id": "sage",
+    "field": "affiliations",
+    "task_id": "v2_sage_affiliations_72755779",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_resolved_bb-sage-affiliations-smoke-10-20260606T003023Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_smoke_10_referee.ndjson",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T00:34:12.356426+00:00",
+    "reviewed_rows": 10,
+    "approved_rows": 4,
+    "blocked_rows": 6,
+    "remaining_current_candidates": 84,
+    "status": "goldie_backfill_referee_partial_4_approved_6_blocked",
+    "status_detail": "4 approved / 6 blocked; strict referee required all unique cleaned affiliations to appear in Browserbase evidence excerpt.",
+    "approved_example_dois": [
+      "10.1177/00031348241241730",
+      "10.1177/000276488031003002",
+      "10.1177/001112877301900418",
+      "10.1177/0021934716658862"
+    ],
+    "blocked_example_dois": [
+      "10.1177/00031348211011110",
+      "10.1177/000348949009901110",
+      "10.1177/0013124509333577",
+      "10.1177/001857870504000307",
+      "10.1177/002013249604100404"
+    ],
+    "next_action": "Continue SAGE affiliations in conservative batches, but improve/widen DOM evidence for multi-affiliation rows before approving incomplete candidates."
   }
 }
