@@ -1,0 +1,23 @@
+{
+  "gates": [
+    {
+      "artifact": "eval/runs/whole-goldie-after-springer-abstract-empty-fallback-20260606T0735Z.json",
+      "name": "source_full10k_exists",
+      "result": "True"
+    },
+    {
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+      "name": "queue_ndjson_valid",
+      "result": "validated after write"
+    },
+    {
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+      "name": "summary_json_valid",
+      "result": "validated after write"
+    }
+  ],
+  "run_id": "pathfinder_batch13_rerank_shield",
+  "status": "green",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/pathfinder_batch13_rerank_summary.json",
+  "updated_at": "2026-06-06T08:41:50.903697+00:00"
+}

@@ -24,7 +24,8 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 24,
+    "in_progress": 1,
+    "needs_agent": 23,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_full10k_measured": 6,
@@ -145,7 +146,7 @@
     "remaining_current_candidates": 0,
     "status": "goldie_backfill_referee_complete_241_approved_1_blocked"
   },
-  "last_updated_at": "2026-06-06T08:32:57.024318+00:00",
+  "last_updated_at": "2026-06-06T08:41:50.903697+00:00",
   "latest_batch_candidate": "springer_abstract_empty_fallback",
   "latest_elsevier_affiliations_backfill_35_60": {
     "approved_rows": 25,
@@ -512,6 +513,86 @@
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
     "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  },
+  "pathfinder_batch13_rerank_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/pathfinder_batch13_rerank_summary.json",
+    "selected_agent": "codex-oxford-authors-current-kpi",
+    "selected_next_task": "v2_oxford_authors_b3d85788",
+    "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/pathfinder_batch13_rerank_shield.json",
+    "status": "green",
+    "top_open_tasks": [
+      {
+        "assigned_agent": "codex-oxford-authors-current-kpi",
+        "current_kpi": 0.9013504611330698,
+        "distance_to_98": 0.07864953886693016,
+        "field": "authors",
+        "gold_empty_parser_present": 1,
+        "html_available": 265,
+        "misses": 26,
+        "priority": 20.84212779973649,
+        "publisher_id": "oxford",
+        "row_count": 271,
+        "status": "in_progress",
+        "task_id": "v2_oxford_authors_b3d85788"
+      },
+      {
+        "assigned_agent": null,
+        "current_kpi": 0.8788214964731882,
+        "distance_to_98": 0.10117850352681179,
+        "field": "abstract",
+        "gold_empty_parser_present": 1,
+        "html_available": 198,
+        "misses": 5,
+        "priority": 20.033343698308734,
+        "publisher_id": "sage",
+        "row_count": 200,
+        "status": "needs_agent",
+        "task_id": "v2_sage_abstract_1de704ff"
+      },
+      {
+        "assigned_agent": null,
+        "current_kpi": 0.9639535057380605,
+        "distance_to_98": 0.016046494261939492,
+        "field": "affiliations",
+        "gold_empty_parser_present": 40,
+        "html_available": 1118,
+        "misses": 7,
+        "priority": 17.939980584848353,
+        "publisher_id": "springer",
+        "row_count": 1123,
+        "status": "needs_agent",
+        "task_id": "v2_springer_affiliations_663f456e"
+      },
+      {
+        "assigned_agent": null,
+        "current_kpi": 0.9568452380952381,
+        "distance_to_98": 0.023154761904761845,
+        "field": "pdf_url",
+        "gold_empty_parser_present": 19,
+        "html_available": 691,
+        "misses": 13,
+        "priority": 15.999940476190433,
+        "publisher_id": "wiley",
+        "row_count": 695,
+        "status": "needs_agent",
+        "task_id": "v2_wiley_pdf_url_ed30e1b3"
+      },
+      {
+        "assigned_agent": null,
+        "current_kpi": 0.9667594745806505,
+        "distance_to_98": 0.013240525419349503,
+        "field": "authors",
+        "gold_empty_parser_present": 9,
+        "html_available": 1118,
+        "misses": 15,
+        "priority": 14.802907418832746,
+        "publisher_id": "springer",
+        "row_count": 1123,
+        "status": "needs_agent",
+        "task_id": "v2_springer_authors_e35df3d4"
+      }
+    ],
+    "updated_at": "2026-06-06T08:41:50.903697+00:00"
   },
   "relative_doi_pdf_hosts_state": {
     "affected_pdf_delta_pp": 0.328947368421062,
