@@ -112,6 +112,112 @@ CORRESP_FROM_HEADER_BLOCK = """
 """
 
 
+CORRESP_FROM_SINGLE_TOKEN_HEADER_BLOCK = """
+<html>
+  <head>
+    <meta property="og:url" content="https://onlinelibrary.wiley.com/doi/10.1111/example-single" />
+  </head>
+  <body>
+    <div class="loa-authors">
+      <span class="accordion__closed">
+        <a>Leroy-Setrin</a>
+        <p>Institut National de la Recherche Agronomique, Monnaie, France</p>
+      </span>
+      <span class="accordion__closed">
+        <a>Chaslus-Dancla</a>
+        <p>Institut National de la Recherche Agronomique, Monnaie, France</p>
+      </span>
+    </div>
+    <div class="article-header__correspondence-to">
+      ElisabethChaslus-Dancla Institut National de la Recherche Agronomique, Monnaie, France.
+    </div>
+  </body>
+</html>
+"""
+
+
+LEGACY_BROADCAST_AUTHOR_TYPE = """
+<html>
+  <head>
+    <meta property="og:url" content="https://onlinelibrary.wiley.com/doi/10.1111/example-broadcast" />
+  </head>
+  <body>
+    <div class="loa-authors">
+      <span class="accordion__closed">
+        <a>A. Walter</a>
+        <p class="author-type">Corresponding Author</p>
+        <p>Institute of Animal Nutrition, Giessen, Germany</p>
+        <p>Institute of Animal Nutrition, Senckenbergstrasse 5, D-35390 Giessen, Germany</p>
+      </span>
+      <span class="accordion__closed">
+        <a>G. Rjmbach</a>
+        <p class="author-type">Corresponding Author</p>
+        <p>Institute of Animal Nutrition, Giessen, Germany</p>
+        <p>Institute of Animal Nutrition, Senckenbergstrasse 5, D-35390 Giessen, Germany</p>
+      </span>
+      <span class="accordion__closed">
+        <a>E. Most</a>
+        <p class="author-type">Corresponding Author</p>
+        <p>Institute of Animal Nutrition, Giessen, Germany</p>
+        <p>Institute of Animal Nutrition, Senckenbergstrasse 5, D-35390 Giessen, Germany</p>
+      </span>
+    </div>
+  </body>
+</html>
+"""
+
+
+PER_AUTHOR_CORRESPONDING_LABEL = """
+<html>
+  <head>
+    <meta property="og:url" content="https://onlinelibrary.wiley.com/doi/10.1002/example-label" />
+  </head>
+  <body>
+    <div class="loa-authors">
+      <span class="accordion__closed">
+        <a>Minh-Ky Nguyen</a>
+        <p>Faculty of Environment and Natural Resources, Ho Chi Minh City, Vietnam</p>
+      </span>
+      <span class="accordion__closed">
+        <a>D. Duc Nguyen</a>
+        <p>Department of Civil & Energy System Engineering, Suwon, South Korea</p>
+        <p>Corresponding author: email@example.org</p>
+      </span>
+    </div>
+  </body>
+</html>
+"""
+
+
+CONTAINER_CORRESPONDING_LABEL = """
+<html>
+  <head>
+    <meta property="og:url" content="https://onlinelibrary.wiley.com/doi/10.1002/example-container" />
+  </head>
+  <body>
+    <div class="loa-authors">
+      <span class="accordion__closed">
+        <a>Minh-Ky Nguyen</a>
+        <div class="author-info">
+          <p class="author-name">Minh-Ky Nguyen</p>
+          <p>Faculty of Environment and Natural Resources, Ho Chi Minh City, Vietnam</p>
+        </div>
+      </span>
+      <span class="accordion__closed">
+        <a>D. Duc Nguyen</a>
+        <div class="author-info">
+          <p class="author-name">D. Duc Nguyen</p>
+          <p>Department of Civil & Energy System Engineering, Suwon, South Korea</p>
+          Corresponding author:
+          <a href="/cdn-cgi/l/email-protection#abcoded">[email protected]</a>
+        </div>
+      </span>
+    </div>
+  </body>
+</html>
+"""
+
+
 # Multi-CA paper, older template: NO author has the author-type tag (the
 # page lacks structured CA metadata entirely), but every author carries a
 # mailto. In this case mailto IS the only CA signal and the parser must
@@ -243,6 +349,52 @@ def test_correspondence_to_block_marks_named_author():
     ca_names = _ca_names(result)
     assert ca_names == ["Bernard Geny"], (
         f"expected 'Bernard Geny' from correspondence-to block but got {ca_names!r}"
+    )
+
+
+def test_correspondence_to_block_marks_single_token_author():
+    """Legacy Wiley pages can list only surname-style author names while the
+    correspondence header concatenates a forename with the surname. The
+    header matcher should still recover that single-token surname author."""
+    soup = BeautifulSoup(CORRESP_FROM_SINGLE_TOKEN_HEADER_BLOCK, "lxml")
+    result = Wiley(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["Chaslus-Dancla"], (
+        f"expected 'Chaslus-Dancla' from header block but got {ca_names!r}"
+    )
+
+
+def test_broadcast_author_type_marks_only_first_author():
+    """Older Wiley pages duplicate a generic 'Corresponding Author' badge
+    inside every author block. Treating those badges literally overmarks
+    every author; the postal correspondence block belongs to the lead author."""
+    soup = BeautifulSoup(LEGACY_BROADCAST_AUTHOR_TYPE, "lxml")
+    result = Wiley(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["A. Walter"], (
+        f"expected only the lead author from broadcast badges but got {ca_names!r}"
+    )
+
+
+def test_per_author_corresponding_label_marks_author():
+    """Modern Wiley book/article pages sometimes use a plain paragraph
+    'Corresponding author:' line rather than an author-type tag."""
+    soup = BeautifulSoup(PER_AUTHOR_CORRESPONDING_LABEL, "lxml")
+    result = Wiley(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["D. Duc Nguyen"], (
+        f"expected D. Duc Nguyen from corresponding label but got {ca_names!r}"
+    )
+
+
+def test_author_info_corresponding_label_marks_author():
+    """Some Wiley pages put the corresponding-author label as a bare text
+    node inside author-info next to a protected email link."""
+    soup = BeautifulSoup(CONTAINER_CORRESPONDING_LABEL, "lxml")
+    result = Wiley(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["D. Duc Nguyen"], (
+        f"expected D. Duc Nguyen from author-info label but got {ca_names!r}"
     )
 
 

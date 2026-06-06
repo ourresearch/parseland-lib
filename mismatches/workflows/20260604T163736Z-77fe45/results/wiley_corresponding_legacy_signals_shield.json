@@ -1,0 +1,65 @@
+{
+  "agent_id": "codex-wiley-corresponding-current-kpi",
+  "artifact": "wiley_corresponding_legacy_signals_shield",
+  "artifacts": {
+    "focused_wiley_gate": "eval/runs/whole-goldie-focused-wiley-corresponding-legacy-signals-20260606T1940Z.json",
+    "full_10k_gate": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json"
+  },
+  "classification": "parser_owned_shipped_full10k_measured",
+  "completed_at": "2026-06-06T20:07:30.435013+00:00",
+  "diagnosis": "Wiley corresponding residual included legacy page patterns: single-token surname authors named only in article-header__correspondence-to, duplicated legacy Corresponding Author badges that overmarked every author, plain per-author Email:/correspondence lines, and bare author-info Corresponding author labels next to protected email links. Non-Wiley/generic residuals were left untouched.",
+  "field": "corresponding",
+  "fixed_doi_examples": [
+    "10.1046/j.1472-765x.1998.00315.x",
+    "10.1111/j.1439-0442.1998.tb00855.x",
+    "10.1111/j.1439-0396.1990.tb00228.x",
+    "10.1002/9781394274314.ch16",
+    "10.1111/j.1460-9592.2011.03742.x"
+  ],
+  "left_untouched_examples": [
+    {
+      "doi": "10.1002/jps.21028",
+      "reason": "non-Wiley/generic parser page; not Wiley parser-owned"
+    },
+    {
+      "doi": "10.1002/9783527670383.ch16",
+      "reason": "visible mailto marks three authors while current Goldie marks two; needs gold/manual review before narrowing"
+    }
+  ],
+  "metrics": {
+    "coverage_gold_empty_parser_present_count": 2654,
+    "coverage_html_available": 5113,
+    "coverage_retrieval_blocked_rows": 4887,
+    "coverage_total_rows": 10000,
+    "overall_corresponding_after": 0.966426255390416,
+    "overall_corresponding_before": 0.9655467172828998,
+    "overall_corresponding_delta_pp": 0.0879538107516207,
+    "wiley_corresponding_after": 0.9805684754521964,
+    "wiley_corresponding_before": 0.9739200943535308,
+    "wiley_corresponding_delta_pp": 0.6648381098665578,
+    "wiley_corresponding_empty_empty_pass": 359,
+    "wiley_corresponding_gold_empty_parser_present": 32,
+    "wiley_corresponding_gold_present_parser_empty": 12,
+    "wiley_corresponding_nonperfect_scored_rows": 14,
+    "wiley_corresponding_scored_rows": 645,
+    "wiley_distance_to_98_after": 0.0,
+    "wiley_html_available": 677,
+    "wiley_retrieval_blocked": 18,
+    "wiley_target": 0.98,
+    "wiley_total_rows": 695
+  },
+  "parser_changes": [
+    "Mark per-author CA from correspondence/corresponding-author/email labels in affiliation text.",
+    "Mark author-info containers containing a corresponding-author label, except on duplicated legacy badge pages.",
+    "Treat pages where every author has a generic Corresponding Author badge and no mailto as a legacy broadcast pattern; mark only the lead author.",
+    "Allow article-header__correspondence-to to match single-token surname author names of length >=4."
+  ],
+  "publisher_id": "wiley",
+  "recommendation": "Ship. Wiley corresponding crosses the 98% current-Goldie target. Continue with Wiley authors or the next higher-ranked global cell after report 336 publication; keep Browserbase backfill blocked until the key is available through the environment, not pasted into command text.",
+  "task_id": "v2_wiley_corresponding_4afd8b42",
+  "tests_run": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_wiley_corresp.py tests/test_wiley_affiliations.py tests/test_wiley_abstract.py tests/test_wiley_abstract_recovery.py tests/test_whole_goldie_html_block_reason.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers wiley --label focused-wiley-corresponding-legacy-signals --concurrency 8 --out eval/runs/whole-goldie-focused-wiley-corresponding-legacy-signals-20260606T1940Z.json",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-wiley-corresponding-legacy-signals --concurrency 8 --out eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json"
+  ]
+}

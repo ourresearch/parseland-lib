@@ -25,10 +25,10 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 17,
+    "needs_agent": 16,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 11,
+    "shipped_full10k_measured": 12,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_truncated_gold_prefix": 1
   },
@@ -38,7 +38,7 @@
     "ready": 55,
     "unknown": 5
   },
-  "coverage_gold_empty_parser_present_count": 2653,
+  "coverage_gold_empty_parser_present_count": 2654,
   "coverage_html_available": 5113,
   "coverage_retrieval_blocked_rows": 4887,
   "coverage_total_rows": 10000,
@@ -2763,6 +2763,23 @@
     "wiley_affiliations_after": 0.9814651416122004,
     "wiley_affiliations_before": 0.9656002790086985,
     "wiley_affiliations_delta_pp": 1.586486260350195
+  },
+  "wiley_corresponding_legacy_signals_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_corresponding_legacy_signals_shield.json",
+    "completed_at": "2026-06-06T20:07:30.435013+00:00",
+    "field": "corresponding",
+    "latest_focused_gate": "eval/runs/whole-goldie-focused-wiley-corresponding-legacy-signals-20260606T1940Z.json",
+    "latest_full10k_after": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+    "overall_corresponding_after": 0.966426255390416,
+    "overall_corresponding_before": 0.9655467172828998,
+    "overall_corresponding_delta_pp": 0.0879538107516207,
+    "publisher_id": "wiley",
+    "recommendation": "Ship. Wiley corresponding crosses the 98% current-Goldie target. Continue with Wiley authors or the next higher-ranked global cell after report 336 publication; keep Browserbase backfill blocked until the key is available through the environment, not pasted into command text.",
+    "status": "shipped_full10k_measured",
+    "task_id": "v2_wiley_corresponding_4afd8b42",
+    "wiley_corresponding_after": 0.9805684754521964,
+    "wiley_corresponding_before": 0.9739200943535308,
+    "wiley_corresponding_delta_pp": 0.6648381098665578
   },
   "wiley_pdf_url_normalization_state": {
     "completed_at": "2026-06-06T16:05:28.771446+00:00",

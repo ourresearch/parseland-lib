@@ -50,7 +50,13 @@ class Wiley(PublisherParser):
             tag = span.find("p", class_="author-type")
             return bool(tag and "corresponding" in tag.text.lower())
 
-        page_has_structured_ca = any(_has_author_type_ca(a) for a in authors)
+        author_type_ca_count = sum(1 for a in authors if _has_author_type_ca(a))
+        page_has_structured_ca = author_type_ca_count > 0
+        page_has_broadcast_author_type_ca = (
+            len(authors) > 1
+            and author_type_ca_count == len(authors)
+            and not author_soup.select_one('a[href*=mailto]')
+        )
         for author in authors:
             affiliations = []
             name = author.a.text
@@ -60,13 +66,27 @@ class Wiley(PublisherParser):
 
             author_type = author.find("p", class_="author-type")
             if author_type and "corresponding" in author_type.text.lower():
-                is_corresponding = True
+                is_corresponding = not page_has_broadcast_author_type_ca
             elif not page_has_structured_ca and author.select_one('a[href*=mailto]'):
                 is_corresponding = True
 
             for aff in aff_soup:
-                if "correspondence" in aff.get_text(" ", strip=True).lower() or "e-mail" in aff.get_text(" ", strip=True).lower():
+                aff_text_lower = aff.get_text(" ", strip=True).lower()
+                if (
+                    "correspondence" in aff_text_lower
+                    or "corresponding author" in aff_text_lower
+                    or "e-mail" in aff_text_lower
+                    or re.search(r"\bemail\s*:", aff_text_lower)
+                ):
                     is_corresponding = True
+
+            info_div = author.find("div", class_="author-info")
+            if (
+                not page_has_broadcast_author_type_ca
+                and info_div
+                and "corresponding author" in info_div.get_text(" ", strip=True).lower()
+            ):
+                is_corresponding = True
 
             for aff in aff_soup:
                 aff_text = aff.get_text(" ", strip=True)
@@ -114,7 +134,6 @@ class Wiley(PublisherParser):
             # chars with a comma (institution+location signal), excluding
             # known UI strings.
             if not affiliations:
-                info_div = author.find("div", class_="author-info")
                 if info_div is not None:
                     for child in info_div.children:
                         if not isinstance(child, NavigableString):
@@ -132,11 +151,13 @@ class Wiley(PublisherParser):
 
             results.append(
                 AuthorAffiliations(
-                    name=name,
+                    name=name.strip(),
                     affiliations=affiliations,
                     is_corresponding=is_corresponding,
                 )
             )
+        if page_has_broadcast_author_type_ca and results:
+            results[0].is_corresponding = True
         self._mark_corresponding_from_header_block(results)
         return results
 
@@ -190,10 +211,12 @@ class Wiley(PublisherParser):
                 continue
             name = (r.name or "").strip()
             tokens = name.split()
-            if len(tokens) < 2:
-                continue
             first = _norm(tokens[0])
             last = _norm(tokens[-1])
+            if len(tokens) == 1:
+                if len(first) >= 4 and first in block_text:
+                    r.is_corresponding = True
+                continue
             if first and last and first in block_text and last in block_text:
                 r.is_corresponding = True
 
