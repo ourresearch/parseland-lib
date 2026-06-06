@@ -505,22 +505,24 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             error=blocker,
         )
 
-    from browserbase import Browserbase
-    from playwright.sync_api import sync_playwright
-
-    bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
-    project_id = resolve_browserbase_project_id(bb)
-    if not project_id:
-        return GroundingResult(
-            doi=doi,
-            field=field,
-            status="blocked_no_browserbase_project",
-            error="Browserbase API key is set but no project id could be resolved",
-        )
-    session = bb.sessions.create(project_id=project_id)
-    session_id = getattr(session, "id", None)
+    session = None
+    session_id = None
     t0 = time.time()
     try:
+        from browserbase import Browserbase
+        from playwright.sync_api import sync_playwright
+
+        bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
+        project_id = resolve_browserbase_project_id(bb)
+        if not project_id:
+            return GroundingResult(
+                doi=doi,
+                field=field,
+                status="blocked_no_browserbase_project",
+                error="Browserbase API key is set but no project id could be resolved",
+            )
+        session = bb.sessions.create(project_id=project_id)
+        session_id = getattr(session, "id", None)
         with sync_playwright() as p:
             browser = p.chromium.connect_over_cdp(session.connect_url)
             ctx = browser.contexts[0]
@@ -637,10 +639,11 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             error=f"{type(exc).__name__}: {exc}",
         )
     finally:
-        try:
-            session.stop()
-        except Exception:
-            pass
+        if session is not None:
+            try:
+                session.stop()
+            except Exception:
+                pass
         _ = t0
 
 
@@ -758,7 +761,15 @@ def main() -> int:
         futures = {pool.submit(ground_one, candidate, args.evidence_dir): candidate for candidate in candidates}
         for fut in as_completed(futures):
             candidate = futures[fut]
-            result = fut.result()
+            try:
+                result = fut.result()
+            except Exception as exc:  # noqa: BLE001
+                result = GroundingResult(
+                    doi=str(candidate.get("doi") or ""),
+                    field=str(candidate.get("field") or ""),
+                    status="grounding_failed",
+                    error=f"worker_unhandled_exception: {type(exc).__name__}: {exc}",
+                )
             write_result(args.out, candidate, result)
             done += 1
             state_counts[result.status] = state_counts.get(result.status, 0) + 1

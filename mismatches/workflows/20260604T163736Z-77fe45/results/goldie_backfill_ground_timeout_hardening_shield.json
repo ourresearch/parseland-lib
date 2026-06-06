@@ -1,0 +1,37 @@
+{
+  "artifact_type": "shield_gate",
+  "created_at": "2026-06-06T04:42:43Z",
+  "unit": "goldie_backfill_ground_timeout_hardening",
+  "status": "green",
+  "purpose": "Ensure Browserbase session-create/API timeouts and worker exceptions are recorded as row-level Goldie-backfilled grounding failures instead of aborting a batch.",
+  "commands": [
+    {
+      "command": "python3 -m py_compile scripts/goldie_backfill_ground.py",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python scripts/goldie_backfill_ground.py --fields affiliations --publishers elsevier --statuses pending_browserbase --skip 35 --limit 1 --concurrency 1 --dry-run --run-id bb-timeout-hardening-dry-run --out /tmp/goldie-backfill-timeout-hardening.ndjson --evidence-dir /tmp/goldie-backfill-timeout-hardening-evidence",
+      "status": "passed",
+      "observed": {
+        "status": "dry_run",
+        "candidate_count": 1,
+        "browserbase_credentials": false,
+        "field": "affiliations",
+        "publisher": "elsevier"
+      }
+    },
+    {
+      "command": "./.venv/bin/python - <<'PY' ... simulated Browserbase session-create timeout and future fallback ... PY",
+      "status": "passed",
+      "observed": "ok: session-create timeout and future fallback are row-level failures"
+    }
+  ],
+  "kpi_impact": {
+    "current_goldie_kpi": "unchanged",
+    "goldie_backfilled_lane": "enables safe retry/scale of Browserbase grounding after transient API/session-create timeouts"
+  },
+  "files_verified": [
+    "scripts/goldie_backfill_ground.py"
+  ],
+  "next_action": "Retry Elsevier affiliation failed/unprocessed Browserbase rows with low concurrency after this hardening commit."
+}
