@@ -1,0 +1,26 @@
+{
+  "approved_rows": 7,
+  "batch_end": 118,
+  "batch_start": 110,
+  "blocked_dois": [
+    "10.2215/cjn.01340211"
+  ],
+  "blocked_rows": 1,
+  "browserbase_run_id": "bb-lippincott-affiliations-110-118-20260606T001016Z",
+  "completed_at": "2026-06-06T00:13:29.000000+00:00",
+  "cumulative_approved_rows": 83,
+  "cumulative_blocked_rows": 35,
+  "cumulative_reviewed_rows": 118,
+  "current_goldie_kpi_impact": 0.0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "publisher_id": "lippincott",
+  "recommendation": "Lippincott affiliations current Goldie-backfilled lane is complete; route 83 approved derived rows and 35 blocked rows to gold-auditor/manual DOM review.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_110_118_referee.ndjson",
+  "remaining_current_candidates": 0,
+  "resolved_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_affiliations_110_118_resolved_bb-lippincott-affiliations-110-118-20260606T001016Z.ndjson",
+  "reviewed_rows": 8,
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "goldie_backfill_referee_complete_83_approved_35_blocked",
+  "task_id": "v2_lippincott_affiliations_861e7de8"
+}
