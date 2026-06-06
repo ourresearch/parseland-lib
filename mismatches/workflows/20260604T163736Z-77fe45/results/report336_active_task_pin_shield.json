@@ -1,0 +1,27 @@
+{
+  "status": "green",
+  "updated_at": "2026-06-06T08:47:20Z",
+  "change": "Pin in-progress publisher-field rows first in report 336 so active workflow tasks are visible even when outside the top 100 by gap volume.",
+  "gates": [
+    {
+      "name": "py_compile",
+      "command": "PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python -m py_compile scripts/build_report336.py",
+      "result": "passed"
+    },
+    {
+      "name": "build_report336",
+      "command": "PYTHONPATH=. ./.venv/bin/python scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml",
+      "result": "passed"
+    },
+    {
+      "name": "local_report_grep",
+      "command": "rg -n \"codex-oxford-authors-current-kpi|v2_oxford_authors|in_progress|Active in-progress\" /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence/report.html",
+      "result": "passed"
+    }
+  ],
+  "report_effect": {
+    "active_task_visible": true,
+    "active_task": "v2_oxford_authors_b3d85788",
+    "active_agent": "codex-oxford-authors-current-kpi"
+  }
+}
