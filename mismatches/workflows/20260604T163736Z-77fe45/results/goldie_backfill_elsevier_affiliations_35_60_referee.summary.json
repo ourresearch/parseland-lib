@@ -1,0 +1,32 @@
+{
+  "run_id": "bb-elsevier-affiliations-35-60-20260606T0512Z",
+  "reviewed_at": "2026-06-06T05:17:17.813109+00:00",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_35_60_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_35_60_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "selected_rows": 25,
+  "grounded_rows": 25,
+  "approved": 25,
+  "blocked": 0,
+  "new_derived_rows": 25,
+  "grounding_status_counts": {
+    "candidate_evidence_needs_referee": 25
+  },
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 25
+  },
+  "approved_example_dois": [
+    "10.1016/j.cdc.2020.100378",
+    "10.1016/j.eats.2017.03.016",
+    "10.1016/j.eprac.2022.12.003",
+    "10.1016/j.fuel.2019.01.132",
+    "10.1016/j.gastre.2017.08.002"
+  ],
+  "blocked_example_dois": [],
+  "cumulative_approved_rows": 56,
+  "cumulative_blocked_or_retry_rows": 4,
+  "remaining_current_candidates_estimate": 22,
+  "status": "batch35_60_referee_complete_25_approved_0_blocked",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "next_action": "Continue Elsevier affiliation Browserbase grounding on the final 22 current candidates in a conservative batch; route the 56 approved derived labels plus 4 blocked rows to gold-auditor review."
+}
