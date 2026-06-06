@@ -1,0 +1,95 @@
+{
+  "created_at": "2026-06-06T02:58:57Z",
+  "gate": "elsevier_authors_abstract_classification_artifacts",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "cached_diff_check",
+      "cmd": "git diff --cached --check",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "staged_name_list",
+      "cmd": "git diff --cached --name-only",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "mismatches/elsevier_2026-06-06/abstract.csv\nmismatches/elsevier_2026-06-06/abstract.summary.json\nmismatches/elsevier_2026-06-06/authors.csv\nmismatches/elsevier_2026-06-06/authors.summary.json\nmismatches/workflows/20260604T163736Z-77fe45/blocked.ndjson\nmismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson\nmismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_abstract_classification_shield.json\nmismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_abstract_current_classification.summary.json\nmismatches/workflows/20260604T163736Z-77fe45/summary.json\nmismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson\n",
+      "stderr": ""
+    },
+    {
+      "name": "staged_secret_value_scan",
+      "cmd": "git diff --cached | rg -i <secret-value-pattern-redacted>",
+      "returncode": 1,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "json_validate:mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_abstract_current_classification.summary.json",
+      "cmd": "python json.load",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "json_validate:mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+      "cmd": "python json.load",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "json_validate:mismatches/elsevier_2026-06-06/authors.summary.json",
+      "cmd": "python json.load",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "json_validate:mismatches/elsevier_2026-06-06/abstract.summary.json",
+      "cmd": "python json.load",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "ndjson_validate:mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+      "cmd": "python json.loads per line",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "250 rows",
+      "stderr": ""
+    },
+    {
+      "name": "ndjson_validate:mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+      "cmd": "python json.loads per line",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "40 rows",
+      "stderr": ""
+    },
+    {
+      "name": "ndjson_validate:mismatches/workflows/20260604T163736Z-77fe45/blocked.ndjson",
+      "cmd": "python json.loads per line",
+      "returncode": 0,
+      "ok": true,
+      "stdout": "22 rows",
+      "stderr": ""
+    }
+  ],
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_abstract_current_classification.summary.json",
+  "classification_artifacts": [
+    "mismatches/elsevier_2026-06-06/authors.csv",
+    "mismatches/elsevier_2026-06-06/authors.summary.json",
+    "mismatches/elsevier_2026-06-06/abstract.csv",
+    "mismatches/elsevier_2026-06-06/abstract.summary.json"
+  ],
+  "notes": "Non-code Referee/Scribe slice. No parser KPI is claimed; Elsevier authors/abstract moved from needs_agent to classified_mixed_small_parser_headroom with DOI-level CSV evidence."
+}

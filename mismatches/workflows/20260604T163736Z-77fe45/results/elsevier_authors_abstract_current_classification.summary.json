@@ -1,0 +1,1006 @@
+{
+  "agent_id": "codex-elsevier-authors-abstract-referee",
+  "classification_artifacts": {
+    "abstract_csv": "mismatches/elsevier_2026-06-06/abstract.csv",
+    "abstract_summary": "mismatches/elsevier_2026-06-06/abstract.summary.json",
+    "authors_csv": "mismatches/elsevier_2026-06-06/authors.csv",
+    "authors_summary": "mismatches/elsevier_2026-06-06/authors.summary.json"
+  },
+  "current_run_artifacts": {
+    "abstract_inprocess": "/tmp/elsevier-abstract-current-20260606.json",
+    "authors_inprocess": "/tmp/elsevier-authors-current-20260606.json"
+  },
+  "diagnosis": "Elsevier authors and abstract classifier found the remaining current-Goldie gap is mixed and mostly not broad-parser owned. Authors have 23 parser_miss rows but 16 gold-owned and 15 no-action/unclear rows; abstract has 19 parser-owned rows versus 89 gold-owned/format-diff rows plus 8 retrieval errors. Broad parser edits would be low-yield and risky without tighter DOI-template lanes.",
+  "fields": {
+    "abstract": {
+      "classification_csv": "mismatches/elsevier_2026-06-06/abstract.csv",
+      "classification_summary": "mismatches/elsevier_2026-06-06/abstract.summary.json",
+      "date": "2026-06-06",
+      "errors": 8,
+      "examples_by_action": {
+        "fix_gold": [
+          {
+            "doi": "10.1016/j.aej.2017.04.016",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "In the travel demand modeling field, mode choice is the most important decision that affects the resulted road congestion. The behavioral nature of this decision is represented in ",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "In the travel demand modeling field, mode choice is the most important decision that affects the resulted road congestion. The behavioral nature of the disaggregate models and the ",
+            "score": "fuzzy=0.499 length_ratio=1.064 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.ajhg.2018.10.027",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Diamond-Blackfan anemia (DBA) is a rare bone marrow failure disorder that affects 7 out of 1,000,000 live births and has been associated with mutations in components of the ribosom",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Diamond-Blackfan anemia (DBA) is a rare bone marrow failure disorder that affects 7 out of 1,000,000 live births and has been associated with mutations in components of the ribosom",
+            "score": "fuzzy=0.667 length_ratio=2.001 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.ajog.2006.10.180",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Cerclage is beneficial in women with short cervix and prior preterm delivery. Recent meta-analyses have also shown: 1) no benefit of cerclage for cervical length (CL) \u00e2\u00a415 mm in lo",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "ObjectiveCerclage is beneficial in women with short cervix and prior preterm delivery. Recent meta-analyses have also shown: 1) no benefit of cerclage for cervical length (CL) \u226415 ",
+            "score": "fuzzy=0.130 length_ratio=14.301 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amc.2012.06.074",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Let F denote the class of all functions univalent in the unit disk and convex in the direction of the real axis. In the paper we discuss the functions n-fold symmetric and convex i",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Let F denote the class of all functions univalent in the unit disk and convex in the direction of the real axis. In the paper we discuss the functions of the class F which are n -f",
+            "score": "fuzzy=0.705 length_ratio=1.464 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amjcard.2020.07.014",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "This study sought to examine the differences in the characteristics and outcomes between men and women who underwent percutaneous coronary intervention (PCI) or coronary artery byp",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "\nThis study sought to examine the differences in the characteristics and outcomes between\n         men and women who underwent percutaneous coronary intervention (PCI) or coronary ",
+            "score": "fuzzy=0.625 length_ratio=2.199 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.athoracsur.2004.03.087",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "The authors describe a single patient undergoing a successful robotic mitral valve repair that used nitinol U-clips (Coalescent Surgical, Sunnyvale, CA) to secure the annuloplasty ",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "The authors describe a single patient undergoing a successful robotic mitral valve repair that used nitinol U-clips (Coalescent Surgical, Sunnyvale, CA) to secure the annuloplasty ",
+            "score": "fuzzy=0.366 length_ratio=4.443 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.bbmt.2015.11.725",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Children undergoing HSCT are at risk of significant morbidity and mortality from untreated or unrecognized hypertension. Analysis of our inpatient BMT unit revealed nearly 50% of a",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Children undergoing HSCT are at risk of significant morbidity and mortality from untreated or unrecognized hypertension. Analysis of our inpatient BMT unit revealed nearly 50% of a",
+            "score": "fuzzy=0.319 length_ratio=5.264 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.bmc.2015.06.029",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "In this paper, we describe the synthesis and pharmacological evaluation of a series of 4-aminoquinolines. The compounds were characterised and tested for their anti-nociceptive and",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "In this paper, we describe the synthesis and pharmacological evaluation of a series of 4-aminoquinolines. The compounds were characterised and tested in models of pain and inflamma",
+            "score": "fuzzy=0.512 length_ratio=0.687 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          }
+        ],
+        "fix_parser": [
+          {
+            "doi": "10.1016/0266-4356(89)90143-5",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "A case of bilateral acinic cell carcinoma occurring synchronously in the parotid glands is reported, treatment discussed and the literature reviewed.",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/b978-0-12-394317-0.00012-1",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Due to its importance both in the clearance of pathogens that contribute as rheumatic etiological agents and in the disposal of apoptotic bodies and potential autoimmune initiators",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.ajt.2025.07.840",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Purpose: The issue of donor discards needs to be put into historical context. This analysis was undertaken to understand better how kidney transplant donors have changed over 25 ye",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.bonr.2022.101362",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Background/Introduction: The skeleton is the most common site of secondary disease in breast cancer with over 70% of patients with advanced disease developing bone metastases. Bone",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.cahpu.2014.02.006",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Les parents qui se rendent au service de protection maternelle et infantile avec leur nouveau-n\u00e9 cherchent une r\u00e9ponse \u00e0 leurs questions et \u00e0 leurs h\u00e9sitations. Les conseils de pro",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.cahpu.2020.10.009",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "La r\u00e9flexion organis\u00e9e autour des \u00e9v\u00e9nements ind\u00e9sirables rencontr\u00e9s au sein du service de r\u00e9animation n\u00e9onatale du centre hospitalier universitaire d'Angers (Maine-et-Loire) a con",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.earlhumdev.2010.09.336",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "The objective is to review the small preterms that admitted to our Neonatal Intensive Care Unit (NICU), and to evaluate their mortality and morbidity. In this study, preterm infant",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.ijscr.2021.106235",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Obesity has been proven to have adverse effects on fertility and is one of the predisposing factors for delay in pregnancy even with the use of assisted reproductive technique. The",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          }
+        ],
+        "unclear_review": [
+          {
+            "doi": "10.1016/0169-5002(95)90532-4",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "The action of angiotensin II (ANG II) was studied in single myocytes from rat portal vein, in which the cytoplasmic Ca++ concentration was estimated by emission from fluorescent dy",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          },
+          {
+            "doi": "10.1016/b978-1-4160-3370-7.00049-3",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "The purpose of the work is in computer engineering and materials science: modeling, interpretation of N-dimensional into two-dimensional and selection of optimal parameters of an e",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          },
+          {
+            "doi": "10.1016/j.cgh.2011.10.021",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "An 87-year-old male was referred for colonoscopy because of rectal bleeding. He had a history of coronary revascularization surgery and chronic obstructive pulmonary disease. Colon",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          }
+        ]
+      },
+      "examples_by_bucket": {
+        "both_on_page_format_diff": [
+          {
+            "doi": "10.1016/j.aej.2017.04.016",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "In the travel demand modeling field, mode choice is the most important decision that affects the resulted road congestion. The behavioral nature of this decision is represented in ",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "In the travel demand modeling field, mode choice is the most important decision that affects the resulted road congestion. The behavioral nature of the disaggregate models and the ",
+            "score": "fuzzy=0.499 length_ratio=1.064 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.ajhg.2018.10.027",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Diamond-Blackfan anemia (DBA) is a rare bone marrow failure disorder that affects 7 out of 1,000,000 live births and has been associated with mutations in components of the ribosom",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Diamond-Blackfan anemia (DBA) is a rare bone marrow failure disorder that affects 7 out of 1,000,000 live births and has been associated with mutations in components of the ribosom",
+            "score": "fuzzy=0.667 length_ratio=2.001 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.ajog.2006.10.180",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Cerclage is beneficial in women with short cervix and prior preterm delivery. Recent meta-analyses have also shown: 1) no benefit of cerclage for cervical length (CL) \u00e2\u00a415 mm in lo",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "ObjectiveCerclage is beneficial in women with short cervix and prior preterm delivery. Recent meta-analyses have also shown: 1) no benefit of cerclage for cervical length (CL) \u226415 ",
+            "score": "fuzzy=0.130 length_ratio=14.301 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amc.2012.06.074",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Let F denote the class of all functions univalent in the unit disk and convex in the direction of the real axis. In the paper we discuss the functions n-fold symmetric and convex i",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Let F denote the class of all functions univalent in the unit disk and convex in the direction of the real axis. In the paper we discuss the functions of the class F which are n -f",
+            "score": "fuzzy=0.705 length_ratio=1.464 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amjcard.2020.07.014",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "This study sought to examine the differences in the characteristics and outcomes between men and women who underwent percutaneous coronary intervention (PCI) or coronary artery byp",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "\nThis study sought to examine the differences in the characteristics and outcomes between\n         men and women who underwent percutaneous coronary intervention (PCI) or coronary ",
+            "score": "fuzzy=0.625 length_ratio=2.199 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "both_on_page_format_diff"
+          }
+        ],
+        "different_language": [
+          {
+            "doi": "10.1016/j.jtho.2018.03.015",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Malignant pleural mesothelioma (MPM) is a particularly aggressive tumor; it is asbestos related, arising from mesothelial cells of the pleura. In MPM conventional therapies are oft",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Malignant pleural mesothelioma (MPM) is a particularly aggressive tumor; it is asbestos related, arising from mesothelial cells of the pleura. In MPM conventional therapies are oft",
+            "score": "fuzzy=0.068 length_ratio=28.238 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "different_language"
+          },
+          {
+            "doi": "10.1016/s0002-9440(10)64321-0",
+            "gold_on_page": "",
+            "gold_value_excerpt": "The effective phagocytotic clearance of apoptotic debris is fundamental to the maintenance of neural tissues during apoptosis. Retinal photoreceptors undergo apoptosis after retina",
+            "parser_on_page": "",
+            "parser_value_excerpt": "The effective phagocytotic clearance of apoptotic debris is fundamental to the maintenance of neural tissues during apoptosis. Retinal photoreceptors undergo apoptosis after retina",
+            "score": "fuzzy=0.056 length_ratio=34.650 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "different_language"
+          }
+        ],
+        "gold_string_not_on_page": [
+          {
+            "doi": "10.1016/0005-2728(96)00008-4",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "We have analyzed the effects of n -hexane, 1-hexanethiol, and 1-hexanol on the coupled respiration of rat liver mitochondria. Incubation of mitochondria with n -hexane, 1-hexanethi",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/0008-6223(93)90006-v",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Vapor-grown carbon fibers (VGCFs) were prepared using floating catalysts in Linz-Donawitz converter gas (LDG) under several conditions for supplying a benzene solution containing c",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/0013-4686(80)87057-5",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "The dissociation constants of phosphoric acid have been determined in methanol-water mixtures (8.0\u201387% by weight of methanol) by the method suggested by Gelb. The results have been",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/0022-3697(82)90158-5",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "The absorption and fluorescence spectra of a UO 2 (NO 3 ) 2 .6H 2 O single crystal at 77 K agree with those reported previously. Analysis of the absorption spectrum yielded four el",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/0025-5408(93)90125-w",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "",
+            "parser_on_page": "True",
+            "parser_value_excerpt": "Barium hexaferrite and hexaaluminate are of hexagonal symmetry ( P 6 3 mmc ) with a structure respectively of magnetoplumbite (MP) and \u00df-alumina (\u00df) type. The BaAl x Fe 12\u2212x O 19 p",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_string_not_on_page"
+          }
+        ],
+        "neither_on_page": [
+          {
+            "doi": "10.1016/0169-5002(95)90532-4",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "The action of angiotensin II (ANG II) was studied in single myocytes from rat portal vein, in which the cytoplasmic Ca++ concentration was estimated by emission from fluorescent dy",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          },
+          {
+            "doi": "10.1016/b978-1-4160-3370-7.00049-3",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "The purpose of the work is in computer engineering and materials science: modeling, interpretation of N-dimensional into two-dimensional and selection of optimal parameters of an e",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          },
+          {
+            "doi": "10.1016/j.cgh.2011.10.021",
+            "gold_on_page": "False",
+            "gold_value_excerpt": "An 87-year-old male was referred for colonoscopy because of rectal bleeding. He had a history of coronary revascularization surgery and chronic obstructive pulmonary disease. Colon",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "neither_on_page"
+          }
+        ],
+        "parser_string_not_on_page": [
+          {
+            "doi": "10.1016/0266-4356(89)90143-5",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "A case of bilateral acinic cell carcinoma occurring synchronously in the parotid glands is reported, treatment discussed and the literature reviewed.",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/b978-0-12-394317-0.00012-1",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Due to its importance both in the clearance of pathogens that contribute as rheumatic etiological agents and in the disposal of apoptotic bodies and potential autoimmune initiators",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.ajt.2025.07.840",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Purpose: The issue of donor discards needs to be put into historical context. This analysis was undertaken to understand better how kidney transplant donors have changed over 25 ye",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.bonr.2022.101362",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Background/Introduction: The skeleton is the most common site of secondary disease in breast cancer with over 70% of patients with advanced disease developing bone metastases. Bone",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          },
+          {
+            "doi": "10.1016/j.cahpu.2014.02.006",
+            "gold_on_page": "True",
+            "gold_value_excerpt": "Les parents qui se rendent au service de protection maternelle et infantile avec leur nouveau-n\u00e9 cherchent une r\u00e9ponse \u00e0 leurs questions et \u00e0 leurs h\u00e9sitations. Les conseils de pro",
+            "parser_on_page": "False",
+            "parser_value_excerpt": "",
+            "score": "fuzzy=0.000 length_ratio=0.000 match@0.74=False",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_string_not_on_page"
+          }
+        ]
+      },
+      "expected_current_goldie_kpi_impact_upper_bound_pp": 0.38,
+      "field": "abstract",
+      "generated_at": "2026-06-06T02:18:23Z",
+      "gold_ndjson": "tests/fixtures/elsevier-10k-gold.ndjson",
+      "input_artifact": "/tmp/elsevier-abstract-current-20260606.json",
+      "input_rows": 1348,
+      "mismatch_rows": 111,
+      "next_action": "Prototype only a conservative short citation_abstract meta fallback, then route 89 fix_gold, 3 unclear, 8 R2 timeout rows, and portal visible-text variants to gold-auditor/retrieval/manual-DOM lanes.",
+      "publisher": "elsevier",
+      "skipped_perfect": 1229,
+      "status": "classified_mixed_small_parser_headroom",
+      "tally_action": {
+        "fix_gold": 89,
+        "fix_parser": 19,
+        "unclear_review": 3
+      },
+      "tally_bucket": {
+        "both_on_page_format_diff": 52,
+        "different_language": 2,
+        "gold_string_not_on_page": 35,
+        "neither_on_page": 3,
+        "parser_string_not_on_page": 19
+      },
+      "task_id": "v2_elsevier_abstract_47cf7fbc",
+      "wallclock_seconds": 1470.1
+    },
+    "authors": {
+      "classification_csv": "mismatches/elsevier_2026-06-06/authors.csv",
+      "classification_summary": "mismatches/elsevier_2026-06-06/authors.summary.json",
+      "date": "2026-06-06",
+      "errors": 0,
+      "examples_by_action": {
+        "fix_gold": [
+          {
+            "doi": "10.1016/b978-1-4160-3370-7.00049-3",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Mashunin Yu. K.",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Ludwik S. Szymanski",
+            "score": "f1_soft=0.000 matched=0/1g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.aej.2017.04.016",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Hossam Abdelgawad; Constantinos Antoniou; Baher Abdulhai",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Mounir Mahmoud Moghazy Abdel-Aal",
+            "score": "f1_soft=0.000 matched=0/3g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.dam.2004.07.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Edith Elkind; Leslie Ann Goldberg; Paul W. Goldberg",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Christian Gla\u00dfer; Steffen Reith; Heribert Vollmer",
+            "score": "f1_soft=0.000 matched=0/3g/3p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.desal.2024.118090",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Prathap Kumar Kore; Senthilmurugan Subbiah",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Allan Soo; Ho Kyong Shon",
+            "score": "f1_soft=0.000 matched=0/2g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.jat.2015.02.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Ryszard Szwarc",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Doron S. Lubinsky",
+            "score": "f1_soft=0.000 matched=0/1g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.jde.2019.06.001",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Chufen Wu; Yang Wang; Qian Zhao",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Xing Liang; Tao Zhou",
+            "score": "f1_soft=0.000 matched=0/3g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.physletb.2016.03.083",
+            "gold_on_page": "",
+            "gold_value_excerpt": "A. Akhunzyanov",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Roman N. Lee; Kirill T. Mingulov",
+            "score": "f1_soft=0.000 matched=0/1g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.rinam.2023.100416",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Mostafa M.A. Khater",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Kanyuta Poochinapan; Ben Wongsaijai",
+            "score": "f1_soft=0.000 matched=0/1g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          }
+        ],
+        "fix_parser": [
+          {
+            "doi": "10.1016/0013-4694(81)92419-6",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Y. Matsue; T. Okuma",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0013-7480(68)90094-6",
+            "gold_on_page": "",
+            "gold_value_excerpt": "J. Randall; R. A. Kenyon",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0167-9236(87)90107-2",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Robert B. Allen",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/1g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0304-3959(84)90204-5",
+            "gold_on_page": "",
+            "gold_value_excerpt": "P. Kemppainen; A. Pertovaara; G. Johansson",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/3g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0734-9750(96)82726-1",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Cormier Milton J; Prasher Dougla",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0887-6177(90)90065-w",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Eisenstein, H. H.; Selevan-Eisenstein, E. L.",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/j.cahpu.2014.02.006",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Anne Lucas",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/1g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/j.cahpu.2020.10.009",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Delphine Morin; Laure Girard; G\u00e9raldine Vall\u00e9e; Kelly-Joyce Doisneau",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/4g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          }
+        ],
+        "no_action": [
+          {
+            "doi": "10.1016/0165-0270(93)90110-d",
+            "gold_on_page": "",
+            "gold_value_excerpt": "B. Beresford-Smith; K.V. Nesbitt",
+            "parser_on_page": "",
+            "parser_value_excerpt": "B. Beresford-Smith; K.V. Nesbitt; D.F. Van Helden",
+            "score": "f1_soft=0.800 matched=2/2g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/0370-2693(83)91176-0",
+            "gold_on_page": "",
+            "gold_value_excerpt": "TASSO Collaboration; M. Althoff; R. Brandelik; W. Braunschweig; K. Gather; F.J. Kirschfink; K. L\u00fcbelsmeyer; H.-U. Martyn; G. Peise; J. Rimkus; H.G. Sander; D. Schmitz; H. Siebke; D",
+            "parser_on_page": "",
+            "parser_value_excerpt": "M. Althoff; R. Brandelik; W. Braunschweig; K. Gather; F.J. Kirschfink; K. L\u00fcbelsmeyer; H.-U. Martyn; G. Peise; J. Rimkus; H.G. Sander; D. Schmitz; H. Siebke; D. Trines; W. Wallraff",
+            "score": "f1_soft=0.976 matched=20/21g/20p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amc.2012.06.074",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Les\u0142aw Skrzypczak; J\u00f3zef Kalinowski; Leopold Koczan; Pawe\u0142 Zaprawa",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Leopold Koczan; Pawe\u0142 Zaprawa",
+            "score": "f1_soft=0.667 matched=2/4g/2p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amp.2023.08.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Haute Autorit\u00e9 de sant\u00e9 (HAS); Groupe de travail; Jacques Glikman; Laurence Chazalette; Marielle Lafont",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Jacques Glikman; Laurence Chazalette; Marielle Lafont",
+            "score": "f1_soft=0.750 matched=3/5g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.femsle.2004.05.001",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Slavom\u00c4\u00b1\u00ccr Bystrick\u00c3\u00bd; Ema Paulovicov\u00c3\u00a1; Eva Machov\u00c3\u00a1; Slavom\u0131\u0301r Bystrick\u00fd",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Slavom\u0131\u0301r Bystrick\u00fd; Ema Paulovicov\u00e1; Eva Machov\u00e1",
+            "score": "f1_soft=0.857 matched=3/4g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.geomphys.2013.09.003",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Wenjie Wang; Marian Ioan Munteanu; Luc Vrancken",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Marian Ioan Munteanu; Luc Vrancken",
+            "score": "f1_soft=0.800 matched=2/3g/2p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.ijsolstr.2006.06.007",
+            "gold_on_page": "",
+            "gold_value_excerpt": "R.C. Smith; S. Seelecke; M. Dapino; Z. Ounaies; Sang-Joo Kim",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Sang-Joo Kim; Stefan Seelecke",
+            "score": "f1_soft=0.571 matched=2/5g/2p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.jaad.2023.07.223",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Sue Ellen Cox; Glynis Ablon; Joel Cohen; Daniel P. Friedmann; Paul Lorenc; Steven Dayan; Breanna Pasko",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Sue Ellen Cox; Aesthetic Solutions; Glynis Ablon; Joel Cohen; Daniel P. Friedmann; Paul Lorenc; Steven Dayan; Breanna Pasko",
+            "score": "f1_soft=0.933 matched=7/7g/8p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          }
+        ],
+        "unclear_review": [
+          {
+            "doi": "10.1016/s1569-9056(11)60429-6",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "S. Schneider; B. Roth; G.N. Thalmann",
+            "score": "f1_soft=0.000 matched=0/0g/3p",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "gold_missing_parser_has"
+          },
+          {
+            "doi": "10.1016/0169-5002(95)90532-4",
+            "gold_on_page": "",
+            "gold_value_excerpt": "N Macrez-Lepr\u00eatre; J L Morel; J Mironneau",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/3g/0p",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/b978-0-12-394597-6.09995-x",
+            "gold_on_page": "",
+            "gold_value_excerpt": "So\u0148a \u0160krov\u00e1nkov\u00e1; Jarmila Ambro\u017eov\u00e1; Elke K. Arendt; Dr Regina Belski; Susana Buxaderas; Aidan Coffey; Mohamed F. Jeebhay; Elvira L\u00f3pez-Tamames; Andreas L. Lopata; Ludmila Mach\u016f; L",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/14g/0p",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/b978-0-323-99971-7.05001-3",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Niall Hyland; Catherine Stanton",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "unclear_review",
+            "verdict_bucket": "parser_miss"
+          }
+        ]
+      },
+      "examples_by_bucket": {
+        "disjoint_names_gold_likely_wrong": [
+          {
+            "doi": "10.1016/b978-1-4160-3370-7.00049-3",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Mashunin Yu. K.",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Ludwik S. Szymanski",
+            "score": "f1_soft=0.000 matched=0/1g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.aej.2017.04.016",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Hossam Abdelgawad; Constantinos Antoniou; Baher Abdulhai",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Mounir Mahmoud Moghazy Abdel-Aal",
+            "score": "f1_soft=0.000 matched=0/3g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.dam.2004.07.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Edith Elkind; Leslie Ann Goldberg; Paul W. Goldberg",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Christian Gla\u00dfer; Steffen Reith; Heribert Vollmer",
+            "score": "f1_soft=0.000 matched=0/3g/3p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.desal.2024.118090",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Prathap Kumar Kore; Senthilmurugan Subbiah",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Allan Soo; Ho Kyong Shon",
+            "score": "f1_soft=0.000 matched=0/2g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          },
+          {
+            "doi": "10.1016/j.jat.2015.02.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Ryszard Szwarc",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Doron S. Lubinsky",
+            "score": "f1_soft=0.000 matched=0/1g/1p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "disjoint_names_gold_likely_wrong"
+          }
+        ],
+        "gold_missing_parser_has": [
+          {
+            "doi": "10.1016/0041-624x(70)90615-3",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "H.V. Fairbanks; T.K. Hu; J.W. Leonard",
+            "score": "f1_soft=0.000 matched=0/0g/3p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_missing_parser_has"
+          },
+          {
+            "doi": "10.1016/j.jocn.2015.03.045",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "E. Warner; B.S. Jassar; G. Samandouras",
+            "score": "f1_soft=0.000 matched=0/0g/3p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_missing_parser_has"
+          },
+          {
+            "doi": "10.1016/s0168-8278(25)01676-9",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Arunkumar Krishnan; Diptasree Mukherjee; Aldanah Althwanay; Faisal Abaalkhail; Waleed K Al-Hamoudi; Saleh A Alqahtani",
+            "score": "f1_soft=0.000 matched=0/0g/6p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_missing_parser_has"
+          },
+          {
+            "doi": "10.1016/s0927-0256(97)82570-0",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Didier de Fontaine; Hugues Dreyss\u00e9",
+            "score": "f1_soft=0.000 matched=0/0g/2p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_missing_parser_has"
+          },
+          {
+            "doi": "10.1016/s1359-6349(09)71627-1",
+            "gold_on_page": "",
+            "gold_value_excerpt": "",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Y. Kim; H. Wu; Y. Jeon; H. Go; S. Lee; E. Kwon",
+            "score": "f1_soft=0.000 matched=0/0g/6p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "gold_missing_parser_has"
+          }
+        ],
+        "names_overlap_format_diff": [
+          {
+            "doi": "10.1016/0165-0270(93)90110-d",
+            "gold_on_page": "",
+            "gold_value_excerpt": "B. Beresford-Smith; K.V. Nesbitt",
+            "parser_on_page": "",
+            "parser_value_excerpt": "B. Beresford-Smith; K.V. Nesbitt; D.F. Van Helden",
+            "score": "f1_soft=0.800 matched=2/2g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/0370-2693(83)91176-0",
+            "gold_on_page": "",
+            "gold_value_excerpt": "TASSO Collaboration; M. Althoff; R. Brandelik; W. Braunschweig; K. Gather; F.J. Kirschfink; K. L\u00fcbelsmeyer; H.-U. Martyn; G. Peise; J. Rimkus; H.G. Sander; D. Schmitz; H. Siebke; D",
+            "parser_on_page": "",
+            "parser_value_excerpt": "M. Althoff; R. Brandelik; W. Braunschweig; K. Gather; F.J. Kirschfink; K. L\u00fcbelsmeyer; H.-U. Martyn; G. Peise; J. Rimkus; H.G. Sander; D. Schmitz; H. Siebke; D. Trines; W. Wallraff",
+            "score": "f1_soft=0.976 matched=20/21g/20p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amc.2012.06.074",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Les\u0142aw Skrzypczak; J\u00f3zef Kalinowski; Leopold Koczan; Pawe\u0142 Zaprawa",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Leopold Koczan; Pawe\u0142 Zaprawa",
+            "score": "f1_soft=0.667 matched=2/4g/2p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.amp.2023.08.005",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Haute Autorit\u00e9 de sant\u00e9 (HAS); Groupe de travail; Jacques Glikman; Laurence Chazalette; Marielle Lafont",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Jacques Glikman; Laurence Chazalette; Marielle Lafont",
+            "score": "f1_soft=0.750 matched=3/5g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          },
+          {
+            "doi": "10.1016/j.femsle.2004.05.001",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Slavom\u00c4\u00b1\u00ccr Bystrick\u00c3\u00bd; Ema Paulovicov\u00c3\u00a1; Eva Machov\u00c3\u00a1; Slavom\u0131\u0301r Bystrick\u00fd",
+            "parser_on_page": "",
+            "parser_value_excerpt": "Slavom\u0131\u0301r Bystrick\u00fd; Ema Paulovicov\u00e1; Eva Machov\u00e1",
+            "score": "f1_soft=0.857 matched=3/4g/3p",
+            "suggested_action": "no_action",
+            "verdict_bucket": "names_overlap_format_diff"
+          }
+        ],
+        "parser_miss": [
+          {
+            "doi": "10.1016/0013-4694(81)92419-6",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Y. Matsue; T. Okuma",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0013-7480(68)90094-6",
+            "gold_on_page": "",
+            "gold_value_excerpt": "J. Randall; R. A. Kenyon",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0167-9236(87)90107-2",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Robert B. Allen",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/1g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0304-3959(84)90204-5",
+            "gold_on_page": "",
+            "gold_value_excerpt": "P. Kemppainen; A. Pertovaara; G. Johansson",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/3g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          },
+          {
+            "doi": "10.1016/0734-9750(96)82726-1",
+            "gold_on_page": "",
+            "gold_value_excerpt": "Cormier Milton J; Prasher Dougla",
+            "parser_on_page": "",
+            "parser_value_excerpt": "",
+            "score": "f1_soft=0.000 matched=0/2g/0p",
+            "suggested_action": "fix_parser",
+            "verdict_bucket": "parser_miss"
+          }
+        ],
+        "partial_overlap_gold_off_page": [
+          {
+            "doi": "10.1016/j.net.2023.05.017",
+            "gold_on_page": "0",
+            "gold_value_excerpt": "Yu Wu; Xin Chen; Min Xie; Haokun Mao; Yiwen Liu; Zhengping Wang; Chunlei Su",
+            "parser_on_page": "4",
+            "parser_value_excerpt": "Jianwen Huo; Xulin Hu; Junling Wang; Li Hu",
+            "score": "f1_soft=0.000 matched=0/7g/4p",
+            "suggested_action": "fix_gold",
+            "verdict_bucket": "partial_overlap_gold_off_page"
+          }
+        ]
+      },
+      "expected_current_goldie_kpi_impact_upper_bound_pp": 0.47,
+      "field": "authors",
+      "generated_at": "2026-06-06T02:05:12Z",
+      "gold_ndjson": "tests/fixtures/elsevier-10k-gold.ndjson",
+      "input_artifact": "/tmp/elsevier-authors-current-20260606.json",
+      "input_rows": 1348,
+      "mismatch_rows": 54,
+      "next_action": "No broad authors parser patch from this classifier. Send 16 fix_gold and 4 unclear rows to gold-auditor; investigate the 23 parser_miss rows only through a title-byline/portal manual-DOM specialist lane.",
+      "publisher": "elsevier",
+      "skipped_perfect": 1294,
+      "status": "classified_mixed_small_parser_headroom",
+      "tally_action": {
+        "fix_gold": 16,
+        "fix_parser": 23,
+        "no_action": 11,
+        "unclear_review": 4
+      },
+      "tally_bucket": {
+        "disjoint_names_gold_likely_wrong": 10,
+        "gold_missing_parser_has": 6,
+        "names_overlap_format_diff": 11,
+        "parser_miss": 26,
+        "partial_overlap_gold_off_page": 1
+      },
+      "task_id": "v2_elsevier_authors_7632bf6a",
+      "wallclock_seconds": 678.8
+    }
+  },
+  "generated_at": "2026-06-06T02:51:52Z",
+  "policy": "Current-Goldie KPI stays separate from Goldie-backfilled. Gold-owned rows are not parser wins; parser rows need DOI-template evidence and Shield gates before code changes.",
+  "publisher_id": "elsevier",
+  "recommendation": "Keep sprint active but move Elsevier authors/abstract out of generic needs_agent. Next highest safe code candidate is a narrow Elsevier citation_abstract short-meta fallback; remaining title-byline and portal cases are manual-DOM or gold-auditor lanes.",
+  "run_id": "20260604T163736Z-77fe45"
+}

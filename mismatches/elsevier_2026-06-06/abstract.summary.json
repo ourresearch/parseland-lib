@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-06T02:18:23Z",
+  "publisher": "elsevier",
+  "field": "abstract",
+  "date": "2026-06-06",
+  "input_artifact": "/tmp/elsevier-abstract-current-20260606.json",
+  "gold_ndjson": "tests/fixtures/elsevier-10k-gold.ndjson",
+  "input_rows": 1348,
+  "skipped_perfect": 1229,
+  "errors": 8,
+  "mismatch_rows": 111,
+  "tally_bucket": {
+    "both_on_page_format_diff": 52,
+    "parser_string_not_on_page": 19,
+    "gold_string_not_on_page": 35,
+    "neither_on_page": 3,
+    "different_language": 2
+  },
+  "tally_action": {
+    "fix_gold": 89,
+    "fix_parser": 19,
+    "unclear_review": 3
+  },
+  "wallclock_seconds": 1470.1
+}
