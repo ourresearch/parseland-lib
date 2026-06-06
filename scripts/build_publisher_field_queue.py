@@ -35,6 +35,26 @@ FIELD_METRICS = {
     "corresponding": "corresponding_accuracy",
 }
 
+GENERIC_STATUSES = {
+    "above_98",
+    "generic_only",
+    "goldie_backfill_pending",
+    "in_progress",
+    "needs_agent",
+    "onboarding",
+    "publisher_unknown",
+    "retrieval_blocked",
+    "unsupported",
+}
+
+LOW_DETAIL_CLAIM_STATUSES = {
+    "blocked",
+    "complete",
+    "completed",
+    "in_progress",
+    "partial",
+}
+
 
 def latest_whole_goldie_run() -> Path | None:
     candidates = list((REPO_ROOT / "eval" / "runs").glob("whole-goldie*.json"))
@@ -61,6 +81,32 @@ def load_claims(workflow_dir: Path) -> dict[str, dict]:
                 continue
             claims[row.get("task_id", "")] = row
     return claims
+
+
+def load_existing_tasks(queue_path: Path) -> dict[str, dict]:
+    tasks: dict[str, dict] = {}
+    if not queue_path.exists():
+        return tasks
+    with open(queue_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            task_id = row.get("task_id")
+            if task_id:
+                tasks[task_id] = row
+    return tasks
+
+
+def should_preserve_existing_status(task: dict | None) -> bool:
+    if not task:
+        return False
+    status = task.get("status")
+    return bool(status) and status not in GENERIC_STATUSES
 
 
 def classify_publisher(pub: str, *, parser_status_value: str, gold_fixture: str | None) -> str:
@@ -117,6 +163,7 @@ def build_queue(run_path: Path, workflow_dir: Path, *, run_id: str | None = None
     queue_path = workflow_dir / "publisher-field-queue.v2.ndjson"
     classification_path = workflow_dir / "publisher-classification.ndjson"
     summary_path = workflow_dir / "summary.json"
+    existing_tasks = load_existing_tasks(queue_path)
 
     classifications: list[dict] = []
     tasks: list[dict] = []
@@ -167,6 +214,22 @@ def build_queue(run_path: Path, workflow_dir: Path, *, run_id: str | None = None
             task_suffix = hashlib.sha1(f"{pub}|{field}|{total_rows}".encode()).hexdigest()[:8]
             task_id = f"v2_{pub}_{field}_{task_suffix}"
             claim = claims.get(task_id)
+            claim_status = claim.get("status") if claim else None
+            existing_task = existing_tasks.get(task_id)
+            claim_has_specific_status = bool(
+                claim_status and claim_status not in LOW_DETAIL_CLAIM_STATUSES
+            )
+            preserve_existing = (
+                should_preserve_existing_status(existing_task)
+                and not claim_has_specific_status
+            )
+            assigned_agent = claim.get("agent_id") if claim else None
+            worktree_path = claim.get("worktree_path") if claim else None
+            artifact_path = claim.get("artifact_path") if claim else None
+            if preserve_existing:
+                assigned_agent = assigned_agent or existing_task.get("assigned_agent")
+                worktree_path = worktree_path or existing_task.get("worktree_path")
+                artifact_path = artifact_path or existing_task.get("artifact_path")
             task = {
                 "task_id": task_id,
                 "publisher_id": pub,
@@ -194,11 +257,19 @@ def build_queue(run_path: Path, workflow_dir: Path, *, run_id: str | None = None
                     "fixture-missing"
                 ),
                 "gold_fixture_path": fixture,
-                "assigned_agent": claim.get("agent_id") if claim else None,
-                "worktree_path": claim.get("worktree_path") if claim else None,
-                "status": claim.get("status") if claim else status,
-                "artifact_path": claim.get("artifact_path") if claim else None,
-                "next_action": next_action,
+                "assigned_agent": assigned_agent,
+                "worktree_path": worktree_path,
+                "status": (
+                    existing_task.get("status")
+                    if preserve_existing
+                    else claim_status or status
+                ),
+                "artifact_path": artifact_path,
+                "next_action": (
+                    existing_task.get("next_action")
+                    if preserve_existing and existing_task.get("next_action")
+                    else next_action
+                ),
                 "latest_run": str(run_path),
                 "created_at": created_at,
             }

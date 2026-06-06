@@ -1,0 +1,32 @@
+{
+  "status": "green",
+  "task": "pathfinder_batch21_queue_refresh",
+  "timestamp_utc": "2026-06-06T20:17:00Z",
+  "source_whole_goldie": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+  "commands": [
+    "./.venv/bin/python -m py_compile scripts/build_publisher_field_queue.py",
+    "./.venv/bin/python scripts/build_publisher_field_queue.py --run eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json --workflow-dir mismatches/workflows/20260604T163736Z-77fe45 --run-id queue-refresh-after-batch21-preserve-status-v2",
+    "jq empty mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "git diff --check -- scripts/build_publisher_field_queue.py mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "validations": {
+    "py_compile": "passed",
+    "queue_build": "passed",
+    "summary_json": "passed",
+    "diff_check": "passed",
+    "task_count": 250,
+    "publisher_count": 50
+  },
+  "impact": {
+    "kpi_change": "none",
+    "wiley_authors_current_kpi": 0.9817,
+    "wiley_authors_status": "goldie_backfill_pending",
+    "next_ready_needs_agent": {
+      "publisher": "taylor",
+      "field": "affiliations",
+      "current_kpi": 0.9605,
+      "distance_to_98": 0.0195
+    }
+  },
+  "notes": "Queue builder now falls back to computed status when claim status is absent and preserves richer existing shipped/blocked/referee queue statuses when old claims only say complete/partial/blocked. This prevents stale Wiley authors work while preserving blocked Goldie-backfilled lanes."
+}
