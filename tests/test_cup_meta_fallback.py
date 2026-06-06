@@ -16,9 +16,14 @@ from __future__ import annotations
 
 from bs4 import BeautifulSoup
 
+from parseland_lib.parse import parse_page
 from parseland_lib.publisher.parsers.cup import CUP
 
 CAMBRIDGE_OG = '<meta property="og:url" content="https://www.cambridge.org/core/x" />'
+CAMBRIDGE_CANONICAL = (
+    '<link rel="canonical" '
+    'href="https://www.cambridge.org/core/books/example/chapter/ABC123" />'
+)
 
 
 def _wrap(head_extra: str, body: str = "") -> str:
@@ -96,3 +101,36 @@ def test_journal_meta_abstract_not_overridden_by_div():
     )
     out = CUP(BeautifulSoup(html, "lxml")).parse()
     assert out["abstract"].startswith("This is the real journal abstract")
+
+
+def test_parse_page_dispatches_cup_without_div_author():
+    long_abstract = "Cambridge chapter abstract from visible page markup. " * 8
+    html = _wrap(
+        CAMBRIDGE_CANONICAL
+        +
+        '<meta name="citation_author" content="A. Cambridge" />'
+        '<meta name="citation_author_institution" content="Cambridge Institute" />',
+        f'<div class="abstract">{long_abstract}</div>',
+    )
+    out = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1017/example")
+    assert out["authors"][0]["name"] == "A. Cambridge"
+    assert out["authors"][0]["affiliations"] == [{"name": "Cambridge Institute"}]
+    assert out["abstract"].startswith("Cambridge chapter abstract")
+
+
+def test_parse_page_uses_visible_unavailable_abstract_over_title_meta():
+    html = _wrap(
+        CAMBRIDGE_CANONICAL
+        +
+        '<meta name="citation_abstract" content="//static.cambridge.org/firstPage.jpg" />'
+        '<meta property="og:description" content="Long title-like erratum metadata that is not the abstract. '
+        'It names the book and journal issue rather than the no-abstract notice visible on the page." />',
+        '<div class="abstract-html">'
+        'Abstract An abstract is not available for this content. As you have access '
+        "to this content, full HTML content is provided on this page. A PDF of "
+        "this content is also available in through the Save PDF action button."
+        "</div>",
+    )
+    out = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1017/aee.2022.31")
+    assert out["abstract"].startswith("An abstract is not available")
+    assert "title-like erratum" not in out["abstract"]

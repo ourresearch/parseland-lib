@@ -8,10 +8,36 @@ class CUP(PublisherParser):
     parser_name = "cambridge university press"
 
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url("cambridge.org")
+        return (
+            self.domain_in_meta_og_url("cambridge.org")
+            or self.domain_in_canonical_link("cambridge.org")
+        )
 
     def authors_found(self):
-        return self.soup.find("div", class_="author")
+        if self.soup.find("div", class_="author"):
+            return True
+        if not self.is_publisher_specific_parser():
+            return False
+        return bool(
+            self.soup.select_one('meta[name="citation_author"]')
+            or self.soup.select_one('meta[name="citation_abstract"]')
+            or self.soup.select_one("div.abstract")
+            or self.soup.select_one('div[class*="abstract"]')
+            or self.soup.select_one('section[class*="abstract"]')
+        )
+
+    def _visible_abstract(self):
+        for selector in (
+            "div.abstract",
+            'div[class*="abstract"]',
+            'section[class*="abstract"]',
+        ):
+            for tag in self.soup.select(selector):
+                text = tag.get_text(" ", strip=True)
+                text = re.sub(r"^(abstract\s*)+", "", text, flags=re.I).strip()
+                if len(text) >= 20:
+                    return text
+        return None
 
     def parse(self):
         result_authors = []
@@ -52,11 +78,13 @@ class CUP(PublisherParser):
         # lives in div.abstract. Fall back to it when the meta abstract is
         # missing or too short to be a real abstract.
         abstract = self.parse_abstract_meta_tags()
-        if not abstract or len(abstract) < 200:
-            if abs_div := self.soup.select_one("div.abstract"):
-                div_text = abs_div.get_text(" ", strip=True)
-                if len(div_text) > len(abstract or ""):
-                    abstract = div_text
+        visible_abstract = self._visible_abstract()
+        if visible_abstract and (
+            not abstract
+            or len(abstract) < 200
+            or "an abstract is not available for this content" in visible_abstract.lower()
+        ):
+            abstract = visible_abstract
 
         return {"authors": result_authors, "abstract": abstract}
 

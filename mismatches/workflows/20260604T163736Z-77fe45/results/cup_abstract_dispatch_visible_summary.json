@@ -1,0 +1,21 @@
+{
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_abstract_dispatch_visible_shield.json",
+  "completed_at": "2026-06-06T22:04:00Z",
+  "cup_abstract_after": 0.9833739890174924,
+  "cup_abstract_before": 0.9706954286963694,
+  "cup_abstract_delta_pp": 1.2678560321123022,
+  "fixed_current_goldie_dois": [
+    "10.1017/cbo9781316151280.404",
+    "10.1017/aee.2022.31",
+    "10.1017/cbo9780511559556.010"
+  ],
+  "new_goldie_backfilled_candidates_count": 57,
+  "overall_abstract_after": 0.9170300073665358,
+  "overall_abstract_before": 0.9174780930811908,
+  "overall_abstract_delta_pp": -0.04480857146549333,
+  "remaining_current_goldie_misses": [
+    "10.1017/9781108227049.007"
+  ],
+  "status": "green",
+  "task_id": "v2_cup_abstract_f61595df"
+}
