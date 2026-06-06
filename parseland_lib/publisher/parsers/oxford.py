@@ -8,6 +8,14 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 
 class Oxford(PublisherParser):
     parser_name = "oxford university press"
+    oxford_domains = (
+        "academic.oup.com",
+        "oxfordscholarlyeditions.com",
+        "oxforddnb.com",
+        "oxfordmusiconline.com",
+        "oxfordaasc.com",
+        "universitypressscholarship.com",
+    )
 
     def is_publisher_specific_parser(self):
         if self.soup.find(
@@ -21,14 +29,18 @@ class Oxford(PublisherParser):
         # The HTML may have og:url=dx.doi.org (the DOI router) even when the
         # actual page is on academic.oup.com — common for cached HTML where
         # the publisher's page sets og:url to the DOI for citation portability.
-        # Accept either signal: og:url OR canonical link.
-        return (
-            self.domain_in_meta_og_url("academic.oup.com")
-            or self.domain_in_canonical_link("academic.oup.com")
+        # Accept either signal across Oxford's journal and product domains.
+        return any(
+            self.domain_in_meta_og_url(domain)
+            or self.domain_in_canonical_link(domain)
+            for domain in self.oxford_domains
         )
 
     def authors_found(self):
-        return self.soup.find("div", class_="at-ArticleAuthors")
+        return (
+            self.soup.find("div", class_="at-ArticleAuthors")
+            or bool(self._extract_schema_author_meta())
+        )
 
     def parse(self):
         results = []
@@ -51,7 +63,7 @@ class Oxford(PublisherParser):
                     affiliations_soup = affiliation_section.findAll("div",
                                                                     class_="aff")
                     for aff in affiliations_soup:
-                        aff_cleaned = re.sub('^\d+', '', aff.text)
+                        aff_cleaned = re.sub(r'^\d+', '', aff.text)
                         affiliations.append(aff_cleaned)
 
                 results.append(
@@ -61,9 +73,44 @@ class Oxford(PublisherParser):
                         is_corresponding=is_corresponding,
                     )
                 )
+        if not results:
+            results = self._extract_schema_author_meta()
         abstract = self._extract_abstract()
         return {"authors": results,
                 "abstract": abstract,}
+
+    def _extract_schema_author_meta(self):
+        """Read OUP product-page author metadata when article byline DOM is absent."""
+        results = []
+        seen = set()
+        author_keys = {
+            "author",
+            "citation_author",
+            "dc.creator",
+            "http://schema.org/author",
+            "https://schema.org/author",
+        }
+        for meta in self.soup.find_all("meta"):
+            key = (
+                meta.get("name")
+                or meta.get("property")
+                or meta.get("itemprop")
+                or ""
+            ).strip().lower()
+            if key not in author_keys:
+                continue
+            name = (meta.get("content") or "").strip()
+            if not name or name.lower() in seen:
+                continue
+            seen.add(name.lower())
+            results.append(
+                AuthorAffiliations(
+                    name=name,
+                    affiliations=[],
+                    is_corresponding=None,
+                )
+            )
+        return results
 
     def _extract_abstract(self):
         """Extract abstract with fallbacks for OUP markup variants.

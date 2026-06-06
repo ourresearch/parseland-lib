@@ -1,0 +1,87 @@
+{
+  "after_artifact": "eval/runs/whole-goldie-after-oxford-authors-schema-meta-fallback-20260606T1200Z.json",
+  "agent_id": "codex-oxford-authors-current-kpi",
+  "before_artifact": "eval/runs/whole-goldie-after-springer-abstract-empty-fallback-20260606T0735Z.json",
+  "classification": "parser_owned_schema_author_meta_plus_cache_blocker_classification",
+  "completed_at": "2026-06-06T13:33:02.295688+00:00",
+  "field": "authors",
+  "global_metrics": {
+    "abstract": {
+      "after": 0.9064345185687555,
+      "before": 0.9038008163565571,
+      "delta": 0.0026337022121983855,
+      "delta_pp": 0.26337022121983855
+    },
+    "affiliations": {
+      "after": 0.9243293498514571,
+      "before": 0.9232299283265368,
+      "delta": 0.0010994215249202632,
+      "delta_pp": 0.10994215249202632
+    },
+    "authors": {
+      "after": 0.9458041319230547,
+      "before": 0.9414536058493698,
+      "delta": 0.004350526073684913,
+      "delta_pp": 0.4350526073684913
+    },
+    "corresponding": {
+      "after": 0.9635159461259768,
+      "before": 0.9634235503725299,
+      "delta": 9.239575344688333e-05,
+      "delta_pp": 0.009239575344688333
+    },
+    "pdf_url": {
+      "after": 0.9364916773367478,
+      "before": 0.935204081632653,
+      "delta": 0.0012875957040947572,
+      "delta_pp": 0.12875957040947572
+    }
+  },
+  "legacy_task_id": "t_oxford_authors_6d91f9",
+  "oxford_metrics": {
+    "abstract": {
+      "after": 0.6870695078221196,
+      "before": 0.6582460852859071,
+      "delta": 0.028823422536212506,
+      "delta_pp": 2.8823422536212506
+    },
+    "affiliations": {
+      "after": 0.9681899641577061,
+      "before": 0.9471905365441488,
+      "delta": 0.02099942761355733,
+      "delta_pp": 2.099942761355733
+    },
+    "authors": {
+      "after": 0.9837611314824516,
+      "before": 0.9013504611330698,
+      "delta": 0.08241067034938176,
+      "delta_pp": 8.241067034938176
+    },
+    "corresponding": {
+      "after": 0.9991525423728814,
+      "before": 0.9912350597609563,
+      "delta": 0.007917482611925153,
+      "delta_pp": 0.7917482611925153
+    },
+    "pdf_url": {
+      "after": 1.0,
+      "before": 0.9768339768339769,
+      "delta": 0.02316602316602312,
+      "delta_pp": 2.316602316602312
+    }
+  },
+  "publisher_id": "oxford",
+  "recommendation": "Ship. Oxford authors is above 98% on the scoped current-Goldie slice after schema-author fallback and honest cache-blocker accounting. Remaining misses are manual DOM/gold-owned or retrieval-blocked; continue next ranked below-98 publisher-field after report 336 publication.",
+  "remaining_author_misses": [
+    "10.1093/acref/9780195301731.013.46908",
+    "10.1093/geront/gnv550.06",
+    "10.1093/oseo/instance.00178142",
+    "10.1093/oso/9780197559383.003.0017"
+  ],
+  "run_id": "20260604T163736Z-77fe45",
+  "scoped_artifact": "eval/runs/whole-goldie-oxford-authors-schema-meta-fallback-v2.json",
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_authors_schema_meta_fallback_shield.json",
+  "status": "shipped_full10k_measured",
+  "task_id": "v2_oxford_authors_b3d85788",
+  "wave_id": 14
+}

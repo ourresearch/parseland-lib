@@ -36,6 +36,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 import traceback
@@ -90,8 +91,15 @@ def _html_block_reason(html: str | None) -> str | None:
         return "missing"
     stripped = html.strip()
     lower = stripped.lower()
+    text_only = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", lower)).strip()
     if "checking your browser" in lower or "cf-browser-verification" in lower or "cf-chl" in lower:
         return "cached_bot_check"
+    if "help us confirm that you are not a robot" in text_only:
+        return "cached_bot_check"
+    if len(stripped) < 3000 and "document.cookie" in lower and "document.location.reload" in lower:
+        return "cached_bot_check"
+    if text_only in {"loading...", "loading ...", "loading"}:
+        return "js_rendered_required"
     if "enable javascript" in lower and len(stripped) < 5000:
         return "js_rendered_required"
     if "<title>doi.org" in lower or "the doi system" in lower:
