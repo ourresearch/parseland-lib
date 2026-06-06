@@ -1,0 +1,38 @@
+{
+  "status": "green",
+  "gate": "goldie_backfill_elsevier_affiliations_smoke_10",
+  "generated_at": "2026-06-06T03:49:00Z",
+  "publisher": "elsevier",
+  "field": "affiliations",
+  "scope": "Goldie-backfilled evidence only; no current-Goldie KPI lift claimed",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_referee.ndjson",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_referee.summary.json",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "reviewed_rows": 10,
+  "approved_derived_candidates": 6,
+  "blocked_manual_review_rows": 4,
+  "blocked_reason": "weak_page_render_only_no_affiliation_candidate_text_match",
+  "checks": [
+    {
+      "name": "json_ndjson_validation",
+      "command": "python3 - <<'PY' ... validate summary, queue, task-results, blocked, grounded, referee, and derived NDJSON ... PY",
+      "status": "passed"
+    },
+    {
+      "name": "secret_scan",
+      "command": "rg -n \"bb_live_[A-Za-z0-9_-]+|BROWSERBASE_API_KEY\\\\s*=|(^|[\\\\\\\"'=])sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}\" <staged candidate artifacts>",
+      "status": "passed",
+      "notes": "No Browserbase key or credential-shaped token was present in candidate/referee/derived artifacts."
+    },
+    {
+      "name": "diff_check",
+      "command": "git diff --check -- mismatches/workflows/20260604T163736Z-77fe45/summary.json mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson mismatches/workflows/20260604T163736Z-77fe45/blocked.ndjson",
+      "status": "passed"
+    }
+  ],
+  "not_staged": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_evidence/"
+  ],
+  "next_action": "Scale Elsevier affiliation Browserbase grounding in 25-50 row batches after report 336 is refreshed and pushed."
+}

@@ -1,0 +1,34 @@
+{
+  "status": "referee_reviewed_smoke",
+  "reviewed_at": "2026-06-06T03:42:34.419488+00:00",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_smoke_10_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "total": 10,
+  "approved": 6,
+  "blocked": 4,
+  "status_counts": {
+    "approved_for_goldie_backfilled_derived_candidate": 6,
+    "blocked_for_manual_review": 4
+  },
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 6,
+    "page_rendered_only": 4
+  },
+  "blocked_reasons": {
+    "weak_page_render_only_no_affiliation_candidate_text_match": 4
+  },
+  "approved_example_dois": [
+    "10.1006/bojl.1995.0046",
+    "10.1006/anae.1997.0112",
+    "10.1006/jabr.1994.1020"
+  ],
+  "blocked_example_dois": [
+    "10.1006/eesa.2000.2036",
+    "10.1006/jpdc.1996.0058",
+    "10.1016/0020-0190(90)90103-5",
+    "10.1016/0020-7225(92)90091-t"
+  ],
+  "next_action": "Scale Elsevier affiliation Browserbase grounding in 25-50 row batches if report/Shield gates remain green; keep approvals in derived ledger only until gold-auditor review.",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI and merged-FINAL.csv is not mutated."
+}
