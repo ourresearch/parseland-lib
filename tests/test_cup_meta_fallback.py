@@ -37,6 +37,10 @@ def _names(authors):
     return out
 
 
+def _affiliations(author):
+    return author.get("affiliations") if isinstance(author, dict) else getattr(author, "affiliations", [])
+
+
 def test_meta_fallback_when_no_div_author():
     html = _wrap(
         '<meta name="citation_author" content="C. A. F. Rhys Davids" />'
@@ -70,6 +74,99 @@ def test_div_author_path_still_used_when_present():
     a0 = out["authors"][0]
     is_corr = a0.get("is_corresponding") if isinstance(a0, dict) else getattr(a0, "is_corresponding", None)
     assert is_corr is True  # the * marks corresponding on the modern template
+
+
+def test_chapter_byline_wins_over_editor_detail_blocks():
+    body = (
+        '<h1 class="chapter-title">9 - The Judicialization of Politics</h1>'
+        '<div class="contributors-details">'
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">By</span>'
+        '<div class="contributor-type__contributor">'
+        '<a><span>Ridwanul Hoque</span></a></div></div>'
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">Edited by</span>'
+        '<div class="contributor-type__contributor"><a><span>Mark Tushnet</span></a></div>'
+        '<div class="contributor-type__contributor"><a><span>Madhav Khosla</span></a></div>'
+        "</div></div>"
+        '<dl class="authors-details">'
+        '<div class="row author"><dt>Mark Tushnet</dt>'
+        '<div class="d-sm-flex">Harvard Law School</div></div>'
+        '<div class="row author"><dt>Madhav Khosla</dt>'
+        '<div class="d-sm-flex">Harvard University</div></div>'
+        "</dl>"
+    )
+    html = _wrap(CAMBRIDGE_CANONICAL, body)
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _names(out["authors"]) == ["Ridwanul Hoque"]
+
+
+def test_parse_page_keeps_publisher_specific_chapter_byline_over_generic_meta():
+    body = (
+        '<h1 class="chapter-title">9 - The Judicialization of Politics</h1>'
+        '<div class="contributors-details">'
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">By</span>'
+        '<div class="contributor-type__contributor">'
+        '<a><span>Ridwanul Hoque</span></a></div></div>'
+        "</div>"
+    )
+    html = _wrap(
+        CAMBRIDGE_CANONICAL
+        +
+        '<meta name="citation_author" content="Mark Tushnet" />'
+        '<meta name="citation_author_institution" content="Harvard Law School" />',
+        body,
+    )
+    out = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1017/example")
+    assert _names(out["authors"]) == ["Ridwanul Hoque"]
+
+
+def test_chapter_byline_uses_matching_detail_affiliation():
+    body = (
+        '<h1 class="chapter-title">5 - The Making of England</h1>'
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">By</span>'
+        '<div class="contributor-type__contributor"><a><span>Patrick Wormald</span></a></div>'
+        "</div>"
+        '<div class="row author"><dt>Patrick Wormald</dt>'
+        '<div class="d-sm-flex">Lecturer, Christ Church Oxford</div></div>'
+    )
+    html = _wrap(CAMBRIDGE_CANONICAL, body)
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _names(out["authors"]) == ["Patrick Wormald"]
+    assert _affiliations(out["authors"][0]) == ["Lecturer, Christ Church Oxford"]
+
+
+def test_chapter_contributors_ignore_non_author_role_prefixes():
+    body = (
+        '<h1 class="chapter-title">CHAPTER XI</h1>'
+        '<div class="row contributor-type">'
+        '<div class="contributor-type__contributor"><a><span>Alice Lovat</span></a></div>'
+        "</div>"
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">Preface by</span>'
+        '<div class="contributor-type__contributor"><a><span>Hugh Clifford</span></a></div>'
+        "</div>"
+        '<li class="author">Preface by <a><span class="author-name">Hugh Clifford</span></a></li>'
+    )
+    html = _wrap(CAMBRIDGE_CANONICAL, body)
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _names(out["authors"]) == ["Alice Lovat"]
+
+
+def test_chapter_contributors_fall_back_to_editors_when_no_byline():
+    body = (
+        '<h1 class="chapter-title">Test paper 2</h1>'
+        '<div class="row contributor-type">'
+        '<span class="contributor-type__label">Edited by</span>'
+        '<div class="contributor-type__contributor"><a><span>T. S. Blyth</span></a></div>'
+        '<div class="contributor-type__contributor"><a><span>E. F. Robertson</span></a></div>'
+        "</div>"
+    )
+    html = _wrap(CAMBRIDGE_CANONICAL, body)
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _names(out["authors"]) == ["T. S. Blyth", "E. F. Robertson"]
 
 
 # --- abstract: eBook div.abstract fallback ---------------------------------

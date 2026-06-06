@@ -30,6 +30,13 @@ def get_authors_and_abstract(soup, namespace):
             return bool(parsed.get('authors') or parsed.get('abstract'))
         return False
 
+    def has_authors(parsed):
+        if isinstance(parsed, list):
+            return bool(parsed)
+        if isinstance(parsed, dict):
+            return bool(parsed.get('authors'))
+        return False
+
     if namespace == "doi":
         for cls in PublisherParser.__subclasses__():
             parser = cls(soup)
@@ -55,6 +62,13 @@ def get_authors_and_abstract(soup, namespace):
 
     for parser, parsed in both_conditions_parsers:
         if has_affs(parsed):
+            return parsed
+
+    for parser, parsed in both_conditions_parsers:
+        if (
+            getattr(parser, "prefer_publisher_authors_over_generic", False)
+            and has_authors(parsed)
+        ):
             return parsed
 
     for parser, parsed in authors_found_parsers:

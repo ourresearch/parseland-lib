@@ -1,6 +1,6 @@
 {
-  "run_id": "20260606T220425Z-0832cc",
-  "source_run": "eval/runs/whole-goldie-after-cup-abstract-dispatch-visible-full-serial-20260606T2200Z.json",
+  "run_id": "20260606T232936Z-a834c1",
+  "source_run": "eval/runs/whole-goldie-after-cup-chapter-contributors-cup-priority-only-full-serial-20260607T0025Z.json",
   "exclude_pdf": true,
   "total_opportunities": 39,
   "rows": [
@@ -255,16 +255,6 @@
       "recommendation": "diminishing"
     },
     {
-      "field": "authors",
-      "current_kpi": 0.929,
-      "scored_rows": 147,
-      "headroom_pp": 7.1,
-      "top_publisher": "cup",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "patch"
-    },
-    {
       "field": "affiliations",
       "current_kpi": 0.9682,
       "scored_rows": 249,
@@ -296,100 +286,20 @@
     },
     {
       "field": "authors",
+      "current_kpi": 0.9689,
+      "scored_rows": 146,
+      "headroom_pp": 3.11,
+      "top_publisher": "cup",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "authors",
       "current_kpi": 0.9838,
       "scored_rows": 249,
       "headroom_pp": 1.62,
       "top_publisher": "oxford",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "corresponding",
-      "current_kpi": 0.9714,
-      "scored_rows": 140,
-      "headroom_pp": 2.86,
-      "top_publisher": "lippincott",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "authors",
-      "current_kpi": 0.9796,
-      "scored_rows": 196,
-      "headroom_pp": 2.04,
-      "top_publisher": "sage",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "authors",
-      "current_kpi": 0.9811,
-      "scored_rows": 188,
-      "headroom_pp": 1.89,
-      "top_publisher": "lippincott",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "corresponding",
-      "current_kpi": 0.981,
-      "scored_rows": 184,
-      "headroom_pp": 1.9,
-      "top_publisher": "sage",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "corresponding",
-      "current_kpi": 0.9753,
-      "scored_rows": 135,
-      "headroom_pp": 2.47,
-      "top_publisher": "cup",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "corresponding",
-      "current_kpi": 0.9924,
-      "scored_rows": 393,
-      "headroom_pp": 0.76,
-      "top_publisher": "ieee",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "affiliations",
-      "current_kpi": 0.9796,
-      "scored_rows": 147,
-      "headroom_pp": 2.04,
-      "top_publisher": "cup",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "abstract",
-      "current_kpi": 0.9834,
-      "scored_rows": 74,
-      "headroom_pp": 1.66,
-      "top_publisher": "cup",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "authors",
-      "current_kpi": 0.9923,
-      "scored_rows": 130,
-      "headroom_pp": 0.77,
-      "top_publisher": "acs",
       "active_agent": "\u2014",
       "status": "ranked",
       "recommendation": "diminishing"
@@ -647,16 +557,6 @@
       "recommendation": "diminishing"
     },
     {
-      "publisher": "cup",
-      "field": "authors",
-      "current_kpi": 0.929,
-      "scored_rows": 147,
-      "headroom_pp": 7.1,
-      "impact_score": 10.43,
-      "tractability": 1.0,
-      "recommendation": "patch"
-    },
-    {
       "publisher": "oxford",
       "field": "affiliations",
       "current_kpi": 0.9682,
@@ -683,6 +583,16 @@
       "scored_rows": 130,
       "headroom_pp": 3.89,
       "impact_score": 5.06,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "cup",
+      "field": "authors",
+      "current_kpi": 0.9689,
+      "scored_rows": 146,
+      "headroom_pp": 3.11,
+      "impact_score": 4.54,
       "tractability": 1.0,
       "recommendation": "diminishing"
     },
@@ -759,10 +669,10 @@
     {
       "publisher": "cup",
       "field": "affiliations",
-      "current_kpi": 0.9796,
-      "scored_rows": 147,
-      "headroom_pp": 2.04,
-      "impact_score": 2.99,
+      "current_kpi": 0.9808,
+      "scored_rows": 146,
+      "headroom_pp": 1.92,
+      "impact_score": 2.81,
       "tractability": 1.0,
       "recommendation": "diminishing"
     },

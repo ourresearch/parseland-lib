@@ -1,0 +1,124 @@
+{
+  "task_id": "v2_cup_authors_28c630b7",
+  "status": "green",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_chapter_contributors_shield.json",
+  "summary": "Cambridge book/chapter pages expose chapter authors in visible contributor rows, while the old CUP path selected editor/detail blocks or generic citation metadata. CUP now parses chapter contributor rows first, preserves matching detail affiliations, ignores non-author role prefixes, and opts into publisher-authors-over-generic priority only for CUP.",
+  "overall_delta": {
+    "authors": {
+      "before": 0.9523868876770684,
+      "after": 0.9535964984926558,
+      "delta_pp": 0.12096108155874585
+    },
+    "affiliations": {
+      "before": 0.9328852706881199,
+      "after": 0.9330069655735449,
+      "delta_pp": 0.01216948854250166
+    },
+    "abstract": {
+      "before": 0.9170300073665358,
+      "after": 0.9170300073665358,
+      "delta_pp": 0.0
+    },
+    "pdf_url": {
+      "before": 0.9444301517880114,
+      "after": 0.9444301517880114,
+      "delta_pp": 0.0
+    },
+    "corresponding": {
+      "before": 0.9664262553904971,
+      "after": 0.9664262553904971,
+      "delta_pp": 0.0
+    }
+  },
+  "cup_delta": {
+    "authors": {
+      "before": 0.9290249433106575,
+      "after": 0.9689146469968387,
+      "delta_pp": 3.9889703686181166
+    },
+    "affiliations": {
+      "before": 0.9796296296296296,
+      "after": 0.9807692307692307,
+      "delta_pp": 0.11396011396010985
+    },
+    "abstract": {
+      "before": 0.9833739890174924,
+      "after": 0.9833739890174924,
+      "delta_pp": 0.0
+    },
+    "pdf_url": {
+      "before": 0.9931972789115646,
+      "after": 0.9931972789115646,
+      "delta_pp": 0.0
+    },
+    "corresponding": {
+      "before": 0.9753086419753088,
+      "after": 0.9753086419753088,
+      "delta_pp": 0.0
+    }
+  },
+  "residual_blockers": [
+    {
+      "doi": "10.1017/cbo9780511662584.017",
+      "gold": [
+        "J. F. Adams"
+      ],
+      "page_visible": [
+        "M. F. Atiyah"
+      ],
+      "classification": "gold_owned_or_scope_disagreement"
+    },
+    {
+      "doi": "10.1017/9789048551477.003",
+      "gold": [
+        "Klaas van Berkel"
+      ],
+      "page_visible": [
+        "John A. Schuster"
+      ],
+      "classification": "gold_owned_editor_vs_chapter_author"
+    },
+    {
+      "doi": "10.1017/cbo9780511584985.014",
+      "gold": [
+        "No author information visible"
+      ],
+      "page_visible": [
+        "Suzanne D. Delport",
+        "Robert C. Pattinson"
+      ],
+      "classification": "gold_owned_placeholder_label"
+    },
+    {
+      "doi": "10.1017/cbo9781107415683.007",
+      "gold": [
+        "V. Pavlov",
+        "F. Fluteau",
+        "A. M. Fetisova",
+        "V. Courtillot",
+        "A. N. Khramov"
+      ],
+      "page_visible": [
+        "Vladimir Pavlov",
+        "Frédéric Fluteau",
+        "Roman Veselovskiy",
+        "Anna Fetisova",
+        "Anton Latyshev",
+        "Linda T. Elkins-Tanton",
+        "Alexander V. Sobolev",
+        "Nadezhda A. Krivolutskaya"
+      ],
+      "classification": "gold_owned_abbreviated_subset"
+    },
+    {
+      "doi": "10.1017/cbo9780511622298.010",
+      "gold": [
+        "Mikuláš Teich"
+      ],
+      "page_visible": [
+        "Arnošt Klíma"
+      ],
+      "classification": "gold_owned_editor_vs_chapter_author"
+    }
+  ]
+}
