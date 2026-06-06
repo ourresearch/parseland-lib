@@ -1,0 +1,43 @@
+{
+  "publisher_id": "sage",
+  "field": "affiliations",
+  "task_id": "v2_sage_affiliations_72755779",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_60_94_all_aff_resolved_bb-sage-affiliations-60-94-all-aff-20260606T0130Z.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_60_94_all_aff_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_affiliations_derived_v0.ndjson",
+  "reviewed_at": "2026-06-06T01:20:17.288394+00:00",
+  "reviewed_rows": 34,
+  "approved_rows": 25,
+  "blocked_rows": 9,
+  "cumulative_approved_rows": 72,
+  "cumulative_blocked_rows": 22,
+  "remaining_current_candidates": 0,
+  "status": "goldie_backfill_referee_complete_72_approved_22_blocked",
+  "status_detail": "SAGE affiliations current backfill lane complete: 72 approved / 22 blocked / 0 remaining after all-affiliation evidence and conservative quality filtering.",
+  "approved_example_dois": [
+    "10.1177/1369433220979443",
+    "10.1177/13694332221080603",
+    "10.1177/13591053261430519",
+    "10.1177/13694332241247917",
+    "10.1177/1461445620921656d"
+  ],
+  "blocked_example_dois": [
+    "10.1177/1362361301005002002",
+    "10.1177/146040869900100411",
+    "10.1177/140349489001800111",
+    "10.1177/14746514020020041101",
+    "10.1177/1536867x251322960"
+  ],
+  "blocked_reasons": {
+    "10.1177/1362361301005002002": "not all cleaned affiliation values were present in Browserbase evidence excerpt: University of Sheffield, UK, [email protected]; University of Warwick, UK; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/146040869900100411": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Accident and Emergency Department, The Ipswich Hospital NHS Trust, Ipswich, UK, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/140349489001800111": "candidate_contains_contact_or_offprint_metadata",
+    "10.1177/14746514020020041101": "not all cleaned affiliation values were present in Browserbase evidence excerpt: The Archway Sexual Health Clinic, Whittington Hospital, Highgate Hill, London, N19 5NF, UK, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/1536867x251322960": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Princeton University Princeton, NJ, [email protected]; Federal Reserve Bank of New York New York, NY, [email protected]; University of California Santa Barbara Santa Barbara, CA, [email protected]; Tsinghua University Beijing, China, [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/1740774509356575": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Center for Family Studies, University of Miami, Miami, FL, USA, [email protected]; Center for the Clinical Trials Network, National Institute on Drug Abuse, National Institutes of Health, Bethesda, MD, USA; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied",
+    "10.1177/17557380221131172r": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1177/20319525231219624": "candidate_contains_role_sentence_or_title_metadata",
+    "10.1243/14644193jmbd217": "not all cleaned affiliation values were present in Browserbase evidence excerpt: Department of Mechanical Engineering, Chung Hua University, Hsinchu, Republic of China., [email protected]; candidate_contains_email_or_obfuscated_email; all-affiliation evidence gate was not satisfied"
+  },
+  "next_action": "Route approved SAGE affiliation derived labels and blocked rows to gold-auditor review; move active grounding to next ranked publisher-field lane."
+}
