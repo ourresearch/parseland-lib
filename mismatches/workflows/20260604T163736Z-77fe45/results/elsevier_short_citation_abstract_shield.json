@@ -1,0 +1,33 @@
+{
+  "gate": "elsevier_short_citation_abstract",
+  "status": "passed",
+  "timestamp_utc": "2026-06-06T03:08:49Z",
+  "changed_files": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "tests/test_elsevier_bv_modern.py"
+  ],
+  "checks": [
+    {
+      "name": "focused_elsevier_tests",
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_elsevier_bv_modern.py -q",
+      "status": "passed",
+      "summary": "15 passed in 0.08s"
+    },
+    {
+      "name": "diff_check",
+      "command": "git diff --check -- parseland_lib/publisher/parsers/elsevier_bv.py tests/test_elsevier_bv_modern.py",
+      "status": "passed"
+    },
+    {
+      "name": "intended_file_secret_scan",
+      "command": "rg -n key-shaped Browserbase/OpenAI/AWS/Google patterns parseland_lib/publisher/parsers/elsevier_bv.py tests/test_elsevier_bv_modern.py",
+      "status": "passed",
+      "summary": "No matches; rg exited 1 because no key-shaped patterns were found."
+    }
+  ],
+  "kpi_scope": "narrow Elsevier abstract fallback for short citation_abstract meta values; whole-Goldie before/after not run for this small parser slice.",
+  "risk_notes": [
+    "Fallback is ElsevierBV-specific and only accepts citation_abstract, not generic description.",
+    "Generic base meta fallback remains unchanged."
+  ]
+}

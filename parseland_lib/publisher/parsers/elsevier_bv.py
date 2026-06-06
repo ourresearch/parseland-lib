@@ -1,6 +1,6 @@
 import re
 
-from bs4 import Tag
+from bs4 import BeautifulSoup, Tag
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
@@ -445,6 +445,38 @@ class ElsevierBV(PublisherParser):
 
         return abs_text
 
+    def parse_short_citation_abstract_meta(self):
+        """Elsevier-only fallback for short Highwire citation abstracts.
+
+        The generic meta fallback intentionally requires >200 characters to
+        avoid accepting page descriptions. Some legacy ScienceDirect pages
+        carry the true abstract only in ``citation_abstract`` and the value can
+        be much shorter, sometimes with a small HTML fragment embedded in the
+        meta content.
+        """
+        for meta_property_name in ("name", "property"):
+            meta_tag = self.soup.find(
+                "meta",
+                {meta_property_name: re.compile("^citation_abstract$", re.I)},
+            )
+            if meta_tag is None:
+                continue
+            text = meta_tag.get("content", "").strip()
+            if not text:
+                continue
+            if "<" in text and ">" in text:
+                text = BeautifulSoup(text, "html.parser").get_text(" ", strip=True)
+            text = re.sub(r"\s+", " ", text).strip()
+            text = re.sub(r"^(abstract|summary)[:.]?\s*", "", text, flags=re.I).strip()
+            if (
+                len(text) >= 40
+                and not text.endswith("...")
+                and not text.endswith("…")
+                and not text.startswith("http")
+            ):
+                return text
+        return None
+
     def parse(self):
         author_results = []
         author_soup = self.soup.findAll("li", class_="author")
@@ -525,8 +557,12 @@ class ElsevierBV(PublisherParser):
             # (institution metas are authoritative when present).
             self._enrich_from_core_author_blocks(author_results)
 
-        return {"authors": author_results,
-                "abstract": self.parse_abstract() or self.parse_abstract_meta_tags(),}
+        return {
+            "authors": author_results,
+            "abstract": self.parse_abstract()
+            or self.parse_short_citation_abstract_meta()
+            or self.parse_abstract_meta_tags(),
+        }
 
     def _enrich_from_core_author_blocks(self, results):
         """Cell Press / Elsevier journal portal enrichment.

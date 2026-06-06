@@ -450,3 +450,37 @@ def test_parse_uppercase_cor_refid_still_detected():
     result = ElsevierBV(soup).parse()
     assert len(result["authors"]) == 1
     assert result["authors"][0].is_corresponding is True
+
+
+def test_parse_short_citation_abstract_meta_fragment():
+    """Legacy ScienceDirect pages can carry the true short abstract only in
+    citation_abstract meta content, with small HTML fragments embedded."""
+    html = """
+    <html><head>
+      <link rel="canonical" href="https://www.sciencedirect.com/science/article/pii/0266435689901435">
+      <meta name="citation_author" content="Sample Author">
+      <meta name="citation_abstract" content="<h2>Abstract</h2><p>A case of bilateral acinic cell carcinoma occurring synchronously in the parotid glands is reported, treatment discussed and the literature reviewed.</p>">
+    </head><body></body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    assert result["abstract"] == (
+        "A case of bilateral acinic cell carcinoma occurring synchronously in "
+        "the parotid glands is reported, treatment discussed and the "
+        "literature reviewed."
+    )
+
+
+def test_short_generic_description_meta_still_rejected():
+    """The short fallback is limited to citation_abstract, not broad page
+    descriptions or SEO teasers."""
+    html = """
+    <html><head>
+      <link rel="canonical" href="https://www.sciencedirect.com/science/article/pii/0266435689901435">
+      <meta name="citation_author" content="Sample Author">
+      <meta name="description" content="Short teaser not an abstract.">
+    </head><body></body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    assert result["abstract"] is None
