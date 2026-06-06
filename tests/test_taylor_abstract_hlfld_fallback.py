@@ -121,6 +121,120 @@ def test_hlfld_abstract_strips_french_resume_heading() -> None:
     assert out["abstract"].lstrip().startswith("On a utilisé des données RADARSAT")
 
 
+def test_author_bio_affiliation_fallback_legacy_tandf_shared_bio() -> None:
+    """Older TandF pages put affiliations in Notes on contributors."""
+    html = """
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/legacy" />
+    </head><body>
+      <div class="publicationContentAuthors">
+        <div class="entryAuthor">
+          <a>G.R. Cresswell</a>
+          <span class="overlay">View further author information</span>
+        </div>
+        <div class="entryAuthor">
+          <a>P.C. Tildesley</a>
+          <span class="overlay">View further author information</span>
+        </div>
+      </div>
+      <div class="author-infos" id="author-infos">
+        <h3 class="section-heading-3">Notes on contributors</h3>
+        <div class="addAuthorInfo">
+          <span class="AuthorInfoData">
+            <h4><span class="NLM_given-names">G.R.</span> Cresswell</h4>
+            G.R. Cresswell and P.C. Tildesley are with the
+            CSIRO Marine Research Facility in Hobart Tasmania Australia
+          </span>
+        </div>
+        <div class="addAuthorInfo">
+          <span class="AuthorInfoData">
+            <h4><span class="NLM_given-names">P.C.</span> Tildesley</h4>
+            G.R. Cresswell and P.C. Tildesley are with the
+            CSIRO Marine Research Facility in Hobart Tasmania Australia
+          </span>
+        </div>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+
+    assert out["authors"][0].affiliations == [
+        "CSIRO Marine Research Facility in Hobart Tasmania Australia"
+    ]
+    assert out["authors"][1].affiliations == [
+        "CSIRO Marine Research Facility in Hobart Tasmania Australia"
+    ]
+
+
+def test_author_bio_affiliation_fallback_department_at_university() -> None:
+    """Bio text recovers department/university affiliations, not email overlays."""
+    html = """
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/legacy2" />
+    </head><body>
+      <div class="publicationContentAuthors">
+        <div class="entryAuthor">
+          <a>Bruce F. Barker</a>
+          <span class="overlay">
+            <span class="heading">Correspondence</span>
+            barkerb@example.edu
+            <a>View further author information</a>
+          </span>
+        </div>
+      </div>
+      <div class="author-infos" id="author-infos">
+        <h3 class="section-heading-3">Notes on contributors</h3>
+        <div class="addAuthorInfo">
+          <span class="AuthorInfoData">
+            <h4><span class="NLM_given-names">Bruce F.</span> Barker</h4>
+            <b>Bruce F. Barker, DDS</b>, is a professor in the
+            Department of Oral and Maxillofacial Pathology at the
+            University of Missouri-Kansas City School of Dentistry.
+          </span>
+        </div>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+
+    assert out["authors"][0].affiliations == [
+        "Department of Oral and Maxillofacial Pathology, University of Missouri-Kansas City School of Dentistry"
+    ]
+    assert out["authors"][0].is_corresponding is True
+
+
+def test_author_bio_affiliation_fallback_at_university_omits_role() -> None:
+    """Role text before an 'at the University' affiliation is not included."""
+    html = """
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/legacy3" />
+    </head><body>
+      <div class="publicationContentAuthors">
+        <div class="entryAuthor">
+          <a>Ralph A. Smith</a>
+          <span class="overlay">View further author information</span>
+        </div>
+      </div>
+      <div class="author-infos" id="author-infos">
+        <h3 class="section-heading-3">Notes on contributors</h3>
+        <div class="addAuthorInfo">
+          <span class="AuthorInfoData">
+            <h4>Ralph A. Smith</h4>
+            Ralph A. Smith is a professor emeritus of cultural and educational
+            policy at the University of Illinois at Urbana-Champaign and editor
+            of the Journal of Aesthetic Education.
+          </span>
+        </div>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+
+    assert out["authors"][0].affiliations == [
+        "University of Illinois at Urbana-Champaign"
+    ]
+
+
 def test_canonical_link_dispatches_when_og_url_is_legacy_host() -> None:
     """Legacy informahealthcare og:url still dispatches if canonical is tandfonline."""
     html = """

@@ -32,6 +32,7 @@ class Taylor(PublisherParser):
             authors = author_soup.findAll("div", class_="entryAuthor")
         else:
             authors = []
+        bio_affiliations = self._author_bio_affiliations_by_name()
         for author in authors:
             name = author.a.text
 
@@ -52,9 +53,17 @@ class Taylor(PublisherParser):
                 if isinstance(first_content, NavigableString):
                     aff_text = str(first_content).strip()
                     # Skip if it looks like a URL or is empty
-                    if aff_text and not aff_text.startswith('http'):
+                    if (
+                        aff_text
+                        and not aff_text.startswith('http')
+                        and "view further author information" not in aff_text.lower()
+                    ):
                         affiliation_trimmed = re.sub('^[a-z0-9] ', '', aff_text)
                         affiliations.append(affiliation_trimmed)
+            if not affiliations:
+                bio_affiliation = bio_affiliations.get(self._name_key(name))
+                if bio_affiliation:
+                    affiliations.append(bio_affiliation)
             results.append(
                 AuthorAffiliations(
                     name=name,
@@ -134,6 +143,82 @@ class Taylor(PublisherParser):
                     )
                 )
         return results
+
+    def _author_bio_affiliations_by_name(self):
+        affiliations = {}
+        for block in self.soup.select("div.author-infos div.addAuthorInfo"):
+            data = block.select_one(".AuthorInfoData") or block
+            heading = data.find("h4")
+            if not heading:
+                continue
+            name = heading.get_text(" ", strip=True)
+            if not name:
+                continue
+            text = data.get_text(" ", strip=True)
+            affiliation = self._extract_affiliation_from_bio(name, text)
+            if affiliation:
+                affiliations[self._name_key(name)] = affiliation
+        return affiliations
+
+    def _extract_affiliation_from_bio(self, name, text):
+        text = re.sub(r"\s+", " ", text or "").strip(" •")
+        text = re.sub(rf"^{re.escape(name)}\b\s*", "", text).strip(" ,•")
+        text = re.sub(rf"^{re.escape(name)}\b\s*", "", text).strip(" ,•")
+        if not text:
+            return None
+
+        with_match = re.search(r"\bare with the\s+(.+?)(?:\.|$)", text, re.I)
+        if with_match:
+            return self._clean_bio_affiliation(with_match.group(1))
+
+        is_match = re.search(r"\bis\s+(.+?)(?:\.|$)", text, re.I)
+        if not is_match:
+            return None
+        tail = is_match.group(1).strip(" ,")
+
+        in_match = re.search(r"\bin the\s+(.+)$", tail, re.I)
+        if in_match:
+            return self._clean_bio_affiliation(in_match.group(1))
+
+        at_match = re.search(r"\bat (?:the\s+)?(.+)$", tail, re.I)
+        if at_match and self._looks_like_affiliation(at_match.group(1)):
+            return self._clean_bio_affiliation(at_match.group(1))
+
+        parts = [part.strip() for part in tail.split(",") if part.strip()]
+        for i, part in enumerate(parts):
+            if self._looks_like_affiliation(part):
+                return self._clean_bio_affiliation(", ".join(parts[i:]))
+        return None
+
+    def _clean_bio_affiliation(self, value):
+        value = re.sub(r"\s+", " ", value or "").strip(" .;,")
+        value = re.sub(
+            r"\s+and\s+(?:editor|author|co-?editor)\b.*$",
+            "",
+            value,
+            flags=re.I,
+        )
+        value = re.sub(
+            r"\bat\s+(?:the\s+)?(?=(?:University|College|School|Institute|"
+            r"Center|Centre|Hospital|Clinic)\b)",
+            ", ",
+            value,
+            count=1,
+            flags=re.I,
+        )
+        value = re.sub(r"\s*,\s*", ", ", value)
+        return value or None
+
+    def _looks_like_affiliation(self, value):
+        return bool(re.search(
+            r"\b(?:University|College|School|Department|Institute|Laborator(?:y|ies)|"
+            r"Center|Centre|Hospital|Clinic|Facility|Research|CSIRO|UMKC|UCLA)\b",
+            value,
+            re.I,
+        ))
+
+    def _name_key(self, value):
+        return re.sub(r"\W+", "", value or "").lower()
 
     def _parse_taylorfrancis_chapter_abstract(self):
         product_abstract = self._parse_taylorfrancis_product_abstract()

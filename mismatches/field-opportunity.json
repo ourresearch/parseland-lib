@@ -1,6 +1,6 @@
 {
-  "run_id": "20260606T201919Z-e3f7e7",
-  "source_run": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+  "run_id": "20260606T210528Z-a828d4",
+  "source_run": "eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-full-20260606T2055Z.json",
   "exclude_pdf": true,
   "total_opportunities": 39,
   "rows": [
@@ -136,16 +136,6 @@
     },
     {
       "field": "affiliations",
-      "current_kpi": 0.9605,
-      "scored_rows": 494,
-      "headroom_pp": 3.95,
-      "top_publisher": "taylor",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "diminishing"
-    },
-    {
-      "field": "affiliations",
       "current_kpi": 0.8674,
       "scored_rows": 144,
       "headroom_pp": 13.26,
@@ -160,6 +150,16 @@
       "scored_rows": 1106,
       "headroom_pp": 1.51,
       "top_publisher": "springer",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9668,
+      "scored_rows": 494,
+      "headroom_pp": 3.32,
+      "top_publisher": "taylor",
       "active_agent": "\u2014",
       "status": "ranked",
       "recommendation": "diminishing"
@@ -437,16 +437,6 @@
       "recommendation": "patch"
     },
     {
-      "publisher": "taylor",
-      "field": "affiliations",
-      "current_kpi": 0.9605,
-      "scored_rows": 494,
-      "headroom_pp": 3.95,
-      "impact_score": 19.49,
-      "tractability": 1.0,
-      "recommendation": "diminishing"
-    },
-    {
       "publisher": "ieee",
       "field": "affiliations",
       "current_kpi": 0.8674,
@@ -463,6 +453,16 @@
       "scored_rows": 1106,
       "headroom_pp": 1.51,
       "impact_score": 16.74,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "taylor",
+      "field": "affiliations",
+      "current_kpi": 0.9668,
+      "scored_rows": 494,
+      "headroom_pp": 3.32,
+      "impact_score": 16.39,
       "tractability": 1.0,
       "recommendation": "diminishing"
     },

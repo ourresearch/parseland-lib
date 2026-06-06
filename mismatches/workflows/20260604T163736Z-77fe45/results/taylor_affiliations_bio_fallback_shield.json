@@ -1,0 +1,123 @@
+{
+  "status": "green",
+  "task_id": "v2_taylor_affiliations_39460725",
+  "agent_id": "codex-taylor-affiliations-current-kpi",
+  "publisher": "taylor",
+  "field": "affiliations",
+  "scope": "Taylor parser fallback for legacy TandF Notes on contributors author bios",
+  "changed_files": [
+    "parseland_lib/publisher/parsers/taylor.py",
+    "tests/test_taylor_abstract_hlfld_fallback.py",
+    "scripts/workflow_claim.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson"
+  ],
+  "gates": [
+    {
+      "command": "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/taylor.py scripts/workflow_claim.py",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_taylor_abstract_hlfld_fallback.py -q",
+      "status": "passed",
+      "output": "13 passed in 0.05s"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-taylor-affiliations-bio-fallback-v2 --publishers taylor --concurrency 8 --out eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-v2-20260606T2045Z.json",
+      "status": "passed",
+      "artifact": "eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-v2-20260606T2045Z.json"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-taylor-affiliations-bio-fallback-full --concurrency 8 --out eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-full-20260606T2055Z.json",
+      "status": "passed",
+      "artifact": "eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-full-20260606T2055Z.json"
+    }
+  ],
+  "before": {
+    "artifact": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+    "overall_affiliations_f1_fuzzy": 0.9322194624541384,
+    "taylor_affiliations_f1_fuzzy": 0.9605461393596987,
+    "field_counts": {
+      "total_rows": 506,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "empty_empty_pass": 234,
+      "gold_present_parser_empty": 14,
+      "gold_present_parser_present": 224,
+      "gold_empty_parser_present": 27,
+      "scored_rows": 472
+    }
+  },
+  "after": {
+    "artifact": "eval/runs/whole-goldie-after-taylor-affiliations-bio-fallback-full-20260606T2055Z.json",
+    "overall_affiliations_f1_fuzzy": 0.9328852706881199,
+    "taylor_affiliations_f1_fuzzy": 0.9668317999528191,
+    "field_counts": {
+      "total_rows": 506,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "empty_empty_pass": 233,
+      "gold_present_parser_empty": 11,
+      "gold_present_parser_present": 227,
+      "gold_empty_parser_present": 28,
+      "scored_rows": 471
+    }
+  },
+  "current_goldie_delta": {
+    "overall_affiliations_f1_fuzzy_pp": 0.06658082339814353,
+    "taylor_affiliations_f1_fuzzy_pp": 0.62856605931204,
+    "gold_present_parser_empty_fixed": 3,
+    "new_gold_empty_parser_present_candidates": 1
+  },
+  "fixed_dois": [
+    "10.1080/07038992.2000.10874777",
+    "10.1080/19424396.2001.12223212",
+    "10.1080/19424396.2008.12221510"
+  ],
+  "new_goldie_backfilled_candidate_dois": [
+    "10.1080/10632919809600770"
+  ],
+  "remaining_gold_present_parser_empty_dois": [
+    "10.2172/884933",
+    "10.12659/ajcr.945140",
+    "10.2172/877141",
+    "10.3745/ktsde.2013.2.5.359",
+    "10.1080/00397670802442369",
+    "10.2172/882896",
+    "10.2172/10139963",
+    "10.1080/10357717608444573",
+    "10.2172/902900",
+    "10.1080/21548331.1978.11707349",
+    "10.2172/911906"
+  ],
+  "remaining_blocker_summary": {
+    "classifier_or_non_taylor_rows": [
+      "10.2172/884933",
+      "10.2172/877141",
+      "10.2172/882896",
+      "10.2172/10139963",
+      "10.2172/902900",
+      "10.2172/911906",
+      "10.12659/ajcr.945140",
+      "10.3745/ktsde.2013.2.5.359"
+    ],
+    "tandf_page_has_no_structured_author_bio_affiliation": [
+      "10.1080/00397670802442369",
+      "10.1080/10357717608444573",
+      "10.1080/21548331.1978.11707349"
+    ]
+  },
+  "notes": [
+    "scripts/workflow_claim.py was updated because the previous helper read the stale v1 queue and could not claim Batch 21 v2 cells.",
+    "Current-Goldie KPI and Goldie-backfilled candidates remain separate; the new 10.1080/10632919809600770 candidate is not counted as a current-Goldie win.",
+    "Browserbase was not used in this slice because BROWSERBASE_API_KEY was not present in the process environment."
+  ],
+  "known_existing_errors": [
+    {
+      "doi": "10.1016/0017-9310(81)90129-0",
+      "publisher": "elsevier",
+      "error_class": "LookupError",
+      "summary": "unknown encoding b'mac_latin2'",
+      "present_in_before_artifact": true
+    }
+  ]
+}
