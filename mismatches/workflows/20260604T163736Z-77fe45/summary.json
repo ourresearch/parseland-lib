@@ -24,10 +24,10 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 22,
+    "needs_agent": 21,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 6,
+    "shipped_full10k_measured": 7,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_truncated_gold_prefix": 1
   },
@@ -801,6 +801,21 @@
     "status": "shipped_full10k_measured",
     "task_id": "v2_springer_abstract_c2c731f2",
     "updated_at": "2026-06-06T08:32:57.024318+00:00"
+  },
+  "springer_affiliations_method2_merge_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_affiliations_method2_merge_shield.json",
+    "full_run": "eval/runs/whole-goldie-after-springer-affiliations-method2-merge-20260606T1451Z.json",
+    "next_action": "Ship. Springer affiliations moves above 98% fuzzy F1 on the current 10K slice; remaining affiliation misses are small/manual or Goldie-backfilled candidates.",
+    "overall_affiliations_after": 0.9298246558073652,
+    "overall_affiliations_before": 0.9243293498514571,
+    "overall_affiliations_delta_pp": 0.5495305955908081,
+    "publisher_id": "springer",
+    "springer_affiliations_after": 0.9866404458936926,
+    "springer_affiliations_before": 0.9639535057380605,
+    "springer_affiliations_delta_pp": 2.2686940155632107,
+    "status": "shipped_full10k_measured",
+    "task_id": "v2_springer_affiliations_663f456e",
+    "updated_at": "2026-06-06T15:16:13.480327+00:00"
   },
   "status_counts": {
     "above_98": 4,

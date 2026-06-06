@@ -73,24 +73,74 @@ class Springer(PublisherParser):
 
         return substrings
 
+    @staticmethod
+    def _is_author_suffix_token(value):
+        compact = re.sub(r'[^A-Za-z]', '', value or '').upper()
+        return compact in {
+            'BA',
+            'BS',
+            'BSC',
+            'DDS',
+            'DMD',
+            'DPHIL',
+            'FACP',
+            'FRCPC',
+            'FRCP',
+            'FRCPCH',
+            'FRCS',
+            'MA',
+            'MBA',
+            'MBBS',
+            'MD',
+            'MPH',
+            'MSC',
+            'PHD',
+            'RN',
+        }
+
+    @classmethod
+    def _merge_author_suffix_tokens(cls, names):
+        merged = []
+        for name in names:
+            name = name.strip(' ,')
+            if not name:
+                continue
+            if merged and cls._is_author_suffix_token(name):
+                merged[-1] = f"{merged[-1]}, {name}"
+                continue
+            merged.append(name)
+        return merged
+
     def parse_authors_method_2(self):
         author_tags = self.soup.select(
             'ol.c-article-author-affiliation__list li[id*=A]')
-        authors = []
+        authors_by_key = {}
+        author_order = []
         for author_tag in author_tags:
             aff_tag = author_tag.select_one('p[class*=affiliation__address]')
-            aff_text = aff_tag.text.strip().split('E-mail')[0]
             authors_tag = author_tag.select_one('p[class*=authors-list]')
-            author_names = list(set([name.strip(' ,') for name in
-                                     self._split(authors_tag.text.replace('&', ',').strip()) if
-                                     '(' not in name]))
+            if not aff_tag or not authors_tag:
+                continue
+
+            aff_text = aff_tag.text.strip().split('E-mail')[0].strip()
+            author_names = [
+                name.strip(' ,')
+                for name in self._split(authors_tag.text.replace('&', ',').strip())
+                if '(' not in name and name.strip(' ,')
+            ]
+            author_names = self._merge_author_suffix_tokens(author_names)
             for name in author_names:
-                authors.append({
-                    'name': name,
-                    'affiliations': [aff_text],
-                    'is_corresponding': None
-                })
-        return authors
+                key = name.replace('\xa0', ' ').strip().lower()
+                if key not in authors_by_key:
+                    authors_by_key[key] = {
+                        'name': name,
+                        'affiliations': [],
+                        'is_corresponding': None
+                    }
+                    author_order.append(key)
+                if aff_text and aff_text not in authors_by_key[key]['affiliations']:
+                    authors_by_key[key]['affiliations'].append(aff_text)
+        return [authors_by_key[key] for key in author_order]
 
     def parse(self):
         article_metadatas = self.parse_article_metadatas()

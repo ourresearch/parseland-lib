@@ -1,0 +1,26 @@
+{
+  "agent_id": "codex-springer-affiliations-current-kpi",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_affiliations_method2_merge_shield.json",
+  "classification": "parser_owned_shipped_full10k_measured",
+  "completed_at": "2026-06-06T15:16:13.480327+00:00",
+  "diagnosis": "Springer old-layout affiliation blocks list the same author under multiple affiliations; parse_authors_method_2 now aggregates those block-local affiliations per author and preserves comma-separated credential suffixes as part of the author name.",
+  "expected_kpi_impact": {
+    "overall_affiliations_delta_pp": 0.5495305955908081,
+    "springer_affiliations_delta_pp": 2.2686940155632107,
+    "springer_authors_delta_pp": 0.03606853020737821
+  },
+  "field": "affiliations",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/springer.py",
+    "tests/test_springer_dedupe.py"
+  ],
+  "full_run": "eval/runs/whole-goldie-after-springer-affiliations-method2-merge-20260606T1451Z.json",
+  "publisher_id": "springer",
+  "recommendation": "Ship. Springer affiliations moves above 98% fuzzy F1 on the current 10K slice; remaining affiliation misses are small/manual or Goldie-backfilled candidates.",
+  "run_id": "20260604T163736Z-77fe45",
+  "scoped_run": "eval/runs/whole-goldie-springer-affiliations-method2-merge-suffix-20260606T1446Z.json",
+  "status": "shipped_full10k_measured",
+  "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_affiliations_method2_merge_summary.json",
+  "task_id": "v2_springer_affiliations_663f456e",
+  "wave_id": 51
+}

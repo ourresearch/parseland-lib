@@ -128,6 +128,47 @@ NO_DUPLICATES_NO_COLLAPSE = """
 """
 
 
+METHOD_2_MULTI_AFFILIATION_AUTHOR = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/article/10.1007/example" />
+  </head>
+  <body>
+    <ol class="c-article-author-affiliation__list">
+      <li id="Aff1">
+        <p class="c-article-author-affiliation__address">Department A, City, Country</p>
+        <p class="c-article-author-affiliation__authors-list">Alice Example & Bob Example</p>
+      </li>
+      <li id="Aff2">
+        <p class="c-article-author-affiliation__address">Institute B, City, Country</p>
+        <p class="c-article-author-affiliation__authors-list">Alice Example</p>
+      </li>
+    </ol>
+  </body>
+</html>
+"""
+
+
+METHOD_2_CREDENTIAL_SUFFIX_AUTHORS = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/article/10.1007/example" />
+  </head>
+  <body>
+    <ol class="c-article-author-affiliation__list">
+      <li id="Aff1">
+        <p class="c-article-author-affiliation__address">Department A</p>
+        <p class="c-article-author-affiliation__authors-list">
+          Aurelien Marabelle M.D., Ph.D. & Juliet C. Gray M.A., FRCPCH, Ph.D.
+        </p>
+      </li>
+    </ol>
+    <p>Correspondence to Juliet C. Gray M.A., FRCPCH, Ph.D.</p>
+  </body>
+</html>
+"""
+
+
 def _names(result):
     return [
         a["name"] if isinstance(a, dict) else getattr(a, "name", None)
@@ -252,3 +293,34 @@ def test_no_duplicates_no_collapse():
     result = Springer(soup).parse()
     names = _names(result)
     assert names == ["Alice First", "Bob Second", "Carol Third"]
+
+
+def test_method_2_preserves_multiple_affiliations_for_same_author():
+    """The affiliation-list layout maps repeated author names to multiple
+    affiliation blocks, not duplicate author records."""
+    soup = BeautifulSoup(METHOD_2_MULTI_AFFILIATION_AUTHOR, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names.count("Alice Example") == 1
+    assert names.count("Bob Example") == 1
+    assert _affs_for(result, "Alice Example") == [
+        "Department A, City, Country",
+        "Institute B, City, Country",
+    ]
+
+
+def test_method_2_keeps_comma_separated_author_credentials():
+    """Credentials separated by commas are suffixes, not standalone authors."""
+    soup = BeautifulSoup(METHOD_2_CREDENTIAL_SUFFIX_AUTHORS, "lxml")
+    result = Springer(soup).parse()
+    names = _names(result)
+    assert names == [
+        "Aurelien Marabelle M.D., Ph.D.",
+        "Juliet C. Gray M.A., FRCPCH, Ph.D.",
+    ]
+    ca = [
+        a["name"]
+        for a in result["authors"]
+        if a.get("is_corresponding")
+    ]
+    assert ca == ["Juliet C. Gray M.A., FRCPCH, Ph.D."]
