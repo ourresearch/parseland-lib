@@ -24,10 +24,11 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 27,
+    "needs_agent": 26,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 4
+    "shipped_full10k_measured": 4,
+    "shipped_parser_fix_small_current_goldie_lift": 1
   },
   "classification_counts": {
     "generic_only": 25,
@@ -509,6 +510,21 @@
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
     "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  },
+  "relative_doi_pdf_hosts_state": {
+    "affected_pdf_delta_pp": 0.328947368421062,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/relative_doi_pdf_hosts_shield.json",
+    "current_goldie_rows_fixed": 4,
+    "field": "pdf_url",
+    "next_action": "Ship this narrow parser fix. Remaining Taylor pdf_url gap is mixed: 21 gold-present/parser-empty rows have no reliable static PDF marker in cached HTML, 124 Goldie-empty/parser-present rows remain backfill candidates, and several divergent rows are classifier/gold/scorer owned.",
+    "publisher_id": "taylor",
+    "status": "shipped_parser_fix_small_current_goldie_lift",
+    "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/relative_doi_pdf_hosts_summary.json",
+    "task_id": "v2_taylor_pdf_url_2e40646f",
+    "taylor_pdf_accuracy_after": 0.9253333333333333,
+    "taylor_pdf_rows_fixed": 1,
+    "updated_at": "2026-06-06T06:27:46.248321+00:00",
+    "wiley_pdf_rows_fixed": 3
   },
   "run_id": "20260605T100945Z-1fa06b",
   "sage_affiliations_referee_state": {

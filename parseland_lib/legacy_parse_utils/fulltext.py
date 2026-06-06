@@ -55,6 +55,37 @@ def find_cup_pdf_link(page_with_scripts):
     return 'https://www.cambridge.org' + html.unescape(match.group(0))
 
 
+def _doi_router_relative_pdf_base(pdf_href, resolved_url):
+    """Recover publisher hosts for relative DOI PDF links.
+
+    When eval callers only know the DOI-router URL, relative links such as
+    /doi/pdf/10.1080/... otherwise join against doi.org and become
+    https://doi.org/doi/pdf/... . Only adjust links already selected as PDFs.
+    """
+    if not pdf_href or not resolved_url:
+        return resolved_url
+    if urlparse(pdf_href).scheme or not pdf_href.startswith('/doi/'):
+        return resolved_url
+    host = urlparse(resolved_url).hostname or ''
+    if host not in {'doi.org', 'dx.doi.org', 'www.doi.org'}:
+        return resolved_url
+
+    href_lower = pdf_href.lower()
+    doi_match = re.search(r'/doi/(?:pdfdirect|pdf|epdf)/(10\.[^?&#]+)', href_lower)
+    doi = doi_match.group(1) if doi_match else ''
+
+    if '/doi/pdfdirect/' in href_lower or doi.startswith(('10.1002/', '10.1111/')):
+        return 'https://onlinelibrary.wiley.com'
+    if doi.startswith(('10.1080/', '10.3109/', '10.4324/', '10.1201/', '10.1517/')):
+        return 'https://www.tandfonline.com'
+    if doi.startswith('10.1177/'):
+        return 'https://journals.sagepub.com'
+    if doi.startswith('10.1021/'):
+        return 'https://pubs.acs.org'
+
+    return resolved_url
+
+
 def parse_publisher_fulltext_location(soup, resolved_url):
     cleaned_soup = cleanup_soup(soup)
     detected_resolved_url = get_base_url_from_soup(soup)
@@ -112,7 +143,11 @@ def parse_publisher_fulltext_location(soup, resolved_url):
                 cup_pdf := find_cup_pdf_link(soup_str)):
             pdf_link = DuckLink(cup_pdf, 'download')
 
-    pdf_url = get_link_target(pdf_link.href, resolved_url) if pdf_link is not None else None
+    if pdf_link is not None:
+        pdf_base_url = _doi_router_relative_pdf_base(pdf_link.href, resolved_url)
+        pdf_url = get_link_target(pdf_link.href, pdf_base_url)
+    else:
+        pdf_url = None
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
 
     if bronze_ovs := detect_bronze(soup, resolved_url):

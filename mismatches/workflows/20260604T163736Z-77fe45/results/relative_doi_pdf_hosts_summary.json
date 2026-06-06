@@ -1,0 +1,81 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "agent_id": "codex-relative-doi-pdf-hosts",
+  "publisher_id": "taylor",
+  "field": "pdf_url",
+  "classification": "shipped_parser_fix_small_current_goldie_lift",
+  "completed_at": "2026-06-06T06:27:46.248321+00:00",
+  "diagnosis": "Relative DOI PDF links were already selected by the parser but joined against doi.org when cached pages had no canonical/og base URL. The fix maps already-selected relative /doi/pdf, /doi/epdf, and /doi/pdfdirect links to publisher hosts by DOI/path family, without inventing new PDF links.",
+  "expected_kpi_impact": 0.00328947368421062,
+  "current_goldie_rows_fixed": 4,
+  "goldie_backfilled_rows_rehosted": 1,
+  "affected_publishers": [
+    "taylor",
+    "wiley",
+    "sage",
+    "acs"
+  ],
+  "taylor_pdf_accuracy_before": 0.9226666666666666,
+  "taylor_pdf_accuracy_after": 0.9253333333333333,
+  "affected_pdf_accuracy_before": 0.9243421052631579,
+  "affected_pdf_accuracy_after": 0.9276315789473685,
+  "affected_pdf_delta_pp": 0.328947368421062,
+  "status_counts_unchanged": true,
+  "empty_empty_rows_broadened": 0,
+  "current_goldie_changes": [
+    {
+      "publisher": "wiley",
+      "doi": "10.1111/bpa.12253",
+      "before_pdf": "https://doi.org/doi/pdfdirect/10.1111/bpa.12253?download=true",
+      "after_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/bpa.12253?download=true",
+      "before_accuracy": 0.0,
+      "after_accuracy": 1.0
+    },
+    {
+      "publisher": "taylor",
+      "doi": "10.1080/13683500.2023.2214355",
+      "before_pdf": "https://doi.org/doi/pdf/10.1080/13683500.2023.2214355?download=true",
+      "after_pdf": "https://www.tandfonline.com/doi/pdf/10.1080/13683500.2023.2214355?download=true",
+      "before_accuracy": 0.0,
+      "after_accuracy": 1.0
+    },
+    {
+      "publisher": "wiley",
+      "doi": "10.1002/gsj.1333",
+      "before_pdf": "https://doi.org/doi/pdfdirect/10.1002/gsj.1333?download=true",
+      "after_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/gsj.1333?download=true",
+      "before_accuracy": 0.0,
+      "after_accuracy": 1.0
+    },
+    {
+      "publisher": "wiley",
+      "doi": "10.1002/dch.70022",
+      "before_pdf": "https://doi.org/doi/pdfdirect/10.1002/dch.70022?download=true",
+      "after_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/dch.70022?download=true",
+      "before_accuracy": 0.0,
+      "after_accuracy": 1.0
+    }
+  ],
+  "non_kpi_url_changes": [
+    {
+      "publisher": "wiley",
+      "doi": "10.1111/nan.12654",
+      "reason": "host fixed but scorer/canonical mismatch remains"
+    },
+    {
+      "publisher": "wiley",
+      "doi": "10.1002/art.38860",
+      "reason": "host fixed but scorer/canonical mismatch remains"
+    },
+    {
+      "publisher": "taylor",
+      "doi": "10.1080/00071667708416432",
+      "reason": "Goldie empty; kept in Goldie-backfilled lane"
+    }
+  ],
+  "gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/relative_doi_pdf_hosts_shield.json",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_relative_base_gate.json",
+  "affected_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/relative_doi_pdf_hosts_gate.json",
+  "recommendation": "Ship this narrow parser fix. Remaining Taylor pdf_url gap is mixed: 21 gold-present/parser-empty rows have no reliable static PDF marker in cached HTML, 124 Goldie-empty/parser-present rows remain backfill candidates, and several divergent rows are classifier/gold/scorer owned."
+}
