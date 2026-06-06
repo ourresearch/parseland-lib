@@ -16,7 +16,7 @@
     "above_98": 3,
     "blocked_goldie_backfill_needed": 1,
     "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
-    "goldie_backfill_pending": 8,
+    "goldie_backfill_pending": 7,
     "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
@@ -24,7 +24,8 @@
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_full10k_measured": 4,
-    "goldie_backfill_referee_complete_83_approved_35_blocked": 1
+    "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
+    "blocked_pdf_candidate_urls_not_grounded": 1
   },
   "classification_counts": {
     "generic_only": 25,
@@ -1436,5 +1437,51 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-06T00:13:29.000000+00:00"
+  "updated_at": "2026-06-06T00:13:29.000000+00:00",
+  "sage_pdf_referee_state": {
+    "publisher_id": "sage",
+    "field": "pdf_url",
+    "task_id": "v2_sage_pdf_url_d8f9a30d",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_smoke_10_resolved_bb-sage-pdf-smoke-10-20260606T002053Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_smoke_10_referee.ndjson",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T00:24:41.077861+00:00",
+    "reviewed_rows": 10,
+    "approved_rows": 0,
+    "blocked_rows": 10,
+    "remaining_current_candidates": 114,
+    "status": "blocked_pdf_candidate_urls_not_grounded",
+    "status_detail": "0 approved / 10 blocked; 4 candidate URLs redirected to /doi/abs pages, 6 candidate URLs returned HTTP 403 on /doi/pdf pages.",
+    "blocked_example_dois": [
+      "10.1177/000271623920500179",
+      "10.1177/000276488031003002",
+      "10.1177/00031348211011110",
+      "10.1177/00031348241241730",
+      "10.1177/0003603x9704200207"
+    ],
+    "next_action": "Patch SAGE PDF grounding to discover a visible PDF link or citation_pdf_url before scaling, or route to harvest/access specialist if publisher blocks PDF fetches with 403."
+  },
+  "latest_sage_pdf_backfill_smoke": {
+    "publisher_id": "sage",
+    "field": "pdf_url",
+    "task_id": "v2_sage_pdf_url_d8f9a30d",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_smoke_10_resolved_bb-sage-pdf-smoke-10-20260606T002053Z.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_smoke_10_referee.ndjson",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_pdf_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T00:24:41.077861+00:00",
+    "reviewed_rows": 10,
+    "approved_rows": 0,
+    "blocked_rows": 10,
+    "remaining_current_candidates": 114,
+    "status": "blocked_pdf_candidate_urls_not_grounded",
+    "status_detail": "0 approved / 10 blocked; 4 candidate URLs redirected to /doi/abs pages, 6 candidate URLs returned HTTP 403 on /doi/pdf pages.",
+    "blocked_example_dois": [
+      "10.1177/000271623920500179",
+      "10.1177/000276488031003002",
+      "10.1177/00031348211011110",
+      "10.1177/00031348241241730",
+      "10.1177/0003603x9704200207"
+    ],
+    "next_action": "Patch SAGE PDF grounding to discover a visible PDF link or citation_pdf_url before scaling, or route to harvest/access specialist if publisher blocks PDF fetches with 403."
+  }
 }
