@@ -1,0 +1,43 @@
+{
+  "status": "green",
+  "task": "pathfinder_batch21_field_opportunity_refresh",
+  "timestamp_utc": "2026-06-06T20:19:30Z",
+  "source_whole_goldie": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+  "commands": [
+    "./.venv/bin/python scripts/rank_field_opportunity.py --run eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json --queue mismatches/publisher-queue.ndjson --out mismatches/field-opportunity.json --limit 30",
+    "jq empty mismatches/field-opportunity.json"
+  ],
+  "validations": {
+    "ranking_build": "passed",
+    "json_valid": "passed",
+    "total_opportunities": 39,
+    "rows_in_report": 30
+  },
+  "top_current_opportunities": [
+    {
+      "publisher": "elsevier",
+      "field": "affiliations",
+      "current_kpi": 0.8524,
+      "impact_score": 222.38
+    },
+    {
+      "publisher": "elsevier",
+      "field": "abstract",
+      "current_kpi": 0.9194,
+      "impact_score": 121.25
+    },
+    {
+      "publisher": "elsevier",
+      "field": "corresponding",
+      "current_kpi": 0.9353,
+      "impact_score": 94.21
+    },
+    {
+      "publisher": "taylor",
+      "field": "affiliations",
+      "current_kpi": 0.9605,
+      "impact_score": 19.49
+    }
+  ],
+  "notes": "Refreshes the report 336 per-field opportunity table from Batch 21 so it no longer shows stale pre-Wiley-author/corresponding numbers."
+}

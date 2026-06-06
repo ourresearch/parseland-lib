@@ -1,0 +1,700 @@
+{
+  "run_id": "20260606T201919Z-e3f7e7",
+  "source_run": "eval/runs/whole-goldie-after-wiley-corresponding-legacy-signals-20260606T1945Z.json",
+  "exclude_pdf": true,
+  "total_opportunities": 39,
+  "rows": [
+    {
+      "field": "affiliations",
+      "current_kpi": 0.8524,
+      "scored_rows": 1507,
+      "headroom_pp": 14.76,
+      "top_publisher": "elsevier",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9194,
+      "scored_rows": 1505,
+      "headroom_pp": 8.06,
+      "top_publisher": "elsevier",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9353,
+      "scored_rows": 1457,
+      "headroom_pp": 6.47,
+      "top_publisher": "elsevier",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.9387,
+      "scored_rows": 1507,
+      "headroom_pp": 6.13,
+      "top_publisher": "elsevier",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.8424,
+      "scored_rows": 438,
+      "headroom_pp": 15.76,
+      "top_publisher": "taylor",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "investigate"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.6902,
+      "scored_rows": 221,
+      "headroom_pp": 30.98,
+      "top_publisher": "oxford",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "investigate"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9524,
+      "scored_rows": 1090,
+      "headroom_pp": 4.76,
+      "top_publisher": "springer",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.6559,
+      "scored_rows": 144,
+      "headroom_pp": 34.41,
+      "top_publisher": "ieee",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "investigate"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.9252,
+      "scored_rows": 494,
+      "headroom_pp": 7.48,
+      "top_publisher": "taylor",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9473,
+      "scored_rows": 659,
+      "headroom_pp": 5.27,
+      "top_publisher": "wiley",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9776,
+      "scored_rows": 1072,
+      "headroom_pp": 2.24,
+      "top_publisher": "springer",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.887,
+      "scored_rows": 196,
+      "headroom_pp": 11.3,
+      "top_publisher": "sage",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.8636,
+      "scored_rows": 158,
+      "headroom_pp": 13.64,
+      "top_publisher": "lippincott",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9605,
+      "scored_rows": 494,
+      "headroom_pp": 3.95,
+      "top_publisher": "taylor",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.8674,
+      "scored_rows": 144,
+      "headroom_pp": 13.26,
+      "top_publisher": "ieee",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9849,
+      "scored_rows": 1106,
+      "headroom_pp": 1.51,
+      "top_publisher": "springer",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.9856,
+      "scored_rows": 1106,
+      "headroom_pp": 1.44,
+      "top_publisher": "springer",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9806,
+      "scored_rows": 645,
+      "headroom_pp": 1.94,
+      "top_publisher": "wiley",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9815,
+      "scored_rows": 674,
+      "headroom_pp": 1.85,
+      "top_publisher": "wiley",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9368,
+      "scored_rows": 197,
+      "headroom_pp": 6.32,
+      "top_publisher": "sage",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.9817,
+      "scored_rows": 674,
+      "headroom_pp": 1.83,
+      "top_publisher": "wiley",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9353,
+      "scored_rows": 188,
+      "headroom_pp": 6.47,
+      "top_publisher": "lippincott",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9072,
+      "scored_rows": 130,
+      "headroom_pp": 9.28,
+      "top_publisher": "acs",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9077,
+      "scored_rows": 130,
+      "headroom_pp": 9.23,
+      "top_publisher": "acs",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "abstract",
+      "current_kpi": 0.9728,
+      "scored_rows": 389,
+      "headroom_pp": 2.72,
+      "top_publisher": "ieee",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.929,
+      "scored_rows": 147,
+      "headroom_pp": 7.1,
+      "top_publisher": "cup",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "patch"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9682,
+      "scored_rows": 249,
+      "headroom_pp": 3.18,
+      "top_publisher": "oxford",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9861,
+      "scored_rows": 474,
+      "headroom_pp": 1.39,
+      "top_publisher": "taylor",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "affiliations",
+      "current_kpi": 0.9611,
+      "scored_rows": 130,
+      "headroom_pp": 3.89,
+      "top_publisher": "acs",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "authors",
+      "current_kpi": 0.9838,
+      "scored_rows": 249,
+      "headroom_pp": 1.62,
+      "top_publisher": "oxford",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    }
+  ],
+  "all_rows": [
+    {
+      "publisher": "elsevier",
+      "field": "affiliations",
+      "current_kpi": 0.8524,
+      "scored_rows": 1507,
+      "headroom_pp": 14.76,
+      "impact_score": 222.38,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "elsevier",
+      "field": "abstract",
+      "current_kpi": 0.9194,
+      "scored_rows": 1505,
+      "headroom_pp": 8.06,
+      "impact_score": 121.25,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "elsevier",
+      "field": "corresponding",
+      "current_kpi": 0.9353,
+      "scored_rows": 1457,
+      "headroom_pp": 6.47,
+      "impact_score": 94.21,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "elsevier",
+      "field": "authors",
+      "current_kpi": 0.9387,
+      "scored_rows": 1507,
+      "headroom_pp": 6.13,
+      "impact_score": 92.41,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "taylor",
+      "field": "abstract",
+      "current_kpi": 0.8424,
+      "scored_rows": 438,
+      "headroom_pp": 15.76,
+      "impact_score": 69.02,
+      "tractability": 1.0,
+      "recommendation": "investigate"
+    },
+    {
+      "publisher": "oxford",
+      "field": "abstract",
+      "current_kpi": 0.6902,
+      "scored_rows": 221,
+      "headroom_pp": 30.98,
+      "impact_score": 68.46,
+      "tractability": 1.0,
+      "recommendation": "investigate"
+    },
+    {
+      "publisher": "springer",
+      "field": "abstract",
+      "current_kpi": 0.9524,
+      "scored_rows": 1090,
+      "headroom_pp": 4.76,
+      "impact_score": 51.88,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "ieee",
+      "field": "authors",
+      "current_kpi": 0.6559,
+      "scored_rows": 144,
+      "headroom_pp": 34.41,
+      "impact_score": 49.55,
+      "tractability": 1.0,
+      "recommendation": "investigate"
+    },
+    {
+      "publisher": "taylor",
+      "field": "authors",
+      "current_kpi": 0.9252,
+      "scored_rows": 494,
+      "headroom_pp": 7.48,
+      "impact_score": 36.93,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "wiley",
+      "field": "abstract",
+      "current_kpi": 0.9473,
+      "scored_rows": 659,
+      "headroom_pp": 5.27,
+      "impact_score": 34.75,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "springer",
+      "field": "corresponding",
+      "current_kpi": 0.9776,
+      "scored_rows": 1072,
+      "headroom_pp": 2.24,
+      "impact_score": 23.99,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "sage",
+      "field": "affiliations",
+      "current_kpi": 0.887,
+      "scored_rows": 196,
+      "headroom_pp": 11.3,
+      "impact_score": 22.15,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "lippincott",
+      "field": "abstract",
+      "current_kpi": 0.8636,
+      "scored_rows": 158,
+      "headroom_pp": 13.64,
+      "impact_score": 21.55,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "taylor",
+      "field": "affiliations",
+      "current_kpi": 0.9605,
+      "scored_rows": 494,
+      "headroom_pp": 3.95,
+      "impact_score": 19.49,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "ieee",
+      "field": "affiliations",
+      "current_kpi": 0.8674,
+      "scored_rows": 144,
+      "headroom_pp": 13.26,
+      "impact_score": 19.09,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "springer",
+      "field": "affiliations",
+      "current_kpi": 0.9849,
+      "scored_rows": 1106,
+      "headroom_pp": 1.51,
+      "impact_score": 16.74,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "springer",
+      "field": "authors",
+      "current_kpi": 0.9856,
+      "scored_rows": 1106,
+      "headroom_pp": 1.44,
+      "impact_score": 15.95,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "wiley",
+      "field": "corresponding",
+      "current_kpi": 0.9806,
+      "scored_rows": 645,
+      "headroom_pp": 1.94,
+      "impact_score": 12.53,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "wiley",
+      "field": "affiliations",
+      "current_kpi": 0.9815,
+      "scored_rows": 674,
+      "headroom_pp": 1.85,
+      "impact_score": 12.49,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "sage",
+      "field": "abstract",
+      "current_kpi": 0.9368,
+      "scored_rows": 197,
+      "headroom_pp": 6.32,
+      "impact_score": 12.45,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "wiley",
+      "field": "authors",
+      "current_kpi": 0.9817,
+      "scored_rows": 674,
+      "headroom_pp": 1.83,
+      "impact_score": 12.34,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "lippincott",
+      "field": "affiliations",
+      "current_kpi": 0.9353,
+      "scored_rows": 188,
+      "headroom_pp": 6.47,
+      "impact_score": 12.16,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "acs",
+      "field": "abstract",
+      "current_kpi": 0.9072,
+      "scored_rows": 130,
+      "headroom_pp": 9.28,
+      "impact_score": 12.07,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "acs",
+      "field": "corresponding",
+      "current_kpi": 0.9077,
+      "scored_rows": 130,
+      "headroom_pp": 9.23,
+      "impact_score": 12.0,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "ieee",
+      "field": "abstract",
+      "current_kpi": 0.9728,
+      "scored_rows": 389,
+      "headroom_pp": 2.72,
+      "impact_score": 10.57,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "cup",
+      "field": "authors",
+      "current_kpi": 0.929,
+      "scored_rows": 147,
+      "headroom_pp": 7.1,
+      "impact_score": 10.43,
+      "tractability": 1.0,
+      "recommendation": "patch"
+    },
+    {
+      "publisher": "oxford",
+      "field": "affiliations",
+      "current_kpi": 0.9682,
+      "scored_rows": 249,
+      "headroom_pp": 3.18,
+      "impact_score": 7.92,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "taylor",
+      "field": "corresponding",
+      "current_kpi": 0.9861,
+      "scored_rows": 474,
+      "headroom_pp": 1.39,
+      "impact_score": 6.6,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "acs",
+      "field": "affiliations",
+      "current_kpi": 0.9611,
+      "scored_rows": 130,
+      "headroom_pp": 3.89,
+      "impact_score": 5.06,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "oxford",
+      "field": "authors",
+      "current_kpi": 0.9838,
+      "scored_rows": 249,
+      "headroom_pp": 1.62,
+      "impact_score": 4.04,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "lippincott",
+      "field": "corresponding",
+      "current_kpi": 0.9714,
+      "scored_rows": 140,
+      "headroom_pp": 2.86,
+      "impact_score": 4.0,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "sage",
+      "field": "authors",
+      "current_kpi": 0.9796,
+      "scored_rows": 196,
+      "headroom_pp": 2.04,
+      "impact_score": 4.0,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "cup",
+      "field": "abstract",
+      "current_kpi": 0.9707,
+      "scored_rows": 131,
+      "headroom_pp": 2.93,
+      "impact_score": 3.84,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "lippincott",
+      "field": "authors",
+      "current_kpi": 0.9811,
+      "scored_rows": 188,
+      "headroom_pp": 1.89,
+      "impact_score": 3.55,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "sage",
+      "field": "corresponding",
+      "current_kpi": 0.981,
+      "scored_rows": 184,
+      "headroom_pp": 1.9,
+      "impact_score": 3.5,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "cup",
+      "field": "corresponding",
+      "current_kpi": 0.9753,
+      "scored_rows": 135,
+      "headroom_pp": 2.47,
+      "impact_score": 3.33,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "ieee",
+      "field": "corresponding",
+      "current_kpi": 0.9924,
+      "scored_rows": 393,
+      "headroom_pp": 0.76,
+      "impact_score": 3.0,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "cup",
+      "field": "affiliations",
+      "current_kpi": 0.9796,
+      "scored_rows": 147,
+      "headroom_pp": 2.04,
+      "impact_score": 2.99,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "acs",
+      "field": "authors",
+      "current_kpi": 0.9923,
+      "scored_rows": 130,
+      "headroom_pp": 0.77,
+      "impact_score": 1.0,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    }
+  ]
+}
