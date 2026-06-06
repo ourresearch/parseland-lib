@@ -1,0 +1,20 @@
+{
+  "agent_id": "codex-sage-abstract-current-kpi",
+  "artifact_path": "eval/reports/abstract-truncated-prefix-scorer-shield.json",
+  "classification": "shipped_scorer_fix_truncated_gold_prefix",
+  "completed_at": "2026-06-06T14:14:58.238372+00:00",
+  "diagnosis": "SAGE abstract gap was mostly scorer-owned: current Goldie stores literal ellipsis-terminated abstract prefixes while Parseland emits the full page abstract. The scorer now credits only normalized prefix matches, preserving empty policy and real mismatch detection.",
+  "expected_kpi_impact": {
+    "improved_abstract_rows": 74,
+    "overall_abstract_delta_pp": 0.9318573362625537,
+    "sage_abstract_delta_pp": 5.797676063250545
+  },
+  "field": "abstract",
+  "legacy_task_id": "t_sage_abstract_973606",
+  "publisher_id": "sage",
+  "recommendation": "Ship scorer fix. SAGE abstract improves but remains below 98%; residual rows are parser-empty SAGE Knowledge pages, retrieval-blocked rows, one backfill candidate, and non-truncated full-text mismatches for follow-up diagnosis.",
+  "run_id": "20260604T163736Z-77fe45",
+  "summary_path": "eval/reports/abstract-truncated-prefix-scorer-shield.json",
+  "task_id": "v2_sage_abstract_1de704ff",
+  "wave_id": 50
+}
