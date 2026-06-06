@@ -1,0 +1,23 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_wiley_abstract_f51e01cd",
+  "agent_id": "codex-wiley-abstract-current-kpi",
+  "publisher_id": "wiley",
+  "field": "abstract",
+  "classification": "parser_owned_shipped_full10k_measured",
+  "completed_at": "2026-06-06T07:15:27.338811+00:00",
+  "wiley_abstract_before": 0.9008907193166575,
+  "wiley_abstract_after": 0.9169130130599888,
+  "wiley_abstract_delta_pp": 1.6022293743331306,
+  "overall_abstract_before": 0.9007486125647127,
+  "overall_abstract_after": 0.9032848352894162,
+  "overall_abstract_delta_pp": 0.2536222724703441,
+  "current_goldie_abstract_wins": 11,
+  "empty_empty_to_backfill_count": 2,
+  "parser_error_count_before": 13,
+  "parser_error_count_after": 13,
+  "status": "green",
+  "recommendation": "Ship. Continue with the next ranked below-98 field; remaining Wiley abstract misses are mixed between gold truncation, cross-publisher Elsevier/Blackwell routing, Cochrane unsupported pages, and long-body manual-DOM cases.",
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_dispatch_shield.json",
+  "after_artifact": "eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json"
+}

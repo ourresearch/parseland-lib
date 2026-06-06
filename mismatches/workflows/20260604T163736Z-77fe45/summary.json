@@ -13,22 +13,22 @@
     "unknown": 5
   },
   "by_status": {
-    "above_98": 3,
     "blocked_no_visible_or_metadata_pdf_url": 1,
-    "blocked_pdf_candidate_urls_not_grounded": 1,
-    "classified_mixed_small_parser_headroom": 2,
-    "goldie_backfill_pending": 6,
-    "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
-    "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
+    "shipped_full10k_measured": 5,
+    "blocked_pdf_candidate_urls_not_grounded": 1,
+    "classified_mixed_small_parser_headroom": 2,
+    "shipped_parser_fix_small_current_goldie_lift": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 26,
-    "publisher_unknown": 5,
+    "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
+    "needs_agent": 25,
+    "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
+    "goldie_backfill_pending": 6,
+    "above_98": 3,
     "retrieval_blocked": 195,
-    "shipped_full10k_measured": 4,
-    "shipped_parser_fix_small_current_goldie_lift": 1
+    "publisher_unknown": 5
   },
   "classification_counts": {
     "generic_only": 25,
@@ -36,7 +36,7 @@
     "ready": 55,
     "unknown": 5
   },
-  "coverage_gold_empty_parser_present_count": 2649,
+  "coverage_gold_empty_parser_present_count": 2651,
   "coverage_html_available": 5146,
   "coverage_retrieval_blocked_rows": 4854,
   "coverage_total_rows": 10000,
@@ -145,7 +145,7 @@
     "remaining_current_candidates": 0,
     "status": "goldie_backfill_referee_complete_241_approved_1_blocked"
   },
-  "last_updated_at": "2026-06-06T02:51:52+00:00",
+  "last_updated_at": "2026-06-06T07:15:27.338811+00:00",
   "latest_elsevier_affiliations_backfill_35_60": {
     "approved_rows": 25,
     "blocked_rows": 0,
@@ -593,7 +593,7 @@
     "status_detail": "0 approved / 10 blocked; 4 candidate URLs redirected to /doi/abs pages, 6 candidate URLs returned HTTP 403 on /doi/pdf pages.",
     "task_id": "v2_sage_pdf_url_d8f9a30d"
   },
-  "source_whole_goldie": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-elsevier-corresponding-sibling-icon-full10k-20260605T1935Z.json",
+  "source_whole_goldie": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json",
   "status_counts": {
     "above_98": 3,
     "blocked_pdf_candidate_urls_not_grounded": 1,
@@ -1885,5 +1885,28 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-06T05:56:05.256352+00:00"
+  "updated_at": "2026-06-06T05:56:05.256352+00:00",
+  "wiley_abstract_dispatch_state": {
+    "run_id": "20260604T163736Z-77fe45",
+    "task_id": "v2_wiley_abstract_f51e01cd",
+    "agent_id": "codex-wiley-abstract-current-kpi",
+    "publisher_id": "wiley",
+    "field": "abstract",
+    "classification": "parser_owned_shipped_full10k_measured",
+    "completed_at": "2026-06-06T07:15:27.338811+00:00",
+    "wiley_abstract_before": 0.9008907193166575,
+    "wiley_abstract_after": 0.9169130130599888,
+    "wiley_abstract_delta_pp": 1.6022293743331306,
+    "overall_abstract_before": 0.9007486125647127,
+    "overall_abstract_after": 0.9032848352894162,
+    "overall_abstract_delta_pp": 0.2536222724703441,
+    "current_goldie_abstract_wins": 11,
+    "empty_empty_to_backfill_count": 2,
+    "parser_error_count_before": 13,
+    "parser_error_count_after": 13,
+    "status": "green",
+    "recommendation": "Ship. Continue with the next ranked below-98 field; remaining Wiley abstract misses are mixed between gold truncation, cross-publisher Elsevier/Blackwell routing, Cochrane unsupported pages, and long-body manual-DOM cases.",
+    "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_dispatch_shield.json",
+    "after_artifact": "eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json"
+  }
 }

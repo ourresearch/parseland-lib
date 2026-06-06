@@ -1,0 +1,214 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_wiley_abstract_f51e01cd",
+  "legacy_task_id": "t_wiley_abstract_5f3082",
+  "agent_id": "codex-wiley-abstract-current-kpi",
+  "publisher_id": "wiley",
+  "field": "abstract",
+  "classification": "parser_owned_shipped_full10k_measured",
+  "completed_at": "2026-06-06T07:15:27.338811+00:00",
+  "diagnosis": "Older Wiley pages with real abstract signals but no modern loa-authors block were bypassing the Wiley parser. The dispatcher then fell to generic/no output. Wiley now advertises authors_found when the page is Wiley-owned and has an abstract signal, allowing existing Wiley abstract fallbacks to supply abstract-only output while preserving empty/gold-backfill policy.",
+  "code_change": "Expand Wiley.authors_found to include Wiley-owned abstract-only pages; add parse_page regression tests for dispatch with and without abstract signals.",
+  "before_artifact": "eval/runs/whole-goldie-after-elsevier-corresponding-sibling-icon-full10k-20260605T1935Z.json",
+  "after_artifact": "eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json",
+  "scoped_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_dispatch_gate.json",
+  "wiley_abstract_before": 0.9008907193166575,
+  "wiley_abstract_after": 0.9169130130599888,
+  "wiley_abstract_delta_pp": 1.6022293743331306,
+  "wiley_abstract_present_rate_before": 0.6541244573082489,
+  "wiley_abstract_present_rate_after": 0.6700434153400868,
+  "overall_abstract_before": 0.9007486125647127,
+  "overall_abstract_after": 0.9032848352894162,
+  "overall_abstract_delta_pp": 0.2536222724703441,
+  "overall_metrics_before": {
+    "authors_f1_soft": 0.9391948789499855,
+    "affiliations_f1_fuzzy": 0.921648007422582,
+    "abstract_ratio_fuzzy": 0.9007486125647127,
+    "abstract_present_rate": 0.6801399144966964,
+    "pdf_url_accuracy": 0.9341836734693878,
+    "corresponding_accuracy": 0.9632194687398768
+  },
+  "overall_metrics_after": {
+    "authors_f1_soft": 0.9391948789499855,
+    "affiliations_f1_fuzzy": 0.921648007422582,
+    "abstract_ratio_fuzzy": 0.9032848352894162,
+    "abstract_present_rate": 0.6824718227749709,
+    "pdf_url_accuracy": 0.935204081632653,
+    "corresponding_accuracy": 0.9634235503725299
+  },
+  "overall_metric_deltas_pp": {
+    "authors_f1_soft": 0.0,
+    "affiliations_f1_fuzzy": 0.0,
+    "abstract_ratio_fuzzy": 0.2536222724703441,
+    "abstract_present_rate": 0.23319082782744527,
+    "pdf_url_accuracy": 0.10204081632652073,
+    "corresponding_accuracy": 0.020408163265306367
+  },
+  "wiley_abstract_counts_before": {
+    "total_rows": 695,
+    "html_available": 691,
+    "retrieval_blocked": 4,
+    "empty_empty_pass": 193,
+    "gold_present_parser_empty": 30,
+    "gold_present_parser_present": 452,
+    "gold_empty_parser_present": 16,
+    "scored_rows": 675
+  },
+  "wiley_abstract_counts_after": {
+    "total_rows": 695,
+    "html_available": 691,
+    "retrieval_blocked": 4,
+    "empty_empty_pass": 191,
+    "gold_present_parser_empty": 19,
+    "gold_present_parser_present": 463,
+    "gold_empty_parser_present": 18,
+    "scored_rows": 673
+  },
+  "current_goldie_abstract_wins": 11,
+  "current_goldie_abstract_losses": 0,
+  "empty_empty_to_backfill_candidates": [
+    "10.1002/cem.2527",
+    "10.1111/j.1468-229x.1974.tb02227.x"
+  ],
+  "empty_empty_to_backfill_count": 2,
+  "raw_loss_rows_are_backfill_policy_changes": [
+    {
+      "doi": "10.1002/cem.2527",
+      "before_status": "empty_empty_pass",
+      "after_status": "gold_empty_parser_present",
+      "gold_abstract_len": 0,
+      "parsed_abstract_len": 42
+    },
+    {
+      "doi": "10.1111/j.1468-229x.1974.tb02227.x",
+      "before_status": "empty_empty_pass",
+      "after_status": "gold_empty_parser_present",
+      "gold_abstract_len": 0,
+      "parsed_abstract_len": 12095
+    }
+  ],
+  "new_parser_errors": [],
+  "resolved_parser_errors": [],
+  "parser_error_count_before": 13,
+  "parser_error_count_after": 13,
+  "win_examples": [
+    {
+      "doi": "10.1002/dac.5538",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 1.0,
+      "gold_abstract_len": 42,
+      "parsed_abstract_len": 42,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1002/j.1551-8833.2006.tb07796.x",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 1.0,
+      "gold_abstract_len": 246,
+      "parsed_abstract_len": 246,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1002/jpln.202370065",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 1.0,
+      "gold_abstract_len": 792,
+      "parsed_abstract_len": 792,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1002/masy.70003",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9972527472527473,
+      "gold_abstract_len": 364,
+      "parsed_abstract_len": 364,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1002/pep2.24212",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9988649262202043,
+      "gold_abstract_len": 881,
+      "parsed_abstract_len": 881,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1029/te031i003p00102",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9860788863109049,
+      "gold_abstract_len": 431,
+      "parsed_abstract_len": 431,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1111/epp.12861",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9977678571428571,
+      "gold_abstract_len": 448,
+      "parsed_abstract_len": 448,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1111/j.1467-923x.2008.00922.x",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9841961852861035,
+      "gold_abstract_len": 904,
+      "parsed_abstract_len": 931,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1111/j.1468-2257.2005.00296.x",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9975186104218362,
+      "gold_abstract_len": 202,
+      "parsed_abstract_len": 201,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1111/j.1475-1305.1975.tb00122.x",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 1.0,
+      "gold_abstract_len": 406,
+      "parsed_abstract_len": 406,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1111/j.1479-828x.1996.tb03295.x",
+      "before_fuzzy": 0.0,
+      "after_fuzzy": 0.9884225759768451,
+      "gold_abstract_len": 1382,
+      "parsed_abstract_len": 1382,
+      "field_status": "gold_present_parser_present"
+    }
+  ],
+  "status": "green",
+  "gates": [
+    {
+      "command": "PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/pytest tests/test_wiley_abstract.py tests/test_parse_page.py -q",
+      "status": "passed",
+      "details": "25 passed"
+    },
+    {
+      "command": "PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/wiley.py parseland_lib/parse_publisher_authors_abstract.py scripts/whole_goldie_eval.py scripts/build_report336.py",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers wiley --out mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_dispatch_gate.json",
+      "status": "passed",
+      "rows": 695,
+      "retrieval_blocked": 4,
+      "errors": 0,
+      "wiley_abstract_ratio": 0.9169130130599888
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-wiley-abstract-dispatch --concurrency 8 --out eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json",
+      "status": "passed",
+      "rows": 10000,
+      "retrieval_blocked": 4854,
+      "errors": 13,
+      "new_errors": 0,
+      "overall_abstract_ratio": 0.9032848352894162
+    }
+  ],
+  "recommendation": "Ship. Continue with the next ranked below-98 field; remaining Wiley abstract misses are mixed between gold truncation, cross-publisher Elsevier/Blackwell routing, Cochrane unsupported pages, and long-body manual-DOM cases."
+}

@@ -30,6 +30,7 @@ from __future__ import annotations
 
 from bs4 import BeautifulSoup
 
+from parseland_lib.parse import parse_page
 from parseland_lib.publisher.parsers.wiley import Wiley
 
 
@@ -124,6 +125,33 @@ def test_article_body_editorial_fallback_fires_on_short_body():
     out = Wiley(soup).get_abstract()
     assert out is not None
     assert "Maintaining the scientific standards" in out
+
+
+def test_dispatch_uses_wiley_for_abstract_without_modern_author_block():
+    """Older Wiley pages may have no `loa-authors` block but still carry a
+    Wiley-owned abstract body. The dispatcher should keep that publisher
+    parser output instead of falling through to the generic parser/no output."""
+    body = """
+    <div class="article__body">
+      <p>Maintaining the scientific standards of an international
+      journal is an important task and the ultimate responsibility of
+      the editors. This task can only be accomplished with the support
+      of a broad community of scientists.</p>
+      <p>This editorial highlights three submissions selected for
+      publication in this issue.</p>
+    </div>
+    """
+    out = parse_page(_wrap(body), namespace="doi", resolved_url="https://doi.org/10.1002/example")
+    assert out["authors"] == []
+    assert out["abstract"] is not None
+    assert "Maintaining the scientific standards" in out["abstract"]
+
+
+def test_dispatch_ignores_wiley_page_without_abstract_signal():
+    body = "<main><p>Download PDF</p></main>"
+    out = parse_page(_wrap(body), namespace="doi", resolved_url="https://doi.org/10.1002/example")
+    assert out["authors"] == []
+    assert out["abstract"] is None
 
 
 def test_article_body_fallback_skipped_on_full_research_article():

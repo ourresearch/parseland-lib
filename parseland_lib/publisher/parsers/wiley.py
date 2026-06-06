@@ -15,7 +15,18 @@ class Wiley(PublisherParser):
         return self.domain_in_meta_og_url("onlinelibrary.wiley.com") or self.text_in_meta_og_site_name('Wiley Online Library')
 
     def authors_found(self):
-        return self.soup.find("div", class_="loa-authors")
+        return self.soup.find("div", class_="loa-authors") or (
+            self.is_publisher_specific_parser() and self._abstract_signal_found()
+        )
+
+    def _abstract_signal_found(self):
+        if self.soup.select_one('section[class*="abstract"], div[class*="abstract"]'):
+            return True
+        if self.soup.select_one('meta[name="citation_abstract"]'):
+            return True
+        if self.soup.select_one('div.article__body p'):
+            return True
+        return bool(self.parse_abstract_meta_tags())
 
     def parse(self):
         return {"authors": self.get_authors(),
