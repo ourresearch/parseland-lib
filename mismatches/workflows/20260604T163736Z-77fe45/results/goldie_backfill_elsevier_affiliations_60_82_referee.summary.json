@@ -1,0 +1,45 @@
+{
+  "run_id": "bb-elsevier-affiliations-60-82-20260606T0524Z",
+  "reviewed_at": "2026-06-06T05:29:34.364670+00:00",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+  "selected_rows": 22,
+  "grounded_rows": 22,
+  "approved": 18,
+  "blocked": 4,
+  "new_derived_rows": 18,
+  "grounding_status_counts": {
+    "candidate_evidence_needs_referee": 18,
+    "page_rendered_needs_referee": 4
+  },
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 18,
+    "page_identity_only": 4
+  },
+  "approved_example_dois": [
+    "10.1016/j.rh.2021.02.001",
+    "10.1016/j.sajb.2008.01.028",
+    "10.1016/j.tins.2005.03.003",
+    "10.1016/j.synthmet.2023.117374",
+    "10.1016/j.tins.2012.06.001"
+  ],
+  "blocked_example_dois": [
+    "10.1067/mob.2002.127375",
+    "10.2139/ssrn.4891740",
+    "10.2139/ssrn.4895667",
+    "10.2139/ssrn.4942599"
+  ],
+  "blocked_reasons": {
+    "10.1067/mob.2002.127375": "page_identity_only_no_affiliation_candidate_text_match",
+    "10.2139/ssrn.4891740": "page_identity_only_no_affiliation_candidate_text_match",
+    "10.2139/ssrn.4895667": "page_identity_only_no_affiliation_candidate_text_match",
+    "10.2139/ssrn.4942599": "page_identity_only_no_affiliation_candidate_text_match"
+  },
+  "cumulative_approved_rows": 74,
+  "cumulative_blocked_or_retry_rows": 8,
+  "remaining_current_candidates_estimate": 0,
+  "status": "final_referee_complete_18_approved_4_blocked",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "next_action": "Elsevier affiliation current Goldie-backfilled lane complete: route 74 approved derived labels and 8 blocked/manual-review rows to gold-auditor review; continue next ranked publisher-field lane."
+}

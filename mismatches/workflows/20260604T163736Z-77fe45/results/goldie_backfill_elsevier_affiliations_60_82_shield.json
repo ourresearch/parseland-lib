@@ -1,0 +1,55 @@
+{
+  "artifact_type": "shield_gate",
+  "created_at": "2026-06-06T05:30:51Z",
+  "unit": "goldie_backfill_elsevier_affiliations_60_82_final",
+  "status": "green",
+  "purpose": "Validate final Elsevier affiliation Goldie-backfilled Browserbase batch and lane closure.",
+  "inputs": {
+    "grounded": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_grounded.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.summary.json",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson"
+  },
+  "commands": [
+    {
+      "command": "./.venv/bin/python scripts/goldie_backfill_ground.py --fields affiliations --publishers elsevier --statuses pending_browserbase --skip 60 --limit 25 --concurrency 2 --run-id bb-elsevier-affiliations-60-82-20260606T0524Z ...",
+      "status": "passed",
+      "observed": {
+        "processed": 22,
+        "candidate_evidence_needs_referee": 18,
+        "page_rendered_needs_referee": 4,
+        "concurrency": 2
+      }
+    },
+    {
+      "command": "jq empty summary.json goldie_backfill_elsevier_affiliations_60_82_referee.summary.json",
+      "status": "passed"
+    },
+    {
+      "command": "python3 - <<'PY' ... validate grounded/referee/derived counts and duplicate DOI+field keys ... PY",
+      "status": "passed",
+      "observed": {
+        "grounded_rows": 22,
+        "approved_rows": 18,
+        "blocked_rows": 4,
+        "derived_elsevier_affiliations": 74,
+        "duplicate_derived_doi_field": 0
+      }
+    },
+    {
+      "command": "python3 - <<'PY' ... validate workflow queue and summary lane closure ... PY",
+      "status": "passed",
+      "observed": {
+        "queue_status": "goldie_backfill_referee_complete_74_approved_8_blocked",
+        "cumulative_approved": 74,
+        "remaining_current_candidates_estimate": 0
+      }
+    }
+  ],
+  "kpi_impact": {
+    "current_goldie_kpi": "unchanged",
+    "goldie_backfilled_lane": "Elsevier affiliations current backfill lane completed: 74 approved derived candidates, 8 blocked/manual-review rows, 0 remaining."
+  },
+  "policy": "Goldie-backfilled candidates stay separate from current-Goldie KPI and merged-FINAL.csv is not mutated.",
+  "next_action": "Route 74 approved derived labels and 8 blocked/manual-review rows to gold-auditor review; continue next ranked publisher-field lane."
+}

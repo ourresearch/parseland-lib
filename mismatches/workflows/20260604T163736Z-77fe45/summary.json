@@ -16,7 +16,7 @@
     "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
-    "goldie_backfill_56_approved_4_blocked_22_remaining": 1,
+    "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "shipped_full10k_measured": 4,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "classified_mixed_small_parser_headroom": 2,
@@ -41,30 +41,24 @@
   "coverage_total_rows": 10000,
   "created_at": "2026-06-05T10:09:45.026965+00:00",
   "elsevier_affiliations_referee_state": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_disable_app_json_shield.json",
-    "decision": "ship_regression_rollback",
-    "elsevier_disabled_minus_app_json": {
-      "abstract_present_rate": 0.0,
-      "abstract_ratio_fuzzy": -0.0018487069685406698,
-      "affiliations_f1_fuzzy": 0.005493078183770983,
-      "affiliations_f1_strict": 0.003765583611629819,
-      "authors_f1_soft": 0.0,
-      "authors_f1_strict": -0.00013245033112585514,
-      "corresponding_accuracy": 0.010946844002141076,
-      "pdf_url_accuracy": 0.0
-    },
-    "latest_full10k_after": "eval/runs/whole-goldie-after-elsevier-disable-app-json-20260605T151433Z.json",
-    "overall_disabled_minus_app_json": {
-      "abstract_present_rate": 0.0,
-      "abstract_ratio_fuzzy": -0.0005547662476965698,
-      "affiliations_f1_fuzzy": 0.0017739228756176173,
-      "affiliations_f1_strict": 0.0012160494872360816,
-      "authors_f1_soft": 0.0,
-      "authors_f1_strict": -4.1017227235595755e-05,
-      "corresponding_accuracy": 0.003076861321302804,
-      "pdf_url_accuracy": 0.0
-    },
-    "status": "blocked_goldie_backfill_needed"
+    "publisher_id": "elsevier",
+    "field": "affiliations",
+    "task_id": "v2_elsevier_affiliations_84be36c2",
+    "status": "goldie_backfill_referee_complete_74_approved_8_blocked",
+    "approved_rows": 74,
+    "blocked_rows": 8,
+    "remaining_current_candidates": 0,
+    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.ndjson",
+    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.summary.json",
+    "latest_derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+    "blocked_example_dois": [
+      "10.1067/mob.2002.127375",
+      "10.2139/ssrn.4891740",
+      "10.2139/ssrn.4895667",
+      "10.2139/ssrn.4942599"
+    ],
+    "next_action": "Elsevier affiliation current Goldie-backfilled lane complete: route 74 approved derived labels and 8 blocked/manual-review rows to gold-auditor review; continue next ranked publisher-field lane.",
+    "updated_at": "2026-06-06T05:29:34.364670+00:00"
   },
   "elsevier_corresponding_sibling_icon_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_sibling_icon_full10k_summary.json",
@@ -265,7 +259,7 @@
     "blocked_pdf_candidate_urls_resolve_to_abs_pages": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
-    "goldie_backfill_56_approved_4_blocked_22_remaining": 1,
+    "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "shipped_full10k_measured": 4,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "classified_mixed_small_parser_headroom": 2,
@@ -1552,7 +1546,7 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-06T05:17:17.813109+00:00",
+  "updated_at": "2026-06-06T05:29:34.364670+00:00",
   "sage_pdf_referee_state": {
     "publisher_id": "sage",
     "field": "pdf_url",
@@ -1749,14 +1743,14 @@
     "approved_rows": 8,
     "blocked_or_retry_completed_rows": 9,
     "unprocessed_due_timeout_rows": 8,
-    "cumulative_approved_rows": 56,
-    "cumulative_blocked_or_retry_rows": 4,
-    "remaining_current_candidates_estimate": 22,
-    "status": "goldie_backfill_56_approved_4_blocked_22_remaining",
-    "status_detail": "Elsevier affiliation backfill continued through batch 35-60: 25/25 additional current candidates approved from all-affiliation Browserbase evidence. Cumulative lane state is 56 approved, 4 blocked/manual-review, 22 current candidates remaining.",
+    "cumulative_approved_rows": 74,
+    "cumulative_blocked_or_retry_rows": 8,
+    "remaining_current_candidates_estimate": 0,
+    "status": "goldie_backfill_referee_complete_74_approved_8_blocked",
+    "status_detail": "Elsevier affiliation current backfill lane complete: 74 approved, 8 blocked/manual-review, 0 remaining.",
     "timeout_hardening_commit": "f6fd040",
     "timeout_hardening_shield": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ground_timeout_hardening_shield.json",
-    "next_action": "Continue Elsevier affiliation Browserbase grounding on the final 22 current candidates in a conservative batch; keep derived labels separate from current-Goldie KPI and route approved labels to gold-auditor review.",
+    "next_action": "Elsevier affiliation current Goldie-backfilled lane complete: route 74 approved derived labels and 8 blocked/manual-review rows to gold-auditor review; continue next ranked publisher-field lane.",
     "policy": "Goldie-backfilled stays separate from current-Goldie KPI and merged-FINAL.csv is not mutated.",
     "retry_source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_retry_grounded.ndjson",
     "retry_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_10_35_retry_referee.ndjson",
@@ -1765,8 +1759,8 @@
     "retry_approved_rows": 17,
     "retry_blocked_rows": 0,
     "retry_new_derived_rows": 17,
-    "updated_at": "2026-06-06T05:17:17.813109+00:00",
-    "latest_followup_batch": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_35_60_referee.summary.json"
+    "updated_at": "2026-06-06T05:29:34.364670+00:00",
+    "latest_followup_batch": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.summary.json"
   },
   "latest_elsevier_affiliations_backfill_retry_10_35": {
     "publisher_id": "elsevier",
@@ -1811,6 +1805,35 @@
     "status": "goldie_backfill_56_approved_4_blocked_22_remaining",
     "status_detail": "Elsevier affiliation batch 35-60 grounded 25/25 current candidates as all-affiliation candidate text matches and Referee approved all 25 into the derived ledger. Cumulative lane state is 56 approved, 4 blocked/manual-review, 22 current candidates remaining.",
     "next_action": "Continue Elsevier affiliation Browserbase grounding on the final 22 current candidates in a conservative batch; keep derived labels separate from current-Goldie KPI and route approved labels to gold-auditor review.",
+    "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation."
+  },
+  "latest_elsevier_affiliations_backfill_60_82": {
+    "publisher_id": "elsevier",
+    "field": "affiliations",
+    "task_id": "v2_elsevier_affiliations_84be36c2",
+    "run_id": "bb-elsevier-affiliations-60-82-20260606T0524Z",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_grounded.ndjson",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.ndjson",
+    "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_60_82_referee.summary.json",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_affiliations_derived_v0.ndjson",
+    "reviewed_at": "2026-06-06T05:29:34.364670+00:00",
+    "selected_rows": 22,
+    "grounded_rows": 22,
+    "approved_rows": 18,
+    "blocked_rows": 4,
+    "new_derived_rows": 18,
+    "blocked_example_dois": [
+      "10.1067/mob.2002.127375",
+      "10.2139/ssrn.4891740",
+      "10.2139/ssrn.4895667",
+      "10.2139/ssrn.4942599"
+    ],
+    "cumulative_approved_rows": 74,
+    "cumulative_blocked_or_retry_rows": 8,
+    "remaining_current_candidates_estimate": 0,
+    "status": "goldie_backfill_referee_complete_74_approved_8_blocked",
+    "status_detail": "Elsevier affiliation final batch 60-82 grounded 22 current candidates: 18 approved from all-affiliation candidate text matches and 4 blocked as page-identity-only. Lane complete with 74 approved, 8 blocked/manual-review, 0 remaining.",
+    "next_action": "Elsevier affiliation current Goldie-backfilled lane complete: route 74 approved derived labels and 8 blocked/manual-review rows to gold-auditor review; continue next ranked publisher-field lane.",
     "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation."
   }
 }
