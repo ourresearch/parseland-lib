@@ -8,15 +8,19 @@ def get_authors_and_abstract(soup, namespace):
     authors_found_parsers = []
 
     def has_affs(parsed):
+        def author_affiliations(author):
+            if isinstance(author, dict):
+                return author.get('affiliations')
+            return getattr(author, 'affiliations', None)
+
         if isinstance(parsed, list):
             if not parsed:
                 return False
-            return any(author.get('affiliations') for author in parsed)
+            return any(author_affiliations(author) for author in parsed)
         elif isinstance(parsed, dict):
             if not parsed.get('authors'):
                 return False
-            return any([author['affiliations'] if isinstance(author, dict)
-                        else author.affiliations for author in parsed['authors']])
+            return any(author_affiliations(author) for author in parsed['authors'])
         return False
 
     def has_content(parsed):

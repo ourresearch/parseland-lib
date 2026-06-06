@@ -1,0 +1,161 @@
+{
+  "after_full10k_artifact": "eval/runs/whole-goldie-after-springer-abstract-empty-fallback-20260606T0735Z.json",
+  "before_full10k_artifact": "eval/runs/whole-goldie-after-wiley-abstract-dispatch-20260606T0700Z.json",
+  "changes": [
+    "Springer now uses a last-resort missing-abstract fallback for structured BMC sections and language-specific abstract headings only when the normal ladder returns no abstract.",
+    "parse_page shared helper now accepts parser returns shaped as list[AuthorAffiliations] instead of crashing while checking affiliations."
+  ],
+  "classification": "ship_small_current_goldie_lift_with_error_elimination",
+  "current_goldie_policy": "Gold empty + parser present is routed to Goldie-backfilled and is not counted as a current-Goldie KPI win.",
+  "doi_evidence": {
+    "abstract_current_goldie_losses": [],
+    "abstract_current_goldie_wins": [
+      "10.1007/bf02669501",
+      "10.1186/1471-2334-12-s1-p11",
+      "10.1007/978-3-642-74784-7_443"
+    ],
+    "empty_empty_to_goldie_backfilled": [
+      "10.1186/1471-2318-9-s1-a21"
+    ],
+    "examples": [
+      {
+        "after_abstract_status": "gold_present_parser_present",
+        "after_error": false,
+        "before_abstract_status": "gold_present_parser_empty",
+        "before_error": false,
+        "classification": "current_goldie_abstract_win",
+        "doi": "10.1007/978-3-642-74784-7_443"
+      },
+      {
+        "after_abstract_status": "gold_present_parser_present",
+        "after_error": false,
+        "before_abstract_status": "gold_present_parser_empty",
+        "before_error": false,
+        "classification": "current_goldie_abstract_win",
+        "doi": "10.1186/1471-2334-12-s1-p11"
+      },
+      {
+        "after_abstract_status": "gold_present_parser_present",
+        "after_error": false,
+        "before_abstract_status": "gold_present_parser_empty",
+        "before_error": false,
+        "classification": "current_goldie_abstract_win",
+        "doi": "10.1007/bf02669501"
+      },
+      {
+        "after_abstract_status": "gold_empty_parser_present",
+        "after_error": false,
+        "before_abstract_status": "empty_empty_pass",
+        "before_error": false,
+        "classification": "goldie_backfilled_candidate",
+        "doi": "10.1186/1471-2318-9-s1-a21"
+      },
+      {
+        "after_abstract_status": "gold_present_parser_empty",
+        "after_error": false,
+        "before_abstract_status": "gold_present_parser_empty",
+        "before_error": true,
+        "classification": "parser_error_resolved",
+        "doi": "10.1007/978-3-540-75486-2_298"
+      }
+    ],
+    "resolved_parser_error_dois": [
+      "10.1007/10494447_2594",
+      "10.1007/10949276_1565",
+      "10.1007/978-3-540-44694-1_2231",
+      "10.1007/978-3-540-44694-1_3184",
+      "10.1007/978-3-540-45278-2_1796",
+      "10.1007/978-3-540-49315-0_1439",
+      "10.1007/978-3-540-49718-9_1503",
+      "10.1007/978-3-540-73584-7_2714",
+      "10.1007/978-3-540-73584-7_97",
+      "10.1007/978-3-540-75486-2_298",
+      "10.1007/978-3-642-02943-1_544"
+    ]
+  },
+  "field": "abstract",
+  "next_action": "continue below-98 field queue; remaining Springer abstract gap is 27 current-Goldie parser-empty rows plus 27 Goldie-backfilled candidates and likely needs DOM-specific/gold-auditor review.",
+  "overall_metrics": {
+    "after": {
+      "abstract_present_rate": 0.6830547998445394,
+      "abstract_ratio_fuzzy": 0.9038008163565571,
+      "affiliations_f1_fuzzy": 0.9232299283265368,
+      "authors_f1_soft": 0.9414536058493698,
+      "corresponding_accuracy": 0.9634235503725299,
+      "pdf_url_accuracy": 0.935204081632653
+    },
+    "before": {
+      "abstract_present_rate": 0.6824718227749709,
+      "abstract_ratio_fuzzy": 0.9032848352894162,
+      "affiliations_f1_fuzzy": 0.921648007422582,
+      "authors_f1_soft": 0.9391948789499855,
+      "corresponding_accuracy": 0.9634235503725299,
+      "pdf_url_accuracy": 0.935204081632653
+    },
+    "delta": {
+      "abstract_present_rate": 0.0005829770695685577,
+      "abstract_ratio_fuzzy": 0.0005159810671409026,
+      "affiliations_f1_fuzzy": 0.0015819209039548143,
+      "authors_f1_soft": 0.0022587268993842224,
+      "corresponding_accuracy": 0.0,
+      "pdf_url_accuracy": 0.0
+    },
+    "errors_after": 2,
+    "errors_before": 13
+  },
+  "ownership": "parser_and_shared_dispatch_helper",
+  "publisher_id": "springer",
+  "run_id": "springer_abstract_empty_fallback",
+  "scoped_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_empty_fallback_gate.json",
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_empty_fallback_shield.json",
+  "springer_abstract_counts_after": {
+    "empty_empty_pass": 195,
+    "gold_empty_parser_present": 27,
+    "gold_present_parser_empty": 27,
+    "gold_present_parser_present": 869,
+    "html_available": 1118,
+    "retrieval_blocked": 5,
+    "scored_rows": 1091,
+    "total_rows": 1123
+  },
+  "springer_abstract_counts_before": {
+    "empty_empty_pass": 196,
+    "gold_empty_parser_present": 26,
+    "gold_present_parser_empty": 30,
+    "gold_present_parser_present": 866,
+    "html_available": 1118,
+    "retrieval_blocked": 5,
+    "scored_rows": 1092,
+    "total_rows": 1123
+  },
+  "springer_metrics": {
+    "after": {
+      "abstract_present_rate": 0.7772808586762076,
+      "abstract_ratio_fuzzy": 0.951787227108109,
+      "affiliations_f1_fuzzy": 0.9639535057380605,
+      "authors_f1_soft": 0.9667594745806505,
+      "corresponding_accuracy": 0.9743420760662136,
+      "pdf_url_accuracy": 0.9936651583710407
+    },
+    "before": {
+      "abstract_present_rate": 0.774597495527728,
+      "abstract_ratio_fuzzy": 0.9493971333446983,
+      "affiliations_f1_fuzzy": 0.957459999244554,
+      "authors_f1_soft": 0.9568406287736171,
+      "corresponding_accuracy": 0.9743420760662136,
+      "pdf_url_accuracy": 0.9936651583710407
+    },
+    "delta": {
+      "abstract_present_rate": 0.0026833631484795006,
+      "abstract_ratio_fuzzy": 0.0023900937634107056,
+      "affiliations_f1_fuzzy": 0.00649350649350644,
+      "authors_f1_soft": 0.009918845807033394,
+      "corresponding_accuracy": 0.0,
+      "pdf_url_accuracy": 0.0
+    },
+    "errors_after": 0,
+    "errors_before": 11
+  },
+  "task_id": "v2_springer_abstract_c2c731f2",
+  "updated_at": "2026-06-06T08:32:57.024318+00:00"
+}

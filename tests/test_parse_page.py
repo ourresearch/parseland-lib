@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import pytest
 
+from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.parse import find_pdf_link, parse_page
+from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
 MINIMAL_HTML = "<html><body><p>hello world</p></body></html>"
@@ -41,6 +43,38 @@ def test_parse_page_namespace_doi_returns_structured_response():
     assert set(result.keys()) == {"authors", "urls", "license", "version", "abstract"}
     assert isinstance(result["authors"], list)
     assert isinstance(result["urls"], list)
+
+
+def test_parse_page_accepts_list_of_author_affiliation_objects():
+    class MarkerListParser(PublisherParser):
+        parser_name = "marker_list_affs"
+
+        def is_publisher_specific_parser(self):
+            return bool(self.soup.select_one('meta[name="x-list-affs-parser"]'))
+
+        def authors_found(self):
+            return self.is_publisher_specific_parser()
+
+        def parse(self):
+            return [
+                AuthorAffiliations(
+                    name="Jane Doe",
+                    affiliations=["Example University"],
+                    is_corresponding=None,
+                )
+            ]
+
+    html = '<html><head><meta name="x-list-affs-parser" content="1"></head></html>'
+
+    result = parse_page(html, "doi")
+
+    assert result["authors"] == [
+        {
+            "name": "Jane Doe",
+            "affiliations": [{"name": "Example University"}],
+            "is_corresponding": None,
+        }
+    ]
 
 
 def test_parse_page_namespace_pmh_returns_structured_response():

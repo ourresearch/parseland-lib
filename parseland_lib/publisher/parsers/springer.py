@@ -182,6 +182,8 @@ class Springer(PublisherParser):
         dom_abstract = self.parse_abstract()
         if dom_abstract and (not abstract or len(dom_abstract) > len(abstract)):
             abstract = dom_abstract
+        if not abstract:
+            abstract = self._parse_missing_abstract_fallback()
 
         return {"authors": authors_affiliations,
                 "abstract": abstract or dom_abstract, }
@@ -741,6 +743,84 @@ class Springer(PublisherParser):
         if meta_texts:
             return max(meta_texts, key=len)
 
+        return None
+
+    def _parse_missing_abstract_fallback(self):
+        """Last-resort abstract recovery for pages with no existing abstract.
+
+        This intentionally runs only when the normal JSON-LD / DOM / meta
+        ladder found nothing. It covers older Springer/BMC pages whose
+        abstract-like content is split under language-specific or structured
+        headings, without overriding already-good abstract strings.
+        """
+        if text := self._parse_language_abstract_section():
+            return text
+        return self._parse_structured_abstract_sections()
+
+    @staticmethod
+    def _section_heading(section):
+        heading = section.find(["h1", "h2", "h3"])
+        return (
+            section.get("data-title")
+            or (heading.get_text(" ", strip=True) if heading else "")
+            or ""
+        ).strip().lower()
+
+    @staticmethod
+    def _section_text(section):
+        for bad in section.select("span.CitationRef, sup, .CitationRef"):
+            bad.decompose()
+        chunks = []
+        nodes = section.find_all(["p", "li"])
+        if not nodes:
+            text = section.get_text(" ", strip=True)
+            return text.strip() if text else None
+        for node in nodes:
+            text = node.get_text(" ", strip=True)
+            if text:
+                chunks.append(text)
+        return "\n".join(chunks).strip() or None
+
+    def _parse_language_abstract_section(self):
+        abstract_headings = {
+            "zusammenfassung",
+            "samenvatting",
+            "résumé",
+            "resume",
+            "resumen",
+            "riassunto",
+        }
+        for section in self.soup.select("section")[:12]:
+            if self._section_heading(section) not in abstract_headings:
+                continue
+            text = self._section_text(section)
+            if text and len(text) >= 80:
+                return text
+        return None
+
+    def _parse_structured_abstract_sections(self):
+        structured_headings = {
+            "background",
+            "objective",
+            "objectives",
+            "case presentation",
+            "methods",
+            "method",
+            "results",
+            "conclusion",
+            "conclusions",
+        }
+        chunks = []
+        for section in self.soup.select("section")[:12]:
+            if self._section_heading(section) in structured_headings:
+                text = self._section_text(section)
+                if text:
+                    chunks.append(text)
+                continue
+            if chunks:
+                break
+        if len(chunks) >= 2:
+            return "\n".join(chunks)
         return None
 
     def parse_article_metadatas(self):

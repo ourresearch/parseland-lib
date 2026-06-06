@@ -1,0 +1,36 @@
+{
+  "gates": [
+    {
+      "command": "PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/pytest tests/test_parse_page.py tests/test_springer_abstract_fallbacks.py -q",
+      "name": "focused_pytest",
+      "result": "18 passed in 0.07s"
+    },
+    {
+      "command": "PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python -m py_compile parseland_lib/parse_publisher_authors_abstract.py parseland_lib/publisher/parsers/springer.py scripts/whole_goldie_eval.py scripts/build_report336.py",
+      "name": "py_compile",
+      "result": "passed"
+    },
+    {
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_empty_fallback_gate.json",
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers springer --label springer-abstract-empty-fallback --concurrency 4 --out mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_empty_fallback_gate.json",
+      "name": "springer_scoped_whole_goldie",
+      "result": "1123 rows; retrieval_blocked=5; errors=0; Springer abstract 0.951787"
+    },
+    {
+      "artifact": "eval/runs/whole-goldie-after-springer-abstract-empty-fallback-20260606T0735Z.json",
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-springer-abstract-empty-fallback --concurrency 8 --out eval/runs/whole-goldie-after-springer-abstract-empty-fallback-20260606T0735Z.json",
+      "name": "full_10k_whole_goldie",
+      "result": "10000 rows; retrieval_blocked=4854; errors=2; overall abstract 0.903801"
+    }
+  ],
+  "regression_policy": {
+    "abstract_current_goldie_losses": 0,
+    "overall_corresponding_delta": 0.0,
+    "overall_pdf_delta": 0.0,
+    "verdict": "no field regression beyond gate threshold"
+  },
+  "run_id": "springer_abstract_empty_fallback_shield",
+  "status": "green",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_empty_fallback_summary.json",
+  "updated_at": "2026-06-06T08:32:57.024318+00:00"
+}
