@@ -275,6 +275,20 @@ def _render_backfill_status(workflow_summary: dict | None) -> str:
             f"{html.escape(str(lippincott_abs.get('remaining_current_candidates', '—')))} remaining"
             f"{blocked_suffix}"
         )
+    elsevier_affs = workflow_summary.get("latest_elsevier_affiliations_backfill_batch_10_35") or {}
+    if elsevier_affs:
+        hardening = ""
+        if elsevier_affs.get("timeout_hardening_commit"):
+            hardening = (
+                f"; timeout handling hardened in <code>{html.escape(str(elsevier_affs.get('timeout_hardening_commit')))}</code>"
+            )
+        parts.append(
+            "Elsevier affiliations: "
+            f"{html.escape(str(elsevier_affs.get('cumulative_approved_rows', '—')))} approved, "
+            f"{html.escape(str(elsevier_affs.get('cumulative_blocked_or_retry_rows', '—')))} blocked/retry, "
+            f"{html.escape(str(elsevier_affs.get('remaining_current_candidates_estimate', '—')))} remaining"
+            f"{hardening}"
+        )
     if not parts:
         return ""
     return (
