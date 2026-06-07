@@ -1,0 +1,25 @@
+{
+  "approved_example_dois": [
+    "10.3390/antibiotics14101050",
+    "10.3390/agronomy16080782",
+    "10.3390/ani15172574",
+    "10.3390/antiox11020315",
+    "10.3390/app12126063"
+  ],
+  "approved_rows": 10,
+  "blocked_example_dois": [],
+  "blocked_rows": 0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "next_action": "Scale MDPI affiliations in conservative batches of 25-50 if the live report gate is clean; keep current-Goldie KPI separate until derived corpus approval.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "mdpi",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_smoke_10_referee.ndjson",
+  "remaining_current_candidates": 46,
+  "reviewed_at": "2026-06-07T14:47:14.947850+00:00",
+  "reviewed_rows": 10,
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_smoke_10_raw.ndjson",
+  "status": "goldie_backfill_referee_partial_10_approved_0_blocked",
+  "status_detail": "10 approved / 0 blocked after MDPI all-affiliation Browserbase evidence; strict referee requires every unique cleaned affiliation to appear in evidence.",
+  "task_id": "v2_mdpi_affiliations_29a4c147"
+}
