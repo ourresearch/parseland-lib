@@ -1,0 +1,53 @@
+{
+  "artifacts": {
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_derived_v0.ndjson",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_raw.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.summary.json"
+  },
+  "checks": [
+    {
+      "count": 35,
+      "expected": 35,
+      "name": "raw_rows",
+      "status": "pass"
+    },
+    {
+      "count": 35,
+      "expected": 35,
+      "name": "referee_rows",
+      "status": "pass"
+    },
+    {
+      "count": 30,
+      "name": "approved_rows",
+      "status": "pass"
+    },
+    {
+      "count": 1,
+      "name": "approved_with_acs_epdf_redirect",
+      "status": "pass"
+    },
+    {
+      "count": 5,
+      "name": "blocked_rows",
+      "status": "pass"
+    },
+    {
+      "count": 30,
+      "name": "derived_rows",
+      "status": "pass"
+    },
+    {
+      "impact": 0.0,
+      "name": "current_goldie_kpi_separation",
+      "status": "pass"
+    }
+  ],
+  "field": "pdf_url",
+  "gate_id": "acs-pdf-backfill-final",
+  "publisher": "acs",
+  "status": "green",
+  "task_id": "v2_acs_pdf_url_dee703c2",
+  "timestamp": "2026-06-07T03:54:34.729237+00:00"
+}

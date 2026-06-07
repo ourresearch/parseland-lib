@@ -1,0 +1,31 @@
+{
+  "approved": 30,
+  "approved_with_acs_epdf_redirect": 1,
+  "blocked": 5,
+  "confidence_counts": {
+    "candidate_pdf_url_resolves": 30,
+    "visible_or_metadata_pdf_url_not_found": 5
+  },
+  "current_goldie_kpi_effect": "none_goldie_backfilled_lane_only",
+  "decision": "ACS pdf_url Goldie-backfilled lane complete. Route 30 approved PDF URL candidates to derived-corpus approval; route 5 weak rows to manual DOM/gold-auditor review. Current-Goldie KPI unchanged.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_derived_v0.ndjson",
+  "field": "pdf_url",
+  "new_derived_rows": 30,
+  "publisher": "acs",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.ndjson",
+  "remaining_lane_candidates_after_checkpoint": 0,
+  "reviewed": 35,
+  "reviewed_at": "2026-06-07T03:54:34.729237+00:00",
+  "run_id": "b30-acs-pdf-0-35",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_raw.ndjson",
+  "status_counts": {
+    "referee_approved": 30,
+    "referee_blocked": 5
+  },
+  "task_id": "v2_acs_pdf_url_dee703c2",
+  "verdict_counts": {
+    "approved_for_goldie_backfilled_derived_candidate": 29,
+    "approved_for_goldie_backfilled_derived_candidate_with_acs_epdf_redirect": 1,
+    "blocked_pdf_url_not_grounded": 5
+  }
+}

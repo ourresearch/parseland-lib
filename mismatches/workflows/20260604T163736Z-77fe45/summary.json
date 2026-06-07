@@ -2,13 +2,13 @@
   "active_tasks": {
     "v2_acs_pdf_url_dee703c2": {
       "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_pdf_backfill_claim_shield.json",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.summary.json",
       "field": "pdf_url",
-      "next_action": "Browserbase-ground 35 ACS pdf_url Goldie-empty/parser-present candidates; current-Goldie KPI remains separate from derived candidates",
+      "next_action": "route 30 approved ACS PDF derived candidates to derived-corpus approval; route 5 weak rows to manual DOM/gold-auditor review; current-Goldie KPI unchanged; move to next ranked lane",
       "publisher_id": "acs",
-      "status": "in_progress_browserbase_grounding",
+      "status": "goldie_backfill_referee_complete_30_approved_5_blocked",
       "task_id": "v2_acs_pdf_url_dee703c2",
-      "updated_at": "2026-06-07T03:39:30.787682+00:00"
+      "updated_at": "2026-06-07T03:54:34.729237+00:00"
     },
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
@@ -564,5 +564,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T03:39:30.787682+00:00"
+  "updated_at": "2026-06-07T03:54:34.729237+00:00"
 }
