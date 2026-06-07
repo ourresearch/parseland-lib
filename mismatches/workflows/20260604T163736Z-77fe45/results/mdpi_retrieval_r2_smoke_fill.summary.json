@@ -1,0 +1,19 @@
+{
+  "run_id": "retrieval-mdpi-r2-smoke-20260607T0758Z",
+  "timestamp_utc": "2026-06-07T07:57:19.084966+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 25,
+  "completed_rows": 25,
+  "duration_ms": 2555,
+  "throughput_rows_per_sec": 9.78,
+  "bytes_written": 5233435,
+  "state_counts": {
+    "ok": 25
+  },
+  "per_publisher_state": {
+    "mdpi": {
+      "ok": 25
+    }
+  }
+}

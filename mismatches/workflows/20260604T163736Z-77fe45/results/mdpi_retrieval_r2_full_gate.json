@@ -1,0 +1,104 @@
+{
+  "run_id": "mdpi-retrieval-r2-full-20260607T0800Z",
+  "task": "mdpi_retrieval_r2_full",
+  "status": "passed",
+  "timestamp_utc": "2026-06-07T08:00:44.453771+00:00",
+  "publisher_id": "mdpi",
+  "shield_gate_type": "retrieval_coverage_and_focused_whole_goldie",
+  "commands": [
+    "scripts/retrieval_fill.py --publishers mdpi --limit 25 --concurrency 8",
+    "scripts/retrieval_fill.py --publishers mdpi --concurrency 16",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers mdpi --out whole_goldie_mdpi_retrieval_r2_full.json"
+  ],
+  "artifacts": {
+    "smoke_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_retrieval_r2_smoke_fill.summary.json",
+    "full_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_retrieval_r2_full_fill.summary.json",
+    "full_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_retrieval_r2_full_audit.summary.json",
+    "full_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_mdpi_retrieval_r2_full.json"
+  },
+  "coverage_before": {
+    "mdpi_html_available": 0,
+    "mdpi_retrieval_blocked": 137
+  },
+  "coverage_after": {
+    "mdpi_html_available": 137,
+    "mdpi_retrieval_blocked": 0,
+    "global_cached_ok_after_retrieval_audit": 5009
+  },
+  "retrieval_audit_mdpi": {
+    "rows": 137,
+    "cached_ok": 69,
+    "cached_router_only": 65,
+    "cached_bot_check": 3
+  },
+  "retrieval_fill_state_counts": {
+    "cached": 25,
+    "ok": 112
+  },
+  "focused_eval": {
+    "rows": 137,
+    "scored": 137,
+    "errors": 0,
+    "skipped_no_html": 0,
+    "authors_f1_soft": 0.9708029197080292,
+    "affiliations_f1_fuzzy": 0.9005798728020951,
+    "abstract_ratio_fuzzy": 0.9697712783834059,
+    "pdf_url_accuracy": 0.9708029197080292,
+    "corresponding_accuracy": 0.8968253968253967
+  },
+  "field_counts": {
+    "authors": {
+      "total_rows": 137,
+      "html_available": 137,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 61,
+      "gold_present_parser_empty": 4,
+      "gold_present_parser_present": 72,
+      "gold_empty_parser_present": 0,
+      "scored_rows": 137
+    },
+    "affiliations": {
+      "total_rows": 137,
+      "html_available": 137,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 68,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 12,
+      "gold_empty_parser_present": 56,
+      "scored_rows": 81
+    },
+    "abstract": {
+      "total_rows": 137,
+      "html_available": 137,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 61,
+      "gold_present_parser_empty": 4,
+      "gold_present_parser_present": 72,
+      "gold_empty_parser_present": 0,
+      "scored_rows": 137
+    },
+    "pdf_url": {
+      "total_rows": 137,
+      "html_available": 137,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 61,
+      "gold_present_parser_empty": 4,
+      "gold_present_parser_present": 72,
+      "gold_empty_parser_present": 0,
+      "scored_rows": 137
+    },
+    "corresponding": {
+      "total_rows": 137,
+      "html_available": 137,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 65,
+      "gold_present_parser_empty": 5,
+      "gold_present_parser_present": 14,
+      "gold_empty_parser_present": 53,
+      "scored_rows": 84
+    }
+  },
+  "current_goldie_kpi_effect": "coverage-only until next serialized full-10K run; focused publisher eval now available",
+  "next_action": "Prioritize MDPI affiliations/corresponding Goldie-backfilled referee lanes, then near-target current-Goldie fixture/parser diagnosis."
+}
