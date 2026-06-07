@@ -19,6 +19,16 @@
       "status": "goldie_backfill_referee_complete_5_approved_45_blocked",
       "task_id": "v2_lippincott_corresponding_6f6b586e",
       "updated_at": "2026-06-07T03:30:05.192620+00:00"
+    },
+    "v2_taylor_corresponding_15fed079": {
+      "agent_id": "codex-goldie-backfilled-taylor-corresponding-b31",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_corresponding_backfill_claim_shield.json",
+      "field": "corresponding",
+      "next_action": "Browserbase-ground 25 Taylor corresponding candidates; require correspondence/address/email evidence and keep current-Goldie KPI separate",
+      "publisher_id": "taylor",
+      "status": "in_progress_browserbase_grounding",
+      "task_id": "v2_taylor_corresponding_15fed079",
+      "updated_at": "2026-06-07T04:01:07.966774+00:00"
     }
   },
   "by_field": {
@@ -564,5 +574,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T03:54:34.729237+00:00"
+  "updated_at": "2026-06-07T04:01:07.966774+00:00"
 }

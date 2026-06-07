@@ -1,0 +1,29 @@
+{
+  "agent_id": "codex-goldie-backfilled-taylor-corresponding-b31",
+  "checks": [
+    {
+      "name": "task_claimed",
+      "status": "pass"
+    },
+    {
+      "name": "queue_marked_active",
+      "status": "pass"
+    },
+    {
+      "name": "corresponding_referee_policy",
+      "note": "Author-name-only matches are insufficient; require correspondence/address/email/reprint evidence.",
+      "status": "pass"
+    },
+    {
+      "name": "kpi_separation",
+      "note": "Goldie-backfilled labels remain separate from current-Goldie KPI.",
+      "status": "pass"
+    }
+  ],
+  "field": "corresponding",
+  "gate_id": "taylor-corresponding-backfill-claim",
+  "publisher": "taylor",
+  "status": "green",
+  "task_id": "v2_taylor_corresponding_15fed079",
+  "timestamp": "2026-06-07T04:01:07.966774+00:00"
+}
