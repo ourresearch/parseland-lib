@@ -1,0 +1,33 @@
+{
+  "field": "affiliations",
+  "focused_gate": {
+    "acs_inprocess_affiliations_after": 0.9807524752475248,
+    "acs_inprocess_affiliations_before": 0.9597920792079209,
+    "artifact_after": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_after.json",
+    "artifact_before": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_before.json",
+    "delta_pp": 2.096039603960398,
+    "value_diff_artifact": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_value_diff.json"
+  },
+  "full_10k_gate": {
+    "acs_affiliations_after": 0.9773504273504273,
+    "acs_affiliations_before": 0.9610683760683761,
+    "acs_affiliations_delta_pp": 1.628205128205118,
+    "artifact_after": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-acs-affiliation-symbol-map-20260607T0135Z.json",
+    "artifact_before": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json",
+    "overall_affiliations_after": 0.9334867177645392,
+    "overall_affiliations_before": 0.9330069655735449,
+    "overall_affiliations_delta_pp": 0.04797521909942759,
+    "overall_authors_after": 0.9535964984926558,
+    "overall_authors_before": 0.9535964984926558,
+    "overall_corresponding_after": 0.9676460030284043,
+    "overall_corresponding_before": 0.9676460030284043,
+    "overall_pdf_after": 0.9444301517880114,
+    "overall_pdf_before": 0.9444301517880114
+  },
+  "generated_at": "2026-06-07T02:00:26.116119+00:00",
+  "publisher": "acs",
+  "recommendation": "Ship the safe ACS symbol mapping. ACS affiliations remains just below 98% in full 10K (0.97735); remaining rows need gold/manual-DOM review or Browserbase grounding, not broad parser heuristics.",
+  "run_id": "batch27-acs-affiliations",
+  "status": "green_shipped_candidate_below_98_with_explainable_residual",
+  "task_id": "v2_acs_affiliations_0c188c36"
+}

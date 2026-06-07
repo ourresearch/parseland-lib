@@ -1,0 +1,1807 @@
+{
+  "failures": [],
+  "rows": [
+    {
+      "author_match_count": 4,
+      "doi": "10.1021/am3031129",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 4,
+      "harvest_uuid": "d6273b32-dc78-4930-998f-a9d761f0c78d",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan; Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ],
+          "gold_index": 3,
+          "gold_name": "Seiichiro Matsumoto",
+          "parsed_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Seiichiro Matsumoto",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 1.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan"
+          ],
+          "gold_index": 2,
+          "gold_name": "Yusei Mizusako",
+          "parsed_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Yusei Mizusako",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan"
+          ],
+          "gold_index": 1,
+          "gold_name": "Takuro Hori",
+          "parsed_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Takuro Hori",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan"
+          ],
+          "gold_index": 0,
+          "gold_name": "Kungen Teii",
+          "parsed_affiliations": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Kungen Teii",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 Department of Applied Science for Electronics and Materials, Interdisciplinary Graduate School of Engineering Sciences, Kyushu University, Kasuga, Fukuoka 816-8580, Japan",
+            "\u2021 Exploratory Materials Research Laboratory for Energy and Environment, National Institute for Materials Science, 1-2-1 Sengen, Tsukuba, Ibaraki 305-0047, Japan"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Kungen Teii * \u2020",
+            ",",
+            "Takuro Hori \u2020",
+            "Yusei Mizusako \u2020",
+            ", and",
+            "Seiichiro Matsumoto \u2020 \u2021",
+            "Defects ,",
+            "Deposition ,",
+            "Heterojunctions ,",
+            "Layers ,"
+          ]
+        }
+      ],
+      "parsed_author_count": 4,
+      "whole_goldie_affiliations": {
+        "f1": 0.7499999999999999,
+        "f1_fuzzy": 0.7499999999999999,
+        "f1_soft": 0.7499999999999999,
+        "pairs_scored": 4
+      },
+      "whole_goldie_score": 0.7499999999999999
+    },
+    {
+      "author_match_count": 6,
+      "doi": "10.1021/je970155v",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 6,
+      "harvest_uuid": "b008710e-a6dd-4b49-b97b-0df385bdd3c9",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "gold_index": 5,
+          "gold_name": "Bang-Sam Park",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Bang-Sam Park",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea"
+          ],
+          "gold_index": 4,
+          "gold_name": "Hyoun-Soo Kim",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Hyoun-Soo Kim",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea"
+          ],
+          "gold_index": 3,
+          "gold_name": "Sun-Hwan Kim",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Sun-Hwan Kim",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea"
+          ],
+          "gold_index": 2,
+          "gold_name": "Jung-Min Lee",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Jung-Min Lee",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea"
+          ],
+          "gold_index": 1,
+          "gold_name": "Min-Jun Kim",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Min-Jun Kim",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea"
+          ],
+          "gold_index": 0,
+          "gold_name": "Kwang-Joo Kim",
+          "parsed_affiliations": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Kwang-Joo Kim",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Chemical Process and Engineering Center, Korea Research Institute of Chemical Technology, P.O. Box 107, Yusung, Taejeon 305-600, Korea",
+            "R&D Center, HANWHA Corp., Incheon 405-310, Korea",
+            "Agency for Defense Development, P.O. Box 35, Taejeon, Korea"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Kwang-Joo Kim",
+            ",",
+            "Min-Jun Kim",
+            "Jung-Min Lee",
+            "Sun-Hwan Kim",
+            "Hyoun-Soo Kim",
+            ", and",
+            "Bang-Sam Park"
+          ]
+        }
+      ],
+      "parsed_author_count": 6,
+      "whole_goldie_affiliations": {
+        "f1": 0.5,
+        "f1_fuzzy": 0.5,
+        "f1_soft": 0.5,
+        "pairs_scored": 6
+      },
+      "whole_goldie_score": 0.5
+    },
+    {
+      "author_match_count": 8,
+      "doi": "10.1021/acs.nanolett.5b03656",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 8,
+      "harvest_uuid": "6c7837e6-1922-40df-89ec-14a116c0dec9",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 7,
+          "gold_name": "Luisa E. Baus\u00e1",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 7,
+          "parsed_name": "Luisa E. Baus\u00e1",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 6,
+          "gold_name": "Jorge Bravo-Abad",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 6,
+          "parsed_name": "Jorge Bravo-Abad",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain"
+          ],
+          "gold_index": 5,
+          "gold_name": "Javier Aizpurua",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Javier Aizpurua",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 4,
+          "gold_name": "Jos\u00e9 L. Plaza",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Jos\u00e9 L. Plaza",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain"
+          ],
+          "gold_index": 3,
+          "gold_name": "Christos Tserkezis",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Christos Tserkezis",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 2,
+          "gold_name": "Mariola O. Ram\u00edrez",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Mariola O. Ram\u00edrez",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 1,
+          "gold_name": "Eduardo Yraola",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Eduardo Yraola",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "gold_index": 0,
+          "gold_name": "Pablo Molina",
+          "parsed_affiliations": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Pablo Molina",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 Departamento F\u00edsica de Materiales and Instituto Nicol\u00e1s Cabrera, Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain",
+            "\u2021 Center for Materials Physics (CSIC-UPV/EHU) and Donostia International Physics Center (DIPC), Paseo Manuel Lardizabal 4, 20018 Donostia-San Sebasti\u00e1n, Spain",
+            "\u00a7 Departamento F\u00edsica Te\u00f3rica de la Materia Condensada and Condensed Matter Physics Center (IFIMAC), Universidad Aut\u00f3noma de Madrid, 28049 Madrid, Spain"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Pablo Molina \u2020",
+            ",",
+            "Eduardo Yraola \u2020",
+            "Mariola O. Ram\u00edrez \u2020",
+            "Christos Tserkezis \u2021",
+            "Jos\u00e9 L. Plaza \u2020",
+            "Javier Aizpurua \u2021"
+          ]
+        }
+      ],
+      "parsed_author_count": 8,
+      "whole_goldie_affiliations": {
+        "f1": 0.5,
+        "f1_fuzzy": 0.5,
+        "f1_soft": 0.5,
+        "pairs_scored": 8
+      },
+      "whole_goldie_score": 0.5
+    },
+    {
+      "author_match_count": 4,
+      "doi": "10.1021/ic9006668",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 4,
+      "harvest_uuid": "d19d010b-7c3f-434f-93ab-95ae98733d3b",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Department of Chemistry; Howard Hughes Medical Institute, University of California, Berkeley, California 94720; Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "gold_index": 3,
+          "gold_name": "Christopher J. Chang",
+          "parsed_affiliations": [
+            "Department of Chemistry",
+            "QB3/Chemistry Mass Spectrometry Facility, and the",
+            "Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Christopher J. Chang",
+          "score": {
+            "fuzzy_f1": 0.8571428571428571,
+            "soft_f1": 0.8571428571428571,
+            "strict_f1": 0.8571428571428571
+          }
+        },
+        {
+          "gold_affiliations": [
+            "QB3/Chemistry Mass Spectrometry Facility, and the"
+          ],
+          "gold_index": 2,
+          "gold_name": "Anthony T. Iavarone",
+          "parsed_affiliations": [
+            "Department of Chemistry",
+            "QB3/Chemistry Mass Spectrometry Facility, and the",
+            "Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Anthony T. Iavarone",
+          "score": {
+            "fuzzy_f1": 0.4,
+            "soft_f1": 0.4,
+            "strict_f1": 0.4
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Chemistry"
+          ],
+          "gold_index": 1,
+          "gold_name": "Alexis C. Komor",
+          "parsed_affiliations": [
+            "Department of Chemistry",
+            "QB3/Chemistry Mass Spectrometry Facility, and the",
+            "Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Alexis C. Komor",
+          "score": {
+            "fuzzy_f1": 0.4,
+            "soft_f1": 0.4,
+            "strict_f1": 0.4
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Chemistry; Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "gold_index": 0,
+          "gold_name": "Han Sen Soo",
+          "parsed_affiliations": [
+            "Department of Chemistry",
+            "QB3/Chemistry Mass Spectrometry Facility, and the",
+            "Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Han Sen Soo",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Department of Chemistry",
+            "QB3/Chemistry Mass Spectrometry Facility, and the",
+            "Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 Department of Chemistry",
+            "\u00a7 QB3/Chemistry Mass Spectrometry Facility, and the",
+            "\u2021 Howard Hughes Medical Institute, University of California, Berkeley, California 94720",
+            "\u2225 Chemical Sciences Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Han Sen Soo \u2020 \u2225",
+            ",",
+            "Alexis C. Komor \u2020",
+            "Anthony T. Iavarone \u00a7",
+            ", and",
+            "Christopher J. Chang * \u2020 \u2021 \u2225",
+            "Amines ,",
+            "Ligands ,",
+            "Metals ,",
+            "Redox reactions ,"
+          ]
+        }
+      ],
+      "parsed_author_count": 4,
+      "whole_goldie_affiliations": {
+        "f1": 0.5809523809523809,
+        "f1_fuzzy": 0.5809523809523809,
+        "f1_soft": 0.5809523809523809,
+        "pairs_scored": 4
+      },
+      "whole_goldie_score": 0.5809523809523809
+    },
+    {
+      "author_match_count": 4,
+      "doi": "10.1021/la970674w",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 4,
+      "harvest_uuid": "7e6202e7-2845-43b6-9238-13b5b5c3ac5a",
+      "initial_owner_classification": "partial_affiliation_modeling_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden; Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden"
+          ],
+          "gold_index": 3,
+          "gold_name": "Per M. Claesson",
+          "parsed_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Per M. Claesson",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ],
+          "gold_index": 2,
+          "gold_name": "Joseph McGuire",
+          "parsed_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Joseph McGuire",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden"
+          ],
+          "gold_index": 1,
+          "gold_name": "Thomas Arnebrant",
+          "parsed_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Thomas Arnebrant",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden; Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden"
+          ],
+          "gold_index": 0,
+          "gold_name": "Johan C. Fr\u00f6berg",
+          "parsed_affiliations": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Johan C. Fr\u00f6berg",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.0
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Laboratory for Chemical Surface Science, Department of Chemistry, Physical Chemistry, Royal Institute of Technology, S-100 44 Stockholm, Sweden, and Institute for Surface Chemistry, Box 5607, S-114 86 Stockholm, Sweden, Department of Food Technology, University of Lund, Box 124, S-221 00 Lund, Sweden, and Department of Bioresource Engineering, Oregon State University, Gilmore Hall 116, Corvallis, Oregon 97331-3906"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Johan C. Fr\u00f6berg",
+            ",",
+            "Thomas Arnebrant",
+            "Joseph McGuire",
+            ", and",
+            "Per M. Claesson",
+            "Adsorption ,",
+            "Layers ,",
+            "Peptides and proteins ,",
+            "Surface interactions ,"
+          ]
+        }
+      ],
+      "parsed_author_count": 4,
+      "whole_goldie_affiliations": {
+        "f1": 0.0,
+        "f1_fuzzy": 0.8333333333333333,
+        "f1_soft": 0.8333333333333333,
+        "pairs_scored": 4
+      },
+      "whole_goldie_score": 0.8333333333333333
+    },
+    {
+      "author_match_count": 3,
+      "doi": "10.1021/jp800767j",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 3,
+      "harvest_uuid": "6ae5058c-c2ea-4c49-af18-7a3cc0832641",
+      "initial_owner_classification": "partial_affiliation_modeling_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367; Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ],
+          "gold_index": 2,
+          "gold_name": "Robert J. Harrison",
+          "parsed_affiliations": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367, Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197, and Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Robert J. Harrison",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197"
+          ],
+          "gold_index": 1,
+          "gold_name": "A. C Buchanan, III",
+          "parsed_affiliations": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367, Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197, and Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "A. C Buchanan, III",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367"
+          ],
+          "gold_index": 0,
+          "gold_name": "Ariana Beste",
+          "parsed_affiliations": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367, Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197, and Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Ariana Beste",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367, Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197, and Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Computer Science and Mathematics Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6367, Chemical Sciences Division, Oak Ridge National Laboratory, 1 Bethel Valley Road, Oak Ridge, Tennessee 37831-6197, and Department of Chemistry, University of Tennessee, Knoxville, Tennessee 37996"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Ariana Beste * \u2020",
+            ",",
+            "A. C Buchanan, III \u2021",
+            ", and",
+            "Robert J. Harrison \u2020 \u00a7",
+            "Ethers ,",
+            "Hydrogen abstraction ,",
+            "Selectivity ,",
+            "Substituents ,",
+            "Transition states"
+          ]
+        }
+      ],
+      "parsed_author_count": 3,
+      "whole_goldie_affiliations": {
+        "f1": 0.0,
+        "f1_fuzzy": 0.8888888888888888,
+        "f1_soft": 0.8888888888888888,
+        "pairs_scored": 3
+      },
+      "whole_goldie_score": 0.8888888888888888
+    },
+    {
+      "author_match_count": 5,
+      "doi": "10.1021/jp0257294",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 5,
+      "harvest_uuid": "49daa43b-2a51-4581-876f-c71f6a4ee817",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "gold_index": 4,
+          "gold_name": "Francois G. Gandolfo",
+          "parsed_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Francois G. Gandolfo",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "gold_index": 3,
+          "gold_name": "Eckhard Fl\u00f6ter",
+          "parsed_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Eckhard Fl\u00f6ter",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen"
+          ],
+          "gold_index": 2,
+          "gold_name": "Elias Vlieg",
+          "parsed_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Elias Vlieg",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen"
+          ],
+          "gold_index": 1,
+          "gold_name": "Willem J. P. van Enckevort",
+          "parsed_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Willem J. P. van Enckevort",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen"
+          ],
+          "gold_index": 0,
+          "gold_name": "Jan H. Los",
+          "parsed_affiliations": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Jan H. Los",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Katholieke Universiteit Nijmegen, Toernooiveld, 6525 ED Nijmegen",
+            "Unilever Research Vlaardingen, Olivier van Noortlaan 120, 3133 AT Vlaardingen"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Jan H. Los",
+            ",",
+            "Willem J. P. van Enckevort",
+            "Elias Vlieg",
+            "Eckhard Fl\u00f6ter",
+            ", and",
+            "Francois G. Gandolfo",
+            "Crystallization ,",
+            "Equilibrium ,"
+          ]
+        }
+      ],
+      "parsed_author_count": 5,
+      "whole_goldie_affiliations": {
+        "f1": 0.6666666666666666,
+        "f1_fuzzy": 0.6666666666666666,
+        "f1_soft": 0.6666666666666666,
+        "pairs_scored": 5
+      },
+      "whole_goldie_score": 0.6666666666666666
+    },
+    {
+      "author_match_count": 7,
+      "doi": "10.1021/jp4125588",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 7,
+      "harvest_uuid": "f80fc5bb-f00a-4e69-a636-eb5c10858a79",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 6,
+          "gold_name": "Hyunjung Shin",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 6,
+          "parsed_name": "Hyunjung Shin",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 5,
+          "gold_name": "Tae Kyu Ahn",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Tae Kyu Ahn",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 4,
+          "gold_name": "Hyunchul Kim",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Hyunchul Kim",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 3,
+          "gold_name": "Seonhee Lee",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Seonhee Lee",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea; Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 2,
+          "gold_name": "Changdeuck Bae",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Changdeuck Bae",
+          "score": {
+            "fuzzy_f1": 1.0,
+            "soft_f1": 1.0,
+            "strict_f1": 1.0
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 1,
+          "gold_name": "Myungjun Kim",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Myungjun Kim",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "gold_index": 0,
+          "gold_name": "Hyunjun Yoo",
+          "parsed_affiliations": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Hyunjun Yoo",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 Department of Energy Science, Sungkyunkwan University, Suwon 440-746, South Korea",
+            "\u2021 Integrated Energy Center for Fostering Global Creative Researcher (BK 21 plus), Sungkyunkwan University, Suwon 440-746, South Korea"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Hyunjun Yoo \u2020",
+            ",",
+            "Myungjun Kim \u2020",
+            "Changdeuck Bae * \u2020 \u2021",
+            "Seonhee Lee \u2020",
+            "Hyunchul Kim \u2020",
+            "Tae Kyu Ahn \u2020",
+            ", and"
+          ]
+        }
+      ],
+      "parsed_author_count": 7,
+      "whole_goldie_affiliations": {
+        "f1": 0.7142857142857143,
+        "f1_fuzzy": 0.7142857142857143,
+        "f1_soft": 0.7142857142857143,
+        "pairs_scored": 7
+      },
+      "whole_goldie_score": 0.7142857142857143
+    },
+    {
+      "author_match_count": 0,
+      "doi": "10.1021/cen-v031n013.p1299",
+      "field_status": "gold_present_parser_empty",
+      "gold_author_count": 1,
+      "harvest_uuid": "b445d5cb-b83c-4876-89ae-9f94511e3690",
+      "initial_owner_classification": "parser_or_page_missing_affiliations",
+      "matched_affiliation_pairs": [],
+      "page_affiliation_snippets": [
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Polyethylene"
+          ]
+        }
+      ],
+      "parsed_author_count": 0,
+      "whole_goldie_affiliations": {
+        "f1": 0.0,
+        "f1_fuzzy": 0.0,
+        "f1_soft": 0.0
+      },
+      "whole_goldie_score": 0.0
+    },
+    {
+      "author_match_count": 7,
+      "doi": "10.1021/jf202596q",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 7,
+      "harvest_uuid": "f06b0038-7bd0-4a3d-b266-d73a99e17528",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain; Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain"
+          ],
+          "gold_index": 6,
+          "gold_name": "Alberto Fern\u00e1ndez-Guti\u00e9rrez",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 6,
+          "parsed_name": "Alberto Fern\u00e1ndez-Guti\u00e9rrez",
+          "score": {
+            "fuzzy_f1": 0.8,
+            "soft_f1": 0.8,
+            "strict_f1": 0.8
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain; Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain"
+          ],
+          "gold_index": 5,
+          "gold_name": "Antonio Segura-Carretero",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Antonio Segura-Carretero",
+          "score": {
+            "fuzzy_f1": 0.8,
+            "soft_f1": 0.8,
+            "strict_f1": 0.8
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "gold_index": 4,
+          "gold_name": "Alessandra Bendini",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Alessandra Bendini",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "gold_index": 3,
+          "gold_name": "Lorenzo Cerretani",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Lorenzo Cerretani",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain; Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain"
+          ],
+          "gold_index": 2,
+          "gold_name": "Rosa Quirantes-Pin\u00e9",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Rosa Quirantes-Pin\u00e9",
+          "score": {
+            "fuzzy_f1": 0.8,
+            "soft_f1": 0.8,
+            "strict_f1": 0.8
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "gold_index": 1,
+          "gold_name": "Elisa Giambanelli",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Elisa Giambanelli",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain; Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain"
+          ],
+          "gold_index": 0,
+          "gold_name": "Jesus Lozano-S\u00e1nchez",
+          "parsed_affiliations": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Jesus Lozano-S\u00e1nchez",
+          "score": {
+            "fuzzy_f1": 0.8,
+            "soft_f1": 0.8,
+            "strict_f1": 0.8
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 Department of Analytical Chemistry, Faculty of Sciences, University of Granada, Fuentenueva s/n, E-18071 Granada, Spain",
+            "\u00a7 Functional Food Research and Development Center, Health Science Technological Park, Avenida del Conocimiento s/n, E-18100 Granada, Spain",
+            "# Departament of Food Science, Alma Mater Studiorum, University of Bologna, Piazza Goidanich 60, I-47521 Cesena (FC), Italy"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Jesus Lozano-S\u00e1nchez \u2020 \u00a7",
+            ",",
+            "Elisa Giambanelli #",
+            "Rosa Quirantes-Pin\u00e9 \u2020 \u00a7",
+            "Lorenzo Cerretani * #",
+            "Alessandra Bendini #",
+            "Antonio Segura-Carretero \u2020 \u00a7",
+            ", and"
+          ]
+        }
+      ],
+      "parsed_author_count": 7,
+      "whole_goldie_affiliations": {
+        "f1": 0.6714285714285715,
+        "f1_fuzzy": 0.6714285714285715,
+        "f1_soft": 0.6714285714285715,
+        "pairs_scored": 7
+      },
+      "whole_goldie_score": 0.6714285714285715
+    },
+    {
+      "author_match_count": 6,
+      "doi": "10.1021/acs.joc.5b02777",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 6,
+      "harvest_uuid": "6f99dc1b-5251-46a5-93d1-095862e2dac5",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "gold_index": 5,
+          "gold_name": "Jing-Kang Shen",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Jing-Kang Shen",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China"
+          ],
+          "gold_index": 4,
+          "gold_name": "Yong-Ming Zhu",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Yong-Ming Zhu",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China"
+          ],
+          "gold_index": 3,
+          "gold_name": "Fang-Ling Zhang",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Fang-Ling Zhang",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China"
+          ],
+          "gold_index": 2,
+          "gold_name": "Qing Yuan",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Qing Yuan",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China"
+          ],
+          "gold_index": 1,
+          "gold_name": "Ying Zhang",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Ying Zhang",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China"
+          ],
+          "gold_index": 0,
+          "gold_name": "Zhen-Bang Chen",
+          "parsed_affiliations": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Zhen-Bang Chen",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "\u2020 College of Pharmaceutical Sciences, Soochow University, Suzhou, 215123, China",
+            "\u2021 Shanghai Institute of Materia Medica, Chinese Academy of Sciences, Shanghai, 201203, China"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Zhen-Bang Chen \u2020",
+            ",",
+            "Ying Zhang \u2020",
+            "Qing Yuan \u2020",
+            "Fang-Ling Zhang \u2020",
+            "Yong-Ming Zhu * \u2020",
+            ", and",
+            "Jing-Kang Shen * \u2021"
+          ]
+        }
+      ],
+      "parsed_author_count": 6,
+      "whole_goldie_affiliations": {
+        "f1": 0.6666666666666666,
+        "f1_fuzzy": 0.6666666666666666,
+        "f1_soft": 0.6666666666666666,
+        "pairs_scored": 6
+      },
+      "whole_goldie_score": 0.6666666666666666
+    },
+    {
+      "author_match_count": 3,
+      "doi": "10.1021/ma030365e",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 3,
+      "harvest_uuid": "fcee6a69-fbab-4ab6-bb4d-aba2ef749add",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ],
+          "gold_index": 2,
+          "gold_name": "Michael Buback",
+          "parsed_affiliations": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic",
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Michael Buback",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ],
+          "gold_index": 1,
+          "gold_name": "Sabine Beuermann",
+          "parsed_affiliations": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic",
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Sabine Beuermann",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic"
+          ],
+          "gold_index": 0,
+          "gold_name": "Igor Lac\u00edk",
+          "parsed_affiliations": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic",
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Igor Lac\u00edk",
+          "score": {
+            "fuzzy_f1": 0.6666666666666666,
+            "soft_f1": 0.6666666666666666,
+            "strict_f1": 0.6666666666666666
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic",
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Polymer Institute of the Slovak Academy of Sciences, D\u00fabravsk\u00e1 cesta 9, 842 36 Bratislava, Slovak Republic",
+            "Institute of Physical Chemistry, Georg-August-University G\u00f6ttingen, Tammannstrasse 6, D-37077, G\u00f6ttingen, Germany"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Igor Lac\u00edk",
+            ",",
+            "Sabine Beuermann",
+            ", and",
+            "Michael Buback",
+            "Monomers ,",
+            "Organic compounds ,",
+            "Polymerization ,",
+            "Solution chemistry ,",
+            "Solvents"
+          ]
+        }
+      ],
+      "parsed_author_count": 3,
+      "whole_goldie_affiliations": {
+        "f1": 0.6666666666666666,
+        "f1_fuzzy": 0.6666666666666666,
+        "f1_soft": 0.6666666666666666,
+        "pairs_scored": 3
+      },
+      "whole_goldie_score": 0.6666666666666666
+    },
+    {
+      "author_match_count": 7,
+      "doi": "10.1021/jf991203d",
+      "field_status": "gold_present_parser_present",
+      "gold_author_count": 7,
+      "harvest_uuid": "0b3acea7-38ae-4117-b246-700e5e3a166b",
+      "initial_owner_classification": "extra_page_affiliation_scoring_or_gold_review",
+      "matched_affiliation_pairs": [
+        {
+          "gold_affiliations": [
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "gold_index": 6,
+          "gold_name": "Fulvio Mattivi",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 6,
+          "parsed_name": "Fulvio Mattivi",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "gold_index": 5,
+          "gold_name": "Ur\u0161ka Vrhov\u0161ek",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 5,
+          "parsed_name": "Ur\u0161ka Vrhov\u0161ek",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy"
+          ],
+          "gold_index": 4,
+          "gold_name": "Marina Scarpa",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 4,
+          "parsed_name": "Marina Scarpa",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy"
+          ],
+          "gold_index": 3,
+          "gold_name": "Monica Rossetto",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 3,
+          "parsed_name": "Monica Rossetto",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy"
+          ],
+          "gold_index": 2,
+          "gold_name": "Giovanni Clementi",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 2,
+          "parsed_name": "Giovanni Clementi",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy"
+          ],
+          "gold_index": 1,
+          "gold_name": "Fabio Vianello",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 1,
+          "parsed_name": "Fabio Vianello",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        },
+        {
+          "gold_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy"
+          ],
+          "gold_index": 0,
+          "gold_name": "Adelio Rigo",
+          "parsed_affiliations": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ],
+          "parsed_index": 0,
+          "parsed_name": "Adelio Rigo",
+          "score": {
+            "fuzzy_f1": 0.5,
+            "soft_f1": 0.5,
+            "strict_f1": 0.5
+          }
+        }
+      ],
+      "page_affiliation_snippets": [
+        {
+          "selector": "div.aff-info span.aff-text",
+          "values": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ]
+        },
+        {
+          "selector": "div.aff-info",
+          "values": [
+            "Dipartimento di Chimica Biologica, Universit\u00e0 di Padova, via Trieste 75, 35121 Padova, Italy",
+            "Dipartimento di Fisica, Universit\u00e0 di Trento, via Sommarive 14, 38050 Povo, Italy",
+            "Dipartimento Laboratorio Analisi e Ricerche, Istituto Agrario di San Michele, via E. Mach 1, 38010 San Michele all'Adige, Italy"
+          ]
+        },
+        {
+          "selector": "ul.loa li",
+          "values": [
+            "Adelio Rigo",
+            ",",
+            "Fabio Vianello",
+            "Giovanni Clementi",
+            "Monica Rossetto",
+            "Marina Scarpa",
+            "Ur\u0161ka Vrhov\u0161ek",
+            ", and"
+          ]
+        }
+      ],
+      "parsed_author_count": 7,
+      "whole_goldie_affiliations": {
+        "f1": 0.5,
+        "f1_fuzzy": 0.5,
+        "f1_soft": 0.5,
+        "pairs_scored": 7
+      },
+      "whole_goldie_score": 0.5
+    }
+  ],
+  "summary": {
+    "classification_counts": {
+      "extra_page_affiliation_scoring_or_gold_review": 10,
+      "parser_or_page_missing_affiliations": 1,
+      "partial_affiliation_modeling_or_gold_review": 2
+    },
+    "failed_rows": 0,
+    "generated_at": "2026-06-07T01:28:14.130933+00:00",
+    "low_rows": 13,
+    "run_id": "batch27-acs-affiliations",
+    "score_threshold": 0.98,
+    "source_full_gate": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json",
+    "source_inprocess_gate": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_before.json",
+    "task_id": "v2_acs_affiliations_0c188c36"
+  }
+}

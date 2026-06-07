@@ -101,6 +101,41 @@ def test_alternate_template_clean_name_and_shared_affiliation():
         assert _affs(a) == ["Department of Chemistry, University at Buffalo"]
 
 
+def test_alternate_template_affiliation_symbols_assign_per_author():
+    html = (
+        f"<html><head>{ACS_OG}</head><body>"
+        '<ul class="loa">'
+        '<li><span><span class="hlFld-ContribAuthor">Kungen Teii</span>'
+        '<span class="author-xref-symbol"><sup>*</sup></span>'
+        '<span class="author-xref-symbol author-aff-symbol"><sup>†</sup></span>'
+        "</span></li>"
+        '<li><span><span class="hlFld-ContribAuthor">Seiichiro Matsumoto</span>'
+        '<span class="author-xref-symbol author-aff-symbol"><sup>†</sup></span>'
+        '<span class="author-xref-symbol author-aff-symbol"><sup>‡</sup></span>'
+        "</span></li>"
+        '<li><span><span class="hlFld-ContribAuthor">Jane Doe</span>'
+        '<span class="author-xref-symbol author-aff-symbol"><sup>‡</sup></span>'
+        "</span></li>"
+        "</ul>"
+        '<div class="affiliations">'
+        '<div class="aff-info"><span class="aff-symbol">†</span> '
+        '<span class="aff-text">Department A, University X</span></div>'
+        '<div class="aff-info"><span class="aff-symbol">‡</span> '
+        '<span class="aff-text">Institute B, City Y</span></div>'
+        "</div>"
+        "</body></html>"
+    )
+
+    out = ACS(BeautifulSoup(html, "lxml")).parse()
+
+    assert _affs(out["authors"][0]) == ["Department A, University X"]
+    assert _affs(out["authors"][1]) == [
+        "Department A, University X",
+        "Institute B, City Y",
+    ]
+    assert _affs(out["authors"][2]) == ["Institute B, City Y"]
+
+
 def _corr(author):
     return (
         author.get("is_corresponding")

@@ -1,0 +1,407 @@
+{
+  "coverage": {
+    "gold_empty_parser_present_count": 2710,
+    "html_available": 5113,
+    "per_publisher": {
+      "aaas": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "aacr": {
+        "html_available": 0,
+        "retrieval_blocked": 34,
+        "scored_rows": 0,
+        "total_rows": 34
+      },
+      "acm": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "acs": {
+        "html_available": 130,
+        "retrieval_blocked": 0,
+        "scored_rows": 130,
+        "total_rows": 130
+      },
+      "aip_publishing": {
+        "html_available": 0,
+        "retrieval_blocked": 57,
+        "scored_rows": 0,
+        "total_rows": 57
+      },
+      "ame": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "ams": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "apa": {
+        "html_available": 0,
+        "retrieval_blocked": 25,
+        "scored_rows": 0,
+        "total_rows": 25
+      },
+      "aps": {
+        "html_available": 0,
+        "retrieval_blocked": 38,
+        "scored_rows": 0,
+        "total_rows": 38
+      },
+      "asa": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "asco": {
+        "html_available": 0,
+        "retrieval_blocked": 17,
+        "scored_rows": 0,
+        "total_rows": 17
+      },
+      "ash": {
+        "html_available": 0,
+        "retrieval_blocked": 12,
+        "scored_rows": 0,
+        "total_rows": 12
+      },
+      "asme": {
+        "html_available": 0,
+        "retrieval_blocked": 26,
+        "scored_rows": 0,
+        "total_rows": 26
+      },
+      "bentham": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "bmj": {
+        "html_available": 0,
+        "retrieval_blocked": 69,
+        "scored_rows": 0,
+        "total_rows": 69
+      },
+      "brill": {
+        "html_available": 0,
+        "retrieval_blocked": 65,
+        "scored_rows": 0,
+        "total_rows": 65
+      },
+      "cairn": {
+        "html_available": 0,
+        "retrieval_blocked": 49,
+        "scored_rows": 0,
+        "total_rows": 49
+      },
+      "company_biologists": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "copernicus": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "cshlp": {
+        "html_available": 0,
+        "retrieval_blocked": 29,
+        "scored_rows": 0,
+        "total_rows": 29
+      },
+      "cup": {
+        "html_available": 151,
+        "retrieval_blocked": 3,
+        "scored_rows": 151,
+        "total_rows": 154
+      },
+      "de_gruyter": {
+        "html_available": 0,
+        "retrieval_blocked": 226,
+        "scored_rows": 0,
+        "total_rows": 226
+      },
+      "edp_sciences": {
+        "html_available": 0,
+        "retrieval_blocked": 21,
+        "scored_rows": 0,
+        "total_rows": 21
+      },
+      "elsevier": {
+        "html_available": 1508,
+        "retrieval_blocked": 56,
+        "scored_rows": 1508,
+        "total_rows": 1564
+      },
+      "emerald": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "f1000": {
+        "html_available": 0,
+        "retrieval_blocked": 2,
+        "scored_rows": 0,
+        "total_rows": 2
+      },
+      "frontiers": {
+        "html_available": 0,
+        "retrieval_blocked": 48,
+        "scored_rows": 0,
+        "total_rows": 48
+      },
+      "hindawi": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "ieee": {
+        "html_available": 393,
+        "retrieval_blocked": 2,
+        "scored_rows": 393,
+        "total_rows": 395
+      },
+      "iop": {
+        "html_available": 0,
+        "retrieval_blocked": 75,
+        "scored_rows": 0,
+        "total_rows": 75
+      },
+      "karger": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "lippincott": {
+        "html_available": 190,
+        "retrieval_blocked": 0,
+        "scored_rows": 190,
+        "total_rows": 190
+      },
+      "mary_ann_liebert": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "mdpi": {
+        "html_available": 0,
+        "retrieval_blocked": 137,
+        "scored_rows": 0,
+        "total_rows": 137
+      },
+      "nejm": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "optica": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "oxford": {
+        "html_available": 250,
+        "retrieval_blocked": 21,
+        "scored_rows": 250,
+        "total_rows": 271
+      },
+      "plos": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "portland_press": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "research_square": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "rsc": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "rsna": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "sage": {
+        "html_available": 198,
+        "retrieval_blocked": 2,
+        "scored_rows": 198,
+        "total_rows": 200
+      },
+      "scielo": {
+        "html_available": 0,
+        "retrieval_blocked": 33,
+        "scored_rows": 0,
+        "total_rows": 33
+      },
+      "spie": {
+        "html_available": 0,
+        "retrieval_blocked": 46,
+        "scored_rows": 0,
+        "total_rows": 46
+      },
+      "springer": {
+        "html_available": 1117,
+        "retrieval_blocked": 6,
+        "scored_rows": 1117,
+        "total_rows": 1123
+      },
+      "taylor": {
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 499,
+        "total_rows": 506
+      },
+      "thieme": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "unknown": {
+        "html_available": 0,
+        "retrieval_blocked": 3303,
+        "scored_rows": 0,
+        "total_rows": 3303
+      },
+      "wiley": {
+        "html_available": 677,
+        "retrieval_blocked": 18,
+        "scored_rows": 677,
+        "total_rows": 695
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 30,
+      "cached_error_page": 3,
+      "cached_too_small": 44,
+      "js_rendered_required": 1,
+      "missing": 4809
+    },
+    "retrieval_blocked_rows": 4887,
+    "scored_rows": 5113,
+    "total_rows": 10000
+  },
+  "field": "affiliations",
+  "focused_gate": {
+    "acs_inprocess_affiliations_after": 0.9807524752475248,
+    "acs_inprocess_affiliations_before": 0.9597920792079209,
+    "artifact_after": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_after.json",
+    "artifact_before": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_before.json",
+    "delta_pp": 2.096039603960398,
+    "value_diff_artifact": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_value_diff.json"
+  },
+  "full_10k_gate": {
+    "acs_affiliations_after": 0.9773504273504273,
+    "acs_affiliations_before": 0.9610683760683761,
+    "acs_affiliations_delta_pp": 1.628205128205118,
+    "artifact_after": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-acs-affiliation-symbol-map-20260607T0135Z.json",
+    "artifact_before": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json",
+    "overall_affiliations_after": 0.9334867177645392,
+    "overall_affiliations_before": 0.9330069655735449,
+    "overall_affiliations_delta_pp": 0.04797521909942759,
+    "overall_authors_after": 0.9535964984926558,
+    "overall_authors_before": 0.9535964984926558,
+    "overall_corresponding_after": 0.9676460030284043,
+    "overall_corresponding_before": 0.9676460030284043,
+    "overall_pdf_after": 0.9444301517880114,
+    "overall_pdf_before": 0.9444301517880114
+  },
+  "generated_at": "2026-06-07T02:00:26.116119+00:00",
+  "parser_change": "Map ACS author-affiliation symbols (.author-aff-symbol) to div.aff-info span.aff-symbol before falling back to shared page-level affiliations.",
+  "publisher": "acs",
+  "recommendation": "Ship the safe ACS symbol mapping. ACS affiliations remains just below 98% in full 10K (0.97735); remaining rows need gold/manual-DOM review or Browserbase grounding, not broad parser heuristics.",
+  "residuals_after": [
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/je970155v",
+      "field_status": "gold_present_parser_present",
+      "reason": "Older ACS page exposes blank affiliation symbols or unmarked page-level affiliations; assigning per-author affiliations would require heuristic group inference.",
+      "score": 0.5
+    },
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/la970674w",
+      "field_status": "gold_present_parser_present",
+      "reason": "Older ACS page exposes blank affiliation symbols or unmarked page-level affiliations; assigning per-author affiliations would require heuristic group inference.",
+      "score": 0.8333333333333333
+    },
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/jp800767j",
+      "field_status": "gold_present_parser_present",
+      "reason": "Authors have affiliation-like xref symbols, but the page has a single blank-symbol combined affiliation paragraph; no safe symbol-to-affiliation map exists.",
+      "score": 0.8888888888888888
+    },
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/jp0257294",
+      "field_status": "gold_present_parser_present",
+      "reason": "Older ACS page exposes blank affiliation symbols or unmarked page-level affiliations; assigning per-author affiliations would require heuristic group inference.",
+      "score": 0.6666666666666666
+    },
+    {
+      "classification": "gold_or_page_mismatch_cen_non_article",
+      "doi": "10.1021/cen-v031n013.p1299",
+      "field_status": "gold_present_parser_empty",
+      "reason": "C&EN page has no visible article author affiliation signal in cached page; route to gold-auditor/manual page review.",
+      "score": 0.0
+    },
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/ma030365e",
+      "field_status": "gold_present_parser_present",
+      "reason": "Older ACS page exposes blank affiliation symbols or unmarked page-level affiliations; assigning per-author affiliations would require heuristic group inference.",
+      "score": 0.6666666666666666
+    },
+    {
+      "classification": "manual_dom_or_gold_modeling",
+      "doi": "10.1021/jf991203d",
+      "field_status": "gold_present_parser_present",
+      "reason": "Older ACS page exposes blank affiliation symbols or unmarked page-level affiliations; assigning per-author affiliations would require heuristic group inference.",
+      "score": 0.5
+    }
+  ],
+  "run_id": "batch27-acs-affiliations",
+  "status": "green_shipped_candidate_below_98_with_explainable_residual",
+  "task_id": "v2_acs_affiliations_0c188c36",
+  "tests_run": [
+    "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/acs.py tests/test_acs_authors.py",
+    "./.venv/bin/python -m pytest tests/test_acs_authors.py tests/test_acs_abstract.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/field_inprocess_diff.py --publisher acs --field affiliations --out mismatches/workflows/20260604T163736Z-77fe45/results/acs_affiliations_b27_inprocess_diff_after.json",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-acs-affiliation-symbol-map --concurrency 8 --run-id batch27-acs-affiliations-symbol-map --out eval/runs/whole-goldie-after-acs-affiliation-symbol-map-20260607T0135Z.json"
+  ]
+}

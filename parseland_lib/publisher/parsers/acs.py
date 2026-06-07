@@ -137,11 +137,20 @@ class ACS(PublisherParser):
         # usually shared by all authors; the dagger/double-dagger footnotes are
         # present-address / correspondence notes, captured separately). Use it as
         # a shared fallback for authors that have no per-author affiliations.
-        shared_affs = [
-            t.get_text(" ", strip=True)
-            for t in self.soup.select("div.aff-info span.aff-text")
-        ]
-        shared_affs = [a for a in shared_affs if a]
+        shared_affs = []
+        affs_by_symbol = {}
+        for aff_info in self.soup.select("div.aff-info"):
+            aff_text = aff_info.select_one("span.aff-text")
+            if not aff_text:
+                continue
+            aff = aff_text.get_text(" ", strip=True)
+            if not aff:
+                continue
+            shared_affs.append(aff)
+            symbol = aff_info.select_one("span.aff-symbol")
+            symbol_text = symbol.get_text(" ", strip=True) if symbol else ""
+            if symbol_text:
+                affs_by_symbol.setdefault(symbol_text, []).append(aff)
         for author in authors:
             # Prefer loa-info-name (modern template); fall back to
             # hlFld-ContribAuthor (alternate template — gives a clean name
@@ -179,6 +188,12 @@ class ACS(PublisherParser):
             if affiliation_soup:
                 for organization in affiliation_soup.findAll("div"):
                     affiliations.append(organization.text.strip())
+            if not affiliations and affs_by_symbol:
+                for symbol in author.select(".author-aff-symbol"):
+                    symbol_text = symbol.get_text(" ", strip=True)
+                    for aff in affs_by_symbol.get(symbol_text, []):
+                        if aff not in affiliations:
+                            affiliations.append(aff)
             if not affiliations:
                 affiliations = list(shared_affs)
 
