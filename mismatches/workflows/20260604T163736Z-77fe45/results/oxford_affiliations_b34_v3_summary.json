@@ -1,0 +1,381 @@
+{
+  "agent_id": "codex-oxford-affiliations-b34",
+  "artifacts": {
+    "focused_after_v3": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch34_oxford_affiliations_after_v3.json",
+    "focused_before": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_before.json",
+    "full_after_v3": "eval/runs/whole-goldie-after-oxford-affiliations-product-fallback-v3-20260607T0639Z.json",
+    "full_before": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json",
+    "miss_classification": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_current_miss_classification.json",
+    "rejected_attempts": [
+      "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch34_oxford_affiliations_after.json",
+      "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch34_oxford_affiliations_after_v2.json"
+    ],
+    "shield": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_v3_shield.json",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_v3_summary.json"
+  },
+  "batch_id": 34,
+  "completed_at": "2026-06-07T07:05:41.513251+00:00",
+  "coverage": {
+    "gold_empty_parser_present_count": 2713,
+    "html_available": 5113,
+    "per_publisher": {
+      "aaas": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "aacr": {
+        "html_available": 0,
+        "retrieval_blocked": 34,
+        "scored_rows": 0,
+        "total_rows": 34
+      },
+      "acm": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "acs": {
+        "html_available": 130,
+        "retrieval_blocked": 0,
+        "scored_rows": 130,
+        "total_rows": 130
+      },
+      "aip_publishing": {
+        "html_available": 0,
+        "retrieval_blocked": 57,
+        "scored_rows": 0,
+        "total_rows": 57
+      },
+      "ame": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "ams": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "apa": {
+        "html_available": 0,
+        "retrieval_blocked": 25,
+        "scored_rows": 0,
+        "total_rows": 25
+      },
+      "aps": {
+        "html_available": 0,
+        "retrieval_blocked": 38,
+        "scored_rows": 0,
+        "total_rows": 38
+      },
+      "asa": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "asco": {
+        "html_available": 0,
+        "retrieval_blocked": 17,
+        "scored_rows": 0,
+        "total_rows": 17
+      },
+      "ash": {
+        "html_available": 0,
+        "retrieval_blocked": 12,
+        "scored_rows": 0,
+        "total_rows": 12
+      },
+      "asme": {
+        "html_available": 0,
+        "retrieval_blocked": 26,
+        "scored_rows": 0,
+        "total_rows": 26
+      },
+      "bentham": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "bmj": {
+        "html_available": 0,
+        "retrieval_blocked": 69,
+        "scored_rows": 0,
+        "total_rows": 69
+      },
+      "brill": {
+        "html_available": 0,
+        "retrieval_blocked": 65,
+        "scored_rows": 0,
+        "total_rows": 65
+      },
+      "cairn": {
+        "html_available": 0,
+        "retrieval_blocked": 49,
+        "scored_rows": 0,
+        "total_rows": 49
+      },
+      "company_biologists": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "copernicus": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "cshlp": {
+        "html_available": 0,
+        "retrieval_blocked": 29,
+        "scored_rows": 0,
+        "total_rows": 29
+      },
+      "cup": {
+        "html_available": 151,
+        "retrieval_blocked": 3,
+        "scored_rows": 151,
+        "total_rows": 154
+      },
+      "de_gruyter": {
+        "html_available": 0,
+        "retrieval_blocked": 226,
+        "scored_rows": 0,
+        "total_rows": 226
+      },
+      "edp_sciences": {
+        "html_available": 0,
+        "retrieval_blocked": 21,
+        "scored_rows": 0,
+        "total_rows": 21
+      },
+      "elsevier": {
+        "html_available": 1508,
+        "retrieval_blocked": 56,
+        "scored_rows": 1508,
+        "total_rows": 1564
+      },
+      "emerald": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "f1000": {
+        "html_available": 0,
+        "retrieval_blocked": 2,
+        "scored_rows": 0,
+        "total_rows": 2
+      },
+      "frontiers": {
+        "html_available": 0,
+        "retrieval_blocked": 48,
+        "scored_rows": 0,
+        "total_rows": 48
+      },
+      "hindawi": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "ieee": {
+        "html_available": 393,
+        "retrieval_blocked": 2,
+        "scored_rows": 393,
+        "total_rows": 395
+      },
+      "iop": {
+        "html_available": 0,
+        "retrieval_blocked": 75,
+        "scored_rows": 0,
+        "total_rows": 75
+      },
+      "karger": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "lippincott": {
+        "html_available": 190,
+        "retrieval_blocked": 0,
+        "scored_rows": 190,
+        "total_rows": 190
+      },
+      "mary_ann_liebert": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "mdpi": {
+        "html_available": 0,
+        "retrieval_blocked": 137,
+        "scored_rows": 0,
+        "total_rows": 137
+      },
+      "nejm": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "optica": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "oxford": {
+        "html_available": 250,
+        "retrieval_blocked": 21,
+        "scored_rows": 250,
+        "total_rows": 271
+      },
+      "plos": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "portland_press": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "research_square": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "rsc": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "rsna": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "sage": {
+        "html_available": 198,
+        "retrieval_blocked": 2,
+        "scored_rows": 198,
+        "total_rows": 200
+      },
+      "scielo": {
+        "html_available": 0,
+        "retrieval_blocked": 33,
+        "scored_rows": 0,
+        "total_rows": 33
+      },
+      "spie": {
+        "html_available": 0,
+        "retrieval_blocked": 46,
+        "scored_rows": 0,
+        "total_rows": 46
+      },
+      "springer": {
+        "html_available": 1117,
+        "retrieval_blocked": 6,
+        "scored_rows": 1117,
+        "total_rows": 1123
+      },
+      "taylor": {
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 499,
+        "total_rows": 506
+      },
+      "thieme": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "unknown": {
+        "html_available": 0,
+        "retrieval_blocked": 3303,
+        "scored_rows": 0,
+        "total_rows": 3303
+      },
+      "wiley": {
+        "html_available": 677,
+        "retrieval_blocked": 18,
+        "scored_rows": 677,
+        "total_rows": 695
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 30,
+      "cached_error_page": 3,
+      "cached_too_small": 44,
+      "js_rendered_required": 1,
+      "missing": 4809
+    },
+    "retrieval_blocked_rows": 4887,
+    "scored_rows": 5113,
+    "total_rows": 10000
+  },
+  "current_goldie_kpi_effect": {
+    "overall_abstract_delta_pp": 0.0,
+    "overall_affiliations_delta_pp": 0.21472276752008135,
+    "overall_authors_delta_pp": 0.041373603640859624,
+    "overall_corresponding_delta_pp": 0.0,
+    "oxford_affiliations_after": 0.9950316169828365,
+    "oxford_affiliations_before": 0.9681899641577061,
+    "oxford_affiliations_crossed_98": true,
+    "oxford_affiliations_delta_pp": 2.68416528251304
+  },
+  "diagnosis": "Oxford product/book pages and several article-card variants exposed visible author-affiliation evidence not covered by the existing parser. Narrow fallbacks recover product popover bios, citation-title degree-marked author affiliations, structured OUP affiliation cards, and selected free-text article-card affiliations while preserving abstract and corresponding outputs.",
+  "field": "affiliations",
+  "per_publisher_field_affiliations": {
+    "after": {
+      "empty_empty_pass": 137,
+      "gold_empty_parser_present": 4,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 108,
+      "html_available": 250,
+      "retrieval_blocked": 21,
+      "scored_rows": 246,
+      "total_rows": 271
+    },
+    "before": {
+      "empty_empty_pass": 139,
+      "gold_empty_parser_present": 2,
+      "gold_present_parser_empty": 7,
+      "gold_present_parser_present": 102,
+      "html_available": 250,
+      "retrieval_blocked": 21,
+      "scored_rows": 248,
+      "total_rows": 271
+    }
+  },
+  "publisher_id": "oxford",
+  "residuals": {
+    "gold_empty_parser_present_after": 4,
+    "gold_present_parser_empty_after": 1,
+    "notes": [
+      "10.1093/ei/cbg008 remains a DOI-prefix/Oxford-bucket row whose page is Wiley-hosted, so it is not an Oxford parser-owned residual.",
+      "10.1093/geront/gnv550.06 remains residual because broad og:description affiliation extraction regressed Oxford abstract/corresponding and was rejected.",
+      "Four Goldie-empty/parser-present Oxford affiliation rows are routed to Goldie-backfilled evidence, not current-Goldie KPI wins."
+    ]
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_full10k_measured_above_98",
+  "task_id": "v2_oxford_affiliations_daf59555"
+}

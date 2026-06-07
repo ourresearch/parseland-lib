@@ -143,14 +143,13 @@
     "status": "shipped_full10k_measured"
   },
   "latest_completed_task": {
-    "agent_id": "codex-ieee-abstract-b33",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
-    "field": "abstract",
-    "next_action": "Route 9 residual IEEE abstract current-Goldie misses and 4 Goldie-empty/parser-present candidates to Browserbase/gold-auditor/manual-DOM; continue next ranked lane.",
-    "publisher_id": "ieee",
-    "status": "shipped_full10k_measured_below_98_with_explainable_residual",
-    "task_id": "v2_ieee_abstract_4ec42543",
-    "updated_at": "2026-06-07T05:36:06.411931Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_v3_shield.json",
+    "field": "affiliations",
+    "overall_affiliations_delta_pp": 0.21472276752008135,
+    "oxford_affiliations_after": 0.9950316169828365,
+    "publisher_id": "oxford",
+    "status": "shipped_full10k_measured_above_98",
+    "task_id": "v2_oxford_affiliations_daf59555"
   },
   "latest_full_10k_run": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json",
   "outputs": {
@@ -629,5 +628,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T05:44:43.667078Z"
+  "updated_at": "2026-06-07T07:05:41.513251+00:00"
 }

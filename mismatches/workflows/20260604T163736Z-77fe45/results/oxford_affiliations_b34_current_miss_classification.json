@@ -1,0 +1,936 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_oxford_affiliations_daf59555",
+  "agent_id": "codex-oxford-affiliations-b34",
+  "publisher": "oxford",
+  "field": "affiliations",
+  "source_run": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json",
+  "residual_count": 9,
+  "bucket_counts": {
+    "affiliation_visible_but_mapping_or_normalization_mismatch": 2,
+    "gold_affiliation_visible_parser_empty": 7
+  },
+  "action_counts": {
+    "inspect_parser_mapping_or_scorer": 2,
+    "fix_parser": 7
+  },
+  "rows": [
+    {
+      "doi": "10.1093/ei/cbg008",
+      "link": "https://doi.org/10.1093/ei/cbg008",
+      "field_status": "gold_present_parser_present",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.7777777777777777,
+        "f1_fuzzy": 0.7777777777777777,
+        "pairs_scored": 3
+      },
+      "n_gold_authors": 3,
+      "n_parsed_authors": 3,
+      "n_gold_affiliations": 4,
+      "n_parsed_affiliations": 4,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Robert D. Tollison",
+          "parsed_author": "Robert D. Tollison",
+          "gold_affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848"
+          ],
+          "parsed_affiliations": [
+            {
+              "name": "Tollison: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]"
+            },
+            {
+              "name": "We benefited from the comments of Donald Boudreaux, Dennis Coates, Fred McChesney, Tim Sass, Russell Sobel, John Sophocles, and two anonymous referees. Michael Reksulak supplied valuable research assistance. As is customary, however, we take full responsibility for any remaining errors. We acknowledge financial support from the Robert M. Hearin Support Foundation. Laura Razzolini also acknoledges financial support from the National Science Foundation, grant SBR-9973731. The views expressed in this article are the authors' and do not necessarily represent those of the National Science Foundatin."
+            }
+          ],
+          "strict_f1": 0.0,
+          "soft_f1": 0.6666666666666666,
+          "fuzzy_f1": 0.6666666666666666
+        },
+        {
+          "gold_author": "William F. II Shughart",
+          "parsed_author": "William F. II Shughart",
+          "gold_affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848"
+          ],
+          "parsed_affiliations": [
+            {
+              "name": "Shughart: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]"
+            }
+          ],
+          "strict_f1": 0.0,
+          "soft_f1": 1.0,
+          "fuzzy_f1": 1.0
+        },
+        {
+          "gold_author": "Laura Razzolini",
+          "parsed_author": "Laura Razzolini",
+          "gold_affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848",
+            "Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230"
+          ],
+          "parsed_affiliations": [
+            {
+              "name": "Razzolini: Associate Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848, and Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230. E-mail [email protected]"
+            }
+          ],
+          "strict_f1": 0.0,
+          "soft_f1": 0.6666666666666666,
+          "fuzzy_f1": 0.6666666666666666
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "Laura Razzolini",
+          "affiliation": "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848",
+          "on_page_exact": true,
+          "snippet": "ume 41, issue 2 p. 292-298 on the third law of demand laura razzolini , laura razzolini razzolini: associate professor, department of economics, university of mississippi, p.o. box 1848, university, ms 38677-1848, and program director for economics, national science foundation, 4201 wilson boulevard, room 995, arlington, va 22230. e-mail [email protected] se"
+        },
+        {
+          "author": "Laura Razzolini",
+          "affiliation": "Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230",
+          "on_page_exact": true,
+          "snippet": " associate professor, department of economics, university of mississippi, p.o. box 1848, university, ms 38677-1848, and program director for economics, national science foundation, 4201 wilson boulevard, room 995, arlington, va 22230. e-mail [email protected] search for more papers by this author william f. ii shughart , william f. ii shughart shughart: prof"
+        },
+        {
+          "author": "William F. II Shughart",
+          "affiliation": "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848",
+          "on_page_exact": true,
+          "snippet": "ume 41, issue 2 p. 292-298 on the third law of demand laura razzolini , laura razzolini razzolini: associate professor, department of economics, university of mississippi, p.o. box 1848, university, ms 38677-1848, and program director for economics, national science foundation, 4201 wilson boulevard, room 995, arlington, va 22230. e-mail [email protected] se"
+        },
+        {
+          "author": "Robert D. Tollison",
+          "affiliation": "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848",
+          "on_page_exact": true,
+          "snippet": "ume 41, issue 2 p. 292-298 on the third law of demand laura razzolini , laura razzolini razzolini: associate professor, department of economics, university of mississippi, p.o. box 1848, university, ms 38677-1848, and program director for economics, national science foundation, 4201 wilson boulevard, room 995, arlington, va 22230. e-mail [email protected] se"
+        }
+      ],
+      "parsed_affiliation_hits": [
+        {
+          "author": "Laura Razzolini",
+          "affiliation": "{'name': 'Razzolini: Associate Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848, and Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230. E-mail [email protected]'}",
+          "on_page_exact": false,
+          "snippet": "s, your email address may not be registered, and you may need to create a new wiley online library account. request username can't sign in? forgot your username? enter your email address below and we will send you your username email close if the address matches an existing account you will receive an email with instructions to retrieve your username"
+        },
+        {
+          "author": "William F. II Shughart",
+          "affiliation": "{'name': 'Shughart: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]'}",
+          "on_page_exact": false,
+          "snippet": "s, your email address may not be registered, and you may need to create a new wiley online library account. request username can't sign in? forgot your username? enter your email address below and we will send you your username email close if the address matches an existing account you will receive an email with instructions to retrieve your username"
+        },
+        {
+          "author": "Robert D. Tollison",
+          "affiliation": "{'name': 'Tollison: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]'}",
+          "on_page_exact": false,
+          "snippet": "s, your email address may not be registered, and you may need to create a new wiley online library account. request username can't sign in? forgot your username? enter your email address below and we will send you your username email close if the address matches an existing account you will receive an email with instructions to retrieve your username"
+        },
+        {
+          "author": "Robert D. Tollison",
+          "affiliation": "{'name': \"We benefited from the comments of Donald Boudreaux, Dennis Coates, Fred McChesney, Tim Sass, Russell Sobel, John Sophocles, and two anonymous referees. Michael Reksulak supplied valuable research assistance. As is customary, however, we take full responsibility for any remaining errors. We acknowledge financial support from the Robert M. Hearin Support Foundation. Laura Razzolini also acknoledges financial support from the National Science Foundation, grant SBR-9973731. The views expressed in this article are the authors' and do not necessarily represent those of the National Science Foundatin.\"}",
+          "on_page_exact": false,
+          "snippet": "s, your email address may not be registered, and you may need to create a new wiley online library account. request username can't sign in? forgot your username? enter your email address below and we will send you your username email close if the address matches an existing account you will receive an email with instructions to retrieve your username"
+        }
+      ],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 0,
+        "institution_text_nodes": 8,
+        "citation_author_institution_meta": 3,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "Laura Razzolini",
+          "affiliations": [
+            {
+              "name": "Razzolini: Associate Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848, and Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230. E-mail [email protected]"
+            }
+          ],
+          "is_corresponding": true
+        },
+        {
+          "name": "William F. II Shughart",
+          "affiliations": [
+            {
+              "name": "Shughart: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]"
+            }
+          ],
+          "is_corresponding": true
+        },
+        {
+          "name": "Robert D. Tollison",
+          "affiliations": [
+            {
+              "name": "Tollison: Professor, Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848. E-mail [email protected]"
+            },
+            {
+              "name": "We benefited from the comments of Donald Boudreaux, Dennis Coates, Fred McChesney, Tim Sass, Russell Sobel, John Sophocles, and two anonymous referees. Michael Reksulak supplied valuable research assistance. As is customary, however, we take full responsibility for any remaining errors. We acknowledge financial support from the Robert M. Hearin Support Foundation. Laura Razzolini also acknoledges financial support from the National Science Foundation, grant SBR-9973731. The views expressed in this article are the authors' and do not necessarily represent those of the National Science Foundatin."
+            }
+          ],
+          "is_corresponding": true
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "Laura Razzolini",
+          "affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848",
+            "Program Director for Economics, National Science Foundation, 4201 Wilson Boulevard, Room 995, Arlington, VA 22230"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "William F. II Shughart",
+          "affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Robert D. Tollison",
+          "affiliations": [
+            "Department of Economics, University of Mississippi, P.O. Box 1848, University, MS 38677-1848"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "affiliation_visible_but_mapping_or_normalization_mismatch",
+      "suggested_action": "inspect_parser_mapping_or_scorer"
+    },
+    {
+      "doi": "10.1093/hebz/9780198847274.003.0008",
+      "link": "https://doi.org/10.1093/hebz/9780198847274.003.0008",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 3,
+      "n_parsed_authors": 3,
+      "n_gold_affiliations": 3,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Taryn Miller",
+          "parsed_author": "Taryn Miller",
+          "gold_affiliations": [
+            "Senior Lecturer, University of Cape Town"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        },
+        {
+          "gold_author": "Mark Graham",
+          "parsed_author": "Mark Graham",
+          "gold_affiliations": [
+            "Associate Professor, University of Cape Town"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        },
+        {
+          "gold_author": "Jimmy Winfield",
+          "parsed_author": "Jimmy Winfield",
+          "gold_affiliations": [
+            "Associate Professor, University of Cape Town"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "Jimmy Winfield",
+          "affiliation": "Associate Professor, University of Cape Town",
+          "on_page_exact": true,
+          "snippet": "foreign exchange, and deferred tax 8. p. 215 leases, foreign exchange, and deferred tax jimmy winfield , jimmy winfield associate professor, university of cape town mark graham mark graham associate professor, university of cape town and taryn miller taryn miller senior lecturer, university of cape town https://doi.org/10.1093/hebz/9780198847274.003.0008 pub"
+        },
+        {
+          "author": "Mark Graham",
+          "affiliation": "Associate Professor, University of Cape Town",
+          "on_page_exact": true,
+          "snippet": "foreign exchange, and deferred tax 8. p. 215 leases, foreign exchange, and deferred tax jimmy winfield , jimmy winfield associate professor, university of cape town mark graham mark graham associate professor, university of cape town and taryn miller taryn miller senior lecturer, university of cape town https://doi.org/10.1093/hebz/9780198847274.003.0008 pub"
+        },
+        {
+          "author": "Taryn Miller",
+          "affiliation": "Senior Lecturer, University of Cape Town",
+          "on_page_exact": true,
+          "snippet": "versity of cape town mark graham mark graham associate professor, university of cape town and taryn miller taryn miller senior lecturer, university of cape town https://doi.org/10.1093/hebz/9780198847274.003.0008 published in print: 04 march 2021 published online: 31 august 2023 abstract this chapter addresses leases, foreign exchange, and deferred tax. unle"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 2,
+        "institution_text_nodes": 6,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "Jimmy Winfield",
+          "affiliations": [],
+          "is_corresponding": null
+        },
+        {
+          "name": "Mark Graham",
+          "affiliations": [],
+          "is_corresponding": null
+        },
+        {
+          "name": "Taryn Miller",
+          "affiliations": [],
+          "is_corresponding": null
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "Jimmy Winfield",
+          "affiliations": [
+            "Associate Professor, University of Cape Town"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Mark Graham",
+          "affiliations": [
+            "Associate Professor, University of Cape Town"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Taryn Miller",
+          "affiliations": [
+            "Senior Lecturer, University of Cape Town"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/acrefore/9780190277734.013.1305",
+      "link": "https://doi.org/10.1093/acrefore/9780190277734.013.1305",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 1,
+      "n_parsed_authors": 1,
+      "n_gold_affiliations": 1,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Getachew Metaferia",
+          "parsed_author": "Getachew Metaferia",
+          "gold_affiliations": [
+            "Department of Political Science, Morgan State University"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "Getachew Metaferia",
+          "affiliation": "Department of Political Science, Morgan State University",
+          "on_page_exact": true,
+          "snippet": "rivacy policy and legal notice). date: 19 june 2024 battle of adwa battle of adwa getachew metaferia getachew metaferia department of political science, morgan state university https://doi.org/10.1093/acrefore/9780190277734.013.1305 published online: 18 june 2024 summary the battle of adwa was fought between ethiopia and italy during the rise of european col"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 0,
+        "institution_text_nodes": 4,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "Getachew Metaferia",
+          "affiliations": [],
+          "is_corresponding": null
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "Getachew Metaferia",
+          "affiliations": [
+            "Department of Political Science, Morgan State University"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/carcin/bgt347",
+      "link": "https://doi.org/10.1093/carcin/bgt347",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 2,
+      "n_parsed_authors": 2,
+      "n_gold_affiliations": 1,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Sarah C. Forester",
+          "parsed_author": "Sarah C. Forester",
+          "gold_affiliations": [],
+          "parsed_affiliations": [],
+          "strict_f1": 1.0,
+          "soft_f1": 1.0,
+          "fuzzy_f1": 1.0
+        },
+        {
+          "gold_author": "Joshua D. Lambert",
+          "parsed_author": "Joshua D. Lambert\n            *",
+          "gold_affiliations": [
+            "Department of Food Science, The Pennsylvania State University, 332 Food Science Building, University Park, PA 16802, USA"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "Joshua D. Lambert",
+          "affiliation": "Department of Food Science, The Pennsylvania State University, 332 Food Science Building, University Park, PA 16802, USA",
+          "on_page_exact": true,
+          "snippet": "xford academic pubmed google scholar joshua d. lambert joshua d. lambert * *to whom correspondence should be addressed. department of food science, the pennsylvania state university, 332 food science building, university park, pa 16802, usa. tel: +1 814-865-5223 ; fax: +1 814-863-6132 ; email: jdl134@psu.edu search for other works by this author on: oxford a"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 1,
+        "info_card_author": 2,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 1,
+        "chapter_authors": 0,
+        "institution_text_nodes": 12,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "Sarah C. Forester",
+          "affiliations": [],
+          "is_corresponding": false
+        },
+        {
+          "name": "Joshua D. Lambert\n            *",
+          "affiliations": [],
+          "is_corresponding": true
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "Sarah C. Forester",
+          "affiliations": [],
+          "is_corresponding": false
+        },
+        {
+          "name": "Joshua D. Lambert",
+          "affiliations": [
+            "Department of Food Science, The Pennsylvania State University, 332 Food Science Building, University Park, PA 16802, USA"
+          ],
+          "is_corresponding": true
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/bjc/azv037",
+      "link": "https://doi.org/10.1093/bjc/azv037",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 1,
+      "n_parsed_authors": 1,
+      "n_gold_affiliations": 1,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Helen Wells",
+          "parsed_author": "Helen Wells\n            *",
+          "gold_affiliations": [
+            "School of Sociology and Criminology, Keele University, Staffordshire ST5 5BJ, UK"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "Helen Wells",
+          "affiliation": "School of Sociology and Criminology, Keele University, Staffordshire ST5 5BJ, UK",
+          "on_page_exact": false,
+          "snippet": "cle pccs, roads policing and the dilemmas of increased democratic accountability get access helen wells helen wells * * school of sociology and criminology, keele university , staffordshire st5 5bj , uk ; h.m.wells@keele.ac.uk search for other works by this author on: oxford academic google scholar the british journal of criminology , volume 56, issue 2, mar"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 1,
+        "info_card_author": 1,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 1,
+        "chapter_authors": 0,
+        "institution_text_nodes": 26,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "Helen Wells\n            *",
+          "affiliations": [],
+          "is_corresponding": true
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "Helen Wells",
+          "affiliations": [
+            "School of Sociology and Criminology, Keele University, Staffordshire ST5 5BJ, UK"
+          ],
+          "is_corresponding": true
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/oso/9780197559383.003.0017",
+      "link": "https://doi.org/10.1093/oso/9780197559383.003.0017",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 4,
+      "n_parsed_authors": 0,
+      "n_gold_affiliations": 4,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 0.0,
+      "pair_scores": [],
+      "gold_affiliation_hits": [
+        {
+          "author": "Patrick N. Breysse",
+          "affiliation": "National Center for Environmental Health/Agency for Toxic Substances and Disease Registry, Centers for Disease Control and Prevention",
+          "on_page_exact": true,
+          "snippet": "environmental justice imperative: patrick n. breysse, phd, national center for environmental health/agency for toxic substances and disease registry, centers for disease control and prevention robert bullard, phd, distinguished professor, dean, barbara jordan-mickey leland school of public affairs,"
+        },
+        {
+          "author": "Robert Bullard",
+          "affiliation": "Barbara Jordan-Mickey Leland School of Public Affairs, Texas Southern University",
+          "on_page_exact": true,
+          "snippet": "es and disease registry, centers for disease control and prevention robert bullard, phd, distinguished professor, dean, barbara jordan-mickey leland school of public affairs, texas southern university elizabeth sawin, phd, co-founder and co-director, climate interactive beverly wright, phd, founding executive director, deep south center for environmental jus"
+        },
+        {
+          "author": "Elizabeth Sawin",
+          "affiliation": "Climate Interactive",
+          "on_page_exact": true,
+          "snippet": "dan-mickey leland school of public affairs, texas southern university elizabeth sawin, phd, co-founder and co-director, climate interactive beverly wright, phd, founding executive director, deep south center for environmental justice - oxford scholarship we use cookies to enhance your experience on our website. by continuing to use our website, you are agree"
+        },
+        {
+          "author": "Beverly Wright",
+          "affiliation": "Deep South Center for Environmental Justice",
+          "on_page_exact": true,
+          "snippet": "elizabeth sawin, phd, co-founder and co-director, climate interactive beverly wright, phd, founding executive director, deep south center for environmental justice - oxford scholarship we use cookies to enhance your experience on our website. by continuing to use our website, you are agreeing to our use of cookies. you can change your cookie settings at any "
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 0,
+        "institution_text_nodes": 14,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [],
+      "gold_authors_preview": [
+        {
+          "name": "Patrick N. Breysse",
+          "affiliations": [
+            "National Center for Environmental Health/Agency for Toxic Substances and Disease Registry, Centers for Disease Control and Prevention"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Robert Bullard",
+          "affiliations": [
+            "Barbara Jordan-Mickey Leland School of Public Affairs, Texas Southern University"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Elizabeth Sawin",
+          "affiliations": [
+            "Climate Interactive"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Beverly Wright",
+          "affiliations": [
+            "Deep South Center for Environmental Justice"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/jac/11.3.281",
+      "link": "https://doi.org/10.1093/jac/11.3.281",
+      "field_status": "gold_present_parser_present",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.3333333333333333,
+        "pairs_scored": 3
+      },
+      "n_gold_authors": 3,
+      "n_parsed_authors": 3,
+      "n_gold_affiliations": 3,
+      "n_parsed_affiliations": 1,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "C.F. Langan",
+          "parsed_author": "C.F. Langan",
+          "gold_affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "parsed_affiliations": [
+            {
+              "name": "*General Pratice, Royal InfirmaryCastle Street, Glasgow G4 0SFScotland and Woodside Health CentreBarr Street, Glasgow G20 7LR"
+            }
+          ],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 1.0
+        },
+        {
+          "gold_author": "A.J. Guthrie",
+          "parsed_author": "A.J. Guthrie",
+          "gold_affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        },
+        {
+          "gold_author": "D.J. Platt",
+          "parsed_author": "D.J. Platt",
+          "gold_affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "D.J. Platt",
+          "affiliation": "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR",
+          "on_page_exact": false,
+          "snippet": " a.j. guthrie search for other works by this author on: oxford academic pubmed google scholar c.f. langan c.f. langan * general pratice, royal infirmary castle street, glasgow g4 0sf scotland and woodside health centre barr street, glasgow g20 7lr search for other works by this author on: oxford academic pubmed google scholar journal of antimicrobial chemoth"
+        },
+        {
+          "author": "A.J. Guthrie",
+          "affiliation": "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR",
+          "on_page_exact": false,
+          "snippet": " a.j. guthrie search for other works by this author on: oxford academic pubmed google scholar c.f. langan c.f. langan * general pratice, royal infirmary castle street, glasgow g4 0sf scotland and woodside health centre barr street, glasgow g20 7lr search for other works by this author on: oxford academic pubmed google scholar journal of antimicrobial chemoth"
+        },
+        {
+          "author": "C.F. Langan",
+          "affiliation": "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR",
+          "on_page_exact": false,
+          "snippet": " a.j. guthrie search for other works by this author on: oxford academic pubmed google scholar c.f. langan c.f. langan * general pratice, royal infirmary castle street, glasgow g4 0sf scotland and woodside health centre barr street, glasgow g20 7lr search for other works by this author on: oxford academic pubmed google scholar journal of antimicrobial chemoth"
+        }
+      ],
+      "parsed_affiliation_hits": [
+        {
+          "author": "C.F. Langan",
+          "affiliation": "{'name': '*General Pratice, Royal InfirmaryCastle Street, Glasgow G4 0SFScotland and Woodside Health CentreBarr Street, Glasgow G20 7LR'}",
+          "on_page_exact": false,
+          "snippet": "y have access to this article. download all slides sign in get help with access personal account sign in with email/username & password get email alerts save searches purchase content activate your purchase / trial code sign in register institutional access sign in through your institution sign in with a library card sign in with username / password recommen"
+        }
+      ],
+      "html_markers": {
+        "at_ArticleAuthors": 1,
+        "info_card_author": 3,
+        "info_card_affilitation_typo": 1,
+        "info_card_affiliation": 0,
+        "aff_div": 1,
+        "al_author": 1,
+        "chapter_authors": 0,
+        "institution_text_nodes": 23,
+        "citation_author_institution_meta": 1,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "D.J. Platt",
+          "affiliations": [],
+          "is_corresponding": true
+        },
+        {
+          "name": "A.J. Guthrie",
+          "affiliations": [],
+          "is_corresponding": false
+        },
+        {
+          "name": "C.F. Langan",
+          "affiliations": [
+            {
+              "name": "*General Pratice, Royal InfirmaryCastle Street, Glasgow G4 0SFScotland and Woodside Health CentreBarr Street, Glasgow G20 7LR"
+            }
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "D.J. Platt",
+          "affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "is_corresponding": true
+        },
+        {
+          "name": "A.J. Guthrie",
+          "affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "C.F. Langan",
+          "affiliations": [
+            "General Pratice, Royal Infirmary, Castle Street, Glasgow G4 0SF, Scotland and Woodside Health Centre, Barr Street, Glasgow G20 7LR"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "affiliation_visible_but_mapping_or_normalization_mismatch",
+      "suggested_action": "inspect_parser_mapping_or_scorer"
+    },
+    {
+      "doi": "10.1093/geront/gnv550.06",
+      "link": "https://doi.org/10.1093/geront/gnv550.06",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 1,
+      "n_parsed_authors": 0,
+      "n_gold_affiliations": 1,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 0.0,
+      "pair_scores": [],
+      "gold_affiliation_hits": [
+        {
+          "author": "J.A. Overcash",
+          "affiliation": "College of Nursing, The Ohio State University, Columbus, Ohio",
+          "on_page_exact": true,
+          "snippet": "rontology and ageing books journals oxford academic enter search term search advanced search search menu j.a. overcash, college of nursing, the ohio state university, columbus, ohio the comprehensive geriatric assessment (cga), a critical component of geriatric oncology, provides age-sensitive information crucial for making recommendations beyond traditional"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 0,
+        "institution_text_nodes": 10,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [],
+      "gold_authors_preview": [
+        {
+          "name": "J.A. Overcash",
+          "affiliations": [
+            "College of Nursing, The Ohio State University, Columbus, Ohio"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    },
+    {
+      "doi": "10.1093/he/9780198852278.003.0007",
+      "link": "https://doi.org/10.1093/he/9780198852278.003.0007",
+      "field_status": "gold_present_parser_empty",
+      "whole_goldie_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0,
+        "f1_fuzzy": 0.0
+      },
+      "n_gold_authors": 2,
+      "n_parsed_authors": 2,
+      "n_gold_affiliations": 2,
+      "n_parsed_affiliations": 0,
+      "author_match_f1_soft": 1.0,
+      "pair_scores": [
+        {
+          "gold_author": "Craig Prescott",
+          "parsed_author": "Craig Prescott",
+          "gold_affiliations": [
+            "Lecturer in Law, Bangor University"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        },
+        {
+          "gold_author": "John Stanton",
+          "parsed_author": "John Stanton",
+          "gold_affiliations": [
+            "Senior Lecturer in Law, The City Law School, City, University of London"
+          ],
+          "parsed_affiliations": [],
+          "strict_f1": 0.0,
+          "soft_f1": 0.0,
+          "fuzzy_f1": 0.0
+        }
+      ],
+      "gold_affiliation_hits": [
+        {
+          "author": "John Stanton",
+          "affiliation": "Senior Lecturer in Law, The City Law School, City, University of London",
+          "on_page_exact": true,
+          "snippet": "al notice). date: 06 september 2021 p. 259 7. central government p. 259 7. central government john stanton john stanton senior lecturer in law, the city law school, city, university of london and craig prescott craig prescott lecturer in law, bangor university https://doi.org/10.1093/he/9780198852278.003.0007 published in print: 09 june 2020 published online"
+        },
+        {
+          "author": "Craig Prescott",
+          "affiliation": "Lecturer in Law, Bangor University",
+          "on_page_exact": true,
+          "snippet": " john stanton senior lecturer in law, the city law school, city, university of london and craig prescott craig prescott lecturer in law, bangor university https://doi.org/10.1093/he/9780198852278.003.0007 published in print: 09 june 2020 published online: september 2020 abstract this chapter examines the structure and role of central government, with the lat"
+        }
+      ],
+      "parsed_affiliation_hits": [],
+      "html_markers": {
+        "at_ArticleAuthors": 0,
+        "info_card_author": 0,
+        "info_card_affilitation_typo": 0,
+        "info_card_affiliation": 0,
+        "aff_div": 0,
+        "al_author": 0,
+        "chapter_authors": 2,
+        "institution_text_nodes": 8,
+        "citation_author_institution_meta": 0,
+        "dc_creator_meta": 0,
+        "schema_author_meta": 0
+      },
+      "parsed_authors_preview": [
+        {
+          "name": "John Stanton",
+          "affiliations": [],
+          "is_corresponding": null
+        },
+        {
+          "name": "Craig Prescott",
+          "affiliations": [],
+          "is_corresponding": null
+        }
+      ],
+      "gold_authors_preview": [
+        {
+          "name": "John Stanton",
+          "affiliations": [
+            "Senior Lecturer in Law, The City Law School, City, University of London"
+          ],
+          "is_corresponding": false
+        },
+        {
+          "name": "Craig Prescott",
+          "affiliations": [
+            "Lecturer in Law, Bangor University"
+          ],
+          "is_corresponding": false
+        }
+      ],
+      "bucket": "gold_affiliation_visible_parser_empty",
+      "suggested_action": "fix_parser"
+    }
+  ]
+}
