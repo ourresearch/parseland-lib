@@ -1,0 +1,23 @@
+{
+  "run_id": "retrieval-brill-r2-full-20260607T0827Z",
+  "timestamp_utc": "2026-06-07T08:27:02.611086+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 65,
+  "completed_rows": 65,
+  "duration_ms": 2301,
+  "throughput_rows_per_sec": 28.25,
+  "bytes_written": 8950945,
+  "state_counts": {
+    "cached": 22,
+    "missing_uuid": 8,
+    "ok": 35
+  },
+  "per_publisher_state": {
+    "brill": {
+      "cached": 22,
+      "missing_uuid": 8,
+      "ok": 35
+    }
+  }
+}

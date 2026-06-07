@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "full_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_audit.summary.json",
+    "full_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_brill_retrieval_r2_full.json",
+    "full_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_fill.summary.json",
+    "smoke_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_smoke_fill.summary.json"
+  },
+  "commands": [
+    "scripts/retrieval_fill.py --publishers brill --limit 25 --concurrency 8",
+    "scripts/retrieval_fill.py --publishers brill --concurrency 16",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers brill --out whole_goldie_brill_retrieval_r2_full.json"
+  ],
+  "coverage_after": {
+    "brill_html_available": 55,
+    "brill_retrieval_blocked": 10,
+    "global_cached_ok_after_retrieval_audit": 5192
+  },
+  "coverage_before": {
+    "brill_html_available": 0,
+    "brill_retrieval_blocked": 65
+  },
+  "current_goldie_kpi_effect": "coverage-only until next serialized full-10K run; focused publisher eval now available",
+  "field_counts": {
+    "abstract": {
+      "empty_empty_pass": 46,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 2,
+      "gold_present_parser_present": 7,
+      "html_available": 55,
+      "retrieval_blocked": 10,
+      "scored_rows": 55,
+      "total_rows": 65
+    },
+    "affiliations": {
+      "empty_empty_pass": 47,
+      "gold_empty_parser_present": 6,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 2,
+      "html_available": 55,
+      "retrieval_blocked": 10,
+      "scored_rows": 49,
+      "total_rows": 65
+    },
+    "authors": {
+      "empty_empty_pass": 6,
+      "gold_empty_parser_present": 13,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 36,
+      "html_available": 55,
+      "retrieval_blocked": 10,
+      "scored_rows": 42,
+      "total_rows": 65
+    },
+    "corresponding": {
+      "empty_empty_pass": 54,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 1,
+      "html_available": 55,
+      "retrieval_blocked": 10,
+      "scored_rows": 55,
+      "total_rows": 65
+    },
+    "pdf_url": {
+      "empty_empty_pass": 0,
+      "gold_empty_parser_present": 17,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 38,
+      "html_available": 55,
+      "retrieval_blocked": 10,
+      "scored_rows": 38,
+      "total_rows": 65
+    }
+  },
+  "focused_eval": {
+    "abstract_present_rate": 0.12727272727272726,
+    "abstract_ratio_fuzzy": 0.963437728898981,
+    "affiliations_f1_fuzzy": 1.0,
+    "authors_f1_soft": 1.0,
+    "corresponding_accuracy": 1.0,
+    "errors": 0,
+    "pdf_url_accuracy": 0.15789473684210525,
+    "rows": 65,
+    "scored": 55,
+    "skipped_no_html": 10
+  },
+  "next_action": "Prioritize Brill pdf_url URL-equivalence/parser diagnosis and 17 Goldie-backfilled PDF candidates. Authors, affiliations, and corresponding are above 98 on current Goldie; abstract has two parser-empty misses and is a smaller follow-up.",
+  "publisher_id": "brill",
+  "retrieval_audit_brill": {
+    "cached_ok": 55,
+    "cached_tiny": 2,
+    "missing": 8,
+    "rows": 65
+  },
+  "retrieval_fill_state_counts": {
+    "cached": 22,
+    "missing_uuid": 8,
+    "ok": 35
+  },
+  "run_id": "brill-retrieval-r2-full-20260607T0827Z",
+  "shield_gate_type": "retrieval_coverage_and_focused_whole_goldie",
+  "status": "passed",
+  "task": "brill_retrieval_r2_full",
+  "timestamp_utc": "2026-06-07T08:29:56.823564+00:00"
+}
