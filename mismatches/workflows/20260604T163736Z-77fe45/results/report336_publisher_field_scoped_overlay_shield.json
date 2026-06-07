@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-06-07T04:44:14.837433+00:00",
+  "diagnosis": "Publisher-field table rendered KPI/counts from the latest full-10K artifact even when the workflow queue had a newer scoped publisher-field gate. This left CUP/corresponding stale at the claim state after Batch 32. Renderer now overlays row KPI/counts from the workflow queue for the publisher-field row while leaving global full-10K aggregate KPIs separate.",
+  "policy": {
+    "current_goldie_and_goldie_backfilled_remain_separate": true,
+    "full_10k_global_kpi_changed": false,
+    "publisher_field_row_uses_latest_scoped_gate": true
+  },
+  "status": "green",
+  "task": "report336_publisher_field_scoped_overlay",
+  "tests": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile scripts/build_report336.py",
+      "result": "py_compile passed",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml",
+      "result": "report rebuilt with report_yaml_updated=false",
+      "status": "passed"
+    },
+    {
+      "command": "exact local report row check for cup/corresponding",
+      "result": "row shows KPI 0.983, distance 0.000, misses 1, backfill 16, status shipped_full10k_measured",
+      "status": "passed"
+    }
+  ]
+}

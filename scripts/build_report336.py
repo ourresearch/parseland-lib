@@ -635,21 +635,32 @@ def render_publisher_field_table(run: dict | None) -> str:
 
     for _, pub, field, counts, pub_summary in display_rows:
         metric = field_metrics.get(field)
-        current = float(pub_summary.get(metric) or 0.0) if metric else 0.0
-        distance = max(0.0, 0.98 - current)
         task = task_by_cell.get((pub, field), {})
+        current = float(pub_summary.get(metric) or 0.0) if metric else 0.0
+        if task.get("current_kpi") is not None:
+            current = float(task.get("current_kpi") or 0.0)
+        distance = max(0.0, 0.98 - current)
+        row_counts = {
+            "total_rows": task.get("row_count", counts.get("total_rows", "—")),
+            "html_available": task.get("html_available", counts.get("html_available", "—")),
+            "retrieval_blocked": task.get("retrieval_blocked", counts.get("retrieval_blocked", "—")),
+            "scored_rows": task.get("scored_rows_for_field", counts.get("scored_rows", "—")),
+            "empty_empty_pass": task.get("empty_empty_passes", counts.get("empty_empty_pass", "—")),
+            "gold_present_parser_empty": task.get("misses", counts.get("gold_present_parser_empty", "—")),
+            "gold_empty_parser_present": task.get("gold_empty_parser_present", counts.get("gold_empty_parser_present", "—")),
+        }
         vals = [
             pub,
             field,
             f"{current:.3f}",
             f"{distance:.3f}",
-            counts.get("total_rows", "—"),
-            counts.get("html_available", "—"),
-            counts.get("retrieval_blocked", "—"),
-            counts.get("scored_rows", "—"),
-            counts.get("empty_empty_pass", "—"),
-            counts.get("gold_present_parser_empty", "—"),
-            counts.get("gold_empty_parser_present", "—"),
+            row_counts["total_rows"],
+            row_counts["html_available"],
+            row_counts["retrieval_blocked"],
+            row_counts["scored_rows"],
+            row_counts["empty_empty_pass"],
+            row_counts["gold_present_parser_empty"],
+            row_counts["gold_empty_parser_present"],
             task.get("assigned_agent") or "—",
             task.get("status") or "—",
             task.get("next_action") or "—",
