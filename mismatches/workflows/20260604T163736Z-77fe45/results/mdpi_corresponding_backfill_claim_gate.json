@@ -1,0 +1,17 @@
+{
+  "agent_id": "codex-mdpi-corresponding-backfill",
+  "claimed_at": "2026-06-07T15:27:12.193147+00:00",
+  "current_gold_misses": 5,
+  "current_kpi": 0.8968,
+  "field": "corresponding",
+  "gate": "mdpi_corresponding_backfill_claim",
+  "gold_empty_parser_present_candidates": 53,
+  "next_action": "Run Browserbase smoke for 10 MDPI corresponding candidates and Referee before scale.",
+  "publisher": "mdpi",
+  "status": "green",
+  "task_id": "v2_mdpi_corresponding_cfd37b32",
+  "validation": {
+    "claim_recorded": true,
+    "queue_active_agent_updated": true
+  }
+}
