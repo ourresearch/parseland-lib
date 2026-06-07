@@ -2,12 +2,12 @@
   "active_tasks": {
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_smoke_10_raw.ndjson",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_smoke_10_referee.summary.json",
       "field": "corresponding",
-      "next_action": "Browserbase smoke 10, Referee audit, then scale if evidence quality is clean",
+      "next_action": "Scale remaining 40 with strict corresponding evidence; blocked name-only rows need manual review",
       "publisher_id": "lippincott",
-      "started_at": "2026-06-07T02:57:58.783045+00:00",
-      "status": "in_progress"
+      "status": "goldie_backfill_referee_smoke_5_approved_5_blocked",
+      "updated_at": "2026-06-07T03:08:35.208979+00:00"
     }
   },
   "by_field": {
@@ -552,5 +552,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T02:57:58.783048+00:00"
+  "updated_at": "2026-06-07T03:08:35.208983+00:00"
 }

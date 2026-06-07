@@ -1,0 +1,23 @@
+{
+  "approved": 5,
+  "blocked": 5,
+  "confidence_counts": {
+    "correspondence_candidate_text_match": 5,
+    "corresponding_author_name_only": 5
+  },
+  "decision": "scale automatically only after preserving this stricter corresponding-evidence rule; blocked name-only rows need manual DOM/gold-auditor review",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_derived_v0.ndjson",
+  "field": "corresponding",
+  "new_derived_rows": 5,
+  "publisher": "lippincott",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_smoke_10_referee.ndjson",
+  "remaining_lane_candidates_after_smoke": 40,
+  "reviewed": 10,
+  "reviewed_at": "2026-06-07T03:08:02.392983+00:00",
+  "run_id": "b29-lippincott-corresponding-signal-smoke-10",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_smoke_10_raw.ndjson",
+  "status_counts": {
+    "referee_approved": 5,
+    "referee_blocked": 5
+  }
+}
