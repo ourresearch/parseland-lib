@@ -1,0 +1,61 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "wave_id": 60,
+  "task_id": "v2_acs_abstract_1772d606",
+  "agent_id": "codex-acs-abstract-b25",
+  "publisher_id": "acs",
+  "field": "abstract",
+  "classification": "parser_owned_shipped_full10k_measured_with_residual_gold_owned_backfill",
+  "completed_at": "2026-06-07T00:16:10Z",
+  "diagnosis": "C&EN ACS pages expose the current-Goldie abstract in div.article_abstract-content#abstractBox / .hlFld-Abstract, but the ACS parser only used the shared meta fallback. Meta descriptions are often short/truncated and fail the global >200 character guard. ACS now reads the visible C&EN abstract box before falling back to meta tags.",
+  "expected_kpi_impact": {
+    "overall_abstract_delta_pp": 0.21988765148190248,
+    "overall_abstract_present_rate_delta_pp": 0.23469587325610472,
+    "acs_abstract_delta_pp": 8.330005764465675,
+    "acs_abstract_after": 0.9904626986023108
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/acs.py",
+    "tests/test_acs_abstract.py"
+  ],
+  "tests_run": [
+    "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/acs.py tests/test_acs_abstract.py",
+    "./.venv/bin/python -m pytest tests/test_acs_abstract.py tests/test_parse_page.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers acs --label acs-cen-visible-abstract --concurrency 4 --out eval/runs/whole-goldie-acs-cen-visible-abstract-20260607T0045Z.json",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-acs-cen-visible-abstract --concurrency 8 --out eval/runs/whole-goldie-after-acs-cen-visible-abstract-20260607T0050Z.json"
+  ],
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_abstract_cen_visible_shield.json",
+  "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_abstract_cen_visible_summary.json",
+  "focused_gate": "eval/runs/whole-goldie-acs-cen-visible-abstract-20260607T0045Z.json",
+  "whole_10k_gate": "eval/runs/whole-goldie-after-acs-cen-visible-abstract-20260607T0050Z.json",
+  "baseline_artifact": "eval/runs/whole-goldie-after-cup-chapter-contributors-cup-priority-only-full-serial-20260607T0025Z.json",
+  "residuals": [
+    {
+      "doi": "10.1021/cen-v031n013.p1299",
+      "classification": "gold_owned_page_mismatch",
+      "gold_says": "glass structure/properties abstract",
+      "page_says": "Chain Branching Accounts for Differences Among Polyethylenes / polyethylene branching abstract",
+      "action": "route to gold-auditor; do not force parser away from page evidence"
+    },
+    {
+      "doi": "10.1021/cen-v052n024.p002",
+      "classification": "goldie_backfilled_candidate",
+      "parser_candidate": "Advertisements boilerplate visible in C&EN abstract box while current Goldie is empty",
+      "action": "Browserbase/gold-auditor candidate, excluded from current-Goldie KPI numerator"
+    },
+    {
+      "doi": "10.1021/cen-v071n035.obc",
+      "classification": "goldie_backfilled_candidate",
+      "parser_candidate": "Advertisements boilerplate visible in C&EN abstract box while current Goldie is empty",
+      "action": "Browserbase/gold-auditor candidate, excluded from current-Goldie KPI numerator"
+    }
+  ],
+  "recommendation": "Ship. ACS abstract crosses 98% on the full-10K scoped slice with no non-ACS metric movement. Continue the ACS publisher lane with corresponding and affiliations, both still below 98%.",
+  "status": "green",
+  "coverage": {
+    "total_rows": 10000,
+    "html_available": 5113,
+    "retrieval_blocked_rows": 4887,
+    "errors": 1
+  }
+}

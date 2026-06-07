@@ -1,6 +1,6 @@
 {
-  "run_id": "20260606T232936Z-a834c1",
-  "source_run": "eval/runs/whole-goldie-after-cup-chapter-contributors-cup-priority-only-full-serial-20260607T0025Z.json",
+  "run_id": "20260607T001640Z-71e4c8",
+  "source_run": "eval/runs/whole-goldie-after-acs-cen-visible-abstract-20260607T0050Z.json",
   "exclude_pdf": true,
   "total_opportunities": 39,
   "rows": [
@@ -225,16 +225,6 @@
       "recommendation": "patch"
     },
     {
-      "field": "abstract",
-      "current_kpi": 0.9072,
-      "scored_rows": 130,
-      "headroom_pp": 9.28,
-      "top_publisher": "acs",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "patch"
-    },
-    {
       "field": "corresponding",
       "current_kpi": 0.9077,
       "scored_rows": 130,
@@ -300,6 +290,16 @@
       "scored_rows": 249,
       "headroom_pp": 1.62,
       "top_publisher": "oxford",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9714,
+      "scored_rows": 140,
+      "headroom_pp": 2.86,
+      "top_publisher": "lippincott",
       "active_agent": "\u2014",
       "status": "ranked",
       "recommendation": "diminishing"
@@ -528,16 +528,6 @@
     },
     {
       "publisher": "acs",
-      "field": "abstract",
-      "current_kpi": 0.9072,
-      "scored_rows": 130,
-      "headroom_pp": 9.28,
-      "impact_score": 12.07,
-      "tractability": 1.0,
-      "recommendation": "patch"
-    },
-    {
-      "publisher": "acs",
       "field": "corresponding",
       "current_kpi": 0.9077,
       "scored_rows": 130,
@@ -683,6 +673,16 @@
       "scored_rows": 74,
       "headroom_pp": 1.66,
       "impact_score": 1.23,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "acs",
+      "field": "abstract",
+      "current_kpi": 0.9905,
+      "scored_rows": 128,
+      "headroom_pp": 0.95,
+      "impact_score": 1.22,
       "tractability": 1.0,
       "recommendation": "diminishing"
     },

@@ -1,3 +1,5 @@
+import re
+
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
@@ -13,6 +15,24 @@ class ACS(PublisherParser):
 
     def authors_found(self):
         return self.soup.find("ul", class_="loa")
+
+    @staticmethod
+    def _clean_abstract(text):
+        text = re.sub(r"\s+", " ", (text or "").replace("\xa0", " ")).strip()
+        return re.sub(r"\s+([,;:!?])", r"\1", text)
+
+    def get_abstract(self):
+        for selector in (
+            "div.article_abstract-content#abstractBox",
+            "div.article_abstract-content.hlFld-Abstract",
+        ):
+            node = self.soup.select_one(selector)
+            if not node:
+                continue
+            text = self._clean_abstract(node.get_text(" ", strip=True))
+            if text:
+                return text
+        return self.parse_abstract_meta_tags()
 
     def parse(self):
         result_authors = []
@@ -76,7 +96,7 @@ class ACS(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
-        return {"authors": result_authors, "abstract": self.parse_abstract_meta_tags()}
+        return {"authors": result_authors, "abstract": self.get_abstract()}
 
     test_cases = [
         {
