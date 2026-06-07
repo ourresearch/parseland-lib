@@ -649,12 +649,12 @@ def verify_pdf_links_from_page(
             if not pdf_url_resolution_is_usable(status_code, final_url):
                 continue
             screenshot_path = evidence_dir / f"{stem}-pdf-link-{i}.png"
-            page.screenshot(path=str(screenshot_path), full_page=True)
+            screenshot_value, screenshot_error = safe_screenshot(page, screenshot_path)
             return {
                 "candidate_url": url,
                 "candidate_final_url": final_url,
                 "candidate_status": status_code,
-                "candidate_screenshot_path": str(screenshot_path),
+                "candidate_screenshot_path": screenshot_value,
                 "confidence": "visible_or_metadata_pdf_url_resolves",
                 "selector": link["selector"],
                 "resolved_candidate": {"pdf_url": final_url or url},
@@ -663,6 +663,7 @@ def verify_pdf_links_from_page(
                     f"verified_pdf_url={url} final_url={final_url} "
                     f"status={status_code} selector={link['selector']}"
                 ),
+                "error": f"screenshot_failed: {screenshot_error}" if screenshot_error else None,
             }
         except Exception as exc:  # noqa: BLE001
             attempts.append(
@@ -715,18 +716,19 @@ def verify_pdf_candidate_url(page: Any, candidate: dict, evidence_dir: Path, ste
                 ),
             }
         screenshot_path = evidence_dir / f"{stem}-pdf.png"
-        page.screenshot(path=str(screenshot_path), full_page=True)
+        screenshot_value, screenshot_error = safe_screenshot(page, screenshot_path)
         return {
             "candidate_url": url,
             "candidate_final_url": final_url,
             "candidate_status": status_code,
-            "candidate_screenshot_path": str(screenshot_path),
+            "candidate_screenshot_path": screenshot_value,
             "confidence": "candidate_pdf_url_resolves",
             "selector": "candidate-pdf-url-navigation",
             "excerpt": (
                 f"candidate_pdf_url={url} final_url={final_url} "
                 f"status={status_code}"
             ),
+            "error": f"screenshot_failed: {screenshot_error}" if screenshot_error else None,
         }
     except Exception as exc:  # noqa: BLE001
         return {
@@ -750,6 +752,15 @@ def safe_page_content(page: Any) -> str:
             except Exception:
                 pass
     return page.content()
+
+
+def safe_screenshot(page: Any, path: Path) -> tuple[str | None, str | None]:
+    """Capture a screenshot without losing rendered DOM evidence on timeout."""
+    try:
+        page.screenshot(path=str(path), full_page=True, timeout=10000)
+        return str(path), None
+    except Exception as exc:  # noqa: BLE001
+        return None, f"{type(exc).__name__}: {exc}"
 
 
 def load_candidates(
@@ -844,7 +855,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
             evidence_dir.mkdir(parents=True, exist_ok=True)
             stem = hashlib.sha1(f"{doi}|{field}".encode()).hexdigest()[:12]
             screenshot_path = evidence_dir / f"{stem}.png"
-            page.screenshot(path=str(screenshot_path), full_page=True)
+            screenshot_value, screenshot_error = safe_screenshot(page, screenshot_path)
             excerpt, selector, confidence = excerpt_for(html, candidate)
             resolved_candidate = None
             resolved_candidate_source = None
@@ -890,7 +901,8 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                         html = safe_page_content(page)
                         final_url = page.url
                         screenshot_path = evidence_dir / f"{stem}-abstract.png"
-                        page.screenshot(path=str(screenshot_path), full_page=True)
+                        screenshot_value, followup_screenshot_error = safe_screenshot(page, screenshot_path)
+                        screenshot_error = screenshot_error or followup_screenshot_error
                         excerpt, selector, confidence = excerpt_for(html, candidate)
                         abstract_resolution = resolve_abstract_len_candidate(html, candidate, final_url)
                         if abstract_resolution:
@@ -962,13 +974,21 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                 if confidence == "page_identity_only"
                 else "weak_page_render_needs_referee"
             )
+            if status == "candidate_evidence_needs_referee" and not screenshot_value:
+                status = "weak_page_render_needs_referee"
+                screenshot_error = screenshot_error or "required screenshot was not captured"
+            result_error = (
+                (pdf_verification or {}).get("error")
+                if pdf_verification
+                else None
+            ) or screenshot_error
             return GroundingResult(
                 doi=doi,
                 field=field,
                 status=status,
                 final_url=final_url,
                 browserbase_session=str(session_id) if session_id else None,
-                screenshot_path=str(screenshot_path),
+                screenshot_path=screenshot_value,
                 verified_candidate_url=(
                     pdf_verification or {}
                 ).get("candidate_url") if pdf_verification else None,
@@ -986,7 +1006,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                 html_excerpt=excerpt,
                 selector=selector,
                 confidence=confidence,
-                error=(pdf_verification or {}).get("error") if pdf_verification else None,
+                error=result_error,
             )
     except Exception as exc:  # noqa: BLE001
         return GroundingResult(

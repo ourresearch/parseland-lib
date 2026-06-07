@@ -1,0 +1,76 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_oxford_corresponding_6dc37b1e",
+  "agent_id": "codex-goldie-backfilled-oxford-corresponding-b51",
+  "publisher_id": "oxford",
+  "field": "corresponding",
+  "classification": "goldie_backfill_referee_complete_0_approved_14_blocked",
+  "completed_at": "2026-06-07T21:02:35Z",
+  "candidate_count": 14,
+  "approved_rows": 0,
+  "blocked_rows": 14,
+  "status_counts": {
+    "page_rendered_needs_referee": 5,
+    "weak_page_render_needs_referee": 9
+  },
+  "confidence_counts": {
+    "page_identity_only": 5,
+    "corresponding_author_name_only": 7,
+    "page_rendered_only": 2
+  },
+  "screenshot_count": 7,
+  "retry_recovered_from_grounding_failed": 7,
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_resolved.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_retry_resolved.ndjson"
+  ],
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_referee.ndjson",
+  "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_referee.summary.json",
+  "blocked_dois": [
+    "10.1093/aesa/75.3.250",
+    "10.1093/brain/awx325",
+    "10.1093/cdj/bsu049",
+    "10.1093/ei/cbg008",
+    "10.1093/europace/euq267",
+    "10.1093/genetics/iyad002",
+    "10.1093/gji/ggaa045",
+    "10.1093/icesjms/fst107",
+    "10.1093/jac/20.suppl_a.87",
+    "10.1093/jee/97.3.1106",
+    "10.1093/mnras/191.3.521",
+    "10.1093/neuros/nyaa548",
+    "10.1093/pasj/psae100",
+    "10.1534/genetics.115.184598"
+  ],
+  "recommendation": "Do not promote Oxford corresponding candidates from this batch. Browserbase rendered pages, but evidence is only corresponding-name-only, page-identity-only, or page-render-only, with several missing screenshots. Route to manual DOM/gold-auditor or improve OUP corresponding-marker grounding before retrying.",
+  "current_goldie_kpi_impact": 0.0,
+  "current_goldie_kpi_separation": "Goldie-backfilled candidate review only; current-Goldie KPI unchanged.",
+  "shield_status": "green_blocker_recorded",
+  "gates": [
+    {
+      "command": "./.venv/bin/python -m py_compile scripts/goldie_backfill_ground.py",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python scripts/goldie_backfill_ground.py --publishers oxford --fields corresponding --limit 14 --concurrency 4 --run-id oxford-corresponding-b51 ...",
+      "status": "completed",
+      "result": "14 processed; 5 weak, 2 page identity, 7 grounding_failed"
+    },
+    {
+      "command": "./.venv/bin/python scripts/goldie_backfill_ground.py --candidates ...retry_candidates.ndjson --limit 7 --concurrency 1 --run-id oxford-corresponding-b51-retry ...",
+      "status": "completed",
+      "result": "7 processed; 4 weak, 3 page identity; screenshot-timeout rows preserved DOM/final URL"
+    }
+  ],
+  "files_touched": [
+    "scripts/goldie_backfill_ground.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/blocked.ndjson"
+  ]
+}
