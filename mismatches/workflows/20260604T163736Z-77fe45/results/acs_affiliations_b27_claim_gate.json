@@ -1,0 +1,14 @@
+{
+  "status": "green",
+  "run_id": "batch27-acs-affiliations",
+  "task_id": "v2_acs_affiliations_0c188c36",
+  "agent_id": "codex-acs-affiliations-b27",
+  "publisher": "acs",
+  "field": "affiliations",
+  "stage": "claim",
+  "current_kpi": 0.9611,
+  "misses": 1,
+  "html_available": 130,
+  "gate_command": "scripts/workflow_claim.py --publisher acs --field affiliations --queue-type ready",
+  "created_at": "2026-06-07T01:19:28.951277+00:00"
+}
