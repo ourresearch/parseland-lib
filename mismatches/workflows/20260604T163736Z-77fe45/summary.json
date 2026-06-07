@@ -10,6 +10,16 @@
       "task_id": "v2_acs_pdf_url_dee703c2",
       "updated_at": "2026-06-07T03:54:34.729237+00:00"
     },
+    "v2_cup_corresponding_b675a7db": {
+      "agent_id": "codex-cup-corresponding-b32",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_claim_shield.json",
+      "field": "corresponding",
+      "next_action": "Diagnose CUP corresponding current-Goldie misses and Goldie-backfilled candidates; keep current-Goldie KPI separate.",
+      "publisher_id": "cup",
+      "status": "in_progress_current_goldie_diagnosis",
+      "task_id": "v2_cup_corresponding_b675a7db",
+      "updated_at": "2026-06-07T04:18:17.799928+00:00"
+    },
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_referee.summary.json",
@@ -59,7 +69,8 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 4,
+    "in_progress_current_goldie_diagnosis": 1,
+    "needs_agent": 3,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_below_98_explainable_residual": 1,

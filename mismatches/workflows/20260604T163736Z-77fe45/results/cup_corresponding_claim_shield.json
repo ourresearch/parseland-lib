@@ -1,0 +1,37 @@
+{
+  "artifacts": {
+    "claims": "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "queue": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson"
+  },
+  "checks": [
+    {
+      "agent_id": "codex-cup-corresponding-b32",
+      "name": "task_claimed",
+      "status": "pass",
+      "task_id": "v2_cup_corresponding_b675a7db"
+    },
+    {
+      "expected_status": "in_progress_current_goldie_diagnosis",
+      "name": "queue_marked_active",
+      "status": "pass"
+    },
+    {
+      "current_kpi": 0.9753,
+      "gold_empty_parser_present": 16,
+      "misses": 2,
+      "name": "candidate_scope",
+      "status": "pass"
+    },
+    {
+      "name": "policy",
+      "note": "Current-Goldie misses must be classified before parser edits; Goldie-empty/parser-present rows remain Goldie-backfilled candidates.",
+      "status": "pass"
+    }
+  ],
+  "field": "corresponding",
+  "gate_id": "cup-corresponding-batch32-claim",
+  "publisher": "cup",
+  "run_id": "batch32-cup-corresponding",
+  "status": "green",
+  "timestamp": "2026-06-07T04:18:17.799928+00:00"
+}
