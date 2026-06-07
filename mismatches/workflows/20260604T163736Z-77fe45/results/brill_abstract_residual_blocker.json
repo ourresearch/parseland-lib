@@ -1,0 +1,35 @@
+{
+  "classification": "retrieval_or_access_owned",
+  "commands": [
+    "Focused Brill eval: mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_brill_retrieval_r2_full.json",
+    "Cached DOM inspection with BeautifulSoup selectors section.abstract, div[class*=abstract], citation_abstract, description",
+    "curl -L -A Mozilla/5.0 https://doi.org/<doi> -> VR eLibrary 403 pages with no gold abstract snippet"
+  ],
+  "current_goldie_misses": 2,
+  "current_kpi": 0.963437728898981,
+  "doi_evidence_examples": [
+    {
+      "cached_html": "title page present; no abstract meta/DOM; gold snippet absent",
+      "doi": "10.7788/9783412513436.113",
+      "gold_snippet": "Der Klang des Mittelalters scheint leicht zu imaginieren",
+      "link": "https://doi.org/10.7788/9783412513436.113",
+      "live_http": "403 https://vr-elibrary.de/doi/10.7788/9783412513436.113; gold snippet absent; abstract_occurrences=0"
+    },
+    {
+      "cached_html": "title page present; no abstract meta/DOM; gold snippet absent",
+      "doi": "10.14220/9783737017107.279",
+      "gold_snippet": "Der Begriff \u00bbWende\u00ab wird in der Literaturwissenschaft",
+      "link": "https://doi.org/10.14220/9783737017107.279",
+      "live_http": "403 https://www.vr-elibrary.de/doi/10.14220/9783737017107.279; gold snippet absent; abstract_occurrences=0"
+    }
+  ],
+  "field": "abstract",
+  "html_available": 55,
+  "publisher": "brill",
+  "recommendation": "No parser patch. Keep Brill abstract below 98 as explainable retrieval/access-owned residual; Browserbase/manual access specialist can re-render VR eLibrary pages later if this cell becomes high-priority.",
+  "retrieval_blocked": 10,
+  "status": "blocked_retrieval_access_no_parser_patch",
+  "target_kpi": 0.98,
+  "task": "brill_abstract_residual_diagnosis",
+  "timestamp_utc": "2026-06-07T11:32:32Z"
+}

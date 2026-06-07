@@ -10,6 +10,16 @@
       "task_id": "v2_acs_pdf_url_dee703c2",
       "updated_at": "2026-06-07T03:54:34.729237+00:00"
     },
+    "v2_brill_abstract_a9c8adee": {
+      "agent_id": "codex-brill-abstract-residual",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_abstract_residual_blocker.json",
+      "field": "abstract",
+      "next_action": "Route to Browserbase/manual access specialist if this residual becomes high-priority; continue next ranked publisher-field lane.",
+      "publisher_id": "brill",
+      "status": "blocked_retrieval_access_no_parser_patch_below_98_explainable",
+      "task_id": "v2_brill_abstract_a9c8adee",
+      "updated_at": "2026-06-07T11:32:32Z"
+    },
     "v2_brill_pdf_url_2ede112c": {
       "agent_id": "codex-brill-pdf-equivalence",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_pdf_equivalence_full10k_gate.json",
