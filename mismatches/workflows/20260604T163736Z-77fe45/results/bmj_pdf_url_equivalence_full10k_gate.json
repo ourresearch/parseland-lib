@@ -1,0 +1,110 @@
+{
+  "agent_id": "codex-bmj-pdf-url-equivalence",
+  "classification": "scorer_url_equivalence",
+  "diagnosis": "BMJ main-site PDF URLs with /content/bmj/... and /content/... identify the same PDF resource. This was a scorer-owned URL equivalence gap, not a parser-empty miss.",
+  "doi_evidence_examples": [
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "classification": "bmj_main_site_content_bmj_alias",
+      "doi": "10.1136/bmj.331.7530.1427",
+      "gold": "https://www.bmj.com/content/331/7530/1427.full.pdf",
+      "parser": "https://www.bmj.com/content/bmj/331/7530/1427.full.pdf"
+    },
+    {
+      "after_accuracy": 1.0,
+      "before_accuracy": 0.0,
+      "classification": "bmj_main_site_content_bmj_alias",
+      "doi": "10.1136/bmj.1.2506.96-a",
+      "gold": "https://www.bmj.com/content/1/2506/96.2.full.pdf",
+      "parser": "https://www.bmj.com/content/bmj/1/2506/96.2.full.pdf"
+    }
+  ],
+  "eval_branch": "feat/goldie-cli",
+  "eval_commit_sha": "7e3d0d8",
+  "eval_repo": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval",
+  "field": "pdf_url",
+  "files_touched": [
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/parseland_eval/score/normalize.py",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/tests/test_normalize.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_pdf_url_equivalence_after.json",
+    "eval/runs/whole-goldie-after-bmj-pdf-url-equivalence-20260607T1230Z.json"
+  ],
+  "focused": {
+    "after_run": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_pdf_url_equivalence_after.json",
+    "before_run": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_retrieval_r2_full.json",
+    "gold_empty_parser_present_pdf_url": 1,
+    "html_available": 66,
+    "pdf_url_after": 1.0,
+    "pdf_url_before": 0.9692307692307692,
+    "pdf_url_delta_pp": 3.076923076923077,
+    "remaining_gold_present_parser_empty_pdf_url": 0,
+    "retrieval_blocked": 3,
+    "rows": 69
+  },
+  "full10k": {
+    "after_run": "eval/runs/whole-goldie-after-bmj-pdf-url-equivalence-20260607T1230Z.json",
+    "before_run": "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json",
+    "coverage_total_rows": 10000,
+    "errors": 1,
+    "html_available": 5663,
+    "metrics": {
+      "abstract": {
+        "after": 0.9199244300222398,
+        "before": 0.9199244300222398,
+        "delta_pp": 0.0
+      },
+      "affiliations": {
+        "after": 0.9380796940921345,
+        "before": 0.9380796940921345,
+        "delta_pp": 0.0
+      },
+      "authors": {
+        "after": 0.9548911966362078,
+        "before": 0.9548911966362078,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "after": 0.9665972129070722,
+        "before": 0.9665972129070722,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "after": 0.9490634993147556,
+        "before": 0.9486066697121973,
+        "delta_pp": 0.04568296025583285
+      }
+    },
+    "pdf_scored_rows": 4378,
+    "retrieval_blocked_rows": 4337
+  },
+  "next_action": "Publish Batch 45 report, then continue BMJ corresponding as the largest remaining BMJ current-Goldie field below 98%.",
+  "ownership": "scorer_url_equivalence",
+  "publisher_id": "bmj",
+  "recommendation": "Ship BMJ PDF URL scorer equivalence. BMJ pdf_url is above 98% on current Goldie with one Goldie-empty/parser-present candidate kept separate for Goldie-backfilled review. Continue BMJ corresponding/authors/affiliations before leaving the publisher.",
+  "status": "completed_green",
+  "task_id": "v2_bmj_pdf_url_650acda1",
+  "tests_run": [
+    {
+      "command": "cd /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval && .venv/bin/pytest tests/test_normalize.py tests/test_pdf_url_aggregate.py -q",
+      "result": "47 passed",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers bmj --label after-bmj-pdf-url-equivalence --run-id bmj-pdf-url-equivalence-20260607T1225Z --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_pdf_url_equivalence_after.json --concurrency 8",
+      "result": "BMJ pdf_url accuracy 0.9692307692307692 -> 1.0; 0 errors; 3 retrieval-blocked rows.",
+      "status": "passed"
+    },
+    {
+      "command": "cd /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval && .venv/bin/pytest -q",
+      "result": "232 passed, 25 warnings",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-bmj-pdf-url-equivalence --run-id full10k-after-bmj-pdf-url-equivalence-20260607T1230Z --out eval/runs/whole-goldie-after-bmj-pdf-url-equivalence-20260607T1230Z.json --concurrency 8",
+      "result": "coverage.total_rows=10000; html_available=5663; retrieval_blocked=4337; errors=1; pdf_url +0.0456829603pp; no other aggregate metric changed.",
+      "status": "passed"
+    }
+  ],
+  "timestamp_utc": "2026-06-07T12:52:25Z"
+}
