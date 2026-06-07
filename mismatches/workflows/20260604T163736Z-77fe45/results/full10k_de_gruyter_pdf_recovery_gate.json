@@ -1,0 +1,421 @@
+{
+  "artifacts": {
+    "focused_after": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_pdf_recovery_after.json",
+    "focused_before": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_retrieval_r2_full.json",
+    "full_eval_source_ignored_by_git": "eval/runs/whole-goldie-after-de-gruyter-pdf-recovery-20260607T0931Z.json",
+    "previous_full_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/full10k_retrieval_wave_brill_gate.json"
+  },
+  "commands": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_de_gruyter_pdf.py tests/test_parse_page.py -q",
+    "eval/.venv/bin/pytest eval/tests/test_normalize.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers de_gruyter --label de-gruyter-pdf-recovery --run-id de-gruyter-pdf-recovery-20260607T0925Z --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_pdf_recovery_after.json --concurrency 8",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --label after-de-gruyter-pdf-recovery --run-id full10k-after-de-gruyter-pdf-recovery-20260607T0931Z --out eval/runs/whole-goldie-after-de-gruyter-pdf-recovery-20260607T0931Z.json --concurrency 8"
+  ],
+  "coverage": {
+    "gold_empty_parser_present_count": 2965,
+    "html_available": 5663,
+    "per_publisher": {
+      "aaas": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "aacr": {
+        "html_available": 0,
+        "retrieval_blocked": 34,
+        "scored_rows": 0,
+        "total_rows": 34
+      },
+      "acm": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "acs": {
+        "html_available": 130,
+        "retrieval_blocked": 0,
+        "scored_rows": 130,
+        "total_rows": 130
+      },
+      "aip_publishing": {
+        "html_available": 0,
+        "retrieval_blocked": 57,
+        "scored_rows": 0,
+        "total_rows": 57
+      },
+      "ame": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "ams": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "apa": {
+        "html_available": 0,
+        "retrieval_blocked": 25,
+        "scored_rows": 0,
+        "total_rows": 25
+      },
+      "aps": {
+        "html_available": 0,
+        "retrieval_blocked": 38,
+        "scored_rows": 0,
+        "total_rows": 38
+      },
+      "asa": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "asco": {
+        "html_available": 0,
+        "retrieval_blocked": 17,
+        "scored_rows": 0,
+        "total_rows": 17
+      },
+      "ash": {
+        "html_available": 0,
+        "retrieval_blocked": 12,
+        "scored_rows": 0,
+        "total_rows": 12
+      },
+      "asme": {
+        "html_available": 0,
+        "retrieval_blocked": 26,
+        "scored_rows": 0,
+        "total_rows": 26
+      },
+      "bentham": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "bmj": {
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "scored_rows": 66,
+        "total_rows": 69
+      },
+      "brill": {
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "scored_rows": 55,
+        "total_rows": 65
+      },
+      "cairn": {
+        "html_available": 0,
+        "retrieval_blocked": 49,
+        "scored_rows": 0,
+        "total_rows": 49
+      },
+      "company_biologists": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "copernicus": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "cshlp": {
+        "html_available": 0,
+        "retrieval_blocked": 29,
+        "scored_rows": 0,
+        "total_rows": 29
+      },
+      "cup": {
+        "html_available": 151,
+        "retrieval_blocked": 3,
+        "scored_rows": 151,
+        "total_rows": 154
+      },
+      "de_gruyter": {
+        "html_available": 223,
+        "retrieval_blocked": 3,
+        "scored_rows": 223,
+        "total_rows": 226
+      },
+      "edp_sciences": {
+        "html_available": 0,
+        "retrieval_blocked": 21,
+        "scored_rows": 0,
+        "total_rows": 21
+      },
+      "elsevier": {
+        "html_available": 1508,
+        "retrieval_blocked": 56,
+        "scored_rows": 1508,
+        "total_rows": 1564
+      },
+      "emerald": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "f1000": {
+        "html_available": 0,
+        "retrieval_blocked": 2,
+        "scored_rows": 0,
+        "total_rows": 2
+      },
+      "frontiers": {
+        "html_available": 0,
+        "retrieval_blocked": 48,
+        "scored_rows": 0,
+        "total_rows": 48
+      },
+      "hindawi": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "ieee": {
+        "html_available": 393,
+        "retrieval_blocked": 2,
+        "scored_rows": 393,
+        "total_rows": 395
+      },
+      "iop": {
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "scored_rows": 69,
+        "total_rows": 75
+      },
+      "karger": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "lippincott": {
+        "html_available": 190,
+        "retrieval_blocked": 0,
+        "scored_rows": 190,
+        "total_rows": 190
+      },
+      "mary_ann_liebert": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "mdpi": {
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 137,
+        "total_rows": 137
+      },
+      "nejm": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "optica": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "oxford": {
+        "html_available": 250,
+        "retrieval_blocked": 21,
+        "scored_rows": 250,
+        "total_rows": 271
+      },
+      "plos": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "portland_press": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "research_square": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "rsc": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "rsna": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "sage": {
+        "html_available": 198,
+        "retrieval_blocked": 2,
+        "scored_rows": 198,
+        "total_rows": 200
+      },
+      "scielo": {
+        "html_available": 0,
+        "retrieval_blocked": 33,
+        "scored_rows": 0,
+        "total_rows": 33
+      },
+      "spie": {
+        "html_available": 0,
+        "retrieval_blocked": 46,
+        "scored_rows": 0,
+        "total_rows": 46
+      },
+      "springer": {
+        "html_available": 1117,
+        "retrieval_blocked": 6,
+        "scored_rows": 1117,
+        "total_rows": 1123
+      },
+      "taylor": {
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 499,
+        "total_rows": 506
+      },
+      "thieme": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "unknown": {
+        "html_available": 0,
+        "retrieval_blocked": 3303,
+        "scored_rows": 0,
+        "total_rows": 3303
+      },
+      "wiley": {
+        "html_available": 677,
+        "retrieval_blocked": 18,
+        "scored_rows": 677,
+        "total_rows": 695
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 30,
+      "cached_error_page": 3,
+      "cached_too_small": 49,
+      "js_rendered_required": 1,
+      "missing": 4254
+    },
+    "retrieval_blocked_rows": 4337,
+    "scored_rows": 5663,
+    "total_rows": 10000
+  },
+  "focused_delta": {
+    "n_pdf_scored_after": 184,
+    "n_pdf_scored_before": 215,
+    "pdf_url_accuracy_after": 0.9891304347826086,
+    "pdf_url_accuracy_before": 0.24186046511627907,
+    "pdf_url_delta_pp": 74.727
+  },
+  "interpretation": "De Gruyter PDF URL recovered from 24.19% to 98.91% on the focused slice. Full 10K PDF URL accuracy increased 0.9052 -> 0.9413 (+3.61pp) with authors, affiliations, abstract, and corresponding unchanged. Continue non-PDF lanes and remaining PDF blockers toward 98%.",
+  "new_counts": {
+    "errors": 1,
+    "n_abstract_scored": 5407,
+    "n_authors_scored": 5357,
+    "n_corresponding_scored": 5325,
+    "n_pdf_scored": 4378,
+    "rows": 10000,
+    "scored": 5663,
+    "skipped_no_html": 4337
+  },
+  "next_action": "Publish final KPI to report 336, then rerank remaining below-98 cells; De Gruyter PDF moves to above_98 with 39 Goldie-backfilled candidates pending Browserbase/referee.",
+  "overall_after": {
+    "abstract_present_rate": 0.6473600565071517,
+    "abstract_ratio_fuzzy": 0.9104783857810632,
+    "affiliations_f1_fuzzy": 0.9380796940921345,
+    "affiliations_f1_strict": 0.7453120937966314,
+    "authors_f1_soft": 0.9548911966362078,
+    "authors_f1_strict": 0.938069801683616,
+    "corresponding_accuracy": 0.9665972129070722,
+    "pdf_url_accuracy": 0.9412973960712654
+  },
+  "overall_before": {
+    "abstract_present_rate": 0.6473600565071517,
+    "abstract_ratio_fuzzy": 0.9104783857810632,
+    "affiliations_f1_fuzzy": 0.9380796940921345,
+    "affiliations_f1_strict": 0.7453120937966314,
+    "authors_f1_soft": 0.9548911966362078,
+    "authors_f1_strict": 0.938069801683616,
+    "corresponding_accuracy": 0.9665972129070722,
+    "pdf_url_accuracy": 0.9051939215241551
+  },
+  "overall_delta": {
+    "abstract_present_rate": {
+      "after": 0.6473600565071517,
+      "before": 0.6473600565071517,
+      "delta_pp": 0.0
+    },
+    "abstract_ratio_fuzzy": {
+      "after": 0.9104783857810632,
+      "before": 0.9104783857810632,
+      "delta_pp": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9380796940921345,
+      "before": 0.9380796940921345,
+      "delta_pp": 0.0
+    },
+    "affiliations_f1_strict": {
+      "after": 0.7453120937966314,
+      "before": 0.7453120937966314,
+      "delta_pp": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9548911966362078,
+      "before": 0.9548911966362078,
+      "delta_pp": 0.0
+    },
+    "authors_f1_strict": {
+      "after": 0.938069801683616,
+      "before": 0.938069801683616,
+      "delta_pp": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9665972129070722,
+      "before": 0.9665972129070722,
+      "delta_pp": 0.0
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9412973960712654,
+      "before": 0.9051939215241551,
+      "delta_pp": 3.6103
+    }
+  },
+  "run_id": "full10k-after-de-gruyter-pdf-recovery-20260607T0931Z",
+  "shield_gate_type": "full10k_after_parser_and_scorer_fix",
+  "status": "green",
+  "task": {
+    "field": "pdf_url",
+    "publisher_id": "de_gruyter",
+    "task_id": "v2_de_gruyter_pdf_url_e73da58b",
+    "wave_id": 41
+  },
+  "timestamp_utc": "2026-06-07T09:52:24.439157+00:00"
+}

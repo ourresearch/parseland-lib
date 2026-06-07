@@ -1,6 +1,6 @@
 import html
 import re
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit, urlunsplit
 
 from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
 from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
@@ -46,6 +46,17 @@ _CUP_PDF_RE = re.compile(
     re.I,
 )
 
+_DE_GRUYTER_DOCUMENT_RE = re.compile(
+    r"^https?://(?:www\.)?degruyter(?:brill)?\.com"
+    r"(?P<path>/document/doi/10\.[^\s\"'<>?#]+/html)/?(?:[?#].*)?$",
+    re.I,
+)
+
+_DE_GRUYTER_PDF_PATH_RE = re.compile(
+    r"(?P<prefix>/document/doi/10\.[^\s\"'<>?#]+/pdf)(?:/(?:firstPage))?/?$",
+    re.I,
+)
+
 
 def find_cup_pdf_link(page_with_scripts):
     """Return the Cambridge Core aop PDF URL from page markup, or None."""
@@ -53,6 +64,55 @@ def find_cup_pdf_link(page_with_scripts):
     if not match:
         return None
     return 'https://www.cambridge.org' + html.unescape(match.group(0))
+
+
+def normalize_de_gruyter_pdf_url(url):
+    """Return De Gruyter document PDFs on the stable degruyterbrill host."""
+    if not url:
+        return url
+    try:
+        parts = urlsplit(url)
+    except ValueError:
+        return url
+    host = parts.netloc.lower().removeprefix("www.")
+    if host not in {"degruyter.com", "degruyterbrill.com"}:
+        return url
+    path = _DE_GRUYTER_PDF_PATH_RE.sub(r"\g<prefix>", parts.path)
+    if path == parts.path and not re.search(r"/document/doi/10\..*/pdf/?$", path, re.I):
+        return url
+    return urlunsplit(("https", "www.degruyterbrill.com", path.rstrip("/"), "", ""))
+
+
+def find_de_gruyter_pdf_link(soup):
+    """Construct De Gruyter's DOI-scoped PDF URL from document page metadata.
+
+    Many De Gruyter/Brill pages expose the article/chapter as
+    /document/doi/<doi>/html and render the PDF viewer from scripts or a
+    non-anchor .pdf-container, so the generic anchor scanner has no link to
+    pick. The PDF route is the same DOI-scoped document path with /pdf.
+    """
+    for tag in (
+        soup.select_one('link[rel="canonical"]'),
+        soup.select_one('meta[property="og:url"]'),
+        soup.select_one('meta[name="og:url"]'),
+    ):
+        if not tag:
+            continue
+        raw = (tag.get("href") if tag.name == "link" else tag.get("content")) or ""
+        match = _DE_GRUYTER_DOCUMENT_RE.match(raw.strip())
+        if match:
+            return normalize_de_gruyter_pdf_url(
+                "https://www.degruyterbrill.com"
+                + match.group("path")[:-len("/html")]
+                + "/pdf"
+            )
+
+    container = soup.select_one(".pdf-container[data-url]")
+    if container and (data_url := container.get("data-url")):
+        return normalize_de_gruyter_pdf_url(
+            "https://www.degruyterbrill.com" + data_url.split("?", 1)[0]
+        )
+    return None
 
 
 def _doi_router_relative_pdf_base(pdf_href, resolved_url):
@@ -142,6 +202,9 @@ def parse_publisher_fulltext_location(soup, resolved_url):
         elif resolved_host.endswith('cambridge.org') and (
                 cup_pdf := find_cup_pdf_link(soup_str)):
             pdf_link = DuckLink(cup_pdf, 'download')
+        elif resolved_host.endswith(('degruyter.com', 'degruyterbrill.com')) and (
+                de_gruyter_pdf := find_de_gruyter_pdf_link(soup)):
+            pdf_link = DuckLink(de_gruyter_pdf, 'De Gruyter document PDF')
 
     if pdf_link is not None:
         pdf_base_url = _doi_router_relative_pdf_base(pdf_link.href, resolved_url)
@@ -149,6 +212,7 @@ def parse_publisher_fulltext_location(soup, resolved_url):
     else:
         pdf_url = None
     _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
+    pdf_url = normalize_de_gruyter_pdf_url(pdf_url)
 
     if bronze_ovs := detect_bronze(soup, resolved_url):
         open_version_source_string = bronze_ovs
