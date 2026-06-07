@@ -701,13 +701,13 @@
     "remaining": 0,
     "updated_at": "2026-06-07T15:17:41.042101+00:00"
   },
-  "mdpi_corresponding": "claimed_goldie_backfill_smoke_pending",
+  "mdpi_corresponding": "goldie_backfill_referee_partial_10_approved_0_blocked_43_pending",
   "mdpi_corresponding_backfill": {
-    "approved": 0,
-    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_corresponding_backfill_claim_gate.json",
+    "approved": 10,
+    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_smoke_10_referee.ndjson",
     "blocked": 0,
-    "remaining": 53,
-    "updated_at": "2026-06-07T15:27:12.193147+00:00"
+    "remaining": 43,
+    "updated_at": "2026-06-07T15:46:43.226842+00:00"
   },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",

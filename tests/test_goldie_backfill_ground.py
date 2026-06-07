@@ -12,6 +12,7 @@ from scripts.goldie_backfill_ground import (
     resolve_abstract_len_candidate,
     resolve_affiliation_candidate,
     resolve_author_count_candidate,
+    resolve_mdpi_starred_corresponding_candidate,
     write_result,
 )
 
@@ -248,6 +249,66 @@ def test_corresponding_excerpt_rejects_generic_address_needle():
     assert "Marta Valencia" in excerpt
     assert selector == "corresponding-author-name-only"
     assert confidence == "corresponding_author_name_only"
+
+
+def test_resolve_mdpi_starred_corresponding_candidate_requires_starred_byline():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "\n    Annarita Signoriello",
+                    "affiliations": [],
+                    "is_corresponding": True,
+                },
+                {
+                    "name": "Elena Messina",
+                    "affiliations": [],
+                    "is_corresponding": True,
+                },
+            ]
+        },
+    }
+    html = """
+    <div class="art-authors">
+      <span class="inlineblock"><a>Alessia Pardo</a><sup>1</sup></span>
+      <span class="inlineblock"><a>Annarita Signoriello</a><sup>1,*</sup></span>
+      <span class="inlineblock"><div>Elena Messina</div><sup>1,*</sup></span>
+    </div>
+    """
+
+    resolved, excerpt = resolve_mdpi_starred_corresponding_candidate(html, candidate)
+
+    assert resolved == {
+        "authors": [
+            {"name": "Annarita Signoriello", "affiliations": [], "is_corresponding": True},
+            {"name": "Elena Messina", "affiliations": [], "is_corresponding": True},
+        ]
+    }
+    assert "1,*" in excerpt
+    assert "Alessia Pardo" not in [author["name"] for author in resolved["authors"]]
+
+
+def test_resolve_mdpi_starred_corresponding_candidate_rejects_name_only():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Robert Schwarcz",
+                    "affiliations": [],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+    html = """
+    <div class="art-authors">
+      <span class="inlineblock"><a>Robert Schwarcz</a><sup>5</sup></span>
+    </div>
+    """
+
+    assert resolve_mdpi_starred_corresponding_candidate(html, candidate) is None
 
 
 def test_abstract_followup_url_prefers_lww_meta_url():

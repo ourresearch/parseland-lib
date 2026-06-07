@@ -26,6 +26,7 @@ from urllib.parse import urljoin, urlparse
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
+from bs4 import BeautifulSoup  # noqa: E402
 from scripts.lib.event_ledger import emit, new_run_id  # noqa: E402
 from parseland_lib.parse import parse_page  # noqa: E402
 
@@ -333,6 +334,74 @@ def resolve_author_count_candidate(html: str, candidate: dict) -> tuple[dict[str
     }
     excerpt, _ = _matched_excerpt(html, ['"authorNames"'])
     return resolved, excerpt or f"authorNames={';'.join(names)}"
+
+
+def _clean_person_name(value: Any) -> str:
+    text = html_lib.unescape(str(value or ""))
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def _person_name_key(value: Any) -> str:
+    return re.sub(r"[^a-z0-9]+", "", _clean_person_name(value).casefold())
+
+
+def candidate_corresponding_author_names(candidate: dict) -> list[str]:
+    if candidate.get("field") != "corresponding":
+        return []
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return []
+    names: list[str] = []
+    seen: set[str] = set()
+    for author in payload.get("authors") or []:
+        if not isinstance(author, dict) or not author.get("is_corresponding"):
+            continue
+        name = _clean_person_name(author.get("name"))
+        key = _person_name_key(name)
+        if name and key and key not in seen:
+            names.append(name)
+            seen.add(key)
+    return names
+
+
+def resolve_mdpi_starred_corresponding_candidate(
+    html: str,
+    candidate: dict,
+) -> tuple[dict[str, Any], str] | None:
+    """Ground MDPI corresponding authors against starred author byline markup."""
+    names = candidate_corresponding_author_names(candidate)
+    if not names:
+        return None
+    soup = BeautifulSoup(html or "", "html.parser")
+    author_root = soup.find("div", class_="art-authors")
+    if not author_root:
+        return None
+    matched: list[dict[str, Any]] = []
+    chunks: list[str] = []
+    for name in names:
+        name_key = _person_name_key(name)
+        found = None
+        for author_span in author_root.find_all("span", class_="inlineblock"):
+            sup = author_span.find("sup")
+            if not sup or "*" not in sup.get_text(" ", strip=True):
+                continue
+            name_node = author_span.find("div") or author_span.find("a")
+            byline_name = _clean_person_name(
+                name_node.get_text(" ", strip=True) if name_node else author_span.get_text(" ", strip=True)
+            )
+            if _person_name_key(byline_name) == name_key:
+                found = {
+                    "name": byline_name,
+                    "affiliations": [],
+                    "is_corresponding": True,
+                }
+                chunks.append(str(author_span).replace("\n", " ").strip())
+                break
+        if not found:
+            return None
+        matched.append(found)
+    return {"authors": matched}, " ... ".join(chunks)
 
 
 def candidate_quality_blocker(candidate: dict) -> str | None:
@@ -794,6 +863,14 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     selector = "authorNames-count-match"
                     confidence = "author_count_author_names_match"
                     resolved_candidate_source = "browserbase_rendered_authorNames"
+            corresponding_resolution = None
+            if field == "corresponding" and confidence != "correspondence_candidate_text_match":
+                corresponding_resolution = resolve_mdpi_starred_corresponding_candidate(html, candidate)
+                if corresponding_resolution:
+                    resolved_candidate, excerpt = corresponding_resolution
+                    selector = "mdpi-starred-author-byline"
+                    confidence = "mdpi_starred_author_byline_match"
+                    resolved_candidate_source = "browserbase_rendered_mdpi_starred_byline"
             abstract_resolution = None
             if field == "abstract" and confidence != "candidate_text_match":
                 abstract_resolution = resolve_abstract_len_candidate(html, candidate, final_url)
@@ -879,6 +956,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     "abstract_len_rendered_parse_match",
                     "all_affiliation_candidate_text_match",
                     "correspondence_candidate_text_match",
+                    "mdpi_starred_author_byline_match",
                 }
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"
