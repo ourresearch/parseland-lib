@@ -1,0 +1,131 @@
+{
+  "status": "green",
+  "run_id": "20260604T163736Z-77fe45",
+  "batch_id": 26,
+  "task_id": "v2_acs_corresponding_808ec31a",
+  "agent_id": "codex-acs-corresponding-b26",
+  "publisher": "acs",
+  "field": "corresponding",
+  "generated_at": "2026-06-07T01:10:27.943009+00:00",
+  "change_summary": "ACS now decodes Cloudflare-protected correspondence emails and mailto correspondence signals, then marks exactly one matching author using conservative name/local-part matching.",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/acs.py",
+    "tests/test_acs_authors.py"
+  ],
+  "tests_run": [
+    "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/acs.py tests/test_acs_authors.py tests/test_acs_abstract.py",
+    "./.venv/bin/python -m pytest tests/test_acs_authors.py tests/test_acs_abstract.py tests/test_parse_page.py -q",
+    "git diff --check -- parseland_lib/publisher/parsers/acs.py tests/test_acs_authors.py mismatches/workflows/20260604T163736Z-77fe45/results/acs_corresponding_b26_inprocess_diff_before.json mismatches/workflows/20260604T163736Z-77fe45/results/acs_corresponding_b26_inprocess_diff_after.json",
+    "scripts/field_inprocess_diff.py --publisher acs --field corresponding before/after",
+    "scripts/whole_goldie_eval.py run --publishers acs --label acs-corresponding-email-fallback",
+    "scripts/whole_goldie_eval.py run --label after-acs-corresponding-email-fallback --concurrency 8"
+  ],
+  "artifacts": {
+    "inprocess_before": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_corresponding_b26_inprocess_diff_before.json",
+    "inprocess_after": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_corresponding_b26_inprocess_diff_after.json",
+    "scoped_whole_goldie": "eval/runs/whole-goldie-acs-corresponding-email-fallback-20260607T0100Z.json",
+    "full_whole_goldie_before": "eval/runs/whole-goldie-after-acs-cen-visible-abstract-20260607T0050Z.json",
+    "full_whole_goldie_after": "eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json"
+  },
+  "kpi": {
+    "coverage_total_rows": 10000,
+    "html_available": 5113,
+    "retrieval_blocked_rows": 4887,
+    "errors": 1,
+    "acs_corresponding_before": 0.9076923076923077,
+    "acs_corresponding_after": 0.953125,
+    "acs_corresponding_delta_pp": 4.543269230769232,
+    "overall_corresponding_before": 0.9664262553904971,
+    "overall_corresponding_after": 0.9676460030284043,
+    "overall_corresponding_delta_pp": 0.12197476379072203,
+    "current_goldie_counts_before": {
+      "total_rows": 130,
+      "html_available": 130,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 66,
+      "gold_present_parser_empty": 12,
+      "gold_present_parser_present": 52,
+      "gold_empty_parser_present": 0,
+      "scored_rows": 130
+    },
+    "current_goldie_counts_after": {
+      "total_rows": 130,
+      "html_available": 130,
+      "retrieval_blocked": 0,
+      "empty_empty_pass": 64,
+      "gold_present_parser_empty": 6,
+      "gold_present_parser_present": 58,
+      "gold_empty_parser_present": 2,
+      "scored_rows": 128
+    }
+  },
+  "goldie_backfilled_candidates": [
+    {
+      "doi": "10.1021/jp0257294",
+      "classification": "gold_empty_parser_present_candidate",
+      "tp": 0,
+      "fp": 1,
+      "fn": 0,
+      "note": "Parser found page correspondence evidence but current Goldie has no corresponding author; route to Goldie-backfilled lane, not current-Goldie KPI."
+    },
+    {
+      "doi": "10.1021/ma030365e",
+      "classification": "gold_empty_parser_present_candidate",
+      "tp": 0,
+      "fp": 1,
+      "fn": 0,
+      "note": "Parser found page correspondence evidence but current Goldie has no corresponding author; route to Goldie-backfilled lane, not current-Goldie KPI."
+    }
+  ],
+  "residual_blockers": [
+    {
+      "doi": "10.1021/ja076898a",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    },
+    {
+      "doi": "10.1021/ol051044l",
+      "classification": "invalid_email_like_text_not_safe",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "Cached page has invalid/non-email KCC-1@NH2; do not mark as correspondence."
+    },
+    {
+      "doi": "10.1021/om030026+",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    },
+    {
+      "doi": "10.1021/ac060480y",
+      "classification": "parser_followup_last_dot_initial_email_pattern",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "Correspondence email localpart pattern niwa.o should be handled in a follow-up batch; safe but not included in this already-running gate."
+    },
+    {
+      "doi": "10.1021/cen-v031n013.p1299",
+      "classification": "gold_or_page_mismatch_cen",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "C&EN row has known page-vs-current-Goldie mismatch from Batch 25."
+    },
+    {
+      "doi": "10.1021/jo991837j",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    }
+  ],
+  "recommendation": "Ship this small ACS corresponding lift now. Follow up separately on niwa.o last-dot-initial matching if ACS remains the next best publisher-local cell; remaining no-signal/invalid/page-mismatch rows are not safe parser wins."
+}

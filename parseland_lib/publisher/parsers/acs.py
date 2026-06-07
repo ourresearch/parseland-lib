@@ -1,8 +1,10 @@
 import re
+import unicodedata
 
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import EMAIL_RE
 
 
 class ACS(PublisherParser):
@@ -20,6 +22,97 @@ class ACS(PublisherParser):
     def _clean_abstract(text):
         text = re.sub(r"\s+", " ", (text or "").replace("\xa0", " ")).strip()
         return re.sub(r"\s+([,;:!?])", r"\1", text)
+
+    @staticmethod
+    def _decode_cfemail(value):
+        try:
+            key = int(value[:2], 16)
+            return "".join(
+                chr(int(value[i : i + 2], 16) ^ key)
+                for i in range(2, len(value), 2)
+            )
+        except (TypeError, ValueError):
+            return ""
+
+    @staticmethod
+    def _normalize_ascii(text):
+        return (
+            unicodedata.normalize("NFD", text or "")
+            .encode("ascii", "ignore")
+            .decode()
+            .lower()
+        )
+
+    @classmethod
+    def _email_matches_author(cls, email, name):
+        local = cls._normalize_ascii((email or "").split("@", 1)[0])
+        parts = [
+            p
+            for p in re.split(r"[^a-z0-9]+", cls._normalize_ascii(name))
+            if len(p) > 1
+        ]
+        if not local or not parts:
+            return False
+        first = parts[0]
+        last = parts[-1]
+        initials = "".join(p[0] for p in parts if p)
+
+        if len(last) >= 3 and last in local:
+            if first in local:
+                return True
+            if local.startswith(first[:1] + last) or local.startswith(last + first[:1]):
+                return True
+            if local.startswith(first[:1]) and local.endswith(last):
+                return True
+            if len(last) >= 5 and local.startswith(last):
+                return True
+        return len(initials) >= 2 and local.startswith(initials)
+
+    @staticmethod
+    def _node_mentions_corresponding_email(node):
+        current = node
+        for _ in range(5):
+            if not current or getattr(current, "name", None) in ("body", "html"):
+                break
+            text = current.get_text(" ", strip=True).lower()
+            if "correspond" in text:
+                return True
+            current = current.parent
+        return False
+
+    def _corresponding_emails(self):
+        emails = []
+        seen = set()
+        for tag in self.soup.select(
+            'a[href^="mailto:"], a.__cf_email__[data-cfemail], '
+            'a[href*="email-protection"][data-cfemail]'
+        ):
+            if not self._node_mentions_corresponding_email(tag):
+                continue
+            email = ""
+            if tag.get("data-cfemail"):
+                email = self._decode_cfemail(tag.get("data-cfemail"))
+            else:
+                email = re.sub(r"^mailto:", "", tag.get("href", ""), flags=re.I)
+                email = email.split("?", 1)[0]
+            email = email.strip()
+            if not EMAIL_RE.search(email):
+                continue
+            key = email.lower()
+            if key not in seen:
+                emails.append(email)
+                seen.add(key)
+        return emails
+
+    def _mark_corresponding_from_emails(self, authors):
+        for email in self._corresponding_emails():
+            matches = [
+                author
+                for author in authors
+                if self._email_matches_author(email, author.name)
+            ]
+            if len(matches) == 1:
+                matches[0].is_corresponding = True
 
     def get_abstract(self):
         for selector in (
@@ -96,6 +189,7 @@ class ACS(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+        self._mark_corresponding_from_emails(result_authors)
         return {"authors": result_authors, "abstract": self.get_abstract()}
 
     test_cases = [

@@ -1,0 +1,6426 @@
+{
+  "generated_at": "2026-06-07T00:35:13Z",
+  "publisher": "acs",
+  "target_field": "corresponding",
+  "source_ndjson": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/tests/fixtures/acs-gold.ndjson",
+  "measurement_method": "in-process acs.parse() \u2014 no HTTP, no dispatcher (skip_non_dispatched=on)",
+  "scorer_source": "parseland-eval/eval/parseland_eval/score/*.py",
+  "skip_non_dispatched": true,
+  "aggregate": {
+    "n_rows": 125,
+    "n_authors_found": 124,
+    "authors_mean_f1_soft": 0.9805825242718447,
+    "authors_eligible_count": 103,
+    "affiliations_mean_soft_f1": 0.9597920792079209,
+    "affiliations_pairs_scored_rows": 101,
+    "abstract_match_at_074": 120,
+    "pdf_strict_match": 89,
+    "pdf_eligible_count": 125,
+    "corresponding": {
+      "micro_f1": 0.922077922077922,
+      "precision": 1.0,
+      "recall": 0.8554216867469879,
+      "tp": 71,
+      "fp": 0,
+      "fn": 12
+    }
+  },
+  "scored_rows": [
+    {
+      "doi": "10.1021/ba-1981-0195.ch010",
+      "harvest_uuid": "d16c9af7-1abb-4ed7-989e-370ca56c2a15",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.78,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v073n035.p073",
+      "harvest_uuid": "89108456-c04e-40a3-a216-d691bf8aa4e3",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 0.998,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja076898a",
+      "harvest_uuid": "06ddcf9c-3603-4d75-a1fa-f7c1e05f7176",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.56,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jacs.9b13398",
+      "harvest_uuid": "94a85cd3-6331-4df0-b79f-90715f195505",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ic00279a004",
+      "harvest_uuid": "ac7085e9-9689-47da-9c39-9074101b6fc2",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jmedchem.1c02190",
+      "harvest_uuid": "47dc67be-9ab8-41bf-b66c-869a2d9a2cf9",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.857,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bk-1986-0324.ch033",
+      "harvest_uuid": "8db2a0f9-1519-40ee-bdaa-6a5090e1e984",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.993,
+          "soft_ratio": 0.993,
+          "length_ratio": 1.014,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v086n051.p002",
+      "harvest_uuid": "635fbcb2-567c-464d-871c-fe8cd8a891cd",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.4,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/i100009a021",
+      "harvest_uuid": "6262a8f8-54c7-4e39-8951-79fa44750eda",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acssuschemeng.1c06752",
+      "harvest_uuid": "648f7d4b-a3d4-4848-8d1a-01f9938f966f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.005,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja01550a078",
+      "harvest_uuid": "645b1b10-17fa-4f49-b68c-e3aeb43e12a9",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 1.55,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ic50185a014",
+      "harvest_uuid": "8f055055-4d47-4fba-8ab2-69d973d81a9e",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.57,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.est.5c04144",
+      "harvest_uuid": "6ddcf771-3b79-4c0b-acc9-f094bcc17ed5",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 13,
+      "score": {
+        "authors": {
+          "matched": 13,
+          "gold_total": 13,
+          "parsed_total": 13,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 13,
+          "avg_strict_f1": 0.692,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.004,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsomega.3c00520",
+      "harvest_uuid": "9bf6de96-863a-4579-b96a-61ffdd695acf",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.67,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.966,
+          "soft_ratio": 0.968,
+          "length_ratio": 1.039,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja00343a008",
+      "harvest_uuid": "07d4ebbb-b121-45d8-aaf0-11555d544325",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.56,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ma00028a052",
+      "harvest_uuid": "f0ac8872-0db9-4d05-b1c3-051cb7ef8650",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v048n034.p018",
+      "harvest_uuid": "cd775142-93c9-4796-ac64-286c2b5c6669",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.biomac.1c00772",
+      "harvest_uuid": "1fada034-7845-452f-b318-7644fd0039ff",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 10,
+      "score": {
+        "authors": {
+          "matched": 10,
+          "gold_total": 10,
+          "parsed_total": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 10,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.996,
+          "length_ratio": 1.008,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac60233a001",
+      "harvest_uuid": "f8b3ecfc-5f25-4050-b89f-cf6cf98c856f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jpcb.0c07487",
+      "harvest_uuid": "cad5a8cb-a4bd-495f-a33e-5ab0591a681a",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 9,
+      "score": {
+        "authors": {
+          "matched": 9,
+          "gold_total": 9,
+          "parsed_total": 9,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 9,
+          "avg_strict_f1": 0.778,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 3,
+          "parsed_total_ca": 3
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v023n007.p678",
+      "harvest_uuid": "1dda61d2-1594-43af-9ae8-b459a6e79122",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.0,
+          "soft_ratio": 0.0,
+          "length_ratio": 0.0,
+          "match_at_threshold": false,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j100857a031",
+      "harvest_uuid": "5fa4721b-f8ad-4d62-88f5-b4040ad5d1d3",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j150398a006",
+      "harvest_uuid": "149b0046-4bd5-40c8-9104-9e3a0f41b0ec",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bk-2020-1366.ch007",
+      "harvest_uuid": "99ae67f6-9b6e-40dc-9a51-d3717756b4d2",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.42,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jpcc.3c04672",
+      "harvest_uuid": "762f17ee-4353-4716-bcc2-1ccb5a95a40f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.002,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja01182a092",
+      "harvest_uuid": "d44db057-c247-43eb-b1d2-aa69d8b13524",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.orglett.1c02357",
+      "harvest_uuid": "7c2faad5-4f80-4974-9b70-0498cf595bfa",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 10,
+      "score": {
+        "authors": {
+          "matched": 10,
+          "gold_total": 10,
+          "parsed_total": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 10,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.991,
+          "soft_ratio": 0.991,
+          "length_ratio": 1.019,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cr030600r",
+      "harvest_uuid": "12ce46a2-8b3a-4dd6-9d0e-f92c22c536e5",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.6,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/es030573m",
+      "harvest_uuid": "3cc3b822-ccee-45e2-a0ef-5b4a2cf97a3b",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.002,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acssusresmgt.5c00612",
+      "harvest_uuid": "b9754713-852f-418d-a1fc-4367f11df23f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.65,
+      "parsed_n_authors": 11,
+      "score": {
+        "authors": {
+          "matched": 11,
+          "gold_total": 11,
+          "parsed_total": 11,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 11,
+          "avg_strict_f1": 0.955,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.984,
+          "soft_ratio": 0.984,
+          "length_ratio": 1.033,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac50047a728",
+      "harvest_uuid": "bf88f91d-0fa3-4c1e-b62c-02c4019d0deb",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac951096w",
+      "harvest_uuid": "4c9fbcf3-55ec-4182-9051-8323cac8261c",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.58,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.994,
+          "soft_ratio": 0.994,
+          "length_ratio": 1.011,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-09050-ad26",
+      "harvest_uuid": "5d1dfc2a-9e74-4302-9174-23783973bc7d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.43,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/apv007i002_1892185",
+      "harvest_uuid": "9966b1ce-9832-492d-91cc-03ce76d03065",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.42,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jxv129i026_1954510",
+      "harvest_uuid": "c53da037-40b5-4409-9e2d-d8fcd52cdecc",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.44,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jo01072a016",
+      "harvest_uuid": "602b9183-eae6-46f2-859c-43cb9815ab0c",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac50025a753",
+      "harvest_uuid": "29d63159-baeb-475b-b469-c45dc0806211",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.chemmater.5c02756",
+      "harvest_uuid": "4fa11e0e-76ab-4eed-b819-f1693c27df5d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.55,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ba-1990-0226.ch020",
+      "harvest_uuid": "c5298fe3-865a-4d45-ad98-598dcbff0dbc",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.977,
+          "soft_ratio": 0.977,
+          "length_ratio": 1.047,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v064n024.ifc",
+      "harvest_uuid": "bc30f641-5e25-4b11-94df-8faf91837096",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.48,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/am3031129",
+      "harvest_uuid": "d6273b32-dc78-4930-998f-a9d761f0c78d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.44,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 0.75,
+          "avg_soft_f1": 0.75,
+          "avg_fuzzy_f1": 0.75
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.995,
+          "soft_ratio": 0.995,
+          "length_ratio": 1.01,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/i650604a788",
+      "harvest_uuid": "519747c3-7709-4df8-a5d5-651ed8df8581",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jpcc.5c06733",
+      "harvest_uuid": "d340380a-235a-49a3-bfd5-804127596562",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.58,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.997,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.005,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jf0301403",
+      "harvest_uuid": "a99abc2e-4868-4fea-980c-902900e42e80",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.997,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.002,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ic802302v",
+      "harvest_uuid": "545044b8-5f26-4fc7-89f8-170a3e5e7ff8",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.967,
+          "soft_ratio": 0.969,
+          "length_ratio": 1.063,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/je970155v",
+      "harvest_uuid": "b008710e-a6dd-4b49-b97b-0df385bdd3c9",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 0.5,
+          "avg_soft_f1": 0.5,
+          "avg_fuzzy_f1": 0.5
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ma802437f",
+      "harvest_uuid": "1ad9a0ce-6904-449d-9964-060161456434",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.57,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.986,
+          "soft_ratio": 0.993,
+          "length_ratio": 1.014,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsami.4c00249",
+      "harvest_uuid": "a8b37486-ea70-45c5-9871-28295edda845",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.65,
+      "parsed_n_authors": 10,
+      "score": {
+        "authors": {
+          "matched": 10,
+          "gold_total": 10,
+          "parsed_total": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 10,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.997,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.007,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsmacrolett.0c00182",
+      "harvest_uuid": "a8862ccc-7d0f-4fd0-b3a9-92e72341baf1",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.56,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.est.2c00464",
+      "harvest_uuid": "d8b5435f-195b-4cbd-bacd-626ea3c50762",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.59,
+      "parsed_n_authors": 9,
+      "score": {
+        "authors": {
+          "matched": 9,
+          "gold_total": 9,
+          "parsed_total": 9,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 9,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.989,
+          "soft_ratio": 0.993,
+          "length_ratio": 1.014,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.nanolett.5b03656",
+      "harvest_uuid": "6c7837e6-1922-40df-89ec-14a116c0dec9",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 8,
+      "score": {
+        "authors": {
+          "matched": 8,
+          "gold_total": 8,
+          "parsed_total": 8,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 8,
+          "avg_strict_f1": 0.5,
+          "avg_soft_f1": 0.5,
+          "avg_fuzzy_f1": 0.5
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.002,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v080n020.p030",
+      "harvest_uuid": "32c63d6c-d02b-4008-85ff-9e7af672f182",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j100647a027",
+      "harvest_uuid": "b58ab9eb-e506-4df1-af9f-174b7689a9d7",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.67,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/om701147k",
+      "harvest_uuid": "7c6b407e-3fa2-4a87-b3e8-401b137b871e",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.57,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.965,
+          "soft_ratio": 0.965,
+          "length_ratio": 1.073,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bi00481a015",
+      "harvest_uuid": "c404e29b-3357-4847-bc8e-a7928c13365d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.55,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bi00683a025",
+      "harvest_uuid": "ca226a8b-ae1d-41f4-a964-76bfeeec7994",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.56,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ic9006668",
+      "harvest_uuid": "d19d010b-7c3f-434f-93ab-95ae98733d3b",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 0.581,
+          "avg_soft_f1": 0.581,
+          "avg_fuzzy_f1": 0.581
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.991,
+          "soft_ratio": 0.991,
+          "length_ratio": 1.018,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j100326a051",
+      "harvest_uuid": "2906bc77-293d-4e98-b08b-75a82d177fa4",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/np990584m",
+      "harvest_uuid": "de54b424-8f99-4290-a697-6972aa3632eb",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.99,
+          "soft_ratio": 0.993,
+          "length_ratio": 1.014,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acssuschemeng.0c00509",
+      "harvest_uuid": "b818f40e-162d-458c-9ca5-6c86f038eefb",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.991,
+          "soft_ratio": 0.991,
+          "length_ratio": 1.018,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jctc.4c01657",
+      "harvest_uuid": "328d1bca-d083-4919-a93d-ecc063aaa00f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.86,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.982,
+          "soft_ratio": 0.983,
+          "length_ratio": 1.035,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jo01089a003",
+      "harvest_uuid": "e612efbc-775f-474c-bb9b-972dd46a88c0",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/la00089a007",
+      "harvest_uuid": "b0f51798-5bdc-4257-933b-4cb01322be6d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ol051044l",
+      "harvest_uuid": "ff0c55a2-cbf7-458d-a1db-320ee94adde0",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.48,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.004,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsami.3c12987",
+      "harvest_uuid": "3e7ff5d6-f6ec-47ac-ab6d-253b0c2b32fb",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 9,
+      "score": {
+        "authors": {
+          "matched": 9,
+          "gold_total": 9,
+          "parsed_total": 9,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 9,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.996,
+          "length_ratio": 1.007,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-09921-buscon8",
+      "harvest_uuid": "f7128c07-a807-4368-aeb4-d22316951eb7",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": false,
+      "elapsed_seconds": 0.36,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 1,
+          "parsed_total": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_soft": 0.0,
+          "recall_soft": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.0,
+          "soft_ratio": 0.0,
+          "length_ratio": 0.0,
+          "match_at_threshold": false,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bm9014792",
+      "harvest_uuid": "f187378f-f47a-4492-a095-742a4b0039a8",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.004,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jproteome.5c00095",
+      "harvest_uuid": "585dcf9c-cc92-4917-b0a9-5e9889bb4497",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.99,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.966,
+          "soft_ratio": 0.966,
+          "length_ratio": 1.07,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsomega.2c05953",
+      "harvest_uuid": "6e85df6d-213a-4369-986e-23c0c27dc604",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 1.41,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.857,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.972,
+          "soft_ratio": 0.972,
+          "length_ratio": 1.059,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 3,
+          "parsed_total_ca": 3
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v052n024.p002",
+      "harvest_uuid": "d0b2fe32-2d26-4671-98bd-8db2657ab2a4",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.0,
+          "soft_ratio": 0.0,
+          "length_ratio": 0.0,
+          "match_at_threshold": false,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/la970674w",
+      "harvest_uuid": "7e6202e7-2845-43b6-9238-13b5b5c3ac5a",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.833,
+          "avg_fuzzy_f1": 0.833
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ba-1959-0023.ch006",
+      "harvest_uuid": "e160a56c-8d72-4d63-a733-e13b3f562823",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.41,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jyv128i038_1849597",
+      "harvest_uuid": "5c7b4bf1-cc08-417b-bb4b-5224d6898068",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jp800767j",
+      "harvest_uuid": "6ae5058c-c2ea-4c49-af18-7a3cc0832641",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.889,
+          "avg_fuzzy_f1": 0.889
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.004,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/om030026+",
+      "harvest_uuid": "15f66b41-992d-4a71-b778-f9c3aed27c37",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.961,
+          "soft_ratio": 0.961,
+          "length_ratio": 1.081,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac060480y",
+      "harvest_uuid": "34cb54cc-56cc-49c7-be67-047c23465d2b",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.57,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsomega.5c10515",
+      "harvest_uuid": "da8f5475-eac8-4b82-a8a5-bcf9e4cef41f",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.64,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.986,
+          "soft_ratio": 0.989,
+          "length_ratio": 1.021,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v057n045.p044",
+      "harvest_uuid": "dc48b942-e2fc-4ef2-a97e-b47a65c0d0f7",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.55,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ac0029455",
+      "harvest_uuid": "8a4bcc60-b28e-41b5-8baa-d04c1d7683cf",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.langmuir.8b01650",
+      "harvest_uuid": "16723f15-9494-4035-b1f5-6fb9891a39fc",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.997,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.006,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cm00021a025",
+      "harvest_uuid": "08691fb8-8cea-431f-908c-a8406fda56e6",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.62,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/es60029a610",
+      "harvest_uuid": "91bd41cd-dc4e-4454-9d8d-df1fad03ec20",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.inorgchem.7b01275",
+      "harvest_uuid": "5b2e0923-d8dd-4db4-ae65-03f981e820ba",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.001,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsphotonics.5c02546",
+      "harvest_uuid": "e1a7368a-2dd6-4401-a7d3-08039485c9a4",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.48,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.005,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ol401087a",
+      "harvest_uuid": "98d613fd-6a09-401e-a56b-629a207c96d5",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.54,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v025n038.p2736",
+      "harvest_uuid": "abf4bbfd-ca57-478e-ad53-69a1a938e8a3",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.44,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ic901429u",
+      "harvest_uuid": "f0cbd5b6-2704-457e-9fcf-80f18fae04db",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.66,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.99,
+          "soft_ratio": 0.99,
+          "length_ratio": 1.02,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jp001689x",
+      "harvest_uuid": "1308507d-81c4-4fda-b5d7-55cfbae05228",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.992,
+          "soft_ratio": 0.996,
+          "length_ratio": 1.009,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.macromol.6c00513",
+      "harvest_uuid": "ed118f2b-8588-4fc5-80ee-202a029fbb1a",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.004,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jp0257294",
+      "harvest_uuid": "49daa43b-2a51-4581-876f-c71f6a4ee817",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 0.667,
+          "avg_soft_f1": 0.667,
+          "avg_fuzzy_f1": 0.667
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.001,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.bioconjchem.2c00548",
+      "harvest_uuid": "f6cacac8-a160-4849-9ade-ea802c915727",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/np068074x",
+      "harvest_uuid": "ecf44223-2e0f-4efb-9fc7-7973b0a14d2e",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.977,
+          "soft_ratio": 0.981,
+          "length_ratio": 1.038,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jo01060a013",
+      "harvest_uuid": "47eed53d-c678-43d6-8a67-538698d039b7",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jp4125588",
+      "harvest_uuid": "f80fc5bb-f00a-4e69-a636-eb5c10858a79",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.65,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.714,
+          "avg_soft_f1": 0.714,
+          "avg_fuzzy_f1": 0.714
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.995,
+          "soft_ratio": 0.996,
+          "length_ratio": 1.007,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ba-1961-0032.ch003",
+      "harvest_uuid": "da1f1bfa-2301-4e55-9264-49d998a78535",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.996,
+          "length_ratio": 1.008,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ci049714+",
+      "harvest_uuid": "ef6650cd-8714-42d5-9a4f-1c2287ead769",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.998,
+          "soft_ratio": 0.998,
+          "length_ratio": 1.002,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": true,
+          "divergent": true
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v050n041.p045a",
+      "harvest_uuid": "a9c0b640-783e-4289-abf9-88070000cd07",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.45,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 0.999,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.energyfuels.4c00599",
+      "harvest_uuid": "61eb3812-1deb-4879-a123-d8bbfd93ea22",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.997,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.007,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsami.0c18420",
+      "harvest_uuid": "dfe00064-c893-4bb2-b23a-2130306b29bc",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 8,
+      "score": {
+        "authors": {
+          "matched": 8,
+          "gold_total": 8,
+          "parsed_total": 8,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 8,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.995,
+          "soft_ratio": 0.995,
+          "length_ratio": 1.01,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v031n013.p1299",
+      "harvest_uuid": "b445d5cb-b83c-4876-89ae-9f94511e3690",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.54,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 1,
+          "parsed_total": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "precision_soft": 0.0,
+          "recall_soft": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.342,
+          "soft_ratio": 0.347,
+          "length_ratio": 2.656,
+          "match_at_threshold": false,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v071n035.obc",
+      "harvest_uuid": "337012cc-7331-4de5-97d2-0e1412282e94",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.0,
+          "soft_ratio": 0.0,
+          "length_ratio": 0.0,
+          "match_at_threshold": false,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v031n011.p1143",
+      "harvest_uuid": "e8aedd9a-b597-4999-8568-4f5e354686b2",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.macromol.4c03260",
+      "harvest_uuid": "2294d5dd-40d5-47fe-92ed-a7b4dc7019d0",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.53,
+      "parsed_n_authors": 9,
+      "score": {
+        "authors": {
+          "matched": 9,
+          "gold_total": 9,
+          "parsed_total": 9,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 9,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.963,
+          "soft_ratio": 0.963,
+          "length_ratio": 1.077,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acsomega.6c01043",
+      "harvest_uuid": "92cb7be1-87dc-446b-9460-d5fe6fd8047c",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.63,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.98,
+          "soft_ratio": 0.982,
+          "length_ratio": 1.037,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jf202596q",
+      "harvest_uuid": "f06b0038-7bd0-4a3d-b266-d73a99e17528",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.54,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.671,
+          "avg_soft_f1": 0.671,
+          "avg_fuzzy_f1": 0.671
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j100817a514",
+      "harvest_uuid": "31d9131e-62a3-40a8-81d8-dd0cfb51f61b",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.58,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bi9923860",
+      "harvest_uuid": "34022295-f9d5-40ae-bdb4-b1dd99790a10",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bk-2015-1189.ch014",
+      "harvest_uuid": "6b2625e3-caaa-42da-9e53-82c4ecdc8f20",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.44,
+      "parsed_n_authors": 1,
+      "score": {
+        "authors": {
+          "matched": 1,
+          "gold_total": 1,
+          "parsed_total": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 1,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.joc.5b02777",
+      "harvest_uuid": "6f99dc1b-5251-46a5-93d1-095862e2dac5",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 0.667,
+          "avg_soft_f1": 0.667,
+          "avg_fuzzy_f1": 0.667
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja00843a039",
+      "harvest_uuid": "9ebe4972-0741-4074-83e4-1ae990c8e3d0",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.5,
+      "parsed_n_authors": 4,
+      "score": {
+        "authors": {
+          "matched": 4,
+          "gold_total": 4,
+          "parsed_total": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 4,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/bk-1989-0389.ch013",
+      "harvest_uuid": "4b89f749-afad-408f-b5c3-0156cf24b47a",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.44,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jpcb.4c00888",
+      "harvest_uuid": "deb17c0b-be7b-476a-bef3-4006a97ff3b3",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.857,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.999,
+          "soft_ratio": 0.999,
+          "length_ratio": 1.001,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ma030365e",
+      "harvest_uuid": "fcee6a69-fbab-4ab6-bb4d-aba2ef749add",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 0.667,
+          "avg_soft_f1": 0.667,
+          "avg_fuzzy_f1": 0.667
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.991,
+          "soft_ratio": 0.992,
+          "length_ratio": 1.016,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.jcim.4c02140",
+      "harvest_uuid": "d70adb8b-a9a9-4f54-a386-336e19aa975d",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.53,
+      "parsed_n_authors": 13,
+      "score": {
+        "authors": {
+          "matched": 13,
+          "gold_total": 13,
+          "parsed_total": 13,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 13,
+          "avg_strict_f1": 0.154,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ie50536a943",
+      "harvest_uuid": "5840db4e-ad99-4839-a3f5-d66dd213f131",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.molpharmaceut.1c00122",
+      "harvest_uuid": "e485f930-ad59-42e3-a6b6-1f9373094047",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.83,
+      "parsed_n_authors": 5,
+      "score": {
+        "authors": {
+          "matched": 5,
+          "gold_total": 5,
+          "parsed_total": 5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 5,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.98,
+          "soft_ratio": 0.98,
+          "length_ratio": 1.041,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/cen-v043n041.p044",
+      "harvest_uuid": "0fe5f5e4-7513-4668-ad4a-eef349f3e84e",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.52,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/j100467a004",
+      "harvest_uuid": "73af2573-4bcb-4077-a6aa-26609bc06ae1",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.48,
+      "parsed_n_authors": 2,
+      "score": {
+        "authors": {
+          "matched": 2,
+          "gold_total": 2,
+          "parsed_total": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 2,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja01543a035",
+      "harvest_uuid": "aa55c150-3a63-42b2-b235-876819c962bc",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.51,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": false,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jf991203d",
+      "harvest_uuid": "0b3acea7-38ae-4117-b246-700e5e3a166b",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.61,
+      "parsed_n_authors": 7,
+      "score": {
+        "authors": {
+          "matched": 7,
+          "gold_total": 7,
+          "parsed_total": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 7,
+          "avg_strict_f1": 0.5,
+          "avg_soft_f1": 0.5,
+          "avg_fuzzy_f1": 0.5
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.996,
+          "soft_ratio": 0.997,
+          "length_ratio": 1.006,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/ja059789+",
+      "harvest_uuid": "06982a58-933a-4c93-bcc6-34dd1a690728",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.48,
+      "parsed_n_authors": 0,
+      "score": {
+        "authors": {
+          "matched": 0,
+          "gold_total": 0,
+          "parsed_total": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 0,
+          "avg_strict_f1": 0.0,
+          "avg_soft_f1": 0.0,
+          "avg_fuzzy_f1": 0.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": false,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 0,
+          "parsed_total_ca": 0
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.macromol.0c02281",
+      "harvest_uuid": "03e85375-a764-4ddd-9e04-4bd7c8371586",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.49,
+      "parsed_n_authors": 8,
+      "score": {
+        "authors": {
+          "matched": 8,
+          "gold_total": 8,
+          "parsed_total": 8,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 8,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 0.994,
+          "soft_ratio": 0.994,
+          "length_ratio": 1.012,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/acs.energyfuels.4c03898",
+      "harvest_uuid": "817dee5c-793a-42f9-b909-060d63ded142",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.46,
+      "parsed_n_authors": 6,
+      "score": {
+        "authors": {
+          "matched": 6,
+          "gold_total": 6,
+          "parsed_total": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 6,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": false,
+          "present": true,
+          "expected_present": false,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 2,
+          "parsed_total_ca": 2
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jacs.8b09416",
+      "harvest_uuid": "6c0b5c23-1d93-45a6-9324-3c8affd04474",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.56,
+      "parsed_n_authors": 10,
+      "score": {
+        "authors": {
+          "matched": 10,
+          "gold_total": 10,
+          "parsed_total": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 10,
+          "avg_strict_f1": 0.9,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": true
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 1
+        }
+      }
+    },
+    {
+      "doi": "10.1021/jo991837j",
+      "harvest_uuid": "dacd91a7-91b1-4048-9be7-a13409656674",
+      "has_bot_check": false,
+      "publisher_domain": null,
+      "authors_found": true,
+      "elapsed_seconds": 0.47,
+      "parsed_n_authors": 3,
+      "score": {
+        "authors": {
+          "matched": 3,
+          "gold_total": 3,
+          "parsed_total": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "precision_soft": 1.0,
+          "recall_soft": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "pairs_scored": 3,
+          "avg_strict_f1": 1.0,
+          "avg_soft_f1": 1.0,
+          "avg_fuzzy_f1": 1.0
+        },
+        "abstract": {
+          "fuzzy_ratio": 1.0,
+          "soft_ratio": 1.0,
+          "length_ratio": 1.0,
+          "match_at_threshold": true,
+          "present": false
+        },
+        "pdf_url": {
+          "strict_match": true,
+          "present": true,
+          "expected_present": true,
+          "divergent": false
+        },
+        "corresponding": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_total_ca": 1,
+          "parsed_total_ca": 0
+        }
+      }
+    }
+  ],
+  "failed_rows": [],
+  "dispatch_skipped_rows": [
+    {
+      "doi": "10.1021/ie50629a905",
+      "harvest_uuid": "bb43f0d4-e9d9-4292-afef-7a20ccdb2e1e",
+      "publisher_domain": null,
+      "elapsed_seconds": 0.46
+    },
+    {
+      "doi": "10.1021/js970067t",
+      "harvest_uuid": "548cb9fe-ecbb-4dc3-9b11-1abc13523033",
+      "publisher_domain": null,
+      "elapsed_seconds": 0.41
+    },
+    {
+      "doi": "10.1021/scimeetings.3c01270",
+      "harvest_uuid": "15c7eb5e-223e-4fc3-9a37-39a3f8a4ab2f",
+      "publisher_domain": null,
+      "elapsed_seconds": 0.41
+    }
+  ]
+}

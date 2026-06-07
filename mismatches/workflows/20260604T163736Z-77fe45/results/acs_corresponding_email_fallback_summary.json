@@ -1,0 +1,62 @@
+{
+  "publisher": "acs",
+  "field": "corresponding",
+  "task_id": "v2_acs_corresponding_808ec31a",
+  "status": "shipped_full10k_measured_with_backfill_accounting",
+  "kpi_before": 0.9076923076923077,
+  "kpi_after": 0.953125,
+  "delta_pp": 4.543269230769232,
+  "overall_delta_pp": 0.12197476379072203,
+  "goldie_backfilled_candidates": 2,
+  "residual_blockers": [
+    {
+      "doi": "10.1021/ja076898a",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    },
+    {
+      "doi": "10.1021/ol051044l",
+      "classification": "invalid_email_like_text_not_safe",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "Cached page has invalid/non-email KCC-1@NH2; do not mark as correspondence."
+    },
+    {
+      "doi": "10.1021/om030026+",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    },
+    {
+      "doi": "10.1021/ac060480y",
+      "classification": "parser_followup_last_dot_initial_email_pattern",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "Correspondence email localpart pattern niwa.o should be handled in a follow-up batch; safe but not included in this already-running gate."
+    },
+    {
+      "doi": "10.1021/cen-v031n013.p1299",
+      "classification": "gold_or_page_mismatch_cen",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "C&EN row has known page-vs-current-Goldie mismatch from Batch 25."
+    },
+    {
+      "doi": "10.1021/jo991837j",
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "note": "No safe static correspondence signal was found in cached HTML."
+    }
+  ],
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/acs_corresponding_email_fallback_shield.json"
+}

@@ -1,6 +1,6 @@
 {
-  "run_id": "20260607T001640Z-71e4c8",
-  "source_run": "eval/runs/whole-goldie-after-acs-cen-visible-abstract-20260607T0050Z.json",
+  "run_id": "20260607T011028Z-d977d7",
+  "source_run": "eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json",
   "exclude_pdf": true,
   "total_opportunities": 39,
   "rows": [
@@ -225,16 +225,6 @@
       "recommendation": "patch"
     },
     {
-      "field": "corresponding",
-      "current_kpi": 0.9077,
-      "scored_rows": 130,
-      "headroom_pp": 9.23,
-      "top_publisher": "acs",
-      "active_agent": "\u2014",
-      "status": "ranked",
-      "recommendation": "patch"
-    },
-    {
       "field": "abstract",
       "current_kpi": 0.9728,
       "scored_rows": 389,
@@ -260,6 +250,16 @@
       "scored_rows": 474,
       "headroom_pp": 1.39,
       "top_publisher": "taylor",
+      "active_agent": "\u2014",
+      "status": "ranked",
+      "recommendation": "diminishing"
+    },
+    {
+      "field": "corresponding",
+      "current_kpi": 0.9531,
+      "scored_rows": 128,
+      "headroom_pp": 4.69,
+      "top_publisher": "acs",
       "active_agent": "\u2014",
       "status": "ranked",
       "recommendation": "diminishing"
@@ -527,16 +527,6 @@
       "recommendation": "patch"
     },
     {
-      "publisher": "acs",
-      "field": "corresponding",
-      "current_kpi": 0.9077,
-      "scored_rows": 130,
-      "headroom_pp": 9.23,
-      "impact_score": 12.0,
-      "tractability": 1.0,
-      "recommendation": "patch"
-    },
-    {
       "publisher": "ieee",
       "field": "abstract",
       "current_kpi": 0.9728,
@@ -563,6 +553,16 @@
       "scored_rows": 474,
       "headroom_pp": 1.39,
       "impact_score": 6.6,
+      "tractability": 1.0,
+      "recommendation": "diminishing"
+    },
+    {
+      "publisher": "acs",
+      "field": "corresponding",
+      "current_kpi": 0.9531,
+      "scored_rows": 128,
+      "headroom_pp": 4.69,
+      "impact_score": 6.0,
       "tractability": 1.0,
       "recommendation": "diminishing"
     },
