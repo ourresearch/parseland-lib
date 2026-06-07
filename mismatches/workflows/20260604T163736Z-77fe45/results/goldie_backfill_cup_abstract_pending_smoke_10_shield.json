@@ -1,0 +1,54 @@
+{
+  "artifacts": {
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_derived_v0.ndjson",
+    "evidence_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_evidence_bb-cup-abstract-pending-smoke-10-20260607T0720Z",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_raw.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_referee.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_referee.summary.json"
+  },
+  "commands": [
+    "./.venv/bin/python scripts/goldie_backfill_ground.py --fields abstract --publishers cup --statuses pending --limit 10 --concurrency 2 --run-id bb-cup-abstract-pending-smoke-10-20260607T0720Z --out mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_raw.ndjson --evidence-dir mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_evidence_bb-cup-abstract-pending-smoke-10-20260607T0720Z",
+    "python3 -m json.tool goldie_backfill_cup_abstract_pending_smoke_10_referee.summary.json",
+    "python3 - <<PY ... validate no duplicate DOI+field keys and no credential-shaped tokens ... PY"
+  ],
+  "counts": {
+    "agent_id": "codex-goldie-backfilled-cup-abstract-smoke",
+    "approved_rows": 5,
+    "blocked_reasons_by_doi": {
+      "10.1017/s0007087400002971": "Browserbase rendered only page identity/title metadata; no abstract text was grounded for derived-label approval.",
+      "10.1017/s0008197300094812": "Browserbase rendered only page identity/title metadata; no abstract text was grounded for derived-label approval.",
+      "10.1017/s0008197300110463": "Browserbase rendered only page identity/title metadata; no abstract text was grounded for derived-label approval.",
+      "10.1017/s0008938911000513": "Browserbase rendered only page identity/title metadata; no abstract text was grounded for derived-label approval.",
+      "10.1017/s0009840x21001177": "Browserbase rendered only page identity/title metadata; no abstract text was grounded for derived-label approval."
+    },
+    "blocked_rows": 5,
+    "created_at": "2026-06-07T07:16:41.425744+00:00",
+    "current_goldie_kpi_effect": "none; derived-corpus evidence only",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_derived_v0.ndjson",
+    "field": "abstract",
+    "grounding_confidence_counts": {
+      "abstract_len_rendered_parse_match": 5,
+      "page_identity_only": 5
+    },
+    "next_action": "Scale remaining CUP pending abstract candidates in 25-row batches, but keep pending_browserbase boilerplate-summary rows separate or precheck-block them unless page evidence shows a real abstract.",
+    "publisher_id": "cup",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_referee.ndjson",
+    "reviewed_rows": 10,
+    "run_id": "bb-cup-abstract-pending-smoke-10-20260607T0720Z",
+    "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_shield.json",
+    "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_smoke_10_raw.ndjson",
+    "status": "goldie_backfill_referee_partial_5_approved_5_blocked",
+    "status_detail": "5 approved / 5 blocked after CUP abstract Browserbase smoke; strict referee approved only rendered abstract length matches.",
+    "task_id": "v2_cup_abstract_f61595df",
+    "verdict_counts": {
+      "referee_approved": 5,
+      "referee_blocked": 5
+    }
+  },
+  "gate": "goldie_backfill_cup_abstract_pending_smoke_10",
+  "policy": "No merged-FINAL.csv mutation; no current-Goldie KPI lift claimed; Browserbase evidence is grounding only.",
+  "purpose": "Validate CUP abstract Goldie-backfilled Browserbase smoke and strict Referee decisions.",
+  "secret_handling": "BROWSERBASE_API_KEY was read from stdin into process env; no key was written to files or staged artifacts.",
+  "status": "green",
+  "timestamp": "2026-06-07T07:16:41.425744+00:00"
+}
