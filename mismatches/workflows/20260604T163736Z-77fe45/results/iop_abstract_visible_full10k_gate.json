@@ -1,0 +1,396 @@
+{
+  "agent_id": "codex-iop-abstract-visible",
+  "classification": "parser_fix_full10k_gate_green_below_98_explainable_residual",
+  "diagnosis": "IOP pages expose visible abstracts in div.article-text.wd-jnl-art-abstract.cf. The prior parser only used meta abstracts and dispatch required citation_author, so abstract-only IOP pages returned empty. Patch adds visible-block extraction plus abstract-only IOP dispatch.",
+  "field": "abstract",
+  "focused_after": {
+    "abstract_present_rate": 0.7536231884057971,
+    "abstract_ratio_fuzzy": 0.930510412049174,
+    "delta_present_rate_pp": 73.913,
+    "delta_ratio_pp": 72.7667,
+    "field_counts": {
+      "empty_empty_pass": 4,
+      "gold_empty_parser_present": 9,
+      "gold_present_parser_empty": 4,
+      "gold_present_parser_present": 52,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 60,
+      "total_rows": 75
+    }
+  },
+  "focused_before": {
+    "abstract_present_rate": 0.014492753623188406,
+    "abstract_ratio_fuzzy": 0.20284380206011404,
+    "gold_empty_parser_present": 0,
+    "gold_present_parser_empty": 55
+  },
+  "full10k_after": {
+    "abstract_present_rate": 0.6563658838071693,
+    "abstract_ratio_fuzzy": 0.9197463939049669,
+    "affiliations_f1_fuzzy": 0.9380796940921345,
+    "artifact": "eval/runs/whole-goldie-after-iop-abstract-visible-20260607T1012Z.json",
+    "authors_f1_soft": 0.9548911966362078,
+    "corresponding_accuracy": 0.9665972129070722,
+    "coverage": {
+      "gold_empty_parser_present_count": 2974,
+      "html_available": 5663,
+      "per_publisher": {
+        "aaas": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "aacr": {
+          "html_available": 0,
+          "retrieval_blocked": 34,
+          "scored_rows": 0,
+          "total_rows": 34
+        },
+        "acm": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "acs": {
+          "html_available": 130,
+          "retrieval_blocked": 0,
+          "scored_rows": 130,
+          "total_rows": 130
+        },
+        "aip_publishing": {
+          "html_available": 0,
+          "retrieval_blocked": 57,
+          "scored_rows": 0,
+          "total_rows": 57
+        },
+        "ame": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "ams": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "apa": {
+          "html_available": 0,
+          "retrieval_blocked": 25,
+          "scored_rows": 0,
+          "total_rows": 25
+        },
+        "aps": {
+          "html_available": 0,
+          "retrieval_blocked": 38,
+          "scored_rows": 0,
+          "total_rows": 38
+        },
+        "asa": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "asco": {
+          "html_available": 0,
+          "retrieval_blocked": 17,
+          "scored_rows": 0,
+          "total_rows": 17
+        },
+        "ash": {
+          "html_available": 0,
+          "retrieval_blocked": 12,
+          "scored_rows": 0,
+          "total_rows": 12
+        },
+        "asme": {
+          "html_available": 0,
+          "retrieval_blocked": 26,
+          "scored_rows": 0,
+          "total_rows": 26
+        },
+        "bentham": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "bmj": {
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "scored_rows": 66,
+          "total_rows": 69
+        },
+        "brill": {
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "scored_rows": 55,
+          "total_rows": 65
+        },
+        "cairn": {
+          "html_available": 0,
+          "retrieval_blocked": 49,
+          "scored_rows": 0,
+          "total_rows": 49
+        },
+        "company_biologists": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "copernicus": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "cshlp": {
+          "html_available": 0,
+          "retrieval_blocked": 29,
+          "scored_rows": 0,
+          "total_rows": 29
+        },
+        "cup": {
+          "html_available": 151,
+          "retrieval_blocked": 3,
+          "scored_rows": 151,
+          "total_rows": 154
+        },
+        "de_gruyter": {
+          "html_available": 223,
+          "retrieval_blocked": 3,
+          "scored_rows": 223,
+          "total_rows": 226
+        },
+        "edp_sciences": {
+          "html_available": 0,
+          "retrieval_blocked": 21,
+          "scored_rows": 0,
+          "total_rows": 21
+        },
+        "elsevier": {
+          "html_available": 1508,
+          "retrieval_blocked": 56,
+          "scored_rows": 1508,
+          "total_rows": 1564
+        },
+        "emerald": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "f1000": {
+          "html_available": 0,
+          "retrieval_blocked": 2,
+          "scored_rows": 0,
+          "total_rows": 2
+        },
+        "frontiers": {
+          "html_available": 0,
+          "retrieval_blocked": 48,
+          "scored_rows": 0,
+          "total_rows": 48
+        },
+        "hindawi": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "ieee": {
+          "html_available": 393,
+          "retrieval_blocked": 2,
+          "scored_rows": 393,
+          "total_rows": 395
+        },
+        "iop": {
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "scored_rows": 69,
+          "total_rows": 75
+        },
+        "karger": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "lippincott": {
+          "html_available": 190,
+          "retrieval_blocked": 0,
+          "scored_rows": 190,
+          "total_rows": 190
+        },
+        "mary_ann_liebert": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "mdpi": {
+          "html_available": 137,
+          "retrieval_blocked": 0,
+          "scored_rows": 137,
+          "total_rows": 137
+        },
+        "nejm": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "optica": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "oxford": {
+          "html_available": 250,
+          "retrieval_blocked": 21,
+          "scored_rows": 250,
+          "total_rows": 271
+        },
+        "plos": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "portland_press": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "research_square": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "rsc": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "rsna": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "sage": {
+          "html_available": 198,
+          "retrieval_blocked": 2,
+          "scored_rows": 198,
+          "total_rows": 200
+        },
+        "scielo": {
+          "html_available": 0,
+          "retrieval_blocked": 33,
+          "scored_rows": 0,
+          "total_rows": 33
+        },
+        "spie": {
+          "html_available": 0,
+          "retrieval_blocked": 46,
+          "scored_rows": 0,
+          "total_rows": 46
+        },
+        "springer": {
+          "html_available": 1117,
+          "retrieval_blocked": 6,
+          "scored_rows": 1117,
+          "total_rows": 1123
+        },
+        "taylor": {
+          "html_available": 499,
+          "retrieval_blocked": 7,
+          "scored_rows": 499,
+          "total_rows": 506
+        },
+        "thieme": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "unknown": {
+          "html_available": 0,
+          "retrieval_blocked": 3303,
+          "scored_rows": 0,
+          "total_rows": 3303
+        },
+        "wiley": {
+          "html_available": 677,
+          "retrieval_blocked": 18,
+          "scored_rows": 677,
+          "total_rows": 695
+        }
+      },
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 30,
+        "cached_error_page": 3,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "retrieval_blocked_rows": 4337,
+      "scored_rows": 5663,
+      "total_rows": 10000
+    },
+    "pdf_url_accuracy": 0.9412973960712654
+  },
+  "full10k_before": {
+    "abstract_present_rate": 0.6473600565071517,
+    "abstract_ratio_fuzzy": 0.9104783857810632,
+    "affiliations_f1_fuzzy": 0.9380796940921345,
+    "artifact": "eval/runs/whole-goldie-after-de-gruyter-pdf-recovery-20260607T0931Z.json",
+    "authors_f1_soft": 0.9548911966362078,
+    "corresponding_accuracy": 0.9665972129070722,
+    "pdf_url_accuracy": 0.9412973960712654
+  },
+  "full10k_delta": {
+    "abstract_present_rate": 0.9006,
+    "abstract_ratio_fuzzy": 0.9268,
+    "affiliations_f1_fuzzy": 0.0,
+    "authors_f1_soft": 0.0,
+    "corresponding_accuracy": 0.0,
+    "pdf_url_accuracy": 0.0
+  },
+  "next_action": "Ship parser patch, update report 336 batch row, then continue next ranked below-98 publisher-field lane. Route IOP residual captcha rows to retrieval/Browserbase and 9 backfill candidates to Goldie-backfilled referee.",
+  "publisher_id": "iop",
+  "residual_classification": {
+    "current_goldie_parser_empty_misses_remaining": 4,
+    "examples": {
+      "captcha_current_goldie_misses": [
+        "10.1088/0953-8984/18/20/017",
+        "10.1088/1361-6501/ad4d0e",
+        "10.1088/1757-899x/1125/1/012043",
+        "10.1088/1361-6528/ab40dc"
+      ]
+    },
+    "explanation": "Focused IOP remains below 98 because the remaining current-Goldie misses are cached captcha pages; page-grounded parser misses were recovered. Gold-empty/parser-present rows are routed to Goldie-backfilled and excluded from current-Goldie KPI numerator.",
+    "gold_empty_parser_present_candidates": 9,
+    "retrieval_blocked_rows": 6
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "passed",
+  "task_id": "v2_iop_abstract_f110099b",
+  "timestamp_utc": "2026-06-07T10:39:41Z",
+  "validation": {
+    "focused_gate": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers iop --label iop-abstract-visible-dispatch",
+    "full10k_gate": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-iop-abstract-visible --run-id full10k-after-iop-abstract-visible-20260607T1012Z --out eval/runs/whole-goldie-after-iop-abstract-visible-20260607T1012Z.json --concurrency 8",
+    "unit_gate": "PYTHONPATH=. ./.venv/bin/pytest tests/test_iop_abstract.py tests/test_parse_page.py -q",
+    "unit_gate_result": "21 passed"
+  }
+}

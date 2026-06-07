@@ -19,7 +19,10 @@ class IOP(PublisherParser):
             return True
 
     def authors_found(self):
-        return self.soup.find("meta", {"name": "citation_author"})
+        return (
+            self.soup.find("meta", {"name": "citation_author"})
+            or self.soup.select_one('.wd-jnl-art-abstract')
+        )
 
     def parse(self):
         authors = self.parse_author_meta_tags()
@@ -29,7 +32,24 @@ class IOP(PublisherParser):
                 if email_matches_name(email_tag['href'], author['name']):
                     author['is_corresponding'] = True
         # displayed author affiliations are not available in the content, so we have to use meta tags.
-        return {'authors': authors, 'abstract': self.parse_abstract_meta_tags()}
+        return {'authors': authors, 'abstract': self.parse_abstract()}
+
+    def parse_abstract(self):
+        if abstract := self.parse_abstract_meta_tags():
+            return abstract
+
+        for abstract_tag in self.soup.select('.wd-jnl-art-abstract'):
+            paragraphs = [
+                p.get_text(' ', strip=True)
+                for p in abstract_tag.find_all('p')
+                if p.get_text(' ', strip=True)
+            ]
+            abstract = ' '.join(paragraphs).strip()
+            if not abstract:
+                abstract = abstract_tag.get_text(' ', strip=True)
+            if len(abstract) >= 15:
+                return abstract
+        return None
 
     # test not passing due to page being blocked
     # test_cases = [
