@@ -1,0 +1,30 @@
+{
+  "field": "pdf_url",
+  "focused_after": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_brill_pdf_equivalence_after.json",
+  "focused_before": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_brill_retrieval_r2_full.json",
+  "focused_delta": {
+    "html_available": 55,
+    "lift_pp": 84.21052631578947,
+    "pdf_scored_rows": 38,
+    "pdf_url_accuracy_after": 1.0,
+    "pdf_url_accuracy_before": 0.15789473684210525,
+    "retrieval_blocked": 10,
+    "rows": 65
+  },
+  "next_action": "Run full 10K whole-Goldie gate before committing scorer code.",
+  "ownership": "scorer_url_equivalence",
+  "publisher": "brill",
+  "status": "focused_green_pending_full10k",
+  "task": "brill_pdf_url_equivalence",
+  "tests": [
+    "cd parseland-eval/eval && .venv/bin/pytest tests/test_normalize.py tests/test_pdf_url_aggregate.py -q"
+  ],
+  "timestamp_utc": "2026-06-07T10:52:09Z",
+  "url_equivalences": [
+    "brill.com /downloadpdf/display/book/ -> /downloadpdf/book/",
+    "brill.com /downloadpdf/view/journals/ -> /downloadpdf/journals/",
+    "brill.com /downloadpdf/edcollchap/book/ -> /downloadpdf/book/",
+    "fink.de and schoeningh.de downloadpdf paths -> brill.com canonical host",
+    "vr-elibrary.de /doi/reader/ -> /doi/pdf/ and drops download=true"
+  ]
+}

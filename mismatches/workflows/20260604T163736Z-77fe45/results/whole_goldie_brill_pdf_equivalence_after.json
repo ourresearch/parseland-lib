@@ -1,0 +1,3739 @@
+{
+  "run_id": "brill-pdf-equivalence-20260607T1110Z",
+  "label": "after-brill-pdf-equivalence",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-07T10:51:17.309467+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 65,
+  "coverage": {
+    "total_rows": 65,
+    "html_available": 55,
+    "scored_rows": 55,
+    "retrieval_blocked_rows": 10,
+    "retrieval_blocked_by_reason": {
+      "cached_too_small": 2,
+      "missing": 8
+    },
+    "gold_empty_parser_present_count": 36,
+    "per_publisher": {
+      "brill": {
+        "total_rows": 65,
+        "html_available": 55,
+        "scored_rows": 55,
+        "retrieval_blocked": 10
+      }
+    }
+  },
+  "skipped_no_html_count": 10,
+  "skipped_no_html_dois": [
+    "10.1163/9789004649323_005",
+    "10.1163/9789004639461_024",
+    "10.1163/9789004637603_008",
+    "10.1163/157430100x00388",
+    "10.1163/9789004588455_006",
+    "10.1163/187119110790930814",
+    "10.30965/9783657796625_001",
+    "10.1163/9789004226241_007",
+    "10.1163/9789004721579_012",
+    "10.1163/22141332-12340014"
+  ],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 65,
+      "scored": 55,
+      "errors": 0,
+      "skipped_no_html": 10,
+      "authors_f1_strict": 1.0,
+      "authors_f1_soft": 1.0,
+      "affiliations_f1_strict": 0.9795918367346939,
+      "affiliations_f1_fuzzy": 1.0,
+      "abstract_ratio_fuzzy": 0.963437728898981,
+      "abstract_present_rate": 0.12727272727272726,
+      "pdf_url_accuracy": 1.0,
+      "corresponding_accuracy": 1.0,
+      "duration_ms_mean": 3395.656521927396,
+      "n_authors_scored": 42,
+      "n_pdf_scored": 38,
+      "n_corresponding_scored": 55,
+      "n_abstract_scored": 55
+    },
+    "per_publisher": {
+      "brill": {
+        "rows": 65,
+        "scored": 55,
+        "errors": 0,
+        "skipped_no_html": 10,
+        "authors_f1_strict": 1.0,
+        "authors_f1_soft": 1.0,
+        "affiliations_f1_strict": 0.9795918367346939,
+        "affiliations_f1_fuzzy": 1.0,
+        "abstract_ratio_fuzzy": 0.963437728898981,
+        "abstract_present_rate": 0.12727272727272726,
+        "pdf_url_accuracy": 1.0,
+        "corresponding_accuracy": 1.0,
+        "duration_ms_mean": 3395.656521927396,
+        "n_authors_scored": 42,
+        "n_pdf_scored": 38,
+        "n_corresponding_scored": 55,
+        "n_abstract_scored": 55
+      }
+    },
+    "coverage": {
+      "total_rows": 65,
+      "html_available": 55,
+      "scored_rows": 55,
+      "retrieval_blocked_rows": 10,
+      "retrieval_blocked_by_reason": {
+        "cached_too_small": 2,
+        "missing": 8
+      },
+      "gold_empty_parser_present_count": 36,
+      "per_publisher": {
+        "brill": {
+          "total_rows": 65,
+          "html_available": 55,
+          "scored_rows": 55,
+          "retrieval_blocked": 10
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 65,
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "empty_empty_pass": 6,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 36,
+        "gold_empty_parser_present": 13,
+        "scored_rows": 42
+      },
+      "affiliations": {
+        "total_rows": 65,
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "empty_empty_pass": 47,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 2,
+        "gold_empty_parser_present": 6,
+        "scored_rows": 49
+      },
+      "abstract": {
+        "total_rows": 65,
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "empty_empty_pass": 46,
+        "gold_present_parser_empty": 2,
+        "gold_present_parser_present": 7,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 55
+      },
+      "pdf_url": {
+        "total_rows": 65,
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "empty_empty_pass": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 38,
+        "gold_empty_parser_present": 17,
+        "scored_rows": 38
+      },
+      "corresponding": {
+        "total_rows": 65,
+        "html_available": 55,
+        "retrieval_blocked": 10,
+        "empty_empty_pass": 54,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 1,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 55
+      }
+    },
+    "per_publisher_field": {
+      "brill": {
+        "authors": {
+          "total_rows": 65,
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "empty_empty_pass": 6,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 36,
+          "gold_empty_parser_present": 13,
+          "scored_rows": 42
+        },
+        "affiliations": {
+          "total_rows": 65,
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "empty_empty_pass": 47,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 2,
+          "gold_empty_parser_present": 6,
+          "scored_rows": 49
+        },
+        "abstract": {
+          "total_rows": 65,
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "empty_empty_pass": 46,
+          "gold_present_parser_empty": 2,
+          "gold_present_parser_present": 7,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 55
+        },
+        "pdf_url": {
+          "total_rows": 65,
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "empty_empty_pass": 0,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 38,
+          "gold_empty_parser_present": 17,
+          "scored_rows": 38
+        },
+        "corresponding": {
+          "total_rows": 65,
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "empty_empty_pass": 54,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 1,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 55
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 758,
+      "doi": "10.1163/9789004649323_005",
+      "link": "https://doi.org/10.1163/9789004649323_005",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 375,
+      "doi": "10.30965/9783846766590_005",
+      "link": "https://doi.org/10.30965/9783846766590_005",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3688.872209051624,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.fink.de/downloadpdf/book/edcoll/9783846766590/BP000009.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 58,
+      "doi": "10.1163/9789004472020_004",
+      "link": "https://doi.org/10.1163/9789004472020_004",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3738.348790910095,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004472020/BP000003.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1057,
+      "doi": "10.1163/9789004639461_024",
+      "link": "https://doi.org/10.1163/9789004639461_024",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 460,
+      "doi": "10.1163/9789004238176_005",
+      "link": "https://doi.org/10.1163/9789004238176_005",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4197.927250061184,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004238176/B9789004238176_005.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 150,
+      "doi": "10.1163/9789004306608_004",
+      "link": "https://doi.org/10.1163/9789004306608_004",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4248.870374867693,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004306608/B9789004306608_004.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 59,
+      "doi": "10.1163/9789042032040_016",
+      "link": "https://doi.org/10.1163/9789042032040_016",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4277.757165953517,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789042032040/B9789042032040-s016.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 555,
+      "doi": "10.1163/9789004321182_011",
+      "link": "https://doi.org/10.1163/9789004321182_011",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4306.375500047579,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004321182/B9789004321182-s011.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 956,
+      "doi": "10.1163/20512996-12340300",
+      "link": "https://doi.org/10.1163/20512996-12340300",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4512.469416018575,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9989462592202318,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 949,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 949,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/agpt/37/3/article-p550_12.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 849,
+      "doi": "10.1163/9789004644847_011",
+      "link": "https://doi.org/10.1163/9789004644847_011",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4648.546458920464,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/edcollchap/book/9789004644847/B9789004644847_s011.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1056,
+      "doi": "10.1163/9789004487192_010",
+      "link": "https://doi.org/10.1163/9789004487192_010",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1227.0828331820667,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004487192/B9789004487192_s010.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2082,
+      "doi": "10.30965/9783846759165_004",
+      "link": "https://doi.org/10.30965/9783846759165_004",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2617.9168329108506,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.fink.de/downloadpdf/book/edcoll/9783846759165/BP000004.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2555,
+      "doi": "10.1163/9789004637603_008",
+      "link": "https://doi.org/10.1163/9789004637603_008",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2099,
+      "doi": "10.7788/boehlau.9783412301330.383",
+      "link": "https://doi.org/10.7788/boehlau.9783412301330.383",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2393.720791907981,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/boehlau.9783412301330.383?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2470,
+      "doi": "10.14220/9783737010900.119",
+      "link": "https://doi.org/10.14220/9783737010900.119",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1901.4837911818177,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9966442953020134,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1490,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 1490,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.14220/9783737010900.119?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2858,
+      "doi": "10.1163/157430100x00388",
+      "link": "https://doi.org/10.1163/157430100x00388",
+      "publisher": "brill",
+      "error": "retrieval_blocked:cached_too_small",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "cached_too_small",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2599,
+      "doi": "10.7788/akg.2011.93.2.451",
+      "link": "https://doi.org/10.7788/akg.2011.93.2.451",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 269.0373328514397,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/akg.2011.93.2.451?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1450,
+      "doi": "10.1163/9789004451568_002",
+      "link": "https://doi.org/10.1163/9789004451568_002",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3122.999625047669,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004451568/front-2.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1857,
+      "doi": "10.1163/9789004458444_011",
+      "link": "https://doi.org/10.1163/9789004458444_011",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3181.63500004448,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004458444/back-1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2062,
+      "doi": "10.1163/9789401202015_013",
+      "link": "https://doi.org/10.1163/9789401202015_013",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3341.158750001341,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789401202015/back-1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4158,
+      "doi": "10.1163/9789004588455_006",
+      "link": "https://doi.org/10.1163/9789004588455_006",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1151,
+      "doi": "10.1163/9789004685192_009",
+      "link": "https://doi.org/10.1163/9789004685192_009",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4183.496000012383,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/display/book/9789004685192/BP000016.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4354,
+      "doi": "10.1163/187119110790930814",
+      "link": "https://doi.org/10.1163/187119110790930814",
+      "publisher": "brill",
+      "error": "retrieval_blocked:cached_too_small",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "cached_too_small",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2681,
+      "doi": "10.30965/9783657787258_034",
+      "link": "https://doi.org/10.30965/9783657787258_034",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1431.357332970947,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.schoeningh.de/downloadpdf/book/edcoll/9783657787258/BP000034.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4799,
+      "doi": "10.7788/boehlau.9783412213176.411",
+      "link": "https://doi.org/10.7788/boehlau.9783412213176.411",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2564.0235419850796,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/boehlau.9783412213176.411?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2859,
+      "doi": "10.1163/29497663-0180304005",
+      "link": "https://doi.org/10.1163/29497663-0180304005",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4292.741875164211,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/choo/18/3-4/article-p246_5.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4599,
+      "doi": "10.7788/9783412513436.113",
+      "link": "https://doi.org/10.7788/9783412513436.113",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3566.2123751826584,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 191,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/9783412513436.113?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2860,
+      "doi": "10.1163/9789004459120_013",
+      "link": "https://doi.org/10.1163/9789004459120_013",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5385.068292031065,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004459120/BP000023.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5078,
+      "doi": "10.30965/25890468-03301018",
+      "link": "https://doi.org/10.30965/25890468-03301018",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4821.198250167072,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.schoeningh.de/downloadpdf/journals/bz/33/1/article-p132_18.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3366,
+      "doi": "10.1163/9789004437159_006",
+      "link": "https://doi.org/10.1163/9789004437159_006",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5977.14937501587,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004437159/B9789004437159_s006.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3058,
+      "doi": "10.1163/9789004664708_017",
+      "link": "https://doi.org/10.1163/9789004664708_017",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 6134.478916879743,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004664708/B9789004664708_s017.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2464,
+      "doi": "10.1163/15685179-12341468",
+      "link": "https://doi.org/10.1163/15685179-12341468",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 8652.493000030518,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9956331877729258,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 916,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 916,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/dsd/25/2/article-p141_1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5356,
+      "doi": "10.1163/146481706793646800",
+      "link": "https://doi.org/10.1163/146481706793646800",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3237.0052088517696,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/inas/8/1/article-p139_8.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5751,
+      "doi": "10.1163/193724095x00343",
+      "link": "https://doi.org/10.1163/193724095x00343",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1135.5779580771923,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 505,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 505,
+        "urls": [
+          {
+            "url": "https://academic.oup.com/jcb/article-pdf/15/2/341/10338593/jcb0341.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5459,
+      "doi": "10.1163/9789004632271_006",
+      "link": "https://doi.org/10.1163/9789004632271_006",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2456.9631670601666,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004632271/B9789004632271_s006.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6375,
+      "doi": "10.30965/9783657796625_001",
+      "link": "https://doi.org/10.30965/9783657796625_001",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5458,
+      "doi": "10.1163/22134360-09301039",
+      "link": "https://doi.org/10.1163/22134360-09301039",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3299.8008329886943,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/nwig/93/1-2/article-p176_43.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6459,
+      "doi": "10.1163/9789004226241_007",
+      "link": "https://doi.org/10.1163/9789004226241_007",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6258,
+      "doi": "10.1163/1568552053166629",
+      "link": "https://doi.org/10.1163/1568552053166629",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2011.4272909704596,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.998158379373849,
+          "fuzzy_ratio": 0.9990783410138249,
+          "present": true,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 542,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 543,
+        "urls": [
+          {
+            "url": "https://www.sciencedirect.com/science/article/pii/S092188310860881X/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5956,
+      "doi": "10.1163/9789004295438_026",
+      "link": "https://doi.org/10.1163/9789004295438_026",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3032.2430829983205,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004295438/B9789004295438-s026.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6156,
+      "doi": "10.1163/9789004647367_017",
+      "link": "https://doi.org/10.1163/9789004647367_017",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3127.42150016129,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/display/book/9789004647367/B9789004647367_s017.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6855,
+      "doi": "10.1163/156939308787537991",
+      "link": "https://doi.org/10.1163/156939308787537991",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2477.1242910064757,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 690,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 690,
+        "urls": [
+          {
+            "url": "https://www.tandfonline.com/doi/abs/10.1163/156939308787537991",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7257,
+      "doi": "10.1163/9789004721579_012",
+      "link": "https://doi.org/10.1163/9789004721579_012",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6374,
+      "doi": "10.30965/9783657789085_012",
+      "link": "https://doi.org/10.30965/9783657789085_012",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4190.1135828811675,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.schoeningh.de/downloadpdf/book/edcoll/9783657789085/BP000012.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6155,
+      "doi": "10.1163/9789004509429_029",
+      "link": "https://doi.org/10.1163/9789004509429_029",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4585.315791191533,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004509429/BP000038.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7458,
+      "doi": "10.13109/9783666402845.toc",
+      "link": "https://doi.org/10.13109/9783666402845.toc",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1315.212415996939,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.13109/9783666402845.toc?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6154,
+      "doi": "10.1163/9789004365360_001",
+      "link": "https://doi.org/10.1163/9789004365360_001",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5304.806791013107,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004365360/BP000008.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8360,
+      "doi": "10.1163/22141332-12340014",
+      "link": "https://doi.org/10.1163/22141332-12340014",
+      "publisher": "brill",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6856,
+      "doi": "10.1163/ej.9789004170629.i-250.44",
+      "link": "https://doi.org/10.1163/ej.9789004170629.i-250.44",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4168.119959067553,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789047412120/Bej.9789004170629.i-250_008.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8063,
+      "doi": "10.13109/reun.2024.5.2.1",
+      "link": "https://doi.org/10.13109/reun.2024.5.2.1",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1305.4101669695228,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.13109/reun.2024.5.2.1?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8465,
+      "doi": "10.14220/9783737017107.279",
+      "link": "https://doi.org/10.14220/9783737017107.279",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1237.84075002186,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 184,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.14220/9783737017107.279?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6458,
+      "doi": "10.1163/15718115-02601004",
+      "link": "https://doi.org/10.1163/15718115-02601004",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5699.958875076845,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9987730061349693,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 815,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 815,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/ijgr/26/1/article-p1_1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6956,
+      "doi": "10.1163/9789004315518_001",
+      "link": "https://doi.org/10.1163/9789004315518_001",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3672.7680838666856,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/display/book/9789004315518/B9789004315518_001.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7256,
+      "doi": "10.1163/9781684174454_046",
+      "link": "https://doi.org/10.1163/9781684174454_046",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3304.4306670781225,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9781684174454/BP000046.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8500,
+      "doi": "10.7788/boehlau.9783412217310.391",
+      "link": "https://doi.org/10.7788/boehlau.9783412217310.391",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 512.3878750018775,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/boehlau.9783412217310.391?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9399,
+      "doi": "10.7788/boehlau.9783412214838.201",
+      "link": "https://doi.org/10.7788/boehlau.9783412214838.201",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1879.1876251343638,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.vr-elibrary.de/doi/pdf/10.7788/boehlau.9783412214838.201?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7952,
+      "doi": "10.1163/9789004497252_014",
+      "link": "https://doi.org/10.1163/9789004497252_014",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4235.46600015834,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/edcoll/9789004497252/back-5.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7752,
+      "doi": "10.1163/156854063x00345",
+      "link": "https://doi.org/10.1163/156854063x00345",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4257.6315831393,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/cr/6/1/article-p62_6.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9061,
+      "doi": "10.1163/221023992x00578",
+      "link": "https://doi.org/10.1163/221023992x00578",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2863.3459999691695,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/css/26/4/article-p408_57.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9456,
+      "doi": "10.1163/9789004364660_011",
+      "link": "https://doi.org/10.1163/9789004364660_011",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3687.183832982555,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004364660/BP000020.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8661,
+      "doi": "10.1163/9789004589919_001",
+      "link": "https://doi.org/10.1163/9789004589919_001",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3943.0746659636497,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/display/book/9789004589919/front-1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9354,
+      "doi": "10.1163/9789004246713_002",
+      "link": "https://doi.org/10.1163/9789004246713_002",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3913.1613748613745,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/book/9789004246713/B9789004246713-s002.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9457,
+      "doi": "10.1163/9789004639225_008",
+      "link": "https://doi.org/10.1163/9789004639225_008",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3469.456459162757,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/edcollchap/book/9789004639225/back-1.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9759,
+      "doi": "10.1163/22118993-90000375",
+      "link": "https://doi.org/10.1163/22118993-90000375",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1991.7364169377834,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/muqj/14/1/article-p135_11.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9887,
+      "doi": "10.30965/26664275-00301016",
+      "link": "https://doi.org/10.30965/26664275-00301016",
+      "publisher": "brill",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1764.5153750199825,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://brill.com/downloadpdf/journals/hpla/3/1/article-p259_16.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    }
+  ],
+  "duration_ms": 24339
+}

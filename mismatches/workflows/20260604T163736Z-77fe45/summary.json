@@ -10,6 +10,16 @@
       "task_id": "v2_acs_pdf_url_dee703c2",
       "updated_at": "2026-06-07T03:54:34.729237+00:00"
     },
+    "v2_brill_pdf_url_2ede112c": {
+      "agent_id": "codex-brill-pdf-equivalence",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_pdf_equivalence_full10k_gate.json",
+      "field": "pdf_url",
+      "next_action": "Route 17 Brill Goldie-empty/parser-present PDF candidates to Goldie-backfilled referee when prioritized; continue next ranked current-Goldie lane.",
+      "publisher_id": "brill",
+      "status": "shipped_scorer_fix_above_98_with_backfill_pending",
+      "task_id": "v2_brill_pdf_url_2ede112c",
+      "updated_at": "2026-06-07T11:25:54Z"
+    },
     "v2_cup_abstract_f61595df": {
       "agent_id": "codex-goldie-backfilled-cup-abstract-10-20",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_cup_abstract_pending_10_20_referee.summary.json",
@@ -475,6 +485,17 @@
       "task_id": "v2_acs_corresponding_808ec31a"
     }
   ],
+  "last_shipped_task": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_pdf_equivalence_full10k_gate.json",
+    "branch": "feat/goldie-cli",
+    "commit_sha": "7aa08ae",
+    "field": "pdf_url",
+    "full10k_pdf_url_accuracy_after": 0.9486066697121973,
+    "publisher_id": "brill",
+    "repo": "parseland-eval",
+    "task_id": "v2_brill_pdf_url_2ede112c",
+    "updated_at": "2026-06-07T11:25:54Z"
+  },
   "latest_active_task": {
     "agent_id": "codex-oxford-affiliations-b34",
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_claim_shield.json",
