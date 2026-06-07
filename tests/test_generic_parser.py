@@ -53,3 +53,25 @@ def test_structured_abstract_section_rejects_short_navigation_stub():
     out = _parse(html)
 
     assert out["abstract"] is None
+
+
+def test_preprints_visible_star_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta property="og:url" content="https://www.preprints.org/manuscript/202110.0392/v2" />
+        <meta name="citation_author" content="Francesca Noardo" />
+        <meta name="citation_author" content="Dogus Guler" />
+        <meta name="citation_author" content="Judith Fauth" />
+      </head>
+      <body>
+        <div class="manuscript-authors">
+          Francesca Noardo<sup>*</sup>, Dogus Guler<sup></sup>, Judith Fauth<sup></sup>
+        </div>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False, False]

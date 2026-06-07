@@ -22,6 +22,7 @@ class GenericPublisherParser(PublisherParser):
     def parse(self):
         if not self._parse_result:
             authors = self.parse_author_meta_tags()
+            authors = self.mark_preprints_starred_corresponding(authors)
             self._parse_result = {
                 "authors": authors,
                 "abstract": (
@@ -31,6 +32,51 @@ class GenericPublisherParser(PublisherParser):
             }
 
         return self._parse_result
+
+    @staticmethod
+    def _person_key(name):
+        return re.sub(r"[^a-z0-9]+", "", (name or "").lower())
+
+    def mark_preprints_starred_corresponding(self, authors):
+        """Use Preprints.org's visible byline star when citation metadata omits CA.
+
+        Preprints.org exposes authors in citation meta tags but keeps the
+        corresponding marker only in ``div.manuscript-authors`` as a ``*`` sup.
+        Keep this domain-specific so generic citation metadata pages elsewhere
+        do not inherit star semantics from unrelated footnote markers.
+        """
+        if not authors or not self.domain_in_meta_og_url("preprints.org"):
+            return authors
+        byline = self.soup.select_one("div.manuscript-authors")
+        if not byline:
+            return authors
+
+        starred_keys = set()
+        for sup in byline.find_all("sup"):
+            if "*" not in sup.get_text(" ", strip=True):
+                continue
+            name_text = ""
+            for sibling in sup.previous_siblings:
+                if hasattr(sibling, "get_text"):
+                    text = sibling.get_text(" ", strip=True)
+                else:
+                    text = str(sibling).strip()
+                if text:
+                    name_text = re.split(r",|;", text)[-1].strip()
+                    break
+            key = self._person_key(name_text)
+            if key:
+                starred_keys.add(key)
+
+        if not starred_keys:
+            return authors
+        for author in authors:
+            key = self._person_key(author.get("name"))
+            if key in starred_keys:
+                author["is_corresponding"] = True
+            elif author.get("is_corresponding") is None:
+                author["is_corresponding"] = False
+        return authors
 
     def parse_structured_abstract_section(self):
         """Recover generic Atypon/TechRxiv-style visible abstract sections.

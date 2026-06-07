@@ -128,6 +128,46 @@
       "task_id": "v2_lippincott_corresponding_6f6b586e",
       "updated_at": "2026-06-07T03:30:05.192620+00:00"
     },
+    "v2_mdpi_abstract_15a7deed": {
+      "agent_id": "codex-mdpi-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+      "field": "abstract",
+      "next_action": "Available MDPI HTML is above 98%; 65 cached Akamai verification stubs are retrieval_blocked, not parser misses. Recover via Browserbase/harvest only if MDPI coverage becomes the priority.",
+      "publisher_id": "mdpi",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "v2_mdpi_abstract_15a7deed",
+      "updated_at": "2026-06-07T17:36:54Z"
+    },
+    "v2_mdpi_authors_1b786460": {
+      "agent_id": "codex-mdpi-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+      "field": "authors",
+      "next_action": "Available MDPI HTML is above 98%; 65 cached Akamai verification stubs are retrieval_blocked, not parser misses. Recover via Browserbase/harvest only if MDPI coverage becomes the priority.",
+      "publisher_id": "mdpi",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "v2_mdpi_authors_1b786460",
+      "updated_at": "2026-06-07T17:36:54Z"
+    },
+    "v2_mdpi_corresponding_cfd37b32": {
+      "agent_id": "codex-mdpi-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+      "field": "corresponding",
+      "next_action": "Parser-empty corresponding misses are fixed; route 5 visible-star disagreements to gold-auditor, keep 53 approved backfilled corresponding candidates separate, and recover 65 Akamai stubs only through retrieval.",
+      "publisher_id": "mdpi",
+      "status": "parser_empty_fixed_gold_owned_visible_star_residuals",
+      "task_id": "v2_mdpi_corresponding_cfd37b32",
+      "updated_at": "2026-06-07T17:36:54Z"
+    },
+    "v2_mdpi_pdf_url_57b31dbc": {
+      "agent_id": "codex-mdpi-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+      "field": "pdf_url",
+      "next_action": "Available MDPI HTML is above 98%; 65 cached Akamai verification stubs are retrieval_blocked, not parser misses. Recover via Browserbase/harvest only if MDPI coverage becomes the priority.",
+      "publisher_id": "mdpi",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "v2_mdpi_pdf_url_57b31dbc",
+      "updated_at": "2026-06-07T17:36:54Z"
+    },
     "v2_oxford_affiliations_daf59555": {
       "agent_id": "codex-oxford-affiliations-b34",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_claim_shield.json",
@@ -524,9 +564,9 @@
     "scored_rows": 5663,
     "total_rows": 10000
   },
-  "coverage_gold_empty_parser_present_count": 2934,
-  "coverage_html_available": 5663,
-  "coverage_retrieval_blocked_rows": 4337,
+  "coverage_gold_empty_parser_present_count": 2989,
+  "coverage_html_available": 5598,
+  "coverage_retrieval_blocked_rows": 4402,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-07T09:04:45.590550+00:00",
   "cup_abstract_referee_state": {
@@ -546,55 +586,13 @@
     }
   ],
   "last_shipped_task": {
-    "agent_id": "codex-bmj-short-citation-abstract",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
-    "classification": "parser_fix_full10k_gate_green_below_98_explainable_residual",
-    "completed_at": "2026-06-07T12:12:46Z",
-    "diagnosis": "BMJ has one current-Goldie abstract miss where the publisher supplies a short citation_abstract meta tag that the shared meta parser rejected because it was under 200 characters. A BMJ-only fallback accepts short citation_abstract values with at least eight visible words while keeping broad shared guards intact.",
-    "expected_kpi_impact": {
-      "fixed_current_goldie_dois": [
-        "10.1136/bmj.q1056"
-      ],
-      "focused_bmj_abstract_delta_pp": 1.456119637937825,
-      "full10k_abstract_delta_pp": 0.017803611727285062
-    },
-    "field": "abstract",
-    "files_touched": [
-      "parseland_lib/publisher/parsers/bmj.py",
-      "tests/test_bmj_abstract.py",
-      "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json",
-      "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json"
-    ],
-    "publisher_id": "bmj",
-    "recommendation": "Ship the BMJ short citation_abstract parser patch. Keep remaining BMJ abstract residuals below 98 as explainable gold/manual-DOM/body-content issues; continue BMJ corresponding/authors/affiliations/pdf residual diagnosis before leaving the publisher.",
-    "run_id": "20260604T163736Z-77fe45",
-    "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
-    "task_id": "v2_bmj_abstract_279c912c",
-    "tests_run": [
-      {
-        "command": "PYTHONPATH=. .venv/bin/pytest tests/test_bmj_abstract.py tests/test_parse_page.py -q",
-        "result": "19 passed in 0.10s",
-        "status": "passed"
-      },
-      {
-        "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers bmj --label after-bmj-short-citation-abstract --run-id bmj-short-citation-abstract-20260607T1145Z --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json --concurrency 8",
-        "result": "BMJ abstract ratio 0.7959935210155703 -> 0.8105547173949486; 0 errors; 3 retrieval-blocked rows.",
-        "status": "passed"
-      },
-      {
-        "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-bmj-short-citation-abstract --run-id full10k-after-bmj-short-citation-abstract-20260607T1150Z --out eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json --concurrency 8",
-        "result": "coverage.total_rows=10000; html_available=5663; retrieval_blocked=4337; errors=1; abstract +0.0178036117pp; no other aggregate metric changed.",
-        "status": "passed"
-      },
-      {
-        "command": "PYTHONPATH=. .venv/bin/pytest -q",
-        "result": "303 passed, 40 failed in tests/test_parsers.py; failures are existing live fixture/mojibake/name-order mismatches across unrelated publishers, so not used as the green Shield for this scoped patch.",
-        "status": "failed_unrelated_legacy_live_parser_harness"
-      }
-    ],
-    "wave_id": 44
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+    "field": "current_residuals",
+    "publisher": "mdpi",
+    "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals",
+    "task_id": "v2_mdpi_current_residuals_combined"
   },
-  "last_updated_at": "2026-06-07T14:59:12.294949+00:00",
+  "last_updated_at": "2026-06-07T17:36:54Z",
   "latest_active_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
     "field": "abstract",
@@ -606,81 +604,22 @@
   "latest_batch": 44,
   "latest_batch_id": 44,
   "latest_completed_task": {
-    "agent_id": "codex-bmj-short-citation-abstract",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
-    "classification": "parser_fix_full10k_gate_green_below_98_explainable_residual",
-    "completed_at": "2026-06-07T12:12:46Z",
-    "diagnosis": "BMJ has one current-Goldie abstract miss where the publisher supplies a short citation_abstract meta tag that the shared meta parser rejected because it was under 200 characters. A BMJ-only fallback accepts short citation_abstract values with at least eight visible words while keeping broad shared guards intact.",
-    "expected_kpi_impact": {
-      "fixed_current_goldie_dois": [
-        "10.1136/bmj.q1056"
-      ],
-      "focused_bmj_abstract_delta_pp": 1.456119637937825,
-      "full10k_abstract_delta_pp": 0.017803611727285062
-    },
-    "field": "abstract",
-    "files_touched": [
-      "parseland_lib/publisher/parsers/bmj.py",
-      "tests/test_bmj_abstract.py",
-      "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json",
-      "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json"
-    ],
-    "publisher_id": "bmj",
-    "recommendation": "Ship the BMJ short citation_abstract parser patch. Keep remaining BMJ abstract residuals below 98 as explainable gold/manual-DOM/body-content issues; continue BMJ corresponding/authors/affiliations/pdf residual diagnosis before leaving the publisher.",
-    "run_id": "20260604T163736Z-77fe45",
-    "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
-    "task_id": "v2_bmj_abstract_279c912c",
-    "tests_run": [
-      {
-        "command": "PYTHONPATH=. .venv/bin/pytest tests/test_bmj_abstract.py tests/test_parse_page.py -q",
-        "result": "19 passed in 0.10s",
-        "status": "passed"
-      },
-      {
-        "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers bmj --label after-bmj-short-citation-abstract --run-id bmj-short-citation-abstract-20260607T1145Z --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json --concurrency 8",
-        "result": "BMJ abstract ratio 0.7959935210155703 -> 0.8105547173949486; 0 errors; 3 retrieval-blocked rows.",
-        "status": "passed"
-      },
-      {
-        "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-bmj-short-citation-abstract --run-id full10k-after-bmj-short-citation-abstract-20260607T1150Z --out eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json --concurrency 8",
-        "result": "coverage.total_rows=10000; html_available=5663; retrieval_blocked=4337; errors=1; abstract +0.0178036117pp; no other aggregate metric changed.",
-        "status": "passed"
-      },
-      {
-        "command": "PYTHONPATH=. .venv/bin/pytest -q",
-        "result": "303 passed, 40 failed in tests/test_parsers.py; failures are existing live fixture/mojibake/name-order mismatches across unrelated publishers, so not used as the green Shield for this scoped patch.",
-        "status": "failed_unrelated_legacy_live_parser_harness"
-      }
-    ],
-    "wave_id": 44
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+    "field": "authors/abstract/pdf_url/corresponding/accounting",
+    "publisher_id": "mdpi",
+    "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals",
+    "task_id": "v2_mdpi_current_residuals_combined",
+    "updated_at": "2026-06-07T17:36:54Z"
   },
   "latest_full10k_metrics": {
-    "coverage_total_rows": 10000,
-    "errors": 1,
-    "html_available": 5663,
-    "overall": {
-      "abstract_present_rate": 0.6565424686561893,
-      "abstract_ratio_fuzzy": 0.9199244300222398,
-      "affiliations_f1_fuzzy": 0.9380796940921345,
-      "affiliations_f1_strict": 0.7453120937966314,
-      "authors_f1_soft": 0.9548911966362078,
-      "authors_f1_strict": 0.938069801683616,
-      "corresponding_accuracy": 0.9665972129070722,
-      "duration_ms_mean": 2267.941471997939,
-      "errors": 1,
-      "n_abstract_scored": 5398,
-      "n_authors_scored": 5357,
-      "n_corresponding_scored": 5325,
-      "n_pdf_scored": 4378,
-      "pdf_url_accuracy": 0.9486066697121973,
-      "rows": 10000,
-      "scored": 5663,
-      "skipped_no_html": 4337
-    },
-    "retrieval_blocked_rows": 4337
+    "abstract": 0.9228515491699001,
+    "affiliations": 0.9374518775948304,
+    "authors": 0.9550929970484059,
+    "corresponding": 0.9678954674391939,
+    "pdf_url": 0.9492232784604684
   },
-  "latest_full10k_run": "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json",
-  "latest_full_10k_run": "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json",
+  "latest_full10k_run": "eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json",
+  "latest_full_10k_run": "eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json",
   "latest_retrieval_coverage_run": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_gate.json",
     "audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_audit.summary.json",
@@ -708,6 +647,23 @@
     "blocked": 0,
     "remaining": 0,
     "updated_at": "2026-06-07T16:12:50.186648+00:00"
+  },
+  "mdpi_current_residuals": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
+    "available_html_above_98_fields": [
+      "authors",
+      "abstract",
+      "pdf_url"
+    ],
+    "remaining_gold_owned_corresponding_dois": [
+      "10.3390/microorganisms10112251",
+      "10.3390/vetsci9070319",
+      "10.3390/curroncol29050259",
+      "10.3390/jcm11030691",
+      "10.3390/horticulturae10080830"
+    ],
+    "retrieval_blocked_cached_bot_check": 65,
+    "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals"
   },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
@@ -1188,5 +1144,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T14:31:22Z"
+  "updated_at": "2026-06-07T17:36:54Z"
 }

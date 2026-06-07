@@ -49,6 +49,17 @@ def test_cookies_turned_off_cache_is_bot_blocked() -> None:
     assert _html_block_reason(html) == "cached_bot_check"
 
 
+def test_akamai_verification_cache_is_bot_blocked() -> None:
+    html = """
+    <html><head>
+      <meta http-equiv="refresh" content="5; URL='/1424-8220/22/20/8045?bm-verify=token'" />
+      <title>&nbsp;</title>
+    </head>
+    <body>Powered and protected by <img alt="Powered by Akamai" /></body></html>
+    """
+    assert _html_block_reason(html) == "cached_bot_check"
+
+
 def test_unrelated_error_page_is_retrieval_blocked() -> None:
     html = """
     <html><head><title>Cybercrime - FBI</title></head>

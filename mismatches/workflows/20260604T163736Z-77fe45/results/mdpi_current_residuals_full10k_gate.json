@@ -1,0 +1,384 @@
+{
+  "coverage_delta": {
+    "cached_bot_check": 65,
+    "html_available": -65,
+    "retrieval_blocked_rows": 65,
+    "scored_rows": -65
+  },
+  "fixed_current_goldie_misses": {
+    "abstract_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    },
+    "authors_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    },
+    "corresponding_gold_present_parser_empty": {
+      "after": 0,
+      "before": 5,
+      "note": "Preprints starred-byline and MDPI single-author fixes remove parser-empty CA misses; remaining CA gap is score mismatch against visible page markers."
+    },
+    "pdf_url_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    }
+  },
+  "focus_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_focus_gate.json",
+  "full10k_after_artifact": "eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json",
+  "full10k_after_coverage": {
+    "gold_empty_parser_present_count": 2989,
+    "html_available": 5598,
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 95,
+      "cached_error_page": 3,
+      "cached_too_small": 49,
+      "js_rendered_required": 1,
+      "missing": 4254
+    },
+    "retrieval_blocked_rows": 4402,
+    "scored_rows": 5598,
+    "total_rows": 10000
+  },
+  "full10k_before_artifact": "eval/runs/whole-goldie-after-de-gruyter-abstract-fallback-20260607T1415Z.json",
+  "full10k_field_deltas": {
+    "abstract": {
+      "after": 0.9228515491699001,
+      "before": 0.9230400405880604,
+      "delta": -0.00018849141816035253,
+      "delta_pp": -0.0188,
+      "metric": "abstract_ratio_fuzzy"
+    },
+    "affiliations": {
+      "after": 0.9374518775948304,
+      "before": 0.9380796940921345,
+      "delta": -0.0006278164973041456,
+      "delta_pp": -0.0628,
+      "metric": "affiliations_f1_fuzzy"
+    },
+    "authors": {
+      "after": 0.9550929970484059,
+      "before": 0.9548911966362078,
+      "delta": 0.0002018004121980832,
+      "delta_pp": 0.0202,
+      "metric": "authors_f1_soft"
+    },
+    "corresponding": {
+      "after": 0.9678954674391939,
+      "before": 0.9673483866159924,
+      "delta": 0.000547080823201429,
+      "delta_pp": 0.0547,
+      "metric": "corresponding_accuracy"
+    },
+    "pdf_url": {
+      "after": 0.9492232784604684,
+      "before": 0.9490634993147556,
+      "delta": 0.0001597791457127462,
+      "delta_pp": 0.016,
+      "metric": "pdf_url_accuracy"
+    }
+  },
+  "gate": "mdpi_current_residuals_full10k",
+  "generated_at": "2026-06-07T17:36:54Z",
+  "mdpi_after": {
+    "field_counts": {
+      "abstract": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      },
+      "affiliations": {
+        "empty_empty_pass": 4,
+        "gold_empty_parser_present": 56,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 12,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 16,
+        "total_rows": 137
+      },
+      "authors": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      },
+      "corresponding": {
+        "empty_empty_pass": 1,
+        "gold_empty_parser_present": 53,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 18,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 19,
+        "total_rows": 137
+      },
+      "pdf_url": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      }
+    },
+    "metrics": {
+      "abstract_present_rate": 1.0,
+      "abstract_ratio_fuzzy": 0.9980370158128701,
+      "affiliations_f1_fuzzy": 0.559185606060606,
+      "affiliations_f1_strict": 0.3125,
+      "authors_f1_soft": 1.0,
+      "authors_f1_strict": 0.9861111111111112,
+      "corresponding_accuracy": 0.8070175438596491,
+      "duration_ms_mean": 5867.192166200968,
+      "errors": 0,
+      "n_abstract_scored": 72,
+      "n_authors_scored": 72,
+      "n_corresponding_scored": 19,
+      "n_pdf_scored": 72,
+      "pdf_url_accuracy": 1.0,
+      "rows": 137,
+      "scored": 72,
+      "skipped_no_html": 65
+    },
+    "retrieval_blocked_reason": {
+      "cached_bot_check": 65
+    }
+  },
+  "mdpi_slice_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_mdpi_current_residuals_after.json",
+  "patches": [
+    "scripts/whole_goldie_eval.py: classify short Akamai bm-verify pages as cached_bot_check retrieval_blocked",
+    "parseland_lib/publisher/parsers/generic.py: mark Preprints.org visible starred byline authors as corresponding",
+    "parseland_lib/publisher/parsers/mdpi.py: mark single-author MDPI bylines as corresponding when no star is present"
+  ],
+  "recommendation": "Ship MDPI current residual patch/accounting. Available MDPI HTML is now above 98 for authors, abstract, and pdf_url; corresponding parser-empty misses are fixed. Remaining MDPI affiliations/current corresponding gap is gold/backfill/retrieval-owned, with 65 cached Akamai verification stubs counted as retrieval_blocked and 5 visible-star corresponding disagreements routed to gold-auditor.",
+  "remaining_corresponding_mismatches": [
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/microorganisms10112251",
+      "gold_corresponding": [
+        [
+          "Evgenia D. Spyrelli",
+          false
+        ],
+        [
+          "George-John E. Nychas",
+          false
+        ],
+        [
+          "Efstathios Z. Panagou",
+          true
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "precision": 0.5,
+        "recall": 1.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/vetsci9070319",
+      "gold_corresponding": [
+        [
+          "Doss\u00eah Jean Ap\u00f4tre Afayibo",
+          false
+        ],
+        [
+          "Hong Zhu",
+          false
+        ],
+        [
+          "Beibei Zhang",
+          false
+        ],
+        [
+          "Lan Yao",
+          false
+        ],
+        [
+          "Hosny Ahmed Abdelgawad",
+          false
+        ],
+        [
+          "Mingxing Tian",
+          false
+        ],
+        [
+          "Jingjing Qi",
+          false
+        ],
+        [
+          "Yali Liu",
+          true
+        ],
+        [
+          "Shaohui Wang",
+          true
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "precision": 1.0,
+        "recall": 0.5
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/curroncol29050259",
+      "gold_corresponding": [
+        [
+          "Marie-H\u00e9l\u00e8ne Denault",
+          false
+        ],
+        [
+          "Catherine Labb\u00e9",
+          true
+        ],
+        [
+          "Carolle St-Pierre",
+          false
+        ],
+        [
+          "Brigitte Fournier",
+          false
+        ],
+        [
+          "Andr\u00e9anne Gagn\u00e9",
+          false
+        ],
+        [
+          "Claudia Morillon",
+          false
+        ],
+        [
+          "Philippe Joubert",
+          false
+        ],
+        [
+          "Serge Simard",
+          false
+        ],
+        [
+          "Simon Martel",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/jcm11030691",
+      "gold_corresponding": [
+        [
+          "Tardu \u00d6zkartal",
+          false
+        ],
+        [
+          "Andrea Demarchi",
+          false
+        ],
+        [
+          "Maria Luce Caputo",
+          false
+        ],
+        [
+          "Enrico Baldi",
+          false
+        ],
+        [
+          "Giulio Conte",
+          true
+        ],
+        [
+          "Angelo Auricchio",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/horticulturae10080830",
+      "gold_corresponding": [
+        [
+          "Eunhee Park",
+          false
+        ],
+        [
+          "Yaguang Luo",
+          true
+        ],
+        [
+          "Ellen R. Bornhorst",
+          false
+        ],
+        [
+          "Ivan Simko",
+          false
+        ],
+        [
+          "Frances Trouth",
+          false
+        ],
+        [
+          "Jorge M. Fonseca",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    }
+  ],
+  "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals",
+  "tests": {
+    "focused": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_mdpi_parser.py tests/test_whole_goldie_html_block_reason.py -q",
+    "focused_result": "11 passed",
+    "full10k": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-mdpi-current-residuals --out eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json --concurrency 8",
+    "full10k_result": "coverage.total_rows=10000; scored=5598; retrieval_blocked=4402; errors=1",
+    "mdpi_slice": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers mdpi --label mdpi-current-residuals-after",
+    "mdpi_slice_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_mdpi_current_residuals_after.json"
+  },
+  "true_runtime_errors": [
+    {
+      "doi": "10.1016/0017-9310(81)90129-0",
+      "error": "LookupError: unknown encoding: 'b'mac_latin2''\nTraceback (most recent call last):\n  File \"/Users/shubh-trips/Documents/OpenAlex/parseland-lib/scripts/whole_goldie_eval.py\", line 319, in _parse_and_score\n    parsed = parse_page(html, namespace=\"doi\", resolved_url=row.link)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shubh-trips/Documents/OpenAlex/parseland-lib/parseland_lib/parse.py\", line 61, in parse_page\n    fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/shubh-trips/Documents/OpenAlex/parseland-lib/parseland_lib/legacy_parse_utils/fulltext.py\", line 156, in parse_publisher_fulltext_location\n    license_search_substr = page_potential_license_text(soup_str)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nLookupError: unknown encoding: 'b'mac_latin2''\n",
+      "publisher": "elsevier"
+    }
+  ]
+}

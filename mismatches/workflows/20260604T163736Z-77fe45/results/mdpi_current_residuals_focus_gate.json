@@ -1,0 +1,411 @@
+{
+  "coverage_after": {
+    "gold_empty_parser_present_count": 109,
+    "html_available": 72,
+    "per_publisher": {
+      "mdpi": {
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 65
+    },
+    "retrieval_blocked_rows": 65,
+    "scored_rows": 72,
+    "total_rows": 137
+  },
+  "coverage_before": {
+    "gold_empty_parser_present_count": 109,
+    "html_available": 137,
+    "per_publisher": {
+      "mdpi": {
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 137,
+        "total_rows": 137
+      }
+    },
+    "retrieval_blocked_by_reason": {},
+    "retrieval_blocked_rows": 0,
+    "scored_rows": 137,
+    "total_rows": 137
+  },
+  "field_deltas": {
+    "abstract": {
+      "after": 0.9980370158128701,
+      "after_counts": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      },
+      "before": 0.9697712783834059,
+      "before_counts": {
+        "empty_empty_pass": 61,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 72,
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 137,
+        "total_rows": 137
+      },
+      "metric": "abstract_ratio_fuzzy"
+    },
+    "affiliations": {
+      "after": 0.559185606060606,
+      "after_counts": {
+        "empty_empty_pass": 4,
+        "gold_empty_parser_present": 56,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 12,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 16,
+        "total_rows": 137
+      },
+      "before": 0.9005798728020951,
+      "before_counts": {
+        "empty_empty_pass": 68,
+        "gold_empty_parser_present": 56,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 12,
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 81,
+        "total_rows": 137
+      },
+      "metric": "affiliations_f1_fuzzy"
+    },
+    "authors": {
+      "after": 1.0,
+      "after_counts": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      },
+      "before": 0.9708029197080292,
+      "before_counts": {
+        "empty_empty_pass": 61,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 72,
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 137,
+        "total_rows": 137
+      },
+      "metric": "authors_f1_soft"
+    },
+    "corresponding": {
+      "after": 0.8070175438596491,
+      "after_counts": {
+        "empty_empty_pass": 1,
+        "gold_empty_parser_present": 53,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 18,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 19,
+        "total_rows": 137
+      },
+      "before": 0.8968253968253967,
+      "before_counts": {
+        "empty_empty_pass": 65,
+        "gold_empty_parser_present": 53,
+        "gold_present_parser_empty": 5,
+        "gold_present_parser_present": 14,
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 84,
+        "total_rows": 137
+      },
+      "metric": "corresponding_accuracy"
+    },
+    "pdf_url": {
+      "after": 1.0,
+      "after_counts": {
+        "empty_empty_pass": 0,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 72,
+        "html_available": 72,
+        "retrieval_blocked": 65,
+        "scored_rows": 72,
+        "total_rows": 137
+      },
+      "before": 0.9708029197080292,
+      "before_counts": {
+        "empty_empty_pass": 61,
+        "gold_empty_parser_present": 0,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 72,
+        "html_available": 137,
+        "retrieval_blocked": 0,
+        "scored_rows": 137,
+        "total_rows": 137
+      },
+      "metric": "pdf_url_accuracy"
+    }
+  },
+  "fixed_current_goldie_misses": {
+    "abstract_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    },
+    "authors_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    },
+    "corresponding_gold_present_parser_empty": {
+      "after": 0,
+      "before": 5,
+      "note": "Preprints starred-byline and MDPI single-author fixes remove parser-empty CA misses; remaining CA gap is score mismatch against visible page markers."
+    },
+    "pdf_url_gold_present_parser_empty": {
+      "after": 0,
+      "before": 4,
+      "note": "Rows are Akamai cached_bot_check retrieval_blocked, not parser-empty."
+    }
+  },
+  "gate": "mdpi_current_residuals_focus",
+  "generated_at": "2026-06-07T16:54:18.923276+00:00",
+  "patches": [
+    "scripts/whole_goldie_eval.py: classify short Akamai bm-verify pages as cached_bot_check retrieval_blocked",
+    "parseland_lib/publisher/parsers/generic.py: mark Preprints.org visible starred byline authors as corresponding",
+    "parseland_lib/publisher/parsers/mdpi.py: mark single-author MDPI bylines as corresponding when no star is present"
+  ],
+  "recommendation": "Ship focused parser/eval accounting fixes; route remaining MDPI corresponding mismatches and low affiliations current-KPI to gold-auditor/Goldie-backfilled approval, not parser patching.",
+  "remaining_corresponding_mismatches": [
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/microorganisms10112251",
+      "gold_corresponding": [
+        [
+          "Evgenia D. Spyrelli",
+          false
+        ],
+        [
+          "George-John E. Nychas",
+          false
+        ],
+        [
+          "Efstathios Z. Panagou",
+          true
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "precision": 0.5,
+        "recall": 1.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/vetsci9070319",
+      "gold_corresponding": [
+        [
+          "Doss\u00eah Jean Ap\u00f4tre Afayibo",
+          false
+        ],
+        [
+          "Hong Zhu",
+          false
+        ],
+        [
+          "Beibei Zhang",
+          false
+        ],
+        [
+          "Lan Yao",
+          false
+        ],
+        [
+          "Hosny Ahmed Abdelgawad",
+          false
+        ],
+        [
+          "Mingxing Tian",
+          false
+        ],
+        [
+          "Jingjing Qi",
+          false
+        ],
+        [
+          "Yali Liu",
+          true
+        ],
+        [
+          "Shaohui Wang",
+          true
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "precision": 1.0,
+        "recall": 0.5
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/curroncol29050259",
+      "gold_corresponding": [
+        [
+          "Marie-H\u00e9l\u00e8ne Denault",
+          false
+        ],
+        [
+          "Catherine Labb\u00e9",
+          true
+        ],
+        [
+          "Carolle St-Pierre",
+          false
+        ],
+        [
+          "Brigitte Fournier",
+          false
+        ],
+        [
+          "Andr\u00e9anne Gagn\u00e9",
+          false
+        ],
+        [
+          "Claudia Morillon",
+          false
+        ],
+        [
+          "Philippe Joubert",
+          false
+        ],
+        [
+          "Serge Simard",
+          false
+        ],
+        [
+          "Simon Martel",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/jcm11030691",
+      "gold_corresponding": [
+        [
+          "Tardu \u00d6zkartal",
+          false
+        ],
+        [
+          "Andrea Demarchi",
+          false
+        ],
+        [
+          "Maria Luce Caputo",
+          false
+        ],
+        [
+          "Enrico Baldi",
+          false
+        ],
+        [
+          "Giulio Conte",
+          true
+        ],
+        [
+          "Angelo Auricchio",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    },
+    {
+      "classification": "gold_owned_visible_star_disagreement",
+      "doi": "10.3390/horticulturae10080830",
+      "gold_corresponding": [
+        [
+          "Eunhee Park",
+          false
+        ],
+        [
+          "Yaguang Luo",
+          true
+        ],
+        [
+          "Ellen R. Bornhorst",
+          false
+        ],
+        [
+          "Ivan Simko",
+          false
+        ],
+        [
+          "Frances Trouth",
+          false
+        ],
+        [
+          "Jorge M. Fonseca",
+          false
+        ]
+      ],
+      "next_action": "gold-auditor compare visible MDPI star marker against Goldie corresponding_author flags",
+      "score": {
+        "accuracy": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    }
+  ],
+  "retrieval_blocked_examples": [
+    "10.3390/app12104957",
+    "10.3390/jpm11101036",
+    "10.3390/catal10050496",
+    "10.3390/molecules17044047",
+    "10.3390/polym13162685",
+    "10.3390/electronics11244092",
+    "10.3390/ijms20225615",
+    "10.3390/pharmaceutics15082103",
+    "10.3390/s22208045",
+    "10.3390/life12030460"
+  ],
+  "status": "green_with_gold_owned_residuals",
+  "tests": {
+    "focused": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_mdpi_parser.py tests/test_whole_goldie_html_block_reason.py -q",
+    "focused_result": "11 passed",
+    "mdpi_slice": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers mdpi --label mdpi-current-residuals-after",
+    "mdpi_slice_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_mdpi_current_residuals_after.json"
+  }
+}

@@ -38,6 +38,8 @@ class MDPI(PublisherParser):
             authors.append(
                 Author(name=name, aff_ids=aff_ids, is_corresponding=is_corresponding)
             )
+        if len(authors) == 1 and authors[0].is_corresponding is False:
+            authors[0].is_corresponding = True
         return authors
 
     def get_affiliations(self):
