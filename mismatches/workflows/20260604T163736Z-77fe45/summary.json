@@ -701,13 +701,13 @@
     "remaining": 0,
     "updated_at": "2026-06-07T15:17:41.042101+00:00"
   },
-  "mdpi_corresponding": "goldie_backfill_referee_partial_10_approved_0_blocked_43_pending",
+  "mdpi_corresponding": "goldie_backfill_referee_partial_35_approved_0_blocked_18_pending",
   "mdpi_corresponding_backfill": {
-    "approved": 10,
-    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_smoke_10_referee.ndjson",
+    "approved": 35,
+    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_10_35_referee.ndjson",
     "blocked": 0,
-    "remaining": 43,
-    "updated_at": "2026-06-07T15:46:43.226842+00:00"
+    "remaining": 18,
+    "updated_at": "2026-06-07T16:01:17.880902+00:00"
   },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",

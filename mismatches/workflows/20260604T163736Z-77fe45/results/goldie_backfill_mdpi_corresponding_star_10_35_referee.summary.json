@@ -1,0 +1,24 @@
+{
+  "approved_example_dois": [
+    "10.3390/buildings16101854",
+    "10.3390/cancers14092299",
+    "10.3390/cancers15061644",
+    "10.3390/cells10020466",
+    "10.3390/curroncol31090403"
+  ],
+  "approved_rows": 25,
+  "blocked_example_dois": [],
+  "blocked_rows": 0,
+  "completed_at": "2026-06-07T16:01:17.880902+00:00",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_derived_v0.ndjson",
+  "field": "corresponding",
+  "next_action": "Scale final 18 MDPI corresponding candidates using starred-byline resolver, then diagnose 5 current-Goldie misses.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "mdpi",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_10_35_referee.ndjson",
+  "remaining_current_candidates": 18,
+  "reviewed_rows": 25,
+  "source_raw_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_10_35_raw.ndjson",
+  "status": "goldie_backfill_referee_partial_35_approved_0_blocked_18_pending",
+  "total_approved_rows": 35
+}
