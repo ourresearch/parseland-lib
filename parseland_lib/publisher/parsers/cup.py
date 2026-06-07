@@ -56,6 +56,29 @@ class CUP(PublisherParser):
         text = re.sub(r"\s+", " ", text)
         return text.strip(" ,")
 
+    @staticmethod
+    def _surname_from_name(name):
+        tokens = re.findall(r"[A-Za-z][A-Za-z'-]+", name or "")
+        return tokens[-1].lower() if tokens else ""
+
+    def _footnote_marks_first_meta_author_corresponding(self, first_author_name):
+        text = self.soup.get_text(" ", strip=True)
+        match = re.search(r"Footnotes?\s*\*\s*(.{0,700})", text, flags=re.I)
+        if not match:
+            return False
+
+        snippet = match.group(1)
+        email = re.search(
+            r"(?:e-?mail|email)\s*:\s*([A-Z0-9._%+-]+)@[A-Z0-9.-]+\.[A-Z]{2,}",
+            snippet,
+            flags=re.I,
+        )
+        if not email:
+            return False
+
+        surname = self._surname_from_name(first_author_name)
+        return bool(surname and surname in email.group(1).lower())
+
     def _contributor_names(self, tag):
         names = []
         for selector in ("span.author-name", "a.more-by-this-author", ".contributor-type__contributor"):
@@ -194,6 +217,14 @@ class CUP(PublisherParser):
         # Fall back to meta-tag parsing so these ~40% of pages aren't dropped.
         if not result_authors:
             result_authors = self.parse_author_meta_tags()
+            if result_authors:
+                first_author = result_authors[0]
+                first_name = first_author.get("name") if isinstance(first_author, dict) else first_author.name
+                if self._footnote_marks_first_meta_author_corresponding(first_name):
+                    if isinstance(first_author, dict):
+                        first_author["is_corresponding"] = True
+                    else:
+                        first_author.is_corresponding = True
 
         # Journal pages carry the abstract in meta tags. Cambridge eBook (cbo*)
         # chapter pages do not — their meta og:description is just the book

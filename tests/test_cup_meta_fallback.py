@@ -41,6 +41,10 @@ def _affiliations(author):
     return author.get("affiliations") if isinstance(author, dict) else getattr(author, "affiliations", [])
 
 
+def _is_corresponding(author):
+    return author.get("is_corresponding") if isinstance(author, dict) else getattr(author, "is_corresponding", None)
+
+
 def test_meta_fallback_when_no_div_author():
     html = _wrap(
         '<meta name="citation_author" content="C. A. F. Rhys Davids" />'
@@ -60,6 +64,32 @@ def test_meta_fallback_multiple_authors():
     )
     out = CUP(BeautifulSoup(html, "lxml")).parse()
     assert _names(out["authors"]) == ["Alice Lovat", "R. E. Sackett"]
+
+
+def test_meta_fallback_uses_first_author_footnote_email_for_corresponding():
+    html = _wrap(
+        '<meta name="citation_author" content="Nils Ringe" />'
+        '<meta name="citation_author" content="Jennifer Nicoll Victor" />'
+        '<meta name="citation_author" content="Justin H. Gross" />',
+        "Footnotes * Department of Political Science, University of Wisconsin, Madison "
+        "(email: ringe@wisc.edu); Department of Public and International Affairs.",
+    )
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _names(out["authors"]) == ["Nils Ringe", "Jennifer Nicoll Victor", "Justin H. Gross"]
+    assert _is_corresponding(out["authors"][0]) is True
+    assert _is_corresponding(out["authors"][1]) is None
+    assert _is_corresponding(out["authors"][2]) is None
+
+
+def test_meta_fallback_does_not_infer_corresponding_from_unmatched_footnote_email():
+    html = _wrap(
+        '<meta name="citation_author" content="Nils Ringe" />'
+        '<meta name="citation_author" content="Jennifer Nicoll Victor" />',
+        "Footnotes * Project support contact (email: support@example.org).",
+    )
+    out = CUP(BeautifulSoup(html, "lxml")).parse()
+    assert _is_corresponding(out["authors"][0]) is None
+    assert _is_corresponding(out["authors"][1]) is None
 
 
 def test_div_author_path_still_used_when_present():

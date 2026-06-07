@@ -1,0 +1,92 @@
+{
+  "agent_id": "codex-cup-corresponding-b32",
+  "batch_id": 32,
+  "changed_rows": [
+    {
+      "after": {
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "gold_total_ca": 1,
+        "parsed_total_ca": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tp": 1
+      },
+      "before": {
+        "f1": 0.0,
+        "fn": 1,
+        "fp": 0,
+        "gold_total_ca": 1,
+        "parsed_total_ca": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "tp": 0
+      },
+      "classification": "parser_owned_meta_footnote_email",
+      "doi": "10.1017/s0007123412000518",
+      "evidence": "CUP meta-author page contains Footnotes * ... (email: ringe@wisc.edu), matching first author Nils Ringe surname in email local-part."
+    }
+  ],
+  "classification": "parser_owned_shipped_full10k_measured_above_98_with_backfill_pending",
+  "completed_at": "2026-06-07T04:32:20.482203+00:00",
+  "diagnosis": "CUP meta-author pages without div.author dropped corresponding-author footnote evidence. A narrow fallback marks the first citation meta author corresponding only when the Footnotes * email local-part contains that first author surname. One current-Goldie FN was fixed; the remaining FN is gold/mixed because the page explicitly names only Sinai Zyblewski while Goldie marks two corresponding authors. Sixteen Goldie-empty/parser-present rows remain separate backfill candidates.",
+  "field": "corresponding",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/cup.py",
+    "tests/test_cup_meta_fallback.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_before.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch32_cup_corresponding_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "fixture_after": {
+    "fn": 1,
+    "fp": 17,
+    "micro_f1": 0.625,
+    "precision": 0.46875,
+    "recall": 0.9375,
+    "tp": 15
+  },
+  "fixture_before": {
+    "fn": 2,
+    "fp": 17,
+    "micro_f1": 0.5957446808510638,
+    "precision": 0.45161290322580644,
+    "recall": 0.875,
+    "tp": 14
+  },
+  "fixture_delta_pp": 2.9255,
+  "publisher_id": "cup",
+  "recommendation": "Ship the safe CUP corresponding patch; CUP corresponding is now above 98% on the current whole-Goldie slice. Route remaining CUP corresponding residuals to Goldie-backfilled/gold-auditor/manual-DOM and continue the global queue.",
+  "residuals": {
+    "current_goldie_miss_count": 1,
+    "goldie_backfilled_candidates": 16,
+    "residual_classification": "gold_mixed_or_manual_dom_needed",
+    "residual_current_goldie_example": "10.1017/s1047951122001822"
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_cup_corresponding_b675a7db",
+  "tests_run": [
+    "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/cup.py tests/test_cup_meta_fallback.py",
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_parse_page.py tests/test_app_post_parseland.py tests/test_cup_meta_fallback.py -q",
+    "python3 validate Batch 32 JSON/NDJSON artifacts"
+  ],
+  "whole_goldie_after": {
+    "above_98": true,
+    "corresponding_accuracy": 0.982716049382716,
+    "empty_empty_pass": 118,
+    "gold_empty_parser_present": 16,
+    "gold_present_parser_empty": 1,
+    "gold_present_parser_present": 16,
+    "html_available": 151,
+    "retrieval_blocked_rows": 3,
+    "rows": 154,
+    "scored_rows_for_field": 135,
+    "target": 0.98
+  }
+}

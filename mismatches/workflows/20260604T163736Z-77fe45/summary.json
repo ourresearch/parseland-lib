@@ -12,13 +12,13 @@
     },
     "v2_cup_corresponding_b675a7db": {
       "agent_id": "codex-cup-corresponding-b32",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_claim_shield.json",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
       "field": "corresponding",
-      "next_action": "Diagnose CUP corresponding current-Goldie misses and Goldie-backfilled candidates; keep current-Goldie KPI separate.",
+      "next_action": "Route 16 CUP corresponding Goldie-backfilled candidates and 1 residual current-Goldie miss to Browserbase/gold-auditor/manual-DOM; continue next ranked lane.",
       "publisher_id": "cup",
-      "status": "in_progress_current_goldie_diagnosis",
+      "status": "shipped_full10k_measured",
       "task_id": "v2_cup_corresponding_b675a7db",
-      "updated_at": "2026-06-07T04:18:17.799928+00:00"
+      "updated_at": "2026-06-07T04:32:20.482203+00:00"
     },
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
@@ -69,12 +69,11 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "in_progress_current_goldie_diagnosis": 1,
     "needs_agent": 3,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_below_98_explainable_residual": 1,
-    "shipped_full10k_measured": 16,
+    "shipped_full10k_measured": 17,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_small_current_goldie_lift": 1,
@@ -101,15 +100,15 @@
     }
   ],
   "latest_batch": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/lippincott_pdf_aha_download_shield.json",
-    "batch_id": 28,
-    "completed_at": "2026-06-07T02:46:59Z",
-    "field": "pdf_url",
-    "overall_pdf_delta_pp": 0.051453563159242766,
-    "publisher": "lippincott",
-    "publisher_field_delta_pp": 1.1363636363636354,
-    "run_id": "batch28-lippincott-pdf-aha-download",
-    "status": "shipped_scorer_fix_small_lift_below_98_residual_explainable"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
+    "batch_id": 32,
+    "completed_at": "2026-06-07T04:32:20.482203+00:00",
+    "field": "corresponding",
+    "publisher": "cup",
+    "publisher_field_after": 0.982716049382716,
+    "publisher_field_delta_pp": 2.9255,
+    "run_id": "batch32-cup-corresponding-after",
+    "status": "shipped_full10k_measured"
   },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
@@ -587,5 +586,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T04:01:07.966774+00:00"
+  "updated_at": "2026-06-07T04:32:20.482203+00:00"
 }

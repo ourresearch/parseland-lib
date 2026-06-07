@@ -1,0 +1,70 @@
+{
+  "artifact_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_summary.json",
+  "batch_id": 32,
+  "completed_at": "2026-06-07T04:32:20.482203+00:00",
+  "field": "corresponding",
+  "kpi": {
+    "above_98": true,
+    "fixture_corresponding_after": {
+      "fn": 1,
+      "fp": 17,
+      "micro_f1": 0.625,
+      "precision": 0.46875,
+      "recall": 0.9375,
+      "tp": 15
+    },
+    "fixture_corresponding_before": {
+      "fn": 2,
+      "fp": 17,
+      "micro_f1": 0.5957446808510638,
+      "precision": 0.45161290322580644,
+      "recall": 0.875,
+      "tp": 14
+    },
+    "fixture_delta_pp": 2.9255,
+    "target": 0.98,
+    "whole_goldie_cup_corresponding_after": 0.982716049382716
+  },
+  "policy": {
+    "current_goldie_kpi_separate_from_goldie_backfilled": true,
+    "gold_empty_parser_present_candidates": 16,
+    "merged_final_mutated": false
+  },
+  "publisher_id": "cup",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "green",
+  "task_id": "v2_cup_corresponding_b675a7db",
+  "tests": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_cup_meta_fallback.py -q",
+      "result": "14 passed in 0.07s",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/field_inprocess_diff.py --publisher cup --field corresponding --gold tests/fixtures/cup-gold.ndjson --out mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_after.json",
+      "result": "CUP corresponding micro F1 0.5957 -> 0.6250; tp/fp/fn 14/17/2 -> 15/17/1; no authors/affiliations/abstract/pdf movement.",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers cup --label batch32-cup-corresponding-after --run-id batch32-cup-corresponding-after --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch32_cup_corresponding_after.json --concurrency 8",
+      "result": "154 total rows, 151 html_available, 3 retrieval_blocked, CUP corresponding accuracy 0.982716049382716.",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/cup.py tests/test_cup_meta_fallback.py",
+      "result": "py_compile passed",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_parse_page.py tests/test_app_post_parseland.py tests/test_cup_meta_fallback.py -q",
+      "result": "36 passed in 2.25s",
+      "status": "passed"
+    },
+    {
+      "command": "python3 validate Batch 32 JSON/NDJSON artifacts",
+      "result": "summary/shield/before/after/whole-Goldie JSON valid; queue 250 rows; task-results 70 rows.",
+      "status": "passed"
+    }
+  ],
+  "updated_at": "2026-06-07T04:32:52.710090+00:00"
+}
