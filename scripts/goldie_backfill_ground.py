@@ -138,6 +138,29 @@ def candidate_needles(candidate: dict) -> list[str]:
     return needles
 
 
+def _candidate_correspondence_needles(candidate: dict) -> list[str]:
+    if candidate.get("field") != "corresponding":
+        return []
+    payload = candidate.get("parseland_candidate")
+    if not isinstance(payload, dict):
+        return []
+    markers = ("correspond", "reprint", "e-mail", "email", "mailto:", "address")
+    needles: list[str] = []
+    for author in payload.get("authors") or []:
+        if not isinstance(author, dict) or not author.get("is_corresponding"):
+            continue
+        for affiliation in author.get("affiliations") or []:
+            if isinstance(affiliation, dict):
+                value = affiliation.get("name") or affiliation.get("value")
+            else:
+                value = affiliation
+            text = " ".join(str(value or "").split())
+            lower = text.lower()
+            if text and any(marker in lower for marker in markers) and text not in needles:
+                needles.append(text)
+    return needles
+
+
 def candidate_pdf_url(candidate: dict) -> str | None:
     if candidate.get("field") != "pdf_url":
         return None
@@ -358,6 +381,17 @@ def _matched_excerpt(html: str, needles: list[str]) -> tuple[str | None, str | N
 
 
 def excerpt_for(html: str, candidate: dict) -> tuple[str | None, str | None, str]:
+    if candidate.get("field") == "corresponding":
+        excerpt, _ = _matched_excerpt(html, _candidate_correspondence_needles(candidate))
+        if excerpt:
+            return (
+                excerpt,
+                "correspondence-candidate-text-match",
+                "correspondence_candidate_text_match",
+            )
+        excerpt, _ = _matched_excerpt(html, candidate_needles(candidate))
+        if excerpt:
+            return excerpt, "corresponding-author-name-only", "corresponding_author_name_only"
     excerpt, _ = _matched_excerpt(html, candidate_needles(candidate))
     if excerpt:
         return excerpt, "candidate-text-match", "candidate_text_match"
@@ -829,6 +863,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     "author_count_author_names_match",
                     "abstract_len_rendered_parse_match",
                     "all_affiliation_candidate_text_match",
+                    "correspondence_candidate_text_match",
                 }
                 else "page_rendered_needs_referee"
                 if confidence == "page_identity_only"

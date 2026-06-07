@@ -1,0 +1,19 @@
+{
+  "browserbase_smoke_before_patch": {
+    "all_status": "candidate_evidence_needs_referee",
+    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_smoke_10_raw.ndjson",
+    "processed": 10,
+    "quality_issue": "candidate_text_match only proved author names, not corresponding-author signals"
+  },
+  "changed_files": [
+    "scripts/goldie_backfill_ground.py",
+    "tests/test_goldie_backfill_ground.py"
+  ],
+  "gate_command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_goldie_backfill_ground.py -q",
+  "gate_id": "goldie-backfill-corresponding-grounding-signal",
+  "gate_result": "14 passed in 0.07s",
+  "next_action": "rerun Lippincott corresponding smoke 10 with stricter correspondence signal before Referee approval or scaling",
+  "reason": "Corresponding Goldie-backfilled grounding now requires correspondence/reprint/email text for high-confidence evidence; author-name-only matches are downgraded.",
+  "status": "green",
+  "timestamp_utc": "2026-06-07T03:03:59.354022+00:00"
+}

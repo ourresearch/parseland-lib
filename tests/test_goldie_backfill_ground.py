@@ -6,6 +6,7 @@ from scripts.goldie_backfill_ground import (
     abstract_followup_url,
     candidate_affiliation_values,
     candidate_pdf_url,
+    excerpt_for,
     extract_author_names_from_html,
     pdf_url_resolution_is_usable,
     resolve_abstract_len_candidate,
@@ -168,6 +169,58 @@ def test_resolve_affiliation_candidate_rejects_partial_evidence():
     }
 
     assert resolve_affiliation_candidate("<html>Dallas, Texas</html>", candidate) is None
+
+
+def test_corresponding_excerpt_prefers_correspondence_signal():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Franklin Dexter",
+                    "affiliations": [
+                        "Department of Anesthesia, University of Iowa",
+                        "Address e-mail to [email protected]",
+                    ],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+    html = """
+    <html><body>
+      <p>Franklin Dexter</p>
+      <p>Address e-mail to [email protected]</p>
+    </body></html>
+    """
+
+    excerpt, selector, confidence = excerpt_for(html, candidate)
+
+    assert "Address e-mail" in excerpt
+    assert selector == "correspondence-candidate-text-match"
+    assert confidence == "correspondence_candidate_text_match"
+
+
+def test_corresponding_excerpt_downgrades_author_name_only():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Franklin Dexter",
+                    "affiliations": ["Department of Anesthesia, University of Iowa"],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+    html = "<html><body><p>Franklin Dexter</p></body></html>"
+
+    excerpt, selector, confidence = excerpt_for(html, candidate)
+
+    assert "Franklin Dexter" in excerpt
+    assert selector == "corresponding-author-name-only"
+    assert confidence == "corresponding_author_name_only"
 
 
 def test_abstract_followup_url_prefers_lww_meta_url():
