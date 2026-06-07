@@ -1,0 +1,32 @@
+{
+  "approved": 0,
+  "blocked": 25,
+  "confidence_counts": {
+    "correspondence_candidate_text_match": 1,
+    "corresponding_author_name_only": 23,
+    "page_identity_only": 1
+  },
+  "cumulative_approved": 5,
+  "cumulative_blocked": 30,
+  "cumulative_reviewed": 35,
+  "decision": "No approvals from this checkpoint. Continue final 15 only with generic-token-filtered strict correspondence/reprint/email evidence; route weak/name-only rows to manual DOM/gold-auditor review.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_derived_v0.ndjson",
+  "false_positive_generic_correspondence_needles": 1,
+  "field": "corresponding",
+  "new_derived_rows": 0,
+  "publisher": "lippincott",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_10_35_referee.ndjson",
+  "remaining_lane_candidates_after_checkpoint": 15,
+  "reviewed": 25,
+  "reviewed_at": "2026-06-07T03:20:26.422669+00:00",
+  "run_id": "b29-lippincott-corresponding-signal-10-35",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_10_35_raw.ndjson",
+  "status_counts": {
+    "referee_blocked": 25
+  },
+  "verdict_counts": {
+    "blocked_author_name_only_not_correspondence_evidence": 23,
+    "blocked_generic_correspondence_token_false_positive": 1,
+    "blocked_page_identity_only_not_correspondence_evidence": 1
+  }
+}

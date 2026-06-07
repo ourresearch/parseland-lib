@@ -1,0 +1,13 @@
+{
+  "changed_files": [
+    "scripts/goldie_backfill_ground.py",
+    "tests/test_goldie_backfill_ground.py"
+  ],
+  "checkpoint_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_10_35_referee.summary.json",
+  "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_goldie_backfill_ground.py -q",
+  "created_at": "2026-06-07T03:20:26.422669+00:00",
+  "gate": "focused Browserbase grounding helper regression tests",
+  "purpose": "Reject generic one-word correspondence needles such as address so Lippincott corresponding Browserbase evidence cannot be approved from UI email-address labels.",
+  "result": "15 passed in 0.07s",
+  "status": "passed"
+}

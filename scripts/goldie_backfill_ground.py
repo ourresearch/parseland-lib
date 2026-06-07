@@ -40,6 +40,18 @@ ABSTRACT_LOW_QUALITY_SNIPPETS = (
     "click to increase image size",
     "click to decrease image size",
 )
+GENERIC_CORRESPONDENCE_NEEDLES = {
+    "address",
+    "email",
+    "e-mail",
+    "mail",
+    "mailto",
+    "correspondence",
+    "corresponding",
+    "reprint",
+    "reprints",
+    "author information",
+}
 
 
 @dataclass
@@ -156,6 +168,9 @@ def _candidate_correspondence_needles(candidate: dict) -> list[str]:
                 value = affiliation
             text = " ".join(str(value or "").split())
             lower = text.lower()
+            normalized = lower.strip(" :;,.")
+            if normalized in GENERIC_CORRESPONDENCE_NEEDLES:
+                continue
             if text and any(marker in lower for marker in markers) and text not in needles:
                 needles.append(text)
     return needles

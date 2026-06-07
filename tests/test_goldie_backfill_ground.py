@@ -223,6 +223,33 @@ def test_corresponding_excerpt_downgrades_author_name_only():
     assert confidence == "corresponding_author_name_only"
 
 
+def test_corresponding_excerpt_rejects_generic_address_needle():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Marta Valencia",
+                    "affiliations": ["address"],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+    html = """
+    <html><body>
+      <p>Marta Valencia</p>
+      <label for="email-input">Enter your Email address:</label>
+    </body></html>
+    """
+
+    excerpt, selector, confidence = excerpt_for(html, candidate)
+
+    assert "Marta Valencia" in excerpt
+    assert selector == "corresponding-author-name-only"
+    assert confidence == "corresponding_author_name_only"
+
+
 def test_abstract_followup_url_prefers_lww_meta_url():
     html = (
         '<meta name="wkhealth_abstract_html_url" '
