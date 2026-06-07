@@ -1,0 +1,27 @@
+{
+  "approved": 0,
+  "blocked": 25,
+  "confidence_counts": {
+    "corresponding_author_name_only": 25
+  },
+  "cumulative_approved": 0,
+  "cumulative_blocked": 25,
+  "cumulative_reviewed": 25,
+  "decision": "Taylor corresponding Goldie-backfilled lane complete. Browserbase grounded 25 candidates, but all evidence was author-name-only; no derived labels approved. Route blocked rows to manual DOM/gold-auditor review. Current-Goldie KPI unchanged.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_derived_v0.ndjson",
+  "field": "corresponding",
+  "new_derived_rows": 0,
+  "publisher": "taylor",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_0_25_referee.ndjson",
+  "remaining_lane_candidates_after_checkpoint": 0,
+  "reviewed": 25,
+  "reviewed_at": "2026-06-07T04:13:20.200089+00:00",
+  "run_id": "b31-taylor-corresponding-0-25",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_0_25_raw.ndjson",
+  "status_counts": {
+    "referee_blocked": 25
+  },
+  "verdict_counts": {
+    "blocked_author_name_only_not_correspondence_evidence": 25
+  }
+}

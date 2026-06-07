@@ -22,13 +22,13 @@
     },
     "v2_taylor_corresponding_15fed079": {
       "agent_id": "codex-goldie-backfilled-taylor-corresponding-b31",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_corresponding_backfill_claim_shield.json",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_0_25_referee.summary.json",
       "field": "corresponding",
-      "next_action": "Browserbase-ground 25 Taylor corresponding candidates; require correspondence/address/email evidence and keep current-Goldie KPI separate",
+      "next_action": "Route 25 blocked Taylor corresponding rows to manual DOM/gold-auditor review; no Browserbase-derived corresponding labels approved; current-Goldie KPI unchanged; move to next ranked lane.",
       "publisher_id": "taylor",
-      "status": "in_progress_browserbase_grounding",
+      "status": "goldie_backfill_referee_complete_0_approved_25_blocked",
       "task_id": "v2_taylor_corresponding_15fed079",
-      "updated_at": "2026-06-07T04:01:07.966774+00:00"
+      "updated_at": "2026-06-07T04:13:20.200089+00:00"
     }
   },
   "by_field": {
@@ -49,9 +49,11 @@
     "blocked_no_visible_or_metadata_pdf_url": 1,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "classified_mixed_small_parser_headroom": 2,
-    "goldie_backfill_pending": 11,
+    "goldie_backfill_pending": 9,
+    "goldie_backfill_referee_complete_0_approved_25_blocked": 1,
     "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
+    "goldie_backfill_referee_complete_30_approved_5_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
     "goldie_backfill_referee_complete_5_approved_45_blocked": 1,
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
