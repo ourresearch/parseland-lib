@@ -1,0 +1,21 @@
+{
+  "run_id": "retrieval-de-gruyter-r2-smoke-20260607T0735Z",
+  "timestamp_utc": "2026-06-07T07:37:27.499403+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 25,
+  "completed_rows": 25,
+  "duration_ms": 2518,
+  "throughput_rows_per_sec": 9.93,
+  "bytes_written": 3008130,
+  "state_counts": {
+    "ok": 24,
+    "missing_uuid": 1
+  },
+  "per_publisher_state": {
+    "de_gruyter": {
+      "ok": 24,
+      "missing_uuid": 1
+    }
+  }
+}

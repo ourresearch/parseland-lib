@@ -1,0 +1,106 @@
+{
+  "run_id": "de-gruyter-retrieval-r2-full-20260607T0743Z",
+  "task": "de_gruyter_retrieval_r2_full",
+  "status": "passed",
+  "timestamp_utc": "2026-06-07T07:42:18.171071+00:00",
+  "publisher_id": "de_gruyter",
+  "shield_gate_type": "retrieval_coverage_and_focused_whole_goldie",
+  "commands": [
+    "scripts/retrieval_fill.py --publishers de_gruyter --limit 25 --concurrency 8",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers de_gruyter --out whole_goldie_de_gruyter_retrieval_r2_smoke.json",
+    "scripts/retrieval_fill.py --publishers de_gruyter --concurrency 16",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers de_gruyter --out whole_goldie_de_gruyter_retrieval_r2_full.json"
+  ],
+  "artifacts": {
+    "smoke_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_retrieval_r2_smoke_fill.summary.json",
+    "smoke_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_retrieval_r2_smoke_audit.summary.json",
+    "smoke_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_retrieval_r2_smoke.json",
+    "full_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_retrieval_r2_full_fill.summary.json",
+    "full_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_retrieval_r2_full_audit.summary.json",
+    "full_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_retrieval_r2_full.json"
+  },
+  "coverage_before": {
+    "global_cached_ok": 4717,
+    "de_gruyter_cached_ok": 0,
+    "de_gruyter_retrieval_blocked": 226
+  },
+  "coverage_after": {
+    "global_cached_ok": 4940,
+    "de_gruyter_cached_ok": 223,
+    "de_gruyter_retrieval_blocked": 3,
+    "whole_goldie_html_available": 223,
+    "whole_goldie_retrieval_blocked": 3
+  },
+  "retrieval_fill_state_counts": {
+    "cached": 24,
+    "missing_uuid": 3,
+    "ok": 199
+  },
+  "focused_eval": {
+    "rows": 226,
+    "scored": 223,
+    "errors": 0,
+    "skipped_no_html": 3,
+    "authors_f1_soft": 0.9747235387045814,
+    "affiliations_f1_fuzzy": 0.9936808846761455,
+    "abstract_ratio_fuzzy": 0.9187530588427958,
+    "pdf_url_accuracy": 0.24186046511627907,
+    "corresponding_accuracy": 0.9887820512820513
+  },
+  "field_counts": {
+    "authors": {
+      "total_rows": 226,
+      "html_available": 223,
+      "retrieval_blocked": 3,
+      "empty_empty_pass": 65,
+      "gold_present_parser_empty": 5,
+      "gold_present_parser_present": 141,
+      "gold_empty_parser_present": 12,
+      "scored_rows": 211
+    },
+    "affiliations": {
+      "total_rows": 226,
+      "html_available": 223,
+      "retrieval_blocked": 3,
+      "empty_empty_pass": 201,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 10,
+      "gold_empty_parser_present": 12,
+      "scored_rows": 211
+    },
+    "abstract": {
+      "total_rows": 226,
+      "html_available": 223,
+      "retrieval_blocked": 3,
+      "empty_empty_pass": 198,
+      "gold_present_parser_empty": 18,
+      "gold_present_parser_present": 6,
+      "gold_empty_parser_present": 1,
+      "scored_rows": 222
+    },
+    "pdf_url": {
+      "total_rows": 226,
+      "html_available": 223,
+      "retrieval_blocked": 3,
+      "empty_empty_pass": 44,
+      "gold_present_parser_empty": 140,
+      "gold_present_parser_present": 31,
+      "gold_empty_parser_present": 8,
+      "scored_rows": 215
+    },
+    "corresponding": {
+      "total_rows": 226,
+      "html_available": 223,
+      "retrieval_blocked": 3,
+      "empty_empty_pass": 202,
+      "gold_present_parser_empty": 2,
+      "gold_present_parser_present": 4,
+      "gold_empty_parser_present": 15,
+      "scored_rows": 208
+    }
+  },
+  "current_goldie_kpi_effect": "coverage-only until next serialized full-10K run; focused publisher eval now available",
+  "next_action": "Prioritize De Gruyter pdf_url and abstract parser/gold diagnosis; raw recovered HTML cache intentionally not committed."
+}

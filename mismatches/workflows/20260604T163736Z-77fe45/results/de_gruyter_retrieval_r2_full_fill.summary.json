@@ -1,0 +1,23 @@
+{
+  "run_id": "retrieval-de-gruyter-r2-full-20260607T0742Z",
+  "timestamp_utc": "2026-06-07T07:38:31.724993+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 226,
+  "completed_rows": 226,
+  "duration_ms": 7004,
+  "throughput_rows_per_sec": 32.27,
+  "bytes_written": 29843541,
+  "state_counts": {
+    "cached": 24,
+    "missing_uuid": 3,
+    "ok": 199
+  },
+  "per_publisher_state": {
+    "de_gruyter": {
+      "cached": 24,
+      "missing_uuid": 3,
+      "ok": 199
+    }
+  }
+}

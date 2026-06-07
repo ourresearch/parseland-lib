@@ -1,0 +1,248 @@
+{
+  "run_id": "retrieval-audit-after-de-gruyter-r2-smoke-20260607T0738Z",
+  "timestamp_utc": "2026-06-07T07:37:45.396295+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dirs": [
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/html-cache"
+  ],
+  "total_rows": 10000,
+  "per_state": {
+    "cached_ok": 4741,
+    "cached_router_only": 47,
+    "missing": 1482,
+    "cached_bot_check": 359,
+    "unknown_publisher": 3303,
+    "cached_tiny": 68
+  },
+  "per_publisher": {
+    "unknown": {
+      "rows": 3303,
+      "unknown_publisher": 3303
+    },
+    "elsevier": {
+      "rows": 1564,
+      "cached_ok": 1457,
+      "cached_router_only": 47,
+      "missing": 15,
+      "cached_tiny": 34,
+      "cached_bot_check": 11
+    },
+    "springer": {
+      "rows": 1123,
+      "cached_ok": 1108,
+      "cached_bot_check": 9,
+      "missing": 5,
+      "cached_tiny": 1
+    },
+    "wiley": {
+      "rows": 695,
+      "cached_ok": 685,
+      "cached_bot_check": 7,
+      "cached_tiny": 1,
+      "missing": 2
+    },
+    "taylor": {
+      "rows": 506,
+      "cached_ok": 495,
+      "missing": 6,
+      "cached_bot_check": 3,
+      "cached_tiny": 2
+    },
+    "ieee": {
+      "rows": 395,
+      "cached_ok": 240,
+      "cached_bot_check": 153,
+      "missing": 2
+    },
+    "oxford": {
+      "rows": 271,
+      "cached_ok": 250,
+      "cached_tiny": 18,
+      "missing": 2,
+      "cached_bot_check": 1
+    },
+    "de_gruyter": {
+      "rows": 226,
+      "cached_ok": 24,
+      "missing": 202
+    },
+    "sage": {
+      "rows": 200,
+      "cached_ok": 162,
+      "cached_bot_check": 36,
+      "missing": 2
+    },
+    "lippincott": {
+      "rows": 190,
+      "cached_ok": 166,
+      "cached_bot_check": 12,
+      "cached_tiny": 12
+    },
+    "cup": {
+      "rows": 154,
+      "cached_ok": 150,
+      "missing": 3,
+      "cached_bot_check": 1
+    },
+    "mdpi": {
+      "rows": 137,
+      "missing": 137
+    },
+    "acs": {
+      "rows": 130,
+      "cached_bot_check": 126,
+      "cached_ok": 4
+    },
+    "iop": {
+      "rows": 75,
+      "missing": 75
+    },
+    "bmj": {
+      "rows": 69,
+      "missing": 69
+    },
+    "brill": {
+      "rows": 65,
+      "missing": 65
+    },
+    "rsc": {
+      "rows": 61,
+      "missing": 61
+    },
+    "thieme": {
+      "rows": 61,
+      "missing": 61
+    },
+    "aip_publishing": {
+      "rows": 57,
+      "missing": 57
+    },
+    "cairn": {
+      "rows": 49,
+      "missing": 49
+    },
+    "frontiers": {
+      "rows": 48,
+      "missing": 48
+    },
+    "spie": {
+      "rows": 46,
+      "missing": 46
+    },
+    "aps": {
+      "rows": 38,
+      "missing": 38
+    },
+    "karger": {
+      "rows": 37,
+      "missing": 37
+    },
+    "acm": {
+      "rows": 37,
+      "missing": 37
+    },
+    "aacr": {
+      "rows": 34,
+      "missing": 34
+    },
+    "scielo": {
+      "rows": 33,
+      "missing": 33
+    },
+    "plos": {
+      "rows": 32,
+      "missing": 32
+    },
+    "hindawi": {
+      "rows": 32,
+      "missing": 32
+    },
+    "cshlp": {
+      "rows": 29,
+      "missing": 29
+    },
+    "optica": {
+      "rows": 27,
+      "missing": 27
+    },
+    "copernicus": {
+      "rows": 27,
+      "missing": 27
+    },
+    "emerald": {
+      "rows": 27,
+      "missing": 27
+    },
+    "asme": {
+      "rows": 26,
+      "missing": 26
+    },
+    "apa": {
+      "rows": 25,
+      "missing": 25
+    },
+    "aaas": {
+      "rows": 24,
+      "missing": 24
+    },
+    "research_square": {
+      "rows": 24,
+      "missing": 24
+    },
+    "edp_sciences": {
+      "rows": 21,
+      "missing": 21
+    },
+    "asco": {
+      "rows": 17,
+      "missing": 17
+    },
+    "bentham": {
+      "rows": 15,
+      "missing": 15
+    },
+    "mary_ann_liebert": {
+      "rows": 15,
+      "missing": 15
+    },
+    "ash": {
+      "rows": 12,
+      "missing": 12
+    },
+    "asa": {
+      "rows": 10,
+      "missing": 10
+    },
+    "ams": {
+      "rows": 10,
+      "missing": 10
+    },
+    "portland_press": {
+      "rows": 5,
+      "missing": 5
+    },
+    "nejm": {
+      "rows": 5,
+      "missing": 5
+    },
+    "rsna": {
+      "rows": 5,
+      "missing": 5
+    },
+    "ame": {
+      "rows": 3,
+      "missing": 3
+    },
+    "company_biologists": {
+      "rows": 3,
+      "missing": 3
+    },
+    "f1000": {
+      "rows": 2,
+      "missing": 2
+    }
+  },
+  "duration_ms": 3083,
+  "coverage_pct": 47.41
+}

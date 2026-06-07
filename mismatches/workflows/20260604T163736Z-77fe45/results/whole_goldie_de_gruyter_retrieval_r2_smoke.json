@@ -1,0 +1,5554 @@
+{
+  "run_id": "de-gruyter-retrieval-r2-smoke-20260607T0740Z",
+  "label": "de-gruyter-retrieval-r2-smoke",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-07T07:38:01.157282+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 226,
+  "coverage": {
+    "total_rows": 226,
+    "html_available": 24,
+    "scored_rows": 24,
+    "retrieval_blocked_rows": 202,
+    "retrieval_blocked_by_reason": {
+      "missing": 202
+    },
+    "gold_empty_parser_present_count": 4,
+    "per_publisher": {
+      "de_gruyter": {
+        "total_rows": 226,
+        "html_available": 24,
+        "scored_rows": 24,
+        "retrieval_blocked": 202
+      }
+    }
+  },
+  "skipped_no_html_count": 202,
+  "skipped_no_html_dois": [
+    "10.1515/9782760526983-015",
+    "10.1515/9783110295351-012",
+    "10.1515/9783484605695.3.213",
+    "10.1524/itit.2011.0637",
+    "10.1515/9783110779707-fm",
+    "10.1515/9783112412121-009",
+    "10.1515/9781400854868.205",
+    "10.1515/9783112720738-033",
+    "10.1515/9788394914912-020",
+    "10.1515/9780228002383-022",
+    "10.1515/9783112606261-064",
+    "10.1515/bfup.2005.262",
+    "10.1515/eng-2021-0078",
+    "10.1515/9780822390572-011",
+    "10.1515/bgsl.2001.2001.123.1",
+    "10.1515/lingty.2007.025",
+    "10.1524/auto.1975.23.112.324",
+    "10.1515/9783486794120-006",
+    "10.1515/9781580468862-003",
+    "10.1515/9782763718767-004",
+    "10.1515/9780271089737-toc",
+    "10.1515/9783839462614-057",
+    "10.1515/bfp-2017-0029",
+    "10.2478/jee-2024-0040",
+    "10.1515/bgsl.2005.252",
+    "10.1515/9782766307104-003",
+    "10.1515/9783111237121-002",
+    "10.1515/9783111434841-003",
+    "10.1515/9783110379471-009",
+    "10.1515/9783112647882-003",
+    "10.1515/9783110973549.872",
+    "10.1515/9783110747621-004",
+    "10.1515/9782763757346-001",
+    "10.1515/9783111617671-003",
+    "10.1515/dx-2024-0050",
+    "10.1515/jpem-2013-0254",
+    "10.1515/9783110945195-003",
+    "10.1515/9783112608227-016",
+    "10.1515/les.1979.24.2.63",
+    "10.1524/9783050062198.24",
+    "10.1515/flin-2024-2019",
+    "10.1515/9780822378402-fm",
+    "10.1515/9783110853520.169",
+    "10.1515/9783110864281.toc",
+    "10.1515/9783112457047-005",
+    "10.1515/9783112693209-001",
+    "10.1515/9783110358339.43",
+    "10.1515/zwf-1987-821004",
+    "10.1515/9781800734067-020",
+    "10.1515/9783110288445.348",
+    "10.1515/9783110424942-006",
+    "10.1515/9781400887309-010",
+    "10.1515/9783110744187-005",
+    "10.1515/9783111405063-017",
+    "10.1515/hzhz-2017-1133",
+    "10.1515/9783112412701-057",
+    "10.1515/9789882200456-004",
+    "10.1515/9789633860205-010",
+    "10.1515/9780822386056-003",
+    "10.1515/9780857455642-009",
+    "10.1515/9781575067223-018",
+    "10.1515/9783112684368-017",
+    "10.1515/jbbbl-2017-0015",
+    "10.1515/9780691214931-006",
+    "10.1515/9781478091172-008",
+    "10.1515/9783050091433.458",
+    "10.1515/9783110448979-007",
+    "10.1515/9781438497600-008",
+    "10.1515/9783112377222-006",
+    "10.1515/9783112758236-toc",
+    "10.1515/bd.1991.25.11.1784",
+    "10.1515/9780691199641-001",
+    "10.1515/9781503604551-003",
+    "10.1515/9783112499061-013",
+    "10.1515/crll.1863.62.193",
+    "10.2478/s11533-013-0316-7",
+    "10.1524/ncrs.2011.0256",
+    "10.1515/9781400820054.148",
+    "10.1515/9781503623873-005",
+    "10.1515/9783112731192-005",
+    "10.1515/9783839459010-004",
+    "10.1515/9783112500668-005",
+    "10.1515/9783112686300-005",
+    "10.1515/9783839454886-fm",
+    "10.1515/9780822387800-020",
+    "10.1515/9783110247039.117",
+    "10.1515/9783112436486-034",
+    "10.1515/9783110885033-105",
+    "10.1515/jura-2014-0043",
+    "10.1515/9783111370613-004",
+    "10.1515/9783866302525-024",
+    "10.1515/9783899498547.xi",
+    "10.1515/cclm-2012-0081",
+    "10.1515/9783110275063-toc",
+    "10.1515/9781400877768-011",
+    "10.1515/bgsl.1889.1889.14.0",
+    "10.1515/9783110437775-029",
+    "10.1515/kbo-2017-0104",
+    "10.1515/9781552386484-011",
+    "10.1515/9782760640023-016"
+  ],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 226,
+      "scored": 24,
+      "errors": 0,
+      "skipped_no_html": 202,
+      "authors_f1_strict": 0.9583333333333334,
+      "authors_f1_soft": 0.9583333333333334,
+      "affiliations_f1_strict": 0.9886363636363636,
+      "affiliations_f1_fuzzy": 1.0,
+      "abstract_ratio_fuzzy": 0.8333333333333334,
+      "abstract_present_rate": 0.041666666666666664,
+      "pdf_url_accuracy": 0.20833333333333334,
+      "corresponding_accuracy": 0.9848484848484849,
+      "duration_ms_mean": 926.2811440664033,
+      "n_authors_scored": 24,
+      "n_pdf_scored": 24,
+      "n_corresponding_scored": 22,
+      "n_abstract_scored": 24
+    },
+    "per_publisher": {
+      "de_gruyter": {
+        "rows": 226,
+        "scored": 24,
+        "errors": 0,
+        "skipped_no_html": 202,
+        "authors_f1_strict": 0.9583333333333334,
+        "authors_f1_soft": 0.9583333333333334,
+        "affiliations_f1_strict": 0.9886363636363636,
+        "affiliations_f1_fuzzy": 1.0,
+        "abstract_ratio_fuzzy": 0.8333333333333334,
+        "abstract_present_rate": 0.041666666666666664,
+        "pdf_url_accuracy": 0.20833333333333334,
+        "corresponding_accuracy": 0.9848484848484849,
+        "duration_ms_mean": 926.2811440664033,
+        "n_authors_scored": 24,
+        "n_pdf_scored": 24,
+        "n_corresponding_scored": 22,
+        "n_abstract_scored": 24
+      }
+    },
+    "coverage": {
+      "total_rows": 226,
+      "html_available": 24,
+      "scored_rows": 24,
+      "retrieval_blocked_rows": 202,
+      "retrieval_blocked_by_reason": {
+        "missing": 202
+      },
+      "gold_empty_parser_present_count": 4,
+      "per_publisher": {
+        "de_gruyter": {
+          "total_rows": 226,
+          "html_available": 24,
+          "scored_rows": 24,
+          "retrieval_blocked": 202
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 226,
+        "html_available": 24,
+        "retrieval_blocked": 202,
+        "empty_empty_pass": 6,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 17,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 24
+      },
+      "affiliations": {
+        "total_rows": 226,
+        "html_available": 24,
+        "retrieval_blocked": 202,
+        "empty_empty_pass": 21,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 1,
+        "gold_empty_parser_present": 2,
+        "scored_rows": 22
+      },
+      "abstract": {
+        "total_rows": 226,
+        "html_available": 24,
+        "retrieval_blocked": 202,
+        "empty_empty_pass": 19,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 1,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 24
+      },
+      "pdf_url": {
+        "total_rows": 226,
+        "html_available": 24,
+        "retrieval_blocked": 202,
+        "empty_empty_pass": 4,
+        "gold_present_parser_empty": 17,
+        "gold_present_parser_present": 3,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 24
+      },
+      "corresponding": {
+        "total_rows": 226,
+        "html_available": 24,
+        "retrieval_blocked": 202,
+        "empty_empty_pass": 21,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 1,
+        "gold_empty_parser_present": 2,
+        "scored_rows": 22
+      }
+    },
+    "per_publisher_field": {
+      "de_gruyter": {
+        "authors": {
+          "total_rows": 226,
+          "html_available": 24,
+          "retrieval_blocked": 202,
+          "empty_empty_pass": 6,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 17,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 24
+        },
+        "affiliations": {
+          "total_rows": 226,
+          "html_available": 24,
+          "retrieval_blocked": 202,
+          "empty_empty_pass": 21,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 1,
+          "gold_empty_parser_present": 2,
+          "scored_rows": 22
+        },
+        "abstract": {
+          "total_rows": 226,
+          "html_available": 24,
+          "retrieval_blocked": 202,
+          "empty_empty_pass": 19,
+          "gold_present_parser_empty": 4,
+          "gold_present_parser_present": 1,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 24
+        },
+        "pdf_url": {
+          "total_rows": 226,
+          "html_available": 24,
+          "retrieval_blocked": 202,
+          "empty_empty_pass": 4,
+          "gold_present_parser_empty": 17,
+          "gold_present_parser_present": 3,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 24
+        },
+        "corresponding": {
+          "total_rows": 226,
+          "html_available": 24,
+          "retrieval_blocked": 202,
+          "empty_empty_pass": 21,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 1,
+          "gold_empty_parser_present": 2,
+          "scored_rows": 22
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 70,
+      "doi": "10.1515/9783110170740.433",
+      "link": "https://doi.org/10.1515/9783110170740.433",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 924.3337500374764,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 72,
+      "doi": "10.1515/auk-1999-0101",
+      "link": "https://doi.org/10.1515/auk-1999-0101",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1168.7146669719368,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 567,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.degruyter.com/document/doi/10.1515/auk-1999-0101/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 165,
+      "doi": "10.1515/1553-779x.3019",
+      "link": "https://doi.org/10.1515/1553-779x.3019",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1247.8664589580148,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1007,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 71,
+      "doi": "10.1515/9783112318904-040",
+      "link": "https://doi.org/10.1515/9783112318904-040",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1313.8934581074864,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 166,
+      "doi": "10.1515/9781400849529.191",
+      "link": "https://doi.org/10.1515/9781400849529.191",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 485.97845807671547,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 263,
+      "doi": "10.1515/9780748642328-009",
+      "link": "https://doi.org/10.1515/9780748642328-009",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 963.4287080261856,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 167,
+      "doi": "10.1515/9783112692509-013",
+      "link": "https://doi.org/10.1515/9783112692509-013",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1179.293000139296,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 168,
+      "doi": "10.1515/ijmr-1927-191-1260",
+      "link": "https://doi.org/10.1515/ijmr-1927-191-1260",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1167.8314998280257,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 362,
+      "doi": "10.1515/9789048551040-011",
+      "link": "https://doi.org/10.1515/9789048551040-011",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 29.020250076428056,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 264,
+      "doi": "10.1515/9783110764994-012",
+      "link": "https://doi.org/10.1515/9783110764994-012",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1094.9854170903563,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 469,
+      "doi": "10.1515/9783112512081-005",
+      "link": "https://doi.org/10.1515/9783112512081-005",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 558.9028750546277,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 361,
+      "doi": "10.1515/9783839436837-005",
+      "link": "https://doi.org/10.1515/9783839436837-005",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 718.166874954477,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 360,
+      "doi": "10.1515/9783111715223.fm",
+      "link": "https://doi.org/10.1515/9783111715223.fm",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1084.7967090085149,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 564,
+      "doi": "10.1515/9781400865833-001",
+      "link": "https://doi.org/10.1515/9781400865833-001",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 273.5450412146747,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 565,
+      "doi": "10.1515/9782760526983-015",
+      "link": "https://doi.org/10.1515/9782760526983-015",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 470,
+      "doi": "10.1515/zac-2012-0015",
+      "link": "https://doi.org/10.1515/zac-2012-0015",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1426.7085420433432,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 779,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 562,
+      "doi": "10.1515/9780271032894-006",
+      "link": "https://doi.org/10.1515/9780271032894-006",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1057.398958131671,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 563,
+      "doi": "10.1515/9780824843144-013",
+      "link": "https://doi.org/10.1515/9780824843144-013",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1085.70949989371,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 566,
+      "doi": "10.1515/humor-2020-0055",
+      "link": "https://doi.org/10.1515/humor-2020-0055",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1475.3219578415155,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.75,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1188,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.degruyter.com/document/doi/10.1515/humor-2020-0055/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 763,
+      "doi": "10.1515/9781805431152-011",
+      "link": "https://doi.org/10.1515/9781805431152-011",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 18.320417031645775,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 675,
+      "doi": "10.1515/9780773564817-016",
+      "link": "https://doi.org/10.1515/9780773564817-016",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1228.594500105828,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 686,
+      "doi": "10.2478/jos-2021-0004",
+      "link": "https://doi.org/10.2478/jos-2021-0004",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1186.8782911915332,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "precision": 1.0,
+          "recall": 0.5
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1295,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 1295,
+        "urls": [
+          {
+            "url": "https://www.sciendo.com/pdf/10.2478/jos-2021-0004",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1065,
+      "doi": "10.1515/9783110295351-012",
+      "link": "https://doi.org/10.1515/9783110295351-012",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1066,
+      "doi": "10.1515/9783484605695.3.213",
+      "link": "https://doi.org/10.1515/9783484605695.3.213",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1067,
+      "doi": "10.1524/itit.2011.0637",
+      "link": "https://doi.org/10.1524/itit.2011.0637",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1157,
+      "doi": "10.1515/9783110779707-fm",
+      "link": "https://doi.org/10.1515/9783110779707-fm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1261,
+      "doi": "10.1515/9783112412121-009",
+      "link": "https://doi.org/10.1515/9783112412121-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1365,
+      "doi": "10.1515/9781400854868.205",
+      "link": "https://doi.org/10.1515/9781400854868.205",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1366,
+      "doi": "10.1515/9783112720738-033",
+      "link": "https://doi.org/10.1515/9783112720738-033",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1367,
+      "doi": "10.1515/9788394914912-020",
+      "link": "https://doi.org/10.1515/9788394914912-020",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1462,
+      "doi": "10.1515/9780228002383-022",
+      "link": "https://doi.org/10.1515/9780228002383-022",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1463,
+      "doi": "10.1515/9783112606261-064",
+      "link": "https://doi.org/10.1515/9783112606261-064",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1464,
+      "doi": "10.1515/bfup.2005.262",
+      "link": "https://doi.org/10.1515/bfup.2005.262",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1465,
+      "doi": "10.1515/eng-2021-0078",
+      "link": "https://doi.org/10.1515/eng-2021-0078",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1570,
+      "doi": "10.1515/9780822390572-011",
+      "link": "https://doi.org/10.1515/9780822390572-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1571,
+      "doi": "10.1515/bgsl.2001.2001.123.1",
+      "link": "https://doi.org/10.1515/bgsl.2001.2001.123.1",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1572,
+      "doi": "10.1515/lingty.2007.025",
+      "link": "https://doi.org/10.1515/lingty.2007.025",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1573,
+      "doi": "10.1524/auto.1975.23.112.324",
+      "link": "https://doi.org/10.1524/auto.1975.23.112.324",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1670,
+      "doi": "10.1515/9783486794120-006",
+      "link": "https://doi.org/10.1515/9783486794120-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1862,
+      "doi": "10.1515/9781580468862-003",
+      "link": "https://doi.org/10.1515/9781580468862-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1863,
+      "doi": "10.1515/9782763718767-004",
+      "link": "https://doi.org/10.1515/9782763718767-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1971,
+      "doi": "10.1515/9780271089737-toc",
+      "link": "https://doi.org/10.1515/9780271089737-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1972,
+      "doi": "10.1515/9783839462614-057",
+      "link": "https://doi.org/10.1515/9783839462614-057",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1973,
+      "doi": "10.1515/bfp-2017-0029",
+      "link": "https://doi.org/10.1515/bfp-2017-0029",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2080,
+      "doi": "10.2478/jee-2024-0040",
+      "link": "https://doi.org/10.2478/jee-2024-0040",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2165,
+      "doi": "10.1515/bgsl.2005.252",
+      "link": "https://doi.org/10.1515/bgsl.2005.252",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2268,
+      "doi": "10.1515/9782766307104-003",
+      "link": "https://doi.org/10.1515/9782766307104-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2269,
+      "doi": "10.1515/9783111237121-002",
+      "link": "https://doi.org/10.1515/9783111237121-002",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2270,
+      "doi": "10.1515/9783111434841-003",
+      "link": "https://doi.org/10.1515/9783111434841-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2368,
+      "doi": "10.1515/9783110379471-009",
+      "link": "https://doi.org/10.1515/9783110379471-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2369,
+      "doi": "10.1515/9783112647882-003",
+      "link": "https://doi.org/10.1515/9783112647882-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2472,
+      "doi": "10.1515/9783110973549.872",
+      "link": "https://doi.org/10.1515/9783110973549.872",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2667,
+      "doi": "10.1515/9783110747621-004",
+      "link": "https://doi.org/10.1515/9783110747621-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2762,
+      "doi": "10.1515/9782763757346-001",
+      "link": "https://doi.org/10.1515/9782763757346-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2763,
+      "doi": "10.1515/9783111617671-003",
+      "link": "https://doi.org/10.1515/9783111617671-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2865,
+      "doi": "10.1515/dx-2024-0050",
+      "link": "https://doi.org/10.1515/dx-2024-0050",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2866,
+      "doi": "10.1515/jpem-2013-0254",
+      "link": "https://doi.org/10.1515/jpem-2013-0254",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2962,
+      "doi": "10.1515/9783110945195-003",
+      "link": "https://doi.org/10.1515/9783110945195-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2963,
+      "doi": "10.1515/9783112608227-016",
+      "link": "https://doi.org/10.1515/9783112608227-016",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2964,
+      "doi": "10.1515/les.1979.24.2.63",
+      "link": "https://doi.org/10.1515/les.1979.24.2.63",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 2965,
+      "doi": "10.1524/9783050062198.24",
+      "link": "https://doi.org/10.1524/9783050062198.24",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3066,
+      "doi": "10.1515/flin-2024-2019",
+      "link": "https://doi.org/10.1515/flin-2024-2019",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3165,
+      "doi": "10.1515/9780822378402-fm",
+      "link": "https://doi.org/10.1515/9780822378402-fm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3166,
+      "doi": "10.1515/9783110853520.169",
+      "link": "https://doi.org/10.1515/9783110853520.169",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3167,
+      "doi": "10.1515/9783110864281.toc",
+      "link": "https://doi.org/10.1515/9783110864281.toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3168,
+      "doi": "10.1515/9783112457047-005",
+      "link": "https://doi.org/10.1515/9783112457047-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3169,
+      "doi": "10.1515/9783112693209-001",
+      "link": "https://doi.org/10.1515/9783112693209-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3261,
+      "doi": "10.1515/9783110358339.43",
+      "link": "https://doi.org/10.1515/9783110358339.43",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3262,
+      "doi": "10.1515/zwf-1987-821004",
+      "link": "https://doi.org/10.1515/zwf-1987-821004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3458,
+      "doi": "10.1515/9781800734067-020",
+      "link": "https://doi.org/10.1515/9781800734067-020",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3459,
+      "doi": "10.1515/9783110288445.348",
+      "link": "https://doi.org/10.1515/9783110288445.348",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3460,
+      "doi": "10.1515/9783110424942-006",
+      "link": "https://doi.org/10.1515/9783110424942-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3568,
+      "doi": "10.1515/9781400887309-010",
+      "link": "https://doi.org/10.1515/9781400887309-010",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3569,
+      "doi": "10.1515/9783110744187-005",
+      "link": "https://doi.org/10.1515/9783110744187-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3570,
+      "doi": "10.1515/9783111405063-017",
+      "link": "https://doi.org/10.1515/9783111405063-017",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3571,
+      "doi": "10.1515/hzhz-2017-1133",
+      "link": "https://doi.org/10.1515/hzhz-2017-1133",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3660,
+      "doi": "10.1515/9783112412701-057",
+      "link": "https://doi.org/10.1515/9783112412701-057",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3661,
+      "doi": "10.1515/9789882200456-004",
+      "link": "https://doi.org/10.1515/9789882200456-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3772,
+      "doi": "10.1515/9789633860205-010",
+      "link": "https://doi.org/10.1515/9789633860205-010",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3870,
+      "doi": "10.1515/9780822386056-003",
+      "link": "https://doi.org/10.1515/9780822386056-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3871,
+      "doi": "10.1515/9780857455642-009",
+      "link": "https://doi.org/10.1515/9780857455642-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3967,
+      "doi": "10.1515/9781575067223-018",
+      "link": "https://doi.org/10.1515/9781575067223-018",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3968,
+      "doi": "10.1515/9783112684368-017",
+      "link": "https://doi.org/10.1515/9783112684368-017",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 3969,
+      "doi": "10.1515/jbbbl-2017-0015",
+      "link": "https://doi.org/10.1515/jbbbl-2017-0015",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4065,
+      "doi": "10.1515/9780691214931-006",
+      "link": "https://doi.org/10.1515/9780691214931-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4066,
+      "doi": "10.1515/9781478091172-008",
+      "link": "https://doi.org/10.1515/9781478091172-008",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4067,
+      "doi": "10.1515/9783050091433.458",
+      "link": "https://doi.org/10.1515/9783050091433.458",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4068,
+      "doi": "10.1515/9783110448979-007",
+      "link": "https://doi.org/10.1515/9783110448979-007",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4164,
+      "doi": "10.1515/9781438497600-008",
+      "link": "https://doi.org/10.1515/9781438497600-008",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4165,
+      "doi": "10.1515/9783112377222-006",
+      "link": "https://doi.org/10.1515/9783112377222-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4166,
+      "doi": "10.1515/9783112758236-toc",
+      "link": "https://doi.org/10.1515/9783112758236-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4167,
+      "doi": "10.1515/bd.1991.25.11.1784",
+      "link": "https://doi.org/10.1515/bd.1991.25.11.1784",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4267,
+      "doi": "10.1515/9780691199641-001",
+      "link": "https://doi.org/10.1515/9780691199641-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4268,
+      "doi": "10.1515/9781503604551-003",
+      "link": "https://doi.org/10.1515/9781503604551-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4269,
+      "doi": "10.1515/9783112499061-013",
+      "link": "https://doi.org/10.1515/9783112499061-013",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4270,
+      "doi": "10.1515/crll.1863.62.193",
+      "link": "https://doi.org/10.1515/crll.1863.62.193",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4373,
+      "doi": "10.2478/s11533-013-0316-7",
+      "link": "https://doi.org/10.2478/s11533-013-0316-7",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4459,
+      "doi": "10.1524/ncrs.2011.0256",
+      "link": "https://doi.org/10.1524/ncrs.2011.0256",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4566,
+      "doi": "10.1515/9781400820054.148",
+      "link": "https://doi.org/10.1515/9781400820054.148",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4567,
+      "doi": "10.1515/9781503623873-005",
+      "link": "https://doi.org/10.1515/9781503623873-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4568,
+      "doi": "10.1515/9783112731192-005",
+      "link": "https://doi.org/10.1515/9783112731192-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4569,
+      "doi": "10.1515/9783839459010-004",
+      "link": "https://doi.org/10.1515/9783839459010-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4655,
+      "doi": "10.1515/9783112500668-005",
+      "link": "https://doi.org/10.1515/9783112500668-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4656,
+      "doi": "10.1515/9783112686300-005",
+      "link": "https://doi.org/10.1515/9783112686300-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4765,
+      "doi": "10.1515/9783839454886-fm",
+      "link": "https://doi.org/10.1515/9783839454886-fm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4864,
+      "doi": "10.1515/9780822387800-020",
+      "link": "https://doi.org/10.1515/9780822387800-020",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4865,
+      "doi": "10.1515/9783110247039.117",
+      "link": "https://doi.org/10.1515/9783110247039.117",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4866,
+      "doi": "10.1515/9783112436486-034",
+      "link": "https://doi.org/10.1515/9783112436486-034",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4964,
+      "doi": "10.1515/9783110885033-105",
+      "link": "https://doi.org/10.1515/9783110885033-105",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4965,
+      "doi": "10.1515/jura-2014-0043",
+      "link": "https://doi.org/10.1515/jura-2014-0043",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5053,
+      "doi": "10.1515/9783111370613-004",
+      "link": "https://doi.org/10.1515/9783111370613-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5054,
+      "doi": "10.1515/9783866302525-024",
+      "link": "https://doi.org/10.1515/9783866302525-024",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5055,
+      "doi": "10.1515/9783899498547.xi",
+      "link": "https://doi.org/10.1515/9783899498547.xi",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5056,
+      "doi": "10.1515/cclm-2012-0081",
+      "link": "https://doi.org/10.1515/cclm-2012-0081",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5160,
+      "doi": "10.1515/9783110275063-toc",
+      "link": "https://doi.org/10.1515/9783110275063-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5269,
+      "doi": "10.1515/9781400877768-011",
+      "link": "https://doi.org/10.1515/9781400877768-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5270,
+      "doi": "10.1515/bgsl.1889.1889.14.0",
+      "link": "https://doi.org/10.1515/bgsl.1889.1889.14.0",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5369,
+      "doi": "10.1515/9783110437775-029",
+      "link": "https://doi.org/10.1515/9783110437775-029",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5370,
+      "doi": "10.1515/kbo-2017-0104",
+      "link": "https://doi.org/10.1515/kbo-2017-0104",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5568,
+      "doi": "10.1515/9781552386484-011",
+      "link": "https://doi.org/10.1515/9781552386484-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5569,
+      "doi": "10.1515/9782760640023-016",
+      "link": "https://doi.org/10.1515/9782760640023-016",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5570,
+      "doi": "10.1515/9783112397169-015",
+      "link": "https://doi.org/10.1515/9783112397169-015",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5571,
+      "doi": "10.1515/9783486749342-005",
+      "link": "https://doi.org/10.1515/9783486749342-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5572,
+      "doi": "10.1515/znc-2002-1-221",
+      "link": "https://doi.org/10.1515/znc-2002-1-221",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5661,
+      "doi": "10.1515/9783486724714-011",
+      "link": "https://doi.org/10.1515/9783486724714-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5662,
+      "doi": "10.1524/dzph.1999.47.6.1023",
+      "link": "https://doi.org/10.1524/dzph.1999.47.6.1023",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5762,
+      "doi": "10.1515/9780691189123-014",
+      "link": "https://doi.org/10.1515/9780691189123-014",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5763,
+      "doi": "10.1515/9783110483017-fm",
+      "link": "https://doi.org/10.1515/9783110483017-fm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5764,
+      "doi": "10.1515/9783111714264-023",
+      "link": "https://doi.org/10.1515/9783111714264-023",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5869,
+      "doi": "10.1515/9781474453004-004",
+      "link": "https://doi.org/10.1515/9781474453004-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5963,
+      "doi": "10.1515/9780691230382-003",
+      "link": "https://doi.org/10.1515/9780691230382-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5964,
+      "doi": "10.1515/math-2021-0133",
+      "link": "https://doi.org/10.1515/math-2021-0133",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5965,
+      "doi": "10.1515/zava.1984.74.2.267",
+      "link": "https://doi.org/10.1515/zava.1984.74.2.267",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6078,
+      "doi": "10.1515/9783035609011-001",
+      "link": "https://doi.org/10.1515/9783035609011-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6165,
+      "doi": "10.1515/9781400835720.263",
+      "link": "https://doi.org/10.1515/9781400835720.263",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6272,
+      "doi": "10.1515/auto-2019-0058",
+      "link": "https://doi.org/10.1515/auto-2019-0058",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6362,
+      "doi": "10.1515/9780295741642-006",
+      "link": "https://doi.org/10.1515/9780295741642-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6363,
+      "doi": "10.1515/9781400859481.1",
+      "link": "https://doi.org/10.1515/9781400859481.1",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6463,
+      "doi": "10.1515/9781400835188-014",
+      "link": "https://doi.org/10.1515/9781400835188-014",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6464,
+      "doi": "10.1515/bot-2019-0082",
+      "link": "https://doi.org/10.1515/bot-2019-0082",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6573,
+      "doi": "10.1515/9783110456103-018",
+      "link": "https://doi.org/10.1515/9783110456103-018",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6574,
+      "doi": "10.1515/9783110849349.1",
+      "link": "https://doi.org/10.1515/9783110849349.1",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6575,
+      "doi": "10.1515/chem-2025-0236",
+      "link": "https://doi.org/10.1515/chem-2025-0236",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6669,
+      "doi": "10.1515/9780889775671-009",
+      "link": "https://doi.org/10.1515/9780889775671-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6670,
+      "doi": "10.1515/9783110564945-002",
+      "link": "https://doi.org/10.1515/9783110564945-002",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6671,
+      "doi": "10.1515/mim-2025-frontmatter4",
+      "link": "https://doi.org/10.1515/mim-2025-frontmatter4",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6765,
+      "doi": "10.1515/9783110967173.3.192",
+      "link": "https://doi.org/10.1515/9783110967173.3.192",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6766,
+      "doi": "10.1515/9783486775778-008",
+      "link": "https://doi.org/10.1515/9783486775778-008",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6863,
+      "doi": "10.1515/9783110453737-010",
+      "link": "https://doi.org/10.1515/9783110453737-010",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6864,
+      "doi": "10.1515/9783110737547-001",
+      "link": "https://doi.org/10.1515/9783110737547-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6865,
+      "doi": "10.1515/9783110879674-006",
+      "link": "https://doi.org/10.1515/9783110879674-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6877,
+      "doi": "10.2478/hacq-2014-0002",
+      "link": "https://doi.org/10.2478/hacq-2014-0002",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7074,
+      "doi": "10.1515/9781503639843-fm",
+      "link": "https://doi.org/10.1515/9781503639843-fm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7075,
+      "doi": "10.1515/9781580466967-009",
+      "link": "https://doi.org/10.1515/9781580466967-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7076,
+      "doi": "10.1515/9783110359954.103",
+      "link": "https://doi.org/10.1515/9783110359954.103",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7077,
+      "doi": "10.1515/9789048501229-017",
+      "link": "https://doi.org/10.1515/9789048501229-017",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7078,
+      "doi": "10.1515/transcript.9783839421208.135",
+      "link": "https://doi.org/10.1515/transcript.9783839421208.135",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7159,
+      "doi": "10.1515/9783748602187-005",
+      "link": "https://doi.org/10.1515/9783748602187-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7160,
+      "doi": "10.1515/zava.1972.62.1.1",
+      "link": "https://doi.org/10.1515/zava.1972.62.1.1",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7266,
+      "doi": "10.1515/9783110920253.131",
+      "link": "https://doi.org/10.1515/9783110920253.131",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7267,
+      "doi": "10.1515/9783112480663-003",
+      "link": "https://doi.org/10.1515/9783112480663-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7366,
+      "doi": "10.1515/9783112422489-005",
+      "link": "https://doi.org/10.1515/9783112422489-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7367,
+      "doi": "10.1515/9783112428689-046",
+      "link": "https://doi.org/10.1515/9783112428689-046",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7368,
+      "doi": "10.1515/9783839472613-003",
+      "link": "https://doi.org/10.1515/9783839472613-003",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7463,
+      "doi": "10.1515/9781503616561-016",
+      "link": "https://doi.org/10.1515/9781503616561-016",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7464,
+      "doi": "10.1515/9781782383802-toc",
+      "link": "https://doi.org/10.1515/9781782383802-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7465,
+      "doi": "10.1515/rra.2000.8.7.142b",
+      "link": "https://doi.org/10.1515/rra.2000.8.7.142b",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7573,
+      "doi": "10.1515/pof-2016-0006",
+      "link": "https://doi.org/10.1515/pof-2016-0006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7662,
+      "doi": "10.1515/9783112392706-017",
+      "link": "https://doi.org/10.1515/9783112392706-017",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7663,
+      "doi": "10.1515/9783598441264.2.55",
+      "link": "https://doi.org/10.1515/9783598441264.2.55",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7761,
+      "doi": "10.1515/9783110358032.328",
+      "link": "https://doi.org/10.1515/9783110358032.328",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7762,
+      "doi": "10.1515/9783110812138.122",
+      "link": "https://doi.org/10.1515/9783110812138.122",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7763,
+      "doi": "10.1515/bd.1989.23.6.741",
+      "link": "https://doi.org/10.1515/bd.1989.23.6.741",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7764,
+      "doi": "10.1515/jiip-2024-0015",
+      "link": "https://doi.org/10.1515/jiip-2024-0015",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7865,
+      "doi": "10.1515/9780857451118-009",
+      "link": "https://doi.org/10.1515/9780857451118-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7866,
+      "doi": "10.1515/9783110942996-001",
+      "link": "https://doi.org/10.1515/9783110942996-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7867,
+      "doi": "10.1515/9783111334790-012",
+      "link": "https://doi.org/10.1515/9783111334790-012",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7868,
+      "doi": "10.1515/9783839471111-019",
+      "link": "https://doi.org/10.1515/9783839471111-019",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8066,
+      "doi": "10.1515/9782760534773-006",
+      "link": "https://doi.org/10.1515/9782760534773-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8163,
+      "doi": "10.1515/9781571136534-012",
+      "link": "https://doi.org/10.1515/9781571136534-012",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8164,
+      "doi": "10.1515/9783112715376-007",
+      "link": "https://doi.org/10.1515/9783112715376-007",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8271,
+      "doi": "10.1515/9783050075310-012",
+      "link": "https://doi.org/10.1515/9783050075310-012",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8272,
+      "doi": "10.1515/9783110929010.196",
+      "link": "https://doi.org/10.1515/9783110929010.196",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8273,
+      "doi": "10.1524/phil.1934.89.14.135",
+      "link": "https://doi.org/10.1524/phil.1934.89.14.135",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8368,
+      "doi": "10.1515/9780271099477-002",
+      "link": "https://doi.org/10.1515/9780271099477-002",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8369,
+      "doi": "10.1515/9783035616552-023",
+      "link": "https://doi.org/10.1515/9783035616552-023",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8370,
+      "doi": "10.1515/9783110124200.2.16.1672",
+      "link": "https://doi.org/10.1515/9783110124200.2.16.1672",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8371,
+      "doi": "10.1515/9783112316139-004",
+      "link": "https://doi.org/10.1515/9783112316139-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8372,
+      "doi": "10.1515/9783112632383-031",
+      "link": "https://doi.org/10.1515/9783112632383-031",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8467,
+      "doi": "10.1515/9783112728710-009",
+      "link": "https://doi.org/10.1515/9783112728710-009",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8566,
+      "doi": "10.1515/9783110924381.3",
+      "link": "https://doi.org/10.1515/9783110924381.3",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8567,
+      "doi": "10.1515/9783111708553.3",
+      "link": "https://doi.org/10.1515/9783111708553.3",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8670,
+      "doi": "10.1515/9781805432852-001",
+      "link": "https://doi.org/10.1515/9781805432852-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8671,
+      "doi": "10.1515/9781846158643-001",
+      "link": "https://doi.org/10.1515/9781846158643-001",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8763,
+      "doi": "10.1515/9783110757958-024",
+      "link": "https://doi.org/10.1515/9783110757958-024",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8764,
+      "doi": "10.1515/9783110857450.bm",
+      "link": "https://doi.org/10.1515/9783110857450.bm",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8765,
+      "doi": "10.1515/jso-2014-0025",
+      "link": "https://doi.org/10.1515/jso-2014-0025",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8766,
+      "doi": "10.1524/dzph.1986.34.3.228",
+      "link": "https://doi.org/10.1524/dzph.1986.34.3.228",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8861,
+      "doi": "10.1515/9781773850016-065",
+      "link": "https://doi.org/10.1515/9781773850016-065",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8862,
+      "doi": "10.1515/9782760558243-011",
+      "link": "https://doi.org/10.1515/9782760558243-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 8970,
+      "doi": "10.1515/bmte.2003.48.s1.42",
+      "link": "https://doi.org/10.1515/bmte.2003.48.s1.42",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9068,
+      "doi": "10.1515/9780295999746-004",
+      "link": "https://doi.org/10.1515/9780295999746-004",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9069,
+      "doi": "10.1515/9780804797221-013",
+      "link": "https://doi.org/10.1515/9780804797221-013",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9070,
+      "doi": "10.1515/9781474450652-016",
+      "link": "https://doi.org/10.1515/9781474450652-016",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9071,
+      "doi": "10.1515/9783110465013-toc",
+      "link": "https://doi.org/10.1515/9783110465013-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9168,
+      "doi": "10.1515/bd.2001.35.5.583",
+      "link": "https://doi.org/10.1515/bd.2001.35.5.583",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9271,
+      "doi": "10.1515/9783111412221-toc",
+      "link": "https://doi.org/10.1515/9783111412221-toc",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9272,
+      "doi": "10.1515/juru-2018-0023",
+      "link": "https://doi.org/10.1515/juru-2018-0023",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9365,
+      "doi": "10.1515/9783111439853-011",
+      "link": "https://doi.org/10.1515/9783111439853-011",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9366,
+      "doi": "10.1515/fs-1988-0117",
+      "link": "https://doi.org/10.1515/fs-1988-0117",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9367,
+      "doi": "10.1515/jpem-2018-0055",
+      "link": "https://doi.org/10.1515/jpem-2018-0055",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9468,
+      "doi": "10.1515/9783112568422-037",
+      "link": "https://doi.org/10.1515/9783112568422-037",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9575,
+      "doi": "10.1515/9783110968286.7",
+      "link": "https://doi.org/10.1515/9783110968286.7",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9673,
+      "doi": "10.1515/9783112515501-013",
+      "link": "https://doi.org/10.1515/9783112515501-013",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9674,
+      "doi": "10.1515/zpch-1944-19402",
+      "link": "https://doi.org/10.1515/zpch-1944-19402",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9770,
+      "doi": "10.1515/9780691200811-010",
+      "link": "https://doi.org/10.1515/9780691200811-010",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9771,
+      "doi": "10.1515/9780822384120-010",
+      "link": "https://doi.org/10.1515/9780822384120-010",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9871,
+      "doi": "10.1515/9783111539805-005",
+      "link": "https://doi.org/10.1515/9783111539805-005",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9872,
+      "doi": "10.1515/juru.1996.1996.5.185",
+      "link": "https://doi.org/10.1515/juru.1996.1996.5.185",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9873,
+      "doi": "10.1515/zstw.1897.17.1.464",
+      "link": "https://doi.org/10.1515/zstw.1897.17.1.464",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9970,
+      "doi": "10.1515/9781399544627-064",
+      "link": "https://doi.org/10.1515/9781399544627-064",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9971,
+      "doi": "10.1515/9781438406206-006",
+      "link": "https://doi.org/10.1515/9781438406206-006",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9972,
+      "doi": "10.1515/9783111549538.694",
+      "link": "https://doi.org/10.1515/9783111549538.694",
+      "publisher": "de_gruyter",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 762,
+      "doi": "10.1515/9780824886387-014",
+      "link": "https://doi.org/10.1515/9780824886387-014",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1199.404832907021,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 859,
+      "doi": "10.1515/9783110850079.43",
+      "link": "https://doi.org/10.1515/9783110850079.43",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 601.1292499024421,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 858,
+      "doi": "10.1515/9780824866839-009",
+      "link": "https://doi.org/10.1515/9780824866839-009",
+      "publisher": "de_gruyter",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 740.5240410007536,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    }
+  ],
+  "duration_ms": 6087
+}
