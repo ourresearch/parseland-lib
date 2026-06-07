@@ -1,0 +1,4432 @@
+{
+  "run_id": "bmj-retrieval-r2-full-20260607T0820Z",
+  "label": "bmj-retrieval-r2-full",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-07T08:19:59.600508+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 69,
+  "coverage": {
+    "total_rows": 69,
+    "html_available": 66,
+    "scored_rows": 66,
+    "retrieval_blocked_rows": 3,
+    "retrieval_blocked_by_reason": {
+      "missing": 3
+    },
+    "gold_empty_parser_present_count": 11,
+    "per_publisher": {
+      "bmj": {
+        "total_rows": 69,
+        "html_available": 66,
+        "scored_rows": 66,
+        "retrieval_blocked": 3
+      }
+    }
+  },
+  "skipped_no_html_count": 3,
+  "skipped_no_html_dois": [
+    "10.1136/bmjopen-2024-096934",
+    "10.1136/tc-2025-059349",
+    "10.1136/vr.124.10.257"
+  ],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 69,
+      "scored": 66,
+      "errors": 0,
+      "skipped_no_html": 3,
+      "authors_f1_strict": 0.9538461538461539,
+      "authors_f1_soft": 0.9692307692307692,
+      "affiliations_f1_strict": 0.9072414764722457,
+      "affiliations_f1_fuzzy": 0.9728632478632478,
+      "abstract_ratio_fuzzy": 0.7959935210155703,
+      "abstract_present_rate": 0.3181818181818182,
+      "pdf_url_accuracy": 0.9692307692307692,
+      "corresponding_accuracy": 0.9310344827586207,
+      "duration_ms_mean": 1939.982785303569,
+      "n_authors_scored": 65,
+      "n_pdf_scored": 65,
+      "n_corresponding_scored": 58,
+      "n_abstract_scored": 66
+    },
+    "per_publisher": {
+      "bmj": {
+        "rows": 69,
+        "scored": 66,
+        "errors": 0,
+        "skipped_no_html": 3,
+        "authors_f1_strict": 0.9538461538461539,
+        "authors_f1_soft": 0.9692307692307692,
+        "affiliations_f1_strict": 0.9072414764722457,
+        "affiliations_f1_fuzzy": 0.9728632478632478,
+        "abstract_ratio_fuzzy": 0.7959935210155703,
+        "abstract_present_rate": 0.3181818181818182,
+        "pdf_url_accuracy": 0.9692307692307692,
+        "corresponding_accuracy": 0.9310344827586207,
+        "duration_ms_mean": 1939.982785303569,
+        "n_authors_scored": 65,
+        "n_pdf_scored": 65,
+        "n_corresponding_scored": 58,
+        "n_abstract_scored": 66
+      }
+    },
+    "coverage": {
+      "total_rows": 69,
+      "html_available": 66,
+      "scored_rows": 66,
+      "retrieval_blocked_rows": 3,
+      "retrieval_blocked_by_reason": {
+        "missing": 3
+      },
+      "gold_empty_parser_present_count": 11,
+      "per_publisher": {
+        "bmj": {
+          "total_rows": 69,
+          "html_available": 66,
+          "scored_rows": 66,
+          "retrieval_blocked": 3
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 69,
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "empty_empty_pass": 12,
+        "gold_present_parser_empty": 2,
+        "gold_present_parser_present": 51,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 65
+      },
+      "affiliations": {
+        "total_rows": 69,
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "empty_empty_pass": 34,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 30,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 65
+      },
+      "abstract": {
+        "total_rows": 69,
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "empty_empty_pass": 32,
+        "gold_present_parser_empty": 13,
+        "gold_present_parser_present": 21,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 66
+      },
+      "pdf_url": {
+        "total_rows": 69,
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "empty_empty_pass": 3,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 62,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 65
+      },
+      "corresponding": {
+        "total_rows": 69,
+        "html_available": 66,
+        "retrieval_blocked": 3,
+        "empty_empty_pass": 42,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 12,
+        "gold_empty_parser_present": 8,
+        "scored_rows": 58
+      }
+    },
+    "per_publisher_field": {
+      "bmj": {
+        "authors": {
+          "total_rows": 69,
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "empty_empty_pass": 12,
+          "gold_present_parser_empty": 2,
+          "gold_present_parser_present": 51,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 65
+        },
+        "affiliations": {
+          "total_rows": 69,
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "empty_empty_pass": 34,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 30,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 65
+        },
+        "abstract": {
+          "total_rows": 69,
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "empty_empty_pass": 32,
+          "gold_present_parser_empty": 13,
+          "gold_present_parser_present": 21,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 66
+        },
+        "pdf_url": {
+          "total_rows": 69,
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "empty_empty_pass": 3,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 62,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 65
+        },
+        "corresponding": {
+          "total_rows": 69,
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "empty_empty_pass": 42,
+          "gold_present_parser_empty": 4,
+          "gold_present_parser_present": 12,
+          "gold_empty_parser_present": 8,
+          "scored_rows": 58
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 552,
+      "doi": "10.1136/bmj.285.6340.461-a",
+      "link": "https://doi.org/10.1136/bmj.285.6340.461-a",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1558.43195784837,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/285/6340/461.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 659,
+      "doi": "10.1136/bmj.323.7312.581",
+      "link": "https://doi.org/10.1136/bmj.323.7312.581",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1931.8544589914382,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 978,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 845,
+      "doi": "10.1136/jech-2012-201242",
+      "link": "https://doi.org/10.1136/jech-2012-201242",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2220.145042054355,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.8333333333333334,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9787351560342447,
+          "fuzzy_ratio": 0.9759336099585062,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1772,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1843,
+        "urls": [
+          {
+            "url": "https://jech.bmj.com/content/jech/67/7/587.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1558,
+      "doi": "10.1136/bmjopen-2024-096934",
+      "link": "https://doi.org/10.1136/bmjopen-2024-096934",
+      "publisher": "bmj",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 660,
+      "doi": "10.1136/neurintsurg-2019-015378",
+      "link": "https://doi.org/10.1136/neurintsurg-2019-015378",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2820.38695900701,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.875,
+          "f1_soft": 0.875,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9712092130518234,
+          "fuzzy_ratio": 0.9673525377229081,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1780,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1865,
+        "urls": [
+          {
+            "url": "https://jnis.bmj.com/content/neurintsurg/12/4/422.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 754,
+      "doi": "10.1136/bmj.2.3272.460",
+      "link": "https://doi.org/10.1136/bmj.2.3272.460",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3104.31466717273,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/3272/460.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 951,
+      "doi": "10.1136/jcp.53.11.846",
+      "link": "https://doi.org/10.1136/jcp.53.11.846",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3860.518208006397,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9711785898095728,
+          "fuzzy_ratio": 0.9721792890262752,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 1907,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 1975,
+        "urls": [
+          {
+            "url": "https://jcp.bmj.com/content/jclinpath/53/11/846.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1449,
+      "doi": "10.1136/bmj.1.1154.275-a",
+      "link": "https://doi.org/10.1136/bmj.1.1154.275-a",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2273.84683303535,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/1154/275.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 55,
+      "doi": "10.1136/bmjopen-2017-016459",
+      "link": "https://doi.org/10.1136/bmjopen-2017-016459",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4108.166042016819,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9726751873071838,
+          "fuzzy_ratio": 0.9695901278096077,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 2216,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 2322,
+        "urls": [
+          {
+            "url": "https://bmjopen.bmj.com/content/bmjopen/7/8/e016459.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1054,
+      "doi": "10.1136/injprev-00002-0038rep",
+      "link": "https://doi.org/10.1136/injprev-00002-0038rep",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2988.669666927308,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9535090316849274,
+          "fuzzy_ratio": 0.946808510638298,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1629,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1755,
+        "urls": [
+          {
+            "url": "https://injuryprevention.bmj.com/content/injuryprev/21/1/47.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2150,
+      "doi": "10.1136/bmj.1.2304.451-d",
+      "link": "https://doi.org/10.1136/bmj.1.2304.451-d",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2575.374708045274,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/2304/451.5.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2657,
+      "doi": "10.1136/bmj.295.6602.852-b",
+      "link": "https://doi.org/10.1136/bmj.295.6602.852-b",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2020.600999938324,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/295/6602/852.3.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2658,
+      "doi": "10.1136/jcp.34.1.106-b",
+      "link": "https://doi.org/10.1136/jcp.34.1.106-b",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1883.83466610685,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://jcp.bmj.com/content/jclinpath/34/1/106.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2856,
+      "doi": "10.1136/bmj.2.6147.1295",
+      "link": "https://doi.org/10.1136/bmj.2.6147.1295",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1452.0946249831468,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/6147/1295.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2952,
+      "doi": "10.1136/jrnms-84-2",
+      "link": "https://doi.org/10.1136/jrnms-84-2",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1501.5323751140386,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://jrnms.bmj.com/content/jrnms/84/1/2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2855,
+      "doi": "10.1136/bmj.2.2607.1925",
+      "link": "https://doi.org/10.1136/bmj.2.2607.1925",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2032.821583095938,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/2607/1925.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3154,
+      "doi": "10.1136/bmj.2.289.55-b",
+      "link": "https://doi.org/10.1136/bmj.2.289.55-b",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1869.9077919591218,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/289/55.3.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3358,
+      "doi": "10.1136/bmj.332.7554.1391-c",
+      "link": "https://doi.org/10.1136/bmj.332.7554.1391-c",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1661.8789159692824,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 346,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 3359,
+      "doi": "10.1136/sextrans-2017-053264.224",
+      "link": "https://doi.org/10.1136/sextrans-2017-053264.224",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1462.7479589544237,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.75,
+          "f1_soft": 0.75,
+          "f1_fuzzy": 0.75,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9688979039891819,
+          "fuzzy_ratio": 0.96614759647935,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1437,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1517,
+        "urls": [
+          {
+            "url": "https://sti.bmj.com/content/sextrans/93/Suppl_2/A88.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3856,
+      "doi": "10.1136/bmj.2.2548.1312",
+      "link": "https://doi.org/10.1136/bmj.2.2548.1312",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1199.9082500115037,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/2548/1312.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3250,
+      "doi": "10.1136/sextrans-2016-052992",
+      "link": "https://doi.org/10.1136/sextrans-2016-052992",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2380.1132501102984,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.8888888888888888,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 9
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.96833382657591,
+          "fuzzy_ratio": 0.9659662622077537,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 9,
+        "abstract_len": 1643,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 9,
+        "abstract_len": 1736,
+        "urls": [
+          {
+            "url": "https://sti.bmj.com/content/sextrans/94/2/100.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3762,
+      "doi": "10.1136/bmj.39063.450243.47",
+      "link": "https://doi.org/10.1136/bmj.39063.450243.47",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1330.4082080721855,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 949,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/334/7584/97.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4054,
+      "doi": "10.1136/bmj.326.7381.172",
+      "link": "https://doi.org/10.1136/bmj.326.7381.172",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 732.6539589557797,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1208,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/326/7381/172.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 247,
+      "doi": "10.1136/esmoopen-2020-000803",
+      "link": "https://doi.org/10.1136/esmoopen-2020-000803",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 7300.051915924996,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 12
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9896507115135834,
+          "fuzzy_ratio": 0.988788270806382,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 12,
+        "abstract_len": 2297,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 12,
+        "abstract_len": 2341,
+        "urls": [
+          {
+            "url": "http://www.esmoopen.com/article/S205970292032696X/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3951,
+      "doi": "10.1136/bmj.l6439",
+      "link": "https://doi.org/10.1136/bmj.l6439",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 933.4197079297155,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.5,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 415,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/367/bmj.l6439.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4055,
+      "doi": "10.1136/hrt.51.5.508",
+      "link": "https://doi.org/10.1136/hrt.51.5.508",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1030.1805830094963,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9973149213655543,
+          "fuzzy_ratio": 0.9973149213655543,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1300,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1307,
+        "urls": [
+          {
+            "url": "https://heart.bmj.com/content/heartjnl/51/5/508.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3654,
+      "doi": "10.1136/bmj.331.7530.1427",
+      "link": "https://doi.org/10.1136/bmj.331.7530.1427",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1356.4939168281853,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/331/7530/1427.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4556,
+      "doi": "10.1136/jim-52-02-30",
+      "link": "https://doi.org/10.1136/jim-52-02-30",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1537.7330828923732,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://jim.bmj.com/content/jim/52/2/148.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4855,
+      "doi": "10.1136/bmj.39365.540718.be",
+      "link": "https://doi.org/10.1136/bmj.39365.540718.be",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1313.9515419024974,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1358,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/335/7626/943.5.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4349,
+      "doi": "10.1136/ijgc-00009577-200509001-00330",
+      "link": "https://doi.org/10.1136/ijgc-00009577-200509001-00330",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1814.1109999269247,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://ijgc.bmj.com/content/ijgc/15/Suppl_2/143.3.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5452,
+      "doi": "10.1136/bmj.e4415",
+      "link": "https://doi.org/10.1136/bmj.e4415",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1038.6066669598222,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 662,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/344/bmj.e4415.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5252,
+      "doi": "10.1136/bmj.1.4083.732",
+      "link": "https://doi.org/10.1136/bmj.1.4083.732",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2400.0696658622473,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/4083/732.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4856,
+      "doi": "10.1136/thorax-2021-btsabstracts.164",
+      "link": "https://doi.org/10.1136/thorax-2021-btsabstracts.164",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2562.1391248423606,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 13
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9785667893483437,
+          "fuzzy_ratio": 0.9764018185754493,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 13,
+        "abstract_len": 2267,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 13,
+        "abstract_len": 2352,
+        "urls": [
+          {
+            "url": "https://thorax.bmj.com/content/thoraxjnl/76/Suppl_2/A96.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5556,
+      "doi": "10.1136/adc.54.2.168",
+      "link": "https://doi.org/10.1136/adc.54.2.168",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2249.832999892533,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://adc.bmj.com/content/archdischild/54/2/168.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5648,
+      "doi": "10.1136/bmj.2.1868.1163",
+      "link": "https://doi.org/10.1136/bmj.2.1868.1163",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1872.0268330071121,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/1868/1163.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6350,
+      "doi": "10.1136/bmj.1.4758.603",
+      "link": "https://doi.org/10.1136/bmj.1.4758.603",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1710.0373329594731,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/4758/603.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6557,
+      "doi": "10.1136/bmj.4.5831.53",
+      "link": "https://doi.org/10.1136/bmj.4.5831.53",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1622.7391250431538,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/4/5831/53.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6752,
+      "doi": "10.1136/annrheumdis-2023-eular.3894",
+      "link": "https://doi.org/10.1136/annrheumdis-2023-eular.3894",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1507.7782499138266,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 9
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9714504694385898,
+          "fuzzy_ratio": 0.9683847480360223,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 9,
+        "abstract_len": 2542,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 9,
+        "abstract_len": 2677,
+        "urls": [
+          {
+            "url": "https://ard.bmj.com/content/annrheumdis/82/Suppl_1/1547.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7143,
+      "doi": "10.1136/bmj.1.2506.96-a",
+      "link": "https://doi.org/10.1136/bmj.1.2506.96-a",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1372.8527908679098,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/2506/96.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6853,
+      "doi": "10.1136/emermed-2014-204467",
+      "link": "https://doi.org/10.1136/emermed-2014-204467",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1589.1778750810772,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 333,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://emj.bmj.com/content/emermed/32/1/85.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6852,
+      "doi": "10.1136/bmj.1.23.601",
+      "link": "https://doi.org/10.1136/bmj.1.23.601",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1700.8629159536213,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/23/601.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4156,
+      "doi": "10.1136/jim-2021-001951",
+      "link": "https://doi.org/10.1136/jim-2021-001951",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4337.495750049129,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://journals.sagepub.com/doi/pdf/10.1136/jim-2021-001951?download=true",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7251,
+      "doi": "10.1136/bmj.s794",
+      "link": "https://doi.org/10.1136/bmj.s794",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 875.8616249542683,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1051,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/393/bmj.s794.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7250,
+      "doi": "10.1136/bmj.1.2469.1014",
+      "link": "https://doi.org/10.1136/bmj.1.2469.1014",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1370.6628340296447,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/2469/1014.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7562,
+      "doi": "10.1136/annrheumdis-2023-eular.5749",
+      "link": "https://doi.org/10.1136/annrheumdis-2023-eular.5749",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1697.3212910816073,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9789736803411263,
+          "fuzzy_ratio": 0.9760329363328922,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 3337,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 3464,
+        "urls": [
+          {
+            "url": "https://ard.bmj.com/content/annrheumdis/82/Suppl_1/1904.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8558,
+      "doi": "10.1136/tc-2025-059349",
+      "link": "https://doi.org/10.1136/tc-2025-059349",
+      "publisher": "bmj",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 7563,
+      "doi": "10.1136/bmj.2.1348.825",
+      "link": "https://doi.org/10.1136/bmj.2.1348.825",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1481.47724987939,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/1348/825.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7852,
+      "doi": "10.1136/bjo.47.8.488",
+      "link": "https://doi.org/10.1136/bjo.47.8.488",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1059.5697090029716,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://bjo.bmj.com/content/bjophthalmol/47/8/488.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7747,
+      "doi": "10.1136/rapm-00115550-198914030-00013",
+      "link": "https://doi.org/10.1136/rapm-00115550-198914030-00013",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2003.149207914248,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9905277401894452,
+          "fuzzy_ratio": 0.9905277401894452,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 366,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 373,
+        "urls": [
+          {
+            "url": "https://rapm.bmj.com/content/rapm/14/3/155.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7653,
+      "doi": "10.1136/bmj.1.5434.579-f",
+      "link": "https://doi.org/10.1136/bmj.1.5434.579-f",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2046.5174170676619,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/5434/579.7.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8057,
+      "doi": "10.1136/adc.59.5.490-b",
+      "link": "https://doi.org/10.1136/adc.59.5.490-b",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1976.766541833058,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://adc.bmj.com/content/archdischild/59/5/490.3.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8455,
+      "doi": "10.1136/bmj.2.4371.503-a",
+      "link": "https://doi.org/10.1136/bmj.2.4371.503-a",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1671.3659998495132,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/4371/503.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8265,
+      "doi": "10.1136/eb-2017-102673",
+      "link": "https://doi.org/10.1136/eb-2017-102673",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1964.8109169211239,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 703,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://ebn.bmj.com/content/ebnurs/21/1/9.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8657,
+      "doi": "10.1136/sextrans-bashh-2022.161",
+      "link": "https://doi.org/10.1136/sextrans-bashh-2022.161",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1379.4770000968128,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9806526133410338,
+          "fuzzy_ratio": 0.9783424776205603,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1701,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1762,
+        "urls": [
+          {
+            "url": "https://sti.bmj.com/content/sextrans/98/Suppl_1/A76.2.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8954,
+      "doi": "10.1136/bmj.q1056",
+      "link": "https://doi.org/10.1136/bmj.q1056",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1327.4480409454554,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 112,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/385/bmj.q1056.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9055,
+      "doi": "10.1136/bmj.1.274.333",
+      "link": "https://doi.org/10.1136/bmj.1.274.333",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1379.356084158644,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/274/333.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9056,
+      "doi": "10.1136/bmj.2.341.36",
+      "link": "https://doi.org/10.1136/bmj.2.341.36",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1284.2161250300705,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/2/341/36.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8656,
+      "doi": "10.1136/bmjoq-2020-000915",
+      "link": "https://doi.org/10.1136/bmjoq-2020-000915",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2515.970499953255,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9782270606531882,
+          "fuzzy_ratio": 0.9745982374287194,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1891,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1967,
+        "urls": [
+          {
+            "url": "https://bmjopenquality.bmj.com/content/bmjqir/9/3/e000915.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9058,
+      "doi": "10.1136/spcare-2025-pcc.69",
+      "link": "https://doi.org/10.1136/spcare-2025-pcc.69",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1509.059082949534,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9853807549639975,
+          "fuzzy_ratio": 0.9831987780929522,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 2261,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 2322,
+        "urls": [
+          {
+            "url": "https://spcare.bmj.com/content/bmjspcare/15/Suppl_2/A27.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9860,
+      "doi": "10.1136/vr.124.10.257",
+      "link": "https://doi.org/10.1136/vr.124.10.257",
+      "publisher": "bmj",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9057,
+      "doi": "10.1136/injuryprev-2019-043479",
+      "link": "https://doi.org/10.1136/injuryprev-2019-043479",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1739.899291889742,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.9230769230769231,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 13
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9791726105563481,
+          "fuzzy_ratio": 0.9768901569186876,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 13,
+        "abstract_len": 1722,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 13,
+        "abstract_len": 1783,
+        "urls": [
+          {
+            "url": "https://injuryprevention.bmj.com/content/injuryprev/27/2/145.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9351,
+      "doi": "10.1136/oemed-2016-103951.596",
+      "link": "https://doi.org/10.1136/oemed-2016-103951.596",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2221.710791112855,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.7142857142857143,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9901369863013698,
+          "fuzzy_ratio": 0.9901369863013698,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 1811,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 1839,
+        "urls": [
+          {
+            "url": "https://oem.bmj.com/content/oemed/73/Suppl_1/A215.1.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9350,
+      "doi": "10.1136/bmj.1.284.623",
+      "link": "https://doi.org/10.1136/bmj.1.284.623",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2282.995874993503,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://www.bmj.com/content/bmj/1/284/623.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9450,
+      "doi": "10.1136/hrt.61.3.300",
+      "link": "https://doi.org/10.1136/hrt.61.3.300",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1573.6075409222394,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9947009841029523,
+          "fuzzy_ratio": 0.9947009841029523,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 657,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 664,
+        "urls": [
+          {
+            "url": "https://heart.bmj.com/content/heartjnl/61/3/300.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9054,
+      "doi": "10.1136/ard.58.8.503",
+      "link": "https://doi.org/10.1136/ard.58.8.503",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2981.640625046566,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9836863890917945,
+          "fuzzy_ratio": 0.9812515217920622,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 2023,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 2084,
+        "urls": [
+          {
+            "url": "https://ard.bmj.com/content/annrheumdis/58/8/503.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9859,
+      "doi": "10.1136/jcp.2005.035352",
+      "link": "https://doi.org/10.1136/jcp.2005.035352",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1575.0687499530613,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.6666666666666666,
+          "f1_soft": 0.6666666666666666,
+          "f1_fuzzy": 0.6666666666666666,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1744,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://jcp.bmj.com/content/jclinpath/60/9/1058.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9949,
+      "doi": "10.1136/bmj.326.7397.1036",
+      "link": "https://doi.org/10.1136/bmj.326.7397.1036",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1090.6087921466678,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.8194444444444444,
+          "f1_soft": 0.8194444444444444,
+          "f1_fuzzy": 0.8194444444444444,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1381,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 9861,
+      "doi": "10.1136/vr.i27",
+      "link": "https://doi.org/10.1136/vr.i27",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1161.5312499925494,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1136/vr.i27",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9758,
+      "doi": "10.1136/heartjnl-2019-315183",
+      "link": "https://doi.org/10.1136/heartjnl-2019-315183",
+      "publisher": "bmj",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1648.999083088711,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9950248756218906,
+          "fuzzy_ratio": 0.9950248756218906,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 700,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 707,
+        "urls": [
+          {
+            "url": "https://heart.bmj.com/content/heartjnl/106/22/1712.full.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    }
+  ],
+  "duration_ms": 16770
+}

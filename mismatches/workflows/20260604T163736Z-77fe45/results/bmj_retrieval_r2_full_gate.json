@@ -1,0 +1,105 @@
+{
+  "artifacts": {
+    "full_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_retrieval_r2_full_audit.summary.json",
+    "full_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_retrieval_r2_full.json",
+    "full_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_retrieval_r2_full_fill.summary.json",
+    "smoke_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_retrieval_r2_smoke_fill.summary.json"
+  },
+  "commands": [
+    "scripts/retrieval_fill.py --publishers bmj --limit 25 --concurrency 8",
+    "scripts/retrieval_fill.py --publishers bmj --concurrency 16",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers bmj --out whole_goldie_bmj_retrieval_r2_full.json"
+  ],
+  "coverage_after": {
+    "bmj_html_available": 66,
+    "bmj_retrieval_blocked": 3,
+    "global_cached_ok_after_retrieval_audit": 5137
+  },
+  "coverage_before": {
+    "bmj_html_available": 0,
+    "bmj_retrieval_blocked": 69
+  },
+  "current_goldie_kpi_effect": "coverage-only until next serialized full-10K run; focused publisher eval now available",
+  "field_counts": {
+    "abstract": {
+      "empty_empty_pass": 32,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 13,
+      "gold_present_parser_present": 21,
+      "html_available": 66,
+      "retrieval_blocked": 3,
+      "scored_rows": 66,
+      "total_rows": 69
+    },
+    "affiliations": {
+      "empty_empty_pass": 34,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 30,
+      "html_available": 66,
+      "retrieval_blocked": 3,
+      "scored_rows": 65,
+      "total_rows": 69
+    },
+    "authors": {
+      "empty_empty_pass": 12,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 2,
+      "gold_present_parser_present": 51,
+      "html_available": 66,
+      "retrieval_blocked": 3,
+      "scored_rows": 65,
+      "total_rows": 69
+    },
+    "corresponding": {
+      "empty_empty_pass": 42,
+      "gold_empty_parser_present": 8,
+      "gold_present_parser_empty": 4,
+      "gold_present_parser_present": 12,
+      "html_available": 66,
+      "retrieval_blocked": 3,
+      "scored_rows": 58,
+      "total_rows": 69
+    },
+    "pdf_url": {
+      "empty_empty_pass": 3,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 0,
+      "gold_present_parser_present": 62,
+      "html_available": 66,
+      "retrieval_blocked": 3,
+      "scored_rows": 65,
+      "total_rows": 69
+    }
+  },
+  "focused_eval": {
+    "abstract_present_rate": 0.3181818181818182,
+    "abstract_ratio_fuzzy": 0.7959935210155703,
+    "affiliations_f1_fuzzy": 0.9728632478632478,
+    "authors_f1_soft": 0.9692307692307692,
+    "corresponding_accuracy": 0.9310344827586207,
+    "errors": 0,
+    "pdf_url_accuracy": 0.9692307692307692,
+    "rows": 69,
+    "scored": 66,
+    "skipped_no_html": 3
+  },
+  "next_action": "Prioritize BMJ abstract parser/fixture diagnosis; then corresponding backfill/referee plus residual current-Goldie misses. Authors, affiliations, and PDF are near target but still below 98.",
+  "publisher_id": "bmj",
+  "retrieval_audit_bmj": {
+    "cached_ok": 66,
+    "missing": 3,
+    "rows": 69
+  },
+  "retrieval_fill_state_counts": {
+    "cached": 24,
+    "missing_uuid": 3,
+    "ok": 42
+  },
+  "run_id": "bmj-retrieval-r2-full-20260607T0820Z",
+  "shield_gate_type": "retrieval_coverage_and_focused_whole_goldie",
+  "status": "passed",
+  "task": "bmj_retrieval_r2_full",
+  "timestamp_utc": "2026-06-07T08:21:14.045560+00:00"
+}

@@ -1,0 +1,21 @@
+{
+  "run_id": "retrieval-bmj-r2-smoke-20260607T0819Z",
+  "timestamp_utc": "2026-06-07T08:19:16.610698+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 25,
+  "completed_rows": 25,
+  "duration_ms": 2638,
+  "throughput_rows_per_sec": 9.48,
+  "bytes_written": 2876936,
+  "state_counts": {
+    "ok": 24,
+    "missing_uuid": 1
+  },
+  "per_publisher_state": {
+    "bmj": {
+      "ok": 24,
+      "missing_uuid": 1
+    }
+  }
+}
