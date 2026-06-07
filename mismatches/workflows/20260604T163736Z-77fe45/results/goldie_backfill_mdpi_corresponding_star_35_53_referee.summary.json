@@ -1,0 +1,25 @@
+{
+  "approved_example_dois": [
+    "10.3390/life14101312",
+    "10.3390/ma11020209",
+    "10.3390/ma11101931",
+    "10.3390/medicina59061099",
+    "10.3390/met5031397"
+  ],
+  "approved_rows": 18,
+  "blocked_example_dois": [],
+  "blocked_rows": 0,
+  "completed_at": "2026-06-07T16:12:50.186648+00:00",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_derived_v0.ndjson",
+  "field": "corresponding",
+  "next_action": "MDPI corresponding Goldie-backfilled lane complete; diagnose 5 current-Goldie gold-present/parser-empty misses next.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "mdpi",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_35_53_referee.ndjson",
+  "remaining_current_candidates": 0,
+  "reviewed_rows": 18,
+  "source_raw_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_35_53_raw.ndjson",
+  "status": "goldie_backfill_referee_complete_53_approved_0_blocked",
+  "total_approved_rows": 53,
+  "total_blocked_rows": 0
+}

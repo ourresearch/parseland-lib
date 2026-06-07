@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_derived_v0.ndjson",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_35_53_raw.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_35_53_referee.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_corresponding_star_35_53_referee.summary.json"
+  },
+  "completed_at": "2026-06-07T16:12:50.186648+00:00",
+  "gate": "mdpi_corresponding_star_35_53",
+  "status": "green",
+  "validation": {
+    "approved_rows": 18,
+    "blocked_rows": 0,
+    "browserbase_final_processed_rows": 18,
+    "derived_total_rows": 53,
+    "grounding_confidence": "mdpi_starred_author_byline_match",
+    "remaining_current_candidates": 0
+  }
+}
