@@ -107,6 +107,53 @@ def test_parse_page_sniffs_de_gruyter_document_url_from_doi_router():
     ]
 
 
+def test_parse_page_uses_degruyterbrill_citation_author_meta():
+    doi = "10.1515/9789048501229-017"
+    html = f"""
+    <html>
+      <head>
+        <meta property="og:url"
+              content="https://www.degruyterbrill.com/document/doi/{doi}/html" />
+        <link rel="canonical"
+              href="https://www.degruyterbrill.com/document/doi/{doi}/html" />
+        <meta name="citation_author" content="Ivana Müller" />
+        <meta property="article:author" content="Ivana Müller" />
+      </head>
+      <body>
+        <h1 class="title-dgb">Performance Documentation 6: Under My Skin</h1>
+      </body>
+    </html>
+    """
+
+    result = parse_page(html, "doi", f"https://doi.org/{doi}")
+
+    assert result["authors"] == [
+        {"name": "Ivana Müller", "affiliations": [], "is_corresponding": None}
+    ]
+
+
+def test_parse_page_dedupes_degruyter_duplicate_contributors():
+    doi = "10.1515/9780822387800-020"
+    html = f"""
+    <html>
+      <head>
+        <meta property="og:url"
+              content="https://www.degruyterbrill.com/document/doi/{doi}/html" />
+      </head>
+      <body>
+        <span class="contributor">Cesare Lombroso</span>
+        <span class="contributor">Cesare Lombroso</span>
+      </body>
+    </html>
+    """
+
+    result = parse_page(html, "doi", f"https://doi.org/{doi}")
+
+    assert result["authors"] == [
+        {"name": "Cesare Lombroso", "affiliations": [], "is_corresponding": False}
+    ]
+
+
 def test_parse_page_uses_de_gruyter_description_meta_for_abstract():
     doi = "10.1524/itit.2011.0637"
     abstract = (

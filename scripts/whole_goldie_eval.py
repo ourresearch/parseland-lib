@@ -92,6 +92,8 @@ def _html_block_reason(html: str | None) -> str | None:
     stripped = html.strip()
     lower = stripped.lower()
     text_only = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", lower)).strip()
+    if stripped.startswith("%PDF-"):
+        return "cached_pdf"
     if "<title>just a moment" in lower or ">just a moment..." in lower[:5000]:
         return "cached_bot_check"
     if "<title>error - cookies turned off" in lower or "cookies turned off" in text_only:

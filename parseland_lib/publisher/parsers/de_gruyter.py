@@ -7,10 +7,15 @@ class DeGruyter(PublisherParser):
     parser_name = "de_gruyter"
 
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url('degruyter.com')
+        return (
+            self.domain_in_meta_og_url('degruyter.com')
+            or self.domain_in_meta_og_url('degruyterbrill.com')
+            or self.domain_in_canonical_link('degruyter.com')
+            or self.domain_in_canonical_link('degruyterbrill.com')
+        )
 
     def authors_found(self):
-        return bool(self.soup.select('span.contributor'))
+        return bool(self.soup.select('span.contributor') or self.parse_author_meta_tags())
 
     def parse_authors(self):
         author_tags = self.soup.select('span.contributor')
@@ -29,7 +34,26 @@ class DeGruyter(PublisherParser):
                 'is_corresponding': is_corresponding,
                 'affiliations': affiliations
             })
-        return authors
+        if not authors:
+            authors = self.parse_author_meta_tags()
+        return self.dedupe_authors(authors)
+
+    @staticmethod
+    def dedupe_authors(authors):
+        deduped = []
+        seen = set()
+        for author in authors:
+            name = (author.get('name') or '').strip()
+            if not name:
+                continue
+            key = re.sub(r'\s+', ' ', name).casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            author = dict(author)
+            author['name'] = name
+            deduped.append(author)
+        return deduped
 
     def parse_abstract(self):
         paragraphs = self.soup.select('section[id*=_abs_] p')

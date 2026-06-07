@@ -1,0 +1,173 @@
+{
+  "gate": "de_gruyter_authors_residual_focus",
+  "task_id": "v2_de_gruyter_authors_dce331f3",
+  "publisher": "de_gruyter",
+  "field": "authors",
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_abstract_after.json",
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_de_gruyter_authors_after.json",
+  "coverage_before": {
+    "total_rows": 226,
+    "html_available": 223,
+    "scored_rows": 223,
+    "retrieval_blocked_rows": 3,
+    "retrieval_blocked_by_reason": {
+      "missing": 3
+    },
+    "gold_empty_parser_present_count": 94,
+    "per_publisher": {
+      "de_gruyter": {
+        "total_rows": 226,
+        "html_available": 223,
+        "scored_rows": 223,
+        "retrieval_blocked": 3
+      }
+    }
+  },
+  "coverage_after": {
+    "total_rows": 226,
+    "html_available": 222,
+    "scored_rows": 222,
+    "retrieval_blocked_rows": 4,
+    "retrieval_blocked_by_reason": {
+      "cached_pdf": 1,
+      "missing": 3
+    },
+    "gold_empty_parser_present_count": 94,
+    "per_publisher": {
+      "de_gruyter": {
+        "total_rows": 226,
+        "html_available": 222,
+        "scored_rows": 222,
+        "retrieval_blocked": 4
+      }
+    }
+  },
+  "field_deltas": {
+    "authors": {
+      "metric": "authors_f1_soft",
+      "before": 0.9747235387045814,
+      "after": 0.9809523809523809,
+      "delta": 0.006228842247799515
+    },
+    "affiliations": {
+      "metric": "affiliations_f1_fuzzy",
+      "before": 0.9936808846761455,
+      "after": 0.9936507936507938,
+      "delta": -3.009102535167507e-05
+    },
+    "abstract": {
+      "metric": "abstract_ratio_fuzzy",
+      "before": 0.9996891028433758,
+      "after": 0.9997086212220733,
+      "delta": 1.951837869751394e-05
+    },
+    "pdf_url": {
+      "metric": "pdf_url_accuracy",
+      "before": 0.9891304347826086,
+      "after": 0.994535519125683,
+      "delta": 0.005405084343074407
+    },
+    "corresponding": {
+      "metric": "corresponding_accuracy",
+      "before": 0.9887820512820513,
+      "after": 0.9887278582930757,
+      "delta": -5.419298897557656e-05
+    }
+  },
+  "doi_classifications": [
+    {
+      "doi": "10.1515/9780822387800-020",
+      "before_status": "gold_present_parser_present",
+      "before_score": {
+        "f1": 0.6666666666666666,
+        "f1_soft": 0.6666666666666666
+      },
+      "after_status": "gold_present_parser_present",
+      "after_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_retrieval_blocked": false,
+      "after_retrieval_blocked_reason": null
+    },
+    {
+      "doi": "10.1515/9789048501229-017",
+      "before_status": "gold_present_parser_empty",
+      "before_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_status": "gold_present_parser_empty",
+      "after_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_retrieval_blocked": false,
+      "after_retrieval_blocked_reason": null
+    },
+    {
+      "doi": "10.1515/pof-2016-0006",
+      "before_status": "gold_present_parser_empty",
+      "before_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_status": "retrieval_blocked",
+      "after_score": null,
+      "after_retrieval_blocked": true,
+      "after_retrieval_blocked_reason": "cached_pdf"
+    },
+    {
+      "doi": "10.1515/9789048551040-011",
+      "before_status": "gold_present_parser_empty",
+      "before_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_status": "gold_present_parser_empty",
+      "after_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_retrieval_blocked": false,
+      "after_retrieval_blocked_reason": null
+    },
+    {
+      "doi": "10.1515/9783110448979-007",
+      "before_status": "gold_present_parser_empty",
+      "before_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_status": "gold_present_parser_empty",
+      "after_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_retrieval_blocked": false,
+      "after_retrieval_blocked_reason": null
+    },
+    {
+      "doi": "10.1515/bgsl.1889.1889.14.0",
+      "before_status": "gold_present_parser_empty",
+      "before_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_status": "gold_present_parser_empty",
+      "after_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "after_retrieval_blocked": false,
+      "after_retrieval_blocked_reason": null
+    }
+  ],
+  "tests": {
+    "focused": "PYTHONPATH=. ./.venv/bin/pytest tests/test_de_gruyter_pdf.py tests/test_whole_goldie_html_block_reason.py -q",
+    "focused_result": "18 passed",
+    "publisher_gate": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers de_gruyter --label de-gruyter-authors-residual-after",
+    "publisher_gate_result": "authors_f1_soft=0.980952; retrieval_blocked=4; errors=0"
+  },
+  "recommendation": "Proceed to serialized full-10K Shield gate. Focused De Gruyter authors crosses 98 with no same-publisher field regression below target; remaining author misses lack visible cached author evidence and should be routed to gold/retrieval/manual DOM if still prioritized."
+}

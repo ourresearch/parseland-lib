@@ -60,6 +60,12 @@ def test_akamai_verification_cache_is_bot_blocked() -> None:
     assert _html_block_reason(html) == "cached_bot_check"
 
 
+def test_pdf_byte_cache_is_retrieval_blocked() -> None:
+    html = "%PDF-1.5\n1 0 obj\n<</Type/Catalog>>\nendobj"
+
+    assert _html_block_reason(html) == "cached_pdf"
+
+
 def test_unrelated_error_page_is_retrieval_blocked() -> None:
     html = """
     <html><head><title>Cybercrime - FBI</title></head>

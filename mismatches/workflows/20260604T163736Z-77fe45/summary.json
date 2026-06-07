@@ -1,10 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_abstract_fallback_full10k_gate.json",
-    "field": "abstract",
-    "publisher": "de_gruyter",
-    "status": "shipped_parser_fix_above_98_with_backfill_pending",
-    "task_id": "v2_de_gruyter_abstract_8d74783e"
+    "task_id": "v2_de_gruyter_authors_dce331f3",
+    "publisher_id": "de_gruyter",
+    "field": "authors",
+    "status": "shipped_parser_fix_above_98_with_residual_explained",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+    "updated_at": "2026-06-07T19:36:28Z"
   },
   "active_tasks": {
     "mdpi_affiliations": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
@@ -187,6 +188,15 @@
       "status": "goldie_backfill_referee_complete_0_approved_25_blocked",
       "task_id": "v2_taylor_corresponding_15fed079",
       "updated_at": "2026-06-07T04:13:20.200089+00:00"
+    },
+    "v2_de_gruyter_authors_dce331f3": {
+      "publisher_id": "de_gruyter",
+      "field": "authors",
+      "status": "shipped_parser_fix_above_98_with_residual_explained",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+      "updated_at": "2026-06-07T19:36:28Z",
+      "assigned_agent": "codex-de-gruyter-authors-residual",
+      "next_action": "continue next publisher lane"
     }
   },
   "by_field": {
@@ -197,10 +207,10 @@
     "pdf_url": 50
   },
   "by_queue_type": {
-    "goldie-backfilled": 30,
+    "goldie-backfilled": 31,
     "harvest-blocked": 170,
     "onboarding": 18,
-    "ready": 27,
+    "ready": 26,
     "unknown": 5
   },
   "by_status": {
@@ -216,20 +226,22 @@
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_30_approved_5_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
+    "goldie_backfill_referee_complete_54_approved_2_blocked_current_goldie_low_gold_owned_retrieval_blocked": 1,
     "goldie_backfill_referee_complete_5_approved_45_blocked": 1,
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
     "goldie_backfill_referee_partial_5_approved_15_blocked": 1,
     "needs_agent": 1,
+    "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 170,
     "retrieval_recovered_above_98": 1,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_goldie_backfill_heavy_needs_referee": 3,
-    "retrieval_recovered_near_98_needs_fixture_and_agent": 3,
-    "retrieval_recovered_near_98_needs_residual_diagnosis": 4,
+    "retrieval_recovered_goldie_backfill_heavy_needs_referee": 1,
+    "retrieval_recovered_near_98_needs_residual_diagnosis": 3,
     "retrieval_recovered_needs_agent": 2,
+    "shipped_available_html_above_98_retrieval_blocked_explained": 3,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 16,
     "shipped_full10k_measured_above_98": 1,
@@ -237,6 +249,7 @@
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_above_98_with_backfill_pending": 2,
+    "shipped_parser_fix_above_98_with_residual_explained": 1,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
@@ -565,8 +578,8 @@
     "total_rows": 10000
   },
   "coverage_gold_empty_parser_present_count": 2989,
-  "coverage_html_available": 5598,
-  "coverage_retrieval_blocked_rows": 4402,
+  "coverage_html_available": 5576,
+  "coverage_retrieval_blocked_rows": 4424,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-07T09:04:45.590550+00:00",
   "cup_abstract_referee_state": {
@@ -586,13 +599,13 @@
     }
   ],
   "last_shipped_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
-    "field": "current_residuals",
-    "publisher": "mdpi",
-    "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals",
-    "task_id": "v2_mdpi_current_residuals_combined"
+    "task_id": "v2_de_gruyter_authors_dce331f3",
+    "publisher": "de_gruyter",
+    "field": "authors",
+    "status": "shipped_parser_fix_above_98_with_residual_explained",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json"
   },
-  "last_updated_at": "2026-06-07T17:36:54Z",
+  "last_updated_at": "2026-06-07T19:36:28Z",
   "latest_active_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
     "field": "abstract",
@@ -604,22 +617,22 @@
   "latest_batch": 44,
   "latest_batch_id": 44,
   "latest_completed_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_current_residuals_full10k_gate.json",
-    "field": "authors/abstract/pdf_url/corresponding/accounting",
-    "publisher_id": "mdpi",
-    "status": "green_with_honest_retrieval_accounting_and_gold_owned_residuals",
-    "task_id": "v2_mdpi_current_residuals_combined",
-    "updated_at": "2026-06-07T17:36:54Z"
+    "task_id": "v2_de_gruyter_authors_dce331f3",
+    "publisher_id": "de_gruyter",
+    "field": "authors",
+    "status": "shipped_parser_fix_above_98_with_residual_explained",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+    "updated_at": "2026-06-07T19:36:28Z"
   },
   "latest_full10k_metrics": {
-    "abstract": 0.9228515491699001,
-    "affiliations": 0.9374518775948304,
-    "authors": 0.9550929970484059,
-    "corresponding": 0.9678954674391939,
-    "pdf_url": 0.9492232784604684
+    "authors": 0.9578150804010432,
+    "affiliations": 0.9379989879591105,
+    "abstract": 0.9227207081134249,
+    "pdf_url": 0.9540899557212771,
+    "corresponding": 0.9677606259507748
   },
-  "latest_full10k_run": "eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json",
-  "latest_full_10k_run": "eval/runs/whole-goldie-after-mdpi-current-residuals-20260607T1628Z.json",
+  "latest_full10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
+  "latest_full_10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
   "latest_retrieval_coverage_run": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_gate.json",
     "audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_audit.summary.json",
