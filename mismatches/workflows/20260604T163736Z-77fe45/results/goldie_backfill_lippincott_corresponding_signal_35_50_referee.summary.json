@@ -1,0 +1,29 @@
+{
+  "approved": 0,
+  "blocked": 15,
+  "confidence_counts": {
+    "corresponding_author_name_only": 14,
+    "page_identity_only": 1
+  },
+  "cumulative_approved": 5,
+  "cumulative_blocked": 45,
+  "cumulative_reviewed": 50,
+  "decision": "Lippincott corresponding Goldie-backfilled lane complete. Route 5 approved derived candidates to derived-corpus approval; route 45 blocked weak/name-only/page-identity rows to manual DOM/gold-auditor review. Current-Goldie KPI unchanged.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_derived_v0.ndjson",
+  "field": "corresponding",
+  "new_derived_rows": 0,
+  "publisher": "lippincott",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_referee.ndjson",
+  "remaining_lane_candidates_after_checkpoint": 0,
+  "reviewed": 15,
+  "reviewed_at": "2026-06-07T03:30:05.192620+00:00",
+  "run_id": "b29-lippincott-corresponding-signal-35-50",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_raw.ndjson",
+  "status_counts": {
+    "referee_blocked": 15
+  },
+  "verdict_counts": {
+    "blocked_author_name_only_not_correspondence_evidence": 14,
+    "blocked_page_identity_only_not_correspondence_evidence": 1
+  }
+}

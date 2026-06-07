@@ -1,0 +1,15 @@
+{
+  "commands": [
+    "python3 -m json.tool final summary and shield artifacts",
+    "NDJSON parse check for raw/referee/task-results/publisher-field-queue",
+    "Browserbase final chunk returned 15 processed rows"
+  ],
+  "created_at": "2026-06-07T03:30:05.192620+00:00",
+  "current_goldie_kpi_impact": 0.0,
+  "gate": "Batch 29 Lippincott corresponding final artifact validation",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_referee.ndjson",
+  "result": "15 final candidates reviewed; 0 approved, 15 blocked; cumulative lane state 5 approved, 45 blocked, 0 remaining",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_raw.ndjson",
+  "status": "passed",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_referee.summary.json"
+}
