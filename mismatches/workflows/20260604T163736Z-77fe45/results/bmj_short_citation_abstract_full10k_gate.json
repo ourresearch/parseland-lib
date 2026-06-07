@@ -1,0 +1,102 @@
+{
+  "agent_id": "codex-bmj-short-citation-abstract",
+  "classification": "parser_fix_full10k_gate_green_below_98_explainable_residual",
+  "diagnosis": "BMJ has one current-Goldie abstract miss where the publisher supplies a short citation_abstract meta tag that the shared meta parser rejected because it was under 200 characters. A BMJ-only fallback accepts short citation_abstract values with at least eight visible words while keeping broad shared guards intact.",
+  "field": "abstract",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/bmj.py",
+    "tests/test_bmj_abstract.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json",
+    "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json"
+  ],
+  "fixed_current_goldie_dois": [
+    "10.1136/bmj.q1056"
+  ],
+  "focused": {
+    "abstract_after": 0.8105547173949486,
+    "abstract_before": 0.7959935210155703,
+    "abstract_delta_pp": 1.456119637937825,
+    "abstract_present_rate_after": 0.3333333333333333,
+    "abstract_present_rate_before": 0.3181818181818182,
+    "after_run": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json",
+    "before_run": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_retrieval_r2_full.json",
+    "html_available": 66,
+    "remaining_gold_present_parser_empty_abstract": 12,
+    "retrieval_blocked": 3,
+    "rows": 69
+  },
+  "full10k": {
+    "after_run": "eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json",
+    "before_run": "eval/runs/whole-goldie-after-brill-pdf-equivalence-20260607T1058Z.json",
+    "coverage_total_rows": 10000,
+    "errors": 1,
+    "html_available": 5663,
+    "metrics": {
+      "abstract": {
+        "after": 0.9199244300222398,
+        "before": 0.9197463939049669,
+        "delta_pp": 0.017803611727285062
+      },
+      "abstract_present_rate": {
+        "after": 0.6565424686561893,
+        "before": 0.6563658838071693,
+        "delta_pp": 0.01765848490199451
+      },
+      "affiliations": {
+        "after": 0.9380796940921345,
+        "before": 0.9380796940921345,
+        "delta_pp": 0.0
+      },
+      "authors": {
+        "after": 0.9548911966362078,
+        "before": 0.9548911966362078,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "after": 0.9665972129070722,
+        "before": 0.9665972129070722,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "after": 0.9486066697121973,
+        "before": 0.9486066697121973,
+        "delta_pp": 0.0
+      }
+    },
+    "retrieval_blocked_rows": 4337
+  },
+  "publisher_id": "bmj",
+  "recommendation": "Ship the BMJ short citation_abstract parser patch. Keep remaining BMJ abstract residuals below 98 as explainable gold/manual-DOM/body-content issues; continue BMJ corresponding/authors/affiliations/pdf residual diagnosis before leaving the publisher.",
+  "residual": {
+    "body_fallback_audit": {
+      "classification": "unsafe_not_shipped",
+      "reason": "A broad visible-body fallback scores only about 0.24-0.40 fuzzy on remaining current-Goldie rows and would create 25 BMJ Goldie-empty/parser-present abstract candidates; route residuals to gold-auditor/Browserbase/manual-DOM instead."
+    },
+    "remaining_bmj_abstract_misses": 12
+  },
+  "status": "completed_green",
+  "task_id": "v2_bmj_abstract_279c912c",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. .venv/bin/pytest tests/test_bmj_abstract.py tests/test_parse_page.py -q",
+      "result": "19 passed in 0.10s",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers bmj --label after-bmj-short-citation-abstract --run-id bmj-short-citation-abstract-20260607T1145Z --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_bmj_short_citation_abstract_after.json --concurrency 8",
+      "result": "BMJ abstract ratio 0.7959935210155703 -> 0.8105547173949486; 0 errors; 3 retrieval-blocked rows.",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-bmj-short-citation-abstract --run-id full10k-after-bmj-short-citation-abstract-20260607T1150Z --out eval/runs/whole-goldie-after-bmj-short-citation-abstract-20260607T1150Z.json --concurrency 8",
+      "result": "coverage.total_rows=10000; html_available=5663; retrieval_blocked=4337; errors=1; abstract +0.0178036117pp; no other aggregate metric changed.",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. .venv/bin/pytest -q",
+      "result": "303 passed, 40 failed in tests/test_parsers.py; failures are existing live fixture/mojibake/name-order mismatches across unrelated publishers, so not used as the green Shield for this scoped patch.",
+      "status": "failed_unrelated_legacy_live_parser_harness"
+    }
+  ],
+  "timestamp_utc": "2026-06-07T12:12:46Z"
+}

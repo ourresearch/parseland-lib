@@ -1,3 +1,5 @@
+import re
+
 from parseland_lib.elements import Author, Affiliation, AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import name_in_text
@@ -27,7 +29,30 @@ class BMJ(PublisherParser):
             result_authors = self.parse_author_meta_tags()
 
         return {"authors": result_authors,
-                "abstract": self.parse_abstract_meta_tags()}
+                "abstract": self.get_abstract()}
+
+    def get_abstract(self):
+        return (
+            self.parse_abstract_meta_tags()
+            or self.parse_short_citation_abstract()
+        )
+
+    def parse_short_citation_abstract(self):
+        meta = self.soup.find(
+            "meta",
+            {"name": re.compile(r"^citation_abstract$", re.I)},
+        )
+        if not meta:
+            return None
+        description = meta.get("content", "").strip()
+        text_only = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", description)).strip()
+        if (
+            len(text_only.split()) >= 8
+            and not description.endswith(("...", "…"))
+            and not description.startswith("http")
+        ):
+            return re.sub(r"^abstract[:.]?\s*", "", description, flags=re.I)
+        return None
 
     def get_authors(self):
         authors = []
