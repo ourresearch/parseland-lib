@@ -1,0 +1,33 @@
+{
+  "coverage_total_rows": 10000,
+  "eval_commit": "507c202",
+  "field": "pdf_url",
+  "focused_gate": "parseland-eval/eval/reports/aha-download-param-scorer-shield.json",
+  "full_gate_artifact": "eval/runs/whole-goldie-after-aha-download-param-20260607T0224Z.json",
+  "full_gate_command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-aha-download-param --concurrency 8 --run-id batch28-lippincott-pdf-aha-download --out eval/runs/whole-goldie-after-aha-download-param-20260607T0224Z.json",
+  "gate_id": "lippincott-pdf-aha-download-full10k",
+  "html_available": 5113,
+  "lippincott_pdf_after": 0.9659090909090909,
+  "lippincott_pdf_before": 0.9545454545454546,
+  "lippincott_pdf_delta_pp": 1.1363636363636354,
+  "moved_fields": [
+    "pdf_url"
+  ],
+  "overall_pdf_after": 0.9449446874196038,
+  "overall_pdf_before": 0.9444301517880114,
+  "overall_pdf_delta_pp": 0.051453563159242766,
+  "publisher": "lippincott",
+  "recommendation": "Ship this scorer fix. Lippincott pdf_url improves but remains below 98%; residual rows are host-alias/gold-auditor/manual-DOM and should not be collapsed by broad normalization.",
+  "retrieval_blocked_rows": 4887,
+  "scored_rows": 5113,
+  "status": "green",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/lippincott_pdf_aha_download_summary.json",
+  "task_id": "v2_lippincott_pdf_url_e977af9e",
+  "timestamp_utc": "2026-06-07T02:46:59Z",
+  "unchanged_fields": [
+    "authors",
+    "affiliations",
+    "abstract",
+    "corresponding"
+  ]
+}

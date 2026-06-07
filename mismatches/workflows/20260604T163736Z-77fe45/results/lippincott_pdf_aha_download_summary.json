@@ -1,0 +1,406 @@
+{
+  "after_run": "eval/runs/whole-goldie-after-aha-download-param-20260607T0224Z.json",
+  "before_run": "eval/runs/whole-goldie-after-acs-affiliation-symbol-map-20260607T0135Z.json",
+  "completed_at": "2026-06-07T02:46:59Z",
+  "coverage": {
+    "gold_empty_parser_present_count": 2710,
+    "html_available": 5113,
+    "per_publisher": {
+      "aaas": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "aacr": {
+        "html_available": 0,
+        "retrieval_blocked": 34,
+        "scored_rows": 0,
+        "total_rows": 34
+      },
+      "acm": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "acs": {
+        "html_available": 130,
+        "retrieval_blocked": 0,
+        "scored_rows": 130,
+        "total_rows": 130
+      },
+      "aip_publishing": {
+        "html_available": 0,
+        "retrieval_blocked": 57,
+        "scored_rows": 0,
+        "total_rows": 57
+      },
+      "ame": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "ams": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "apa": {
+        "html_available": 0,
+        "retrieval_blocked": 25,
+        "scored_rows": 0,
+        "total_rows": 25
+      },
+      "aps": {
+        "html_available": 0,
+        "retrieval_blocked": 38,
+        "scored_rows": 0,
+        "total_rows": 38
+      },
+      "asa": {
+        "html_available": 0,
+        "retrieval_blocked": 10,
+        "scored_rows": 0,
+        "total_rows": 10
+      },
+      "asco": {
+        "html_available": 0,
+        "retrieval_blocked": 17,
+        "scored_rows": 0,
+        "total_rows": 17
+      },
+      "ash": {
+        "html_available": 0,
+        "retrieval_blocked": 12,
+        "scored_rows": 0,
+        "total_rows": 12
+      },
+      "asme": {
+        "html_available": 0,
+        "retrieval_blocked": 26,
+        "scored_rows": 0,
+        "total_rows": 26
+      },
+      "bentham": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "bmj": {
+        "html_available": 0,
+        "retrieval_blocked": 69,
+        "scored_rows": 0,
+        "total_rows": 69
+      },
+      "brill": {
+        "html_available": 0,
+        "retrieval_blocked": 65,
+        "scored_rows": 0,
+        "total_rows": 65
+      },
+      "cairn": {
+        "html_available": 0,
+        "retrieval_blocked": 49,
+        "scored_rows": 0,
+        "total_rows": 49
+      },
+      "company_biologists": {
+        "html_available": 0,
+        "retrieval_blocked": 3,
+        "scored_rows": 0,
+        "total_rows": 3
+      },
+      "copernicus": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "cshlp": {
+        "html_available": 0,
+        "retrieval_blocked": 29,
+        "scored_rows": 0,
+        "total_rows": 29
+      },
+      "cup": {
+        "html_available": 151,
+        "retrieval_blocked": 3,
+        "scored_rows": 151,
+        "total_rows": 154
+      },
+      "de_gruyter": {
+        "html_available": 0,
+        "retrieval_blocked": 226,
+        "scored_rows": 0,
+        "total_rows": 226
+      },
+      "edp_sciences": {
+        "html_available": 0,
+        "retrieval_blocked": 21,
+        "scored_rows": 0,
+        "total_rows": 21
+      },
+      "elsevier": {
+        "html_available": 1508,
+        "retrieval_blocked": 56,
+        "scored_rows": 1508,
+        "total_rows": 1564
+      },
+      "emerald": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "f1000": {
+        "html_available": 0,
+        "retrieval_blocked": 2,
+        "scored_rows": 0,
+        "total_rows": 2
+      },
+      "frontiers": {
+        "html_available": 0,
+        "retrieval_blocked": 48,
+        "scored_rows": 0,
+        "total_rows": 48
+      },
+      "hindawi": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "ieee": {
+        "html_available": 393,
+        "retrieval_blocked": 2,
+        "scored_rows": 393,
+        "total_rows": 395
+      },
+      "iop": {
+        "html_available": 0,
+        "retrieval_blocked": 75,
+        "scored_rows": 0,
+        "total_rows": 75
+      },
+      "karger": {
+        "html_available": 0,
+        "retrieval_blocked": 37,
+        "scored_rows": 0,
+        "total_rows": 37
+      },
+      "lippincott": {
+        "html_available": 190,
+        "retrieval_blocked": 0,
+        "scored_rows": 190,
+        "total_rows": 190
+      },
+      "mary_ann_liebert": {
+        "html_available": 0,
+        "retrieval_blocked": 15,
+        "scored_rows": 0,
+        "total_rows": 15
+      },
+      "mdpi": {
+        "html_available": 0,
+        "retrieval_blocked": 137,
+        "scored_rows": 0,
+        "total_rows": 137
+      },
+      "nejm": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "optica": {
+        "html_available": 0,
+        "retrieval_blocked": 27,
+        "scored_rows": 0,
+        "total_rows": 27
+      },
+      "oxford": {
+        "html_available": 250,
+        "retrieval_blocked": 21,
+        "scored_rows": 250,
+        "total_rows": 271
+      },
+      "plos": {
+        "html_available": 0,
+        "retrieval_blocked": 32,
+        "scored_rows": 0,
+        "total_rows": 32
+      },
+      "portland_press": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "research_square": {
+        "html_available": 0,
+        "retrieval_blocked": 24,
+        "scored_rows": 0,
+        "total_rows": 24
+      },
+      "rsc": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "rsna": {
+        "html_available": 0,
+        "retrieval_blocked": 5,
+        "scored_rows": 0,
+        "total_rows": 5
+      },
+      "sage": {
+        "html_available": 198,
+        "retrieval_blocked": 2,
+        "scored_rows": 198,
+        "total_rows": 200
+      },
+      "scielo": {
+        "html_available": 0,
+        "retrieval_blocked": 33,
+        "scored_rows": 0,
+        "total_rows": 33
+      },
+      "spie": {
+        "html_available": 0,
+        "retrieval_blocked": 46,
+        "scored_rows": 0,
+        "total_rows": 46
+      },
+      "springer": {
+        "html_available": 1117,
+        "retrieval_blocked": 6,
+        "scored_rows": 1117,
+        "total_rows": 1123
+      },
+      "taylor": {
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 499,
+        "total_rows": 506
+      },
+      "thieme": {
+        "html_available": 0,
+        "retrieval_blocked": 61,
+        "scored_rows": 0,
+        "total_rows": 61
+      },
+      "unknown": {
+        "html_available": 0,
+        "retrieval_blocked": 3303,
+        "scored_rows": 0,
+        "total_rows": 3303
+      },
+      "wiley": {
+        "html_available": 677,
+        "retrieval_blocked": 18,
+        "scored_rows": 677,
+        "total_rows": 695
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 30,
+      "cached_error_page": 3,
+      "cached_too_small": 44,
+      "js_rendered_required": 1,
+      "missing": 4809
+    },
+    "retrieval_blocked_rows": 4887,
+    "scored_rows": 5113,
+    "total_rows": 10000
+  },
+  "eval_commit": "507c202",
+  "field": "pdf_url",
+  "fixed_current_goldie_rows": [
+    "10.1161/circoutcomes.118.005016",
+    "10.1161/hypertensionaha.109.141937"
+  ],
+  "goldie_backfilled_candidates_remaining": 14,
+  "lippincott_pdf_after": 0.9659090909090909,
+  "lippincott_pdf_before": 0.9545454545454546,
+  "lippincott_pdf_delta_pp": 1.1363636363636354,
+  "overall_after": {
+    "abstract": 0.9192288838818368,
+    "affiliations": 0.9334867177645392,
+    "authors": 0.9535964984926558,
+    "corresponding": 0.9676460030284043,
+    "pdf_url": 0.9449446874196038
+  },
+  "overall_before": {
+    "abstract": 0.9192288838818368,
+    "affiliations": 0.9334867177645392,
+    "authors": 0.9535964984926558,
+    "corresponding": 0.9676460030284043,
+    "pdf_url": 0.9444301517880114
+  },
+  "overall_delta_pp": {
+    "abstract": 0.0,
+    "affiliations": 0.0,
+    "authors": 0.0,
+    "corresponding": 0.0,
+    "pdf_url": 0.051453563159242766
+  },
+  "publisher": "lippincott",
+  "recommendation": "Ship this scorer fix. Lippincott pdf_url improves but remains below 98%; residual rows are host-alias/gold-auditor/manual-DOM and should not be collapsed by broad normalization.",
+  "residual_current_goldie_failures": [
+    {
+      "classification": "host_alias_or_gold_auditor",
+      "doi": "10.1212/01.wnl.0000305964.52343.8f",
+      "gold_pdf": "https://www.neurology.org/doi/pdf/10.1212/01.wnl.0000305964.52343.8f",
+      "next_action": "Browserbase/manual-DOM evidence before any Neurology legacy URL equivalence.",
+      "parsed_pdf": "https://n.neurology.org/content/neurology/70/12/904.full.pdf",
+      "status": "divergent"
+    },
+    {
+      "classification": "host_disagreement_gold_auditor",
+      "doi": "10.1097/01.hs9.0000559480.07097.ca",
+      "gold_pdf": "https://onlinelibrary.wiley.com/doi/pdf/10.1097/01.HS9.0000559480.07097.ca",
+      "next_action": "Browserbase/gold-auditor review; do not normalize Wiley DOI PDF to LWW downloadpdf without evidence.",
+      "parsed_pdf": "https://journals.lww.com/hemasphere/_layouts/15/oaks.journals/downloadpdf.aspx?trckng_src_pg=Other&an=02014419-201906001-00216",
+      "status": "divergent"
+    },
+    {
+      "classification": "host_alias_or_gold_auditor",
+      "doi": "10.1212/01.con.0000290464.96584.ac",
+      "gold_pdf": "https://continuum.aan.com/doi/pdf/10.1212/01.CON.0000290464.96584.ac",
+      "next_action": "Browserbase/manual-DOM evidence before any Continuum/LWW alias equivalence.",
+      "parsed_pdf": "https://journals.lww.com/continuum/_layouts/15/oaks.journals/downloadpdf.aspx?trckng_src_pg=Other&an=00132979-200606000-00005",
+      "status": "divergent"
+    },
+    {
+      "classification": "reader_vs_pdf_manual_scorer_review",
+      "doi": "10.1161/jaha.116.002075",
+      "gold_pdf": "https://www.ahajournals.org/doi/reader/10.1161/JAHA.116.002075",
+      "next_action": "Do not collapse reader to PDF in this batch; requires Referee/scorer review.",
+      "parsed_pdf": "https://www.ahajournals.org/doi/pdf/10.1161/JAHA.116.002075?download=true",
+      "status": "divergent"
+    },
+    {
+      "classification": "parser_or_manual_dom_candidate",
+      "doi": "10.1161/01.cir.0000136295.14896.e0",
+      "gold_pdf": "https://www.ahajournals.org/doi/pdf/10.1161/01.CIR.0000136295.14896.E0",
+      "next_action": "Inspect cached HTML/Browserbase page before parser patch.",
+      "parsed_pdf": null,
+      "status": "gold_present_parser_empty"
+    },
+    {
+      "classification": "gold_external_url_auditor",
+      "doi": "10.1097/00007611-192512000-00015",
+      "gold_pdf": "https://www.ukm.my/turath/wp-content/uploads/2021/12/turath_2021_vol.6_no.2_68-77.pdf",
+      "next_action": "Route to gold-auditor; gold PDF points to unrelated external UKM URL.",
+      "parsed_pdf": null,
+      "status": "gold_present_parser_empty"
+    }
+  ],
+  "run_id": "batch28-lippincott-pdf-aha-download",
+  "task_id": "v2_lippincott_pdf_url_e977af9e"
+}
