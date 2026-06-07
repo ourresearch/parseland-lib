@@ -1,0 +1,37 @@
+{
+  "current_kpi_before": 0.9796,
+  "field": "authors",
+  "files_validated": [
+    "scripts/workflow_claim.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "evidence/report.html",
+    "evidence/live-agent-console.html"
+  ],
+  "gate_commands": [
+    "./.venv/bin/python -m py_compile scripts/workflow_claim.py",
+    "temporary workflow_claim.py focused test asserting queue assigned_agent/status update and claim append",
+    "json parse task-claims.ndjson and publisher-field-queue.v2.ndjson",
+    "build_console_html.py --evidence-dir .../evidence",
+    "build_report336.py --evidence-dir .../evidence --report-yaml .../report.yaml",
+    "local marker check in evidence/report.html"
+  ],
+  "markers_checked": [
+    "sage-authors-current-b52",
+    "codex-sage-authors-current-b52",
+    "SAGE",
+    "authors",
+    "10,000",
+    "98%"
+  ],
+  "missing_markers": [],
+  "notes": "Claim/report/control-surface update; no parser behavior changed yet.",
+  "publisher": "sage",
+  "queue_row_assigned_agent": "codex-sage-authors-current-b52",
+  "queue_row_status": "in_progress",
+  "status": "green",
+  "target": 0.98,
+  "task_id": "v2_sage_authors_9d33af89",
+  "timestamp": "2026-06-07T21:19:32.832522+00:00",
+  "unit": "SAGE authors current-Goldie task claim plus active queue reporting"
+}

@@ -96,6 +96,9 @@ def main() -> int:
         now = datetime.now(timezone.utc).isoformat()
         with open(claims_path, "a") as f:
             for t in selected:
+                t["assigned_agent"] = agent_id
+                t["claimed_at"] = now
+                t["status"] = "in_progress"
                 f.write(json.dumps({
                     "run_id": args.run_id,
                     "task_id": t["task_id"],
@@ -106,6 +109,13 @@ def main() -> int:
                     "claimed_at": now,
                     "status": "in_progress",
                 }) + "\n")
+        if selected:
+            queue_path.write_text(
+                "\n".join(
+                    json.dumps(t, ensure_ascii=False, separators=(",", ":"))
+                    for t in tasks
+                ) + "\n"
+            )
         fcntl.flock(lk, fcntl.LOCK_UN)
 
     print(json.dumps({
