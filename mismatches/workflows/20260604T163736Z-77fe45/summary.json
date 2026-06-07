@@ -20,6 +20,16 @@
       "task_id": "v2_cup_corresponding_b675a7db",
       "updated_at": "2026-06-07T04:32:20.482203+00:00"
     },
+    "v2_ieee_abstract_4ec42543": {
+      "agent_id": "codex-ieee-abstract-b33",
+      "artifact_path": null,
+      "field": "abstract",
+      "next_action": "diagnose 9 current-Goldie abstract misses and 4 Goldie-empty/parser-present candidates; patch only parser-owned patterns, otherwise route to gold-auditor/Browserbase/manual-DOM.",
+      "publisher_id": "ieee",
+      "status": "in_progress_current_goldie_diagnosis",
+      "task_id": "v2_ieee_abstract_4ec42543",
+      "updated_at": "2026-06-07T04:52:30Z"
+    },
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_lippincott_corresponding_signal_35_50_referee.summary.json",
@@ -99,6 +109,16 @@
       "task_id": "v2_acs_corresponding_808ec31a"
     }
   ],
+  "latest_active_task": {
+    "agent_id": "codex-ieee-abstract-b33",
+    "artifact_path": null,
+    "field": "abstract",
+    "next_action": "diagnose 9 current-Goldie abstract misses and 4 Goldie-empty/parser-present candidates; patch only parser-owned patterns, otherwise route to gold-auditor/Browserbase/manual-DOM.",
+    "publisher_id": "ieee",
+    "status": "in_progress_current_goldie_diagnosis",
+    "task_id": "v2_ieee_abstract_4ec42543",
+    "updated_at": "2026-06-07T04:52:30Z"
+  },
   "latest_batch": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
     "batch_id": 32,
