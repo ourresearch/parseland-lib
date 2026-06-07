@@ -693,6 +693,14 @@
     "publisher_rows": 65,
     "run_id": "brill-retrieval-r2-full-20260607T0827Z"
   },
+  "mdpi_affiliations": "goldie_backfill_referee_complete_54_approved_2_blocked",
+  "mdpi_affiliations_backfill": {
+    "approved": 54,
+    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_referee.ndjson",
+    "blocked": 2,
+    "remaining": 0,
+    "updated_at": "2026-06-07T15:17:41.042101+00:00"
+  },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",

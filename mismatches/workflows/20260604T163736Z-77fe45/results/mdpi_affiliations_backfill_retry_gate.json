@@ -1,0 +1,20 @@
+{
+  "artifacts": {
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_derived_v0.ndjson",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_raw.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_referee.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_referee.summary.json"
+  },
+  "completed_at": "2026-06-07T15:20:02.049931+00:00",
+  "gate": "mdpi_affiliations_backfill_retry_referee",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "status": "green",
+  "validation": {
+    "approved_retry_rows": 29,
+    "blocked_retry_rows": 2,
+    "derived_total_rows": 54,
+    "json_ndjson_parse": "passed",
+    "remaining_current_candidates": 0,
+    "secret_scan": "passed"
+  }
+}

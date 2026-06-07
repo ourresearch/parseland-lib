@@ -1,0 +1,31 @@
+{
+  "approved_example_dois": [
+    "10.3390/e21111085",
+    "10.3390/f11090930",
+    "10.3390/fi14110343",
+    "10.3390/fire6120450",
+    "10.3390/gels10070480"
+  ],
+  "approved_rows": 29,
+  "blocked_example_dois": [
+    "10.3390/met5031397",
+    "10.3390/s150715311"
+  ],
+  "blocked_reasons": [
+    "Browserbase proved page identity only; affiliation candidate text was not grounded in the evidence excerpt"
+  ],
+  "blocked_rows": 2,
+  "completed_at": "2026-06-07T15:17:41.042101+00:00",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "next_action": "Route 54 approved MDPI affiliation derived labels and 2 page-identity-only blocked rows to gold-auditor/manual review; move active work to the next ranked lane.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "mdpi",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_referee.ndjson",
+  "remaining_current_candidates": 0,
+  "reviewed_rows": 31,
+  "source_raw_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_retry_31_raw.ndjson",
+  "status": "goldie_backfill_referee_complete_54_approved_2_blocked",
+  "total_approved_rows": 54,
+  "total_blocked_rows": 2
+}
