@@ -106,6 +106,12 @@ def _html_block_reason(html: str | None) -> str | None:
         return "cached_bot_check"
     if "bm-verify=" in lower and "akamai" in lower:
         return "cached_bot_check"
+    if (
+        "shieldsquare captcha" in text_only
+        or "radware bot manager captcha" in text_only
+        or "captcha.perfdrive.com" in lower
+    ):
+        return "cached_bot_check"
     if len(stripped) < 3000 and "document.cookie" in lower and "document.location.reload" in lower:
         return "cached_bot_check"
     if text_only in {"loading...", "loading ...", "loading"}:

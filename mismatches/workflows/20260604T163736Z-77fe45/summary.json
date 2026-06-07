@@ -1,13 +1,63 @@
 {
   "active_task": {
-    "task_id": "v2_de_gruyter_authors_dce331f3",
-    "publisher_id": "de_gruyter",
-    "field": "authors",
-    "status": "shipped_parser_fix_above_98_with_residual_explained",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
-    "updated_at": "2026-06-07T19:36:28Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+    "field": "authors,affiliations,abstract,pdf_url,corresponding",
+    "publisher_id": "iop",
+    "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+    "task_id": "iop_current_residuals_aggregate_20260607T2035Z",
+    "updated_at": "2026-06-07T20:35:16Z"
   },
   "active_tasks": {
+    "iop_abstract": {
+      "agent_id": "codex-iop-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+      "field": "abstract",
+      "next_action": "Available IOP HTML is above 98% for this field after the current-residual patch; 12 rows are retrieval-blocked (6 cached_bot_check, 3 cached_too_small, 3 missing) and Goldie-empty/parser-present values remain separate Goldie-backfilled candidates.",
+      "publisher_id": "iop",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "iop_current_residuals_abstract_20260607T2035Z",
+      "updated_at": "2026-06-07T20:35:16Z"
+    },
+    "iop_affiliations": {
+      "agent_id": "codex-iop-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+      "field": "affiliations",
+      "next_action": "Available IOP HTML is above 98% for this field after the current-residual patch; 12 rows are retrieval-blocked (6 cached_bot_check, 3 cached_too_small, 3 missing) and Goldie-empty/parser-present values remain separate Goldie-backfilled candidates.",
+      "publisher_id": "iop",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "iop_current_residuals_affiliations_20260607T2035Z",
+      "updated_at": "2026-06-07T20:35:16Z"
+    },
+    "iop_authors": {
+      "agent_id": "codex-iop-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+      "field": "authors",
+      "next_action": "Available IOP HTML is above 98% for this field after the current-residual patch; 12 rows are retrieval-blocked (6 cached_bot_check, 3 cached_too_small, 3 missing) and Goldie-empty/parser-present values remain separate Goldie-backfilled candidates.",
+      "publisher_id": "iop",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "iop_current_residuals_authors_20260607T2035Z",
+      "updated_at": "2026-06-07T20:35:16Z"
+    },
+    "iop_corresponding": {
+      "agent_id": "codex-iop-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+      "field": "corresponding",
+      "next_action": "Available IOP HTML is above 98% for this field after the current-residual patch; 12 rows are retrieval-blocked (6 cached_bot_check, 3 cached_too_small, 3 missing) and Goldie-empty/parser-present values remain separate Goldie-backfilled candidates.",
+      "publisher_id": "iop",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "iop_current_residuals_corresponding_20260607T2035Z",
+      "updated_at": "2026-06-07T20:35:16Z"
+    },
+    "iop_pdf_url": {
+      "agent_id": "codex-iop-current-residuals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_current_residuals_full10k_gate.json",
+      "field": "pdf_url",
+      "next_action": "Available IOP HTML is above 98% for this field after the current-residual patch; 12 rows are retrieval-blocked (6 cached_bot_check, 3 cached_too_small, 3 missing) and Goldie-empty/parser-present values remain separate Goldie-backfilled candidates.",
+      "publisher_id": "iop",
+      "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+      "task_id": "iop_current_residuals_pdf_url_20260607T2035Z",
+      "updated_at": "2026-06-07T20:35:16Z"
+    },
     "mdpi_affiliations": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
     "v2_acs_pdf_url_dee703c2": {
       "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
@@ -99,6 +149,15 @@
       "task_id": "v2_de_gruyter_abstract_8d74783e",
       "updated_at": "2026-06-07T13:47:55Z"
     },
+    "v2_de_gruyter_authors_dce331f3": {
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+      "assigned_agent": "codex-de-gruyter-authors-residual",
+      "field": "authors",
+      "next_action": "continue next publisher lane",
+      "publisher_id": "de_gruyter",
+      "status": "shipped_parser_fix_above_98_with_residual_explained",
+      "updated_at": "2026-06-07T19:36:28Z"
+    },
     "v2_ieee_abstract_4ec42543": {
       "agent_id": "codex-ieee-abstract-b33",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
@@ -188,15 +247,6 @@
       "status": "goldie_backfill_referee_complete_0_approved_25_blocked",
       "task_id": "v2_taylor_corresponding_15fed079",
       "updated_at": "2026-06-07T04:13:20.200089+00:00"
-    },
-    "v2_de_gruyter_authors_dce331f3": {
-      "publisher_id": "de_gruyter",
-      "field": "authors",
-      "status": "shipped_parser_fix_above_98_with_residual_explained",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
-      "updated_at": "2026-06-07T19:36:28Z",
-      "assigned_agent": "codex-de-gruyter-authors-residual",
-      "next_action": "continue next publisher lane"
     }
   },
   "by_field": {
@@ -238,14 +288,12 @@
     "retrieval_blocked": 170,
     "retrieval_recovered_above_98": 1,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_goldie_backfill_heavy_needs_referee": 1,
-    "retrieval_recovered_near_98_needs_residual_diagnosis": 3,
-    "retrieval_recovered_needs_agent": 2,
-    "shipped_available_html_above_98_retrieval_blocked_explained": 3,
+    "retrieval_recovered_near_98_needs_residual_diagnosis": 2,
+    "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 16,
     "shipped_full10k_measured_above_98": 1,
-    "shipped_full10k_measured_below_98_with_explainable_residual": 3,
+    "shipped_full10k_measured_below_98_with_explainable_residual": 2,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_above_98_with_backfill_pending": 2,
@@ -578,8 +626,8 @@
     "total_rows": 10000
   },
   "coverage_gold_empty_parser_present_count": 2989,
-  "coverage_html_available": 5576,
-  "coverage_retrieval_blocked_rows": 4424,
+  "coverage_html_available": 5570,
+  "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-07T09:04:45.590550+00:00",
   "cup_abstract_referee_state": {
@@ -599,11 +647,11 @@
     }
   ],
   "last_shipped_task": {
-    "task_id": "v2_de_gruyter_authors_dce331f3",
-    "publisher": "de_gruyter",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
     "field": "authors",
+    "publisher": "de_gruyter",
     "status": "shipped_parser_fix_above_98_with_residual_explained",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json"
+    "task_id": "v2_de_gruyter_authors_dce331f3"
   },
   "last_updated_at": "2026-06-07T19:36:28Z",
   "latest_active_task": {
@@ -617,19 +665,22 @@
   "latest_batch": 44,
   "latest_batch_id": 44,
   "latest_completed_task": {
-    "task_id": "v2_de_gruyter_authors_dce331f3",
-    "publisher_id": "de_gruyter",
-    "field": "authors",
-    "status": "shipped_parser_fix_above_98_with_residual_explained",
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+    "field": "authors",
+    "publisher_id": "de_gruyter",
+    "status": "shipped_parser_fix_above_98_with_residual_explained",
+    "task_id": "v2_de_gruyter_authors_dce331f3",
     "updated_at": "2026-06-07T19:36:28Z"
   },
+  "latest_full10k_artifact": "eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json",
+  "latest_full10k_batch": 50,
   "latest_full10k_metrics": {
-    "authors": 0.9578150804010432,
-    "affiliations": 0.9379989879591105,
-    "abstract": 0.9227207081134249,
-    "pdf_url": 0.9540899557212771,
-    "corresponding": 0.9677606259507748
+    "abstract_present_rate": 0.6707360861759426,
+    "abstract_ratio_fuzzy": 0.9233892004099619,
+    "affiliations_f1_fuzzy": 0.9394348948333808,
+    "authors_f1_soft": 0.9590967845200414,
+    "corresponding_accuracy": 0.9689660089316052,
+    "pdf_url_accuracy": 0.9547257876312719
   },
   "latest_full10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
   "latest_full_10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",

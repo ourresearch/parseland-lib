@@ -1,0 +1,827 @@
+{
+  "agent_id": "codex-iop-current-residuals",
+  "classification": "parser_fix_and_retrieval_accounting_full10k_gate_green",
+  "completed_at": "2026-06-07T20:35:16Z",
+  "diagnosis": "IOP residual current-Goldie misses were a mix of legacy lower-case dc.creator metadata, visible affiliation blocks, correspondence email/footnote signals, and cached Perfdrive/ShieldSquare/Radware captcha pages that should be retrieval_blocked rather than parser misses.",
+  "expected_kpi_impact": {
+    "abstract_present_rate": {
+      "after": 0.6707360861759426,
+      "before": 0.6700143472022956,
+      "delta_pp": 0.072174
+    },
+    "abstract_ratio_fuzzy": {
+      "after": 0.9233892004099619,
+      "before": 0.9227207081134249,
+      "delta_pp": 0.066849
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9394348948333808,
+      "before": 0.9379989879591105,
+      "delta_pp": 0.143591
+    },
+    "authors_f1_soft": {
+      "after": 0.9590967845200414,
+      "before": 0.9578150804010432,
+      "delta_pp": 0.12817
+    },
+    "corresponding_accuracy": {
+      "after": 0.9689660089316052,
+      "before": 0.9677606259507748,
+      "delta_pp": 0.120538
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9547257876312719,
+      "before": 0.9540899557212771,
+      "delta_pp": 0.063583
+    }
+  },
+  "field": "authors,affiliations,abstract,pdf_url,corresponding",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/iop.py",
+    "scripts/whole_goldie_eval.py",
+    "tests/test_iop_abstract.py",
+    "tests/test_whole_goldie_html_block_reason.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_iop_current_residuals_after_v4.json",
+    "eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "focused_iop_after": {
+    "coverage": {
+      "gold_empty_parser_present_count": 26,
+      "html_available": 63,
+      "per_publisher": {
+        "iop": {
+          "html_available": 63,
+          "retrieval_blocked": 12,
+          "scored_rows": 63,
+          "total_rows": 75
+        }
+      },
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 6,
+        "cached_too_small": 3,
+        "missing": 3
+      },
+      "retrieval_blocked_rows": 12,
+      "scored_rows": 63,
+      "total_rows": 75
+    },
+    "overall": {
+      "abstract_present_rate": 0.8253968253968254,
+      "abstract_ratio_fuzzy": 0.9968634207953786,
+      "affiliations_f1_fuzzy": 0.9973118279569892,
+      "affiliations_f1_strict": 0.8709293394777267,
+      "authors_f1_soft": 0.9838709677419355,
+      "authors_f1_strict": 0.9516129032258065,
+      "corresponding_accuracy": 1.0,
+      "duration_ms_mean": 2359.1215674957584,
+      "errors": 0,
+      "n_abstract_scored": 54,
+      "n_authors_scored": 62,
+      "n_corresponding_scored": 50,
+      "n_pdf_scored": 61,
+      "pdf_url_accuracy": 1.0,
+      "rows": 75,
+      "scored": 63,
+      "skipped_no_html": 12
+    },
+    "per_field": {
+      "abstract": {
+        "empty_empty_pass": 2,
+        "gold_empty_parser_present": 9,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 52,
+        "html_available": 63,
+        "retrieval_blocked": 12,
+        "scored_rows": 54,
+        "total_rows": 75
+      },
+      "affiliations": {
+        "empty_empty_pass": 6,
+        "gold_empty_parser_present": 1,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 56,
+        "html_available": 63,
+        "retrieval_blocked": 12,
+        "scored_rows": 62,
+        "total_rows": 75
+      },
+      "authors": {
+        "empty_empty_pass": 1,
+        "gold_empty_parser_present": 1,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 60,
+        "html_available": 63,
+        "retrieval_blocked": 12,
+        "scored_rows": 62,
+        "total_rows": 75
+      },
+      "corresponding": {
+        "empty_empty_pass": 36,
+        "gold_empty_parser_present": 13,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 14,
+        "html_available": 63,
+        "retrieval_blocked": 12,
+        "scored_rows": 50,
+        "total_rows": 75
+      },
+      "pdf_url": {
+        "empty_empty_pass": 1,
+        "gold_empty_parser_present": 2,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 60,
+        "html_available": 63,
+        "retrieval_blocked": 12,
+        "scored_rows": 61,
+        "total_rows": 75
+      }
+    }
+  },
+  "full10k_after": {
+    "artifact": "eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json",
+    "coverage": {
+      "gold_empty_parser_present_count": 2989,
+      "html_available": 5570,
+      "per_publisher": {
+        "aaas": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "aacr": {
+          "html_available": 0,
+          "retrieval_blocked": 34,
+          "scored_rows": 0,
+          "total_rows": 34
+        },
+        "acm": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "acs": {
+          "html_available": 130,
+          "retrieval_blocked": 0,
+          "scored_rows": 130,
+          "total_rows": 130
+        },
+        "aip_publishing": {
+          "html_available": 0,
+          "retrieval_blocked": 57,
+          "scored_rows": 0,
+          "total_rows": 57
+        },
+        "ame": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "ams": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "apa": {
+          "html_available": 0,
+          "retrieval_blocked": 25,
+          "scored_rows": 0,
+          "total_rows": 25
+        },
+        "aps": {
+          "html_available": 0,
+          "retrieval_blocked": 38,
+          "scored_rows": 0,
+          "total_rows": 38
+        },
+        "asa": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "asco": {
+          "html_available": 0,
+          "retrieval_blocked": 17,
+          "scored_rows": 0,
+          "total_rows": 17
+        },
+        "ash": {
+          "html_available": 0,
+          "retrieval_blocked": 12,
+          "scored_rows": 0,
+          "total_rows": 12
+        },
+        "asme": {
+          "html_available": 0,
+          "retrieval_blocked": 26,
+          "scored_rows": 0,
+          "total_rows": 26
+        },
+        "bentham": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "bmj": {
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "scored_rows": 66,
+          "total_rows": 69
+        },
+        "brill": {
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "scored_rows": 55,
+          "total_rows": 65
+        },
+        "cairn": {
+          "html_available": 0,
+          "retrieval_blocked": 49,
+          "scored_rows": 0,
+          "total_rows": 49
+        },
+        "company_biologists": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "copernicus": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "cshlp": {
+          "html_available": 0,
+          "retrieval_blocked": 29,
+          "scored_rows": 0,
+          "total_rows": 29
+        },
+        "cup": {
+          "html_available": 151,
+          "retrieval_blocked": 3,
+          "scored_rows": 151,
+          "total_rows": 154
+        },
+        "de_gruyter": {
+          "html_available": 222,
+          "retrieval_blocked": 4,
+          "scored_rows": 222,
+          "total_rows": 226
+        },
+        "edp_sciences": {
+          "html_available": 0,
+          "retrieval_blocked": 21,
+          "scored_rows": 0,
+          "total_rows": 21
+        },
+        "elsevier": {
+          "html_available": 1487,
+          "retrieval_blocked": 77,
+          "scored_rows": 1487,
+          "total_rows": 1564
+        },
+        "emerald": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "f1000": {
+          "html_available": 0,
+          "retrieval_blocked": 2,
+          "scored_rows": 0,
+          "total_rows": 2
+        },
+        "frontiers": {
+          "html_available": 0,
+          "retrieval_blocked": 48,
+          "scored_rows": 0,
+          "total_rows": 48
+        },
+        "hindawi": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "ieee": {
+          "html_available": 393,
+          "retrieval_blocked": 2,
+          "scored_rows": 393,
+          "total_rows": 395
+        },
+        "iop": {
+          "html_available": 63,
+          "retrieval_blocked": 12,
+          "scored_rows": 63,
+          "total_rows": 75
+        },
+        "karger": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "lippincott": {
+          "html_available": 190,
+          "retrieval_blocked": 0,
+          "scored_rows": 190,
+          "total_rows": 190
+        },
+        "mary_ann_liebert": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "mdpi": {
+          "html_available": 72,
+          "retrieval_blocked": 65,
+          "scored_rows": 72,
+          "total_rows": 137
+        },
+        "nejm": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "optica": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "oxford": {
+          "html_available": 250,
+          "retrieval_blocked": 21,
+          "scored_rows": 250,
+          "total_rows": 271
+        },
+        "plos": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "portland_press": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "research_square": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "rsc": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "rsna": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "sage": {
+          "html_available": 198,
+          "retrieval_blocked": 2,
+          "scored_rows": 198,
+          "total_rows": 200
+        },
+        "scielo": {
+          "html_available": 0,
+          "retrieval_blocked": 33,
+          "scored_rows": 0,
+          "total_rows": 33
+        },
+        "spie": {
+          "html_available": 0,
+          "retrieval_blocked": 46,
+          "scored_rows": 0,
+          "total_rows": 46
+        },
+        "springer": {
+          "html_available": 1117,
+          "retrieval_blocked": 6,
+          "scored_rows": 1117,
+          "total_rows": 1123
+        },
+        "taylor": {
+          "html_available": 499,
+          "retrieval_blocked": 7,
+          "scored_rows": 499,
+          "total_rows": 506
+        },
+        "thieme": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "unknown": {
+          "html_available": 0,
+          "retrieval_blocked": 3303,
+          "scored_rows": 0,
+          "total_rows": 3303
+        },
+        "wiley": {
+          "html_available": 677,
+          "retrieval_blocked": 18,
+          "scored_rows": 677,
+          "total_rows": 695
+        }
+      },
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 101,
+        "cached_error_page": 3,
+        "cached_pdf": 22,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "retrieval_blocked_rows": 4430,
+      "scored_rows": 5570,
+      "total_rows": 10000
+    },
+    "overall": {
+      "abstract_present_rate": 0.6707360861759426,
+      "abstract_ratio_fuzzy": 0.9233892004099619,
+      "affiliations_f1_fuzzy": 0.9394348948333808,
+      "authors_f1_soft": 0.9590967845200414,
+      "corresponding_accuracy": 0.9689660089316052,
+      "pdf_url_accuracy": 0.9547257876312719
+    }
+  },
+  "full10k_before": {
+    "artifact": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
+    "coverage": {
+      "gold_empty_parser_present_count": 2989,
+      "html_available": 5576,
+      "per_publisher": {
+        "aaas": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "aacr": {
+          "html_available": 0,
+          "retrieval_blocked": 34,
+          "scored_rows": 0,
+          "total_rows": 34
+        },
+        "acm": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "acs": {
+          "html_available": 130,
+          "retrieval_blocked": 0,
+          "scored_rows": 130,
+          "total_rows": 130
+        },
+        "aip_publishing": {
+          "html_available": 0,
+          "retrieval_blocked": 57,
+          "scored_rows": 0,
+          "total_rows": 57
+        },
+        "ame": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "ams": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "apa": {
+          "html_available": 0,
+          "retrieval_blocked": 25,
+          "scored_rows": 0,
+          "total_rows": 25
+        },
+        "aps": {
+          "html_available": 0,
+          "retrieval_blocked": 38,
+          "scored_rows": 0,
+          "total_rows": 38
+        },
+        "asa": {
+          "html_available": 0,
+          "retrieval_blocked": 10,
+          "scored_rows": 0,
+          "total_rows": 10
+        },
+        "asco": {
+          "html_available": 0,
+          "retrieval_blocked": 17,
+          "scored_rows": 0,
+          "total_rows": 17
+        },
+        "ash": {
+          "html_available": 0,
+          "retrieval_blocked": 12,
+          "scored_rows": 0,
+          "total_rows": 12
+        },
+        "asme": {
+          "html_available": 0,
+          "retrieval_blocked": 26,
+          "scored_rows": 0,
+          "total_rows": 26
+        },
+        "bentham": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "bmj": {
+          "html_available": 66,
+          "retrieval_blocked": 3,
+          "scored_rows": 66,
+          "total_rows": 69
+        },
+        "brill": {
+          "html_available": 55,
+          "retrieval_blocked": 10,
+          "scored_rows": 55,
+          "total_rows": 65
+        },
+        "cairn": {
+          "html_available": 0,
+          "retrieval_blocked": 49,
+          "scored_rows": 0,
+          "total_rows": 49
+        },
+        "company_biologists": {
+          "html_available": 0,
+          "retrieval_blocked": 3,
+          "scored_rows": 0,
+          "total_rows": 3
+        },
+        "copernicus": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "cshlp": {
+          "html_available": 0,
+          "retrieval_blocked": 29,
+          "scored_rows": 0,
+          "total_rows": 29
+        },
+        "cup": {
+          "html_available": 151,
+          "retrieval_blocked": 3,
+          "scored_rows": 151,
+          "total_rows": 154
+        },
+        "de_gruyter": {
+          "html_available": 222,
+          "retrieval_blocked": 4,
+          "scored_rows": 222,
+          "total_rows": 226
+        },
+        "edp_sciences": {
+          "html_available": 0,
+          "retrieval_blocked": 21,
+          "scored_rows": 0,
+          "total_rows": 21
+        },
+        "elsevier": {
+          "html_available": 1487,
+          "retrieval_blocked": 77,
+          "scored_rows": 1487,
+          "total_rows": 1564
+        },
+        "emerald": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "f1000": {
+          "html_available": 0,
+          "retrieval_blocked": 2,
+          "scored_rows": 0,
+          "total_rows": 2
+        },
+        "frontiers": {
+          "html_available": 0,
+          "retrieval_blocked": 48,
+          "scored_rows": 0,
+          "total_rows": 48
+        },
+        "hindawi": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "ieee": {
+          "html_available": 393,
+          "retrieval_blocked": 2,
+          "scored_rows": 393,
+          "total_rows": 395
+        },
+        "iop": {
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "scored_rows": 69,
+          "total_rows": 75
+        },
+        "karger": {
+          "html_available": 0,
+          "retrieval_blocked": 37,
+          "scored_rows": 0,
+          "total_rows": 37
+        },
+        "lippincott": {
+          "html_available": 190,
+          "retrieval_blocked": 0,
+          "scored_rows": 190,
+          "total_rows": 190
+        },
+        "mary_ann_liebert": {
+          "html_available": 0,
+          "retrieval_blocked": 15,
+          "scored_rows": 0,
+          "total_rows": 15
+        },
+        "mdpi": {
+          "html_available": 72,
+          "retrieval_blocked": 65,
+          "scored_rows": 72,
+          "total_rows": 137
+        },
+        "nejm": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "optica": {
+          "html_available": 0,
+          "retrieval_blocked": 27,
+          "scored_rows": 0,
+          "total_rows": 27
+        },
+        "oxford": {
+          "html_available": 250,
+          "retrieval_blocked": 21,
+          "scored_rows": 250,
+          "total_rows": 271
+        },
+        "plos": {
+          "html_available": 0,
+          "retrieval_blocked": 32,
+          "scored_rows": 0,
+          "total_rows": 32
+        },
+        "portland_press": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "research_square": {
+          "html_available": 0,
+          "retrieval_blocked": 24,
+          "scored_rows": 0,
+          "total_rows": 24
+        },
+        "rsc": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "rsna": {
+          "html_available": 0,
+          "retrieval_blocked": 5,
+          "scored_rows": 0,
+          "total_rows": 5
+        },
+        "sage": {
+          "html_available": 198,
+          "retrieval_blocked": 2,
+          "scored_rows": 198,
+          "total_rows": 200
+        },
+        "scielo": {
+          "html_available": 0,
+          "retrieval_blocked": 33,
+          "scored_rows": 0,
+          "total_rows": 33
+        },
+        "spie": {
+          "html_available": 0,
+          "retrieval_blocked": 46,
+          "scored_rows": 0,
+          "total_rows": 46
+        },
+        "springer": {
+          "html_available": 1117,
+          "retrieval_blocked": 6,
+          "scored_rows": 1117,
+          "total_rows": 1123
+        },
+        "taylor": {
+          "html_available": 499,
+          "retrieval_blocked": 7,
+          "scored_rows": 499,
+          "total_rows": 506
+        },
+        "thieme": {
+          "html_available": 0,
+          "retrieval_blocked": 61,
+          "scored_rows": 0,
+          "total_rows": 61
+        },
+        "unknown": {
+          "html_available": 0,
+          "retrieval_blocked": 3303,
+          "scored_rows": 0,
+          "total_rows": 3303
+        },
+        "wiley": {
+          "html_available": 677,
+          "retrieval_blocked": 18,
+          "scored_rows": 677,
+          "total_rows": 695
+        }
+      },
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 95,
+        "cached_error_page": 3,
+        "cached_pdf": 22,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "retrieval_blocked_rows": 4424,
+      "scored_rows": 5576,
+      "total_rows": 10000
+    },
+    "overall": {
+      "abstract_present_rate": 0.6700143472022956,
+      "abstract_ratio_fuzzy": 0.9227207081134249,
+      "affiliations_f1_fuzzy": 0.9379989879591105,
+      "authors_f1_soft": 0.9578150804010432,
+      "corresponding_accuracy": 0.9677606259507748,
+      "pdf_url_accuracy": 0.9540899557212771
+    }
+  },
+  "publisher_id": "iop",
+  "recommendation": "Ship IOP current-residual patch. IOP available HTML is above 98% for all five tracked fields; remaining IOP rows are retrieval-blocked or Goldie-backfilled candidates kept separate from current-Goldie KPI. Continue the global publisher-field queue.",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_available_html_above_98_retrieval_blocked_explained",
+  "task_id": "iop_current_residuals_aggregate_20260607T2035Z",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_iop_abstract.py tests/test_whole_goldie_html_block_reason.py -q",
+      "result": "21 passed in 0.07s",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/iop.py scripts/whole_goldie_eval.py",
+      "result": "passed",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers iop --label iop-current-residuals-after-v4 --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_iop_current_residuals_after_v4.json --concurrency 8",
+      "result": "IOP available HTML: authors 0.983871, affiliations 0.997312, abstract 0.996863, pdf_url 1.0, corresponding 1.0; retrieval_blocked=12.",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-iop-current-residuals --out eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json --concurrency 8",
+      "result": "coverage.total_rows=10000; html_available=5570; retrieval_blocked=4430; errors=1; no aggregate regression vs Batch 49.",
+      "status": "passed"
+    }
+  ]
+}
