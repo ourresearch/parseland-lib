@@ -1,0 +1,318 @@
+{
+  "action_counts": {
+    "fix_parser": 1,
+    "unclear_review": 9
+  },
+  "bucket_counts": {
+    "neither_on_page": 9,
+    "parser_string_not_on_page": 1
+  },
+  "field": "abstract",
+  "miss_count": 10,
+  "publisher": "ieee",
+  "rows": [
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/lemcpa.2025.3598959",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 84,
+      "gold_preview": "Summary form only: Abstracts of articles presented in this issue of the publication.",
+      "link": "https://doi.org/10.1109/lemcpa.2025.3598959",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/t-ed.1986.22684",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 48,
+      "gold_preview": "Presents the back cover of the periodical issue.",
+      "link": "https://doi.org/10.1109/t-ed.1986.22684",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/iedm.1986.191304",
+      "evidence": {
+        "fuzzy_ratio": 0.13500784929356358,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_len": 594,
+      "gold_preview": "SOI-GaAs structures of GaAs/Ca x Sr 1-x F 2 /GaAs were fabricated by MBE techniques. MESFETs formed in the upper single crystal GaAs layers show clear on-off characteristics and a transconductance of 7 mS at a gate length of 17 \u03bcm. The intrinsic transconductance gm 0 increases from 25 mS/mm to 60 mS/mm with increasing carrier concentration from 1\u00d710 17 cm -3 to 7.5\u00d710 17 cm -3 . The breakdown voltages of the SOI-GaAs diodes are two or four times higher than those fabricated on the GaAs substrate, reflecting the very thin active layer limited by the presence of Ca x Sr 1-x F 2 insulators.",
+      "link": "https://doi.org/10.1109/iedm.1986.191304",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 43,
+      "parsed_preview": "SOI-GaAs structures of GaAs/CaxSr1-xF2/GaAs",
+      "score": {
+        "fuzzy_ratio": 0.13500784929356358,
+        "length_ratio": 0.0723905723905724,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.13500784929356358
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/temc.1967.4307455",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 53,
+      "gold_preview": "Lists the institutions that support this publication.",
+      "link": "https://doi.org/10.1109/temc.1967.4307455",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/radar.2012.6212100",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 50,
+      "gold_preview": "Presents the back cover of the proceedings record.",
+      "link": "https://doi.org/10.1109/radar.2012.6212100",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/tns.2010.2083687",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 227,
+      "gold_preview": "Records of bit flips in the Cray-1 computer installed at Los Alamos, NM, in 1976 lead to an upset rate in the Cray-1's bipolar SRAMs that correlates with the single-event upsets (SEUs) being induced by the atmospheric neutrons.",
+      "link": "https://doi.org/10.1109/tns.2010.2083687",
+      "page_markers": {
+        "has_abstract_word": false,
+        "has_og_description": false,
+        "has_xpl_metadata": false,
+        "ieee_host": false,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/ipc.2007.5",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 61,
+      "gold_preview": "Presents the welcome message from the conference proceedings.",
+      "link": "https://doi.org/10.1109/ipc.2007.5",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "parser_string_not_on_page",
+      "doi": "10.36227/techrxiv.173337756.60084208/v1",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": true,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 1776,
+      "gold_preview": "The escalating threat of malicious software necessitates innovative detection methodologies to protect critical digital infrastructures. The Contextual Anomaly Graph Analysis (CAGA) framework emerges as a novel approach, leveraging graph-based anomaly detection to identify ransomware activities within complex network environments. By constructing detailed graphs that represent system behaviors, CAGA captures contextual relationships often overlooked by traditional detection systems. The framework's architecture integrates advanced algorithms for graph construction, feature extraction, and anom",
+      "link": "https://doi.org/10.36227/techrxiv.173337756.60084208/v1",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": false,
+        "ieee_host": false,
+        "techrxiv_host": true
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "fix_parser"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mtas.1984.5009897",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 125,
+      "gold_preview": "Presents letters sent to the editor regarding previous articles from this publication or other relevant topics of discussion.",
+      "link": "https://doi.org/10.1109/mtas.1984.5009897",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/camp.2005.19",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_len": 44,
+      "gold_preview": "Presents the front cover of the proceedings.",
+      "link": "https://doi.org/10.1109/camp.2005.19",
+      "page_markers": {
+        "has_abstract_word": true,
+        "has_og_description": true,
+        "has_xpl_metadata": true,
+        "ieee_host": true,
+        "techrxiv_host": false
+      },
+      "parsed_len": 0,
+      "parsed_preview": "",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": false,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    }
+  ],
+  "run_id": "20260604T163736Z-77fe45",
+  "source_run": "eval/runs/whole-goldie-after-aha-download-param-20260607T0224Z.json",
+  "task_id": "v2_ieee_abstract_4ec42543"
+}

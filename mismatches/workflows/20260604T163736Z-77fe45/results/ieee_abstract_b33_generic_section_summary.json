@@ -1,0 +1,181 @@
+{
+  "task_id": "v2_ieee_abstract_4ec42543",
+  "run_id": "20260604T163736Z-77fe45",
+  "batch_id": 33,
+  "status": "green",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
+  "publisher_id": "ieee",
+  "field": "abstract",
+  "agent_id": "codex-ieee-abstract-b33",
+  "completed_at": "2026-06-07T05:36:06.411931Z",
+  "classification": "parser_owned_generic_fallback_shipped_full10k_measured_below_98_with_explainable_residual",
+  "summary": "A generic semantic abstract-section fallback recovered one IEEE-bucket TechRxiv current-Goldie abstract row where metadata was truncated but the visible section#abstract contained the full gold text. Residual IEEE abstract misses are 8 parser-empty rows plus 1 parser-present low-fuzzy row whose Goldie abstract text is not present in cached page text; route those to gold-auditor/Browserbase/manual-DOM, not parser patching.",
+  "fixed_current_goldie_dois": [
+    "10.36227/techrxiv.173337756.60084208/v1"
+  ],
+  "changed_rows": [
+    {
+      "doi": "10.36227/techrxiv.173337756.60084208/v1",
+      "before_status": "gold_present_parser_empty",
+      "after_status": "gold_present_parser_present",
+      "before_fuzzy_ratio": 0.0,
+      "after_fuzzy_ratio": 1.0,
+      "before_present": false,
+      "after_present": true,
+      "before_parsed_abstract_len": 0,
+      "after_parsed_abstract_len": 1776,
+      "classification": "parser_owned_generic_structured_abstract_section",
+      "evidence": "TechRxiv page has a full semantic section#abstract[role=\"doc-abstract\"] while dc.Description is truncated; generic parser now reads the visible section after removing the Abstract heading."
+    }
+  ],
+  "overall_delta": {
+    "authors": {
+      "before": 0.9535964984926558,
+      "after": 0.9535964984926558,
+      "delta_pp": 0.0
+    },
+    "affiliations": {
+      "before": 0.9334867177645392,
+      "after": 0.9334867177645392,
+      "delta_pp": 0.0
+    },
+    "abstract": {
+      "before": 0.9192288838818368,
+      "after": 0.9194347299090087,
+      "delta_pp": 0.020584602717188538
+    },
+    "abstract_present_rate": {
+      "before": 0.6958732642284373,
+      "after": 0.6960688441228242,
+      "delta_pp": 0.019557989438689916
+    },
+    "pdf_url": {
+      "before": 0.9449446874196038,
+      "after": 0.9449446874196038,
+      "delta_pp": 0.0
+    },
+    "corresponding": {
+      "before": 0.9676460030284043,
+      "after": 0.9678515951336675,
+      "delta_pp": 0.020559210526316374
+    }
+  },
+  "ieee_delta": {
+    "abstract": {
+      "before": 0.9728155974864376,
+      "after": 0.9753862915738413,
+      "delta_pp": 0.25706940874036244
+    },
+    "abstract_present_rate": {
+      "before": 0.8778625954198473,
+      "after": 0.8804071246819338,
+      "delta_pp": 0.2544529262086481
+    }
+  },
+  "whole_goldie_after": {
+    "target": 0.98,
+    "above_98": false,
+    "abstract_ratio_fuzzy": 0.9753862915738413,
+    "abstract_present_rate": 0.8804071246819338,
+    "total_rows": 395,
+    "html_available": 393,
+    "retrieval_blocked_rows": 2,
+    "scored_rows_for_field": 389,
+    "empty_empty_pass": 35,
+    "gold_present_parser_empty": 8,
+    "gold_present_parser_present": 346,
+    "gold_empty_parser_present": 4
+  },
+  "residuals": {
+    "current_goldie_miss_count": 9,
+    "current_goldie_miss_examples": [
+      {
+        "doi": "10.1109/lemcpa.2025.3598959",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 84,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/t-ed.1986.22684",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 48,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/iedm.1986.191304",
+        "status": "gold_present_parser_present",
+        "fuzzy_ratio": 0.13500784929356358,
+        "gold_abstract_len": 594,
+        "parsed_abstract_len": 43
+      },
+      {
+        "doi": "10.1109/temc.1967.4307455",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 53,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/radar.2012.6212100",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 50,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/tns.2010.2083687",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 227,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/ipc.2007.5",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 61,
+        "parsed_abstract_len": 0
+      },
+      {
+        "doi": "10.1109/mtas.1984.5009897",
+        "status": "gold_present_parser_empty",
+        "fuzzy_ratio": 0.0,
+        "gold_abstract_len": 125,
+        "parsed_abstract_len": 0
+      }
+    ],
+    "goldie_backfilled_candidates": 4,
+    "classification_counts_before": {
+      "fix_parser": 1,
+      "unclear_review": 9
+    },
+    "bucket_counts_before": {
+      "neither_on_page": 9,
+      "parser_string_not_on_page": 1
+    },
+    "residual_classification": "gold_owned_manual_dom_or_browserbase_needed",
+    "note": "After the parser-owned TechRxiv row was fixed, the remaining IEEE abstract current-Goldie misses are 8 parser-empty rows plus 1 parser-present low-fuzzy row; the gold abstract string is not present in cached page text or requires manual rendered-page audit."
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/generic.py",
+    "tests/test_generic_parser.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_before.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_classification.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_current_miss_classification.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch33_ieee_abstract_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "tests_run": [
+    "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/generic.py tests/test_generic_parser.py",
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_parse_page.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers ieee --label batch33-ieee-abstract-generic-section-after --run-id batch33-ieee-abstract-generic-section-after --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch33_ieee_abstract_after.json --concurrency 8",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-generic-structured-abstract-section --run-id batch33-generic-structured-abstract-section-full --out eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json --concurrency 8"
+  ],
+  "recommendation": "Ship the safe generic abstract-section fallback, keep the 9 IEEE abstract current-Goldie residuals in gold-auditor/Browserbase/manual-DOM lanes, and continue the global publisher-field queue."
+}

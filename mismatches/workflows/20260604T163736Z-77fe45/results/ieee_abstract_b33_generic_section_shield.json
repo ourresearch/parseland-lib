@@ -1,0 +1,66 @@
+{
+  "status": "green",
+  "task_id": "v2_ieee_abstract_4ec42543",
+  "run_id": "20260604T163736Z-77fe45",
+  "batch_id": 33,
+  "agent_id": "codex-ieee-abstract-b33",
+  "publisher_id": "ieee",
+  "field": "abstract",
+  "classification": "parser_owned_generic_fallback_shipped_full10k_measured_below_98_with_explainable_residual",
+  "completed_at": "2026-06-07T05:36:06.411931Z",
+  "artifact_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_summary.json",
+  "diagnosis": "A generic semantic abstract-section fallback recovered one IEEE-bucket TechRxiv current-Goldie abstract row where metadata was truncated but the visible section#abstract contained the full gold text. Residual IEEE abstract misses are 8 parser-empty rows plus 1 parser-present low-fuzzy row whose Goldie abstract text is not present in cached page text; route those to gold-auditor/Browserbase/manual-DOM, not parser patching.",
+  "policy": {
+    "current_goldie_kpi_separate_from_goldie_backfilled": true,
+    "gold_empty_parser_present_candidates": 4,
+    "merged_final_mutated": false,
+    "browserbase_key_persisted": false
+  },
+  "kpi": {
+    "target": 0.98,
+    "above_98": false,
+    "ieee_abstract_before": 0.9728155974864376,
+    "ieee_abstract_after": 0.9753862915738413,
+    "ieee_abstract_delta_pp": 0.25706940874036244,
+    "overall_abstract_before": 0.9192288838818368,
+    "overall_abstract_after": 0.9194347299090087,
+    "overall_abstract_delta_pp": 0.020584602717188538,
+    "coverage_total_rows": 10000,
+    "html_available": 5113,
+    "retrieval_blocked_rows": 4887,
+    "same_nonretrieval_errors_before_after": false
+  },
+  "tests": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/generic.py tests/test_generic_parser.py",
+      "result": "py_compile passed",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_parse_page.py -q",
+      "result": "19 passed",
+      "status": "passed"
+    },
+    {
+      "command": "exact TechRxiv DOI parse_page/scorer check for 10.36227/techrxiv.173337756.60084208/v1",
+      "result": "parsed_len=1776, gold_len=1776, fuzzy=1.0, soft=1.0, match=True",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers ieee --label batch33-ieee-abstract-generic-section-after --run-id batch33-ieee-abstract-generic-section-after --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch33_ieee_abstract_after.json --concurrency 8",
+      "result": "395 total rows, 393 html_available, 2 retrieval_blocked, IEEE abstract 0.9753862915738413.",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label after-generic-structured-abstract-section --run-id batch33-generic-structured-abstract-section-full --out eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json --concurrency 8",
+      "result": "10000 total rows, 5113 html_available, 4887 retrieval_blocked, same pre-existing non-retrieval error before/after, no authors/affiliations/pdf regressions.",
+      "status": "passed"
+    },
+    {
+      "command": "python3 validate Batch 33 JSON/NDJSON artifacts",
+      "result": "summary/shield/classification/focused whole-Goldie JSON valid; queue/task-results/summary NDJSON/JSON valid.",
+      "status": "passed"
+    }
+  ],
+  "updated_at": "2026-06-07T05:36:06.411931Z"
+}

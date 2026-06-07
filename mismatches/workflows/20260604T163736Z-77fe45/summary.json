@@ -22,13 +22,13 @@
     },
     "v2_ieee_abstract_4ec42543": {
       "agent_id": "codex-ieee-abstract-b33",
-      "artifact_path": null,
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
       "field": "abstract",
-      "next_action": "diagnose 9 current-Goldie abstract misses and 4 Goldie-empty/parser-present candidates; patch only parser-owned patterns, otherwise route to gold-auditor/Browserbase/manual-DOM.",
+      "next_action": "Route 9 residual IEEE abstract current-Goldie misses and 4 Goldie-empty/parser-present candidates to Browserbase/gold-auditor/manual-DOM; continue next ranked lane.",
       "publisher_id": "ieee",
-      "status": "in_progress_current_goldie_diagnosis",
+      "status": "shipped_full10k_measured_below_98_with_explainable_residual",
       "task_id": "v2_ieee_abstract_4ec42543",
-      "updated_at": "2026-06-07T04:52:30Z"
+      "updated_at": "2026-06-07T05:36:06.411931Z"
     },
     "v2_lippincott_corresponding_6f6b586e": {
       "agent_id": "codex-goldie-backfilled-lippincott-corresponding-b29",
@@ -79,11 +79,12 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 3,
+    "needs_agent": 2,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 17,
+    "shipped_full10k_measured_below_98_with_explainable_residual": 1,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_small_current_goldie_lift": 1,
@@ -130,6 +131,17 @@
     "run_id": "batch32-cup-corresponding-after",
     "status": "shipped_full10k_measured"
   },
+  "latest_completed_task": {
+    "agent_id": "codex-ieee-abstract-b33",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_generic_section_shield.json",
+    "field": "abstract",
+    "next_action": "Route 9 residual IEEE abstract current-Goldie misses and 4 Goldie-empty/parser-present candidates to Browserbase/gold-auditor/manual-DOM; continue next ranked lane.",
+    "publisher_id": "ieee",
+    "status": "shipped_full10k_measured_below_98_with_explainable_residual",
+    "task_id": "v2_ieee_abstract_4ec42543",
+    "updated_at": "2026-06-07T05:36:06.411931Z"
+  },
+  "latest_full_10k_run": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
@@ -606,5 +618,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T04:32:20.482203+00:00"
+  "updated_at": "2026-06-07T05:36:06.411931Z"
 }

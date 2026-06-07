@@ -1,3 +1,7 @@
+import re
+
+from bs4 import BeautifulSoup
+
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
@@ -20,10 +24,38 @@ class GenericPublisherParser(PublisherParser):
             authors = self.parse_author_meta_tags()
             self._parse_result = {
                 "authors": authors,
-                "abstract": self.parse_abstract_meta_tags(),
+                "abstract": (
+                    self.parse_abstract_meta_tags()
+                    or self.parse_structured_abstract_section()
+                ),
             }
 
         return self._parse_result
+
+    def parse_structured_abstract_section(self):
+        """Recover generic Atypon/TechRxiv-style visible abstract sections.
+
+        Some generic pages expose only truncated dc.Description metadata but
+        have a full semantic abstract in ``section#abstract``. Keep this narrow
+        to avoid treating article navigation as an abstract.
+        """
+        section = (
+            self.soup.select_one('section#abstract[role="doc-abstract"]')
+            or self.soup.select_one('section#abstract[property="abstract"]')
+            or self.soup.select_one('section[property="abstract"][typeof="Text"]')
+        )
+        if not section:
+            return None
+
+        section_soup = BeautifulSoup(str(section), "lxml")
+        for heading in section_soup.find_all(re.compile(r"^h[1-6]$")):
+            if heading.get_text(" ", strip=True).lower() == "abstract":
+                heading.decompose()
+
+        text = re.sub(r"\s+", " ", section_soup.get_text(" ", strip=True)).strip()
+        if len(text) <= 200:
+            return None
+        return text
 
     test_cases = [
         {

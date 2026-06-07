@@ -1,0 +1,585 @@
+{
+  "action_counts": {
+    "fix_gold": 1,
+    "unclear_review": 20
+  },
+  "bucket_counts": {
+    "gold_string_not_on_page": 1,
+    "neither_on_page": 20
+  },
+  "field": "abstract",
+  "miss_count": 21,
+  "publisher": "ieee",
+  "rows": [
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/lpt.2012.2201979",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "05f6649b-4da3-4e8d-bc24-8fa5ab89f70d",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 47,
+      "parsed_preview": "Provides a listing of current society officers.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mhs.2000.903274",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "4188f4eb-1592-4697-aa18-5da873e103ac",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 50,
+      "parsed_preview": "Presents the title page of the proceedings record.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mspec.1974.6366498",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "be4c6bd2-9e88-41ec-b1be-af78f9833966",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 98,
+      "parsed_preview": "Provides notice of upcoming content in future issues of interest to practitioners and researchers.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/pawr.2011.5725397",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "8d49442c-8f89-485a-8eca-a0f294b71f4e",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 109,
+      "parsed_preview": "Provides instructions on viewing the proceedings articles in PDF format and support information for CD users.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/vr50410.2021.00012",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "e3d35961-8917-439b-8d80-69e5acce7e1d",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 63,
+      "parsed_preview": "The conference offers a note of thanks and lists its reviewers.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/icbbe.2011.5781486",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "7d74aeab-978a-4eb0-84ce-d9bf3806b064",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 10,
+      "parsed_preview": "Retracted.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/iedm.1986.191304",
+      "evidence": {
+        "fuzzy_ratio": 0.135,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 594,
+      "gold_preview": "SOI-GaAs structures of GaAs/Ca x Sr 1-x F 2 /GaAs were fabricated by MBE techniques. MESFETs formed in the upper single crystal GaAs layers show clear on-off characteristics and a transconductance of 7 mS at a gate length of 17 \u03bcm. The intrinsic transconductance gm 0 increases from 25 mS/mm to 60 mS/mm with increasing carrier concentration from 1\u00d710 17 cm -3 to 7.5\u00d710 17 cm -3 . The breakdown voltages of the SOI-GaAs",
+      "harvest_uuid": "03bf15da-d3af-4d93-a8ab-c7dd00c6f6fd",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 43,
+      "parsed_preview": "SOI-GaAs structures of GaAs/CaxSr1-xF2/GaAs",
+      "score": {
+        "fuzzy_ratio": 0.135,
+        "length_ratio": 0.072,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.135
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/tcss.2020.2974168",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "995231c5-a4bd-489b-8947-5d0c6777d57e",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 154,
+      "parsed_preview": "Presents a listing of the editorial board, board of governors, current staff, committee members, and/or society editors for this issue of the publication.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mprv.2018.03367745",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "bac5922c-ec19-43d0-8a54-ec07c852fdf1",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 20,
+      "parsed_preview": "Advertisement, IEEE.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/icpads.2005.192",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "e58d2a64-35c6-427c-ba8e-7d8ea55375fe",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 61,
+      "parsed_preview": "Presents the welcome message from the conference proceedings.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/jstars.2013.2268345",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "3960e096-c690-4b1d-91e0-3861bb87f650",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 94,
+      "parsed_preview": "Advertisement: Now over three million documents in IEEE Xplore. Thank you for your authorship.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/20.92106",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "468e64aa-5b2f-4e5e-867f-296cf2e844e2",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 529,
+      "parsed_preview": "Perpendicular coercivity of CoCr sputtered films on Ti adhesive layers decreases drastically as RF sputtering power increases. A very thin CoCr sublayer deposited at low power enhances the coercivity of the succeeding CoCr layer. Magnetic properties and segregated microstructures show that the initial segregated microstructure is inherited by the main CoCr layer even though the RF sputtering power changes during the ",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mprv.2018.03367724",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "1f40001a-9680-4b87-aeea-334b935f642d",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 59,
+      "parsed_preview": "Presents the front cover for this issue of the publication.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mprv.2011.64",
+      "evidence": {
+        "fuzzy_ratio": 0.338,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 160,
+      "gold_preview": "The article introduces the Argos system. Argos is compared with related platforms, detailed its architecture, and discussed current conclusions and future work.",
+      "harvest_uuid": "f48ff31f-561d-451f-bac7-52714f531556",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 373,
+      "parsed_preview": "If developers could apply their knowledge of designing Web applications to smartphone application design, they could leverage years of experience to rapidly accelerate phone application development. How do we build a mobile application development platform that supports the fluidity, richness, and power of the Web combined with the special capabilities of mobile devices?",
+      "score": {
+        "fuzzy_ratio": 0.338,
+        "length_ratio": 2.331,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.341
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "gold_string_not_on_page",
+      "doi": "10.1109/icicsp59554.2023.10390684",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": true
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "086ed3c3-f197-4800-b042-b6516ef80142",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 13,
+      "parsed_preview": "Author Index.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "fix_gold"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mcs.2009.935219",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "472606b0-c9ce-4c6a-94aa-3c4fa6ab1858",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 76,
+      "parsed_preview": "Presents the front cover/table of contents for this issue of the periodical.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/msn.2014.53",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "d6273636-5ed7-4ae9-9f51-18a948bf8869",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 80,
+      "parsed_preview": "Presents a biographical entry for each author and co-author in this proceedings.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/powercon66300.2025.11295789",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "c55eee53-f04e-44e6-99c3-7a6accf4caed",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 1299,
+      "parsed_preview": "In response to the national \u201cdual carbon\u201d strategy, the development of a new power system centered on renewable energy has become a critical objective. Ultra-high voltage direct current (UHVDC) transmission is an essential solution for large-scale renewable energy integration and longdistance power delivery, yet it faces significant challenges such as commutation failure in conventional line-commutated converters (LC",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mpe.2013.2264745",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "4b6ffaa4-f31b-445e-ab49-623ed65a2dc6",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 106,
+      "parsed_preview": "Describes the above-named upcoming conference event. May include topics to be covered or calls for papers.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/icict54344.2022.9850580",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "1f8580ed-1cf4-4a53-94e0-f661de203f42",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 83,
+      "parsed_preview": "\"Presents the front cover, title page, or splash screen of the proceedings record.\"",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    },
+    {
+      "bucket": "neither_on_page",
+      "doi": "10.1109/mits.2014.2373731",
+      "evidence": {
+        "fuzzy_ratio": 0.0,
+        "gold_on_page": false,
+        "parser_on_page": false
+      },
+      "gold_len": 0,
+      "gold_preview": "",
+      "harvest_uuid": "296c8bcb-29f9-4b95-8a57-f320d3bcde0f",
+      "html_markers": {
+        "has_abstract_word": true,
+        "has_meta_og_description": true,
+        "has_xpl_metadata": true
+      },
+      "parsed_len": 59,
+      "parsed_preview": "Presents the front cover for this issue of the publication.",
+      "score": {
+        "fuzzy_ratio": 0.0,
+        "length_ratio": 0.0,
+        "match_at_threshold": false,
+        "present": true,
+        "soft_ratio": 0.0
+      },
+      "suggested_action": "unclear_review"
+    }
+  ],
+  "run_id": "20260604T163736Z-77fe45",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/ieee_abstract_b33_before.json",
+  "task_id": "v2_ieee_abstract_4ec42543"
+}
