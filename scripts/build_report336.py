@@ -478,6 +478,25 @@ def render_coverage_status(run: dict | None, workflow_summary: dict | None = Non
     full_target = 10000
     queue_cells = workflow_summary.get("total_tasks") or "—"
     ranked_publishers = workflow_summary.get("total_publishers") or "—"
+    display_cov = dict(cov)
+    overlay_retrieval = workflow_summary.get("latest_retrieval_coverage_run") or {}
+    overlay_active = False
+    if int(workflow_summary.get("coverage_total_rows") or 0) >= full_target:
+        html_available = workflow_summary.get("coverage_html_available")
+        retrieval_blocked = workflow_summary.get("coverage_retrieval_blocked_rows")
+        backfill_count = workflow_summary.get("coverage_gold_empty_parser_present_count")
+        if html_available is not None and retrieval_blocked is not None:
+            old_pair = (
+                int(cov.get("html_available") or -1),
+                int(cov.get("retrieval_blocked_rows") or -1),
+            )
+            new_pair = (int(html_available), int(retrieval_blocked))
+            if new_pair != old_pair:
+                display_cov["html_available"] = html_available
+                display_cov["retrieval_blocked_rows"] = retrieval_blocked
+                if backfill_count is not None:
+                    display_cov["gold_empty_parser_present_count"] = backfill_count
+                overlay_active = True
     if int(total or 0) >= full_target:
         artifact_note = (
             "Report is using the latest full 10,000-row whole-Goldie artifact. "
@@ -488,14 +507,21 @@ def render_coverage_status(run: dict | None, workflow_summary: dict | None = Non
             "Full 10,000-row accounting remains the active gate until this section "
             "shows 10,000 current artifact rows."
         )
+    if overlay_active:
+        overlay_note = (
+            " Top coverage cards include newer workflow retrieval accounting"
+            f" from {overlay_retrieval.get('run_id', 'latest retrieval checkpoint')};"
+            " KPI values still come from the latest serialized full-10K artifact."
+        )
+        artifact_note = f"{artifact_note}{overlay_note}"
 
     parts = [
         '<div class="summary-grid">',
         f'<div class="metric"><div class="label">Current artifact rows</div><div class="value">{html.escape(str(total))}</div></div>',
         f'<div class="metric"><div class="label">Full target rows</div><div class="value">{full_target:,}</div></div>',
-        f'<div class="metric"><div class="label">HTML available</div><div class="value">{html.escape(str(cov.get("html_available", "—")))}</div></div>',
-        f'<div class="metric"><div class="label">Retrieval blocked</div><div class="value">{html.escape(str(cov.get("retrieval_blocked_rows", "—")))}</div></div>',
-        f'<div class="metric"><div class="label">Backfill candidates</div><div class="value">{html.escape(str(cov.get("gold_empty_parser_present_count", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">HTML available</div><div class="value">{html.escape(str(display_cov.get("html_available", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">Retrieval blocked</div><div class="value">{html.escape(str(display_cov.get("retrieval_blocked_rows", "—")))}</div></div>',
+        f'<div class="metric"><div class="label">Backfill candidates</div><div class="value">{html.escape(str(display_cov.get("gold_empty_parser_present_count", "—")))}</div></div>',
         f'<div class="metric"><div class="label">Per-field target</div><div class="value">98%</div></div>',
         f'<div class="metric"><div class="label">Publisher-field cells</div><div class="value">{html.escape(str(queue_cells))}</div></div>',
         f'<div class="metric"><div class="label">Publishers ranked</div><div class="value">{html.escape(str(ranked_publishers))}</div></div>',
@@ -509,18 +535,29 @@ def render_coverage_status(run: dict | None, workflow_summary: dict | None = Non
         parts.append("</p>")
     reasons = cov.get("retrieval_blocked_by_reason") or {}
     if reasons:
-        parts.append("<p>Retrieval blocked by reason: ")
+        reason_label = "Retrieval blocked by reason"
+        if overlay_active:
+            reason_label += " (latest full-10K artifact)"
+        parts.append(f"<p>{reason_label}: ")
         parts.append(" · ".join(f"{html.escape(str(k))}: {html.escape(str(v))}" for k, v in reasons.items()))
         parts.append("</p>")
     return "".join(parts)
 
 
-def render_field_target_table(run: dict | None) -> str:
+def render_field_target_table(run: dict | None, workflow_summary: dict | None = None) -> str:
     if not run:
         return '<p style="color: var(--muted);">No field target data yet.</p>'
+    workflow_summary = workflow_summary or {}
     summary = run.get("summary") or {}
     overall = summary.get("overall") or {}
     per_field = summary.get("per_field") or {}
+    overlay_html = workflow_summary.get("coverage_html_available")
+    overlay_blocked = workflow_summary.get("coverage_retrieval_blocked_rows")
+    overlay_active = (
+        int(workflow_summary.get("coverage_total_rows") or 0) >= 10000
+        and overlay_html is not None
+        and overlay_blocked is not None
+    )
     metrics = [
         ("authors", "authors_f1_soft"),
         ("affiliations", "affiliations_f1_fuzzy"),
@@ -544,8 +581,8 @@ def render_field_target_table(run: dict | None) -> str:
             f"{current:.3f}",
             f"{distance:.3f}",
             counts.get("total_rows", "—"),
-            counts.get("html_available", "—"),
-            counts.get("retrieval_blocked", "—"),
+            overlay_html if overlay_active else counts.get("html_available", "—"),
+            overlay_blocked if overlay_active else counts.get("retrieval_blocked", "—"),
             counts.get("scored_rows", "—"),
             counts.get("empty_empty_pass", "—"),
             misses,
@@ -555,6 +592,13 @@ def render_field_target_table(run: dict | None) -> str:
         parts += [f"<td>{html.escape(str(v))}</td>" for v in vals]
         parts.append("</tr>")
     parts += ["</tbody></table>"]
+    if overlay_active:
+        parts.append(
+            '<p style="color: var(--muted); font-size: 0.8rem;">'
+            'HTML/blocked columns include latest workflow retrieval accounting; '
+            'KPI and scored columns remain from the latest serialized full-10K artifact.'
+            '</p>'
+        )
     return "".join(parts)
 
 
@@ -1060,7 +1104,7 @@ def main() -> int:
         parseland_update=render_parseland_update(kpi_rows, workflow_summary),
         metric_cards=render_metric_cards(latest),
         coverage_status=render_coverage_status(whole_goldie, workflow_summary),
-        field_target_table=render_field_target_table(whole_goldie),
+        field_target_table=render_field_target_table(whole_goldie, workflow_summary),
         publisher_field_table=render_publisher_field_table(whole_goldie),
         batches_table=render_batches_table(kpi_rows),
         curve_svg_inline=curve_svg_inline,

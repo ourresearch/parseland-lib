@@ -1,0 +1,20 @@
+{
+  "run_id": "report336-coverage-overlay-builder-20260607T0752Z",
+  "timestamp_utc": "2026-06-07T07:53:08.734320+00:00",
+  "task": "report336_coverage_overlay_builder",
+  "status": "passed",
+  "commands": [
+    "./.venv/bin/python -m py_compile scripts/build_report336.py",
+    "./.venv/bin/python scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml",
+    "python3 local HTML assertion for 5336/4664 coverage overlay and De Gruyter row",
+    "git diff --check -- scripts/build_report336.py"
+  ],
+  "coverage_overlay": {
+    "html_available": 5336,
+    "retrieval_blocked_rows": 4664,
+    "source": "mismatches/workflows/20260604T163736Z-77fe45/summary.json latest_retrieval_coverage_run",
+    "kpi_artifact_remains_latest_full_10k": true
+  },
+  "report_html": "/Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence/report.html",
+  "notes": "Top coverage cards and field HTML/blocked columns now use newer workflow retrieval accounting while KPI/scored values remain tied to the latest serialized full-10K artifact."
+}
