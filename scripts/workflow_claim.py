@@ -33,6 +33,11 @@ CLAIMABLE_STATUSES = {
     "queued",
     "needs_agent",
     "goldie_backfill_pending",
+    "goldie_backfilled_needed",
+    "retrieval_recovered_needs_agent",
+    "retrieval_recovered_near_98_needs_fixture_and_agent",
+    "retrieval_recovered_near_98_needs_residual_diagnosis",
+    "retrieval_recovered_goldie_backfill_heavy_needs_referee",
 }
 
 
