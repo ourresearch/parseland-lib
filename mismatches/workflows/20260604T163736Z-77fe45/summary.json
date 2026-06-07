@@ -128,11 +128,11 @@
     "ready": 11,
     "unknown": 1
   },
-  "coverage_gold_empty_parser_present_count": 2931,
+  "coverage_gold_empty_parser_present_count": 2934,
   "coverage_html_available": 5663,
   "coverage_retrieval_blocked_rows": 4337,
   "coverage_total_rows": 10000,
-  "created_at": "2026-06-07T08:29:56.823564+00:00",
+  "created_at": "2026-06-07T09:04:45.590550+00:00",
   "cup_abstract_referee_state": {
     "approved_rows": 5,
     "blocked_rows": 15,
@@ -160,25 +160,25 @@
     "updated_at": "2026-06-07T05:44:43.667078Z"
   },
   "latest_batch": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
-    "batch_id": 32,
-    "completed_at": "2026-06-07T04:32:20.482203+00:00",
-    "field": "corresponding",
-    "publisher": "cup",
-    "publisher_field_after": 0.982716049382716,
-    "publisher_field_delta_pp": 2.9255,
-    "run_id": "batch32-cup-corresponding-after",
-    "status": "shipped_full10k_measured"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/full10k_retrieval_wave_brill_gate.json",
+    "batch_id": 40,
+    "completed_at": "2026-06-07T09:04:45.590550+00:00",
+    "field": "all",
+    "publisher": "all",
+    "publisher_field_after": null,
+    "publisher_field_delta_pp": null,
+    "run_id": "full10k-after-retrieval-wave-brill-20260607T0836Z",
+    "status": "full10k_kpi_refreshed_after_retrieval_wave"
   },
   "latest_completed_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_gate.json",
-    "coverage_rows_recovered": 55,
-    "field": "mixed",
-    "publisher_id": "brill",
-    "status": "retrieval_recovered_full_publisher_focus_eval_complete",
-    "task_id": "retrieval_brill_r2_full_20260607T0827Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/full10k_retrieval_wave_brill_gate.json",
+    "coverage_rows_recovered": 550,
+    "field": "all",
+    "publisher_id": "all",
+    "status": "full10k_kpi_refreshed_after_retrieval_wave",
+    "task_id": "full10k_after_retrieval_wave_brill_20260607T0836Z"
   },
-  "latest_full_10k_run": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json",
+  "latest_full_10k_run": "eval/runs/whole-goldie-after-retrieval-wave-brill-20260607T0836Z.json",
   "latest_retrieval_coverage_run": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_gate.json",
     "audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_audit.summary.json",

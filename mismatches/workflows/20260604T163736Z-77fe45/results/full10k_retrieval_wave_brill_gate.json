@@ -1,0 +1,100 @@
+{
+  "artifacts": {
+    "full_eval_source_ignored_by_git": "eval/runs/whole-goldie-after-retrieval-wave-brill-20260607T0836Z.json",
+    "previous_full_eval": "eval/runs/whole-goldie-after-generic-structured-abstract-section-20260607T0520Z.json"
+  },
+  "commands": [
+    "scripts/whole_goldie_eval.py run --label after-retrieval-wave-brill --run-id full10k-after-retrieval-wave-brill-20260607T0836Z --out eval/runs/whole-goldie-after-retrieval-wave-brill-20260607T0836Z.json --concurrency 8"
+  ],
+  "coverage_delta": {
+    "gold_empty_parser_present_after": 2934,
+    "gold_empty_parser_present_before": 2710,
+    "gold_empty_parser_present_delta": 224,
+    "html_available_after": 5663,
+    "html_available_before": 5113,
+    "html_available_delta": 550,
+    "retrieval_blocked_after": 4337,
+    "retrieval_blocked_before": 4887,
+    "retrieval_blocked_delta": -550,
+    "total_rows": 10000
+  },
+  "interpretation": "Coverage improved by 550 scored rows. Authors and affiliations rose slightly; abstract, PDF URL, and corresponding fell because recovered publishers expose real below-target lanes. Continue improvement; this is not a stop signal.",
+  "new_counts": {
+    "errors": 1,
+    "n_abstract_scored": 5407,
+    "n_authors_scored": 5357,
+    "n_corresponding_scored": 5325,
+    "n_pdf_scored": 4409,
+    "rows": 10000,
+    "scored": 5663,
+    "skipped_no_html": 4337
+  },
+  "next_action": "Publish refreshed full-10K KPI to report 336, then prioritize top queue cells exposed by recovered publishers: Brill pdf_url, IOP abstract, BMJ abstract/corresponding, MDPI affiliations/corresponding, and remaining retrieval-blocked publishers.",
+  "overall_after": {
+    "abstract_present_rate": 0.6473600565071517,
+    "abstract_ratio_fuzzy": 0.9104783857810632,
+    "affiliations_f1_fuzzy": 0.9380796940921345,
+    "affiliations_f1_strict": 0.7453120937966314,
+    "authors_f1_soft": 0.9548911966362078,
+    "authors_f1_strict": 0.938069801683616,
+    "corresponding_accuracy": 0.9665972129070722,
+    "pdf_url_accuracy": 0.9051939215241551
+  },
+  "overall_before": {
+    "abstract_present_rate": 0.6960688441228242,
+    "abstract_ratio_fuzzy": 0.9194347299090087,
+    "affiliations_f1_fuzzy": 0.9334867177645392,
+    "affiliations_f1_strict": 0.7254913766558143,
+    "authors_f1_soft": 0.9535964984926558,
+    "authors_f1_strict": 0.9350754187182001,
+    "corresponding_accuracy": 0.9678515951336675,
+    "pdf_url_accuracy": 0.9449446874196038
+  },
+  "overall_delta": {
+    "abstract_present_rate": {
+      "after": 0.6473600565071517,
+      "before": 0.6960688441228242,
+      "delta_pp": -4.8709
+    },
+    "abstract_ratio_fuzzy": {
+      "after": 0.9104783857810632,
+      "before": 0.9194347299090087,
+      "delta_pp": -0.8956
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9380796940921345,
+      "before": 0.9334867177645392,
+      "delta_pp": 0.4593
+    },
+    "affiliations_f1_strict": {
+      "after": 0.7453120937966314,
+      "before": 0.7254913766558143,
+      "delta_pp": 1.9821
+    },
+    "authors_f1_soft": {
+      "after": 0.9548911966362078,
+      "before": 0.9535964984926558,
+      "delta_pp": 0.1295
+    },
+    "authors_f1_strict": {
+      "after": 0.938069801683616,
+      "before": 0.9350754187182001,
+      "delta_pp": 0.2994
+    },
+    "corresponding_accuracy": {
+      "after": 0.9665972129070722,
+      "before": 0.9678515951336675,
+      "delta_pp": -0.1254
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9051939215241551,
+      "before": 0.9449446874196038,
+      "delta_pp": -3.9751
+    }
+  },
+  "run_id": "full10k-after-retrieval-wave-brill-20260607T0836Z",
+  "shield_gate_type": "serialized_full_10k_whole_goldie",
+  "status": "passed",
+  "task": "full10k_retrieval_wave_brill",
+  "timestamp_utc": "2026-06-07T09:04:45.590550+00:00"
+}
