@@ -1,0 +1,22 @@
+{
+  "approved_rows": 15,
+  "blocked_rows": 0,
+  "browserbase_rows_processed": 22,
+  "created_at": "2026-06-07T14:58:51.988825+00:00",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "gate_command": "Interrupted high-failure Browserbase scale at 22 rows; JSON/NDJSON validation plus strict all-affiliation referee pass.",
+  "gate_id": "mdpi-affiliations-backfill-scale-partial",
+  "next_action": "Retry Browserbase infrastructure failures and not-attempted MDPI affiliation candidates with lower concurrency and smaller batches.",
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher": "mdpi",
+  "raw_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_10_56_raw.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_10_56_referee.ndjson",
+  "remaining_current_candidates": 31,
+  "retry_needed_rows": 7,
+  "shield_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/mdpi_affiliations_backfill_scale_partial_gate.json",
+  "status": "completed_partial_retry_needed",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_10_56_referee.summary.json",
+  "task_id": "v2_mdpi_affiliations_29a4c147",
+  "total_approved_rows": 25
+}

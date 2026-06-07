@@ -1,0 +1,40 @@
+{
+  "approved_example_dois": [
+    "10.3390/bioengineering12101022",
+    "10.3390/biom11081154",
+    "10.3390/bdcc7010017",
+    "10.3390/buildings16101854",
+    "10.3390/cancers15061644"
+  ],
+  "approved_rows": 15,
+  "blocked_example_dois": [],
+  "blocked_rows": 0,
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "next_action": "Retry Browserbase infrastructure failures and not-attempted MDPI affiliation candidates with lower concurrency and smaller batches.",
+  "not_attempted_rows": 24,
+  "policy": "Goldie-backfilled metrics stay separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "mdpi",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_10_56_referee.ndjson",
+  "remaining_current_candidates": 31,
+  "retry_example_dois": [
+    "10.3390/fire6120450",
+    "10.3390/e21111085",
+    "10.3390/fi14110343",
+    "10.3390/gels10070480",
+    "10.3390/genes13081467"
+  ],
+  "retry_needed_rows": 7,
+  "reviewed_at": "2026-06-07T14:58:51.988825+00:00",
+  "reviewed_rows": 22,
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_mdpi_affiliations_10_56_raw.ndjson",
+  "state_counts": {
+    "blocked_no_browserbase_project": 1,
+    "candidate_evidence_needs_referee": 15,
+    "grounding_failed": 6
+  },
+  "status": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
+  "status_detail": "15 newly approved, 7 Browserbase infra retry-needed, 0 blocked/manual, 24 not attempted in interrupted scale batch.",
+  "task_id": "v2_mdpi_affiliations_29a4c147",
+  "total_approved_rows": 25
+}

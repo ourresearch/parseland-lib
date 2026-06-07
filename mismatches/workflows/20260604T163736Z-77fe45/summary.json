@@ -7,7 +7,7 @@
     "task_id": "v2_de_gruyter_abstract_8d74783e"
   },
   "active_tasks": {
-    "mdpi_affiliations": "goldie_backfill_referee_partial_10_approved_0_blocked",
+    "mdpi_affiliations": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
     "v2_acs_pdf_url_dee703c2": {
       "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.summary.json",
@@ -594,7 +594,7 @@
     ],
     "wave_id": 44
   },
-  "last_updated_at": "2026-06-07T14:47:49.604481+00:00",
+  "last_updated_at": "2026-06-07T14:59:12.294949+00:00",
   "latest_active_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
     "field": "abstract",
