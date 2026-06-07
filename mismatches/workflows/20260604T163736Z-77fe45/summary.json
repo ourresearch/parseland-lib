@@ -40,6 +40,16 @@
       "task_id": "v2_lippincott_corresponding_6f6b586e",
       "updated_at": "2026-06-07T03:30:05.192620+00:00"
     },
+    "v2_oxford_affiliations_daf59555": {
+      "agent_id": "codex-oxford-affiliations-b34",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_claim_shield.json",
+      "field": "affiliations",
+      "next_action": "Diagnose 7 Oxford affiliation current-Goldie misses and 2 Goldie-empty/parser-present candidates; patch only page-grounded parser-owned affiliation patterns, otherwise route to Browserbase/gold-auditor/manual-DOM.",
+      "publisher_id": "oxford",
+      "status": "in_progress_current_goldie_diagnosis",
+      "task_id": "v2_oxford_affiliations_daf59555",
+      "updated_at": "2026-06-07T05:44:43.667078Z"
+    },
     "v2_taylor_corresponding_15fed079": {
       "agent_id": "codex-goldie-backfilled-taylor-corresponding-b31",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_0_25_referee.summary.json",
@@ -79,7 +89,8 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "needs_agent": 2,
+    "in_progress_current_goldie_diagnosis": 1,
+    "needs_agent": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 195,
     "shipped_below_98_explainable_residual": 1,
@@ -111,14 +122,14 @@
     }
   ],
   "latest_active_task": {
-    "agent_id": "codex-ieee-abstract-b33",
-    "artifact_path": null,
-    "field": "abstract",
-    "next_action": "diagnose 9 current-Goldie abstract misses and 4 Goldie-empty/parser-present candidates; patch only parser-owned patterns, otherwise route to gold-auditor/Browserbase/manual-DOM.",
-    "publisher_id": "ieee",
+    "agent_id": "codex-oxford-affiliations-b34",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_affiliations_b34_claim_shield.json",
+    "field": "affiliations",
+    "next_action": "Diagnose 7 Oxford affiliation current-Goldie misses and 2 Goldie-empty/parser-present candidates; patch only page-grounded parser-owned affiliation patterns, otherwise route to Browserbase/gold-auditor/manual-DOM.",
+    "publisher_id": "oxford",
     "status": "in_progress_current_goldie_diagnosis",
-    "task_id": "v2_ieee_abstract_4ec42543",
-    "updated_at": "2026-06-07T04:52:30Z"
+    "task_id": "v2_oxford_affiliations_daf59555",
+    "updated_at": "2026-06-07T05:44:43.667078Z"
   },
   "latest_batch": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/cup_corresponding_b32_shield.json",
@@ -618,5 +629,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T05:36:06.411931Z"
+  "updated_at": "2026-06-07T05:44:43.667078Z"
 }
