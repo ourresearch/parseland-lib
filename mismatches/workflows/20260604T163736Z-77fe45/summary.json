@@ -20,6 +20,16 @@
       "task_id": "v2_bmj_abstract_279c912c",
       "updated_at": "2026-06-07T12:12:46Z"
     },
+    "v2_bmj_corresponding_f67e7ef1": {
+      "agent_id": "codex-bmj-corresponding-signals",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_corresponding_signals_full10k_gate.json",
+      "field": "corresponding",
+      "next_action": "BMJ corresponding is above 98%; route 8 backfill candidates separately and continue BMJ authors/affiliations residuals.",
+      "publisher_id": "bmj",
+      "status": "shipped_parser_fix_above_98_with_backfill_pending",
+      "task_id": "v2_bmj_corresponding_f67e7ef1",
+      "updated_at": "2026-06-07T13:39:22Z"
+    },
     "v2_bmj_pdf_url_650acda1": {
       "agent_id": "codex-bmj-pdf-url-equivalence",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_pdf_url_equivalence_full10k_gate.json",

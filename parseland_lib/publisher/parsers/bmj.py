@@ -72,6 +72,8 @@ class BMJ(PublisherParser):
             if not name_soup:
                 continue
             name = name_soup.text.strip()
+            email_soup = author.find("span", class_="contrib-email")
+            email_text = email_soup.get_text(" ", strip=True) if email_soup else ""
             aff_ids_raw = author.select('.xref-aff')
             aff_ids = []
             for aff_id_raw in aff_ids_raw:
@@ -81,9 +83,12 @@ class BMJ(PublisherParser):
             is_corresponding = False
             author = Author(name=name, aff_ids=aff_ids,
                             is_corresponding=is_corresponding)
-            if name_in_text(name, corr_name) or len(author_soup) == 1:
+            direct_corr_name_match = name_in_text(name, corr_name)
+            correspondence_match = self.name_matches_correspondence(name, corr_name)
+            email_match = self.name_matches_correspondence(name, email_text)
+            if correspondence_match or email_match or len(author_soup) == 1:
                 is_corresponding = True
-                if corr_aff:
+                if corr_aff and direct_corr_name_match:
                     author = AuthorAffiliations(name=name,
                                                 affiliations=[corr_aff],
                                                 is_corresponding=is_corresponding)
@@ -92,6 +97,34 @@ class BMJ(PublisherParser):
 
             authors.append(author)
         return authors
+
+    @staticmethod
+    def name_matches_correspondence(name, text):
+        if not text:
+            return False
+        if name_in_text(name, text):
+            return True
+
+        name_parts = [
+            part.lower()
+            for part in re.findall(r"[A-Za-z]+", name)
+            if part.strip()
+        ]
+        if len(name_parts) < 2:
+            return False
+
+        normalized_text = re.sub(r"[^a-z0-9]+", " ", text.lower())
+        compact_text = re.sub(r"[^a-z0-9]+", "", text.lower())
+        first = name_parts[0]
+        last = name_parts[-1]
+        if first in normalized_text.split() and last in normalized_text.split():
+            return True
+
+        if f"{first}{last}" in compact_text:
+            return True
+
+        initials = "".join(part[0] for part in name_parts[:-1])
+        return bool(initials and f"{initials}{last}" in compact_text)
 
     def get_affiliations(self):
         aff_soup = self.soup.find("ol", class_="affiliation-list")
