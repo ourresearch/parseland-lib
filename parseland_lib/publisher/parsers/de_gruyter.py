@@ -1,3 +1,5 @@
+import re
+
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
@@ -31,7 +33,51 @@ class DeGruyter(PublisherParser):
 
     def parse_abstract(self):
         paragraphs = self.soup.select('section[id*=_abs_] p')
-        return '\n'.join([p.text for p in paragraphs])
+        if paragraphs:
+            text = self.clean_abstract_text(
+                ' '.join([p.get_text(' ', strip=True) for p in paragraphs])
+            )
+            if text:
+                return text
+
+        if text := self.parse_abstract_meta_tags():
+            return self.clean_abstract_text(text)
+
+        if abstract_tag := self.soup.select_one('div.abstract'):
+            text = self.clean_abstract_text(abstract_tag.get_text(' ', strip=True))
+            if text:
+                return text
+
+        if text_container := self.soup.select_one('div#text-container'):
+            raw_text = text_container.get_text(' ', strip=True)
+            if re.match(
+                    r'^(showing a limited preview of this publication:\s*)?'
+                    r'(abstract|zusammenfassung)\b',
+                    raw_text,
+                    flags=re.I,
+            ):
+                text = self.clean_abstract_text(raw_text)
+                if text and len(text) < 5000:
+                    return text
+
+        return None
+
+    @staticmethod
+    def clean_abstract_text(text):
+        text = re.sub(r'\s+', ' ', text or '').strip()
+        text = re.sub(
+            r'^showing a limited preview of this publication:\s*',
+            '',
+            text,
+            flags=re.I,
+        )
+        text = re.sub(
+            r'^(abstract|zusammenfassung)\s*[:.]?\s*',
+            '',
+            text,
+            flags=re.I,
+        )
+        return text or None
 
     def parse(self):
         return {'authors': self.parse_authors(),
