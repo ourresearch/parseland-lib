@@ -1,0 +1,107 @@
+{
+  "artifacts": {
+    "full_audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_retrieval_r2_full_audit.summary.json",
+    "full_eval": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_iop_retrieval_r2_full.json",
+    "full_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_retrieval_r2_full_fill.summary.json",
+    "smoke_fill_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/iop_retrieval_r2_smoke_fill.summary.json"
+  },
+  "commands": [
+    "scripts/retrieval_fill.py --publishers iop --limit 25 --concurrency 8",
+    "scripts/retrieval_fill.py --publishers iop --concurrency 16",
+    "scripts/retrieval_audit.py --corpus merged-FINAL.csv",
+    "scripts/whole_goldie_eval.py run --publishers iop --out whole_goldie_iop_retrieval_r2_full.json"
+  ],
+  "coverage_after": {
+    "global_cached_ok_after_retrieval_audit": 5071,
+    "iop_html_available": 69,
+    "iop_retrieval_blocked": 6
+  },
+  "coverage_before": {
+    "iop_html_available": 0,
+    "iop_retrieval_blocked": 75
+  },
+  "current_goldie_kpi_effect": "coverage-only until next serialized full-10K run; focused publisher eval now available",
+  "field_counts": {
+    "abstract": {
+      "empty_empty_pass": 13,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 55,
+      "gold_present_parser_present": 1,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 69,
+      "total_rows": 75
+    },
+    "affiliations": {
+      "empty_empty_pass": 7,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 7,
+      "gold_present_parser_present": 54,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 68,
+      "total_rows": 75
+    },
+    "authors": {
+      "empty_empty_pass": 2,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 8,
+      "gold_present_parser_present": 58,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 68,
+      "total_rows": 75
+    },
+    "corresponding": {
+      "empty_empty_pass": 40,
+      "gold_empty_parser_present": 13,
+      "gold_present_parser_empty": 6,
+      "gold_present_parser_present": 10,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 56,
+      "total_rows": 75
+    },
+    "pdf_url": {
+      "empty_empty_pass": 4,
+      "gold_empty_parser_present": 2,
+      "gold_present_parser_empty": 3,
+      "gold_present_parser_present": 60,
+      "html_available": 69,
+      "retrieval_blocked": 6,
+      "scored_rows": 67,
+      "total_rows": 75
+    }
+  },
+  "focused_eval": {
+    "abstract_present_rate": 0.014492753623188406,
+    "abstract_ratio_fuzzy": 0.20284380206011404,
+    "affiliations_f1_fuzzy": 0.8909313725490197,
+    "authors_f1_soft": 0.8823529411764706,
+    "corresponding_accuracy": 0.8839285714285714,
+    "errors": 0,
+    "pdf_url_accuracy": 0.9552238805970149,
+    "rows": 75,
+    "scored": 69,
+    "skipped_no_html": 6
+  },
+  "next_action": "Prioritize IOP abstract parser/fixture diagnosis first; route corresponding and other Goldie-empty/parser-present rows to Goldie-backfilled evidence, and keep six retrieval-blocked rows as missing/tiny cache blockers.",
+  "publisher_id": "iop",
+  "retrieval_audit_iop": {
+    "cached_bot_check": 6,
+    "cached_ok": 62,
+    "cached_tiny": 4,
+    "missing": 3,
+    "rows": 75
+  },
+  "retrieval_fill_state_counts": {
+    "cached": 25,
+    "missing_uuid": 3,
+    "ok": 47
+  },
+  "run_id": "iop-retrieval-r2-full-20260607T0811Z",
+  "shield_gate_type": "retrieval_coverage_and_focused_whole_goldie",
+  "status": "passed",
+  "task": "iop_retrieval_r2_full",
+  "timestamp_utc": "2026-06-07T08:13:04.691740+00:00"
+}

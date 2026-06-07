@@ -1,0 +1,4615 @@
+{
+  "run_id": "iop-retrieval-r2-full-20260607T0811Z",
+  "label": "iop-retrieval-r2-full",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-07T08:11:01.971069+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 75,
+  "coverage": {
+    "total_rows": 75,
+    "html_available": 69,
+    "scored_rows": 69,
+    "retrieval_blocked_rows": 6,
+    "retrieval_blocked_by_reason": {
+      "cached_too_small": 3,
+      "missing": 3
+    },
+    "gold_empty_parser_present_count": 17,
+    "per_publisher": {
+      "iop": {
+        "total_rows": 75,
+        "html_available": 69,
+        "scored_rows": 69,
+        "retrieval_blocked": 6
+      }
+    }
+  },
+  "skipped_no_html_count": 6,
+  "skipped_no_html_dois": [
+    "10.1088/1742-6596/2853/1/012065",
+    "10.1088/978-1-6817-4465-0ch14",
+    "10.1088/1674-1056/27/1/018203",
+    "10.1088/1361-6560/add8db",
+    "10.1088/1361-665x/abc7fb",
+    "10.1088/1752-7163/ad63c4"
+  ],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 75,
+      "scored": 69,
+      "errors": 0,
+      "skipped_no_html": 6,
+      "authors_f1_strict": 0.8823529411764706,
+      "authors_f1_soft": 0.8823529411764706,
+      "affiliations_f1_strict": 0.7904061624649861,
+      "affiliations_f1_fuzzy": 0.8909313725490197,
+      "abstract_ratio_fuzzy": 0.20284380206011404,
+      "abstract_present_rate": 0.014492753623188406,
+      "pdf_url_accuracy": 0.9552238805970149,
+      "corresponding_accuracy": 0.8839285714285714,
+      "duration_ms_mean": 1904.2607850455881,
+      "n_authors_scored": 68,
+      "n_pdf_scored": 67,
+      "n_corresponding_scored": 56,
+      "n_abstract_scored": 69
+    },
+    "per_publisher": {
+      "iop": {
+        "rows": 75,
+        "scored": 69,
+        "errors": 0,
+        "skipped_no_html": 6,
+        "authors_f1_strict": 0.8823529411764706,
+        "authors_f1_soft": 0.8823529411764706,
+        "affiliations_f1_strict": 0.7904061624649861,
+        "affiliations_f1_fuzzy": 0.8909313725490197,
+        "abstract_ratio_fuzzy": 0.20284380206011404,
+        "abstract_present_rate": 0.014492753623188406,
+        "pdf_url_accuracy": 0.9552238805970149,
+        "corresponding_accuracy": 0.8839285714285714,
+        "duration_ms_mean": 1904.2607850455881,
+        "n_authors_scored": 68,
+        "n_pdf_scored": 67,
+        "n_corresponding_scored": 56,
+        "n_abstract_scored": 69
+      }
+    },
+    "coverage": {
+      "total_rows": 75,
+      "html_available": 69,
+      "scored_rows": 69,
+      "retrieval_blocked_rows": 6,
+      "retrieval_blocked_by_reason": {
+        "cached_too_small": 3,
+        "missing": 3
+      },
+      "gold_empty_parser_present_count": 17,
+      "per_publisher": {
+        "iop": {
+          "total_rows": 75,
+          "html_available": 69,
+          "scored_rows": 69,
+          "retrieval_blocked": 6
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 75,
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "empty_empty_pass": 2,
+        "gold_present_parser_empty": 8,
+        "gold_present_parser_present": 58,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 68
+      },
+      "affiliations": {
+        "total_rows": 75,
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "empty_empty_pass": 7,
+        "gold_present_parser_empty": 7,
+        "gold_present_parser_present": 54,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 68
+      },
+      "abstract": {
+        "total_rows": 75,
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "empty_empty_pass": 13,
+        "gold_present_parser_empty": 55,
+        "gold_present_parser_present": 1,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 69
+      },
+      "pdf_url": {
+        "total_rows": 75,
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "empty_empty_pass": 4,
+        "gold_present_parser_empty": 3,
+        "gold_present_parser_present": 60,
+        "gold_empty_parser_present": 2,
+        "scored_rows": 67
+      },
+      "corresponding": {
+        "total_rows": 75,
+        "html_available": 69,
+        "retrieval_blocked": 6,
+        "empty_empty_pass": 40,
+        "gold_present_parser_empty": 6,
+        "gold_present_parser_present": 10,
+        "gold_empty_parser_present": 13,
+        "scored_rows": 56
+      }
+    },
+    "per_publisher_field": {
+      "iop": {
+        "authors": {
+          "total_rows": 75,
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "empty_empty_pass": 2,
+          "gold_present_parser_empty": 8,
+          "gold_present_parser_present": 58,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 68
+        },
+        "affiliations": {
+          "total_rows": 75,
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "empty_empty_pass": 7,
+          "gold_present_parser_empty": 7,
+          "gold_present_parser_present": 54,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 68
+        },
+        "abstract": {
+          "total_rows": 75,
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "empty_empty_pass": 13,
+          "gold_present_parser_empty": 55,
+          "gold_present_parser_present": 1,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 69
+        },
+        "pdf_url": {
+          "total_rows": 75,
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "empty_empty_pass": 4,
+          "gold_present_parser_empty": 3,
+          "gold_present_parser_present": 60,
+          "gold_empty_parser_present": 2,
+          "scored_rows": 67
+        },
+        "corresponding": {
+          "total_rows": 75,
+          "html_available": 69,
+          "retrieval_blocked": 6,
+          "empty_empty_pass": 40,
+          "gold_present_parser_empty": 6,
+          "gold_present_parser_present": 10,
+          "gold_empty_parser_present": 13,
+          "scored_rows": 56
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 41,
+      "doi": "10.1088/1742-6596/2853/1/012065",
+      "link": "https://doi.org/10.1088/1742-6596/2853/1/012065",
+      "publisher": "iop",
+      "error": "retrieval_blocked:cached_too_small",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "cached_too_small",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 1037,
+      "doi": "10.1088/1757-899x/370/1/012011",
+      "link": "https://doi.org/10.1088/1757-899x/370/1/012011",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1276.54774999246,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1328,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1757-899X/370/1/012011/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 438,
+      "doi": "10.1088/2058-7058/30/7/53",
+      "link": "https://doi.org/10.1088/2058-7058/30/7/53",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1300.1437080092728,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 154,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/2058-7058/30/7/53/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 736,
+      "doi": "10.1088/1742-6596/1570/1/012098",
+      "link": "https://doi.org/10.1088/1742-6596/1570/1/012098",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1312.7687498927116,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1020,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1570/1/012098/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1232,
+      "doi": "10.1088/1742-6596/1926/1/012070",
+      "link": "https://doi.org/10.1088/1742-6596/1926/1/012070",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1138.4759158827364,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 2006,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1926/1/012070/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 838,
+      "doi": "10.1088/0964-1726/13/4/025",
+      "link": "https://doi.org/10.1088/0964-1726/13/4/025",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1364.0817089471966,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 874,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0964-1726/13/4/025/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1644,
+      "doi": "10.1088/0953-8984/18/20/017",
+      "link": "https://doi.org/10.1088/0953-8984/18/20/017",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 61.32516614161432,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 878,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 1940,
+      "doi": "10.1088/1361-6501/ad4d0e",
+      "link": "https://doi.org/10.1088/1361-6501/ad4d0e",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 353.61966700293124,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1765,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 935,
+      "doi": "10.1088/0022-3727/45/1/019501",
+      "link": "https://doi.org/10.1088/0022-3727/45/1/019501",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2488.570459187031,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0022-3727/45/1/019501/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1939,
+      "doi": "10.1088/0951-7715/7/1/008",
+      "link": "https://doi.org/10.1088/0951-7715/7/1/008",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1168.5477499850094,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 953,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0951-7715/7/1/008/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1431,
+      "doi": "10.1088/1742-6596/1569/3/032009",
+      "link": "https://doi.org/10.1088/1742-6596/1569/3/032009",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1247.5086250342429,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1688,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1569/3/032009/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1547,
+      "doi": "10.1088/1367-2630/9/8/288",
+      "link": "https://doi.org/10.1088/1367-2630/9/8/288",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1291.4143749512732,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 586,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1367-2630/9/8/288/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1941,
+      "doi": "10.1088/1742-6596/305/1/012028",
+      "link": "https://doi.org/10.1088/1742-6596/305/1/012028",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1456.408874830231,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 797,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/305/1/012028/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 541,
+      "doi": "10.1088/1361-651x/ae39f8",
+      "link": "https://doi.org/10.1088/1361-651x/ae39f8",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4152.4250828661025,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 993,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-651X/ae39f8/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2684,
+      "doi": "10.35848/1882-0786/ad548f",
+      "link": "https://doi.org/10.35848/1882-0786/ad548f",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 41.13583383150399,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 2344,
+      "doi": "10.1088/1755-1315/921/1/012001",
+      "link": "https://doi.org/10.1088/1755-1315/921/1/012001",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1780.5452919565141,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1193,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/921/1/012001/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2544,
+      "doi": "10.1088/1757-899x/1154/1/012033",
+      "link": "https://doi.org/10.1088/1757-899x/1154/1/012033",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1881.633625132963,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 780,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1757-899X/1154/1/012033/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2545,
+      "doi": "10.1088/2040-8978/18/7/075603",
+      "link": "https://doi.org/10.1088/2040-8978/18/7/075603",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1895.644708070904,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 863,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/2040-8978/18/7/075603/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3041,
+      "doi": "10.1088/1757-899x/1125/1/012043",
+      "link": "https://doi.org/10.1088/1757-899x/1125/1/012043",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 38.27787493355572,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 962,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 1548,
+      "doi": "10.1088/1755-1315/1464/1/012036",
+      "link": "https://doi.org/10.1088/1755-1315/1464/1/012036",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4042.528749909252,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/1464/1/012036/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2639,
+      "doi": "10.1088/1742-6596/1601/5/052021",
+      "link": "https://doi.org/10.1088/1742-6596/1601/5/052021",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1895.7844579126686,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 790,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1601/5/052021/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3641,
+      "doi": "10.1088/0953-4075/34/23/331",
+      "link": "https://doi.org/10.1088/0953-4075/34/23/331",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 17.274374840781093,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 2939,
+      "doi": "10.1088/1755-1315/1157/1/012041",
+      "link": "https://doi.org/10.1088/1755-1315/1157/1/012041",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1267.9976250510663,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.2,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1261,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/1157/1/012041/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 129,
+      "doi": "10.1088/1361-648x/aadc2f",
+      "link": "https://doi.org/10.1088/1361-648x/aadc2f",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5447.678375057876,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 535,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-648X/aadc2f/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2938,
+      "doi": "10.1088/0264-9381/30/13/135004",
+      "link": "https://doi.org/10.1088/0264-9381/30/13/135004",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1386.8165828753263,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 1393,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0264-9381/30/13/135004/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2454,
+      "doi": "10.1088/1755-1315/1411/1/012018",
+      "link": "https://doi.org/10.1088/1755-1315/1411/1/012018",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3747.882582945749,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/1411/1/012018/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3141,
+      "doi": "10.1088/0957-0233/26/6/065301",
+      "link": "https://doi.org/10.1088/0957-0233/26/6/065301",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1801.703416975215,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1919,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0957-0233/26/6/065301/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3437,
+      "doi": "10.1088/1755-1315/1160/1/012003",
+      "link": "https://doi.org/10.1088/1755-1315/1160/1/012003",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1497.8835829533637,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1150,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/1160/1/012003/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3744,
+      "doi": "10.1088/0953-4075/42/12/125102",
+      "link": "https://doi.org/10.1088/0953-4075/42/12/125102",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1889.123875182122,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.75,
+          "f1_soft": 0.75,
+          "f1_fuzzy": 0.75,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1218,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0953-4075/42/12/125102/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2841,
+      "doi": "10.1088/1367-2630/aab088",
+      "link": "https://doi.org/10.1088/1367-2630/aab088",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3147.8642500005662,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.25,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1197,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1367-2630/aab088/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3846,
+      "doi": "10.1088/1742-6596/896/1/012019",
+      "link": "https://doi.org/10.1088/1742-6596/896/1/012019",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1587.654042057693,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1444,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/896/1/012019/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4440,
+      "doi": "10.1088/978-1-6817-4465-0ch14",
+      "link": "https://doi.org/10.1088/978-1-6817-4465-0ch14",
+      "publisher": "iop",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4142,
+      "doi": "10.1088/1742-6596/867/1/012014",
+      "link": "https://doi.org/10.1088/1742-6596/867/1/012014",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1289.3849161919206,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 651,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/867/1/012014/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3745,
+      "doi": "10.1088/1755-1315/134/1/012028",
+      "link": "https://doi.org/10.1088/1755-1315/134/1/012028",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1634.8229171708226,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 339,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1755-1315/134/1/012028/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4843,
+      "doi": "10.1088/1674-1056/27/1/018203",
+      "link": "https://doi.org/10.1088/1674-1056/27/1/018203",
+      "publisher": "iop",
+      "error": "retrieval_blocked:cached_too_small",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "cached_too_small",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 4139,
+      "doi": "10.1070/pu1994v037n06abeh000025",
+      "link": "https://doi.org/10.1070/pu1994v037n06abeh000025",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1375.167499994859,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 782,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1070/PU1994v037n06ABEH000025/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4143,
+      "doi": "10.1088/1757-899x/1098/5/052076",
+      "link": "https://doi.org/10.1088/1757-899x/1098/5/052076",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 865.7160000875592,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1259,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1757-899X/1098/5/052076/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4439,
+      "doi": "10.1088/0022-3735/12/3/001",
+      "link": "https://doi.org/10.1088/0022-3735/12/3/001",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1150.4385001026094,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1036,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0022-3735/12/3/001/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5237,
+      "doi": "10.1070/rm9931",
+      "link": "https://doi.org/10.1070/rm9931",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 18.78712489269674,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 4632,
+      "doi": "10.1088/0256-307x/28/8/087301",
+      "link": "https://doi.org/10.1088/0256-307x/28/8/087301",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 958.1873340066522,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 688,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0256-307X/28/8/087301/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3941,
+      "doi": "10.1088/1361-6382/ac7278",
+      "link": "https://doi.org/10.1088/1361-6382/ac7278",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3536.6782499477267,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 0.5,
+          "f1": 0.5,
+          "precision": 0.3333333333333333,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 863,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-6382/ac7278/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4144,
+      "doi": "10.1088/1757-899x/417/1/012035",
+      "link": "https://doi.org/10.1088/1757-899x/417/1/012035",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3590.9000830724835,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1757-899X/417/1/012035/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5938,
+      "doi": "10.1088/1742-6596/1676/1/012120",
+      "link": "https://doi.org/10.1088/1742-6596/1676/1/012120",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2183.7548341136426,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 620,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1676/1/012120/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4944,
+      "doi": "10.1088/2053-2563/ab01fach10",
+      "link": "https://doi.org/10.1088/2053-2563/ab01fach10",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3279.200749937445,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9962223421478683,
+          "fuzzy_ratio": 0.9962223421478683,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 923,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 930,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/book/edit/978-0-7503-1997-3/chapter/bk978-0-7503-1997-3ch10.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4540,
+      "doi": "10.1088/0004-637x/721/1/802",
+      "link": "https://doi.org/10.1088/0004-637x/721/1/802",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3414.670375175774,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 26
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 26,
+        "abstract_len": 2095,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 26,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0004-637X/721/1/802/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6338,
+      "doi": "10.1088/1361-6528/ab40dc",
+      "link": "https://doi.org/10.1088/1361-6528/ab40dc",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 227.50774980522692,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1148,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 6540,
+      "doi": "10.1088/1361-6560/add8db",
+      "link": "https://doi.org/10.1088/1361-6560/add8db",
+      "publisher": "iop",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 5989,
+      "doi": "10.35848/1347-4065/ab8c9b",
+      "link": "https://doi.org/10.35848/1347-4065/ab8c9b",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1576.1988749727607,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 740,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.35848/1347-4065/ab8c9b/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4943,
+      "doi": "10.1088/1361-6552/ac65d1",
+      "link": "https://doi.org/10.1088/1361-6552/ac65d1",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4060.804625041783,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1264,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-6552/ac65d1/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5136,
+      "doi": "10.1088/2041-8205/765/1/l17",
+      "link": "https://doi.org/10.1088/2041-8205/765/1/l17",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3294.7464999742806,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1718,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/2041-8205/765/1/L17/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6239,
+      "doi": "10.1088/0031-9112/26/6/057",
+      "link": "https://doi.org/10.1088/0031-9112/26/6/057",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1089.3956669606268,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0031-9112/26/6/057/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6337,
+      "doi": "10.1088/0266-5611/4/3/012",
+      "link": "https://doi.org/10.1088/0266-5611/4/3/012",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1721.8581659253687,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 581,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0266-5611/4/3/012/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7348,
+      "doi": "10.1088/1361-665x/abc7fb",
+      "link": "https://doi.org/10.1088/1361-665x/abc7fb",
+      "publisher": "iop",
+      "error": "retrieval_blocked:cached_too_small",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "cached_too_small",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 6638,
+      "doi": "10.1088/1742-6596/1175/1/012041",
+      "link": "https://doi.org/10.1088/1742-6596/1175/1/012041",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1756.1704169493169,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1145,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1175/1/012041/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7050,
+      "doi": "10.1088/0305-4470/33/16/308",
+      "link": "https://doi.org/10.1088/0305-4470/33/16/308",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1403.4965420141816,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 542,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0305-4470/33/16/308/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6637,
+      "doi": "10.1088/1361-6501/acd40f",
+      "link": "https://doi.org/10.1088/1361-6501/acd40f",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1815.2261669747531,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 753,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-6501/acd40f/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6440,
+      "doi": "10.1088/1742-6596/1676/1/012238",
+      "link": "https://doi.org/10.1088/1742-6596/1676/1/012238",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1814.623957965523,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 569,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1676/1/012238/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5341,
+      "doi": "10.1088/0004-637x/716/2/1288",
+      "link": "https://doi.org/10.1088/0004-637x/716/2/1288",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4547.640624921769,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 13
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 13,
+        "abstract_len": 3455,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 13,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0004-637X/716/2/1288/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6836,
+      "doi": "10.1088/0268-1242/30/10/105010",
+      "link": "https://doi.org/10.1088/0268-1242/30/10/105010",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2409.5846249256283,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 972,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0268-1242/30/10/105010/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7934,
+      "doi": "10.1088/0022-3719/20/25/027",
+      "link": "https://doi.org/10.1088/0022-3719/20/25/027",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1288.985500112176,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1187,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0022-3719/20/25/027/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8041,
+      "doi": "10.1088/2053-1591/aafc67",
+      "link": "https://doi.org/10.1088/2053-1591/aafc67",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1332.5521659571677,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1645,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/2053-1591/aafc67/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7733,
+      "doi": "10.1088/0031-9112/9/5/003",
+      "link": "https://doi.org/10.1088/0031-9112/9/5/003",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2208.1754999235272,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0031-9112/9/5/003/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7051,
+      "doi": "10.1088/0953-8984/13/44/306",
+      "link": "https://doi.org/10.1088/0953-8984/13/44/306",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2915.283584035933,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.7142857142857143,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0953-8984/13/44/306/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8338,
+      "doi": "10.1088/1742-6596/1240/1/012005",
+      "link": "https://doi.org/10.1088/1742-6596/1240/1/012005",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 722.3051658365875,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 568,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1240/1/012005/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9338,
+      "doi": "10.1088/1757-899x/775/1/012038",
+      "link": "https://doi.org/10.1088/1757-899x/775/1/012038",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1623.6459170468152,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 488,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1757-899X/775/1/012038/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9240,
+      "doi": "10.1088/0253-6102/3/2/165",
+      "link": "https://doi.org/10.1088/0253-6102/3/2/165",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1731.2025839928538,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 518,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0253-6102/3/2/165/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9544,
+      "doi": "10.1088/0031-9112/26/7/024",
+      "link": "https://doi.org/10.1088/0031-9112/26/7/024",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1340.1267919689417,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 223,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0031-9112/26/7/024/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9941,
+      "doi": "10.1088/1752-7163/ad63c4",
+      "link": "https://doi.org/10.1088/1752-7163/ad63c4",
+      "publisher": "iop",
+      "error": "retrieval_blocked:missing",
+      "skipped_no_html": true,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing",
+      "publisher_domain": "doi.org",
+      "field_status": {
+        "authors": "retrieval_blocked",
+        "affiliations": "retrieval_blocked",
+        "abstract": "retrieval_blocked",
+        "pdf_url": "retrieval_blocked",
+        "corresponding": "retrieval_blocked"
+      },
+      "score": {}
+    },
+    {
+      "no": 9646,
+      "doi": "10.1088/0950-7671/35/10/307",
+      "link": "https://doi.org/10.1088/0950-7671/35/10/307",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1330.6721248663962,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 829,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0950-7671/35/10/307/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8838,
+      "doi": "10.1088/1367-2630/14/4/043032",
+      "link": "https://doi.org/10.1088/1367-2630/14/4/043032",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2913.5333329904824,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.8333333333333333,
+          "f1_soft": 0.8333333333333333,
+          "f1_fuzzy": 0.8333333333333333,
+          "pairs_scored": 2
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1272,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1367-2630/14/4/043032/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8337,
+      "doi": "10.1088/1674-4926/25050016",
+      "link": "https://doi.org/10.1088/1674-4926/25050016",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3537.996457889676,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1674-4926/25050016/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9738,
+      "doi": "10.1088/0256-307x/31/9/099801",
+      "link": "https://doi.org/10.1088/0256-307x/31/9/099801",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1328.2916250173002,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 417,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/0256-307X/31/9/099801/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9647,
+      "doi": "10.1088/1748-0221/4/12/t12013",
+      "link": "https://doi.org/10.1088/1748-0221/4/12/t12013",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2380.7697920128703,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 36
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 36,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 36,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1748-0221/4/12/T12013/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9940,
+      "doi": "10.1088/1742-6596/1361/1/012042",
+      "link": "https://doi.org/10.1088/1742-6596/1361/1/012042",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1328.4334591589868,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_empty_parser_present",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1158,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1742-6596/1361/1/012042/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8251,
+      "doi": "10.1088/1361-665x/ae2709",
+      "link": "https://doi.org/10.1088/1361-665x/ae2709",
+      "publisher": "iop",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4417.7905838005245,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_empty_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://iopscience.iop.org/article/10.1088/1361-665X/ae2709/pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    }
+  ],
+  "duration_ms": 17869
+}

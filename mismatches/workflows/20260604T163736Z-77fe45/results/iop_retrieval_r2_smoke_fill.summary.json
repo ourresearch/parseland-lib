@@ -1,0 +1,19 @@
+{
+  "run_id": "retrieval-iop-r2-smoke-20260607T0808Z",
+  "timestamp_utc": "2026-06-07T08:09:14.726897+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/whole-goldie-cache",
+  "target_rows": 25,
+  "completed_rows": 25,
+  "duration_ms": 32739,
+  "throughput_rows_per_sec": 0.76,
+  "bytes_written": 3353668,
+  "state_counts": {
+    "ok": 25
+  },
+  "per_publisher_state": {
+    "iop": {
+      "ok": 25
+    }
+  }
+}
