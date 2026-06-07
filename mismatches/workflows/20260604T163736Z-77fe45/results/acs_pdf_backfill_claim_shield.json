@@ -1,0 +1,29 @@
+{
+  "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
+  "checks": [
+    {
+      "name": "task_claimed",
+      "status": "pass"
+    },
+    {
+      "name": "queue_marked_active",
+      "status": "pass"
+    },
+    {
+      "name": "browserbase_secret_handling",
+      "note": "Key is used only from process environment; not written to files or command lines.",
+      "status": "pass"
+    },
+    {
+      "name": "kpi_separation",
+      "note": "Goldie-backfilled labels remain separate from current-Goldie KPI.",
+      "status": "pass"
+    }
+  ],
+  "field": "pdf_url",
+  "gate_id": "acs-pdf-backfill-claim",
+  "publisher": "acs",
+  "status": "green",
+  "task_id": "v2_acs_pdf_url_dee703c2",
+  "timestamp": "2026-06-07T03:39:30.787682+00:00"
+}
