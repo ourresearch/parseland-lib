@@ -1,11 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_referee.summary.json",
-    "field": "corresponding",
-    "publisher_id": "sage",
-    "status": "goldie_backfill_referee_complete_0_approved_14_blocked",
-    "task_id": "v2_sage_corresponding_9406db16",
-    "updated_at": "2026-06-08T02:27:54Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_referee.summary.json",
+    "field": "pdf_url",
+    "publisher_id": "springer",
+    "status": "goldie_backfill_referee_complete_0_approved_13_blocked",
+    "task_id": "v2_springer_pdf_url_433b9127",
+    "updated_at": "2026-06-08T02:45:33Z"
   },
   "active_tasks": {
     "iop_abstract": {
@@ -68,6 +68,16 @@
       "status": "shipped_parser_fix_above_98_with_backfill_pending",
       "task_id": "v2_sage_authors_9d33af89",
       "updated_at": "2026-06-08T01:27:53Z"
+    },
+    "springer_pdf_url": {
+      "agent_id": "codex-goldie-backfilled-springer-pdf-b53",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_referee.summary.json",
+      "field": "pdf_url",
+      "next_action": "Improve Springer/Nature PDF grounding to capture a visible link, citation_pdf_url, or successful PDF final URL; otherwise leave these rows for manual access/gold-auditor review.",
+      "publisher_id": "springer",
+      "status": "goldie_backfill_referee_complete_0_approved_13_blocked",
+      "task_id": "v2_springer_pdf_url_433b9127",
+      "updated_at": "2026-06-08T02:45:33Z"
     },
     "v2_acs_pdf_url_dee703c2": {
       "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
@@ -1244,5 +1254,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-08T02:27:54Z"
+  "updated_at": "2026-06-08T02:45:33Z"
 }

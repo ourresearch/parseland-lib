@@ -1,0 +1,54 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_springer_pdf_url_433b9127",
+  "agent_id": "codex-goldie-backfilled-springer-pdf-b53",
+  "publisher_id": "springer",
+  "field": "pdf_url",
+  "classification": "goldie_backfill_referee_complete_0_approved_13_blocked",
+  "completed_at": "2026-06-08T02:45:33Z",
+  "candidate_count": 13,
+  "approved_rows": 0,
+  "blocked_rows": 13,
+  "status_counts": {
+    "weak_page_render_needs_referee": 12,
+    "candidate_evidence_needs_referee": 1
+  },
+  "confidence_counts": {
+    "medium": 13
+  },
+  "evidence_class_counts": {
+    "weak_page_render_no_pdf_evidence": 9,
+    "page_identity_or_access_only_no_pdf_url": 1,
+    "citation_helper_not_pdf": 1,
+    "candidate_pdf_404": 1,
+    "candidate_url_unverified": 1
+  },
+  "screenshot_count": 2,
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_raw.ndjson"
+  ],
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_referee.ndjson",
+  "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_referee.summary.json",
+  "blocked_dois": [
+    "10.1007/bf02665207",
+    "10.1007/bf00932421",
+    "10.1007/978-3-642-91164-4_1",
+    "10.1007/bf00269237",
+    "10.1007/bf02883686",
+    "10.1007/s00266-004-0130-5",
+    "10.1007/s35724-015-0538-2",
+    "10.1007/s42161-025-02019-5",
+    "10.1038/news.2009.1146",
+    "10.1038/d44151-021-00013-1",
+    "10.1140/epjc/s10052-014-2974-4",
+    "10.1186/s42162-026-00650-9",
+    "10.1186/s13071-021-04875-3"
+  ],
+  "recommendation": "Do not promote Springer PDF URL candidates from this batch. Browserbase mostly produced weak page-render rows; the only rendered article-page screenshots prove article identity/access state, not a visible or successfully fetched PDF URL. Route to a stronger Springer/Nature PDF-link resolver or manual access specialist if these 13 rows matter.",
+  "current_goldie_kpi_impact": 0.0,
+  "current_goldie_kpi_separation": "Goldie-backfilled candidate review only; current-Goldie KPI unchanged.",
+  "shield_gate": "green_blocker_classification",
+  "gate_command": "python3 JSON/NDJSON validation plus Referee evidence review; Browserbase grounding scripts/goldie_backfill_ground.py --publishers springer --fields pdf_url --limit 13 --concurrency 4",
+  "gate_result": "passed",
+  "quality_policy": "0 approved because no row had strong visible PDF-link, citation_pdf_url, successful final PDF fetch, selector, or HTML excerpt evidence; weak labels are blocked, not promoted."
+}
