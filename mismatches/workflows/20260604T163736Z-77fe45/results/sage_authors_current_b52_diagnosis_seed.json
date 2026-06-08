@@ -1,0 +1,214 @@
+{
+  "backfill": [
+    {
+      "author_status": "gold_empty_parser_present",
+      "authors_score": null,
+      "doi": "10.1177/014107688407701023",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.1177/014107688407701023",
+      "no": 463,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    },
+    {
+      "author_status": "gold_empty_parser_present",
+      "authors_score": null,
+      "doi": "10.1177/1350508406063487",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.1177/1350508406063487",
+      "no": 1665,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    }
+  ],
+  "blocked": [
+    {
+      "author_status": "retrieval_blocked",
+      "authors_score": null,
+      "doi": "10.1177/107179199500200116",
+      "error": "retrieval_blocked:missing",
+      "gold_authors": null,
+      "link": "https://doi.org/10.1177/107179199500200116",
+      "no": 2158,
+      "parsed_authors": null,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing"
+    },
+    {
+      "author_status": "retrieval_blocked",
+      "authors_score": null,
+      "doi": "10.4135/9781036204587.n11",
+      "error": "retrieval_blocked:missing",
+      "gold_authors": null,
+      "link": "https://doi.org/10.4135/9781036204587.n11",
+      "no": 6185,
+      "parsed_authors": null,
+      "retrieval_blocked": true,
+      "retrieval_blocked_reason": "missing"
+    }
+  ],
+  "classification": "parser_owned_sage_knowledge_metadata_byline",
+  "fixed_doi_examples": [
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781452276175.n473",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Lawrence M. Salinger",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781412972024.n2214",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Larry E. Sullivan",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 2,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781452276151.n344",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Emily Oros",
+          "rasses": ""
+        },
+        {
+          "corresponding_author": false,
+          "name": "John Mark Froiland",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781071812082.n227",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Heide Deditius Island",
+          "rasses": ""
+        }
+      ]
+    }
+  ],
+  "gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
+  "miss": [
+    {
+      "author_status": "gold_present_parser_empty",
+      "authors_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "doi": "10.4135/9781452276175.n473",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.4135/9781452276175.n473",
+      "no": 985,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    },
+    {
+      "author_status": "gold_present_parser_empty",
+      "authors_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "doi": "10.4135/9781412972024.n2214",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.4135/9781412972024.n2214",
+      "no": 1893,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    },
+    {
+      "author_status": "gold_present_parser_empty",
+      "authors_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "doi": "10.4135/9781452276151.n344",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.4135/9781452276151.n344",
+      "no": 5686,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    },
+    {
+      "author_status": "gold_present_parser_empty",
+      "authors_score": {
+        "f1": 0.0,
+        "f1_soft": 0.0
+      },
+      "doi": "10.4135/9781071812082.n227",
+      "error": null,
+      "gold_authors": null,
+      "link": "https://doi.org/10.4135/9781071812082.n227",
+      "no": 7589,
+      "parsed_authors": null,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null
+    }
+  ],
+  "verdict": "ship_parser_fix"
+}

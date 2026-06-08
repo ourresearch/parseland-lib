@@ -59,6 +59,16 @@
       "updated_at": "2026-06-07T20:35:16Z"
     },
     "mdpi_affiliations": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
+    "sage_authors": {
+      "agent_id": "codex-sage-authors-current-b52",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
+      "field": "authors",
+      "next_action": "SAGE authors current-Goldie is above 98; route 2 Goldie-empty/parser-present author candidates to Goldie-backfilled and keep 2 missing-HTML rows in retrieval lane.",
+      "publisher_id": "sage",
+      "status": "shipped_parser_fix_above_98_with_backfill_pending",
+      "task_id": "v2_sage_authors_9d33af89",
+      "updated_at": "2026-06-08T01:27:53Z"
+    },
     "v2_acs_pdf_url_dee703c2": {
       "agent_id": "codex-goldie-backfilled-acs-pdf-b30",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_acs_pdf_0_35_referee.summary.json",
@@ -657,13 +667,13 @@
     }
   ],
   "last_shipped_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
     "field": "authors",
-    "publisher": "de_gruyter",
-    "status": "shipped_parser_fix_above_98_with_residual_explained",
-    "task_id": "v2_de_gruyter_authors_dce331f3"
+    "publisher": "sage",
+    "status": "shipped_parser_fix_above_98_with_backfill_pending",
+    "task_id": "v2_sage_authors_9d33af89"
   },
-  "last_updated_at": "2026-06-07T19:36:28Z",
+  "last_updated_at": "2026-06-08T01:27:53Z",
   "latest_active_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
     "field": "abstract",
@@ -675,12 +685,12 @@
   "latest_batch": 44,
   "latest_batch_id": 44,
   "latest_completed_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/de_gruyter_authors_residual_full10k_gate.json",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
     "field": "authors",
-    "publisher_id": "de_gruyter",
-    "status": "shipped_parser_fix_above_98_with_residual_explained",
-    "task_id": "v2_de_gruyter_authors_dce331f3",
-    "updated_at": "2026-06-07T19:36:28Z"
+    "publisher_id": "sage",
+    "status": "shipped_parser_fix_above_98_with_backfill_pending",
+    "task_id": "v2_sage_authors_9d33af89",
+    "updated_at": "2026-06-08T01:27:53Z"
   },
   "latest_full10k_artifact": "eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json",
   "latest_full10k_batch": 50,

@@ -1,0 +1,136 @@
+{
+  "after": {
+    "current_kpi": 1.0,
+    "gold_empty_parser_present": 2,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 175,
+    "html_available": 198,
+    "retrieval_blocked": 2,
+    "scored_rows": 196
+  },
+  "artifacts": {
+    "diagnosis_seed": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_diagnosis_seed.json",
+    "publisher_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_sage_authors_current_b52_after.json"
+  },
+  "before": {
+    "current_kpi": 0.9796,
+    "gold_empty_parser_present": 2,
+    "gold_present_parser_empty": 4,
+    "html_available": 198,
+    "retrieval_blocked": 2
+  },
+  "doi_examples": [
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781452276175.n473",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Lawrence M. Salinger",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781412972024.n2214",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Larry E. Sullivan",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 2,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781452276151.n344",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Emily Oros",
+          "rasses": ""
+        },
+        {
+          "corresponding_author": false,
+          "name": "John Mark Froiland",
+          "rasses": ""
+        }
+      ]
+    },
+    {
+      "after_authors_score": {
+        "f1": 1.0,
+        "f1_soft": 1.0
+      },
+      "after_parsed_summary": {
+        "abstract_len": 0,
+        "n_authors": 1,
+        "urls": []
+      },
+      "after_status": "gold_present_parser_present",
+      "before_status": "gold_present_parser_empty",
+      "classification": "parser_owned_sage_knowledge_metadata_byline",
+      "doi": "10.4135/9781071812082.n227",
+      "gold_authors": [
+        {
+          "corresponding_author": false,
+          "name": "Heide Deditius Island",
+          "rasses": ""
+        }
+      ]
+    }
+  ],
+  "field": "authors",
+  "gate_commands": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_sage_knowledge.py tests/test_parse_page.py -q",
+    "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/sage.py",
+    "direct parse_page check on four cached SAGE Knowledge DOI pages",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --publishers sage --label sage-authors-current-b52-after --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_sage_authors_current_b52_after.json --concurrency 8"
+  ],
+  "marginal_lift_pp": 2.04,
+  "ownership": "parser",
+  "publisher": "sage",
+  "remaining": {
+    "goldie_backfilled_candidates": 2,
+    "next_action": "SAGE authors current-Goldie is above 98; route 2 Goldie-empty/parser-present author candidates to Goldie-backfilled and keep 2 missing-HTML rows in retrieval lane.",
+    "retrieval_blocked_rows": 2
+  },
+  "status": "green",
+  "task_id": "v2_sage_authors_9d33af89",
+  "timestamp": "2026-06-08T01:27:53.099511+00:00",
+  "unit": "SAGE authors current-Goldie SAGE Knowledge metadata fix"
+}

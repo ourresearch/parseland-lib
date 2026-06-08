@@ -8,12 +8,18 @@ class Sage(PublisherParser):
     parser_name = "Sage"
 
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url("journals.sagepub.com")
+        return (
+            self.domain_in_meta_og_url("journals.sagepub.com")
+            or self.domain_in_canonical_link("journals.sagepub.com")
+            or self.domain_in_meta_og_url("sk.sagepub.com")
+            or self.domain_in_canonical_link("sk.sagepub.com")
+        )
 
     def authors_found(self):
         return any([self.soup.find("div", class_="authors"),
                     self.soup.select('section.core-authors'),
-                    self.soup.select('div.author.name')])
+                    self.soup.select('div.author.name'),
+                    self._parse_sage_knowledge_authors()])
 
     def parse_abstract(self):
         if abs_header := self.soup.find(lambda tag: is_h_tag(tag) and tag.text.strip().lower() == 'abstract'):
@@ -214,9 +220,69 @@ class Sage(PublisherParser):
             )
         return results
 
+    @staticmethod
+    def _split_sage_knowledge_names(text):
+        text = re.sub(r"\s+", " ", text or "").strip(" :;,.")
+        if not text:
+            return []
+        parts = re.split(r"\s+(?:&|and)\s+|;", text)
+        return [part.strip(" :;,.") for part in parts if part.strip(" :;,.")]
+
+    def _parse_sage_knowledge_authors(self):
+        """Extract SAGE Knowledge chapter contributors from metadata rows.
+
+        SAGE Knowledge pages (sk.sagepub.com) expose chapter contributors in
+        ``.chapter-info .meta-list`` rows such as ``By: Jane Doe`` or
+        ``Edited by: Jane Doe`` rather than the journal byline structures.
+        """
+        rows_by_label = {}
+        for row in self.soup.select(".chapter-info .meta-list li"):
+            title = row.select_one("strong.title")
+            if not title:
+                continue
+            label = title.get_text(" ", strip=True).lower().rstrip(":")
+            if label not in {"by", "edited by"}:
+                continue
+
+            link_names = [
+                tag.get_text(" ", strip=True)
+                for tag in row.select(
+                    ".book-metadata-author a, a.bioIDLink, [class*=author] a"
+                )
+                if tag.get_text(" ", strip=True)
+            ]
+            if link_names:
+                rows_by_label.setdefault(label, []).extend(link_names)
+                continue
+
+            names_text = row.get_text(" ", strip=True)
+            names_text = re.sub(
+                rf"^{re.escape(title.get_text(' ', strip=True))}\s*",
+                "",
+                names_text,
+            )
+            rows_by_label.setdefault(label, []).extend(
+                self._split_sage_knowledge_names(names_text)
+            )
+
+        names = rows_by_label.get("by") or rows_by_label.get("edited by") or []
+        seen = set()
+        authors = []
+        for name in names:
+            if name in seen:
+                continue
+            seen.add(name)
+            authors.append({
+                "name": name,
+                "affiliations": [],
+                "is_corresponding": None,
+            })
+        return authors
+
     def parse(self):
         authors = []
-        for method in [self.parse_authors_1,
+        for method in [self._parse_sage_knowledge_authors,
+                       self.parse_authors_1,
                        self.parse_authors_2,
                        self.parse_authors_3]:
             result = method.__call__()
