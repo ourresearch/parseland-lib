@@ -1,0 +1,17 @@
+{
+  "run_id": "rsc-retrieval-browser-smoke-b54",
+  "timestamp_utc": "2026-06-08T03:02:36.782403+00:00",
+  "rows_file": "mismatches/retrieval-audit-20260607T082718Z.ndjson",
+  "targeted_states": [
+    "missing"
+  ],
+  "target_rows": 10,
+  "completed_rows": 10,
+  "duration_ms": 275143,
+  "throughput_rows_per_sec": 0.04,
+  "state_after": {
+    "nav_error": 9,
+    "too_small": 1
+  },
+  "backend": "browserbase"
+}

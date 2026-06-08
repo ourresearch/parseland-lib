@@ -1,0 +1,44 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "smoke_run_id": "rsc-retrieval-browser-smoke-b54",
+  "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+  "publisher_id": "rsc",
+  "classification": "retrieval_browser_smoke_blocked_0_10_recovered",
+  "completed_at": "2026-06-08T03:04:14Z",
+  "browserbase_summary": {
+    "run_id": "rsc-retrieval-browser-smoke-b54",
+    "timestamp_utc": "2026-06-08T03:02:36.782403+00:00",
+    "rows_file": "mismatches/retrieval-audit-20260607T082718Z.ndjson",
+    "targeted_states": [
+      "missing"
+    ],
+    "target_rows": 10,
+    "completed_rows": 10,
+    "duration_ms": 275143,
+    "throughput_rows_per_sec": 0.04,
+    "state_after": {
+      "nav_error": 9,
+      "too_small": 1
+    },
+    "backend": "browserbase"
+  },
+  "target_rows": 10,
+  "completed_rows": 10,
+  "recovered_rows": 0,
+  "state_after": {
+    "nav_error": 9,
+    "too_small": 1
+  },
+  "backend": "browserbase",
+  "current_goldie_kpi_impact": 0.0,
+  "current_goldie_kpi_separation": "Retrieval smoke only; no parser/scorer/current-Goldie KPI change until usable HTML is recovered and a serialized whole-Goldie gate runs.",
+  "recommendation": "RSC retrieval remains blocked after Browserbase smoke: 10 DOI rows attempted, 0 usable HTML recovered (9 nav_error, 1 too_small). Do not scale RSC Browserbase retrieval until DOI/RSC navigation or an alternate harvest path is fixed; keep RSC parser KPI rows as retrieval_blocked, not parser misses.",
+  "source_artifacts": [
+    "mismatches/retrieval-browser-summary.json",
+    "mismatches/retrieval-audit-20260607T082718Z.ndjson"
+  ],
+  "shield_gate": "green_retrieval_blocker_classification",
+  "gate_command": "scripts/retrieval_browser.py --rows mismatches/retrieval-audit-20260607T082718Z.ndjson --states missing --publishers rsc --limit 10 --concurrency 2 --run-id rsc-retrieval-browser-smoke-b54",
+  "gate_result": "passed",
+  "quality_policy": "0 recovered rows; no generated HTML cache files committed; RSC remains retrieval-blocked and excluded from parser/scorer blame."
+}

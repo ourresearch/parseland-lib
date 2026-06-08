@@ -1,11 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_pdf_b53_referee.summary.json",
-    "field": "pdf_url",
-    "publisher_id": "springer",
-    "status": "goldie_backfill_referee_complete_0_approved_13_blocked",
-    "task_id": "v2_springer_pdf_url_433b9127",
-    "updated_at": "2026-06-08T02:45:33Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+    "field": "all",
+    "publisher_id": "rsc",
+    "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+    "task_id": "rsc_retrieval_browser_smoke_b54",
+    "updated_at": "2026-06-08T03:04:14Z"
   },
   "active_tasks": {
     "iop_abstract": {
@@ -59,6 +59,56 @@
       "updated_at": "2026-06-07T20:35:16Z"
     },
     "mdpi_affiliations": "goldie_backfill_referee_partial_25_approved_0_blocked_31_retry_pending",
+    "rsc_abstract": {
+      "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+      "field": "abstract",
+      "next_action": "Fix DOI/RSC Browserbase navigation or use alternate harvest/R2 path before retrying.",
+      "publisher_id": "rsc",
+      "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+      "task_id": "rsc_retrieval_browser_smoke_b54_abstract",
+      "updated_at": "2026-06-08T03:04:14Z"
+    },
+    "rsc_affiliations": {
+      "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+      "field": "affiliations",
+      "next_action": "Fix DOI/RSC Browserbase navigation or use alternate harvest/R2 path before retrying.",
+      "publisher_id": "rsc",
+      "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+      "task_id": "rsc_retrieval_browser_smoke_b54_affiliations",
+      "updated_at": "2026-06-08T03:04:14Z"
+    },
+    "rsc_authors": {
+      "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+      "field": "authors",
+      "next_action": "Fix DOI/RSC Browserbase navigation or use alternate harvest/R2 path before retrying.",
+      "publisher_id": "rsc",
+      "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+      "task_id": "rsc_retrieval_browser_smoke_b54_authors",
+      "updated_at": "2026-06-08T03:04:14Z"
+    },
+    "rsc_corresponding": {
+      "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+      "field": "corresponding",
+      "next_action": "Fix DOI/RSC Browserbase navigation or use alternate harvest/R2 path before retrying.",
+      "publisher_id": "rsc",
+      "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+      "task_id": "rsc_retrieval_browser_smoke_b54_corresponding",
+      "updated_at": "2026-06-08T03:04:14Z"
+    },
+    "rsc_pdf_url": {
+      "agent_id": "codex-rsc-retrieval-browser-smoke-b54",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
+      "field": "pdf_url",
+      "next_action": "Fix DOI/RSC Browserbase navigation or use alternate harvest/R2 path before retrying.",
+      "publisher_id": "rsc",
+      "status": "retrieval_browser_smoke_blocked_0_10_recovered",
+      "task_id": "rsc_retrieval_browser_smoke_b54_pdf_url",
+      "updated_at": "2026-06-08T03:04:14Z"
+    },
     "sage_authors": {
       "agent_id": "codex-sage-authors-current-b52",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
@@ -725,16 +775,18 @@
   "latest_full10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
   "latest_full_10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
   "latest_retrieval_coverage_run": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_gate.json",
-    "audit_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/brill_retrieval_r2_full_audit.summary.json",
-    "completed_at": "2026-06-07T08:29:56.823564+00:00",
-    "global_cached_ok": 5192,
-    "publisher_cached_ok": 55,
-    "publisher_html_available": 55,
-    "publisher_id": "brill",
-    "publisher_retrieval_blocked": 10,
-    "publisher_rows": 65,
-    "run_id": "brill-retrieval-r2-full-20260607T0827Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_gate.json",
+    "attempted_rows": 10,
+    "completed_at": "2026-06-08T03:04:14Z",
+    "publisher_id": "rsc",
+    "publisher_rows": 61,
+    "recommendation": "RSC retrieval remains blocked after Browserbase smoke: 10 DOI rows attempted, 0 usable HTML recovered (9 nav_error, 1 too_small). Do not scale RSC Browserbase retrieval until DOI/RSC navigation or an alternate harvest path is fixed; keep RSC parser KPI rows as retrieval_blocked, not parser misses.",
+    "recovered_rows": 0,
+    "run_id": "rsc-retrieval-browser-smoke-b54",
+    "state_after": {
+      "nav_error": 9,
+      "too_small": 1
+    }
   },
   "mdpi_affiliations": "goldie_backfill_referee_complete_54_approved_2_blocked",
   "mdpi_affiliations_backfill": {
@@ -1254,5 +1306,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-08T02:45:33Z"
+  "updated_at": "2026-06-08T03:04:14Z"
 }
