@@ -1,3 +1,5 @@
+import re
+
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
@@ -11,22 +13,36 @@ class SSRN(PublisherParser):
     def authors_found(self):
         return self.soup.find("div", class_="authors")
 
+    @staticmethod
+    def _name_key(name):
+        cleaned = re.sub(r"\([^)]*\)", " ", name or "")
+        tokens = re.findall(r"[A-Za-z]+", cleaned.lower())
+        if not tokens:
+            return None
+        return (tokens[-1], tokens[0][:1])
+
+    def _contact_author_keys(self):
+        keys = set()
+        for author in self.soup.find_all("div", class_="author"):
+            text = author.get_text(" ", strip=True)
+            if "(contact author)" not in text.lower():
+                continue
+            contact_name = re.split(r"\s*\(contact author\)", text, flags=re.I)[0]
+            key = self._name_key(contact_name)
+            if key:
+                keys.add(key)
+        return keys
+
     def parse(self):
         results = []
         authors = self.soup.find("div", class_="authors")
         name_soup = authors.findAll("h2")
         affiliation_soup = authors.findAll("p")
-        corresponding_text = self.soup.find("div", class_="author")
+        contact_author_keys = self._contact_author_keys()
 
         for name, affiliation in zip(name_soup, affiliation_soup):
             name = name.text.strip()
-            is_corresponding = False
-            if (
-                corresponding_text
-                and f"{name.lower()} (contact author)"
-                in corresponding_text.text.lower()
-            ):
-                is_corresponding = True
+            is_corresponding = self._name_key(name) in contact_author_keys
             affiliations = []
             affiliation = affiliation.text.strip()
             if affiliation != "affiliation not provided to SSRN":

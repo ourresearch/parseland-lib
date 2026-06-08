@@ -1,0 +1,98 @@
+{
+  "after_artifact": "eval/runs/whole-goldie-after-ssrn-contact-author-b55-20260608T033529Z.json",
+  "agent_id": "codex-ssrn-contact-author-b55",
+  "before_artifact": "eval/runs/whole-goldie-after-sage-authors-knowledge-b52-20260608T013652Z.json",
+  "classification": "parser_fix_full10k_gate_green_below_98_residual_explainable",
+  "created_at": "2026-06-08T04:11:42.574337+00:00",
+  "diagnosis": "SSRN pages in the Elsevier-classified bucket render the contact author in per-author div.author blocks. The SSRN parser only checked the first div.author, so contact authors after the first author were parsed as non-corresponding. The patch builds contact-author name keys across all SSRN author blocks and matches them back to parsed author names by first initial plus surname, handling page middle initials that are absent from the parsed h2 name.",
+  "elsevier_corresponding": {
+    "after": 0.9496073283930928,
+    "after_scored": 1433,
+    "before": 0.9343922713003495,
+    "before_scored": 1436,
+    "delta_pp": 1.521506,
+    "distance_to_98_after": 0.030393,
+    "field_counts_after": {
+      "empty_empty_pass": 581,
+      "gold_empty_parser_present": 54,
+      "gold_present_parser_empty": 46,
+      "gold_present_parser_present": 806,
+      "html_available": 1487,
+      "retrieval_blocked": 77,
+      "scored_rows": 1433,
+      "total_rows": 1564
+    }
+  },
+  "field": "corresponding",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/ssrn.py",
+    "tests/test_ssrn_parser.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_elsevier_ssrn_contact_author_b55_after.json",
+    "eval/runs/whole-goldie-after-ssrn-contact-author-b55-20260608T033529Z.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_contact_author_b55_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "focused_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_elsevier_ssrn_contact_author_b55_after.json",
+  "overall_delta": {
+    "abstract_ratio_fuzzy": {
+      "after": 0.9233892004099619,
+      "before": 0.9233892004099619,
+      "delta_pp": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9394348948333808,
+      "before": 0.9394348948333808,
+      "delta_pp": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9598566629394943,
+      "before": 0.9598566629394943,
+      "delta_pp": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9731555094148325,
+      "before": 0.9689660089316052,
+      "delta_pp": 0.41895
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9547257876312719,
+      "before": 0.9547257876312719,
+      "delta_pp": 0.0
+    }
+  },
+  "publisher_id": "elsevier",
+  "recommendation": "Ship the SSRN contact-author parser fix. Elsevier corresponding remains below 98 after this lift; route the residual mix to manual DOM/gold-auditor/legacy portal specialist lanes rather than broadening SSRN or Elsevier heuristics without DOI-level evidence.",
+  "run_id": "20260604T163736Z-77fe45",
+  "ssrn_quick_check": {
+    "mean_f1_after": 0.9946236559139786,
+    "nonperfect_after": 1,
+    "perfect_after": 61,
+    "rows_with_gold_ca": 62
+  },
+  "status": "shipped_full10k_measured_residual_below_98",
+  "task_id": "v2_elsevier_corresponding_0c637cda",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_ssrn_parser.py tests/test_elsevier_canonical_dispatch.py -q",
+      "result": "5 passed in 0.05s",
+      "status": "passed"
+    },
+    {
+      "command": "quick SSRN DOI-level corresponding residual check",
+      "result": "62 rows with gold CA; 61 perfect; mean F1 0.994624",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers elsevier --label after-ssrn-contact-author --concurrency 8",
+      "result": "Elsevier corresponding 0.934392 -> 0.949607 on latest full baseline; focused output corresponding 0.950",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --label after-ssrn-contact-author-b55 --concurrency 8",
+      "result": "coverage.total_rows=10000; corresponding 0.968966 -> 0.973156; authors/affiliations/abstract/pdf unchanged; errors=1 known encoding row",
+      "status": "passed"
+    }
+  ]
+}

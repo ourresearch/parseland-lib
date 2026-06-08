@@ -1,11 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_summary.json",
-    "field": "all",
-    "publisher_id": "rsc",
-    "status": "retrieval_browser_smoke_blocked_0_10_recovered",
-    "task_id": "rsc_retrieval_browser_smoke_b54",
-    "updated_at": "2026-06-08T03:04:14Z"
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_contact_author_b55_gate.json",
+    "field": "corresponding",
+    "publisher_id": "elsevier",
+    "status": "shipped_full10k_measured_residual_below_98",
+    "task_id": "v2_elsevier_corresponding_0c637cda",
+    "updated_at": "2026-06-08T04:11:42Z"
   },
   "active_tasks": {
     "iop_abstract": {
@@ -227,6 +227,16 @@
       "publisher_id": "de_gruyter",
       "status": "shipped_parser_fix_above_98_with_residual_explained",
       "updated_at": "2026-06-07T19:36:28Z"
+    },
+    "v2_elsevier_corresponding_0c637cda": {
+      "agent_id": "codex-ssrn-contact-author-b55",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_contact_author_b55_gate.json",
+      "field": "corresponding",
+      "next_action": "Classify remaining Elsevier corresponding residuals before another patch.",
+      "publisher_id": "elsevier",
+      "status": "shipped_full10k_measured_residual_below_98",
+      "task_id": "v2_elsevier_corresponding_0c637cda",
+      "updated_at": "2026-06-08T04:11:42Z"
     },
     "v2_ieee_abstract_4ec42543": {
       "agent_id": "codex-ieee-abstract-b33",
@@ -752,7 +762,34 @@
     "task_id": "v2_bmj_abstract_279c912c",
     "updated_at": "2026-06-07T12:12:46Z"
   },
-  "latest_batch": 44,
+  "latest_batch": "batch55_ssrn_contact_author",
+  "latest_batch_delta": {
+    "abstract_ratio_fuzzy": {
+      "after": 0.9233892004099619,
+      "before": 0.9233892004099619,
+      "delta_pp": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9394348948333808,
+      "before": 0.9394348948333808,
+      "delta_pp": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9598566629394943,
+      "before": 0.9598566629394943,
+      "delta_pp": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9731555094148325,
+      "before": 0.9689660089316052,
+      "delta_pp": 0.41895
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9547257876312719,
+      "before": 0.9547257876312719,
+      "delta_pp": 0.0
+    }
+  },
   "latest_batch_id": 44,
   "latest_completed_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
@@ -762,8 +799,27 @@
     "task_id": "v2_sage_authors_9d33af89",
     "updated_at": "2026-06-08T01:27:53Z"
   },
-  "latest_full10k_artifact": "eval/runs/whole-goldie-after-iop-current-residuals-20260607T200628Z.json",
+  "latest_full10k_artifact": "eval/runs/whole-goldie-after-ssrn-contact-author-b55-20260608T033529Z.json",
   "latest_full10k_batch": 50,
+  "latest_full10k_kpi": {
+    "abstract_present_rate": 0.6707360861759426,
+    "abstract_ratio_fuzzy": 0.9233892004099619,
+    "affiliations_f1_fuzzy": 0.9394348948333808,
+    "affiliations_f1_strict": 0.7427158567868376,
+    "authors_f1_soft": 0.9598566629394943,
+    "authors_f1_strict": 0.9429280510927934,
+    "corresponding_accuracy": 0.9731555094148325,
+    "duration_ms_mean": 2462.121993325286,
+    "errors": 1,
+    "n_abstract_scored": 5290,
+    "n_authors_scored": 5264,
+    "n_corresponding_scored": 5229,
+    "n_pdf_scored": 4285,
+    "pdf_url_accuracy": 0.9547257876312719,
+    "rows": 10000,
+    "scored": 5570,
+    "skipped_no_html": 4430
+  },
   "latest_full10k_metrics": {
     "abstract_present_rate": 0.6707360861759426,
     "abstract_ratio_fuzzy": 0.9233892004099619,
