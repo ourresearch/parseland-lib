@@ -1,0 +1,49 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_sage_corresponding_9406db16",
+  "agent_id": "codex-goldie-backfilled-sage-corresponding-b52",
+  "publisher_id": "sage",
+  "field": "corresponding",
+  "classification": "goldie_backfill_referee_complete_0_approved_14_blocked",
+  "completed_at": "2026-06-08T02:27:54Z",
+  "candidate_count": 14,
+  "approved_rows": 0,
+  "blocked_rows": 14,
+  "status_counts": {
+    "weak_page_render_needs_referee": 12,
+    "page_rendered_needs_referee": 2
+  },
+  "confidence_counts": {
+    "corresponding_author_name_only": 12,
+    "page_identity_only": 2
+  },
+  "screenshot_count": 1,
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_raw.ndjson"
+  ],
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_referee.ndjson",
+  "summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_referee.summary.json",
+  "blocked_dois": [
+    "10.1177/00380407221084695",
+    "10.1177/001857870504000307",
+    "10.1177/00031348241241730",
+    "10.1177/0013124509333577",
+    "10.1177/0165551509358487",
+    "10.1177/1077559507310368",
+    "10.1177/026765910001500509",
+    "10.1177/09579265251395104",
+    "10.1177/1350508406063487",
+    "10.1177/1362361301005002002",
+    "10.1177/14746514020020041101",
+    "10.1177/13694332221080603",
+    "10.1177/1536867x251322960",
+    "10.1177/1740774509356575"
+  ],
+  "recommendation": "Do not promote SAGE corresponding candidates from this batch. Browserbase rendered pages, but evidence is only corresponding-author-name-only or page-identity-only, and screenshots mostly timed out. Route to manual DOM/gold-auditor or improve SAGE corresponding-marker grounding before retrying.",
+  "current_goldie_kpi_impact": 0.0,
+  "current_goldie_kpi_separation": "Goldie-backfilled candidate review only; current-Goldie KPI unchanged.",
+  "shield_gate": "green_blocker_classification",
+  "gate_command": "python3 JSON/NDJSON validation plus Referee evidence review; no parser/scorer code changed",
+  "gate_result": "passed",
+  "quality_policy": "0 approved because no row had strong corresponding marker/mailto/correspondence evidence; weak labels are blocked, not promoted."
+}

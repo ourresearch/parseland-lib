@@ -1,11 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_corresponding_b51_referee.summary.json",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_referee.summary.json",
     "field": "corresponding",
-    "publisher_id": "oxford",
+    "publisher_id": "sage",
     "status": "goldie_backfill_referee_complete_0_approved_14_blocked",
-    "task_id": "v2_oxford_corresponding_6dc37b1e",
-    "updated_at": "2026-06-07T21:02:35Z"
+    "task_id": "v2_sage_corresponding_9406db16",
+    "updated_at": "2026-06-08T02:27:54Z"
   },
   "active_tasks": {
     "iop_abstract": {
@@ -258,6 +258,16 @@
       "task_id": "v2_oxford_corresponding_6dc37b1e",
       "updated_at": "2026-06-07T21:02:35Z"
     },
+    "v2_sage_corresponding_9406db16": {
+      "agent_id": "codex-goldie-backfilled-sage-corresponding-b52",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_sage_corresponding_b52_referee.summary.json",
+      "field": "corresponding",
+      "next_action": "Improve SAGE corresponding-marker grounding or route to manual DOM/gold-auditor; no derived labels approved.",
+      "publisher_id": "sage",
+      "status": "goldie_backfill_referee_complete_0_approved_14_blocked",
+      "task_id": "v2_sage_corresponding_9406db16",
+      "updated_at": "2026-06-08T02:27:54Z"
+    },
     "v2_taylor_corresponding_15fed079": {
       "agent_id": "codex-goldie-backfilled-taylor-corresponding-b31",
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_corresponding_0_25_referee.summary.json",
@@ -290,7 +300,8 @@
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
     "classified_mixed_small_parser_headroom": 2,
-    "goldie_backfill_pending": 9,
+    "goldie_backfill_pending": 7,
+    "goldie_backfill_referee_complete_0_approved_14_blocked": 2,
     "goldie_backfill_referee_complete_0_approved_25_blocked": 1,
     "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
@@ -302,7 +313,6 @@
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
     "goldie_backfill_referee_partial_5_approved_15_blocked": 1,
-    "needs_agent": 1,
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 170,
@@ -316,7 +326,7 @@
     "shipped_full10k_measured_below_98_with_explainable_residual": 2,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
-    "shipped_parser_fix_above_98_with_backfill_pending": 2,
+    "shipped_parser_fix_above_98_with_backfill_pending": 3,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
     "shipped_parser_fix_small_current_goldie_lift": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
@@ -1234,5 +1244,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-07T17:36:54Z"
+  "updated_at": "2026-06-08T02:27:54Z"
 }
