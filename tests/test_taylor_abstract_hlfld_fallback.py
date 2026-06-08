@@ -307,6 +307,40 @@ def test_taylorfrancis_chapter_jsonld_dispatch_and_product_abstract() -> None:
     assert out["abstract"] == "Full chapter abstract from product JSON."
 
 
+def test_taylorfrancis_chapter_splits_compressed_jsonld_author_lists() -> None:
+    """Chapter JSON-LD may compress multiple authors into one Person object."""
+    html = """
+    <html><head>
+      <link rel="canonical"
+        href="https://www.taylorfrancis.com/chapters/edit/10.1201/example/computational-methods-di-prisco-boldini" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/edit/10.1201/example/computational-methods-di-prisco-boldini",
+          "author": {
+            "@type": "Person",
+            "givenName": "C., D., A.",
+            "familyName": "di Prisco, Boldini, Desideri"
+          },
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Chapter-only description fallback."
+        }
+      </script>
+    </head><body></body></html>
+    """
+
+    out = _parser(html).parse()
+
+    assert [author.name for author in out["authors"]] == [
+        "C. di Prisco",
+        "D. Boldini",
+        "A. Desideri",
+    ]
+    assert all(author.affiliations == [] for author in out["authors"])
+    assert all(author.is_corresponding is False for author in out["authors"])
+
+
 def test_taylorfrancis_chapter_uses_jsonld_description_without_product_abstract() -> None:
     """JSON-LD description is a final fallback for eBook chapter pages only."""
     html = """

@@ -128,13 +128,7 @@ class Taylor(PublisherParser):
         for author in raw_authors:
             if not isinstance(author, dict):
                 continue
-            name = author.get("name")
-            if not name:
-                given = str(author.get("givenName") or "").strip()
-                family = str(author.get("familyName") or "").strip()
-                name = " ".join(part for part in (given, family) if part)
-            name = str(name or "").strip()
-            if name:
+            for name in self._taylorfrancis_jsonld_author_names(author):
                 results.append(
                     AuthorAffiliations(
                         name=name,
@@ -143,6 +137,39 @@ class Taylor(PublisherParser):
                     )
                 )
         return results
+
+    def _taylorfrancis_jsonld_author_names(self, author):
+        """Return one or more names from TaylorFrancis Chapter JSON-LD.
+
+        Some Taylor eBook chapter pages compress several contributors into one
+        schema.org Person object, with comma-separated givenName and familyName
+        lists. Splitting only when both sides have the same multi-part count
+        keeps the fallback conservative for normal single-author metadata.
+        """
+        name = str(author.get("name") or "").strip()
+        given = str(author.get("givenName") or "").strip()
+        family = str(author.get("familyName") or "").strip()
+
+        given_parts = self._split_taylorfrancis_name_parts(given)
+        family_parts = self._split_taylorfrancis_name_parts(family)
+        if len(given_parts) == len(family_parts) and len(given_parts) > 1:
+            names = [
+                " ".join(part for part in (g, f) if part).strip()
+                for g, f in zip(given_parts, family_parts)
+            ]
+            return [n for n in names if n]
+
+        if not name:
+            name = " ".join(part for part in (given, family) if part)
+        name = re.sub(r"\s+", " ", name).strip()
+        return [name] if name else []
+
+    def _split_taylorfrancis_name_parts(self, value):
+        return [
+            re.sub(r"\s+", " ", part).strip()
+            for part in (value or "").split(",")
+            if part.strip()
+        ]
 
     def _author_bio_affiliations_by_name(self):
         affiliations = {}

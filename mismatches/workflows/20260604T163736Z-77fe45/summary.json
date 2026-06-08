@@ -1,11 +1,13 @@
 {
   "active_task": {
-    "task_id": "goldie_backfill_small_open_b56",
-    "publisher_id": "multi",
-    "field": "goldie_backfilled",
-    "status": "goldie_backfill_referee_complete_5_approved_19_blocked",
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json",
-    "updated_at": "2026-06-08T05:03:03.886096+00:00"
+    "task_id": "v2_taylor_authors_7557e296",
+    "publisher_id": "taylor",
+    "field": "authors",
+    "agent_id": "codex-taylor-chapter-author-split-b57",
+    "status": "shipped_full10k_measured_residual_below_98",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_chapter_author_split_b57_gate.json",
+    "updated_at": "2026-06-08T06:11:52.244943Z",
+    "next_action": "Ship the Taylor chapter JSON-LD author split. Taylor authors remain below 98%, but the broad safe compressed-author pattern is now fixed; residuals need a separate Taylor chapter empty-author/slug specialist lane plus gold/backfill/routing classification rather than broadening this patch."
   },
   "active_tasks": {
     "iop_abstract": {
@@ -357,6 +359,16 @@
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json",
       "next_action": "Route 5 approved b56 candidates to derived-corpus approval; keep the 19 blocked rows in manual-review/stronger-grounding lanes. Do not treat page-identity-only or no-PDF-found rows as truth.",
       "updated_at": "2026-06-08T05:03:03.886096+00:00"
+    },
+    "taylor_authors": {
+      "task_id": "v2_taylor_authors_7557e296",
+      "publisher_id": "taylor",
+      "field": "authors",
+      "agent_id": "codex-taylor-chapter-author-split-b57",
+      "status": "shipped_full10k_measured_residual_below_98",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_chapter_author_split_b57_gate.json",
+      "updated_at": "2026-06-08T06:11:52.244943Z",
+      "next_action": "Ship the Taylor chapter JSON-LD author split. Taylor authors remain below 98%, but the broad safe compressed-author pattern is now fixed; residuals need a separate Taylor chapter empty-author/slug specialist lane plus gold/backfill/routing classification rather than broadening this patch."
     }
   },
   "by_field": {
