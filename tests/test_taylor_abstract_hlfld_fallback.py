@@ -260,7 +260,7 @@ def test_dispatch_negative_when_neither_signal_matches() -> None:
 
 
 def test_abstract_none_when_no_abstract_wrapper_present() -> None:
-    """If both wrappers are missing, abstract is None (don't grab og:description)."""
+    """If both wrappers are missing, do not grab generic og:description."""
     html = f"""
     <html><head>
       <meta property="og:url" content="https://www.tandfonline.com/doi/full/10.1080/none" />
@@ -271,6 +271,40 @@ def test_abstract_none_when_no_abstract_wrapper_present() -> None:
     """
     parser = _parser(html)
     out = parser.parse()
+    assert out["abstract"] is None
+
+
+def test_dc_description_fallback_when_no_abstract_wrapper_present() -> None:
+    """dc.Description recovers publisher-provided previews on review pages."""
+    html = f"""
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/full/10.1080/review" />
+      <meta name="dc.Description"
+        content="An exciting and necessary book, this review argues that the
+        empress was a major celebrity of eighteenth-century Europe." />
+      <meta property="og:description" content="Published in Journal Reviews (Vol. 65, No. 2, 2023)" />
+    </head><body>
+      {_AUTHORS_BLOCK}
+    </body></html>
+    """
+    out = _parser(html).parse()
+    assert out["abstract"] is not None
+    assert out["abstract"].startswith("An exciting and necessary book")
+    assert "Published in Journal Reviews" not in out["abstract"]
+
+
+def test_dc_description_citation_snippet_is_not_abstract() -> None:
+    """Citation-only dc.Description metadata is not substantive abstract text."""
+    html = f"""
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/citation" />
+      <meta name="dc.Description"
+        content="(1976). Editorial board. Australian Outlook: Vol. 30, No. 3, pp. ebi-ebii." />
+    </head><body>
+      {_AUTHORS_BLOCK}
+    </body></html>
+    """
+    out = _parser(html).parse()
     assert out["abstract"] is None
 
 

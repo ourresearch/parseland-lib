@@ -432,322 +432,323 @@
     "unknown": 1
   },
   "coverage": {
-    "gold_empty_parser_present_count": 2965,
-    "html_available": 5663,
-    "per_publisher": {
-      "aaas": {
-        "html_available": 0,
-        "retrieval_blocked": 24,
-        "scored_rows": 0,
-        "total_rows": 24
-      },
-      "aacr": {
-        "html_available": 0,
-        "retrieval_blocked": 34,
-        "scored_rows": 0,
-        "total_rows": 34
-      },
-      "acm": {
-        "html_available": 0,
-        "retrieval_blocked": 37,
-        "scored_rows": 0,
-        "total_rows": 37
-      },
-      "acs": {
-        "html_available": 130,
-        "retrieval_blocked": 0,
-        "scored_rows": 130,
-        "total_rows": 130
-      },
-      "aip_publishing": {
-        "html_available": 0,
-        "retrieval_blocked": 57,
-        "scored_rows": 0,
-        "total_rows": 57
-      },
-      "ame": {
-        "html_available": 0,
-        "retrieval_blocked": 3,
-        "scored_rows": 0,
-        "total_rows": 3
-      },
-      "ams": {
-        "html_available": 0,
-        "retrieval_blocked": 10,
-        "scored_rows": 0,
-        "total_rows": 10
-      },
-      "apa": {
-        "html_available": 0,
-        "retrieval_blocked": 25,
-        "scored_rows": 0,
-        "total_rows": 25
-      },
-      "aps": {
-        "html_available": 0,
-        "retrieval_blocked": 38,
-        "scored_rows": 0,
-        "total_rows": 38
-      },
-      "asa": {
-        "html_available": 0,
-        "retrieval_blocked": 10,
-        "scored_rows": 0,
-        "total_rows": 10
-      },
-      "asco": {
-        "html_available": 0,
-        "retrieval_blocked": 17,
-        "scored_rows": 0,
-        "total_rows": 17
-      },
-      "ash": {
-        "html_available": 0,
-        "retrieval_blocked": 12,
-        "scored_rows": 0,
-        "total_rows": 12
-      },
-      "asme": {
-        "html_available": 0,
-        "retrieval_blocked": 26,
-        "scored_rows": 0,
-        "total_rows": 26
-      },
-      "bentham": {
-        "html_available": 0,
-        "retrieval_blocked": 15,
-        "scored_rows": 0,
-        "total_rows": 15
-      },
-      "bmj": {
-        "html_available": 66,
-        "retrieval_blocked": 3,
-        "scored_rows": 66,
-        "total_rows": 69
-      },
-      "brill": {
-        "html_available": 55,
-        "retrieval_blocked": 10,
-        "scored_rows": 55,
-        "total_rows": 65
-      },
-      "cairn": {
-        "html_available": 0,
-        "retrieval_blocked": 49,
-        "scored_rows": 0,
-        "total_rows": 49
-      },
-      "company_biologists": {
-        "html_available": 0,
-        "retrieval_blocked": 3,
-        "scored_rows": 0,
-        "total_rows": 3
-      },
-      "copernicus": {
-        "html_available": 0,
-        "retrieval_blocked": 27,
-        "scored_rows": 0,
-        "total_rows": 27
-      },
-      "cshlp": {
-        "html_available": 0,
-        "retrieval_blocked": 29,
-        "scored_rows": 0,
-        "total_rows": 29
-      },
-      "cup": {
-        "html_available": 151,
-        "retrieval_blocked": 3,
-        "scored_rows": 151,
-        "total_rows": 154
-      },
-      "de_gruyter": {
-        "html_available": 223,
-        "retrieval_blocked": 3,
-        "scored_rows": 223,
-        "total_rows": 226
-      },
-      "edp_sciences": {
-        "html_available": 0,
-        "retrieval_blocked": 21,
-        "scored_rows": 0,
-        "total_rows": 21
-      },
-      "elsevier": {
-        "html_available": 1508,
-        "retrieval_blocked": 56,
-        "scored_rows": 1508,
-        "total_rows": 1564
-      },
-      "emerald": {
-        "html_available": 0,
-        "retrieval_blocked": 27,
-        "scored_rows": 0,
-        "total_rows": 27
-      },
-      "f1000": {
-        "html_available": 0,
-        "retrieval_blocked": 2,
-        "scored_rows": 0,
-        "total_rows": 2
-      },
-      "frontiers": {
-        "html_available": 0,
-        "retrieval_blocked": 48,
-        "scored_rows": 0,
-        "total_rows": 48
-      },
-      "hindawi": {
-        "html_available": 0,
-        "retrieval_blocked": 32,
-        "scored_rows": 0,
-        "total_rows": 32
-      },
-      "ieee": {
-        "html_available": 393,
-        "retrieval_blocked": 2,
-        "scored_rows": 393,
-        "total_rows": 395
-      },
-      "iop": {
-        "html_available": 69,
-        "retrieval_blocked": 6,
-        "scored_rows": 69,
-        "total_rows": 75
-      },
-      "karger": {
-        "html_available": 0,
-        "retrieval_blocked": 37,
-        "scored_rows": 0,
-        "total_rows": 37
-      },
-      "lippincott": {
-        "html_available": 190,
-        "retrieval_blocked": 0,
-        "scored_rows": 190,
-        "total_rows": 190
-      },
-      "mary_ann_liebert": {
-        "html_available": 0,
-        "retrieval_blocked": 15,
-        "scored_rows": 0,
-        "total_rows": 15
-      },
-      "mdpi": {
-        "html_available": 137,
-        "retrieval_blocked": 0,
-        "scored_rows": 137,
-        "total_rows": 137
-      },
-      "nejm": {
-        "html_available": 0,
-        "retrieval_blocked": 5,
-        "scored_rows": 0,
-        "total_rows": 5
-      },
-      "optica": {
-        "html_available": 0,
-        "retrieval_blocked": 27,
-        "scored_rows": 0,
-        "total_rows": 27
-      },
-      "oxford": {
-        "html_available": 250,
-        "retrieval_blocked": 21,
-        "scored_rows": 250,
-        "total_rows": 271
-      },
-      "plos": {
-        "html_available": 0,
-        "retrieval_blocked": 32,
-        "scored_rows": 0,
-        "total_rows": 32
-      },
-      "portland_press": {
-        "html_available": 0,
-        "retrieval_blocked": 5,
-        "scored_rows": 0,
-        "total_rows": 5
-      },
-      "research_square": {
-        "html_available": 0,
-        "retrieval_blocked": 24,
-        "scored_rows": 0,
-        "total_rows": 24
-      },
-      "rsc": {
-        "html_available": 0,
-        "retrieval_blocked": 61,
-        "scored_rows": 0,
-        "total_rows": 61
-      },
-      "rsna": {
-        "html_available": 0,
-        "retrieval_blocked": 5,
-        "scored_rows": 0,
-        "total_rows": 5
-      },
-      "sage": {
-        "html_available": 198,
-        "retrieval_blocked": 2,
-        "scored_rows": 198,
-        "total_rows": 200
-      },
-      "scielo": {
-        "html_available": 0,
-        "retrieval_blocked": 33,
-        "scored_rows": 0,
-        "total_rows": 33
-      },
-      "spie": {
-        "html_available": 0,
-        "retrieval_blocked": 46,
-        "scored_rows": 0,
-        "total_rows": 46
-      },
-      "springer": {
-        "html_available": 1117,
-        "retrieval_blocked": 6,
-        "scored_rows": 1117,
-        "total_rows": 1123
-      },
-      "taylor": {
-        "html_available": 499,
-        "retrieval_blocked": 7,
-        "scored_rows": 499,
-        "total_rows": 506
-      },
-      "thieme": {
-        "html_available": 0,
-        "retrieval_blocked": 61,
-        "scored_rows": 0,
-        "total_rows": 61
-      },
-      "unknown": {
-        "html_available": 0,
-        "retrieval_blocked": 3303,
-        "scored_rows": 0,
-        "total_rows": 3303
-      },
-      "wiley": {
-        "html_available": 677,
-        "retrieval_blocked": 18,
-        "scored_rows": 677,
-        "total_rows": 695
-      }
-    },
+    "total_rows": 10000,
+    "html_available": 5570,
+    "scored_rows": 5570,
+    "retrieval_blocked_rows": 4430,
     "retrieval_blocked_by_reason": {
-      "cached_bot_check": 30,
+      "cached_bot_check": 101,
       "cached_error_page": 3,
+      "cached_pdf": 22,
       "cached_too_small": 49,
       "js_rendered_required": 1,
       "missing": 4254
     },
-    "retrieval_blocked_rows": 4337,
-    "scored_rows": 5663,
-    "total_rows": 10000
+    "gold_empty_parser_present_count": 2993,
+    "per_publisher": {
+      "aaas": {
+        "total_rows": 24,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 24
+      },
+      "aacr": {
+        "total_rows": 34,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 34
+      },
+      "acm": {
+        "total_rows": 37,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 37
+      },
+      "acs": {
+        "total_rows": 130,
+        "html_available": 130,
+        "scored_rows": 130,
+        "retrieval_blocked": 0
+      },
+      "aip_publishing": {
+        "total_rows": 57,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 57
+      },
+      "ame": {
+        "total_rows": 3,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3
+      },
+      "ams": {
+        "total_rows": 10,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 10
+      },
+      "apa": {
+        "total_rows": 25,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 25
+      },
+      "aps": {
+        "total_rows": 38,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 38
+      },
+      "asa": {
+        "total_rows": 10,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 10
+      },
+      "asco": {
+        "total_rows": 17,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 17
+      },
+      "ash": {
+        "total_rows": 12,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 12
+      },
+      "asme": {
+        "total_rows": 26,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 26
+      },
+      "bentham": {
+        "total_rows": 15,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 15
+      },
+      "bmj": {
+        "total_rows": 69,
+        "html_available": 66,
+        "scored_rows": 66,
+        "retrieval_blocked": 3
+      },
+      "brill": {
+        "total_rows": 65,
+        "html_available": 55,
+        "scored_rows": 55,
+        "retrieval_blocked": 10
+      },
+      "cairn": {
+        "total_rows": 49,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 49
+      },
+      "company_biologists": {
+        "total_rows": 3,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3
+      },
+      "copernicus": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "cshlp": {
+        "total_rows": 29,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 29
+      },
+      "cup": {
+        "total_rows": 154,
+        "html_available": 151,
+        "scored_rows": 151,
+        "retrieval_blocked": 3
+      },
+      "de_gruyter": {
+        "total_rows": 226,
+        "html_available": 222,
+        "scored_rows": 222,
+        "retrieval_blocked": 4
+      },
+      "edp_sciences": {
+        "total_rows": 21,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 21
+      },
+      "elsevier": {
+        "total_rows": 1564,
+        "html_available": 1487,
+        "scored_rows": 1487,
+        "retrieval_blocked": 77
+      },
+      "emerald": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "f1000": {
+        "total_rows": 2,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 2
+      },
+      "frontiers": {
+        "total_rows": 48,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 48
+      },
+      "hindawi": {
+        "total_rows": 32,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 32
+      },
+      "ieee": {
+        "total_rows": 395,
+        "html_available": 393,
+        "scored_rows": 393,
+        "retrieval_blocked": 2
+      },
+      "iop": {
+        "total_rows": 75,
+        "html_available": 63,
+        "scored_rows": 63,
+        "retrieval_blocked": 12
+      },
+      "karger": {
+        "total_rows": 37,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 37
+      },
+      "lippincott": {
+        "total_rows": 190,
+        "html_available": 190,
+        "scored_rows": 190,
+        "retrieval_blocked": 0
+      },
+      "mary_ann_liebert": {
+        "total_rows": 15,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 15
+      },
+      "mdpi": {
+        "total_rows": 137,
+        "html_available": 72,
+        "scored_rows": 72,
+        "retrieval_blocked": 65
+      },
+      "nejm": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "optica": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "oxford": {
+        "total_rows": 271,
+        "html_available": 250,
+        "scored_rows": 250,
+        "retrieval_blocked": 21
+      },
+      "plos": {
+        "total_rows": 32,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 32
+      },
+      "portland_press": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "research_square": {
+        "total_rows": 24,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 24
+      },
+      "rsc": {
+        "total_rows": 61,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 61
+      },
+      "rsna": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "sage": {
+        "total_rows": 200,
+        "html_available": 198,
+        "scored_rows": 198,
+        "retrieval_blocked": 2
+      },
+      "scielo": {
+        "total_rows": 33,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 33
+      },
+      "spie": {
+        "total_rows": 46,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 46
+      },
+      "springer": {
+        "total_rows": 1123,
+        "html_available": 1117,
+        "scored_rows": 1117,
+        "retrieval_blocked": 6
+      },
+      "taylor": {
+        "total_rows": 506,
+        "html_available": 499,
+        "scored_rows": 499,
+        "retrieval_blocked": 7
+      },
+      "thieme": {
+        "total_rows": 61,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 61
+      },
+      "unknown": {
+        "total_rows": 3303,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3303
+      },
+      "wiley": {
+        "total_rows": 695,
+        "html_available": 677,
+        "scored_rows": 677,
+        "retrieval_blocked": 18
+      }
+    }
   },
-  "coverage_gold_empty_parser_present_count": 2989,
+  "coverage_gold_empty_parser_present_count": 2993,
   "coverage_html_available": 5570,
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
@@ -769,13 +770,13 @@
     }
   ],
   "last_shipped_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
-    "field": "authors",
-    "publisher": "sage",
-    "status": "shipped_parser_fix_above_98_with_backfill_pending",
-    "task_id": "v2_sage_authors_9d33af89"
+    "task_id": "v2_taylor_abstract_3e187ca5",
+    "publisher": "taylor",
+    "field": "abstract",
+    "status": "shipped_full10k_measured_residual_below_98",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_dc_description_b58_gate.json"
   },
-  "last_updated_at": "2026-06-08T01:27:53Z",
+  "last_updated_at": "2026-06-08T07:47:04Z",
   "latest_active_task": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/bmj_short_citation_abstract_full10k_gate.json",
     "field": "abstract",
@@ -784,74 +785,74 @@
     "task_id": "v2_bmj_abstract_279c912c",
     "updated_at": "2026-06-07T12:12:46Z"
   },
-  "latest_batch": "batch55_ssrn_contact_author",
+  "latest_batch": "batch58_taylor_dc_description",
   "latest_batch_delta": {
-    "abstract_ratio_fuzzy": {
-      "after": 0.9233892004099619,
-      "before": 0.9233892004099619,
+    "authors_f1_soft": {
+      "before": 0.9635428956530825,
+      "after": 0.9635428956530825,
       "delta_pp": 0.0
     },
     "affiliations_f1_fuzzy": {
-      "after": 0.9394348948333808,
       "before": 0.9394348948333808,
+      "after": 0.9394348948333808,
       "delta_pp": 0.0
     },
-    "authors_f1_soft": {
-      "after": 0.9598566629394943,
-      "before": 0.9598566629394943,
+    "abstract_ratio_fuzzy": {
+      "before": 0.9233892004099619,
+      "after": 0.9254511985010284,
+      "delta_pp": 0.20619980910665525
+    },
+    "pdf_url_accuracy": {
+      "before": 0.9547257876312719,
+      "after": 0.9547257876312719,
       "delta_pp": 0.0
     },
     "corresponding_accuracy": {
+      "before": 0.9731555094148325,
       "after": 0.9731555094148325,
-      "before": 0.9689660089316052,
-      "delta_pp": 0.41895
-    },
-    "pdf_url_accuracy": {
-      "after": 0.9547257876312719,
-      "before": 0.9547257876312719,
       "delta_pp": 0.0
     }
   },
-  "latest_batch_id": 44,
+  "latest_batch_id": 58,
   "latest_completed_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_authors_current_b52_gate.json",
-    "field": "authors",
-    "publisher_id": "sage",
-    "status": "shipped_parser_fix_above_98_with_backfill_pending",
-    "task_id": "v2_sage_authors_9d33af89",
-    "updated_at": "2026-06-08T01:27:53Z"
+    "task_id": "v2_taylor_abstract_3e187ca5",
+    "publisher_id": "taylor",
+    "field": "abstract",
+    "status": "shipped_full10k_measured_residual_below_98",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_dc_description_b58_gate.json",
+    "updated_at": "2026-06-08T07:47:04Z"
   },
-  "latest_full10k_artifact": "eval/runs/whole-goldie-after-ssrn-contact-author-b55-20260608T033529Z.json",
-  "latest_full10k_batch": 50,
+  "latest_full10k_artifact": "eval/runs/whole-goldie-after-taylor-dc-description-b58-20260608T0715Z.json",
+  "latest_full10k_batch": 58,
   "latest_full10k_kpi": {
-    "abstract_present_rate": 0.6707360861759426,
-    "abstract_ratio_fuzzy": 0.9233892004099619,
-    "affiliations_f1_fuzzy": 0.9394348948333808,
-    "affiliations_f1_strict": 0.7427158567868376,
-    "authors_f1_soft": 0.9598566629394943,
-    "authors_f1_strict": 0.9429280510927934,
-    "corresponding_accuracy": 0.9731555094148325,
-    "duration_ms_mean": 2462.121993325286,
-    "errors": 1,
-    "n_abstract_scored": 5290,
-    "n_authors_scored": 5264,
-    "n_corresponding_scored": 5229,
-    "n_pdf_scored": 4285,
-    "pdf_url_accuracy": 0.9547257876312719,
     "rows": 10000,
     "scored": 5570,
-    "skipped_no_html": 4430
+    "errors": 1,
+    "skipped_no_html": 4430,
+    "authors_f1_strict": 0.9503843580836747,
+    "authors_f1_soft": 0.9635428956530825,
+    "affiliations_f1_strict": 0.7427158567868376,
+    "affiliations_f1_fuzzy": 0.9394348948333808,
+    "abstract_ratio_fuzzy": 0.9254511985010284,
+    "abstract_present_rate": 0.6727109515260323,
+    "pdf_url_accuracy": 0.9547257876312719,
+    "corresponding_accuracy": 0.9731555094148325,
+    "duration_ms_mean": 2829.7962005710383,
+    "n_authors_scored": 5264,
+    "n_pdf_scored": 4285,
+    "n_corresponding_scored": 5229,
+    "n_abstract_scored": 5289
   },
   "latest_full10k_metrics": {
-    "abstract_present_rate": 0.6707360861759426,
-    "abstract_ratio_fuzzy": 0.9233892004099619,
+    "authors_f1_soft": 0.9635428956530825,
     "affiliations_f1_fuzzy": 0.9394348948333808,
-    "authors_f1_soft": 0.9590967845200414,
-    "corresponding_accuracy": 0.9689660089316052,
-    "pdf_url_accuracy": 0.9547257876312719
+    "abstract_ratio_fuzzy": 0.9254511985010284,
+    "pdf_url_accuracy": 0.9547257876312719,
+    "corresponding_accuracy": 0.9731555094148325,
+    "abstract_present_rate": 0.6727109515260323
   },
-  "latest_full10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
-  "latest_full_10k_run": "eval/runs/whole-goldie-after-de-gruyter-authors-residual-20260607T1835Z.json",
+  "latest_full10k_run": "eval/runs/whole-goldie-after-taylor-dc-description-b58-20260608T0715Z.json",
+  "latest_full_10k_run": "eval/runs/whole-goldie-after-taylor-dc-description-b58-20260608T0715Z.json",
   "latest_retrieval_coverage_run": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_browser_smoke_b54_gate.json",
     "attempted_rows": 10,
@@ -1133,22 +1134,22 @@
       "worktree_path": null
     },
     {
-      "artifact_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/mismatches/workflows/20260604T163736Z-77fe45/results/taylor_ebook_jsonld_dispatch_shield.json",
-      "assigned_agent": "codex-taylor-ebook-jsonld",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_dc_description_b58_gate.json",
+      "assigned_agent": "codex-taylor-dc-description-b58",
       "created_at": "2026-06-07T01:10:28.032510+00:00",
-      "current_kpi": 0.8424,
-      "distance_to_98": 0.1376,
-      "empty_empty_passes": 63,
+      "current_kpi": 0.867198177546421,
+      "distance_to_98": 0.11280182245357895,
+      "empty_empty_passes": 62,
       "field": "abstract",
-      "gold_empty_parser_present": 61,
+      "gold_empty_parser_present": 62,
       "gold_fixture_path": "tests/fixtures/taylor-gold.ndjson",
       "gold_status": "fixture-present",
       "headroom": 0.1576,
       "html_available": 499,
       "html_coverage": 0.9862,
-      "latest_run": "eval/runs/whole-goldie-after-acs-corresponding-email-fallback-20260607T0110Z.json",
-      "misses": 18,
-      "next_action": "monitor-next-gap-or-route-goldie-backfilled-candidates",
+      "latest_run": "eval/runs/whole-goldie-after-taylor-dc-description-b58-20260608T0715Z.json",
+      "misses": 7,
+      "next_action": "Taylor dc.Description fallback shipped (+2.477pp Taylor abstract, +0.206pp full-10K abstract). Remaining Taylor abstract gap needs gold/scorer snippet-vs-full-text classification, Goldie-backfilled grounding, non-Taylor contamination cleanup, or manual DOM specialist work; do not truncate full visible abstracts to chase the metric.",
       "parser_status": "supported",
       "priority": 114.3989,
       "publisher_class": "ready",
@@ -1156,12 +1157,15 @@
       "queue_type": "ready",
       "retrieval_blocked": 7,
       "row_count": 506,
-      "scored_rows_for_field": 438,
-      "status": "shipped_full10k_measured",
+      "scored_rows_for_field": 437,
+      "status": "shipped_full10k_measured_residual_below_98",
       "target_kpi": 0.98,
       "task_id": "v2_taylor_abstract_3e187ca5",
       "tractability": 1.0,
-      "worktree_path": null
+      "worktree_path": null,
+      "agent_id": "codex-taylor-dc-description-b58",
+      "latest_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_dc_description_b58_gate.json",
+      "updated_at": "2026-06-08T07:47:04Z"
     },
     {
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_sibling_icon_full10k_summary.json",
@@ -1384,7 +1388,7 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-08T03:04:14Z",
+  "updated_at": "2026-06-08T07:47:04Z",
   "latest_goldie_backfilled_batch": "b56_small_open",
   "latest_goldie_backfilled_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json"
 }

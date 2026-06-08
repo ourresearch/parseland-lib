@@ -89,6 +89,8 @@ class Taylor(PublisherParser):
             abstract = abstract.strip() or None
         else:
             abstract = self._parse_taylorfrancis_chapter_abstract()
+            if not abstract:
+                abstract = self._parse_tandfonline_dc_description()
         return {"authors": results, "abstract": abstract}
 
     def _taylorfrancis_jsonld_chapter(self):
@@ -283,6 +285,34 @@ class Taylor(PublisherParser):
                 if cleaned:
                     return cleaned
         return None
+
+    def _parse_tandfonline_dc_description(self):
+        if not (
+            self.domain_in_meta_og_url("tandfonline.com")
+            or self.domain_in_canonical_link("tandfonline.com")
+        ):
+            return None
+        for meta in self.soup.find_all("meta"):
+            if (meta.get("name") or "").lower() != "dc.description":
+                continue
+            content = str(meta.get("content") or "").strip()
+            if not content:
+                continue
+            cleaned = self._clean_taylorfrancis_abstract(content)
+            if self._looks_like_tandfonline_citation_description(cleaned):
+                continue
+            if len(cleaned.strip(". ")) < 40:
+                continue
+            return cleaned
+        return None
+
+    def _looks_like_tandfonline_citation_description(self, value):
+        text = re.sub(r"\s+", " ", value or "").strip()
+        return bool(
+            re.match(r"^\(\d{4}\)\.\s+", text)
+            or re.search(r":\s+Vol\.\s+\d+", text)
+            and re.search(r"\bpp\.\s+", text)
+        )
 
     def _find_product_abstract_value(self, payload):
         if isinstance(payload, dict):
