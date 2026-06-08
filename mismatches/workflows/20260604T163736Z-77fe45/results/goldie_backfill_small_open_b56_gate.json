@@ -1,0 +1,21 @@
+{
+  "gate_id": "goldie_backfill_small_open_b56_gate",
+  "status": "passed",
+  "created_at": "2026-06-08T05:03:03.886096+00:00",
+  "checks": {
+    "raw_rows": 24,
+    "referee_rows": 24,
+    "derived_rows": 5,
+    "blocked_rows": 19,
+    "all_rows_have_browserbase_session_or_failure": true,
+    "approved_rows_have_field_specific_grounding": true,
+    "current_goldie_kpi_changed": false
+  },
+  "artifacts": {
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_raw.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.ndjson",
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_derived.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json"
+  },
+  "shield_policy": "Browserbase evidence only; derived-corpus candidates are separate from current-Goldie KPI; merged-FINAL.csv not mutated."
+}

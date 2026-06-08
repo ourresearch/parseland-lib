@@ -1,0 +1,58 @@
+{
+  "run_id": "goldie-backfill-small-open-b56",
+  "agent_id": "codex-goldie-backfill-small-open-b56",
+  "completed_at": "2026-06-08T05:03:03.886096+00:00",
+  "raw_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_raw.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.ndjson",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_derived.ndjson",
+  "candidate_count": 24,
+  "approved_rows": 5,
+  "blocked_rows": 19,
+  "status_counts": {
+    "approved_candidate": 5,
+    "blocked": 19
+  },
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 6,
+    "page_rendered_only": 2,
+    "page_identity_only": 5,
+    "visible_or_metadata_pdf_url_not_found": 7,
+    "candidate_text_match": 2,
+    "candidate_pdf_url_resolves": 1,
+    "needs_referee": 1
+  },
+  "rejection_counts": {
+    "page_rendered_no_candidate_match": 2,
+    "missing_required_screenshot": 2,
+    "affiliation_contains_contact_marker_email": 1,
+    "page_identity_only_no_field_grounding": 5,
+    "visible_or_metadata_pdf_url_not_found": 7,
+    "candidate_text_match_missing_required_screenshot": 1,
+    "browserbase_navigation_or_grounding_failed": 1
+  },
+  "by_publisher_field": {
+    "cup:affiliations": {
+      "approved_candidate": 3,
+      "blocked": 5
+    },
+    "wiley:authors": {
+      "blocked": 3
+    },
+    "lippincott:authors": {
+      "blocked": 2
+    },
+    "cup:pdf_url": {
+      "blocked": 3,
+      "approved_candidate": 1
+    },
+    "oxford:pdf_url": {
+      "blocked": 5,
+      "approved_candidate": 1
+    },
+    "ieee:pdf_url": {
+      "blocked": 1
+    }
+  },
+  "policy": "Current-Goldie KPI unchanged. Approved rows are derived-corpus candidates only and require gold-auditor promotion outside merged-FINAL.csv.",
+  "recommendation": "Route 5 approved b56 candidates to derived-corpus approval; keep the 19 blocked rows in manual-review/stronger-grounding lanes. Do not treat page-identity-only or no-PDF-found rows as truth."
+}

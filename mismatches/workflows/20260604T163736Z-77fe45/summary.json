@@ -1,11 +1,11 @@
 {
   "active_task": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_contact_author_b55_gate.json",
-    "field": "corresponding",
-    "publisher_id": "elsevier",
-    "status": "shipped_full10k_measured_residual_below_98",
-    "task_id": "v2_elsevier_corresponding_0c637cda",
-    "updated_at": "2026-06-08T04:11:42Z"
+    "task_id": "goldie_backfill_small_open_b56",
+    "publisher_id": "multi",
+    "field": "goldie_backfilled",
+    "status": "goldie_backfill_referee_complete_5_approved_19_blocked",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json",
+    "updated_at": "2026-06-08T05:03:03.886096+00:00"
   },
   "active_tasks": {
     "iop_abstract": {
@@ -347,6 +347,16 @@
       "status": "goldie_backfill_referee_complete_0_approved_25_blocked",
       "task_id": "v2_taylor_corresponding_15fed079",
       "updated_at": "2026-06-07T04:13:20.200089+00:00"
+    },
+    "goldie_backfill_small_open_b56": {
+      "task_id": "goldie_backfill_small_open_b56",
+      "publisher_id": "multi",
+      "field": "goldie_backfilled",
+      "status": "goldie_backfill_referee_complete_5_approved_19_blocked",
+      "agent_id": "codex-goldie-backfill-small-open-b56",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json",
+      "next_action": "Route 5 approved b56 candidates to derived-corpus approval; keep the 19 blocked rows in manual-review/stronger-grounding lanes. Do not treat page-identity-only or no-PDF-found rows as truth.",
+      "updated_at": "2026-06-08T05:03:03.886096+00:00"
     }
   },
   "by_field": {
@@ -1362,5 +1372,7 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-08T03:04:14Z"
+  "updated_at": "2026-06-08T03:04:14Z",
+  "latest_goldie_backfilled_batch": "b56_small_open",
+  "latest_goldie_backfilled_summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_small_open_b56_referee.summary.json"
 }
