@@ -1,0 +1,45 @@
+{
+  "approved_dois": [
+    "10.1007/s42161-025-02019-5"
+  ],
+  "approved_rows": 1,
+  "artifacts": {
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_derived_v0.ndjson",
+    "gate": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_gate.json",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_grounded.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_referee.ndjson",
+    "retry_raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_retry_grounded.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_referee.summary.json"
+  },
+  "batch": 70,
+  "blocked_reason_counts": {
+    "blocked_article_teaser_not_abstract": 1,
+    "blocked_body_paragraph_not_abstract": 1,
+    "blocked_citation_widget_not_abstract": 1,
+    "blocked_definition_or_introduction_not_abstract": 1,
+    "blocked_dictionary_glossary_entry_not_abstract": 4,
+    "blocked_image_caption_not_abstract": 1,
+    "blocked_introduction_not_abstract": 2,
+    "blocked_missing_required_screenshot": 1,
+    "blocked_needs_selector_level_abstract_grounding": 2,
+    "blocked_oral_presentation_body_not_abstract": 1,
+    "blocked_reference_entry_body_not_abstract": 1,
+    "blocked_retraction_notice_not_abstract": 1,
+    "blocked_teaser_metadata_not_abstract": 2
+  },
+  "blocked_rows": 19,
+  "classification": "goldie_backfill_referee_complete_1_approved_19_blocked",
+  "current_goldie_kpi_effect": "none_goldie_backfilled_lane_only",
+  "field": "abstract",
+  "publisher": "springer",
+  "reviewed_rows": 20,
+  "shield_checks": [
+    "Browserbase B70 completed: 20 processed at concurrency 4",
+    "Browserbase retry completed: 3 processed at concurrency 2",
+    "Referee applied DOI-level conservative approval policy",
+    "No merged-FINAL.csv mutation",
+    "Current-Goldie KPI unchanged; derived-corpus evidence only"
+  ],
+  "status": "green_goldie_backfilled_evidence_gate",
+  "timestamp_utc": "2026-06-09T21:09:48.828878Z"
+}

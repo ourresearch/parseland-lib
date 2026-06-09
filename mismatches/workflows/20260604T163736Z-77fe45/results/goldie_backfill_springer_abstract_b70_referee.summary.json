@@ -1,0 +1,97 @@
+{
+  "agent_id": "codex-goldie-backfilled-springer-abstract-b70",
+  "approved_example_dois": [
+    "10.1007/s42161-025-02019-5"
+  ],
+  "approved_rows": 1,
+  "artifacts": {
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_derived_v0.ndjson",
+    "gate": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_gate.json",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_grounded.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_referee.ndjson",
+    "retry_raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_retry_grounded.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_referee.summary.json"
+  },
+  "batch": 70,
+  "blocked_example_dois": [
+    "10.1007/978-3-642-41714-6_190445",
+    "10.1007/978-3-642-41714-6_90658",
+    "10.1007/978-3-662-43978-4_3640",
+    "10.1007/978-3-642-41714-6_70596",
+    "10.1007/s44381-025-0340-4",
+    "10.1038/ng0505-463",
+    "10.1038/nrclinonc.2011.175",
+    "10.1007/978-3-8349-9045-7_3",
+    "10.1038/s41409-019-0668-0",
+    "10.1038/453286a",
+    "10.1038/s41598-025-02616-5",
+    "10.1057/978-1-349-95839-9_514"
+  ],
+  "blocked_reasons": {
+    "10.1007/978-3-030-66252-3_2371": "blocked_definition_or_introduction_not_abstract",
+    "10.1007/978-3-642-41714-6_190445": "blocked_dictionary_glossary_entry_not_abstract",
+    "10.1007/978-3-642-41714-6_70596": "blocked_dictionary_glossary_entry_not_abstract",
+    "10.1007/978-3-642-41714-6_90658": "blocked_dictionary_glossary_entry_not_abstract",
+    "10.1007/978-3-662-43978-4_3640": "blocked_dictionary_glossary_entry_not_abstract",
+    "10.1007/978-3-8349-9045-7_3": "blocked_teaser_metadata_not_abstract",
+    "10.1007/s11191-026-00743-7": "blocked_introduction_not_abstract",
+    "10.1007/s44381-025-0340-4": "blocked_teaser_metadata_not_abstract",
+    "10.1038/453286a": "blocked_image_caption_not_abstract",
+    "10.1038/ng0505-463": "blocked_citation_widget_not_abstract",
+    "10.1038/nrclinonc.2011.175": "blocked_article_teaser_not_abstract",
+    "10.1038/s41409-019-0668-0": "blocked_body_paragraph_not_abstract",
+    "10.1038/s41598-025-02616-5": "blocked_retraction_notice_not_abstract",
+    "10.1057/978-1-349-95839-9_514": "blocked_reference_entry_body_not_abstract",
+    "10.1140/epjc/s10052-014-2974-4": "blocked_needs_selector_level_abstract_grounding",
+    "10.1186/1471-2318-9-s1-a21": "blocked_oral_presentation_body_not_abstract",
+    "10.1186/1748-7161-4-s1-o9": "blocked_introduction_not_abstract",
+    "10.1186/s13071-021-04875-3": "blocked_needs_selector_level_abstract_grounding",
+    "10.1186/s42162-026-00650-9": "blocked_missing_required_screenshot"
+  },
+  "blocked_rows": 19,
+  "current_goldie_kpi_effect": "none_goldie_backfilled_lane_only",
+  "decision": "Approve only screenshot-backed, Browserbase-rendered, substantive abstract text with Abstract-heading support. Block definitions, introductions, teasers, captions, citation widgets, body paragraphs, and weak renders.",
+  "field": "abstract",
+  "grounding_confidence_counts": {
+    "abstract_len_rendered_parse_match": 5,
+    "candidate_text_match": 5,
+    "page_identity_only": 10
+  },
+  "new_derived_rows": 1,
+  "next_action": "Add a stricter abstract-section heading check to the grounding lane, then continue with remaining full-10K publisher-field queue. Retry rows 18-20 only after Browserbase can capture selector-level abstract evidence and screenshot.",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher": "springer",
+  "raw_grounding_status_counts": {
+    "candidate_evidence_needs_referee": 9,
+    "page_rendered_needs_referee": 10,
+    "weak_page_render_needs_referee": 1
+  },
+  "retry_grounding_status_counts": {
+    "page_rendered_needs_referee": 2,
+    "weak_page_render_needs_referee": 1
+  },
+  "reviewed_rows": 20,
+  "run_id": "bb-springer-abstract-b70",
+  "status": "goldie_backfill_referee_complete_1_approved_19_blocked",
+  "status_counts": {
+    "approved_rendered_abstract": 1,
+    "blocked_article_teaser_not_abstract": 1,
+    "blocked_body_paragraph_not_abstract": 1,
+    "blocked_citation_widget_not_abstract": 1,
+    "blocked_definition_or_introduction_not_abstract": 1,
+    "blocked_dictionary_glossary_entry_not_abstract": 4,
+    "blocked_image_caption_not_abstract": 1,
+    "blocked_introduction_not_abstract": 2,
+    "blocked_missing_required_screenshot": 1,
+    "blocked_needs_selector_level_abstract_grounding": 2,
+    "blocked_oral_presentation_body_not_abstract": 1,
+    "blocked_reference_entry_body_not_abstract": 1,
+    "blocked_retraction_notice_not_abstract": 1,
+    "blocked_teaser_metadata_not_abstract": 2
+  },
+  "timestamp_utc": "2026-06-09T21:09:48.828878Z",
+  "verdict_counts": {
+    "approved_for_goldie_backfilled_derived_candidate": 1,
+    "blocked_from_derived_candidate": 19
+  }
+}
