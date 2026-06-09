@@ -41,6 +41,7 @@ ABSTRACT_LOW_QUALITY_SNIPPETS = (
     "click to increase image size",
     "click to decrease image size",
 )
+ABSTRACT_TITLE_PUBLISHED_IN_RE = re.compile(r"^'.{1,240}' published in '.{1,240}'$")
 GENERIC_CORRESPONDENCE_NEEDLES = {
     "address",
     "email",
@@ -420,10 +421,14 @@ def candidate_quality_blocker(candidate: dict) -> str | None:
     if not isinstance(abstract, str):
         return None
     normalized = " ".join(abstract.split()).strip().lower()
+    if not normalized:
+        return "abstract_empty_candidate"
     if normalized in ABSTRACT_LOW_QUALITY_EXACT:
         return "abstract_placeholder_no_abstract"
     if any(snippet in normalized for snippet in ABSTRACT_LOW_QUALITY_SNIPPETS):
         return "abstract_ui_chrome"
+    if ABSTRACT_TITLE_PUBLISHED_IN_RE.match(normalized):
+        return "abstract_title_published_in_metadata"
     return None
 
 

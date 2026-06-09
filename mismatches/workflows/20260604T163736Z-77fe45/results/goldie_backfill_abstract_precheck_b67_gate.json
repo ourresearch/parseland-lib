@@ -1,0 +1,25 @@
+{
+  "run_id": "goldie-backfill-abstract-precheck-b67",
+  "created_at": "2026-06-09T20:43:07.975164Z",
+  "publisher": "springer",
+  "field": "abstract",
+  "classification": "precheck_rejects_title_metadata_before_browserbase_spend",
+  "changed_files": [
+    "scripts/goldie_backfill_ground.py",
+    "tests/test_goldie_backfill_ground.py"
+  ],
+  "tests": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_goldie_backfill_ground.py -q"
+  ],
+  "test_result": "20 passed in 0.08s",
+  "springer_abstract_candidate_counts": {
+    "needs_browserbase_or_referee": 31,
+    "abstract_title_published_in_metadata": 16
+  },
+  "examples": {
+    "needs_browserbase_or_referee": "10.1186/s42162-026-00650-9",
+    "abstract_title_published_in_metadata": "10.1007/978-0-387-30440-3_289"
+  },
+  "policy": "Current-Goldie KPI unchanged; this only improves Goldie-backfilled evidence quality by rejecting clear non-label abstract candidates before Browserbase sessions.",
+  "next_action": "Run Springer abstract Browserbase grounding on the remaining needs_browserbase_or_referee candidates in 10-row batches, then Referee approve/block with DOI-level evidence."
+}

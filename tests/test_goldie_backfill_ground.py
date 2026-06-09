@@ -5,6 +5,7 @@ from scripts.goldie_backfill_ground import (
     GroundingResult,
     abstract_followup_url,
     candidate_affiliation_values,
+    candidate_quality_blocker,
     candidate_pdf_url,
     excerpt_for,
     extract_author_names_from_html,
@@ -15,6 +16,38 @@ from scripts.goldie_backfill_ground import (
     resolve_mdpi_starred_corresponding_candidate,
     write_result,
 )
+
+
+def test_candidate_quality_blocker_rejects_empty_abstract_candidate():
+    candidate = {"field": "abstract", "parseland_candidate": {"abstract": "   "}}
+
+    assert candidate_quality_blocker(candidate) == "abstract_empty_candidate"
+
+
+def test_candidate_quality_blocker_rejects_springer_title_metadata():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {
+            "abstract": "'Using VHDL for Synthesis of Digital Hardware' published in 'Rapid Prototyping of Digital Systems'"
+        },
+    }
+
+    assert candidate_quality_blocker(candidate) == "abstract_title_published_in_metadata"
+
+
+def test_candidate_quality_blocker_allows_substantive_abstract_text():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {
+            "abstract": (
+                "Mobutu Sese Seko ruled the country he named Zaire for 32 years. "
+                "His autocratic style involved bribing political opponents and "
+                "reshaping public institutions around personal rule."
+            )
+        },
+    }
+
+    assert candidate_quality_blocker(candidate) is None
 
 
 def test_candidate_pdf_url_extracts_structured_candidate():
