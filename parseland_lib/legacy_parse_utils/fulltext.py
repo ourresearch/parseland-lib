@@ -57,6 +57,11 @@ _DE_GRUYTER_PDF_PATH_RE = re.compile(
     re.I,
 )
 
+_TANDFONLINE_DOI_PATH_RE = re.compile(
+    r"^/doi/(?:full|abs|epdf)/(10\.[^?#]+)$",
+    re.I,
+)
+
 
 def find_cup_pdf_link(page_with_scripts):
     """Return the Cambridge Core aop PDF URL from page markup, or None."""
@@ -112,6 +117,37 @@ def find_de_gruyter_pdf_link(soup):
         return normalize_de_gruyter_pdf_url(
             "https://www.degruyterbrill.com" + data_url.split("?", 1)[0]
         )
+    return None
+
+
+def find_tandfonline_pdf_link(soup):
+    """Construct TandF's stable article PDF URL from canonical metadata.
+
+    Some TandF article pages expose no PDF anchor or citation_pdf_url in the
+    cached HTML, but their canonical / og URL is the DOI article route:
+    /doi/full/<doi> or /doi/abs/<doi>. The PDF route is the same DOI at
+    /doi/pdf/<doi>. Keep this host- and path-scoped so non-TandF pages and
+    TaylorFrancis book/product pages are not affected.
+    """
+    for tag in (
+        soup.select_one('link[rel="canonical"]'),
+        soup.select_one('meta[property="og:url"]'),
+        soup.select_one('meta[name="og:url"]'),
+    ):
+        if not tag:
+            continue
+        raw = (tag.get("href") if tag.name == "link" else tag.get("content")) or ""
+        try:
+            parts = urlsplit(raw.strip())
+        except ValueError:
+            continue
+        host = parts.netloc.lower().removeprefix("www.")
+        if host != "tandfonline.com":
+            continue
+        match = _TANDFONLINE_DOI_PATH_RE.match(parts.path)
+        if not match:
+            continue
+        return urlunsplit(("https", "www.tandfonline.com", f"/doi/pdf/{match.group(1)}", "", ""))
     return None
 
 
@@ -205,13 +241,16 @@ def parse_publisher_fulltext_location(soup, resolved_url):
         elif resolved_host.endswith(('degruyter.com', 'degruyterbrill.com')) and (
                 de_gruyter_pdf := find_de_gruyter_pdf_link(soup)):
             pdf_link = DuckLink(de_gruyter_pdf, 'De Gruyter document PDF')
+        elif resolved_host.endswith('tandfonline.com') and (
+                tandfonline_pdf := find_tandfonline_pdf_link(soup)):
+            pdf_link = DuckLink(tandfonline_pdf, 'Taylor & Francis DOI PDF')
 
     if pdf_link is not None:
         pdf_base_url = _doi_router_relative_pdf_base(pdf_link.href, resolved_url)
         pdf_url = get_link_target(pdf_link.href, pdf_base_url)
     else:
         pdf_url = None
-    _, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
+    pdf_url, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
     pdf_url = normalize_de_gruyter_pdf_url(pdf_url)
 
     if bronze_ovs := detect_bronze(soup, resolved_url):

@@ -624,6 +624,13 @@ def has_bad_href_word(href):
         # ".fmatter" blacklist is meant to avoid unrelated book front matter,
         # not to suppress a DOI-scoped Wiley PDF for the current row.
         r'(?:^|onlinelibrary\.wiley\.com)/doi/(?:pdfdirect|pdf|epdf)/10\.1002/[^?#\s"\'<>]+\.fmatter(?:[?#].*)?$',
+        # TaylorFrancis book pages expose DOI-scoped PDF downloads through the
+        # api.taylorfrancis.com content endpoint. The global "type=googlepdf"
+        # blacklist suppresses catalog previews; keep the real DOI download.
+        r'^https?://api\.taylorfrancis\.com/content/books/[^?#]+/download\?'
+        r'(?=[^#]*\bidentifierName=doi\b)'
+        r'(?=[^#]*\bidentifierValue=10\.)'
+        r'(?=[^#]*\btype=googlepdf\b).*$',
     ]
 
     for good_word in href_whitelist:
@@ -1046,6 +1053,8 @@ def clean_pdf_url(pdf_url, pdf_download_link):
         (r'https?://(www\.)?(mitpressjournals\.org|journals\.uchicago\.edu)/doi/full/10\.+', '/doi/full/', '/doi/pdf/'),
         (r'https?://(www\.)?ascopubs\.org/doi/full/10\.+', '/doi/full/', '/doi/pdfdirect/'),
         (r'https?://(www\.)?(ahajournals\.org|journals\.sagepub\.com)/doi/reader/10\..+', '/doi/reader/', '/doi/pdf/'),
+        (r'https?://(www\.)?tandfonline\.com/doi/full/10\..+', '/doi/full/', '/doi/pdf/'),
+        (r'https?://(www\.)?tandfonline\.com/doi/abs/10\..+', '/doi/abs/', '/doi/pdf/'),
         (r'https?://(www\.)?(tandfonline\.com|ajronline\.org|pubs\.acs\.org|royalsocietypublishing\.org)/doi/epdf/10\..+', '/doi/epdf/', '/doi/pdf/'),
         (r'https?://(www\.)?onlinelibrary\.wiley\.com/doi/epdf/10\..+', '/epdf/', '/pdfdirect/'),
         (r'https?://(journals\.)?healio\.com/doi/epdf/10\..+', '/doi/epdf/', '/doi/pdf/'),

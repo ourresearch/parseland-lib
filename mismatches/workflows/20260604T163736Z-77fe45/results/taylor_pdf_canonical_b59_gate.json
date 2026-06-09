@@ -1,0 +1,522 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "batch": 59,
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "publisher_id": "taylor",
+  "field": "pdf_url",
+  "agent_id": "codex-taylor-pdf-canonical-b59",
+  "status": "shipped_full10k_measured_below_98_with_explainable_residual",
+  "classification": "parser_owned_tandfonline_canonical_pdf_and_shared_clean_pdf_url_bugfix",
+  "completed_at": "2026-06-09T02:35:09Z",
+  "diagnosis": "TandF article pages can expose canonical/og /doi/full/<doi> or /doi/abs/<doi> without a visible PDF anchor. The stable PDF route is /doi/pdf/<doi>. A shared fulltext bug also discarded clean_pdf_url output, preventing selected /doi/abs URLs from normalizing to /doi/pdf.",
+  "expected_kpi_impact": {
+    "focused_taylor": {
+      "authors": {
+        "before": 0.964523488207699,
+        "after": 0.964523488207699,
+        "delta_pp": 0.0
+      },
+      "affiliations": {
+        "before": 0.9668317999528191,
+        "after": 0.9668317999528191,
+        "delta_pp": 0.0
+      },
+      "abstract": {
+        "before": 0.867198177546421,
+        "after": 0.8671981775464209,
+        "delta_pp": -1.1102230246251565e-14
+      },
+      "pdf_url": {
+        "before": 0.9253333333333333,
+        "after": 0.9710743801652892,
+        "delta_pp": 4.57410468319559
+      },
+      "corresponding": {
+        "before": 0.9860759493670885,
+        "after": 0.9860759493670885,
+        "delta_pp": 0.0
+      }
+    },
+    "full10k": {
+      "authors": {
+        "before": 0.9635428956530825,
+        "after": 0.9635428956530825,
+        "delta_pp": 0.0
+      },
+      "affiliations": {
+        "before": 0.9394348948333808,
+        "after": 0.9394348948333808,
+        "delta_pp": 0.0
+      },
+      "abstract": {
+        "before": 0.9254511985010284,
+        "after": 0.9254511985010284,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "before": 0.9547257876312719,
+        "after": 0.9583032055917089,
+        "delta_pp": 0.35774179604369793
+      },
+      "corresponding": {
+        "before": 0.9731555094148325,
+        "after": 0.9731555094148325,
+        "delta_pp": 0.0
+      }
+    }
+  },
+  "coverage": {
+    "full10k": {
+      "total_rows": 10000,
+      "html_available": 5570,
+      "scored_rows": 5570,
+      "retrieval_blocked_rows": 4430,
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 101,
+        "cached_error_page": 3,
+        "cached_pdf": 22,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "gold_empty_parser_present_count": 3129,
+      "per_publisher": {
+        "aaas": {
+          "total_rows": 24,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 24
+        },
+        "aacr": {
+          "total_rows": 34,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 34
+        },
+        "acm": {
+          "total_rows": 37,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 37
+        },
+        "acs": {
+          "total_rows": 130,
+          "html_available": 130,
+          "scored_rows": 130,
+          "retrieval_blocked": 0
+        },
+        "aip_publishing": {
+          "total_rows": 57,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 57
+        },
+        "ame": {
+          "total_rows": 3,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3
+        },
+        "ams": {
+          "total_rows": 10,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 10
+        },
+        "apa": {
+          "total_rows": 25,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 25
+        },
+        "aps": {
+          "total_rows": 38,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 38
+        },
+        "asa": {
+          "total_rows": 10,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 10
+        },
+        "asco": {
+          "total_rows": 17,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 17
+        },
+        "ash": {
+          "total_rows": 12,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 12
+        },
+        "asme": {
+          "total_rows": 26,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 26
+        },
+        "bentham": {
+          "total_rows": 15,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 15
+        },
+        "bmj": {
+          "total_rows": 69,
+          "html_available": 66,
+          "scored_rows": 66,
+          "retrieval_blocked": 3
+        },
+        "brill": {
+          "total_rows": 65,
+          "html_available": 55,
+          "scored_rows": 55,
+          "retrieval_blocked": 10
+        },
+        "cairn": {
+          "total_rows": 49,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 49
+        },
+        "company_biologists": {
+          "total_rows": 3,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3
+        },
+        "copernicus": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "cshlp": {
+          "total_rows": 29,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 29
+        },
+        "cup": {
+          "total_rows": 154,
+          "html_available": 151,
+          "scored_rows": 151,
+          "retrieval_blocked": 3
+        },
+        "de_gruyter": {
+          "total_rows": 226,
+          "html_available": 222,
+          "scored_rows": 222,
+          "retrieval_blocked": 4
+        },
+        "edp_sciences": {
+          "total_rows": 21,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 21
+        },
+        "elsevier": {
+          "total_rows": 1564,
+          "html_available": 1487,
+          "scored_rows": 1487,
+          "retrieval_blocked": 77
+        },
+        "emerald": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "f1000": {
+          "total_rows": 2,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 2
+        },
+        "frontiers": {
+          "total_rows": 48,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 48
+        },
+        "hindawi": {
+          "total_rows": 32,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 32
+        },
+        "ieee": {
+          "total_rows": 395,
+          "html_available": 393,
+          "scored_rows": 393,
+          "retrieval_blocked": 2
+        },
+        "iop": {
+          "total_rows": 75,
+          "html_available": 63,
+          "scored_rows": 63,
+          "retrieval_blocked": 12
+        },
+        "karger": {
+          "total_rows": 37,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 37
+        },
+        "lippincott": {
+          "total_rows": 190,
+          "html_available": 190,
+          "scored_rows": 190,
+          "retrieval_blocked": 0
+        },
+        "mary_ann_liebert": {
+          "total_rows": 15,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 15
+        },
+        "mdpi": {
+          "total_rows": 137,
+          "html_available": 72,
+          "scored_rows": 72,
+          "retrieval_blocked": 65
+        },
+        "nejm": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "optica": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "oxford": {
+          "total_rows": 271,
+          "html_available": 250,
+          "scored_rows": 250,
+          "retrieval_blocked": 21
+        },
+        "plos": {
+          "total_rows": 32,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 32
+        },
+        "portland_press": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "research_square": {
+          "total_rows": 24,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 24
+        },
+        "rsc": {
+          "total_rows": 61,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 61
+        },
+        "rsna": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "sage": {
+          "total_rows": 200,
+          "html_available": 198,
+          "scored_rows": 198,
+          "retrieval_blocked": 2
+        },
+        "scielo": {
+          "total_rows": 33,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 33
+        },
+        "spie": {
+          "total_rows": 46,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 46
+        },
+        "springer": {
+          "total_rows": 1123,
+          "html_available": 1117,
+          "scored_rows": 1117,
+          "retrieval_blocked": 6
+        },
+        "taylor": {
+          "total_rows": 506,
+          "html_available": 499,
+          "scored_rows": 499,
+          "retrieval_blocked": 7
+        },
+        "thieme": {
+          "total_rows": 61,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 61
+        },
+        "unknown": {
+          "total_rows": 3303,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3303
+        },
+        "wiley": {
+          "total_rows": 695,
+          "html_available": 677,
+          "scored_rows": 677,
+          "retrieval_blocked": 18
+        }
+      }
+    },
+    "focused_taylor": {
+      "total_rows": 506,
+      "html_available": 499,
+      "scored_rows": 499,
+      "retrieval_blocked_rows": 7,
+      "retrieval_blocked_by_reason": {
+        "cached_too_small": 1,
+        "missing": 6
+      },
+      "gold_empty_parser_present_count": 377,
+      "per_publisher": {
+        "taylor": {
+          "total_rows": 506,
+          "html_available": 499,
+          "scored_rows": 499,
+          "retrieval_blocked": 7
+        }
+      }
+    },
+    "taylor_pdf_counts_after": {
+      "total_rows": 506,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "empty_empty_pass": 110,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 131,
+      "gold_empty_parser_present": 257,
+      "scored_rows": 242
+    },
+    "taylor_pdf_counts_before": {
+      "total_rows": 506,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "empty_empty_pass": 243,
+      "gold_present_parser_empty": 21,
+      "gold_present_parser_present": 111,
+      "gold_empty_parser_present": 124,
+      "scored_rows": 375
+    }
+  },
+  "residual_examples": [
+    {
+      "doi": "10.1080/09629359791875",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1080/09629359791875",
+      "parsed_url": "https://downloads.hindawi.com/journals/mi/1997/982762.pdf",
+      "classification": "gold_cross_publisher_or_representation_mismatch"
+    },
+    {
+      "doi": "10.11834/jig.250530",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "https://www.cjig.cn/rc-pub/front/front-article/download/147049186/lowqualitypdf/低照度图像的双分支特征增强与校准网络.pdf",
+      "parsed_url": "https://www.cjig.cn/rc-pub/front/front-article/download/147049186/lowqualitypdf/低光照图像的双分支特征增强与校准网络.pdf",
+      "classification": "filename_variant_manual_scorer_or_gold_owned"
+    },
+    {
+      "doi": "10.1080/19306962.1951.11786526",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1056203.pdf",
+      "parsed_url": "https://www.tandfonline.com/doi/pdf/10.1080/19306962.1951.11786526",
+      "classification": "gold_cross_publisher_or_representation_mismatch"
+    },
+    {
+      "doi": "10.4095/124393",
+      "status": "gold_present_parser_empty",
+      "gold_url": "https://ostrnrcan-dostrncan.canada.ca/bitstreams/b1484fe0-7b98-4757-acc3-82980fc31004/download",
+      "parsed_url": null,
+      "classification": "cross_publisher_retrieval_owned_download_route"
+    },
+    {
+      "doi": "10.1080/10357717608444573",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "https://www.ejog.org/article/0028-2243(91)90167-J/pdf",
+      "parsed_url": "https://www.tandfonline.com/doi/pdf/10.1080/10357717608444573",
+      "classification": "gold_cross_publisher_or_representation_mismatch"
+    },
+    {
+      "doi": "10.1080/21548331.1978.11707349",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "https://globalresearchonline.net/ijpsrr/v81-1/25.pdf",
+      "parsed_url": "https://www.tandfonline.com/doi/pdf/10.1080/21548331.1978.11707349",
+      "classification": "gold_cross_publisher_or_representation_mismatch"
+    },
+    {
+      "doi": "10.1587/bplus.5.260a",
+      "status": "gold_present_parser_present_divergent",
+      "gold_url": "https://www.jstage.jst.go.jp/article/bplus/5/3/5_3_260a/_pdf",
+      "parsed_url": "https://www.jstage.jst.go.jp/pub/pdfpreview/bplus/5/3_5_3_260a.jpg",
+      "classification": "manual_scorer_or_jstage_preview_route"
+    }
+  ],
+  "backfill_routing": {
+    "gold_empty_parser_present_taylor_pdf_candidates": 257,
+    "current_goldie_kpi_separate": true,
+    "next_pathway": "Goldie-backfilled Browserbase/Referee lane for 257 Taylor PDF candidates; manual/gold-auditor review for divergent residual URLs."
+  },
+  "files_touched": [
+    "parseland_lib/legacy_parse_utils/fulltext.py",
+    "parseland_lib/legacy_parse_utils/pdf.py",
+    "tests/test_taylor_pdf_url.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_pdf_canonical_b59_after_v2.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_canonical_b59_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson"
+  ],
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/legacy_parse_utils/fulltext.py parseland_lib/legacy_parse_utils/pdf.py",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_taylor_pdf_url.py tests/test_parse_page.py tests/test_parse_page_canonical_sniff.py tests/test_cup_pdf.py tests/test_lippincott_pdf.py -q",
+      "status": "passed",
+      "result": "42 passed in 0.14s"
+    },
+    {
+      "command": "git diff --check -- parseland_lib/legacy_parse_utils/fulltext.py parseland_lib/legacy_parse_utils/pdf.py tests/test_taylor_pdf_url.py",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers taylor --label taylor-pdf-canonical-b59-v2 --concurrency 8",
+      "status": "passed",
+      "result": "Taylor pdf_url_accuracy 0.925333 -> 0.971074; authors/affiliations/abstract/corresponding unchanged; retrieval_blocked=7; errors=0.",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_pdf_canonical_b59_after_v2.json"
+    },
+    {
+      "command": "whole_goldie_eval.py run --label after-taylor-pdf-canonical-b59 --concurrency 8",
+      "status": "passed",
+      "result": "coverage.total_rows=10000; full-10K pdf_url_accuracy 0.954726 -> 0.958303; other tracked aggregate fields unchanged; retrieval_blocked=4430; errors=1 known row.",
+      "artifact_path": "eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json"
+    }
+  ],
+  "recommendation": "Ship the Taylor/TandF canonical PDF fix. Taylor pdf_url improved from 0.925333 to 0.971074 on the focused Taylor slice and full-10K pdf_url accuracy improved from 0.954726 to 0.958303. Taylor pdf_url remains below 98, but the remaining current-Goldie residuals are cross-publisher/gold/scorer/retrieval/manual-DOM owned; route 257 Goldie-empty/parser-present Taylor PDF candidates to Goldie-backfilled instead of adding another broad parser rule."
+}
