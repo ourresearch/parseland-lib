@@ -1,0 +1,88 @@
+{
+  "agent_id": "codex-taylor-pdf-backfill-b76",
+  "approved_rows": 48,
+  "blocked_examples": [
+    {
+      "doi": "10.1080/0284186x.2023.2224053",
+      "grounding_confidence": "needs_referee",
+      "grounding_error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://doi.org/10.1080/0284186x.2023.2224053\nCall log:\n  - navigating to \"https://doi.org/10.1080/0284186x.2023.2224053\", waiting until \"domcontentloaded\"\n",
+      "reason": "Browserbase could not resolve the DOI landing page in this run, so there is no page or candidate PDF screenshot evidence to approve a derived pdf_url label.",
+      "status": "grounding_failed"
+    },
+    {
+      "doi": "10.1080/03080188.2023.2193799",
+      "grounding_confidence": "visible_or_metadata_pdf_url_not_verified",
+      "grounding_error": null,
+      "reason": "Browserbase evidence did not verify the Taylor candidate PDF route: DOI resolution landed outside Taylor, rendered links did not ground the candidate, and the direct Taylor candidate did not return approval-quality HTTP 200 evidence.",
+      "status": "weak_page_render_needs_referee"
+    }
+  ],
+  "blocked_rows": 2,
+  "candidate_http_status_counts": {
+    "200": 48,
+    "403": 1
+  },
+  "classification": "goldie_backfill_referee_complete_48_approved_2_blocked_scale_continue",
+  "completed_at": "2026-06-09T23:42:08Z",
+  "current_goldie_kpi_effect": "none",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_derived.ndjson",
+  "diagnosis": "Taylor pdf_url Browserbase scale batch produced approval-quality evidence for 48/50 candidates. Approved rows reached the candidate Taylor /doi/pdf route with HTTP 200, retained a /doi/pdf final URL, and had screenshot evidence. Two rows were blocked: one DOI.org navigation failure and one weak render/wrong-publisher PDF signal.",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_derived.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "gate": "green_goldie_backfilled_scale_batch",
+  "grounded_status_counts": {
+    "candidate_evidence_needs_referee": 48,
+    "grounding_failed": 1,
+    "weak_page_render_needs_referee": 1
+  },
+  "publisher_id": "taylor",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_grounded.ndjson",
+  "recommendation": "Continue Taylor pdf_url Goldie-backfilled grounding in another 50-row batch if capacity is available. Keep derived labels separate from current-Goldie KPI and do not mutate merged-FINAL.csv.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.ndjson",
+  "referee_status_counts": {
+    "approved_pdf_route_grounded": 48,
+    "blocked_browserbase_navigation_failed": 1,
+    "blocked_weak_render_or_wrong_publisher_pdf": 1
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_evidence",
+  "sessions": 50,
+  "shield_verdict": "green_scale_continue",
+  "status": "scale_continue",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "Browserbase Taylor pdf_url scale batch, skip 10 limit 50 concurrency 4",
+      "result": "50 rows processed: {'candidate_evidence_needs_referee': 48, 'grounding_failed': 1, 'weak_page_render_needs_referee': 1}",
+      "status": "passed"
+    },
+    {
+      "command": "Referee URL/screenshot check",
+      "result": "48/50 approved; approved rows retain /doi/pdf final URLs with HTTP 200 and screenshots; 2 blocked for missing approval-quality evidence",
+      "status": "passed"
+    },
+    {
+      "command": "Current-Goldie separation check",
+      "result": "approved rows written only to a derived ledger; merged-FINAL.csv unchanged; current-Goldie KPI effect is none",
+      "status": "passed"
+    },
+    {
+      "command": "secret-prefix scan over Batch 76 Taylor PDF artifacts",
+      "result": "no Browserbase credential value found in Batch 76 Taylor PDF artifacts or workflow ledgers",
+      "status": "passed"
+    }
+  ],
+  "wave_id": 76
+}

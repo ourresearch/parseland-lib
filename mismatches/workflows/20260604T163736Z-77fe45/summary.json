@@ -20,6 +20,15 @@
     "current_goldie_kpi_effect": "none",
     "scale_ready": true
   },
+  "batch76_taylor_pdf_backfill_scale": {
+    "approved_rows": 48,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
+    "blocked_rows": 2,
+    "classification": "goldie_backfill_referee_complete_48_approved_2_blocked_scale_continue",
+    "current_goldie_kpi_effect": "none",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_derived.ndjson",
+    "scale_continue": true
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -97,9 +106,18 @@
   "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b75_claim_gate.json",
   "latest_active_at": "2026-06-09T23:05:14Z",
   "latest_active_task": "v2_taylor_pdf_url_2e40646f",
-  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
-  "latest_completed_at": "2026-06-09T23:13:33Z",
+  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
+  "latest_completed_at": "2026-06-09T23:42:08Z",
   "latest_completed_task": "v2_taylor_pdf_url_2e40646f",
+  "latest_taylor_pdf_backfill_batch": {
+    "approved_rows": 48,
+    "blocked_rows": 2,
+    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.ndjson",
+    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
+    "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+    "remaining_current_candidates_estimate": 197,
+    "status": "goldie_backfill_referee_complete_48_approved_2_blocked_scale_continue"
+  },
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
