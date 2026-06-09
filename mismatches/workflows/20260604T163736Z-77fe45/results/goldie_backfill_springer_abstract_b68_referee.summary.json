@@ -1,0 +1,28 @@
+{
+  "run_id": "bb-springer-abstract-b68",
+  "created_at": "2026-06-09T20:50:20.294529Z",
+  "task_id": "v2_springer_abstract_backfill_b68",
+  "agent_id": "codex-goldie-backfilled-springer-abstract-b68",
+  "publisher": "springer",
+  "field": "abstract",
+  "classification": "goldie_backfill_referee_complete_0_approved_10_blocked",
+  "processed_rows": 10,
+  "approved_rows": 0,
+  "blocked_rows": 10,
+  "state_counts": {
+    "candidate_rejected_low_quality": 4,
+    "page_rendered_needs_referee": 4,
+    "candidate_evidence_needs_referee": 2
+  },
+  "referee_counts": {
+    "blocked_precheck_low_quality_candidate": 4,
+    "blocked_references_not_abstract": 3,
+    "blocked_contact_directory_not_abstract": 1,
+    "blocked_synonyms_not_abstract": 1,
+    "blocked_volume_metadata_not_abstract": 1
+  },
+  "policy": "Current-Goldie KPI unchanged; Browserbase evidence grounds candidates but Referee rejected all rows as non-abstract evidence.",
+  "candidate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b68_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b68_referee.ndjson",
+  "next_action": "Before scaling more Springer abstract backfill, add or use stricter non-abstract filters for references, contact directories, synonyms, and volume metadata; then ground only remaining substantive candidates."
+}
