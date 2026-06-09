@@ -34,6 +34,8 @@ CLAIMABLE_STATUSES = {
     "needs_agent",
     "goldie_backfill_pending",
     "goldie_backfilled_needed",
+    "above_98_with_backfill_pending",
+    "retrieval_recovered_above_98_with_backfill_pending",
     "retrieval_recovered_needs_agent",
     "retrieval_recovered_near_98_needs_fixture_and_agent",
     "retrieval_recovered_near_98_needs_residual_diagnosis",

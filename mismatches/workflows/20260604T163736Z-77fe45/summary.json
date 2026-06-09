@@ -1,4 +1,11 @@
 {
+  "batch74_de_gruyter_pdf_backfill": {
+    "approved_rows": 0,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
+    "blocked_rows": 5,
+    "classification": "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence",
+    "current_goldie_kpi_effect": "none"
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -15,7 +22,6 @@
   },
   "by_status": {
     "above_98": 2,
-    "above_98_with_backfill_pending": 1,
     "blocked_explainable_current_goldie_residual_below_98": 1,
     "blocked_no_visible_or_metadata_pdf_url": 1,
     "blocked_pdf_candidate_urls_not_grounded": 1,
@@ -41,13 +47,13 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
+    "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence": 1,
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 165,
     "retrieval_browser_smoke_blocked_0_10_recovered": 5,
     "retrieval_recovered_above_98": 1,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_near_98_needs_residual_diagnosis": 2,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 12,
@@ -56,7 +62,7 @@
     "shipped_full10k_measured_residual_below_98": 2,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
-    "shipped_parser_fix_above_98_with_backfill_pending": 3,
+    "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
@@ -73,9 +79,9 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
-  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_0_38_referee_b64.summary.json",
-  "latest_completed_at": "2026-06-09T18:31:09.877313Z",
-  "latest_completed_task": "v2_oxford_abstract_02a7eeb9",
+  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
+  "latest_completed_at": "2026-06-09T22:56:03Z",
+  "latest_completed_task": "v2_de_gruyter_pdf_url_e73da58b",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",

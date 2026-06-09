@@ -1,0 +1,90 @@
+{
+  "agent_id": "codex-de-gruyter-pdf-backfill-b74",
+  "approved_rows": 0,
+  "blocked_rows": 5,
+  "blocker_categories": [
+    "human_verification_page_on_candidate_pdf_navigation",
+    "candidate_pdf_url_returns_405",
+    "landing_page_or_crossref_identity_only_not_pdf_evidence"
+  ],
+  "candidate_http_status_counts": {
+    "202": 2,
+    "405": 3
+  },
+  "classification": "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence",
+  "completed_at": "2026-06-09T22:56:03Z",
+  "current_goldie_kpi_effect": "none",
+  "diagnosis": "De Gruyter PDF Goldie-backfilled smoke did not produce approval-quality PDF URL evidence. Two candidate-PDF navigations returned HTTP 202 but screenshots showed human-verification pages; three returned HTTP 405 without candidate PDF screenshots.",
+  "doi_examples": [
+    {
+      "candidate_screenshot_path": null,
+      "candidate_status": 405,
+      "doi": "10.1515/9780271089737-toc",
+      "verdict": "blocked_candidate_pdf_405"
+    },
+    {
+      "candidate_screenshot_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/a852a70e2c46-pdf.png",
+      "candidate_status": 202,
+      "doi": "10.1515/9780228002383-022",
+      "verdict": "blocked_human_verification_not_pdf"
+    },
+    {
+      "candidate_screenshot_path": null,
+      "candidate_status": 405,
+      "doi": "10.1515/9780691200811-010",
+      "verdict": "blocked_candidate_pdf_405"
+    },
+    {
+      "candidate_screenshot_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/8b4ef21f6e2a-pdf.png",
+      "candidate_status": 202,
+      "doi": "10.1515/9780691189123-014",
+      "verdict": "blocked_human_verification_not_pdf"
+    },
+    {
+      "candidate_screenshot_path": null,
+      "candidate_status": 405,
+      "doi": "10.1515/9781399544627-064",
+      "verdict": "blocked_candidate_pdf_405"
+    }
+  ],
+  "evidence_quality": "not_approval_quality_for_pdf_backfill",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "scripts/workflow_claim.py"
+  ],
+  "grounding_status_counts": {
+    "candidate_evidence_needs_referee": 2,
+    "weak_page_render_needs_referee": 3
+  },
+  "processed": 5,
+  "publisher_id": "de_gruyter",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_grounded.ndjson",
+  "recommendation": "Do not scale De Gruyter pdf_url Goldie-backfilled candidates until the grounding lane can prove PDF URLs with PDF/article-content screenshots or an equivalent selector-level evidence path. Current-Goldie De Gruyter pdf_url is already above 98%; keep the 39 Goldie-empty/parser-present candidates separate and continue the next ranked publisher-field lane.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.ndjson",
+  "referee_verdict_counts": {
+    "blocked_candidate_pdf_405": 3,
+    "blocked_human_verification_not_pdf": 2
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_paths": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/370c544e684f.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/8b4ef21f6e2a-pdf.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/8b4ef21f6e2a.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/9aa3f4588ff4.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/a852a70e2c46-pdf.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/a852a70e2c46.png",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_evidence/d1a636541e63.png"
+  ],
+  "status": "blocked_no_scale",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
+  "task_id": "v2_de_gruyter_pdf_url_e73da58b",
+  "wave_id": 74
+}
