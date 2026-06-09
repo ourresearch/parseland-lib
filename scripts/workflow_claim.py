@@ -42,6 +42,31 @@ CLAIMABLE_STATUSES = {
     "retrieval_recovered_goldie_backfill_heavy_needs_referee",
 }
 
+BACKFILL_REOPEN_STATUSES = {
+    "shipped_full10k_measured",
+    "shipped_full10k_measured_above_98",
+    "shipped_full10k_measured_below_98_with_explainable_residual",
+    "shipped_full10k_measured_with_backfill_pending",
+    "shipped_parser_fix_above_98_with_backfill_pending",
+    "shipped_parser_fix_above_98_with_residual_explained",
+    "shipped_scorer_fix_above_98_with_backfill_pending",
+}
+
+ACTIVE_CLAIM_STATUSES = {"in_progress", "started", "claimed"}
+
+
+def is_claimable_task(task: dict) -> bool:
+    status = task.get("status")
+    if status in CLAIMABLE_STATUSES:
+        return True
+    if task.get("queue_type") != "goldie-backfilled":
+        return False
+    try:
+        backfill_count = int(task.get("gold_empty_parser_present") or 0)
+    except (TypeError, ValueError):
+        backfill_count = 0
+    return backfill_count > 0 and status in BACKFILL_REOPEN_STATUSES
+
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
@@ -74,14 +99,19 @@ def main() -> int:
         fcntl.flock(lk, fcntl.LOCK_EX)
         # Read current queue + claims
         tasks = [json.loads(l) for l in queue_path.read_text().split("\n") if l.strip()]
-        claimed_ids = set()
+        latest_claim_status: dict[str, str | None] = {}
         if claims_path.exists():
             for ln in claims_path.read_text().split("\n"):
                 if not ln.strip(): continue
                 try:
                     c = json.loads(ln)
-                    claimed_ids.add(c["task_id"])
+                    latest_claim_status[c["task_id"]] = c.get("status")
                 except Exception: pass
+        claimed_ids = {
+            task_id
+            for task_id, status in latest_claim_status.items()
+            if status in ACTIVE_CLAIM_STATUSES
+        }
 
         # Find next N matching unclaimed tasks
         selected = []
@@ -90,7 +120,7 @@ def main() -> int:
             if queue_types and t["queue_type"] not in queue_types: continue
             if fields and t["field"] not in fields: continue
             if args.publisher and t["publisher_id"] != args.publisher: continue
-            if t.get("status") not in CLAIMABLE_STATUSES: continue
+            if not is_claimable_task(t): continue
             selected.append(t)
             if len(selected) >= args.n: break
 
