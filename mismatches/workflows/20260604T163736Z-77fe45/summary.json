@@ -12,6 +12,14 @@
     "current_goldie_kpi_effect": "none",
     "status": "in_progress_browserbase_smoke"
   },
+  "batch75_taylor_pdf_backfill_smoke": {
+    "approved_rows": 10,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
+    "blocked_rows": 0,
+    "classification": "goldie_backfill_referee_complete_10_approved_0_blocked_smoke_scale_ready",
+    "current_goldie_kpi_effect": "none",
+    "scale_ready": true
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -53,8 +61,8 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
+    "goldie_backfill_smoke_10_approved_0_blocked_scale_ready": 1,
     "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence": 1,
-    "in_progress": 1,
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 165,
@@ -89,9 +97,9 @@
   "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b75_claim_gate.json",
   "latest_active_at": "2026-06-09T23:05:14Z",
   "latest_active_task": "v2_taylor_pdf_url_2e40646f",
-  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
-  "latest_completed_at": "2026-06-09T22:56:03Z",
-  "latest_completed_task": "v2_de_gruyter_pdf_url_e73da58b",
+  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
+  "latest_completed_at": "2026-06-09T23:13:33Z",
+  "latest_completed_task": "v2_taylor_pdf_url_2e40646f",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",

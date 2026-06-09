@@ -1,0 +1,40 @@
+{
+  "agent_id": "codex-taylor-pdf-backfill-b75",
+  "approved_rows": 10,
+  "blocked_rows": 0,
+  "candidate_http_status_counts": {
+    "200": 10
+  },
+  "classification": "goldie_backfill_referee_complete_10_approved_0_blocked_smoke_scale_ready",
+  "completed_at": "2026-06-09T23:13:33Z",
+  "current_goldie_kpi_effect": "none",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_derived_v0.ndjson",
+  "diagnosis": "Taylor pdf_url Browserbase smoke produced approval-quality evidence for 10/10 candidates: every candidate /doi/pdf URL returned HTTP 200, retained a /doi/pdf final URL, and captured Taylor article/PDF access screenshots rather than bot checks or 405 responses.",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_derived_v0.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson"
+  ],
+  "processed": 10,
+  "publisher_id": "taylor",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_grounded.ndjson",
+  "recommendation": "Scale Taylor pdf_url Goldie-backfilled grounding in 50-row batches with the same Referee rule. Keep derived labels separate from current-Goldie KPI and do not mutate merged-FINAL.csv.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.ndjson",
+  "referee_status_counts": {
+    "approved_pdf_route_grounded": 10
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_evidence",
+  "sessions": 10,
+  "status": "scale_ready",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "wave_id": 75
+}
