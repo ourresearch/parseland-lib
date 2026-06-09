@@ -1,0 +1,1309 @@
+{
+  "artifact": "taylor_authors_residual_b61_diagnosis",
+  "timestamp_utc": "2026-06-09T16:16:05Z",
+  "source_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
+  "publisher": "taylor",
+  "field": "authors",
+  "summary": {
+    "total_rows": 506,
+    "html_available": 499,
+    "retrieval_blocked": 7,
+    "status_counts": {
+      "gold_present_parser_present": 418,
+      "empty_empty_pass": 62,
+      "retrieval_blocked": 7,
+      "gold_empty_parser_present": 5,
+      "gold_present_parser_empty": 14
+    },
+    "category_counts": {
+      "current_goldie_pass": 402,
+      "empty_empty_pass": 62,
+      "cross_publisher_contamination_or_non_taylor_host": 14,
+      "retrieval_blocked": 7,
+      "goldie_backfilled_candidate": 5,
+      "parser_empty_no_author_signal": 4,
+      "parser_empty_jsonld_or_chapter_author_gap": 9,
+      "parser_missing_some_authors_or_gold_extra": 1,
+      "parser_extra_authors_or_gold_missing": 2
+    },
+    "current_goldie_miss_count": 20,
+    "goldie_backfilled_candidate_count": 5,
+    "current_kpi": 0.964523488207699,
+    "distance_to_98": 0.015476511792301029
+  },
+  "top_current_goldie_misses": [
+    {
+      "doi": "10.12659/ajcr.945140",
+      "no": 3864,
+      "link": "https://doi.org/10.12659/ajcr.945140",
+      "status": "gold_present_parser_empty",
+      "category": "cross_publisher_contamination_or_non_taylor_host",
+      "host": "amjcaserep.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 10,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Tatjana Gavrancic",
+        "Kassandra Stoddard",
+        "Jason Lewis",
+        "Marko Gorasevic",
+        "Aleksandra Murawska Baptista",
+        "Melissa Cortes",
+        "Michael Smerina",
+        "Ricardo J. Pagan",
+        "Adrian Dumitrascu",
+        "Libardo Rueda Prada"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Tatjana Gavrancic",
+        "Kassandra Stoddard",
+        "Jason Lewis",
+        "Marko Gorasevic",
+        "Aleksandra Murawska Baptista",
+        "Melissa Cortes",
+        "Michael Smerina",
+        "Ricardo J. Pagan",
+        "Adrian Dumitrascu",
+        "Libardo Rueda Prada"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 24,
+          "sample": "1ABCDEF"
+        }
+      ]
+    },
+    {
+      "doi": "10.11834/jig.210032",
+      "no": 2466,
+      "link": "https://doi.org/10.11834/jig.210032",
+      "status": "gold_present_parser_present",
+      "category": "cross_publisher_contamination_or_non_taylor_host",
+      "host": "cjig.cn",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 6,
+      "f1_soft": 0.16666666666666666,
+      "f1_strict": 0.0,
+      "precision_soft": 0.16666666666666666,
+      "recall_soft": 0.16666666666666666,
+      "gold_unmatched": [
+        "段瑞鹏",
+        "郑娅丽",
+        "张磊",
+        "陈高浩",
+        "杨函宇"
+      ],
+      "parsed_unmatched": [
+        "段静雯",
+        "闵卫东",
+        "张煜",
+        "陈鑫浩",
+        "杨升宝"
+      ],
+      "gold_names": [
+        "段瑞鹏",
+        "郑娅丽",
+        "杨子寒",
+        "张磊",
+        "陈高浩",
+        "杨函宇"
+      ],
+      "parsed_names": [
+        "段静雯",
+        "闵卫东",
+        "杨子元",
+        "张煜",
+        "陈鑫浩",
+        "杨升宝"
+      ],
+      "selector_hits": [
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 1,
+          "sample": ""
+        },
+        {
+          "selector": "meta[name=\"citation_author\"]",
+          "count": 6,
+          "sample": "段静雯"
+        }
+      ]
+    },
+    {
+      "doi": "10.2147/lra.s190225",
+      "no": 4367,
+      "link": "https://doi.org/10.2147/lra.s190225",
+      "status": "gold_present_parser_present",
+      "category": "cross_publisher_contamination_or_non_taylor_host",
+      "host": "dovepress.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 1,
+      "f1_soft": 0.2857142857142857,
+      "f1_strict": 0.0,
+      "precision_soft": 1.0,
+      "recall_soft": 0.16666666666666666,
+      "gold_unmatched": [
+        "Jacob L Hutchins",
+        "Leslie Renfro",
+        "Florin Orza",
+        "Cody Honl",
+        "Sagar Navare"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Jacob L Hutchins",
+        "Leslie Renfro",
+        "Florin Orza",
+        "Cody Honl",
+        "Sagar Navare",
+        "Aaron A Berg"
+      ],
+      "parsed_names": [
+        "Jacob L Hutchins, Leslie Renfro, Florin Orza, Cody Honl, Sagar Navare, Aaron A Berg"
+      ],
+      "selector_hits": [
+        {
+          "selector": "meta[name=\"citation_author\"]",
+          "count": 6,
+          "sample": "Jacob L Hutchins"
+        }
+      ]
+    },
+    {
+      "doi": "10.11834/jig.250530",
+      "no": 2861,
+      "link": "https://doi.org/10.11834/jig.250530",
+      "status": "gold_present_parser_present",
+      "category": "cross_publisher_contamination_or_non_taylor_host",
+      "host": "cjig.cn",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 6,
+      "f1_soft": 0.3333333333333333,
+      "f1_strict": 0.3333333333333333,
+      "precision_soft": 0.3333333333333333,
+      "recall_soft": 0.3333333333333333,
+      "gold_unmatched": [
+        "张奋",
+        "董壮",
+        "纪晓宁",
+        "雷小艺"
+      ],
+      "parsed_unmatched": [
+        "张奇",
+        "苗壮",
+        "纪文宇",
+        "雷小舟"
+      ],
+      "gold_names": [
+        "张奋",
+        "董壮",
+        "王家宝",
+        "纪晓宁",
+        "毕翔鹤",
+        "雷小艺"
+      ],
+      "parsed_names": [
+        "张奇",
+        "苗壮",
+        "王家宝",
+        "纪文宇",
+        "毕翔鹤",
+        "雷小舟"
+      ],
+      "selector_hits": [
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 1,
+          "sample": ""
+        },
+        {
+          "selector": "meta[name=\"citation_author\"]",
+          "count": 6,
+          "sample": "张奇"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/10357717608444573",
+      "no": 8638,
+      "link": "https://doi.org/10.1080/10357717608444573",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Roland Desprats",
+        "Jean-Claude Dumas",
+        "Michel Giroux",
+        "Hélène Grandjean",
+        "Georges Houin",
+        "Georges Pontonnier"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Roland Desprats",
+        "Jean-Claude Dumas",
+        "Michel Giroux",
+        "Hélène Grandjean",
+        "Georges Houin",
+        "Georges Pontonnier"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/21548331.1978.11707349",
+      "no": 9147,
+      "link": "https://doi.org/10.1080/21548331.1978.11707349",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Juveriya Fatima Siddiqui",
+        "Adnan Ahmed",
+        "Lubna Anjum",
+        "Nida Tahreem",
+        "Saniya Banu",
+        "Siraj Unnisa"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Juveriya Fatima Siddiqui",
+        "Adnan Ahmed",
+        "Lubna Anjum",
+        "Nida Tahreem",
+        "Saniya Banu",
+        "Siraj Unnisa"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{ \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" },"
+        }
+      ]
+    },
+    {
+      "doi": "10.3109/9781420071535-38",
+      "no": 5587,
+      "link": "https://doi.org/10.3109/9781420071535-38",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Scott Delacroix Jr",
+        "J Christian Winters"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Scott Delacroix Jr",
+        "J Christian Winters"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.3109/9781420071535-38\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2016-04-19T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;c997be32-ec3d-4a32-89eb-d72af5b2255e&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Urologic complications of colorectal surgery&q;,&q;categories&q;:[{&q;c"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/00397670802442369",
+      "no": 7346,
+      "link": "https://doi.org/10.1080/00397670802442369",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "John Given",
+        "Egil Kraggerud"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "John Given",
+        "Egil Kraggerud"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{ \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" },"
+        }
+      ]
+    },
+    {
+      "doi": "10.1201/b14831-14",
+      "no": 7758,
+      "link": "https://doi.org/10.1201/b14831-14",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Michael R. Gomez",
+        "Thomas N. Hansen"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Michael R. Gomez",
+        "Thomas N. Hansen"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/b14831-14\",\"bookFormat\":\"Ebook\",\"datePublished\":\"1999-09-21T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\":\"http"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;44b87493-9a8b-4c0c-bee8-35dde354a0ac&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Effect of Respiratory Care Practices on the Development of Bronchopulmo"
+        }
+      ]
+    },
+    {
+      "doi": "10.4324/9781003188414-15",
+      "no": 8589,
+      "link": "https://doi.org/10.4324/9781003188414-15",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Alison Mackey",
+        "Susan M. Gass"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Alison Mackey",
+        "Susan M. Gass"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003188414-15\",\"bookFormat\":\"Ebook\",\"datePublished\":\"30 September 2021\",\"isbn\":\"9781003188414\",\"bookEdition\":\"3"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;bc7521c1-3b1e-4f2b-bdbc-210b4fbbe71d&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Sample Responses&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;mo"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 2,
+          "sample": "By"
+        }
+      ]
+    },
+    {
+      "doi": "10.4324/9781315446608-27",
+      "no": 9093,
+      "link": "https://doi.org/10.4324/9781315446608-27",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Edith Hall",
+        "Henry Stead"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Edith Hall",
+        "Henry Stead"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781315446608-27\",\"bookFormat\":\"Ebook\",\"datePublished\":\"26 February 2020\",\"isbn\":\"9781315446608\",\"bookEdition\":\"1s"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;32813f5a-5d0c-4793-a7cb-97ce1538de93&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Socialist and communist scholars&q;,&q;categories&q;:[{&q;code&q;:null,"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 2,
+          "sample": "By"
+        }
+      ]
+    },
+    {
+      "doi": "10.4324/9781003061151-3",
+      "no": 2690,
+      "link": "https://doi.org/10.4324/9781003061151-3",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 1,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Frank Serafini"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Frank Serafini"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003061151-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"28 October 2020\",\"isbn\":\"9781003061151\",\"bookEdition\":\"1st "
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;94408f53-4e08-4d45-8958-60dc1a318122&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Understanding visual images in picturebooks&q;,&q;categories&q;:[{&q;co"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 2,
+          "sample": "By"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/1462169x.2022.2156189",
+      "no": 9645,
+      "link": "https://doi.org/10.1080/1462169x.2022.2156189",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_jsonld_or_chapter_author_gap",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 1,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Karin Hofmeester"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Karin Hofmeester"
+      ],
+      "parsed_names": [],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" }] } ]"
+        }
+      ]
+    },
+    {
+      "doi": "10.4095/100774",
+      "no": 2387,
+      "link": "https://doi.org/10.4095/100774",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_author_signal",
+      "host": "",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Egginton, P. A.",
+        "Day, T. J."
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Egginton, P. A.",
+        "Day, T. J."
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.18421/tem104-25",
+      "no": 4869,
+      "link": "https://doi.org/10.18421/tem104-25",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_author_signal",
+      "host": "",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Hüseyin Uzunboylu",
+        "Burak Demir"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Hüseyin Uzunboylu",
+        "Burak Demir"
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.4095/224265",
+      "no": 6488,
+      "link": "https://doi.org/10.4095/224265",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_author_signal",
+      "host": "",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Mosher, D C",
+        "Piper, D J W"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Mosher, D C",
+        "Piper, D J W"
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.4324/9781135000356-rem1639-1",
+      "no": 5188,
+      "link": "https://doi.org/10.4324/9781135000356-rem1639-1",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_author_signal",
+      "host": "",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 1,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Hall, Molly"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Hall, Molly"
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.1080/23311916.2021.1985046",
+      "no": 6539,
+      "link": "https://doi.org/10.1080/23311916.2021.1985046",
+      "status": "gold_present_parser_present",
+      "category": "parser_extra_authors_or_gold_missing",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 3,
+      "f1_soft": 0.8,
+      "f1_strict": 0.8,
+      "precision_soft": 0.6666666666666666,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Marinella Giunta"
+      ],
+      "gold_names": [
+        "Yasushi Yokoya",
+        "Hitoshi Soma"
+      ],
+      "parsed_names": [
+        "Yasushi Yokoya",
+        "Hitoshi Soma",
+        "Marinella Giunta"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 3,
+          "sample": "Yasushi Yokoya 1 Department of Vehicle and Mechanical Engineering, Meijo University, Nagoya, Japan Correspondence yyokoya@meijo-u.ac.jp View further author information"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 3,
+          "sample": "Yasushi Yokoya"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 23,
+          "sample": "Yasushi Yokoya"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/23311916.2016.1260952",
+      "no": 8336,
+      "link": "https://doi.org/10.1080/23311916.2016.1260952",
+      "status": "gold_present_parser_present",
+      "category": "parser_extra_authors_or_gold_missing",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 4,
+      "parsed_n": 5,
+      "f1_soft": 0.888888888888889,
+      "f1_strict": 0.888888888888889,
+      "precision_soft": 0.8,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Anand J. Puppala"
+      ],
+      "gold_names": [
+        "Luis E. Zapata Orduz",
+        "Genock Portela",
+        "Oscar Marcelo Suárez",
+        "Arsenio D. Cáceres"
+      ],
+      "parsed_names": [
+        "Luis E. Zapata Orduz",
+        "Genock Portela",
+        "Oscar Marcelo Suárez",
+        "Arsenio D. Cáceres",
+        "Anand J. Puppala"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 5,
+          "sample": "Luis E. Zapata Orduz School of Civil Engineering, Universidad Industrial de Santander , Cra 27 Cll 9, Bucaramanga, Colombia Correspondence luisezap@uis.edu.co View further author i"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 5,
+          "sample": "Luis E. Zapata Orduz"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 48,
+          "sample": "Luis E. Zapata Orduz"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/19306962.1951.11786526",
+      "no": 5635,
+      "link": "https://doi.org/10.1080/19306962.1951.11786526",
+      "status": "gold_present_parser_present",
+      "category": "parser_missing_some_authors_or_gold_extra",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 3,
+      "parsed_n": 1,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "K. D. Hermanutz",
+        "P. Ehlenz",
+        "B. Verburg"
+      ],
+      "parsed_unmatched": [
+        "Walter A. Kaufmann"
+      ],
+      "gold_names": [
+        "K. D. Hermanutz",
+        "P. Ehlenz",
+        "B. Verburg"
+      ],
+      "parsed_names": [
+        "Walter A. Kaufmann"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 1,
+          "sample": "Walter A. Kaufmann Princeton University"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 1,
+          "sample": "Walter A. Kaufmann"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 1,
+          "sample": "Walter A. Kaufmann"
+        }
+      ]
+    }
+  ],
+  "goldie_backfilled_candidate_examples": [
+    {
+      "doi": "10.1080/14796694.2025.2579208",
+      "no": 1429,
+      "link": "https://doi.org/10.1080/14796694.2025.2579208",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 33,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Hua Zhong",
+        "Shunjun Jiang",
+        "Wenxiu Yao",
+        "Xia Song",
+        "Dongqing Lv",
+        "Dan Zhu",
+        "Yubiao Guo",
+        "Cuimin Ding",
+        "Yingjie Xue",
+        "Xiuli Bai"
+      ],
+      "gold_names": [],
+      "parsed_names": [
+        "Hua Zhong",
+        "Shunjun Jiang",
+        "Wenxiu Yao",
+        "Xia Song",
+        "Dongqing Lv",
+        "Dan Zhu",
+        "Yubiao Guo",
+        "Cuimin Ding",
+        "Yingjie Xue",
+        "Xiuli Bai",
+        "Liguo Xiao",
+        "Peifeng Chen",
+        "Yan Wang",
+        "Panwen Tian",
+        "Gen Lin",
+        "Wen Li",
+        "Jun Chen",
+        "Yanping Hu",
+        "Bing Xia",
+        "Ziping Wang"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 33,
+          "sample": "Hua Zhong a Department of Respiratory and Critical Care Medicine, Shanghai Chest Hospital, Shanghai, China"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 33,
+          "sample": "Hua Zhong"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 34,
+          "sample": "We're here to help Find guidance on Author Services"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/1540496x.2026.2634382",
+      "no": 3639,
+      "link": "https://doi.org/10.1080/1540496x.2026.2634382",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 3,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Zhiwei Hua",
+        "Yishu Liu",
+        "Yilin Luo"
+      ],
+      "gold_names": [],
+      "parsed_names": [
+        "Zhiwei Hua",
+        "Yishu Liu",
+        "Yilin Luo"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 3,
+          "sample": "Zhiwei Hua a School of Management, Fudan University, Shanghai, China"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 3,
+          "sample": "Zhiwei Hua"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 4,
+          "sample": "We're here to help Find guidance on Author Services"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/17434440.2025.2505672",
+      "no": 4040,
+      "link": "https://doi.org/10.1080/17434440.2025.2505672",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 6,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Nicholas R. Hess",
+        "Martin Winter",
+        "Andrea Amabile",
+        "Faaz Ashraf",
+        "David J. Kaczorowski",
+        "Johannes Bonatti"
+      ],
+      "gold_names": [],
+      "parsed_names": [
+        "Nicholas R. Hess",
+        "Martin Winter",
+        "Andrea Amabile",
+        "Faaz Ashraf",
+        "David J. Kaczorowski",
+        "Johannes Bonatti"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 6,
+          "sample": "Nicholas R. Hess Division of Cardiac Surgery, Department of Cardiothoracic Surgery, University of Pittsburgh School of Medicine and UPMC Heart and Vascular Institute, Pittsburgh, P"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 6,
+          "sample": "Nicholas R. Hess"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 7,
+          "sample": "We're here to help Find guidance on Author Services"
+        }
+      ]
+    },
+    {
+      "doi": "10.4324/9781315559452-12",
+      "no": 5793,
+      "link": "https://doi.org/10.4324/9781315559452-12",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "host": "taylorfrancis.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 1,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Phyllis Weliver"
+      ],
+      "gold_names": [],
+      "parsed_names": [
+        "Phyllis Weliver"
+      ],
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781315559452-12\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2016-07-28T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;6e4a8b0c-8bff-41c8-987b-6d2fe20b4c89&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Harmony and Discord in the Self: Music, Mesmerism and Mental Science&q;"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 2,
+          "sample": "By"
+        }
+      ]
+    },
+    {
+      "doi": "10.1080/07420528.2026.2648012",
+      "no": 8440,
+      "link": "https://doi.org/10.1080/07420528.2026.2648012",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "host": "tandfonline.com",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 6,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [
+        "Xue Li",
+        "Xinzi Liu",
+        "Ziyan Li",
+        "Sitong Feng",
+        "Sisi Zheng",
+        "Hongxiao Jia"
+      ],
+      "gold_names": [],
+      "parsed_names": [
+        "Xue Li",
+        "Xinzi Liu",
+        "Ziyan Li",
+        "Sitong Feng",
+        "Sisi Zheng",
+        "Hongxiao Jia"
+      ],
+      "selector_hits": [
+        {
+          "selector": "div.publicationContentAuthors div.entryAuthor",
+          "count": 6,
+          "sample": "Xue Li Beijing Key Laboratory of Intelligent Drug Research and Development for Mental Disorders; National Clinical Research Center for Mental Disorders; National Center for Mental "
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        },
+        {
+          "selector": ".author",
+          "count": 6,
+          "sample": "Xue Li"
+        },
+        {
+          "selector": "[class*=\"author\"]",
+          "count": 7,
+          "sample": "We're here to help Find guidance on Author Services"
+        }
+      ]
+    }
+  ],
+  "retrieval_blocked_examples": [
+    {
+      "doi": "10.1080/03610918.2022.2059088",
+      "no": 1035,
+      "link": "https://doi.org/10.1080/03610918.2022.2059088",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 6,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Muhammad Nauman Akram",
+        "Muhammad Amin",
+        "B. M. Golam Kibria",
+        "Mohammad Arashi",
+        "Adewale F. Lukman",
+        "Nimra Afzal"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Muhammad Nauman Akram",
+        "Muhammad Amin",
+        "B. M. Golam Kibria",
+        "Mohammad Arashi",
+        "Adewale F. Lukman",
+        "Nimra Afzal"
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.21236/ada413599",
+      "no": 1073,
+      "link": "https://doi.org/10.21236/ada413599",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 0,
+      "f1_soft": 1.0,
+      "f1_strict": 1.0,
+      "precision_soft": 1.0,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [],
+      "gold_names": [],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.21236/ada326324",
+      "no": 1269,
+      "link": "https://doi.org/10.21236/ada326324",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 0,
+      "f1_soft": 1.0,
+      "f1_strict": 1.0,
+      "precision_soft": 1.0,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [],
+      "gold_names": [],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.21236/ada110460",
+      "no": 2669,
+      "link": "https://doi.org/10.21236/ada110460",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 2,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Reaser,Joel M.",
+        "Carrow,John C."
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Reaser,Joel M.",
+        "Carrow,John C."
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.6109/jkiice.2016.20.5.937",
+      "no": 3799,
+      "link": "https://doi.org/10.6109/jkiice.2016.20.5.937",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "cached_too_small",
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 0,
+      "f1_soft": 1.0,
+      "f1_strict": 1.0,
+      "precision_soft": 1.0,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [],
+      "gold_names": [],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.21236/ada232521",
+      "no": 6470,
+      "link": "https://doi.org/10.21236/ada232521",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 1,
+      "parsed_n": 0,
+      "f1_soft": 0.0,
+      "f1_strict": 0.0,
+      "precision_soft": 0.0,
+      "recall_soft": 0.0,
+      "gold_unmatched": [
+        "Neal P. Roberts"
+      ],
+      "parsed_unmatched": [],
+      "gold_names": [
+        "Neal P. Roberts"
+      ],
+      "parsed_names": [],
+      "selector_hits": []
+    },
+    {
+      "doi": "10.21236/ada590750",
+      "no": 7769,
+      "link": "https://doi.org/10.21236/ada590750",
+      "status": "retrieval_blocked",
+      "category": "retrieval_blocked",
+      "host": "",
+      "retrieval_blocked_reason": "missing",
+      "error": null,
+      "gold_n": 0,
+      "parsed_n": 0,
+      "f1_soft": 1.0,
+      "f1_strict": 1.0,
+      "precision_soft": 1.0,
+      "recall_soft": 1.0,
+      "gold_unmatched": [],
+      "parsed_unmatched": [],
+      "gold_names": [],
+      "parsed_names": [],
+      "selector_hits": []
+    }
+  ],
+  "recommendation": "candidate_parser_patch: inspect TaylorFrancis chapter/JSON-LD author gaps for a conservative parser-owned recovery."
+}

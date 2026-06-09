@@ -1,0 +1,438 @@
+{
+  "gate": "taylor_product_contributors_b61",
+  "timestamp_utc": "2026-06-09T16:56:22Z",
+  "publisher": "taylor",
+  "field": "authors",
+  "status": "shipped_full10k_measured_residual_below_98",
+  "classification": "parser_owned_taylorfrancis_product_contributor_author_fallback",
+  "diagnosis_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_authors_residual_b61_diagnosis.json",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_product_contributors_b61_after.json",
+  "full10k_gate_artifact_local_ignored": "eval/runs/whole-goldie-after-taylor-product-contributors-b61-20260609T1618Z.json",
+  "shield_summary": {
+    "focused_taylor": {
+      "authors": {
+        "before": 0.964523488207699,
+        "after": 0.9745418763711449,
+        "delta_pp": 1.0018388163445913
+      },
+      "affiliations": {
+        "before": 0.9668317999528191,
+        "after": 0.9668317999528191,
+        "delta_pp": 0.0
+      },
+      "abstract": {
+        "before": 0.867198177546421,
+        "after": 0.867198177546421,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "before": 0.9710743801652892,
+        "after": 0.9710743801652892,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "before": 0.9860759493670885,
+        "after": 0.9860759493670885,
+        "delta_pp": 0.0
+      }
+    },
+    "full10k": {
+      "authors": {
+        "before": 0.9635428956530825,
+        "after": 0.9644792479509362,
+        "delta_pp": 0.09363522978537153
+      },
+      "affiliations": {
+        "before": 0.9394348948333808,
+        "after": 0.9394348948333809,
+        "delta_pp": 1.1102230246251565e-14
+      },
+      "abstract": {
+        "before": 0.9254511985010284,
+        "after": 0.9254511985010284,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "before": 0.9583032055917089,
+        "after": 0.9583032055917089,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "before": 0.9731555094148325,
+        "after": 0.9731555094148325,
+        "delta_pp": 0.0
+      }
+    },
+    "coverage": {
+      "total_rows": 10000,
+      "html_available": 5570,
+      "scored_rows": 5570,
+      "retrieval_blocked_rows": 4430,
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 101,
+        "cached_error_page": 3,
+        "cached_pdf": 22,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "gold_empty_parser_present_count": 3131,
+      "per_publisher": {
+        "aaas": {
+          "total_rows": 24,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 24
+        },
+        "aacr": {
+          "total_rows": 34,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 34
+        },
+        "acm": {
+          "total_rows": 37,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 37
+        },
+        "acs": {
+          "total_rows": 130,
+          "html_available": 130,
+          "scored_rows": 130,
+          "retrieval_blocked": 0
+        },
+        "aip_publishing": {
+          "total_rows": 57,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 57
+        },
+        "ame": {
+          "total_rows": 3,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3
+        },
+        "ams": {
+          "total_rows": 10,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 10
+        },
+        "apa": {
+          "total_rows": 25,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 25
+        },
+        "aps": {
+          "total_rows": 38,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 38
+        },
+        "asa": {
+          "total_rows": 10,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 10
+        },
+        "asco": {
+          "total_rows": 17,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 17
+        },
+        "ash": {
+          "total_rows": 12,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 12
+        },
+        "asme": {
+          "total_rows": 26,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 26
+        },
+        "bentham": {
+          "total_rows": 15,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 15
+        },
+        "bmj": {
+          "total_rows": 69,
+          "html_available": 66,
+          "scored_rows": 66,
+          "retrieval_blocked": 3
+        },
+        "brill": {
+          "total_rows": 65,
+          "html_available": 55,
+          "scored_rows": 55,
+          "retrieval_blocked": 10
+        },
+        "cairn": {
+          "total_rows": 49,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 49
+        },
+        "company_biologists": {
+          "total_rows": 3,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3
+        },
+        "copernicus": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "cshlp": {
+          "total_rows": 29,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 29
+        },
+        "cup": {
+          "total_rows": 154,
+          "html_available": 151,
+          "scored_rows": 151,
+          "retrieval_blocked": 3
+        },
+        "de_gruyter": {
+          "total_rows": 226,
+          "html_available": 222,
+          "scored_rows": 222,
+          "retrieval_blocked": 4
+        },
+        "edp_sciences": {
+          "total_rows": 21,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 21
+        },
+        "elsevier": {
+          "total_rows": 1564,
+          "html_available": 1487,
+          "scored_rows": 1487,
+          "retrieval_blocked": 77
+        },
+        "emerald": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "f1000": {
+          "total_rows": 2,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 2
+        },
+        "frontiers": {
+          "total_rows": 48,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 48
+        },
+        "hindawi": {
+          "total_rows": 32,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 32
+        },
+        "ieee": {
+          "total_rows": 395,
+          "html_available": 393,
+          "scored_rows": 393,
+          "retrieval_blocked": 2
+        },
+        "iop": {
+          "total_rows": 75,
+          "html_available": 63,
+          "scored_rows": 63,
+          "retrieval_blocked": 12
+        },
+        "karger": {
+          "total_rows": 37,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 37
+        },
+        "lippincott": {
+          "total_rows": 190,
+          "html_available": 190,
+          "scored_rows": 190,
+          "retrieval_blocked": 0
+        },
+        "mary_ann_liebert": {
+          "total_rows": 15,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 15
+        },
+        "mdpi": {
+          "total_rows": 137,
+          "html_available": 72,
+          "scored_rows": 72,
+          "retrieval_blocked": 65
+        },
+        "nejm": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "optica": {
+          "total_rows": 27,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 27
+        },
+        "oxford": {
+          "total_rows": 271,
+          "html_available": 250,
+          "scored_rows": 250,
+          "retrieval_blocked": 21
+        },
+        "plos": {
+          "total_rows": 32,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 32
+        },
+        "portland_press": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "research_square": {
+          "total_rows": 24,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 24
+        },
+        "rsc": {
+          "total_rows": 61,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 61
+        },
+        "rsna": {
+          "total_rows": 5,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 5
+        },
+        "sage": {
+          "total_rows": 200,
+          "html_available": 198,
+          "scored_rows": 198,
+          "retrieval_blocked": 2
+        },
+        "scielo": {
+          "total_rows": 33,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 33
+        },
+        "spie": {
+          "total_rows": 46,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 46
+        },
+        "springer": {
+          "total_rows": 1123,
+          "html_available": 1117,
+          "scored_rows": 1117,
+          "retrieval_blocked": 6
+        },
+        "taylor": {
+          "total_rows": 506,
+          "html_available": 499,
+          "scored_rows": 499,
+          "retrieval_blocked": 7
+        },
+        "thieme": {
+          "total_rows": 61,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 61
+        },
+        "unknown": {
+          "total_rows": 3303,
+          "html_available": 0,
+          "scored_rows": 0,
+          "retrieval_blocked": 3303
+        },
+        "wiley": {
+          "total_rows": 695,
+          "html_available": 677,
+          "scored_rows": 677,
+          "retrieval_blocked": 18
+        }
+      }
+    },
+    "full10k_errors": 1,
+    "full10k_retrieval_blocked": 4430
+  },
+  "parser_patch": {
+    "files": [
+      "parseland_lib/publisher/parsers/taylor.py",
+      "tests/test_taylor_abstract_hlfld_fallback.py"
+    ],
+    "behavior": "TaylorFrancis chapter pages now fall back to product JSON contributors when JSON-LD author is empty or a less reliable string.",
+    "scope": "TaylorFrancis Chapter product JSON only; contributors filtered to roles containing author and sorted by position."
+  },
+  "residual": {
+    "taylor_authors_after": 0.9745418763711449,
+    "target": 0.98,
+    "distance_to_98": 0.005458123628855116,
+    "field_counts": {
+      "total_rows": 506,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "empty_empty_pass": 60,
+      "gold_present_parser_empty": 9,
+      "gold_present_parser_present": 423,
+      "gold_empty_parser_present": 7,
+      "scored_rows": 492
+    },
+    "remaining_note": "Taylor authors remains below 98 after the safe product-contributor recovery. Remaining current-Goldie misses are small-N: non-Taylor/cross-publisher rows, no-author-signal rows, and gold/name-variant/manual-DOM cases; route 7 Goldie-empty/parser-present rows to Goldie-backfilled."
+  },
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/taylor.py",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_taylor_abstract_hlfld_fallback.py -q",
+      "status": "passed",
+      "result": "18 passed in 0.09s"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_taylor_abstract_hlfld_fallback.py tests/test_parse_page.py tests/test_parse_page_canonical_sniff.py -q",
+      "status": "passed",
+      "result": "46 passed in 0.13s"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers taylor --label taylor-product-contributors-b61 --concurrency 8",
+      "status": "passed",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_product_contributors_b61_after.json",
+      "result": "Taylor authors_f1_soft 0.964523 -> 0.974542; other Taylor tracked fields unchanged; retrieval_blocked=7; errors=0."
+    },
+    {
+      "command": "whole_goldie_eval.py run --label after-taylor-product-contributors-b61 --concurrency 8",
+      "status": "passed",
+      "artifact_path_local_ignored": "eval/runs/whole-goldie-after-taylor-product-contributors-b61-20260609T1618Z.json",
+      "result": "Full 10K authors_f1_soft 0.963543 -> 0.964479 (+0.093635pp); other full-10K tracked fields unchanged; coverage.total_rows=10000; retrieval_blocked=4430; errors=1 known row."
+    }
+  ]
+}

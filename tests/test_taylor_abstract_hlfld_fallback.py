@@ -341,6 +341,71 @@ def test_taylorfrancis_chapter_jsonld_dispatch_and_product_abstract() -> None:
     assert out["abstract"] == "Full chapter abstract from product JSON."
 
 
+def test_taylorfrancis_chapter_uses_product_contributors_when_jsonld_author_empty() -> None:
+    """Some chapter JSON-LD has an empty author but product JSON has authors."""
+    html = """
+    <html><head>
+      <link rel="canonical"
+        href="https://www.taylorfrancis.com/chapters/edit/10.1201/example/chapter-author" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/edit/10.1201/example/chapter-author",
+          "author": {"@type": "Person", "givenName": "", "familyName": ""},
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Chapter description."
+        }
+      </script>
+      <script type="application/json">
+        {&q;product&q;:{&q;type&q;:&q;chapter&q;,&q;contributors&q;:[
+          {&q;roles&q;:[&q;author&q;],&q;fullName&q;:&q;Michael R. Gomez&q;,&q;position&q;:2},
+          {&q;roles&q;:[&q;author&q;],&q;fullName&q;:&q;Thomas N. Hansen&q;,&q;position&q;:1},
+          {&q;roles&q;:[&q;editor&q;],&q;fullName&q;:&q;Skip Editor&q;,&q;position&q;:3}
+        ]}}
+      </script>
+    </head><body></body></html>
+    """
+
+    out = _parser(html).parse()
+
+    assert [author.name for author in out["authors"]] == [
+        "Thomas N. Hansen",
+        "Michael R. Gomez",
+    ]
+    assert all(author.affiliations == [] for author in out["authors"])
+
+
+def test_taylorfrancis_chapter_prefers_product_contributors_over_jsonld_string() -> None:
+    """Product contributor records are safer than comma-splitting JSON-LD."""
+    html = """
+    <html><head>
+      <link rel="canonical"
+        href="https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author" />
+      <script type="application/ld+json" id="jsonld">
+        {
+          "@context": "https://schema.org",
+          "@type": "Chapter",
+          "url": "https://www.taylorfrancis.com/chapters/mono/10.4324/example/chapter-author",
+          "author": "Fallback Only, Should Not Win",
+          "publisher": {"@type": "Organization", "name": "Taylor & Francis"},
+          "description": "Chapter description."
+        }
+      </script>
+      <script type="application/json">
+        {&q;product&q;:{&q;type&q;:&q;chapter&q;,&q;contributors&q;:[
+          {&q;roles&q;:[&q;author&q;],&q;givenName&q;:&q;Alison&q;,&q;familyName&q;:&q;Mackey&q;,&q;position&q;:1},
+          {&q;roles&q;:[&q;author&q;],&q;givenName&q;:&q;Susan M.&q;,&q;familyName&q;:&q;Gass&q;,&q;position&q;:2}
+        ]}}
+      </script>
+    </head><body></body></html>
+    """
+
+    out = _parser(html).parse()
+
+    assert [author.name for author in out["authors"]] == ["Alison Mackey", "Susan M. Gass"]
+
+
 def test_taylorfrancis_chapter_splits_compressed_jsonld_author_lists() -> None:
     """Chapter JSON-LD may compress multiple authors into one Person object."""
     html = """

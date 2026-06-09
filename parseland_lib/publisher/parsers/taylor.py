@@ -124,6 +124,18 @@ class Taylor(PublisherParser):
         if not chapter:
             return []
         raw_authors = chapter.get("author") or []
+        if isinstance(raw_authors, str):
+            product_results = self._parse_taylorfrancis_product_contributor_authors()
+            if product_results:
+                return product_results
+            return [
+                AuthorAffiliations(
+                    name=name,
+                    affiliations=[],
+                    is_corresponding=False,
+                )
+                for name in self._split_taylorfrancis_name_parts(raw_authors)
+            ]
         if isinstance(raw_authors, dict):
             raw_authors = [raw_authors]
         results = []
@@ -138,6 +150,51 @@ class Taylor(PublisherParser):
                         is_corresponding=False,
                     )
                 )
+        if not results:
+            results = self._parse_taylorfrancis_product_contributor_authors()
+        return results
+
+    def _parse_taylorfrancis_product_contributor_authors(self):
+        results = []
+        seen = set()
+        for product in self._taylorfrancis_product_payloads():
+            contributors = product.get("contributors") or []
+            if not isinstance(contributors, list):
+                continue
+            contributors = sorted(
+                (c for c in contributors if isinstance(c, dict)),
+                key=lambda c: c.get("position") or 9999,
+            )
+            for contributor in contributors:
+                roles = contributor.get("roles") or []
+                if isinstance(roles, str):
+                    roles = [roles]
+                if roles and "author" not in {str(r).lower() for r in roles}:
+                    continue
+                name = str(contributor.get("fullName") or "").strip()
+                if not name:
+                    name = " ".join(
+                        part
+                        for part in (
+                            str(contributor.get("givenName") or "").strip(),
+                            str(contributor.get("familyName") or "").strip(),
+                        )
+                        if part
+                    )
+                name = re.sub(r"\s+", " ", name).strip()
+                key = self._name_key(name)
+                if not name or key in seen:
+                    continue
+                seen.add(key)
+                results.append(
+                    AuthorAffiliations(
+                        name=name,
+                        affiliations=[],
+                        is_corresponding=False,
+                    )
+                )
+            if results:
+                return results
         return results
 
     def _taylorfrancis_jsonld_author_names(self, author):
@@ -262,15 +319,7 @@ class Taylor(PublisherParser):
         return self._clean_taylorfrancis_abstract(description)
 
     def _parse_taylorfrancis_product_abstract(self):
-        for script in self.soup.find_all("script", type="application/json"):
-            raw = script.string or script.get_text("", strip=False)
-            if not raw or "&q;abstracts&q;" not in raw:
-                continue
-            normalized = self._decode_taylorfrancis_jsonish(raw)
-            try:
-                payload = json.loads(normalized)
-            except Exception:
-                payload = None
+        for payload, raw in self._taylorfrancis_product_payload_items():
             value = self._find_product_abstract_value(payload) if payload else None
             if not value:
                 match = re.search(
@@ -285,6 +334,24 @@ class Taylor(PublisherParser):
                 if cleaned:
                     return cleaned
         return None
+
+    def _taylorfrancis_product_payloads(self):
+        for payload, _raw in self._taylorfrancis_product_payload_items():
+            product = payload.get("product") if isinstance(payload, dict) else None
+            if isinstance(product, dict):
+                yield product
+
+    def _taylorfrancis_product_payload_items(self):
+        for script in self.soup.find_all("script", type="application/json"):
+            raw = script.string or script.get_text("", strip=False)
+            if not raw or "&q;product&q;" not in raw:
+                continue
+            normalized = self._decode_taylorfrancis_jsonish(raw)
+            try:
+                payload = json.loads(normalized)
+            except Exception:
+                payload = None
+            yield payload, raw
 
     def _parse_tandfonline_dc_description(self):
         if not (
