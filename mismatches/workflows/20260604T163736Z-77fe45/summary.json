@@ -29,6 +29,19 @@
     "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_derived.ndjson",
     "scale_continue": true
   },
+  "batch77_taylor_pdf_backfill_claim": {
+    "agent_id": "codex-taylor-pdf-backfill-b77",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b77_claim_gate.json",
+    "created_at": "2026-06-09T23:51:35Z",
+    "field": "pdf_url",
+    "planned_browserbase": {
+      "concurrency": 4,
+      "limit": 50,
+      "skip": 60
+    },
+    "publisher_id": "taylor",
+    "status": "in_progress_browserbase_scale"
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -103,7 +116,8 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
-  "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b75_claim_gate.json",
+  "latest_active_agent": "codex-taylor-pdf-backfill-b77",
+  "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b77_claim_gate.json",
   "latest_active_at": "2026-06-09T23:05:14Z",
   "latest_active_task": "v2_taylor_pdf_url_2e40646f",
   "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_10_60_b76_referee.summary.json",
@@ -604,5 +618,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-09T17:53:50Z"
+  "updated_at": "2026-06-09T23:51:35Z"
 }

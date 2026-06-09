@@ -69,7 +69,7 @@ def is_claimable_task(task: dict) -> bool:
         backfill_count > 0
         and isinstance(status, str)
         and status.startswith("goldie_backfill_")
-        and status.endswith("_scale_ready")
+        and (status.endswith("_scale_ready") or status.endswith("_scale_continue"))
     ):
         return True
     return backfill_count > 0 and status in BACKFILL_REOPEN_STATUSES
@@ -138,6 +138,7 @@ def main() -> int:
                 t["assigned_agent"] = agent_id
                 t["claimed_at"] = now
                 t["status"] = "in_progress"
+                t.pop("completed_at", None)
                 f.write(json.dumps({
                     "run_id": args.run_id,
                     "task_id": t["task_id"],
