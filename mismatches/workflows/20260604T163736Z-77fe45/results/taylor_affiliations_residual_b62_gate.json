@@ -1,0 +1,282 @@
+{
+  "classification": "parser_owned_tandfonline_affiliation_overlay_cleanup_small_lift",
+  "diagnosis": "TandF legacy overlay affiliations can concatenate department and institution text or append email contact text inside the affiliation string. The parser now normalizes those overlay/bio affiliation values without broad selector changes.",
+  "field": "affiliations",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_affiliation_cleanup_b62_after.json",
+  "full10k_gate_artifact_local_untracked": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_after_taylor_affiliation_cleanup_b62.json",
+  "gate": "taylor_affiliation_cleanup_b62",
+  "publisher": "taylor",
+  "recommendation": "Ship b62 as a small parser-owned Taylor affiliation cleanup. Taylor affiliations remain below 98, but the broad safe cleanup is exhausted; residuals are explainable and should route to Goldie-backfilled, gold/routing audit, retrieval, or manual DOM rather than another broad Taylor parser rule.",
+  "residual_classification": {
+    "buckets": [
+      {
+        "bucket": "parser_owned_cleanup_shipped",
+        "examples": [
+          "10.1080/10790268.2001.11753553",
+          "10.1080/15428110208984755"
+        ],
+        "notes": "Missing department/institution spacing and trailing email text are normalized by b62."
+      },
+      {
+        "bucket": "cross_publisher_or_non_taylor_current_goldie_rows",
+        "examples": [
+          "10.2172/884933",
+          "10.2172/877141",
+          "10.12659/ajcr.945140",
+          "10.3745/ktsde.2013.2.5.359"
+        ],
+        "notes": "Rows resolve to OSTI, AMJ Case Reports, or non-Taylor/no-host pages; do not broaden Taylor parser for these."
+      },
+      {
+        "bucket": "goldie_backfilled_needed",
+        "count": 28,
+        "examples": [],
+        "notes": "Gold empty + parser affiliation present remains candidate evidence only and must route through Goldie-backfilled Browserbase/gold-auditor approval."
+      },
+      {
+        "bucket": "page_vs_gold_granularity",
+        "examples": [
+          "10.1080/01652176.2024.2434525"
+        ],
+        "notes": "Gold contains fuller postal address granularity than the visible page/parser affiliation evidence."
+      },
+      {
+        "bucket": "legacy_no_author_dom_or_manual_dom",
+        "examples": [
+          "10.1080/00397670802442369",
+          "10.1080/10357717608444573",
+          "10.1080/21548331.1978.11707349"
+        ],
+        "notes": "Old TandF/generic pages lack a safe high-volume author-affiliation signal; keep as manual DOM or retrieval/gold audit."
+      }
+    ],
+    "current_goldie_affiliation_status_counts": {
+      "empty_empty_pass": 233,
+      "gold_empty_parser_present": 28,
+      "gold_present_parser_empty": 11,
+      "gold_present_parser_present": 227,
+      "html_available": 499,
+      "retrieval_blocked": 7,
+      "scored_rows": 471,
+      "total_rows": 506
+    },
+    "next_action": "Treat Taylor affiliations as residual-explained below 98 after b62. Route 28 Goldie-empty/parser-present affiliation candidates to Goldie-backfilled, keep non-Taylor rows out of Taylor parser work, and continue the global ranked queue.",
+    "remaining_below_98_summary": "Taylor affiliations now score 0.968554 on the focused Taylor slice and 0.939604 on full 10K. The remaining Taylor current-Goldie gap is not a single broad parser selector: it includes cross-publisher DOI rows, Goldie-empty/parser-present backfill candidates, old pages with no visible author DOM, page-vs-gold address granularity differences, and small manual-DOM cases."
+  },
+  "residual_diff_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_affiliations_residual_b62_diff.json",
+  "shield_summary": {
+    "coverage": {
+      "gold_empty_parser_present_count": 3131,
+      "html_available": 5570,
+      "retrieval_blocked_by_reason": {
+        "cached_bot_check": 101,
+        "cached_error_page": 3,
+        "cached_pdf": 22,
+        "cached_too_small": 49,
+        "js_rendered_required": 1,
+        "missing": 4254
+      },
+      "retrieval_blocked_rows": 4430,
+      "scored_rows": 5570,
+      "taylor": {
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 499,
+        "total_rows": 506
+      },
+      "total_rows": 10000
+    },
+    "field_counts": {
+      "abstract": {
+        "empty_empty_pass": 1383,
+        "gold_empty_parser_present": 281,
+        "gold_present_parser_empty": 159,
+        "gold_present_parser_present": 3747,
+        "html_available": 5570,
+        "retrieval_blocked": 4430,
+        "scored_rows": 5289,
+        "total_rows": 10000
+      },
+      "affiliations": {
+        "empty_empty_pass": 1552,
+        "gold_empty_parser_present": 780,
+        "gold_present_parser_empty": 99,
+        "gold_present_parser_present": 3139,
+        "html_available": 5570,
+        "retrieval_blocked": 4430,
+        "scored_rows": 4790,
+        "total_rows": 10000
+      },
+      "authors": {
+        "empty_empty_pass": 629,
+        "gold_empty_parser_present": 308,
+        "gold_present_parser_empty": 107,
+        "gold_present_parser_present": 4526,
+        "html_available": 5570,
+        "retrieval_blocked": 4430,
+        "scored_rows": 5262,
+        "total_rows": 10000
+      },
+      "corresponding": {
+        "empty_empty_pass": 3195,
+        "gold_empty_parser_present": 341,
+        "gold_present_parser_empty": 96,
+        "gold_present_parser_present": 1938,
+        "html_available": 5570,
+        "retrieval_blocked": 4430,
+        "scored_rows": 5229,
+        "total_rows": 10000
+      },
+      "pdf_url": {
+        "empty_empty_pass": 813,
+        "gold_empty_parser_present": 1421,
+        "gold_present_parser_empty": 36,
+        "gold_present_parser_present": 3300,
+        "html_available": 5570,
+        "retrieval_blocked": 4430,
+        "scored_rows": 4149,
+        "total_rows": 10000
+      }
+    },
+    "focused_taylor": {
+      "abstract": {
+        "after": 0.867198177546421,
+        "before": 0.867198177546421,
+        "delta_pp": 0.0
+      },
+      "affiliations": {
+        "after": 0.9685539042226942,
+        "before": 0.9668317999528191,
+        "delta_pp": 0.17221042698750688
+      },
+      "authors": {
+        "after": 0.9745418763711449,
+        "before": 0.9745418763711449,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "after": 0.9860759493670885,
+        "before": 0.9860759493670885,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "after": 0.9710743801652892,
+        "before": 0.9710743801652892,
+        "delta_pp": 0.0
+      }
+    },
+    "full10k": {
+      "abstract": {
+        "after": 0.9254511985010284,
+        "before": 0.9254511985010284,
+        "delta_pp": 0.0
+      },
+      "affiliations": {
+        "after": 0.9396042290945731,
+        "before": 0.9394348948333808,
+        "delta_pp": 0.016933426119225548
+      },
+      "authors": {
+        "after": 0.9644792479509362,
+        "before": 0.9644792479509362,
+        "delta_pp": 0.0
+      },
+      "corresponding": {
+        "after": 0.9731555094148325,
+        "before": 0.9731555094148325,
+        "delta_pp": 0.0
+      },
+      "pdf_url": {
+        "after": 0.9583032055917089,
+        "before": 0.9583032055917089,
+        "delta_pp": 0.0
+      }
+    },
+    "taylor_field_counts": {
+      "abstract": {
+        "empty_empty_pass": 62,
+        "gold_empty_parser_present": 62,
+        "gold_present_parser_empty": 7,
+        "gold_present_parser_present": 368,
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 437,
+        "total_rows": 506
+      },
+      "affiliations": {
+        "empty_empty_pass": 233,
+        "gold_empty_parser_present": 28,
+        "gold_present_parser_empty": 11,
+        "gold_present_parser_present": 227,
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 471,
+        "total_rows": 506
+      },
+      "authors": {
+        "empty_empty_pass": 60,
+        "gold_empty_parser_present": 7,
+        "gold_present_parser_empty": 9,
+        "gold_present_parser_present": 423,
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 492,
+        "total_rows": 506
+      },
+      "corresponding": {
+        "empty_empty_pass": 355,
+        "gold_empty_parser_present": 25,
+        "gold_present_parser_empty": 5,
+        "gold_present_parser_present": 114,
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 474,
+        "total_rows": 506
+      },
+      "pdf_url": {
+        "empty_empty_pass": 110,
+        "gold_empty_parser_present": 257,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 131,
+        "html_available": 499,
+        "retrieval_blocked": 7,
+        "scored_rows": 242,
+        "total_rows": 506
+      }
+    }
+  },
+  "status": "shipped_full10k_measured_residual_below_98",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/taylor.py",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_taylor_abstract_hlfld_fallback.py -q",
+      "result": "20 passed",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_taylor_abstract_hlfld_fallback.py tests/test_taylor_pdf_url.py tests/test_parse_page.py tests/test_parse_page_canonical_sniff.py -q",
+      "result": "53 passed",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check -- parseland_lib/publisher/parsers/taylor.py tests/test_taylor_abstract_hlfld_fallback.py",
+      "status": "passed"
+    },
+    {
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_taylor_affiliation_cleanup_b62_after.json",
+      "command": "whole_goldie_eval.py run --publishers taylor --label taylor-affiliation-cleanup-b62 --concurrency 8",
+      "result": "Taylor affiliations_f1_fuzzy 0.966832 -> 0.968554; strict 0.787700 -> 0.902154; other tracked Taylor fields unchanged; retrieval_blocked=7; errors=0.",
+      "status": "passed"
+    },
+    {
+      "artifact_path_local_untracked": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_after_taylor_affiliation_cleanup_b62.json",
+      "command": "whole_goldie_eval.py run --label after-taylor-affiliation-cleanup-b62 --concurrency 8",
+      "result": "Full 10K affiliations_f1_fuzzy 0.939435 -> 0.939604 (+0.016933pp); other tracked aggregate fields unchanged; coverage.total_rows=10000; retrieval_blocked=4430; errors=1 known row.",
+      "status": "passed"
+    }
+  ],
+  "timestamp_utc": "2026-06-09T17:53:50Z"
+}

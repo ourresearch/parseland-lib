@@ -235,6 +235,53 @@ def test_author_bio_affiliation_fallback_at_university_omits_role() -> None:
     ]
 
 
+def test_overlay_affiliation_inserts_missing_department_space() -> None:
+    """Legacy overlays can concatenate department and institution text."""
+    html = """
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/legacy4" />
+    </head><body>
+      <div class="publicationContentAuthors">
+        <div class="entryAuthor">
+          <a>William H. Gans</a>
+          <span class="overlay">
+            Department of UrologyMount Sinai Medical Center, New York,
+          </span>
+        </div>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+
+    assert out["authors"][0].affiliations == [
+        "Department of Urology Mount Sinai Medical Center, New York"
+    ]
+
+
+def test_overlay_affiliation_strips_trailing_email() -> None:
+    """Overlay affiliations should not include corresponding email text."""
+    html = """
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/legacy5" />
+    </head><body>
+      <div class="publicationContentAuthors">
+        <div class="entryAuthor">
+          <a>Georgia C. Sinclair</a>
+          <span class="overlay">
+            Deakin University, P.O. Box 210, Glen Iris, Victoria, 3146,
+            Australia; E-mail: georgia.sinclair@example.org
+          </span>
+        </div>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+
+    assert out["authors"][0].affiliations == [
+        "Deakin University, P.O. Box 210, Glen Iris, Victoria, 3146, Australia"
+    ]
+
+
 def test_canonical_link_dispatches_when_og_url_is_legacy_host() -> None:
     """Legacy informahealthcare og:url still dispatches if canonical is tandfonline."""
     html = """

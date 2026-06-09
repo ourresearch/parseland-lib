@@ -59,7 +59,11 @@ class Taylor(PublisherParser):
                         and "view further author information" not in aff_text.lower()
                     ):
                         affiliation_trimmed = re.sub('^[a-z0-9] ', '', aff_text)
-                        affiliations.append(affiliation_trimmed)
+                        affiliation_trimmed = self._clean_tandf_affiliation(
+                            affiliation_trimmed
+                        )
+                        if affiliation_trimmed:
+                            affiliations.append(affiliation_trimmed)
             if not affiliations:
                 bio_affiliation = bio_affiliations.get(self._name_key(name))
                 if bio_affiliation:
@@ -293,7 +297,19 @@ class Taylor(PublisherParser):
             flags=re.I,
         )
         value = re.sub(r"\s*,\s*", ", ", value)
+        value = self._clean_tandf_affiliation(value)
         return value or None
+
+    def _clean_tandf_affiliation(self, value):
+        value = re.sub(r"\s+", " ", value or "").strip(" .;,")
+        value = re.sub(r"\s*;\s*e-?mail\s*:.*$", "", value, flags=re.I)
+        value = re.sub(
+            r"\b(Department of [A-Z][A-Za-z&./-]+)(?=[A-Z][a-z])",
+            r"\1 ",
+            value,
+        )
+        value = re.sub(r"\s*,\s*", ", ", value)
+        return value.strip(" .;,")
 
     def _looks_like_affiliation(self, value):
         return bool(re.search(
