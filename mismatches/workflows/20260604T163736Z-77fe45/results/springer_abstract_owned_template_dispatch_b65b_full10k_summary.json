@@ -1,0 +1,557 @@
+{
+  "run_id": "whole-goldie-after-springer-owned-template-dispatch-b65b",
+  "created_at": "2026-06-09T20:22:30.413019+00:00",
+  "classification": "full10k_gate_pass_no_losses",
+  "publisher": "springer",
+  "field": "abstract",
+  "raw_full_gate_artifact": "eval/runs/whole-goldie-after-springer-owned-template-dispatch-b65b-20260609T1950Z.json",
+  "baseline_artifact": "eval/runs/whole-goldie-after-taylor-product-contributors-b61-20260609T1618Z.json",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_owned_template_dispatch_b65b_gate.json",
+  "coverage": {
+    "total_rows": 10000,
+    "html_available": 5570,
+    "scored_rows": 5570,
+    "retrieval_blocked_rows": 4430,
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 101,
+      "cached_error_page": 3,
+      "cached_pdf": 22,
+      "cached_too_small": 49,
+      "js_rendered_required": 1,
+      "missing": 4254
+    },
+    "gold_empty_parser_present_count": 3151,
+    "per_publisher": {
+      "aaas": {
+        "total_rows": 24,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 24
+      },
+      "aacr": {
+        "total_rows": 34,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 34
+      },
+      "acm": {
+        "total_rows": 37,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 37
+      },
+      "acs": {
+        "total_rows": 130,
+        "html_available": 130,
+        "scored_rows": 130,
+        "retrieval_blocked": 0
+      },
+      "aip_publishing": {
+        "total_rows": 57,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 57
+      },
+      "ame": {
+        "total_rows": 3,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3
+      },
+      "ams": {
+        "total_rows": 10,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 10
+      },
+      "apa": {
+        "total_rows": 25,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 25
+      },
+      "aps": {
+        "total_rows": 38,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 38
+      },
+      "asa": {
+        "total_rows": 10,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 10
+      },
+      "asco": {
+        "total_rows": 17,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 17
+      },
+      "ash": {
+        "total_rows": 12,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 12
+      },
+      "asme": {
+        "total_rows": 26,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 26
+      },
+      "bentham": {
+        "total_rows": 15,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 15
+      },
+      "bmj": {
+        "total_rows": 69,
+        "html_available": 66,
+        "scored_rows": 66,
+        "retrieval_blocked": 3
+      },
+      "brill": {
+        "total_rows": 65,
+        "html_available": 55,
+        "scored_rows": 55,
+        "retrieval_blocked": 10
+      },
+      "cairn": {
+        "total_rows": 49,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 49
+      },
+      "company_biologists": {
+        "total_rows": 3,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3
+      },
+      "copernicus": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "cshlp": {
+        "total_rows": 29,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 29
+      },
+      "cup": {
+        "total_rows": 154,
+        "html_available": 151,
+        "scored_rows": 151,
+        "retrieval_blocked": 3
+      },
+      "de_gruyter": {
+        "total_rows": 226,
+        "html_available": 222,
+        "scored_rows": 222,
+        "retrieval_blocked": 4
+      },
+      "edp_sciences": {
+        "total_rows": 21,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 21
+      },
+      "elsevier": {
+        "total_rows": 1564,
+        "html_available": 1487,
+        "scored_rows": 1487,
+        "retrieval_blocked": 77
+      },
+      "emerald": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "f1000": {
+        "total_rows": 2,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 2
+      },
+      "frontiers": {
+        "total_rows": 48,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 48
+      },
+      "hindawi": {
+        "total_rows": 32,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 32
+      },
+      "ieee": {
+        "total_rows": 395,
+        "html_available": 393,
+        "scored_rows": 393,
+        "retrieval_blocked": 2
+      },
+      "iop": {
+        "total_rows": 75,
+        "html_available": 63,
+        "scored_rows": 63,
+        "retrieval_blocked": 12
+      },
+      "karger": {
+        "total_rows": 37,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 37
+      },
+      "lippincott": {
+        "total_rows": 190,
+        "html_available": 190,
+        "scored_rows": 190,
+        "retrieval_blocked": 0
+      },
+      "mary_ann_liebert": {
+        "total_rows": 15,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 15
+      },
+      "mdpi": {
+        "total_rows": 137,
+        "html_available": 72,
+        "scored_rows": 72,
+        "retrieval_blocked": 65
+      },
+      "nejm": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "optica": {
+        "total_rows": 27,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 27
+      },
+      "oxford": {
+        "total_rows": 271,
+        "html_available": 250,
+        "scored_rows": 250,
+        "retrieval_blocked": 21
+      },
+      "plos": {
+        "total_rows": 32,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 32
+      },
+      "portland_press": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "research_square": {
+        "total_rows": 24,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 24
+      },
+      "rsc": {
+        "total_rows": 61,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 61
+      },
+      "rsna": {
+        "total_rows": 5,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 5
+      },
+      "sage": {
+        "total_rows": 200,
+        "html_available": 198,
+        "scored_rows": 198,
+        "retrieval_blocked": 2
+      },
+      "scielo": {
+        "total_rows": 33,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 33
+      },
+      "spie": {
+        "total_rows": 46,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 46
+      },
+      "springer": {
+        "total_rows": 1123,
+        "html_available": 1117,
+        "scored_rows": 1117,
+        "retrieval_blocked": 6
+      },
+      "taylor": {
+        "total_rows": 506,
+        "html_available": 499,
+        "scored_rows": 499,
+        "retrieval_blocked": 7
+      },
+      "thieme": {
+        "total_rows": 61,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 61
+      },
+      "unknown": {
+        "total_rows": 3303,
+        "html_available": 0,
+        "scored_rows": 0,
+        "retrieval_blocked": 3303
+      },
+      "wiley": {
+        "total_rows": 695,
+        "html_available": 677,
+        "scored_rows": 677,
+        "retrieval_blocked": 18
+      }
+    }
+  },
+  "metrics": {
+    "authors_f1_soft": {
+      "before": 0.9644792479509362,
+      "after": 0.9644792479509362,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "before": 0.9394348948333809,
+      "after": 0.9404393021634666,
+      "delta": 0.001004407330085666,
+      "delta_pp": 0.1004407330085666
+    },
+    "abstract_ratio_fuzzy": {
+      "before": 0.9254511985010284,
+      "after": 0.9278011222198995,
+      "delta": 0.0023499237188711053,
+      "delta_pp": 0.23499237188711053
+    },
+    "abstract_present_rate": {
+      "before": 0.6727109515260323,
+      "after": 0.6764811490125673,
+      "delta": 0.003770197486534954,
+      "delta_pp": 0.3770197486534954
+    },
+    "pdf_url_accuracy": {
+      "before": 0.9583032055917089,
+      "after": 0.9583032055917089,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    },
+    "corresponding_accuracy": {
+      "before": 0.9731555094148325,
+      "after": 0.9731555094148325,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    }
+  },
+  "row_level_losses_count": 0,
+  "row_level_losses": [],
+  "row_level_wins_count": 6,
+  "row_level_wins_examples": [
+    {
+      "field": "affiliations",
+      "doi": "10.1080/10790268.2001.11753553",
+      "publisher": "taylor",
+      "before": 0.3,
+      "after": 1.0
+    },
+    {
+      "field": "affiliations",
+      "doi": "10.1007/978-3-540-73584-7_2714",
+      "publisher": "springer",
+      "before": 0.0,
+      "after": 1.0
+    },
+    {
+      "field": "affiliations",
+      "doi": "10.1007/978-3-540-73584-7_97",
+      "publisher": "springer",
+      "before": 0.0,
+      "after": 1.0
+    },
+    {
+      "field": "affiliations",
+      "doi": "10.1007/978-3-642-02943-1_544",
+      "publisher": "springer",
+      "before": 0.0,
+      "after": 1.0
+    },
+    {
+      "field": "affiliations",
+      "doi": "10.1080/15428110208984755",
+      "publisher": "taylor",
+      "before": 0.8888888888888888,
+      "after": 1.0
+    },
+    {
+      "field": "affiliations",
+      "doi": "10.1007/978-3-540-45278-2_1796",
+      "publisher": "springer",
+      "before": 0.0,
+      "after": 1.0
+    }
+  ],
+  "abstract_current_gold_parser_empty_to_present_count": 21,
+  "abstract_current_gold_parser_empty_to_present_examples": [
+    {
+      "doi": "10.1007/978-90-313-9894-2_20",
+      "fuzzy_ratio": 0.3861892583120204,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/978-3-540-75486-2_298",
+      "fuzzy_ratio": 0.9766081871345029,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-90-368-2276-3_18",
+      "fuzzy_ratio": 0.5040816326530613,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/978-3-540-44694-1_2231",
+      "fuzzy_ratio": 0.9737991266375546,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/s15015-022-2944-x",
+      "fuzzy_ratio": 1.0,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/s15006-016-9055-6",
+      "fuzzy_ratio": 0.20428336079077425,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/s15015-020-2410-6",
+      "fuzzy_ratio": 1.0,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1038/nrendo.2012.71",
+      "fuzzy_ratio": 1.0,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-3-540-73584-7_2714",
+      "fuzzy_ratio": 0.9763779527559054,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-3-540-44694-1_3184",
+      "fuzzy_ratio": 0.2865168539325843,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/s15004-018-6102-8",
+      "fuzzy_ratio": 0.6437994722955145,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/10949276_1565",
+      "fuzzy_ratio": 0.30395136778115506,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/s42090-020-0199-2",
+      "fuzzy_ratio": 0.8449744463373083,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-1-4419-6247-8_12375",
+      "fuzzy_ratio": 1.0,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/10494447_2594",
+      "fuzzy_ratio": 0.33217993079584773,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/978-3-540-73584-7_97",
+      "fuzzy_ratio": 0.9763779527559054,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-3-540-49718-9_1503",
+      "fuzzy_ratio": 0.2966292134831461,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/1-4020-0613-6_52",
+      "fuzzy_ratio": 0.9832402234636871,
+      "match_at_threshold": true
+    },
+    {
+      "doi": "10.1007/978-3-642-02943-1_544",
+      "fuzzy_ratio": 0.31092436974789917,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/s00058-018-3328-7",
+      "fuzzy_ratio": 0.3336492890995261,
+      "match_at_threshold": false
+    },
+    {
+      "doi": "10.1007/978-3-540-45278-2_1796",
+      "fuzzy_ratio": 0.2955974842767296,
+      "match_at_threshold": false
+    }
+  ],
+  "new_goldie_backfilled_candidates_count": 20,
+  "new_goldie_backfilled_candidate_examples": [
+    "10.1038/nrendo.2010.114",
+    "10.1038/s41598-025-02616-5",
+    "10.1038/nbt0109-6",
+    "10.1038/d44151-021-00013-1",
+    "10.1038/nrclinonc.2011.175",
+    "10.1038/nrd4232",
+    "10.1038/453286a",
+    "10.1007/978-1-4020-4399-4_134",
+    "10.1007/978-3-662-43978-4_3640",
+    "10.1007/978-1-4614-6086-2_734",
+    "10.1007/978-3-642-41714-6_70596",
+    "10.1038/ng0505-463",
+    "10.1007/978-1-349-94186-5_561",
+    "10.1007/978-3-642-41714-6_190445",
+    "10.1038/s41409-019-0668-0",
+    "10.1007/978-0-387-95919-1_29",
+    "10.1038/nrmicro2943",
+    "10.1007/978-3-642-41714-6_90658",
+    "10.1007/978-1-4419-9917-7_729",
+    "10.1007/978-3-540-49315-0_1439"
+  ],
+  "non_retrieval_errors_count": 1,
+  "non_retrieval_errors": [
+    {
+      "doi": "10.1016/0017-9310(81)90129-0",
+      "publisher": "elsevier",
+      "error": "LookupError: unknown encoding: 'b'mac_latin2''"
+    }
+  ],
+  "tests": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_springer_dispatch_variants.py tests/test_springer_abstract_meta_fallback.py tests/test_springer_abstract_fallbacks.py -q",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers springer --run-id springer-abstract-owned-template-dispatch-b65b",
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --run-id whole-goldie-after-springer-owned-template-dispatch-b65b"
+  ],
+  "policy": "Current-Goldie KPI and Goldie-backfilled candidates remain separate; Gold-empty/parser-present rows are routed to Goldie-backfilled."
+}

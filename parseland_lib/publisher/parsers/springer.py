@@ -11,16 +11,28 @@ class Springer(PublisherParser):
     parser_name = "springer"
 
     def is_publisher_specific_parser(self):
-        if (
-                self.domain_in_canonical_link("link.springer.com")
-                or self.domain_in_canonical_link("springeropen.com")
-                or self.domain_in_meta_og_url("nature.com")
-                or self.domain_in_meta_og_url("biomedcentral.com")
-        ):
-            return True
+        return bool(
+            self.domain_in_canonical_link("link.springer.com")
+            or self.domain_in_canonical_link("springeropen.com")
+            or self.domain_in_canonical_link("springermedizin.de")
+            or self.domain_in_canonical_link("springerpflege.de")
+            or self.domain_in_canonical_link("mijn.bsl.nl")
+            or self.domain_in_meta_og_url("nature.com")
+            or self.domain_in_meta_og_url("biomedcentral.com")
+            or self.domain_in_meta_og_url("springermedizin.de")
+            or self.domain_in_meta_og_url("springerpflege.de")
+            or self.domain_in_meta_og_url("mijn.bsl.nl")
+            or self._has_springer_materials_marker()
+        )
 
     def authors_found(self):
         return True
+
+    def _has_springer_materials_marker(self):
+        title = self.soup.find("title")
+        if title and "springermaterials" in title.get_text(" ", strip=True).lower():
+            return True
+        return bool(self.substr_in_citation_publisher("SpringerMaterials"))
 
     @staticmethod
     def _try_find_abstract_in_metadatas(metadatas):
@@ -314,6 +326,56 @@ class Springer(PublisherParser):
                     authors_by_key[key]['affiliations'].append(aff_text)
         return [authors_by_key[key] for key in author_order]
 
+    def _parse_springer_materials_authors(self):
+        authors_section = self.soup.select_one("dd#authors")
+        if not authors_section:
+            return []
+
+        affiliations_by_id = {}
+        for tag in self.soup.select("dd.author-affiliation li"):
+            text = tag.get_text(" ", strip=True).replace("\xa0", " ")
+            text = re.sub(r"\s+", " ", text).strip()
+            match = re.match(r"^([A-Za-z0-9_]+)\s+(.+)$", text)
+            if not match:
+                continue
+            aff_id, affiliation = match.groups()
+            if affiliation:
+                affiliations_by_id[aff_id] = [affiliation]
+
+        authors = []
+        for tag in authors_section.select("li"):
+            sup = tag.find("sup")
+            aff_id = ""
+            if sup:
+                aff_id = sup.get_text(" ", strip=True).strip("() ")
+
+            name_parts = []
+            for child in tag.children:
+                child_name = getattr(child, "name", None)
+                if child_name in {"a", "sup"}:
+                    continue
+                text = (
+                    child.get_text(" ", strip=True)
+                    if child_name
+                    else str(child)
+                )
+                if text.strip():
+                    name_parts.append(text)
+            name = re.sub(r"\s+", " ", " ".join(name_parts)).strip(" ,")
+            if not name:
+                continue
+
+            fallback_aff = []
+            if sup and sup.get("title"):
+                fallback_aff = [sup.get("title").strip()]
+            authors.append({
+                "name": name,
+                "affiliations": affiliations_by_id.get(aff_id, fallback_aff),
+                "is_corresponding": None,
+            })
+
+        return authors
+
     def parse(self):
         article_metadatas = self.parse_article_metadatas()
         abstract = self._try_find_abstract_in_metadatas(article_metadatas)
@@ -331,6 +393,9 @@ class Springer(PublisherParser):
 
         if not authors_affiliations:
             authors_affiliations = self.parse_authors_method_2()
+
+        if not authors_affiliations and self._has_springer_materials_marker():
+            authors_affiliations = self._parse_springer_materials_authors()
 
         if not authors_affiliations:
             authors_affiliations = self.parse_author_meta_tags()
@@ -983,6 +1048,12 @@ class Springer(PublisherParser):
                     if text:
                         return text
 
+        if text := self._parse_springer_materials_abstract():
+            return text
+
+        if text := self._parse_reference_entry_definition():
+            return text
+
         # Legacy/older SpringerLink book-chapter pages (and many encyclopedia
         # entries) emit no JSON-LD ``description``, no ``section.Abstract``,
         # no ``section[data-title=Abstract|Introduction]``, and no
@@ -1006,6 +1077,69 @@ class Springer(PublisherParser):
 
         return None
 
+    def _parse_springer_materials_abstract(self):
+        if not self._has_springer_materials_marker():
+            return None
+        root = self.soup.select_one("div.main-content")
+        if root is None:
+            return None
+        text = re.sub(r"\s+", " ", root.get_text(" ", strip=True)).strip()
+        match = re.search(
+            r"\bAbstract\b\s+(.*?)(?:\s+Get Access\s+PDF"
+            r"|\s+Impact of COVID-19 pandemic|\s+View PDF"
+            r"|\s+Cite this page|\s+References?\s*\(|$)",
+            text,
+            flags=re.I,
+        )
+        if not match:
+            return None
+        abstract = match.group(1).strip()
+        return abstract if len(abstract) >= 80 else None
+
+    def _parse_reference_entry_definition(self):
+        if not (
+            self.domain_in_canonical_link("link.springer.com/referencework")
+            or self.domain_in_meta_og_url("link.springer.com/referencework")
+        ):
+            return None
+        for node in self.soup.select("div.c-article-section__content"):
+            text = re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip()
+            text = re.sub(r"^n\s+", "", text)
+            lower = text.lower()
+            if len(text) < 30:
+                continue
+            if (
+                "reprints and permissions" in lower
+                or lower.startswith("authors and affiliations")
+                or lower.startswith("editors and affiliations")
+                or lower.startswith("cite this entry")
+                or lower.startswith("© ")
+            ):
+                continue
+            return text
+        return None
+
+    def _parse_nature_intro_summary(self):
+        if not (
+            self.domain_in_canonical_link("nature.com")
+            or self.domain_in_meta_og_url("nature.com")
+        ):
+            return None
+        for node in self.soup.select("div.c-article-section__content"):
+            text = re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip()
+            lower = text.lower()
+            if len(text) < 120:
+                continue
+            if (
+                "reprints and permissions" in lower
+                or lower.startswith("cite this article")
+                or lower.startswith("credit:")
+                or "download citation" in lower
+            ):
+                continue
+            return text
+        return None
+
     def _parse_missing_abstract_fallback(self):
         """Last-resort abstract recovery for pages with no existing abstract.
 
@@ -1016,7 +1150,9 @@ class Springer(PublisherParser):
         """
         if text := self._parse_language_abstract_section():
             return text
-        return self._parse_structured_abstract_sections()
+        if text := self._parse_structured_abstract_sections():
+            return text
+        return self._parse_nature_intro_summary()
 
     @staticmethod
     def _section_heading(section):
