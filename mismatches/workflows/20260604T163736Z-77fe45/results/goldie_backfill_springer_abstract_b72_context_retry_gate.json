@@ -1,0 +1,21 @@
+{
+  "batch_id": 72,
+  "completed_at": "2026-06-09T21:29:20Z",
+  "status": "green_goldie_backfilled_retry_gate",
+  "lane": "goldie-backfilled",
+  "publisher": "springer",
+  "field": "abstract",
+  "processed": 3,
+  "approved_count": 0,
+  "blocked_count": 3,
+  "state_counts": {
+    "page_rendered_needs_referee": 2,
+    "weak_page_render_needs_referee": 1
+  },
+  "diagnosis": "After the Batch 71 abstract-context guard, the three Springer real-abstract retry rows still lack approval-quality Browserbase evidence: two are page-identity-only and one has parsed abstract text but no required screenshot.",
+  "current_goldie_kpi_impact": 0.0,
+  "derived_corpus_impact": 0,
+  "gate_command": "Browserbase key supplied via hidden stdin environment; ./.venv/bin/python scripts/goldie_backfill_ground.py --candidates mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b70_retry_candidates.ndjson --out mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b72_context_retry_grounded.ndjson --evidence-dir mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b72_context_retry_evidence --fields abstract --concurrency 2 --run-id bb-springer-abstract-b72-context-retry-20260609T2128Z",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_b72_context_retry_grounded.ndjson",
+  "recommendation": "Block these three rows from automatic derived-label promotion. Continue the ranked queue or retry only through a screenshot/selector specialist."
+}
