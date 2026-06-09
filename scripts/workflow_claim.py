@@ -65,6 +65,13 @@ def is_claimable_task(task: dict) -> bool:
         backfill_count = int(task.get("gold_empty_parser_present") or 0)
     except (TypeError, ValueError):
         backfill_count = 0
+    if (
+        backfill_count > 0
+        and isinstance(status, str)
+        and status.startswith("goldie_backfill_")
+        and status.endswith("_scale_ready")
+    ):
+        return True
     return backfill_count > 0 and status in BACKFILL_REOPEN_STATUSES
 
 

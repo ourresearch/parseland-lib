@@ -1,0 +1,22 @@
+{
+  "approved_rows_from_prior_smoke": 10,
+  "batch_id": 76,
+  "blocked_rows_from_prior_smoke": 0,
+  "classification": "goldie_backfill_scale_batch_claimed",
+  "completed": false,
+  "created_at": "2026-06-09T23:24:35Z",
+  "current_goldie_kpi_effect": 0.0,
+  "expected_batch_size": 50,
+  "field": "pdf_url",
+  "gold_empty_parser_present": 257,
+  "goldie_backfilled_metrics_separate": true,
+  "latest_prior_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_smoke_b75_referee.summary.json",
+  "next_action": "Run Taylor pdf_url Browserbase grounding for the next 50 candidates after the approved 10-row smoke, then Referee-audit and update report 336.",
+  "publisher_id": "taylor",
+  "queue_task_id": "v2_taylor_pdf_url_2e40646f",
+  "run_id": "20260604T163736Z-77fe45",
+  "scale_offset": 10,
+  "shield_verdict": "green_claim",
+  "status": "claimed",
+  "target_run_id": "bb-taylor-pdf-10-60-b76"
+}
