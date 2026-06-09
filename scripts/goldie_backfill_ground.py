@@ -42,6 +42,9 @@ ABSTRACT_LOW_QUALITY_SNIPPETS = (
     "click to decrease image size",
 )
 ABSTRACT_TITLE_PUBLISHED_IN_RE = re.compile(r"^'.{1,240}' published in '.{1,240}'$")
+ABSTRACT_CONTACT_DIRECTORY_RE = re.compile(
+    r"\b(po box|tel:|fax:|email:|website:|contact:)\b"
+)
 GENERIC_CORRESPONDENCE_NEEDLES = {
     "address",
     "email",
@@ -429,6 +432,14 @@ def candidate_quality_blocker(candidate: dict) -> str | None:
         return "abstract_ui_chrome"
     if ABSTRACT_TITLE_PUBLISHED_IN_RE.match(normalized):
         return "abstract_title_published_in_metadata"
+    if "download references" in normalized or "google scholar" in normalized:
+        return "abstract_references_not_abstract"
+    if ABSTRACT_CONTACT_DIRECTORY_RE.search(normalized):
+        return "abstract_contact_directory"
+    if normalized.startswith("this document is part of subvolume"):
+        return "abstract_volume_metadata"
+    if len(normalized) < 100 and ";" in normalized and "." not in normalized:
+        return "abstract_synonyms_not_abstract"
     return None
 
 

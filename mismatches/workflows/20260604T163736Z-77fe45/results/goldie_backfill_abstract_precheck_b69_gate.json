@@ -1,0 +1,34 @@
+{
+  "run_id": "goldie-backfill-abstract-precheck-b69",
+  "created_at": "2026-06-09T20:55:08.232742Z",
+  "publisher": "springer",
+  "field": "abstract",
+  "classification": "precheck_rejects_referee_learned_non_abstract_patterns",
+  "changed_files": [
+    "scripts/goldie_backfill_ground.py",
+    "tests/test_goldie_backfill_ground.py"
+  ],
+  "tests": [
+    "PYTHONPATH=. ./.venv/bin/pytest tests/test_goldie_backfill_ground.py -q",
+    "PYTHONPATH=. ./.venv/bin/python -m py_compile scripts/goldie_backfill_ground.py"
+  ],
+  "test_result": "24 passed in 0.07s",
+  "springer_abstract_candidate_counts": {
+    "needs_browserbase_or_referee": 20,
+    "abstract_title_published_in_metadata": 16,
+    "abstract_references_not_abstract": 8,
+    "abstract_synonyms_not_abstract": 1,
+    "abstract_contact_directory": 1,
+    "abstract_volume_metadata": 1
+  },
+  "examples": {
+    "needs_browserbase_or_referee": "10.1186/s42162-026-00650-9",
+    "abstract_title_published_in_metadata": "10.1007/978-0-387-30440-3_289",
+    "abstract_references_not_abstract": "10.1038/nrendo.2010.114",
+    "abstract_synonyms_not_abstract": "10.1007/978-1-4020-4399-4_134",
+    "abstract_contact_directory": "10.1007/978-1-349-94186-5_561",
+    "abstract_volume_metadata": "10.1007/978-3-540-49315-0_1439"
+  },
+  "policy": "Current-Goldie KPI unchanged; this improves Goldie-backfilled evidence quality by rejecting Referee-learned non-abstract candidates before Browserbase sessions.",
+  "next_action": "Ground the 20 remaining Springer abstract candidates in Browserbase/referee batches, then stop or move lane if they are also non-substantive."
+}

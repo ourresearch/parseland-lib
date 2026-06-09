@@ -50,6 +50,57 @@ def test_candidate_quality_blocker_allows_substantive_abstract_text():
     assert candidate_quality_blocker(candidate) is None
 
 
+def test_candidate_quality_blocker_rejects_reference_list_text():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {
+            "abstract": (
+                "Lee HW, Calisher CC, Schmaljohn C (eds) Manual of hemorrhagic "
+                "fever with renal syndrome. Google Scholar Download references"
+            )
+        },
+    }
+
+    assert candidate_quality_blocker(candidate) == "abstract_references_not_abstract"
+
+
+def test_candidate_quality_blocker_rejects_contact_directory_text():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {
+            "abstract": (
+                "PO Box 1364, D-38299, Wolfenbuettel, Germany Tel: (49) 5331 "
+                "Fax: 808 173 Email: bepler@example.org Website: www.example.org"
+            )
+        },
+    }
+
+    assert candidate_quality_blocker(candidate) == "abstract_contact_directory"
+
+
+def test_candidate_quality_blocker_rejects_volume_metadata():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {
+            "abstract": (
+                "This document is part of Subvolume A1 of Volume 13 "
+                "Vapor-Liquid Equilibrium in Mixtures and Solutions."
+            )
+        },
+    }
+
+    assert candidate_quality_blocker(candidate) == "abstract_volume_metadata"
+
+
+def test_candidate_quality_blocker_rejects_synonyms_text():
+    candidate = {
+        "field": "abstract",
+        "parseland_candidate": {"abstract": "Catastrophic wildfire; Conflagration"},
+    }
+
+    assert candidate_quality_blocker(candidate) == "abstract_synonyms_not_abstract"
+
+
 def test_candidate_pdf_url_extracts_structured_candidate():
     candidate = {
         "field": "pdf_url",
