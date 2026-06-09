@@ -1,0 +1,71 @@
+{
+  "approved_example_dois": [
+    "10.1093/amt/tsx083",
+    "10.1093/acprof:oso/9780198757276.003.0019",
+    "10.1093/combul/14.1.16"
+  ],
+  "approved_rows": 3,
+  "artifacts": {
+    "derived": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_derived_v0.ndjson",
+    "raw": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_0_38_raw_b64.ndjson",
+    "referee": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_0_38_referee_b64.ndjson",
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_0_38_referee_b64.summary.json"
+  },
+  "batch": 64,
+  "blocked_example_dois": [
+    "10.1093/ajj/22.1.190",
+    "10.1093/amt/24.1.g3",
+    "10.1093/fs/xxxvi.2.202",
+    "10.1093/aristotelian/92.1.251",
+    "10.1093/genetics/63.2.467",
+    "10.1093/ia/iiaf163",
+    "10.1093/jaoac/61.2.322",
+    "10.1093/jss/fgu055",
+    "10.1093/leobaeck/42.1.327",
+    "10.1093/maghis/13.2.3"
+  ],
+  "blocked_reasons": {
+    "10.1093/ajj/22.1.190": "candidate_too_short_or_truncated",
+    "10.1093/amt/24.1.g3": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/aristotelian/92.1.251": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/fs/xxxvi.2.202": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/genetics/63.2.467": "candidate_too_short_or_truncated",
+    "10.1093/ia/iiaf163": "page_rendered_needs_referee; page_identity_only",
+    "10.1093/jaoac/61.2.322": "candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/jss/fgu055": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/leobaeck/42.1.327": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/maghis/13.2.3": "author_bio_not_article_abstract",
+    "10.1093/notesj/s12-ii.33.139-a": "weak_page_render_needs_referee; page_rendered_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/nq/clxiii.aug13.118d": "candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/nq/s10-vii.178.413d": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/nq/s10-vii.181.469i": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/nq/s11-i.18.354f": "candidate_too_short_or_truncated; page_chrome_or_truncated_snippet",
+    "10.1093/nq/s3-v.118.280-a": "candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/nq/s5-vii.172.293b": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; citation_metadata_not_abstract",
+    "10.1093/oseo/instance.00097604": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; page_chrome_or_truncated_snippet",
+    "10.1093/oseo/instance.00102500": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; page_chrome_or_truncated_snippet",
+    "10.1093/oseo/instance.00174627": "page_rendered_needs_referee; page_identity_only; candidate_too_short_or_truncated; page_chrome_or_truncated_snippet"
+  },
+  "blocked_rows": 35,
+  "current_goldie_kpi_effect": "none_goldie_backfilled_lane_only",
+  "decision": "Approve only screenshot-backed substantive rendered abstract text. Block page identity, citation metadata, author bios, short snippets, and weak renders.",
+  "field": "abstract",
+  "grounding_confidence_counts": {
+    "candidate_text_match": 13,
+    "page_identity_only": 24,
+    "page_rendered_only": 1
+  },
+  "grounding_status_counts": {
+    "candidate_evidence_needs_referee": 13,
+    "page_rendered_needs_referee": 24,
+    "weak_page_render_needs_referee": 1
+  },
+  "new_derived_rows": 3,
+  "next_action": "Route approved Oxford abstract derived candidates to derived-corpus/gold-auditor approval; send blocked citation/snippet/page-identity rows to gold-auditor/manual DOM or improve parser low-quality filters only through focused gates.",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher": "oxford",
+  "reviewed_rows": 38,
+  "run_id": "20260609T182300Z-oxford-abstract-backfill-b64",
+  "status": "goldie_backfill_referee_complete_3_approved_35_blocked",
+  "timestamp_utc": "2026-06-09T18:31:09.877313Z"
+}
