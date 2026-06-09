@@ -29,6 +29,7 @@
     "goldie_backfill_referee_complete_0_approved_3_blocked": 1,
     "goldie_backfill_referee_complete_1_approved_3_blocked": 1,
     "goldie_backfill_referee_complete_1_approved_5_blocked": 1,
+    "goldie_backfill_referee_complete_21_approved_7_blocked": 1,
     "goldie_backfill_referee_complete_23_approved_9_blocked": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_30_approved_5_blocked": 1,
@@ -51,7 +52,7 @@
     "shipped_full10k_measured": 13,
     "shipped_full10k_measured_above_98": 1,
     "shipped_full10k_measured_below_98_with_explainable_residual": 3,
-    "shipped_full10k_measured_residual_below_98": 3,
+    "shipped_full10k_measured_residual_below_98": 2,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_above_98_with_backfill_pending": 3,
@@ -71,7 +72,8 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
-  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_affiliations_residual_b62_gate.json",
+  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_0_28_referee_b63.summary.json",
+  "latest_completed_at": "2026-06-09T18:13:55.524823+00:00",
   "latest_completed_task": "v2_taylor_affiliations_39460725",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
@@ -80,6 +82,15 @@
   },
   "run_id": "20260608T103009Z-2a5d8b",
   "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_after_taylor_affiliation_cleanup_b62.json",
+  "taylor_affiliations_backfill_b63_state": {
+    "approved_rows": 21,
+    "blocked_rows": 7,
+    "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_0_28_referee_b63.ndjson",
+    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_0_28_referee_b63.summary.json",
+    "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+    "remaining_current_candidates": 0,
+    "status": "goldie_backfill_referee_complete_21_approved_7_blocked"
+  },
   "top_15_priority": [
     {
       "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_visible_smoke2_referee.ndjson",

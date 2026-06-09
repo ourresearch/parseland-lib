@@ -1,0 +1,50 @@
+{
+  "approved_example_dois": [
+    "10.1080/00029890.2023.2231827",
+    "10.1080/00207729208949189",
+    "10.1080/00033790.2025.2491590",
+    "10.1080/00852988.1987.10673987",
+    "10.1080/0305215x.2025.2450686"
+  ],
+  "approved_rows": 21,
+  "blocked_example_dois": [
+    "10.1080/00343404.2014.933204",
+    "10.1080/03235408.2025.2577461",
+    "10.1080/10632919809600770",
+    "10.1080/1354750x.2024.2422965",
+    "10.1080/16081625.2025.2587578"
+  ],
+  "blocked_reasons": {
+    "10.1080/00343404.2014.933204": "page_identity_only; not_all_affiliation_candidate_text_match; no_resolved_affiliation_candidate",
+    "10.1080/03235408.2025.2577461": "candidate_contains_joined_affiliation_labels",
+    "10.1080/10632919809600770": "page_identity_only; not_all_affiliation_candidate_text_match; no_resolved_affiliation_candidate",
+    "10.1080/1354750x.2024.2422965": "candidate_contains_joined_affiliation_labels",
+    "10.1080/16081625.2025.2587578": "candidate_contains_joined_affiliation_labels",
+    "10.1080/1612197x.2024.2359872": "candidate_contains_joined_affiliation_labels",
+    "10.1080/17460913.2026.2645510": "candidate_contains_joined_affiliation_labels"
+  },
+  "blocked_rows": 7,
+  "decision": "Approve only high-confidence Taylor affiliation candidates with all affiliation text grounded in Browserbase evidence. Block page-identity-only rows and rows whose candidate value contains joined affiliation labels for manual/gold audit.",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_derived_v0.ndjson",
+  "field": "affiliations",
+  "grounding_confidence_counts": {
+    "all_affiliation_candidate_text_match": 26,
+    "page_identity_only": 2
+  },
+  "grounding_status_counts": {
+    "candidate_evidence_needs_referee": 26,
+    "page_rendered_needs_referee": 2
+  },
+  "new_derived_rows": 21,
+  "next_action": "Route 21 approved Taylor affiliation derived candidates to derived-corpus approval; route 7 blocked rows to gold-auditor/manual DOM or parser label-split cleanup before any promotion. Continue the global queue.",
+  "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
+  "publisher_id": "taylor",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_0_28_referee_b63.ndjson",
+  "remaining_current_candidates": 0,
+  "reviewed_at": "2026-06-09T18:13:55.524823+00:00",
+  "reviewed_rows": 28,
+  "run_id": "20260609T180000Z-taylor-aff-backfill-b63",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_affiliations_0_28_raw_b63.ndjson",
+  "status": "goldie_backfill_referee_complete_21_approved_7_blocked",
+  "task_id": "v2_taylor_affiliations_39460725"
+}
