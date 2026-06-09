@@ -273,6 +273,56 @@ def abstract_len_matches(expected: int, actual: int) -> bool:
     return abs(expected - actual) <= tolerance
 
 
+def _compact_text(value: Any) -> str:
+    return re.sub(r"\s+", " ", html_lib.unescape(str(value or ""))).strip().casefold()
+
+
+def _tag_has_abstract_marker(tag: Any) -> bool:
+    values: list[str] = [str(getattr(tag, "name", "") or "")]
+    for attr in ("id", "class", "property", "itemprop", "aria-label", "data-section"):
+        value = tag.get(attr) if hasattr(tag, "get") else None
+        if isinstance(value, list):
+            values.extend(str(part) for part in value)
+        elif value:
+            values.append(str(value))
+    marker = " ".join(values).casefold()
+    return bool(
+        re.search(r"(?:^|[\s_-])abstract(?:$|[\s_-])", marker)
+        or re.search(r"(?:^|[\s_-])abs\d*(?:$|[\s_-])", marker)
+    )
+
+
+def html_has_explicit_abstract_context(html: str, abstract: str) -> bool:
+    """Require selector-level abstract context for abstract_len backfill evidence."""
+    prefix = _compact_text(abstract)[:120]
+    if len(prefix) < 80:
+        return False
+    soup = BeautifulSoup(html or "", "html.parser")
+    for meta in soup.find_all("meta"):
+        name = _compact_text(meta.get("name") or meta.get("property"))
+        content = _compact_text(meta.get("content"))
+        if name == "citation_abstract" and prefix in content:
+            return True
+    candidates: list[tuple[int, Any]] = []
+    for tag in soup.find_all(True):
+        text = _compact_text(tag.get_text(" ", strip=True))
+        if prefix in text:
+            candidates.append((len(text), tag))
+    for _, tag in sorted(candidates, key=lambda row: row[0])[:20]:
+        current = tag
+        while current is not None and getattr(current, "name", None):
+            if _tag_has_abstract_marker(current):
+                return True
+            current = current.parent
+        for heading in tag.find_all_previous(["h1", "h2", "h3", "h4", "h5", "h6"], limit=8):
+            heading_text = _compact_text(heading.get_text(" ", strip=True))
+            if heading_text.startswith("abstract"):
+                return True
+            if heading_text:
+                break
+    return False
+
+
 def resolve_abstract_len_candidate(
     html: str, candidate: dict, resolved_url: str | None
 ) -> tuple[dict[str, Any], str] | None:
@@ -288,6 +338,8 @@ def resolve_abstract_len_candidate(
         return None
     abstract = " ".join(abstract.split())
     if not abstract_len_matches(expected_len, len(abstract)):
+        return None
+    if not html_has_explicit_abstract_context(html, abstract):
         return None
     return {"abstract": abstract}, abstract[:1000]
 

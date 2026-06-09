@@ -1,0 +1,13 @@
+{
+  "batch_id": 71,
+  "completed_at": "2026-06-09T21:22:45Z",
+  "status": "green",
+  "lane": "goldie-backfilled",
+  "field": "abstract",
+  "change": "Require explicit abstract context before treating abstract_len rendered parse matches as candidate evidence.",
+  "reason": "Batch 70 showed length-only abstract grounding can match Definition or Introduction sections. This keeps those rows in weak/page-rendered evidence until Browserbase provides selector-level abstract context.",
+  "gate_command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_goldie_backfill_ground.py",
+  "gate_result": "26 passed in 0.10s",
+  "current_goldie_kpi_impact": 0.0,
+  "goldie_backfilled_policy": "Candidate evidence only; no merged-FINAL.csv mutation."
+}

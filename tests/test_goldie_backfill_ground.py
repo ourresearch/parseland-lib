@@ -9,6 +9,7 @@ from scripts.goldie_backfill_ground import (
     candidate_pdf_url,
     excerpt_for,
     extract_author_names_from_html,
+    html_has_explicit_abstract_context,
     pdf_url_resolution_is_usable,
     resolve_abstract_len_candidate,
     resolve_affiliation_candidate,
@@ -165,13 +166,42 @@ def test_resolve_abstract_len_candidate_from_rendered_parse(monkeypatch):
     candidate = {"field": "abstract", "parseland_candidate": {"abstract_len": len(abstract)}}
 
     resolved, excerpt = resolve_abstract_len_candidate(
-        "<html>rendered page</html>",
+        f"<section id='Abs1'><h2>Abstract</h2><p>{abstract}</p></section>",
         candidate,
         "https://journals.lww.com/example",
     )
 
     assert resolved == {"abstract": abstract}
     assert excerpt.startswith("Browserbase-rendered abstract evidence")
+
+
+def test_html_has_explicit_abstract_context_accepts_citation_abstract_meta():
+    abstract = " ".join(["Citation metadata abstract evidence"] * 20)
+
+    assert html_has_explicit_abstract_context(
+        f"<meta name='citation_abstract' content='{abstract}'>",
+        abstract,
+    )
+
+
+def test_resolve_abstract_len_candidate_rejects_introduction_context(monkeypatch):
+    introduction = " ".join(["Browserbase-rendered introduction evidence"] * 20)
+
+    monkeypatch.setattr(
+        ground,
+        "parse_page",
+        lambda html, namespace, resolved_url=None: {"abstract": introduction},
+    )
+    candidate = {"field": "abstract", "parseland_candidate": {"abstract_len": len(introduction)}}
+
+    assert (
+        resolve_abstract_len_candidate(
+            f"<section><h2>Introduction</h2><p>{introduction}</p></section>",
+            candidate,
+            "https://link.springer.com/article/example",
+        )
+        is None
+    )
 
 
 def test_resolve_abstract_len_candidate_rejects_length_mismatch(monkeypatch):
