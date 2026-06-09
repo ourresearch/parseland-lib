@@ -1,0 +1,23 @@
+{
+  "run_id": "bb-springer-abstract-smoke-b66",
+  "created_at": "2026-06-09T20:35:03.119779Z",
+  "task_id": "v2_springer_abstract_backfill_smoke_b66",
+  "agent_id": "codex-goldie-backfilled-springer-abstract-smoke-b66",
+  "publisher": "springer",
+  "field": "abstract",
+  "classification": "goldie_backfill_browserbase_smoke_blocked_fake_abstract",
+  "processed_rows": 1,
+  "approved_rows": 0,
+  "blocked_rows": 1,
+  "state_counts": {
+    "candidate_evidence_needs_referee": 1
+  },
+  "referee_counts": {
+    "blocked_page_description_not_substantive_abstract": 1
+  },
+  "policy": "Current-Goldie KPI unchanged; Browserbase evidence grounds candidates but Referee must approve before derived-corpus promotion.",
+  "candidate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_smoke1_grounded.ndjson",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_smoke1_referee.ndjson",
+  "screenshot_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_springer_abstract_smoke1_evidence/d81749b57925.png",
+  "next_action": "Scale Springer abstract backfill only after filtering meta-description/title-only candidates; prefer candidates with rendered abstract body selectors or parser-resolved substantive abstract text."
+}
