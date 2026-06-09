@@ -1,3 +1,4 @@
+import json
 import re
 
 from parseland_lib.elements import Author, Affiliation, AuthorAffiliations
@@ -12,10 +13,15 @@ class BMJ(PublisherParser):
         return self.domain_in_meta_og_url("bmj.com")
 
     def authors_found(self):
-        return self.soup.find("ol",
-                              class_="contributor-list") or self.soup.find(
+        standard_authors = self.soup.find("ol",
+                                          class_="contributor-list") or self.soup.find(
             "meta", {"name": "citation_author"}
         )
+        if standard_authors:
+            return standard_authors
+        if not self.is_publisher_specific_parser():
+            return None
+        return self.get_data_layer_author_names() or self.find_legacy_inline_author_paragraph()
 
     def parse(self):
         result_authors = None
@@ -27,6 +33,11 @@ class BMJ(PublisherParser):
                                                              affiliations)
         else:
             result_authors = self.parse_author_meta_tags()
+            if not result_authors and self.is_publisher_specific_parser():
+                result_authors = (
+                    self.get_data_layer_authors()
+                    or self.get_legacy_inline_authors()
+                )
 
         return {"authors": result_authors,
                 "abstract": self.get_abstract()}
@@ -77,7 +88,10 @@ class BMJ(PublisherParser):
             aff_ids_raw = author.select('.xref-aff')
             aff_ids = []
             for aff_id_raw in aff_ids_raw:
-                aff_id = aff_id_raw.text.strip()
+                aff_id = self.clean_aff_id(
+                    aff_id_raw.text,
+                    aff_id_raw.get("href"),
+                )
                 if aff_id:
                     aff_ids.append(aff_id)
             is_corresponding = False
@@ -88,7 +102,7 @@ class BMJ(PublisherParser):
             email_match = self.name_matches_correspondence(name, email_text)
             if correspondence_match or email_match or len(author_soup) == 1:
                 is_corresponding = True
-                if corr_aff and direct_corr_name_match:
+                if corr_aff and direct_corr_name_match and not aff_ids:
                     author = AuthorAffiliations(name=name,
                                                 affiliations=[corr_aff],
                                                 is_corresponding=is_corresponding)
@@ -96,7 +110,115 @@ class BMJ(PublisherParser):
                     author.is_corresponding = is_corresponding
 
             authors.append(author)
-        return authors
+        if authors:
+            return authors
+        if self.is_publisher_specific_parser():
+            return self.get_data_layer_authors() or self.get_legacy_inline_authors()
+        return []
+
+    @staticmethod
+    def clean_aff_id(text, href=None):
+        source = href or text or ""
+        href_match = re.search(r"#?aff[-_]?([A-Za-z0-9]+)", source)
+        if href_match:
+            return href_match.group(1)
+        text_match = re.search(r"[A-Za-z0-9]+", text or "")
+        return text_match.group(0) if text_match else None
+
+    def get_data_layer_authors(self):
+        return [
+            Author(name=name, aff_ids=[], is_corresponding=None)
+            for name in self.get_data_layer_author_names()
+        ]
+
+    def get_data_layer_author_names(self):
+        content = self.get_data_layer_content()
+        if not content:
+            return []
+
+        names_raw = content.get("hwAuthors") or content.get("hwContributors") or ""
+        corpus_code = str(content.get("hwCorpusCode") or "").strip().lower()
+        if not names_raw:
+            return []
+
+        names = []
+        for name in re.split(r"\s*,\s*", names_raw):
+            name = name.strip()
+            if not name or name.lower() == corpus_code:
+                continue
+            if not re.search(r"[A-Za-z]", name):
+                continue
+            names.append(name)
+        return names
+
+    def get_data_layer_content(self):
+        for script in self.soup.find_all("script"):
+            text = script.string or script.get_text("\n")
+            if "window.dataLayer.push" not in text:
+                continue
+            match = re.search(r"window\.dataLayer\.push\((\{.*?\})\);", text, re.S)
+            if not match:
+                continue
+            try:
+                data = json.loads(match.group(1))
+            except Exception:
+                continue
+            content = data.get("content")
+            if isinstance(content, dict):
+                return content
+        return {}
+
+    def find_legacy_inline_author_paragraph(self):
+        role_words = (
+            "specialist registrar",
+            "consultant",
+            "clinical research fellow",
+            "professor",
+        )
+        for para in self.soup.select(".article.extract-view p, article p"):
+            text = re.sub(r"\s+", " ", para.get_text(" ", strip=True)).strip()
+            lower = text.lower()
+            if "department " not in lower:
+                continue
+            if not any(role in lower for role in role_words):
+                continue
+            if self.extract_legacy_inline_author_names(text):
+                return para
+        return None
+
+    def get_legacy_inline_authors(self):
+        para = self.find_legacy_inline_author_paragraph()
+        if not para:
+            return []
+        text = re.sub(r"\s+", " ", para.get_text(" ", strip=True)).strip()
+        aff_match = re.search(r",\s*(department\b.+)$", text, re.I)
+        if not aff_match:
+            return []
+        affiliation = aff_match.group(1).strip()
+        return [
+            AuthorAffiliations(
+                name=name,
+                affiliations=[affiliation],
+                is_corresponding=False,
+            )
+            for name in self.extract_legacy_inline_author_names(text)
+        ]
+
+    @staticmethod
+    def extract_legacy_inline_author_names(text):
+        role_pattern = (
+            r"specialist registrar|consultant|clinical research fellow|professor"
+        )
+        names = []
+        for match in re.finditer(
+            rf"(?:^|,\s*)([A-Z][A-Za-z.'’ -]*(?:\s+[A-Z][A-Za-z.'’ -]*)+),\s*(?:{role_pattern})",
+            text,
+            re.I,
+        ):
+            name = re.sub(r"\s+", " ", match.group(1)).strip(" ,")
+            if name:
+                names.append(name)
+        return names
 
     @staticmethod
     def name_matches_correspondence(name, text):
@@ -136,7 +258,7 @@ class BMJ(PublisherParser):
                 # affiliation id
                 aff_id_raw = aff_raw.find("sup")
                 if aff_id_raw:
-                    aff_id = aff_id_raw.text
+                    aff_id = self.clean_aff_id(aff_id_raw.text)
                     aff_id_raw.clear()
                 else:
                     aff_id = None
