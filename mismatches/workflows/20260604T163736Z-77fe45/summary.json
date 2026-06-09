@@ -25,6 +25,7 @@
   "by_status": {
     "above_98": 2,
     "above_98_with_backfill_pending": 1,
+    "blocked_explainable_current_goldie_residual_below_98": 1,
     "blocked_no_visible_or_metadata_pdf_url": 1,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
@@ -59,7 +60,7 @@
     "shipped_full10k_measured": 14,
     "shipped_full10k_measured_above_98": 1,
     "shipped_full10k_measured_below_98_with_explainable_residual": 3,
-    "shipped_full10k_measured_residual_below_98": 3,
+    "shipped_full10k_measured_residual_below_98": 2,
     "shipped_full10k_measured_with_backfill_accounting": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
     "shipped_parser_fix_above_98_with_backfill_pending": 3,
@@ -278,11 +279,11 @@
       "publisher_class": "ready",
       "gold_status": "fixture-present",
       "gold_fixture_path": "tests/fixtures/taylor-gold.ndjson",
-      "assigned_agent": "codex-taylor-dc-description-b58",
+      "assigned_agent": "codex-taylor-abstract-residual-b60",
       "worktree_path": null,
-      "status": "shipped_full10k_measured_residual_below_98",
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_dc_description_b58_gate.json",
-      "next_action": "Taylor dc.Description fallback shipped (+2.477pp Taylor abstract, +0.206pp full-10K abstract). Remaining Taylor abstract gap needs gold/scorer snippet-vs-full-text classification, Goldie-backfilled grounding, non-Taylor contamination cleanup, or manual DOM specialist work; do not truncate full visible abstracts to chase the metric.",
+      "status": "blocked_explainable_current_goldie_residual_below_98",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_abstract_residual_b60_diagnosis.json",
+      "next_action": "Residual Taylor abstract gap classified with DOI evidence; route to gold/scorer/manual-DOM and Goldie-backfilled lanes, not broad parser patch.",
       "latest_run": "eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
       "created_at": "2026-06-08T10:30:09.059514+00:00"
     },
@@ -546,5 +547,5 @@
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
   },
-  "updated_at": "2026-06-09T02:35:09Z"
+  "updated_at": "2026-06-09T16:05:20Z"
 }

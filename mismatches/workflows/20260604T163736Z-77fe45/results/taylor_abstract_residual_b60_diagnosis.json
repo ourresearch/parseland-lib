@@ -1,0 +1,1755 @@
+{
+  "artifact": "taylor_abstract_residual_b60_diagnosis",
+  "timestamp_utc": "2026-06-09T15:06:04.274790+00:00",
+  "source_run": "/Users/shubh-trips/Documents/OpenAlex/parseland-lib/eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
+  "publisher": "taylor",
+  "field": "abstract",
+  "threshold": 0.74,
+  "summary": {
+    "total_rows": 506,
+    "html_available": 499,
+    "retrieval_blocked": 7,
+    "status_counts": {
+      "gold_present_parser_present": 368,
+      "empty_empty_pass": 62,
+      "gold_empty_parser_present": 62,
+      "retrieval_blocked": 7,
+      "gold_present_parser_empty": 7
+    },
+    "category_counts": {
+      "parser_much_longer_than_gold": 26,
+      "low_similarity_text_mismatch": 9,
+      "parser_full_text_gold_snippet": 25,
+      "parser_much_shorter_than_gold": 11,
+      "parser_empty_no_known_selector": 4,
+      "parser_empty_visible_selector_available": 3,
+      "goldie_backfilled_candidate": 25,
+      "current_goldie_pass_or_empty_empty": 359,
+      "goldie_backfilled_candidate_not_detailed": 37,
+      "retrieval_blocked": 7
+    },
+    "current_goldie_miss_count": 78,
+    "detailed_current_goldie_miss_count": 78,
+    "goldie_backfilled_candidate_count": 62,
+    "detailed_goldie_backfilled_candidate_count": 25,
+    "current_score": 0.867198177546421,
+    "distance_to_98": 0.11280182245357895
+  },
+  "top_current_goldie_misses": [
+    {
+      "kind": "miss",
+      "doi": "10.1080/20557132.2016.1275548",
+      "no": 437,
+      "link": "https://doi.org/10.1080/20557132.2016.1275548",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 114,
+      "fuzzy_ratio": 0.3439490445859873,
+      "soft_ratio": 0.35668789808917206,
+      "length_ratio": 0.57,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "\" Black transparency: the right to know in the age of mass surveillance .\" Communication Design , 4(1-2), pp. 100–101"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Metahaven's work tends to divide fellow graphic designers into two camps: those who cannot get past the self-indulgent noise of such alienating and anti-modernist graphics and those who whole-heart...",
+      "parsed_snippet": "\"Black transparency: the right to know in the age of mass surveillance.\" Communication Design, 4(1-2), pp. 100–101"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/13623699.2016.1268333",
+      "no": 2838,
+      "link": "https://doi.org/10.1080/13623699.2016.1268333",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 143,
+      "fuzzy_ratio": 0.3848396501457726,
+      "soft_ratio": 0.39650145772594747,
+      "length_ratio": 0.715,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "\" The recruitment of children by the UK armed forces: a critique from health professionals .\" Medicine, Conflict and Survival , 32(4), pp. 324–325"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Each year one-fifth of the UK Armyâs recruits are under 18, and therefore, children. The UK is the only country in Europe and only Security Council permanent member to recruit 16-year-olds.But in a...",
+      "parsed_snippet": "\"The recruitment of children by the UK armed forces: a critique from health professionals.\" Medicine, Conflict and Survival, 32(4), pp. 324–325"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.25195/ijci.v43i2.62",
+      "no": 5883,
+      "link": "https://doi.org/10.25195/ijci.v43i2.62",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "",
+      "gold_len": 557,
+      "parsed_len": 420,
+      "fuzzy_ratio": 0.4053224155578301,
+      "soft_ratio": 0.41146366427840336,
+      "length_ratio": 0.7540394973070018,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "meta[name=\"DC.Description\"]",
+          "count": 2,
+          "sample": null
+        }
+      ],
+      "gold_snippet": "This century has a progressive evolution in IT. New techniques gadgets and tools are being invented every day. This Leeds to consume energy and resources. The planet need a friendly environment in which consuming resources is balanced and temperature is decreased. So; one of the most important responsibilities of human is providing green industry in order to",
+      "parsed_snippet": "Iraqi Journal for Computers and Informatics is an open access, double-blind peer reviewed, international academic journal published biannual (since 2017).It is institutional journal issued by the University of Information Technology and Communications (UoITC) in Baghdad- Iraq. IJCI aims to contribute to the constant scientific research and to provide a sober"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1081/scc-100104060",
+      "no": 1842,
+      "link": "https://doi.org/10.1081/scc-100104060",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 303,
+      "fuzzy_ratio": 0.41749502982107356,
+      "soft_ratio": 0.4214711729622267,
+      "length_ratio": 1.515,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract A series of N-protected 1-aminoalkylphosphonate mixed monothioesters and dithioesters were synthesized using onepot reactions of benzyl carbamate, aldehydes and alkoxyphos"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Recent developments in the design of transition state analogues for enzymatic reactions have led to the synthesis of phosphonopeptides containing phosphonamidate bonds used as inhibitors for a vari...",
+      "parsed_snippet": "A series of N-protected 1-aminoalkylphosphonate mixed monothioesters and dithioesters were synthesized using onepot reactions of benzyl carbamate, aldehydes and alkoxyphosphine dichlorides or alkylthiophosphine dichloride, followed by alcoholysis with thiol or alcohols in the presence of triethylamine."
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/10916466.2015.1098669",
+      "no": 535,
+      "link": "https://doi.org/10.1080/10916466.2015.1098669",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 376,
+      "parsed_len": 492,
+      "fuzzy_ratio": 0.4400921658986176,
+      "soft_ratio": 0.4400921658986176,
+      "length_ratio": 1.3085106382978724,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract The maximizing iso-paraffins (MIP) process, a family craft of fluid catalytic cracking process, is designed to reduce olefin content and increase isoparaffin and aromatic "
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Catalytic cracking is widely used to convert heavy oil to lighter products in oil refinery factories. In China, 70% of the whole gasoline pool is from this process (Wang et al., 2014). The maximizing iso-paraffins (MIP) process, a family craft of fluid catalytic cracking process, is designed to reduce olefin content and increase isoparaffin and aromatic cont",
+      "parsed_snippet": "The maximizing iso-paraffins (MIP) process, a family craft of fluid catalytic cracking process, is designed to reduce olefin content and increase isoparaffin and aromatic content in gasoline. The authors propose a method used to predict the gasoline yield of MIP process. The prediction model with 17 input variables is based on generalized regression neural n"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/13506129.2019.1582486",
+      "no": 4039,
+      "link": "https://doi.org/10.1080/13506129.2019.1582486",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 150,
+      "fuzzy_ratio": 0.48,
+      "soft_ratio": 0.4971428571428571,
+      "length_ratio": 0.75,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "\" Depth of organ response in AL amyloidosis is associated with improved survival: new proposed organ response criteria .\" Amyloid , 26(sup1), pp. 101–102"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Organ recovery following anti-plasma cell therapy is associated with an improved outcome in patients with AL amyloidosis. However, unlike hematological response criteria, current organ response cri...",
+      "parsed_snippet": "\"Depth of organ response in AL amyloidosis is associated with improved survival: new proposed organ response criteria.\" Amyloid, 26(sup1), pp. 101–102"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/07038992.2000.10874777",
+      "no": 2634,
+      "link": "https://doi.org/10.1080/07038992.2000.10874777",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 711,
+      "parsed_len": 965,
+      "fuzzy_ratio": 0.4880668257756563,
+      "soft_ratio": 0.5023866348448687,
+      "length_ratio": 1.3572433192686357,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "div.abstractInFull",
+          "count": 1,
+          "sample": "RÉSUMÉ On a utilisé des données RADARSAT pour faire le suivi du comportement du vaste panache de surface à l'embouchure de ta rivière Sepik et de la mer de Bismarck, au nord de la "
+        },
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "RÉSUMÉ RÉSUMÉ On a utilisé des données RADARSAT pour faire le suivi du comportement du vaste panache de surface à l'embouchure de ta rivière Sepik et de la mer de Bismarck, au nord"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{ \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" },"
+        }
+      ],
+      "gold_snippet": "RADARSAT SAR was used to monitor the behaviour of the large Sepik River surface plume that enters the Bismarck Sea north of Papua New Guinea. The plume responds to the winds and the underlying Papua New Guinea Coastal Current, turning to the north west during the SE monsoon and to the south east during the NW monsoon. Complementary data were acquired by a re",
+      "parsed_snippet": "On a utilisé des données RADARSAT pour faire le suivi du comportement du vaste panache de surface à l'embouchure de ta rivière Sepik et de la mer de Bismarck, au nord de la Papouasie-Nouvelle-Guinée. Le panache est soumis à l'influence des vents et du courant côtier sous-jacent de la Papouasie-Nouvelle-Guinée et bifurque vers le nord-ouest durant la mousson "
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/1055679031000120398",
+      "no": 7637,
+      "link": "https://doi.org/10.1080/1055679031000120398",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 370,
+      "fuzzy_ratio": 0.512280701754386,
+      "soft_ratio": 0.5157894736842106,
+      "length_ratio": 1.85,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract In this paper, a modification of the well-known Sanders method for estimation of the membership probabilities for stars in stellar clusters is proposed. It is shown that a"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "1It is well known that the most useful method of the estimation of membership probabilities for stars in stellar clusters is the method proposed by Sanders (1971) based on the treatment of the prop...",
+      "parsed_snippet": "In this paper, a modification of the well-known Sanders method for estimation of the membership probabilities for stars in stellar clusters is proposed. It is shown that adding one more normal distribution to the approximation expression for the two-dimensional probability density of proper motions allows us to obtain more reliable values for membership prob"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/14790726.2025.2471747",
+      "no": 1841,
+      "link": "https://doi.org/10.1080/14790726.2025.2471747",
+      "status": "gold_present_parser_present",
+      "category": "low_similarity_text_mismatch",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 1041,
+      "parsed_len": 1297,
+      "fuzzy_ratio": 0.5295124037639007,
+      "soft_ratio": 0.5397775876817793,
+      "length_ratio": 1.2459173871277618,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "ABSTRACT Creative writers exploring environmental issues and human relationships with the more-than-human often employ methods for immersion in nature such as critical walking and "
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Creative writers exploring environmental issues and human relationships with the more-than-human often employ methods for immersion in nature such as critical walking and 'forest bathing' or may seek to write from within a landscape. But what happens when a creative writer uses industrial technology to gain a new perspective of a forest canopy? What are the ",
+      "parsed_snippet": "Creative writers exploring environmental issues and human relationships with the more-than-human often employ methods for immersion in nature such as critical walking and ‘forest bathing’ or may seek to mirror what anthropologist Deborah Bird Rose describes as the ‘footwalk epistemology’ inherent in Aboriginal Australian worldviews. This article offers a new"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.12659/ajcr.945140",
+      "no": 3864,
+      "link": "https://doi.org/10.12659/ajcr.945140",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_known_selector",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "amjcaserep.com",
+      "gold_len": 1774,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": "BACKGROUND Herpes simplex virus (HSV) is a rare cause of hepatitis. HSV hepatitis can be life-threatening due to its rapid progression to liver failure if not treated on time. It affects primarily immunocompromised individuals but can also present in immunocompetent hosts. HSV hepatitis in solid organ transplant recipients usually occurs in the early post-tr",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781135000356-rem1639-1",
+      "no": 5188,
+      "link": "https://doi.org/10.4324/9781135000356-rem1639-1",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_known_selector",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "",
+      "gold_len": 1178,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": "Canadian poet Miriam Waddington was born in Winnipeg's Jewish North End neighbourhood in Manitoba, Canada on 23 December 1917. Waddington was honoured with several awards for her writing throughout her career, winning the Borestone Mountain Award for best poem of the year in 1963, 1966, and 1974, and the J. J. Segal Award in 1972; receiving honorary doctorat",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.3837/tiis.2015.01.004",
+      "no": 8492,
+      "link": "https://doi.org/10.3837/tiis.2015.01.004",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_known_selector",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "",
+      "gold_len": 952,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": "The Cognitive Radio (CR) paradigm in tactical ad hoc networks is an important element of future military communications for network-centric warfare. This paper presents a novel Cognitive Link State Routing protocol for CR-based tactical ad hoc networks. The proposed scheme provides prompt and reliable routes for Primary User (PU) activity through procedures ",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.18421/tem104-25",
+      "no": 4869,
+      "link": "https://doi.org/10.18421/tem104-25",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_no_known_selector",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "",
+      "gold_len": 824,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": "The purpose of this research, themed Education Scientific and Technological Research Council of Turkey (TUBITAK) content analysis of the instructional technology projects, is to make an assessment of the situation. The data of the research were collected through document analysis, one of the qualitative research methods, and subjected to descriptive and cont",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/10357717608444573",
+      "no": 8638,
+      "link": "https://doi.org/10.1080/10357717608444573",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_visible_selector_available",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 1264,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "The maternal and umbilical concentrations of fentanyl were measured after epidural analgesia for cesarean section, using a highly sensitive radioimmunoassay method. Sixteen parturients were anesthetized with a single epidural injection of a mixture of 85 mg bupivacaine 0.5%, 60 mg etidocaine 1%, and 100 μg fentanyl with epinephrine 1:200 000. Apparent matern",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/1462169x.2022.2156189",
+      "no": 9645,
+      "link": "https://doi.org/10.1080/1462169x.2022.2156189",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_visible_selector_available",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 200,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" }] } ]"
+        }
+      ],
+      "gold_snippet": "'Flying from the Spanish Inquisition, some of them came in Holland (…) all of them marchandising and having perfect knowledge of all the kinds of Moneys, Diamants, Cochinil, Indigo, Wines, Oyle, an...",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.15621/ijphy/2025/v12i1s/1611",
+      "no": 4069,
+      "link": "https://doi.org/10.15621/ijphy/2025/v12i1s/1611",
+      "status": "gold_present_parser_empty",
+      "category": "parser_empty_visible_selector_available",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "",
+      "gold_len": 1,
+      "parsed_len": 0,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "meta[name=\"DC.Description\"]",
+          "count": 1,
+          "sample": "."
+        }
+      ],
+      "gold_snippet": ".",
+      "parsed_snippet": null
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781003607274-22",
+      "no": 3393,
+      "link": "https://doi.org/10.4324/9781003607274-22",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 159,
+      "parsed_len": 1928,
+      "fuzzy_ratio": 0.15237182558696694,
+      "soft_ratio": 0.15237182558696694,
+      "length_ratio": 12.125786163522013,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003607274-22\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2026-03-17T00:00:00.000Z\",\"bookEdition\":\"5th Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;0588a5aa-1a9c-47e2-91c7-dbd78eadfc8a&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Organizing for maximum effectiveness&q;,&q;categories&q;:[{&q;code&q;:n"
+        }
+      ],
+      "gold_snippet": "Achieving the optimum marketing organization is a difficult task. Many approaches have been tried, and each has its advantages and disadvantages. Understanding",
+      "parsed_snippet": "Achieving the optimum marketing organization is a difficult task. Many approaches have been tried, and each has its advantages and disadvantages. Understanding the capabilities of the individuals in your firm will go a long way to improving the results, but designing the proper structure is a key way to empower individuals to do their best. The most importan"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781032699325-9",
+      "no": 791,
+      "link": "https://doi.org/10.4324/9781032699325-9",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 141,
+      "parsed_len": 1641,
+      "fuzzy_ratio": 0.1582491582491582,
+      "soft_ratio": 0.1582491582491582,
+      "length_ratio": 11.638297872340425,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781032699325-9\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2026-04-03T00:00:00.000Z\",\"bookEdition\":\"4th Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;216c31c0-dc43-42e3-a127-aa2770026efd&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Power Generators&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;mo"
+        }
+      ],
+      "gold_snippet": "Chapter 9 covers the theory, operation, and maintenance of power generators, focusing on their application in live event production and other",
+      "parsed_snippet": "Chapter 9 covers the theory, operation, and maintenance of power generators, focusing on their application in live event production and other industries. It begins by explaining the basic components and operation of a generator, including the prime mover and alternator, and how they work together to convert mechanical energy into electrical power. Key concep"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781003494812-3",
+      "no": 5792,
+      "link": "https://doi.org/10.4324/9781003494812-3",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 143,
+      "parsed_len": 1296,
+      "fuzzy_ratio": 0.1987491313412092,
+      "soft_ratio": 0.1987491313412092,
+      "length_ratio": 9.062937062937063,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003494812-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2024-07-31T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;dd8aef39-965e-4581-b6b2-c3d13314c1cb&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;The Burden of Children&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;"
+        }
+      ],
+      "gold_snippet": "The chief force which serves to determine the outlining features of societal life is the limiting support of the natural environment. The whole",
+      "parsed_snippet": "The chief force which serves to determine the outlining features of societal life is the limiting support of the natural environment. The whole tendency towards group-life lies in the attempt to make a superior adjustment to life-conditions as represented by the topography, climate, flora and fauna or the land. Animals become adjusted through keener, fine or"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781003081517-6",
+      "no": 1492,
+      "link": "https://doi.org/10.4324/9781003081517-6",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 157,
+      "parsed_len": 1311,
+      "fuzzy_ratio": 0.21389645776566757,
+      "soft_ratio": 0.21389645776566757,
+      "length_ratio": 8.35031847133758,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003081517-6\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2021-02-27T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;2a523a5f-7839-44b3-a777-496c2a6250c0&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Solidarisation&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;mono"
+        }
+      ],
+      "gold_snippet": "Within the international society approach to international relations, the argument has been raised that the EU as a green normative power contributes to what",
+      "parsed_snippet": "Within the international society approach to international relations, the argument has been raised that the EU as a green normative power contributes to what this approach calls the solidarisation of international society in the global climate change regime. This chapter uses this argument to complement the justice perspective based on the three conceptions "
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781003535485-31",
+      "no": 9293,
+      "link": "https://doi.org/10.4324/9781003535485-31",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 157,
+      "parsed_len": 1280,
+      "fuzzy_ratio": 0.21851078636047316,
+      "soft_ratio": 0.21835883171070936,
+      "length_ratio": 8.152866242038217,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003535485-31\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2024-11-26T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;a396a570-22b2-457f-ab7c-8fbfe29b4e93&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Otar Taktakishvili&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;"
+        }
+      ],
+      "gold_snippet": "Georgian music, and very likely the whole of Georgian culture, is at a crossroads. It has been mentioned that the path of music could, from this juncture, be",
+      "parsed_snippet": "Georgian music, and very likely the whole of Georgian culture, is at a crossroads. It has been mentioned that the path of music could, from this juncture, be absorbed by russification. 1 Or it could, based on a rich and varied folk art, and on an individual tradition, become an independent art, with a certain national integrity. In either case, of course, na"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9781315274607-7",
+      "no": 8267,
+      "link": "https://doi.org/10.1201/9781315274607-7",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 160,
+      "parsed_len": 1283,
+      "fuzzy_ratio": 0.2203742203742204,
+      "soft_ratio": 0.2217602217602218,
+      "length_ratio": 8.01875,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9781315274607-7\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2018-10-08T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;781c8eb3-076b-4362-b7de-18adc4f9730c&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Path integrals in statistical physics&q;,&q;categories&q;:[{&q;code&q;:"
+        }
+      ],
+      "gold_snippet": "In the first three chapters we have considered problems related to the physical behaviour of one or a few particles (or some other physical objects which can be",
+      "parsed_snippet": "In the first three chapters we have considered problems related to the physical behaviour of one or a few particles (or some other physical objects which can be effectively described by one or a few (quasi)particles as, e.g., the random walk model in polymer physics considered in chapter 1). Though quantum field theory describes systems with an arbitrary num"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9780203092606-13",
+      "no": 5495,
+      "link": "https://doi.org/10.4324/9780203092606-13",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 152,
+      "parsed_len": 1183,
+      "fuzzy_ratio": 0.2277153558052435,
+      "soft_ratio": 0.22960725075528698,
+      "length_ratio": 7.782894736842105,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9780203092606-13\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2009-10-15T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;c3f36a56-5490-48ea-b6fa-b58f7cdd4474&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;1973 An Excerpt from an Oral History, Truman Library&q;,&q;categories&q"
+        }
+      ],
+      "gold_snippet": "After the cold war paper in 1968 there was another lull until 1973 when I was interviewed for the Oral History Project of the Harry S. Truman Library at",
+      "parsed_snippet": "After the cold war paper in 1968 there was another lull until 1973 when I was interviewed for the Oral History Project of the Harry S. Truman Library at Independence, Missouri. The interview was conducted by Richard D.McKinzie of the Department of History of the University of Missouri at Kansas City, who has graciously allowed his questions to stand without "
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9781482270471-12",
+      "no": 6569,
+      "link": "https://doi.org/10.1201/9781482270471-12",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 156,
+      "parsed_len": 1201,
+      "fuzzy_ratio": 0.22991893883566694,
+      "soft_ratio": 0.22991893883566694,
+      "length_ratio": 7.698717948717949,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9781482270471-12\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2000-09-14T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;03208c45-04d5-4ee5-869f-d6328a3dae1a&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;The Upper Airway in Noninvasive Ventilation&q;,&q;categories&q;:[{&q;co"
+        }
+      ],
+      "gold_snippet": "The notion of ventilation as the result of the action of a muscular negative pressure pump led to attempts to devise negative pressure breathing apparatuses",
+      "parsed_snippet": "The notion of ventilation as the result of the action of a muscular negative pressure pump led to attempts to devise negative pressure breathing apparatuses during the first half of the nineteenth century (1). But more than 50 years earlier, positive pressure had been proposed as the means to force air into the lungs during resuscitation maneuvres (2). Anima"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9780429031724-3",
+      "no": 6490,
+      "link": "https://doi.org/10.4324/9780429031724-3",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 135,
+      "parsed_len": 1009,
+      "fuzzy_ratio": 0.23426573426573427,
+      "soft_ratio": 0.23580786026200873,
+      "length_ratio": 7.474074074074074,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9780429031724-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2019-10-16T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;90e23f53-d60f-4797-9e7b-e733fc3b18f3&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Turning toward the future&q;,&q;categories&q;:[{&q;code&q;:null,&q;name"
+        }
+      ],
+      "gold_snippet": "Chapter 2 considers back-to-nature thinking and its problems and proponents, such as early environmentalist Henry David Thoreau. Whatâs",
+      "parsed_snippet": "Chapter 2 considers back-to-nature thinking and its problems and proponents, such as early environmentalist Henry David Thoreau. What’s so wrong with Thoreau? Fifteen miles (just a day’s walk) north of Walden Pond, where Thoreau famously went back to nature to live for two years, lies Lowell, Massachusetts. By the time Walden was published in 1854, Lowell ha"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781351246620-1",
+      "no": 490,
+      "link": "https://doi.org/10.4324/9781351246620-1",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 142,
+      "parsed_len": 1002,
+      "fuzzy_ratio": 0.24825174825174823,
+      "soft_ratio": 0.24956369982547988,
+      "length_ratio": 7.056338028169014,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781351246620-1\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2018-01-12T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;279b7120-2867-4224-93a2-d2a27dd88ce8&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;The term “ Organization”&q;,&q;categories&q;:[{&q;code&q;:&q;HSS015&q;,"
+        }
+      ],
+      "gold_snippet": "\"Industrial organization\" is meant to represent a new order of industrial affairs—and even more than that. What appears to some people to be a",
+      "parsed_snippet": "\"Industrial organization\" is meant to represent a new order of industrial affairs—and even more than that. What appears to some people to be a sensational manifestation of a new era of industrial structure appears to others to be the outcome of a series of accidental circumstances or of wilful interference, both having the effect of changing the \"natural\" fa"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9780429438295-6",
+      "no": 2991,
+      "link": "https://doi.org/10.4324/9780429438295-6",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 158,
+      "parsed_len": 1061,
+      "fuzzy_ratio": 0.25922887612797374,
+      "soft_ratio": 0.25922887612797374,
+      "length_ratio": 6.715189873417722,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9780429438295-6\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2019-01-22T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;b10d260e-d80b-49c0-8124-d1d6452310ba&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Location and Infrastructure Facilities&q;,&q;categories&q;:[{&q;code&q;"
+        }
+      ],
+      "gold_snippet": "Working condition in some Small and Medium Enterprises (SME) which locate their operation in backyard location are often rather rudimentary with poor lighting",
+      "parsed_snippet": "Working condition in some Small and Medium Enterprises (SME) which locate their operation in backyard location are often rather rudimentary with poor lighting and ventilation, and little regard safety as well as pollution control. Malaysian Industrial Estate Limited (MIEL) was established in 1964 and owned by Malaysian Industrial Development Finance. Nonethe"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781315568867-3",
+      "no": 6692,
+      "link": "https://doi.org/10.4324/9781315568867-3",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 155,
+      "parsed_len": 1014,
+      "fuzzy_ratio": 0.26347305389221554,
+      "soft_ratio": 0.2651839178785287,
+      "length_ratio": 6.541935483870968,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781315568867-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2019-09-19T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;81d6b39a-785a-44b2-9660-307b26b2f948&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;The De temporibus chronicle&q;,&q;categories&q;:[{&q;code&q;:null,&q;na"
+        }
+      ],
+      "gold_snippet": "This chapter examines the unusual structure of the chronicle and discusses that Bede's critical engagement with his sources and wider Insular computistical",
+      "parsed_snippet": "This chapter examines the unusual structure of the chronicle and discusses that Bede’s critical engagement with his sources and wider Insular computistical tradition is again in evidence, along with the influence of Scripture on his presentation of time. It considers the purpose of the chronicle in De temporibus , the potential significance of 703 as its dat"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/b12684-3",
+      "no": 9963,
+      "link": "https://doi.org/10.1201/b12684-3",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 152,
+      "parsed_len": 933,
+      "fuzzy_ratio": 0.27834101382488474,
+      "soft_ratio": 0.280184331797235,
+      "length_ratio": 6.1381578947368425,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/b12684-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2012-08-06T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\":\"https"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;056c28b1-c15b-4c9f-a709-f8c3e7950d6c&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Introduction: Game theory as an analytical tool&q;,&q;categories&q;:[{&"
+        }
+      ],
+      "gold_snippet": "Game theory is a theoretical framework that attempts to mathematically capture both human and non-human (e.g. computer, animal, plant) behavior during a",
+      "parsed_snippet": "Game theory is a theoretical framework that attempts to mathematically capture both human and non-human (e.g. computer, animal, plant) behavior during a strategic situation. A strategic situation is a situation that involves the interaction of two or more entities in which the individual’s success depends on the choice of actions by others. A logical behavio"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9781315139449-11",
+      "no": 559,
+      "link": "https://doi.org/10.1201/9781315139449-11",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 156,
+      "parsed_len": 938,
+      "fuzzy_ratio": 0.28519195612431447,
+      "soft_ratio": 0.2846715328467153,
+      "length_ratio": 6.012820512820513,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9781315139449-11\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2018-05-04T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;e02aace9-30bf-4ea7-b13f-e9705a921796&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Infinite-Variable-Speed Drives&q;,&q;categories&q;:[{&q;code&q;:null,&q"
+        }
+      ],
+      "gold_snippet": "Infinite-variable-Speed drives have been the subject of investigation for many years, and many ingenious devices have emerged. They all rely on some form of",
+      "parsed_snippet": "Infinite-variable-Speed drives have been the subject of investigation for many years, and many ingenious devices have emerged. They all rely on some form of force closure if they are to be infinite variable, that is, have any accurate speed ratio. In this Infinite-variable-Speed drive the circular disc is in contact with a steel friction roller which can sli"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9780429495519-1",
+      "no": 1788,
+      "link": "https://doi.org/10.4324/9780429495519-1",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 157,
+      "parsed_len": 939,
+      "fuzzy_ratio": 0.28649635036496346,
+      "soft_ratio": 0.28649635036496346,
+      "length_ratio": 5.980891719745223,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9780429495519-1\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2018-05-04T00:00:00.000Z\",\"bookEdition\":\"4th Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;50b91265-8bef-43ac-a379-870392cebcfb&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Introduction&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;monogr"
+        }
+      ],
+      "gold_snippet": "This introduction presents an overview of the key concepts discussed in the subsequent chapters of this book. The book examines roughly two thousand years of",
+      "parsed_snippet": "This introduction presents an overview of the key concepts discussed in the subsequent chapters of this book. The book examines roughly two thousand years of Cambodian history. The colonial era ended in 1953 and needs examination in terms of preceding history; moreover, the so-called middle period discusses in the book has often ignores even though it clearl"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781315124513-5",
+      "no": 5689,
+      "link": "https://doi.org/10.4324/9781315124513-5",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 153,
+      "parsed_len": 900,
+      "fuzzy_ratio": 0.29059829059829057,
+      "soft_ratio": 0.29059829059829057,
+      "length_ratio": 5.882352941176471,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781315124513-5\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2017-07-28T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;03b06ef6-2542-4522-9486-6cf9e7969a32&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Nutrition and the Healthfulness of Cow&s;s Milk&q;,&q;categories&q;:[{&"
+        }
+      ],
+      "gold_snippet": "In the United States, the dairy industry has grown with the country. The several-hundred-year period since arrival of the early settlers has seen the cow",
+      "parsed_snippet": "In the United States, the dairy industry has grown with the country. The several-hundred-year period since arrival of the early settlers has seen the cow population rise into the millions along with that of the human. The major protein of cow&s;s milk, known as casein, is not one but a group of related proteins. These are bound together with calcium phosphat"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9780203753415-3",
+      "no": 8363,
+      "link": "https://doi.org/10.1201/9780203753415-3",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 151,
+      "parsed_len": 878,
+      "fuzzy_ratio": 0.293488824101069,
+      "soft_ratio": 0.293488824101069,
+      "length_ratio": 5.814569536423841,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9780203753415-3\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2019-07-16T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;3dd8bf5c-57ef-4373-b529-77338131177d&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Modifications and generalizations of QIA&q;,&q;categories&q;:[{&q;code&"
+        }
+      ],
+      "gold_snippet": "The relevant modification of the quasi-isotropic approximation (QIA) was implemented by Naida. The QIA matches quite naturally the classical Budden and",
+      "parsed_snippet": "The relevant modification of the quasi-isotropic approximation (QIA) was implemented by Naida. The QIA matches quite naturally the classical Budden and Courant-Lax methods. The virtues of the QIA are that it applies not only to a plane-layered medium, as the Budden method does, but also to 3D inhomogeneous media. The transition from the “split” version of th"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/10428194.2022.2034160",
+      "no": 2243,
+      "link": "https://doi.org/10.1080/10428194.2022.2034160",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 252,
+      "parsed_len": 1270,
+      "fuzzy_ratio": 0.33114323258869904,
+      "soft_ratio": 0.33049180327868855,
+      "length_ratio": 5.0396825396825395,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "div.abstractInFull",
+          "count": 1,
+          "sample": "Abstract We retrospectively analyzed perirenal and subcutaneous fat thickness and their dynamics from baseline to end-of-treatment computerized-tomography scans in a cohort of 118 "
+        },
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract Abstract We retrospectively analyzed perirenal and subcutaneous fat thickness and their dynamics from baseline to end-of-treatment computerized-tomography scans in a cohor"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "We retrospectively analyzed perirenal and subcutaneous fat thickness and their dynamics from baseline to end-of-treatment computerized-tomography scans in a cohort of 118 newly diagnosed diffuse large B-cell lymphoma patients with unfavorable features.",
+      "parsed_snippet": "We retrospectively analyzed perirenal and subcutaneous fat thickness and their dynamics from baseline to end-of-treatment computerized-tomography scans in a cohort of 118 newly diagnosed diffuse large B-cell lymphoma (DLBCL) patients with unfavorable features treated with R-DA-EPOCH regimen. Higher revised-international-prognostic-index (R-IPI) score was sig"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9781003225997-5",
+      "no": 4563,
+      "link": "https://doi.org/10.1201/9781003225997-5",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 159,
+      "parsed_len": 787,
+      "fuzzy_ratio": 0.3361522198731501,
+      "soft_ratio": 0.3361522198731501,
+      "length_ratio": 4.949685534591195,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9781003225997-5\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2022-11-11T00:00:00.000Z\",\"bookEdition\":\"2nd Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;e9a0dbd5-643e-4809-8b93-cd79eb5d4ea2&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Quantum States&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;mono"
+        }
+      ],
+      "gold_snippet": "A classical state specifies the quantitative values of all the state variables relevant to a given system. In some situations, we can know the overall state of",
+      "parsed_snippet": "A classical state specifies the quantitative values of all the state variables relevant to a given system. In some situations, we can know the overall state of the system without being sure about the individual states of the constituent parts. On top of the problems inherent in picking out the crucial details of a system, there is another issue with trying t"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9781003463078-7",
+      "no": 9989,
+      "link": "https://doi.org/10.4324/9781003463078-7",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 153,
+      "parsed_len": 667,
+      "fuzzy_ratio": 0.3731707317073171,
+      "soft_ratio": 0.3731707317073171,
+      "length_ratio": 4.359477124183006,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9781003463078-7\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2024-11-20T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;b6759147-3de0-4254-bab0-3ee67dcb6bf2&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;Rebuttal Speeches&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;m"
+        }
+      ],
+      "gold_snippet": "This chapter addresses the final three speeches in the debate. These speeches each have distinctive demands to address the rapidly narrowing focus of the",
+      "parsed_snippet": "This chapter addresses the final three speeches in the debate. These speeches each have distinctive demands to address the rapidly narrowing focus of the debate. For the first affirmative rebuttal, there are suggestions for how to argue in an efficient manner using a comparison of reasoning and evidence to make up for the large number of arguments that must "
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/0305215x.2025.2450686",
+      "no": 1545,
+      "link": "https://doi.org/10.1080/0305215x.2025.2450686",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 277,
+      "parsed_len": 1061,
+      "fuzzy_ratio": 0.40956651718983555,
+      "soft_ratio": 0.40956651718983555,
+      "length_ratio": 3.8303249097472922,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract Optimization problem formulation, a crucial but manually performed process, can present an obstacle to applying optimization in engineering since many practitioners find i"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "Optimization problem formulation, a crucial but manually performed process, can present an obstacle to applying optimization in engineering since many practitioners find it challenging. This article explores the use of ChatGPT, a large language model, to assist with this task.",
+      "parsed_snippet": "Optimization problem formulation, a crucial but manually performed process, can present an obstacle to applying optimization in engineering since many practitioners find it challenging. This article explores the use of ChatGPT to address this challenge. It evaluates the efficacy of self-designed prompts with different ChatGPT models. Using analysis of varian"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.4324/9780203992586-8",
+      "no": 3688,
+      "link": "https://doi.org/10.4324/9780203992586-8",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 160,
+      "parsed_len": 601,
+      "fuzzy_ratio": 0.4178712220762155,
+      "soft_ratio": 0.4204993429697767,
+      "length_ratio": 3.75625,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.4324/9780203992586-8\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2005-08-19T00:00:00.000Z\",\"bookEdition\":\"1st Edition\",\"url\""
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;07d96f8c-aa13-45d6-bdbd-486a7cf64633&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;CONFLICTS FOR AN EMPIRE&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q"
+        }
+      ],
+      "gold_snippet": "Even before the expression colonial empire existed, the city republics of the end of the Middle Ages did, in a real sense, possess one. It had strong points, it",
+      "parsed_snippet": "Even before the expression colonial empire existed, the city republics of the end of the Middle Ages did, in a real sense, possess one. It had strong points, it had the characteristics of modern capitalism, and all this well before the Great Discoveries. With regard to Genoa and Venice, Fernand Braudel has spoken of “European expansion” taking place as early"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1201/9781003472179-10",
+      "no": 6858,
+      "link": "https://doi.org/10.1201/9781003472179-10",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 155,
+      "parsed_len": 530,
+      "fuzzy_ratio": 0.4467153284671534,
+      "soft_ratio": 0.4496350364963504,
+      "length_ratio": 3.4193548387096775,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Chapter\",\"@id\":\"10.1201/9781003472179-10\",\"bookFormat\":\"Ebook\",\"datePublished\":\"2025-01-23T00:00:00.000Z\",\"bookEdition\":\"6th Edition\",\"url"
+        },
+        {
+          "selector": "script[type=\"application/json\"]",
+          "count": 1,
+          "sample": "{&q;product&q;:{&q;_id&q;:&q;9212a490-9e62-4f99-b23c-a81a0c3c3960&q;,&q;type&q;:&q;chapter&q;,&q;title&q;:&q;The Q Wave&q;,&q;categories&q;:[{&q;code&q;:null,&q;name&q;:&q;monograp"
+        }
+      ],
+      "gold_snippet": "A Q wave is a negative deflection that precedes an R wave and is usually absent from most of the leads of a normal ECG. However, small âseptalâ Q waves are",
+      "parsed_snippet": "A Q wave is a negative deflection that precedes an R wave and is usually absent from most of the leads of a normal ECG. However, small ‘septal’ Q waves are normal in leads that look at the heart from the left: I, aVL, V 5 and V 6 . A small Q wave may be normal in lead III and lead aVR. Q waves in other leads are likely to be abnormal or ‘pathological’. If wi"
+    },
+    {
+      "kind": "miss",
+      "doi": "10.1080/00852988.1987.10673987",
+      "no": 7046,
+      "link": "https://doi.org/10.1080/00852988.1987.10673987",
+      "status": "gold_present_parser_present",
+      "category": "parser_full_text_gold_snippet",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 220,
+      "parsed_len": 674,
+      "fuzzy_ratio": 0.4899328859060402,
+      "soft_ratio": 0.49217002237136465,
+      "length_ratio": 3.0636363636363635,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [
+        {
+          "selector": ".hlFld-Abstract",
+          "count": 1,
+          "sample": "Abstract The charopid genus Oreokera is shown to be an invalidly introduced taxon. It is herein formally validated and redefined. The genus contains two species found only on the s"
+        },
+        {
+          "selector": "script[type=\"application/ld+json\"]",
+          "count": 1,
+          "sample": "[ { \"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{ \"@type\": \"ListItem\", \"position\": \"1\", \"name\": \"Home\" ,\"item\": \"https://www.tandfonline.com/\" "
+        }
+      ],
+      "gold_snippet": "The charopid genus Oreokera is shown to be an invalidly introduced taxon. It is herein formally validated and redefined. The genus contains two species found only on the summits of the high mountains of North Queensland.",
+      "parsed_snippet": "The charopid genus Oreokera is shown to be an invalidly introduced taxon. It is herein formally validated and redefined. The genus contains two species found only on the summits of the high mountains of north-east Queensland. The type species, Oreokera cumulus (Odhner, 1917) is redescribed and refigured on the basis of newly dissected topotypic material. A n"
+    }
+  ],
+  "goldie_backfilled_candidate_examples": [
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00046973.1970.9676590",
+      "no": 127,
+      "link": "https://doi.org/10.1080/00046973.1970.9676590",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/10345329.1991.12036520",
+      "no": 231,
+      "link": "https://doi.org/10.1080/10345329.1991.12036520",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00107514.2012.754615",
+      "no": 335,
+      "link": "https://doi.org/10.1080/00107514.2012.754615",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 200,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Introducing Recent Developments in Physics EditorProfessor Sir P. L. Knight, FRSImperial College London, London, UK Associate Editor Professor M.B. PlenioUniversität Ulm, Ulm, Germany Book Reviews ..."
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/1369183021000032290",
+      "no": 536,
+      "link": "https://doi.org/10.1080/1369183021000032290",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.4324/9781351009485-2",
+      "no": 595,
+      "link": "https://doi.org/10.4324/9781351009485-2",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 0,
+      "parsed_len": 1096,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "The “amphetamines” and “cocaine” are two major subclasses of the psychostimulants that are commonly used by adolescents and young adults in the United State, particularly homeless adolescents and undergraduate university/college students. The amphetamines are synthetic drugs that produce dose-dependent actions on both the central and peripheral nervous syste"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/09654310500336436",
+      "no": 835,
+      "link": "https://doi.org/10.1080/09654310500336436",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00222935508655681",
+      "no": 1034,
+      "link": "https://doi.org/10.1080/00222935508655681",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/080387400408125",
+      "no": 1229,
+      "link": "https://doi.org/10.1080/080387400408125",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/0005772x.1951.11094696",
+      "no": 1542,
+      "link": "https://doi.org/10.1080/0005772x.1951.11094696",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 37,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "\"Apis Club.\" Bee World, 32(11), p. 81"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1201/ebk0415332569-3",
+      "no": 1753,
+      "link": "https://doi.org/10.1201/ebk0415332569-3",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 0,
+      "parsed_len": 1255,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Many others contributed in a variety of ways, including correcting text and preparing figures. In this respect the contributions of the following are greatly acknowledged: ∑ V.L. van Dam - Foley ∑ Ing. M.Z. Voorendt 1.3 References Although a study book has its own right to existence, there are some outstanding reference books in the field treated by this tex"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.4324/9781315801889-24",
+      "no": 1992,
+      "link": "https://doi.org/10.4324/9781315801889-24",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "taylorfrancis.com",
+      "gold_len": 0,
+      "parsed_len": 484,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "The study of imitation in human infants has proceeded along rather different lines from that of imitation in animals. In research on social learning in animals, a major goal has been to determine whether or not learning can occur through observation of conspeciflcs (see Galef, this volume; Zentall, this volume). In contrast, because imitation by humans is no"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/23267240.1944.10623196",
+      "no": 2343,
+      "link": "https://doi.org/10.1080/23267240.1944.10623196",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.3109/15563659809028950",
+      "no": 2490,
+      "link": "https://doi.org/10.3109/15563659809028950",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 124,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "\"Possible Serotonin Syndrome from Paroxetine and Clonazepam.\" Journal of Toxicology: Clinical Toxicology, 36(3), pp. 257–258"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/0304379950200105",
+      "no": 2541,
+      "link": "https://doi.org/10.1080/0304379950200105",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 951,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Summary The programme of the Département de la Formation Internationale at Ecole Nationale des Ponts et Chausées (ENPC) was created in 1981 to address the ever‐increasing international role of today's engineer in the scientific, economic and social spheres. Each year, 75 ENPC students spend at least 3 months abroad, mainly in Europe. ENPC has double degree p"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/10686967.2011.11918326",
+      "no": 2636,
+      "link": "https://doi.org/10.1080/10686967.2011.11918326",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 83,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "\"Click: The Magic of Instant Connections.\" Quality Management Journal, 18(3), p. 72"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00401706.1988.10488389",
+      "no": 2837,
+      "link": "https://doi.org/10.1080/00401706.1988.10488389",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/17521483.2008.11423750",
+      "no": 2840,
+      "link": "https://doi.org/10.1080/17521483.2008.11423750",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00221546.1932.11775287",
+      "no": 3035,
+      "link": "https://doi.org/10.1080/00221546.1932.11775287",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00220671.1940.10880944",
+      "no": 3237,
+      "link": "https://doi.org/10.1080/00220671.1940.10880944",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    },
+    {
+      "kind": "backfill",
+      "doi": "10.1080/00948705.1995.9714518",
+      "no": 3238,
+      "link": "https://doi.org/10.1080/00948705.1995.9714518",
+      "status": "gold_empty_parser_present",
+      "category": "goldie_backfilled_candidate",
+      "retrieval_blocked_reason": null,
+      "error": null,
+      "host": "tandfonline.com",
+      "gold_len": 0,
+      "parsed_len": 56,
+      "fuzzy_ratio": 0.0,
+      "soft_ratio": 0.0,
+      "length_ratio": 0.0,
+      "match_at_threshold": false,
+      "truncated_prefix_match": false,
+      "selector_hits": [],
+      "gold_snippet": null,
+      "parsed_snippet": "Click to increase image sizeClick to decrease image size"
+    }
+  ],
+  "retrieval_blocked_examples": [
+    {
+      "doi": "10.1080/03610918.2022.2059088",
+      "link": "https://doi.org/10.1080/03610918.2022.2059088",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.21236/ada413599",
+      "link": "https://doi.org/10.21236/ada413599",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.21236/ada326324",
+      "link": "https://doi.org/10.21236/ada326324",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.21236/ada110460",
+      "link": "https://doi.org/10.21236/ada110460",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.6109/jkiice.2016.20.5.937",
+      "link": "https://doi.org/10.6109/jkiice.2016.20.5.937",
+      "retrieval_blocked_reason": "cached_too_small",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.21236/ada232521",
+      "link": "https://doi.org/10.21236/ada232521",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    },
+    {
+      "doi": "10.21236/ada590750",
+      "link": "https://doi.org/10.21236/ada590750",
+      "retrieval_blocked_reason": "missing",
+      "status": "retrieval_blocked"
+    }
+  ],
+  "recommendation": "No broad Taylor abstract parser patch from b60. Current-Goldie misses are dominated by snippet/full-text/length mismatches (26 much-longer, 25 full-text-vs-snippet, 11 shorter, 9 low-similarity), plus 7 parser-empty rows that are non-Taylor/unsupported/no-usable-selector or invalid one-character gold. Route residual current-Goldie rows to gold/scorer/manual-DOM audit and route 62 Goldie-empty/parser-present rows to Goldie-backfilled grounding.",
+  "referee_verdict": {
+    "status": "blocked_explainable_current_goldie_residual_below_98",
+    "parser_patch": "rejected_no_high_volume_safe_selector",
+    "current_goldie_miss_count": 78,
+    "goldie_backfilled_candidate_count": 62,
+    "current_kpi": 0.867198177546421,
+    "distance_to_98": 0.11280182245357895,
+    "doi_examples": {
+      "snippet_or_length": [
+        "10.1080/20557132.2016.1275548",
+        "10.1080/13623699.2016.1268333",
+        "10.4324/9781003607274-22",
+        "10.4324/9781032699325-9"
+      ],
+      "parser_empty_not_safe_parser_patch": [
+        "10.1080/10357717608444573",
+        "10.1080/1462169x.2022.2156189",
+        "10.15621/ijphy/2025/v12i1s/1611"
+      ]
+    },
+    "completed_at": "2026-06-09T16:05:20Z"
+  }
+}
