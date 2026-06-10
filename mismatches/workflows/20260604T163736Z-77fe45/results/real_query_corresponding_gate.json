@@ -1,0 +1,18 @@
+{
+  "gate": "real_query_corresponding_validation",
+  "joined_count": 0,
+  "notes": "This gate validates sanitizer/tooling/reportability. It does not approve Zendesk complaints as Goldie truth and does not gate parser changes.",
+  "private_raw_path_untracked_required": "mismatches/private/zendesk-corresponding-raw",
+  "public_artifact_violations": {},
+  "public_artifacts_checked": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_candidates.meta.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_candidates.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_joined.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_spotcheck.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_summary.json"
+  ],
+  "shield_verdict": "green",
+  "spotcheck_count": 0,
+  "timestamp_utc": "2026-06-10T20:47:34.017863+00:00",
+  "zendesk_candidate_count": 0
+}

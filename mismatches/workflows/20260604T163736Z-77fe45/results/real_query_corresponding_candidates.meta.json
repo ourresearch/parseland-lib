@@ -1,0 +1,17 @@
+{
+  "completed_at_utc": "2026-06-10T20:43:28.555341+00:00",
+  "errors": [],
+  "fetched_tickets": 0,
+  "limit": 50,
+  "query_terms": [
+    "corresponding author",
+    "corresponding_author",
+    "missing corresponding author",
+    "wrong corresponding author",
+    "author email",
+    "corresponding author openalex"
+  ],
+  "raw_private_exports": 0,
+  "started_at_utc": "2026-06-10T20:43:28.554934+00:00",
+  "zendesk_auth_mode": "missing_zendesk_subdomain"
+}

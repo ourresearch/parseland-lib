@@ -42,6 +42,8 @@ REQUIRED_ASSETS = [
     "evidence/live-agent-events.ndjson",
     "evidence/live-agent-console.html",
     "evidence/ai-extraction-hard-slice-quality-run.md",
+    "evidence/real_query_corresponding_summary.json",
+    "evidence/real_query_corresponding_gate.json",
 ]
 
 
@@ -137,6 +139,11 @@ REPORT_HTML = """<!doctype html>
 <section>
   <h2>Goldie-backfilled candidate status</h2>
   <div class="panel">{goldie_backfilled_table}</div>
+</section>
+
+<section>
+  <h2>Real-query corresponding-author spot check</h2>
+  <div class="panel">{real_query_corresponding_table}</div>
 </section>
 
 <section>
@@ -1117,6 +1124,103 @@ def render_goldie_grounding_checkpoints() -> str:
     return "".join(parts)
 
 
+def sync_real_query_corresponding_artifacts(evidence_dir: Path) -> None:
+    source_dir = WORKFLOW_DIR_DEFAULT / "results"
+    for name in ("real_query_corresponding_summary.json", "real_query_corresponding_gate.json"):
+        src = source_dir / name
+        if not src.exists():
+            continue
+        dst = evidence_dir / name
+        try:
+            dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+        except Exception:
+            continue
+
+
+def render_real_query_corresponding_table(
+    summary_path: Path = WORKFLOW_DIR_DEFAULT / "results" / "real_query_corresponding_summary.json",
+    gate_path: Path = WORKFLOW_DIR_DEFAULT / "results" / "real_query_corresponding_gate.json",
+) -> str:
+    if not summary_path.exists():
+        return (
+            '<p style="color: var(--muted);">No real-query corresponding-author '
+            'spot-check artifact yet. This lane uses Zendesk DOI-backed complaints '
+            'as validation evidence only, not as Goldie truth.</p>'
+        )
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except Exception:
+        return '<p style="color: var(--muted);">real-query corresponding-author summary is unreadable</p>'
+    gate: dict = {}
+    if gate_path.exists():
+        try:
+            gate = json.loads(gate_path.read_text(encoding="utf-8"))
+        except Exception:
+            gate = {}
+
+    metric_rows = [
+        ("Zendesk queries attempted", len(summary.get("zendesk_queries_attempted") or [])),
+        ("DOI-backed candidates found", summary.get("doi_backed_candidates_found", 0)),
+        ("Rows joined to current Goldie", summary.get("rows_joined_to_current_goldie", 0)),
+        ("Rows spot-checked", summary.get("rows_spotchecked", 0)),
+        ("Already fixed by current Parseland", summary.get("already_fixed_by_current_parseland", 0)),
+        ("Still parser-owned", summary.get("still_parser_owned", 0)),
+        ("Retrieval/access-owned", summary.get("retrieval_or_access_owned", 0)),
+        ("Gold/ticket disagreement", summary.get("gold_or_ticket_disagreement", 0)),
+        ("Unsupported publisher", summary.get("unsupported_publisher", 0)),
+        ("Insufficient private context", summary.get("insufficient_private_context", 0)),
+    ]
+    parts = [
+        "<p><strong>Boundary:</strong> Zendesk rows are real-query validation evidence only. "
+        "Raw ticket text, ticket IDs, requester details, comments, and secrets are excluded from report assets.</p>",
+        "<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>",
+    ]
+    for label, value in metric_rows:
+        parts.append(f"<tr><td>{html.escape(str(label))}</td><td>{html.escape(str(value))}</td></tr>")
+    parts.append("</tbody></table>")
+
+    class_counts = summary.get("classification_counts") or {}
+    if class_counts:
+        parts.append("<p>Classifications: ")
+        parts.append(" · ".join(f"{html.escape(str(k))}: {html.escape(str(v))}" for k, v in sorted(class_counts.items())))
+        parts.append("</p>")
+    patterns = summary.get("repeated_ca_marker_patterns") or []
+    if patterns:
+        parts.append("<h3 style=\"font-size:1rem; margin:1rem 0 0.25rem;\">Repeated CA marker patterns</h3>")
+        parts.append("<table><thead><tr><th>Publisher</th><th>Marker</th><th>DOIs</th><th>Examples</th></tr></thead><tbody>")
+        for pattern in patterns[:8]:
+            examples = ", ".join(f"<code>{html.escape(str(doi))}</code>" for doi in (pattern.get("example_dois") or [])[:3])
+            parts.append(
+                "<tr>"
+                f"<td>{html.escape(str(pattern.get('publisher', '—')))}</td>"
+                f"<td>{html.escape(str(pattern.get('marker_type', '—')))}</td>"
+                f"<td>{html.escape(str(pattern.get('doi_count', '—')))}</td>"
+                f"<td>{examples}</td>"
+                "</tr>"
+            )
+        parts.append("</tbody></table>")
+    else:
+        parts.append('<p style="color: var(--muted);">No repeated parser-owned CA marker pattern has been proven by this lane yet.</p>')
+
+    artifacts = summary.get("sanitized_artifacts") or []
+    if artifacts:
+        parts.append("<p>Sanitized artifacts: ")
+        parts.append(" · ".join(f"<code>{html.escape(str(Path(a).name))}</code>" for a in artifacts[:5]))
+        parts.append("</p>")
+    parts.append(
+        f"<p>Gate: <strong>{html.escape(str(gate.get('shield_verdict', 'unknown')))}</strong>. "
+        f"Next lane: {html.escape(str(summary.get('next_recommended_lane', '—')))}</p>"
+    )
+    if summary.get("stop_reason"):
+        parts.append(f"<p>Lane stop reason: <code>{html.escape(str(summary.get('stop_reason')))}</code></p>")
+    parts.append(
+        '<p style="color: var(--muted); font-size:0.85rem;">'
+        f"Updated {html.escape(str(summary.get('updated_at_utc', '—')))}. "
+        "This section is separate from current-Goldie KPI and Goldie-backfilled ledgers.</p>"
+    )
+    return "".join(parts)
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--evidence-dir", type=Path, default=EVIDENCE_DIR_DEFAULT)
@@ -1126,6 +1230,7 @@ def main() -> int:
     args = p.parse_args()
 
     args.evidence_dir.mkdir(parents=True, exist_ok=True)
+    sync_real_query_corresponding_artifacts(args.evidence_dir)
 
     kpi_rows = load_kpi(args.evidence_dir / "kpi-by-publisher-count.csv")
     latest = kpi_rows[-1] if kpi_rows else None
@@ -1181,6 +1286,7 @@ def main() -> int:
         field_opportunity_table=field_opp_table,
         publisher_queue_table=pub_queue_table,
         goldie_backfilled_table=backfill_table,
+        real_query_corresponding_table=render_real_query_corresponding_table(),
     )
     out_path = args.evidence_dir / "report.html"
     out_path.write_text(out_html, encoding="utf-8")

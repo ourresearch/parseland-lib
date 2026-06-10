@@ -15,8 +15,8 @@ mismatches/_registrant-cache.json
 mismatches/publisher-queue.ndjson.summary.json
 mismatches/baselines/
 mismatches/gate-results/
+mismatches/private/
 mismatches/whole-goldie-cache/
 
 # autonomous improver: whole-Goldie eval runs (regenerable from corpus)
 eval/runs/whole-goldie-*.json
-
