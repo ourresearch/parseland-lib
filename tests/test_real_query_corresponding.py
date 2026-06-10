@@ -9,6 +9,9 @@ from scripts.real_query_corresponding import (
     join_candidate,
     public_artifact_violations,
     sanitize_ticket_rows,
+    zcli_active_profile,
+    zendesk_auth_headers,
+    zcli_core_get_json,
 )
 
 
@@ -98,9 +101,78 @@ def test_detect_ca_marker_and_parser_missing_classifies_parser_owned() -> None:
 
 def test_public_artifact_violations_flags_private_markers(tmp_path) -> None:
     path = tmp_path / "bad.json"
-    path.write_text('{"ticket_id": 123, "email": "person@example.com"}', encoding="utf-8")
+    path.write_text(
+        '{"ticket_id": 123, "email": "person@example.com", '
+        '"Authorization": "Basic abcdefghijklmnop"}',
+        encoding="utf-8",
+    )
 
     violations = public_artifact_violations(path)
 
     assert "raw_ticket_id_key" in violations
     assert "email_address" in violations
+    assert "authorization_header" in violations
+    assert "basic_auth_header" in violations
+
+
+def test_zcli_active_profile_reads_subdomain_without_secret(tmp_path) -> None:
+    config = tmp_path / ".zcli"
+    request_js = tmp_path / "request.js"
+    config.write_text('{"activeProfile":{"subdomain":"openalex"}}', encoding="utf-8")
+    request_js.write_text("// fake zcli-core request module", encoding="utf-8")
+
+    subdomain, mode = zcli_active_profile(config_path=config, request_js_path=request_js)
+
+    assert subdomain == "openalex"
+    assert mode == "zcli_core_keychain"
+
+
+def test_zendesk_auth_headers_prefers_env_over_zcli(monkeypatch) -> None:
+    monkeypatch.setenv("ZENDESK_SUBDOMAIN", "envsub")
+    monkeypatch.setenv("ZENDESK_EMAIL", "bot@example.com")
+    monkeypatch.setenv("ZENDESK_API_TOKEN", "env-token")
+    monkeypatch.setattr("scripts.real_query_corresponding.zcli_active_profile", lambda: ("openalex", "zcli_core_keychain"))
+
+    subdomain, headers, mode = zendesk_auth_headers()
+
+    assert subdomain == "envsub"
+    assert mode == "api_token"
+    assert headers["Authorization"].startswith("Basic ")
+
+
+def test_zendesk_auth_headers_falls_back_to_zcli(monkeypatch) -> None:
+    monkeypatch.delenv("ZENDESK_SUBDOMAIN", raising=False)
+    monkeypatch.delenv("ZENDESK_EMAIL", raising=False)
+    monkeypatch.delenv("ZENDESK_API_TOKEN", raising=False)
+    monkeypatch.delenv("ZENDESK_OAUTH_TOKEN", raising=False)
+    monkeypatch.setattr("scripts.real_query_corresponding.zcli_active_profile", lambda: ("openalex", "zcli_core_keychain"))
+
+    subdomain, headers, mode = zendesk_auth_headers()
+
+    assert subdomain == "openalex"
+    assert mode == "zcli_core_keychain"
+    assert "Authorization" not in headers
+
+
+def test_zcli_core_get_json_uses_bridge_without_exposing_auth(monkeypatch) -> None:
+    calls = []
+
+    class Completed:
+        returncode = 0
+        stdout = '{"status":200,"data":{"results":[{"id":1}]}}'
+        stderr = ""
+
+    def fake_run(cmd, *, input, text, capture_output, timeout, check):
+        calls.append(json.loads(input))
+        return Completed()
+
+    monkeypatch.setattr("scripts.real_query_corresponding.subprocess.run", fake_run)
+
+    data = zcli_core_get_json(
+        "https://openalex.zendesk.com/api/v2/search.json?query=type%3Aticket",
+        subdomain="openalex",
+    )
+
+    assert data == {"results": [{"id": 1}]}
+    assert calls[0]["path"] == "/api/v2/search.json?query=type%3Aticket"
+    assert "Authorization" not in json.dumps(calls[0])

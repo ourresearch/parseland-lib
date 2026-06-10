@@ -15,6 +15,7 @@ import html as html_lib
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.parse
@@ -46,6 +47,28 @@ SPOTCHECK_DEFAULT = RESULTS_DIR_DEFAULT / "real_query_corresponding_spotcheck.nd
 SUMMARY_DEFAULT = RESULTS_DIR_DEFAULT / "real_query_corresponding_summary.json"
 GATE_DEFAULT = RESULTS_DIR_DEFAULT / "real_query_corresponding_gate.json"
 EVIDENCE_DIR_DEFAULT = RESULTS_DIR_DEFAULT / "real_query_corresponding_evidence"
+ZCLI_CONFIG_PATH = Path.home() / ".zcli"
+ZCLI_CORE_REQUEST_JS = Path(
+    "/opt/homebrew/lib/node_modules/@zendesk/zcli/node_modules/"
+    "@zendesk/zcli-core/dist/lib/request.js"
+)
+
+ZCLI_REQUEST_BRIDGE = r"""
+const fs = require("fs");
+const input = JSON.parse(fs.readFileSync(0, "utf8"));
+const { requestAPI } = require(input.requestModule);
+
+(async () => {
+  const response = await requestAPI(input.path);
+  process.stdout.write(JSON.stringify({
+    status: response.status,
+    data: response.data === undefined ? null : response.data
+  }));
+})().catch((err) => {
+  process.stderr.write(err && err.message ? err.message : String(err));
+  process.exit(1);
+});
+"""
 
 DEFAULT_QUERY_TERMS = (
     "corresponding author",
@@ -194,25 +217,85 @@ def load_ndjson(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def zcli_active_profile(
+    *,
+    config_path: Path = ZCLI_CONFIG_PATH,
+    request_js_path: Path = ZCLI_CORE_REQUEST_JS,
+) -> tuple[str | None, str]:
+    if not request_js_path.exists():
+        return None, "missing_zcli_core"
+    if not config_path.exists():
+        return None, "missing_zcli_profile"
+    try:
+        data = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None, "invalid_zcli_profile"
+    profile = data.get("activeProfile") or {}
+    subdomain = str(profile.get("subdomain") or "").strip()
+    if not subdomain:
+        return None, "missing_zcli_subdomain"
+    return subdomain, "zcli_core_keychain"
+
+
 def zendesk_auth_headers() -> tuple[str | None, dict[str, str], str]:
     subdomain = os.environ.get("ZENDESK_SUBDOMAIN")
     oauth = os.environ.get("ZENDESK_OAUTH_TOKEN")
     email = os.environ.get("ZENDESK_EMAIL")
     token = os.environ.get("ZENDESK_API_TOKEN")
     headers = {"Accept": "application/json"}
-    if not subdomain:
-        return None, headers, "missing_zendesk_subdomain"
-    if oauth:
+    if subdomain and oauth:
         headers["Authorization"] = f"Bearer {oauth}"
         return subdomain, headers, "oauth"
-    if email and token:
+    if subdomain and email and token:
         raw = f"{email}/token:{token}".encode("utf-8")
         headers["Authorization"] = "Basic " + base64.b64encode(raw).decode("ascii")
         return subdomain, headers, "api_token"
+    zcli_subdomain, zcli_mode = zcli_active_profile()
+    if zcli_subdomain:
+        return zcli_subdomain, headers, zcli_mode
+    if not subdomain:
+        return None, headers, zcli_mode
     return subdomain, headers, "missing_zendesk_credentials"
 
 
-def zendesk_get_json(url: str, headers: dict[str, str]) -> dict[str, Any]:
+def zendesk_api_path(url: str, *, subdomain: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    expected_host = f"{subdomain}.zendesk.com".lower()
+    if parsed.scheme != "https" or parsed.netloc.lower() != expected_host:
+        raise ValueError("Zendesk URL does not match active zcli profile")
+    path = parsed.path or "/"
+    if parsed.query:
+        path += "?" + parsed.query
+    return path
+
+
+def zcli_core_get_json(url: str, *, subdomain: str) -> dict[str, Any]:
+    path = zendesk_api_path(url, subdomain=subdomain)
+    payload = {
+        "path": path,
+        "requestModule": str(ZCLI_CORE_REQUEST_JS),
+    }
+    result = subprocess.run(
+        ["node", "-e", ZCLI_REQUEST_BRIDGE],
+        input=json.dumps(payload),
+        text=True,
+        capture_output=True,
+        timeout=60,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"zcli-core request failed: {(result.stderr or '').strip()[:300]}")
+    response = json.loads(result.stdout or "{}")
+    status = int(response.get("status") or 0)
+    if status >= 400:
+        raise RuntimeError(f"Zendesk API returned HTTP {status}")
+    data = response.get("data")
+    return data if isinstance(data, dict) else {}
+
+
+def zendesk_get_json(url: str, headers: dict[str, str], *, subdomain: str, auth_mode: str) -> dict[str, Any]:
+    if auth_mode == "zcli_core_keychain":
+        return zcli_core_get_json(url, subdomain=subdomain)
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310 - explicit operator-supplied Zendesk URL
         return json.loads(resp.read().decode("utf-8"))
@@ -241,9 +324,9 @@ def fetch_zendesk_tickets(
                 {
                     "status": auth_mode,
                     "notes": (
-                        "zcli profile authentication does not expose Support ticket search. "
                         "Set ZENDESK_SUBDOMAIN plus ZENDESK_EMAIL/ZENDESK_API_TOKEN "
-                        "or ZENDESK_OAUTH_TOKEN to run live extraction."
+                        "or ZENDESK_OAUTH_TOKEN, or run zcli login -i so zcli-core "
+                        "can use the local keychain profile."
                     ),
                     "query_terms": terms,
                     "timestamp_utc": now_utc(),
@@ -266,7 +349,7 @@ def fetch_zendesk_tickets(
             + urllib.parse.urlencode({"query": query, "sort_by": "updated_at", "sort_order": "desc"})
         )
         try:
-            payload = zendesk_get_json(url, headers)
+            payload = zendesk_get_json(url, headers, subdomain=subdomain, auth_mode=auth_mode)
         except Exception as exc:  # noqa: BLE001
             meta["errors"].append({"term": term, "error": f"{type(exc).__name__}: {exc}"})
             continue
@@ -279,7 +362,7 @@ def fetch_zendesk_tickets(
             comments: list[dict[str, Any]] = []
             comments_url = f"https://{subdomain}.zendesk.com/api/v2/tickets/{tid}/comments.json"
             try:
-                comments = list((zendesk_get_json(comments_url, headers).get("comments") or []))
+                comments = list((zendesk_get_json(comments_url, headers, subdomain=subdomain, auth_mode=auth_mode).get("comments") or []))
             except Exception as exc:  # noqa: BLE001
                 meta["errors"].append({"ticket_hash": ticket_hash(subdomain, tid), "error": f"{type(exc).__name__}: {exc}"})
             thash = ticket_hash(subdomain, tid)
@@ -628,6 +711,9 @@ def public_artifact_violations(path: Path) -> list[str]:
         "requester_key": r'"requester',
         "raw_comment_key": r'"comments?"\s*:',
         "zendesk_token_key": r"ZENDESK_(?:API_TOKEN|OAUTH_TOKEN)",
+        "authorization_header": r"\bAuthorization\b",
+        "basic_auth_header": r"\bBasic\s+[A-Za-z0-9+/=]{12,}",
+        "bearer_auth_header": r"\bBearer\s+[A-Za-z0-9._~-]{12,}",
     }
     for label, pattern in patterns.items():
         matched = pattern.search(text) if hasattr(pattern, "search") else re.search(pattern, text, re.I)
