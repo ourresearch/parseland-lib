@@ -1,0 +1,41 @@
+{
+  "agent_id": "codex-taylor-pdf-legacy-promote-b80",
+  "already_smoked": 10,
+  "claimed_at": "2026-06-10T00:47:01.805916+00:00",
+  "created_at": "2026-06-10T00:47:22Z",
+  "field": "pdf_url",
+  "gate": "green_claim_only",
+  "planned_browserbase": {
+    "candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+    "concurrency": 4,
+    "limit": 50,
+    "run_id": "bb-taylor-pdf-legacy-promoted-10-60-b80",
+    "skip": 10
+  },
+  "promoted_candidate_count": 118,
+  "promoted_candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+  "publisher_id": "taylor",
+  "recommendation": "Run Browserbase scale over promoted Taylor legacy candidates skip 10 limit 50; Referee must approve/deny before derived labels are accepted.",
+  "remaining_after_smoke": 108,
+  "run_id": "20260604T163736Z-77fe45",
+  "shield_verdict": "green_claim_only",
+  "status": "in_progress_legacy_promotion_scale",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "promoted candidate artifact parse",
+      "result": "118 promoted candidate rows are available; Batch 79 smoke approved 10/10",
+      "status": "passed"
+    },
+    {
+      "command": "claim protocol check",
+      "result": "workflow_claim.py assigned the Taylor pdf_url goldie-backfilled task to codex-taylor-pdf-legacy-promote-b80",
+      "status": "passed"
+    },
+    {
+      "command": "current-Goldie separation check",
+      "result": "claim only; no current-Goldie KPI effect and merged-FINAL.csv unchanged",
+      "status": "passed"
+    }
+  ]
+}

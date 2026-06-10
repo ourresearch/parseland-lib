@@ -1,6 +1,6 @@
 {
-  "active_agent": null,
-  "active_task": null,
+  "active_agent": "codex-taylor-pdf-legacy-promote-b80",
+  "active_task": "v2_taylor_pdf_url_2e40646f",
   "batch74_de_gruyter_pdf_backfill": {
     "approved_rows": 0,
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
@@ -141,8 +141,8 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
-  "last_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_referee.summary.json",
-  "last_event": "batch79.taylor_pdf_legacy_promotion.smoke_referee_complete",
+  "last_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_legacy_promote_b80_claim_gate.json",
+  "last_event": "batch80.taylor_pdf_legacy_promotion_scale.claimed",
   "latest_active_agent": "codex-taylor-pdf-backfill-b78",
   "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b78_claim_gate.json",
   "latest_active_at": "2026-06-10T00:15:20Z",
@@ -660,5 +660,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-10T00:43:05Z"
+  "updated_at": "2026-06-10T00:47:22Z"
 }
