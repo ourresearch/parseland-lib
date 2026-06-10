@@ -1,0 +1,20 @@
+{
+  "run_id": "batch86-elsevier-affiliations",
+  "task_id": "v2_elsevier_affiliations_c9f95b9c",
+  "publisher": "elsevier",
+  "field": "affiliations",
+  "queue_type": "ready",
+  "agent_id": "codex-elsevier-affiliations-b86",
+  "claimed_at": "2026-06-10T06:47:30Z",
+  "current_kpi": 0.8496,
+  "target_kpi": 0.98,
+  "row_count": 1487,
+  "html_available": 1412,
+  "retrieval_blocked": 75,
+  "scored_rows_for_field": 1332,
+  "misses": 65,
+  "gold_empty_parser_present": 80,
+  "shield_verdict": "green_claim_checkpoint",
+  "gate_command": "scripts/workflow_claim.py --run-id 20260604T163736Z-77fe45 --agent-id codex-elsevier-affiliations-b86 --n 1 --queue-type ready --field affiliations --publisher elsevier",
+  "next_action": "diagnose Elsevier current-Goldie affiliation misses with DOI-level evidence before any parser edit"
+}
