@@ -1,0 +1,154 @@
+{
+  "agent_id": "codex-full10k-queue-refresh-b84",
+  "timestamp_utc": "2026-06-10T06:19:40Z",
+  "classification": "full10k_whole_goldie_and_queue_refresh",
+  "status": "completed",
+  "shield_verdict": "green_full10k_queue_refresh",
+  "commands": [
+    "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label batch84-after-publisher-index-tail-prefixes --run-id batch84-full10k-after-publisher-index-tail-prefixes --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json --concurrency 8",
+    "./.venv/bin/python scripts/build_publisher_field_queue.py --run mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json --workflow-dir mismatches/workflows/20260604T163736Z-77fe45 --run-id batch84-full10k-after-publisher-index-tail-prefixes"
+  ],
+  "run_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json",
+  "queue_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "coverage": {
+    "total_rows": 10000,
+    "html_available": 5570,
+    "scored_rows": 5570,
+    "retrieval_blocked_rows": 4430,
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 101,
+      "cached_error_page": 3,
+      "cached_pdf": 22,
+      "cached_too_small": 49,
+      "js_rendered_required": 1,
+      "missing": 4254
+    },
+    "gold_empty_parser_present_count": 3156,
+    "errors": 1
+  },
+  "overall_kpi": {
+    "authors_f1_soft": 0.9648259088297177,
+    "affiliations_f1_fuzzy": 0.9407698519199034,
+    "abstract_ratio_fuzzy": 0.9278011222198996,
+    "abstract_present_rate": 0.6764811490125673,
+    "pdf_url_accuracy": 0.9583032055917089,
+    "corresponding_accuracy": 0.9731555094148325
+  },
+  "field_accounting": {
+    "authors": {
+      "empty_empty_pass": 624,
+      "misses": 105,
+      "gold_empty_parser_present": 313,
+      "scored_rows": 5257,
+      "distance_to_98": 0.015174091170282255
+    },
+    "affiliations": {
+      "empty_empty_pass": 1552,
+      "misses": 94,
+      "gold_empty_parser_present": 780,
+      "scored_rows": 4790,
+      "distance_to_98": 0.03923014808009658
+    },
+    "abstract": {
+      "empty_empty_pass": 1363,
+      "misses": 138,
+      "gold_empty_parser_present": 301,
+      "scored_rows": 5269,
+      "distance_to_98": 0.05219887778010042
+    },
+    "pdf_url": {
+      "empty_empty_pass": 813,
+      "misses": 36,
+      "gold_empty_parser_present": 1421,
+      "scored_rows": 4149,
+      "distance_to_98": 0.021696794408291086
+    },
+    "corresponding": {
+      "empty_empty_pass": 3195,
+      "misses": 96,
+      "gold_empty_parser_present": 341,
+      "scored_rows": 5229,
+      "distance_to_98": 0.006844490585167473
+    }
+  },
+  "queue": {
+    "total_tasks": 275,
+    "total_publishers": 55,
+    "by_queue_type": {
+      "goldie-backfilled": 50,
+      "harvest-blocked": 190,
+      "onboarding": 10,
+      "ready": 20,
+      "unknown": 5
+    },
+    "by_field": {
+      "abstract": 55,
+      "affiliations": 55,
+      "authors": 55,
+      "corresponding": 55,
+      "pdf_url": 55
+    },
+    "classification_counts": {
+      "generic_only": 5,
+      "onboarding": 38,
+      "ready": 11,
+      "unknown": 1
+    },
+    "top_opportunities": [
+      {
+        "publisher": "elsevier",
+        "field": "pdf_url",
+        "queue_type": "goldie-backfilled",
+        "priority": 751.6897,
+        "current_kpi": 0.9183,
+        "gold_empty_parser_present": 886,
+        "next_action": "browserbase-ground"
+      },
+      {
+        "publisher": "ieee",
+        "field": "authors",
+        "queue_type": "goldie-backfilled",
+        "priority": 314.1204,
+        "current_kpi": 0.6559,
+        "gold_empty_parser_present": 249,
+        "next_action": "route approved derived labels and continue next backfill lane"
+      },
+      {
+        "publisher": "ieee",
+        "field": "affiliations",
+        "queue_type": "goldie-backfilled",
+        "priority": 290.2521,
+        "current_kpi": 0.8674,
+        "gold_empty_parser_present": 328,
+        "next_action": "route approved derived labels and review blocked rows"
+      },
+      {
+        "publisher": "elsevier",
+        "field": "affiliations",
+        "queue_type": "ready",
+        "priority": 244.1534,
+        "current_kpi": 0.8496,
+        "gold_empty_parser_present": 80,
+        "next_action": "diagnose"
+      },
+      {
+        "publisher": "taylor",
+        "field": "pdf_url",
+        "queue_type": "goldie-backfilled",
+        "priority": 197.2039,
+        "current_kpi": 0.9711,
+        "gold_empty_parser_present": 257,
+        "next_action": "route 235 approved labels to derived corpus and keep blockers in manual review"
+      }
+    ]
+  },
+  "notes": [
+    "This is a current-Goldie KPI and workflow queue refresh only; Goldie-backfilled approvals remain separate from current-Goldie KPI.",
+    "Full 10K accounting is now explicit: retrieval-blocked rows remain in coverage/reporting instead of being silently hidden.",
+    "Next highest parser-owned ready task is Elsevier affiliations. Highest overall queue task is Elsevier pdf_url Goldie-backfilled Browserbase grounding."
+  ]
+}

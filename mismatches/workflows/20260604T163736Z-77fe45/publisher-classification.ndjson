@@ -1,5 +1,5 @@
-{"publisher_id":"unknown","publisher_class":"unknown","parser_status":"unsupported-no-parser","tractability":0.0,"gold_fixture_path":null,"total_rows":3303,"html_available":0,"retrieval_blocked":3303,"scored_rows":0}
-{"publisher_id":"elsevier","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/elsevier-10k-gold.ndjson","total_rows":1564,"html_available":1487,"retrieval_blocked":77,"scored_rows":1487}
+{"publisher_id":"unknown","publisher_class":"unknown","parser_status":"unsupported-no-parser","tractability":0.0,"gold_fixture_path":null,"total_rows":3219,"html_available":0,"retrieval_blocked":3219,"scored_rows":0}
+{"publisher_id":"elsevier","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/elsevier-10k-gold.ndjson","total_rows":1487,"html_available":1412,"retrieval_blocked":75,"scored_rows":1412}
 {"publisher_id":"springer","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/springer-gold.ndjson","total_rows":1123,"html_available":1117,"retrieval_blocked":6,"scored_rows":1117}
 {"publisher_id":"wiley","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/wiley-gold.ndjson","total_rows":695,"html_available":677,"retrieval_blocked":18,"scored_rows":677}
 {"publisher_id":"taylor","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/taylor-gold.ndjson","total_rows":506,"html_available":499,"retrieval_blocked":7,"scored_rows":499}
@@ -11,6 +11,7 @@
 {"publisher_id":"cup","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/cup-gold.ndjson","total_rows":154,"html_available":151,"retrieval_blocked":3,"scored_rows":151}
 {"publisher_id":"mdpi","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":137,"html_available":72,"retrieval_blocked":65,"scored_rows":72}
 {"publisher_id":"acs","publisher_class":"ready","parser_status":"supported","tractability":1.0,"gold_fixture_path":"tests/fixtures/acs-gold.ndjson","total_rows":130,"html_available":130,"retrieval_blocked":0,"scored_rows":130}
+{"publisher_id":"ssrn","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":77,"html_available":75,"retrieval_blocked":2,"scored_rows":75}
 {"publisher_id":"iop","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":75,"html_available":63,"retrieval_blocked":12,"scored_rows":63}
 {"publisher_id":"bmj","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":69,"html_available":66,"retrieval_blocked":3,"scored_rows":66}
 {"publisher_id":"brill","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":65,"html_available":55,"retrieval_blocked":10,"scored_rows":55}
@@ -24,6 +25,7 @@
 {"publisher_id":"acm","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":37,"html_available":0,"retrieval_blocked":37,"scored_rows":0}
 {"publisher_id":"karger","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":37,"html_available":0,"retrieval_blocked":37,"scored_rows":0}
 {"publisher_id":"aacr","publisher_class":"generic_only","parser_status":"generic-only","tractability":0.5,"gold_fixture_path":null,"total_rows":34,"html_available":0,"retrieval_blocked":34,"scored_rows":0}
+{"publisher_id":"ama","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":33,"html_available":0,"retrieval_blocked":33,"scored_rows":0}
 {"publisher_id":"scielo","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":33,"html_available":0,"retrieval_blocked":33,"scored_rows":0}
 {"publisher_id":"hindawi","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":32,"html_available":0,"retrieval_blocked":32,"scored_rows":0}
 {"publisher_id":"plos","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":32,"html_available":0,"retrieval_blocked":32,"scored_rows":0}
@@ -32,6 +34,7 @@
 {"publisher_id":"emerald","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":27,"html_available":0,"retrieval_blocked":27,"scored_rows":0}
 {"publisher_id":"optica","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":27,"html_available":0,"retrieval_blocked":27,"scored_rows":0}
 {"publisher_id":"asme","publisher_class":"generic_only","parser_status":"generic-only","tractability":0.5,"gold_fixture_path":null,"total_rows":26,"html_available":0,"retrieval_blocked":26,"scored_rows":0}
+{"publisher_id":"world_scientific","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":26,"html_available":0,"retrieval_blocked":26,"scored_rows":0}
 {"publisher_id":"apa","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":25,"html_available":0,"retrieval_blocked":25,"scored_rows":0}
 {"publisher_id":"aaas","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":24,"html_available":0,"retrieval_blocked":24,"scored_rows":0}
 {"publisher_id":"research_square","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":24,"html_available":0,"retrieval_blocked":24,"scored_rows":0}
@@ -39,7 +42,9 @@
 {"publisher_id":"asco","publisher_class":"generic_only","parser_status":"generic-only","tractability":0.5,"gold_fixture_path":null,"total_rows":17,"html_available":0,"retrieval_blocked":17,"scored_rows":0}
 {"publisher_id":"bentham","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":15,"html_available":0,"retrieval_blocked":15,"scored_rows":0}
 {"publisher_id":"mary_ann_liebert","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":15,"html_available":0,"retrieval_blocked":15,"scored_rows":0}
+{"publisher_id":"inderscience","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":13,"html_available":0,"retrieval_blocked":13,"scored_rows":0}
 {"publisher_id":"ash","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":12,"html_available":0,"retrieval_blocked":12,"scored_rows":0}
+{"publisher_id":"asm","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":12,"html_available":0,"retrieval_blocked":12,"scored_rows":0}
 {"publisher_id":"ams","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":10,"html_available":0,"retrieval_blocked":10,"scored_rows":0}
 {"publisher_id":"asa","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":10,"html_available":0,"retrieval_blocked":10,"scored_rows":0}
 {"publisher_id":"nejm","publisher_class":"onboarding","parser_status":"supported","tractability":1.0,"gold_fixture_path":null,"total_rows":5,"html_available":0,"retrieval_blocked":5,"scored_rows":0}
