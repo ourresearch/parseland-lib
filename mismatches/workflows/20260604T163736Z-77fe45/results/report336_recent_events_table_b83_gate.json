@@ -1,0 +1,29 @@
+{
+  "agent_id": "codex-report336-recent-events-b83",
+  "timestamp_utc": "2026-06-10T05:35:54Z",
+  "classification": "report_builder_live_event_visibility",
+  "status": "ready_to_ship_report_builder",
+  "shield_verdict": "green_report_builder_recent_events",
+  "current_goldie_kpi_effect": "none_report_visibility_only",
+  "checks": [
+    {
+      "command": "./.venv/bin/python -m py_compile scripts/build_report336.py",
+      "status": "passed"
+    },
+    {
+      "command": "scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml",
+      "status": "passed"
+    },
+    {
+      "command": "rg -n 'Recent workflow events|batch83.publisher_index_tail_prefixes|publisher_index_tail_prefixes_reclassified' evidence/report.html",
+      "status": "passed",
+      "result": "report.html now surfaces the Batch 83 live-ledger event directly"
+    },
+    {
+      "command": "secret-pattern scan over scripts/build_report336.py",
+      "status": "passed",
+      "result": "no secret patterns found"
+    }
+  ],
+  "notes": "Adds a Recent workflow events table to the main report 336 HTML so fresh live-ledger events are visible on report.html and not only in live-agent-console.html."
+}

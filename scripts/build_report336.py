@@ -147,6 +147,11 @@ REPORT_HTML = """<!doctype html>
 </section>
 
 <section>
+  <h2>Recent workflow events</h2>
+  <div class="panel">{recent_events_table}</div>
+</section>
+
+<section>
   <h2>Batch summary</h2>
   <div class="panel">{batches_table}</div>
 </section>
@@ -410,6 +415,56 @@ def render_batches_table(rows: list[dict]) -> str:
             parts.append(f"<td>{html.escape(str(v))}</td>")
         parts.append("</tr>")
     parts += ["</tbody>", "</table>"]
+    return "".join(parts)
+
+
+def load_recent_events(path: Path, *, limit: int = 12) -> list[dict]:
+    if not path.exists():
+        return []
+    events: list[dict] = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                events.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+    return list(reversed(events[-limit:]))
+
+
+def render_recent_events_table(events: list[dict]) -> str:
+    if not events:
+        return '<p style="color: var(--muted);">No workflow events found yet.</p>'
+    cols = [
+        ("timestamp", "Timestamp"),
+        ("action", "Action"),
+        ("publisher", "Publisher"),
+        ("field", "Field"),
+        ("status", "Status"),
+        ("artifact_path", "Artifact"),
+        ("notes", "Notes"),
+    ]
+    parts = ["<table><thead><tr>"]
+    parts += [f"<th>{html.escape(label)}</th>" for _, label in cols]
+    parts += ["</tr></thead><tbody>"]
+    for ev in events:
+        parts.append("<tr>")
+        for key, _ in cols:
+            value = ev.get(key)
+            if value is None:
+                value = "—"
+            text = str(value)
+            if key == "notes" and len(text) > 220:
+                text = text[:217].rstrip() + "..."
+            if key == "artifact_path" and text not in {"", "—"}:
+                cell = f"<code>{html.escape(text)}</code>"
+            else:
+                cell = html.escape(text)
+            parts.append(f"<td>{cell}</td>")
+        parts.append("</tr>")
+    parts += ["</tbody></table>"]
     return "".join(parts)
 
 
@@ -1085,6 +1140,7 @@ def main() -> int:
                 run_id = json.loads(last_line).get("run_id", "—")
             except Exception:
                 pass
+    recent_events = load_recent_events(ledger)
 
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     whole_goldie = load_latest_whole_goldie()
@@ -1106,6 +1162,7 @@ def main() -> int:
         coverage_status=render_coverage_status(whole_goldie, workflow_summary),
         field_target_table=render_field_target_table(whole_goldie, workflow_summary),
         publisher_field_table=render_publisher_field_table(whole_goldie),
+        recent_events_table=render_recent_events_table(recent_events),
         batches_table=render_batches_table(kpi_rows),
         curve_svg_inline=curve_svg_inline,
         field_opportunity_table=field_opp_table,
