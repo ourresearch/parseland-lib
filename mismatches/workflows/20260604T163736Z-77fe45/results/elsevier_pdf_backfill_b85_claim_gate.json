@@ -1,0 +1,28 @@
+{
+  "agent_id": "codex-goldie-backfilled-elsevier-pdf-b85",
+  "timestamp_utc": "2026-06-10T06:28:47Z",
+  "classification": "goldie_backfilled_elsevier_pdf_url_claim",
+  "status": "in_progress",
+  "shield_verdict": "green_claim_checkpoint",
+  "task_id": "v2_elsevier_pdf_url_6749e7dc",
+  "publisher": "elsevier",
+  "field": "pdf_url",
+  "queue_type": "goldie-backfilled",
+  "row_count": 1487,
+  "html_available": 1412,
+  "retrieval_blocked": 75,
+  "current_kpi": 0.9183,
+  "target_kpi": 0.98,
+  "gold_empty_parser_present": 886,
+  "priority": 751.6897,
+  "next_action": "Browserbase-ground a conservative smoke batch using direct candidate URL plus visible/meta PDF URL verification; Referee approval remains required and current-Goldie KPI stays separate.",
+  "blocked_history_considered": [
+    "Earlier Elsevier PDF smoke showed page-identity-only evidence is insufficient.",
+    "Earlier direct /pdf candidate checks resolved to abstract pages and were blocked.",
+    "This claim uses the current grounding script path that also checks citation_pdf_url, rendered PDF links, raw PDF URLs, and ScienceDirect md5/pid pdfft metadata before approval."
+  ],
+  "notes": [
+    "No Browserbase secret is stored in this artifact.",
+    "This is a claim/report checkpoint, not a label approval or current-Goldie KPI change."
+  ]
+}
