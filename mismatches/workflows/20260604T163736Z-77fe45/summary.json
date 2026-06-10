@@ -78,6 +78,103 @@
     "scale_continue": true,
     "status": "scale_continue"
   },
+  "batch82_taylor_pdf_legacy_promotion_final": {
+    "agent_id": "codex-taylor-pdf-legacy-promote-b82",
+    "already_grounded_before_b82": 110,
+    "approved_rows": 7,
+    "blocked_examples": [
+      {
+        "candidate_final_url": null,
+        "candidate_status": null,
+        "doi": "10.3109/17453679609156129",
+        "evidence_excerpt": null,
+        "grounding_confidence": "needs_referee",
+        "grounding_error": "Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://doi.org/10.3109/17453679609156129\nCall log:\n  - navigating to \"https://doi.org/10.3109/17453679609156129\", waiting until \"domcontentloaded\"\n",
+        "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with DOI navigation failure, missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+      }
+    ],
+    "blocked_rows": 1,
+    "candidate_http_status_counts": {
+      "200": 7,
+      "None": 1
+    },
+    "classification": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted",
+    "completed_at": "2026-06-10T01:37:11Z",
+    "cumulative_taylor_pdf_backfill": {
+      "candidate_pdf_cohort_approved": 130,
+      "candidate_pdf_cohort_blocked": 3,
+      "deferred_off_pattern": 6,
+      "legacy_promoted_approved": 105,
+      "legacy_promoted_blocked": 13,
+      "remaining_promoted": 0,
+      "total_approved": 235,
+      "total_blocked": 16
+    },
+    "current_goldie_kpi_effect": "none",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_derived.ndjson",
+    "diagnosis": "Taylor legacy promoted pdf_url final Batch 82 processed the remaining 8 promoted candidates. 7/8 rows produced approval-quality /doi/pdf HTTP 200 evidence with screenshots; 1 row lacked approval-quality evidence because DOI navigation failed.",
+    "expected_kpi_impact": 0.0,
+    "field": "pdf_url",
+    "files_touched": [
+      "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_grounded.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_derived.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+      "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_gate.json",
+      "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+      "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+    ],
+    "gate": "green_goldie_backfilled_legacy_promotion_final_batch",
+    "grounded_status_counts": {
+      "candidate_evidence_needs_referee": 7,
+      "grounding_failed": 1
+    },
+    "legacy_deferred_rows": 6,
+    "legacy_final_b82_approved": 7,
+    "legacy_final_b82_blocked": 1,
+    "legacy_promoted_candidates": 118,
+    "legacy_promoted_remaining_after_b82": 0,
+    "legacy_scale_b80_approved": 46,
+    "legacy_scale_b80_blocked": 4,
+    "legacy_scale_b81_approved": 42,
+    "legacy_scale_b81_blocked": 8,
+    "legacy_smoke_approved": 10,
+    "publisher_id": "taylor",
+    "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_grounded.ndjson",
+    "recommendation": "Taylor promoted legacy pdf_url candidates are exhausted. Route the 235 approved Taylor derived pdf_url labels to derived-corpus/gold-auditor approval, keep 16 blocked rows plus 6 deferred off-pattern/chapter rows in manual/retry review, and move active work to the next ranked non-PDF or retrieval lane. Current-Goldie KPI remains separate and unchanged.",
+    "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.ndjson",
+    "referee_status_counts": {
+      "approved_promoted_pdf_route_grounded": 7,
+      "blocked_no_approval_quality_pdf_evidence": 1
+    },
+    "run_id": "20260604T163736Z-77fe45",
+    "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_evidence",
+    "sessions": 8,
+    "shield_verdict": "green_promoted_exhausted",
+    "status": "promoted_exhausted",
+    "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+    "task_id": "v2_taylor_pdf_url_2e40646f",
+    "tests_run": [
+      {
+        "command": "Browserbase Taylor legacy promoted pdf_url final cleanup, skip 110 limit 8 concurrency 4",
+        "result": "8 rows processed: {'candidate_evidence_needs_referee': 7, 'grounding_failed': 1}",
+        "status": "passed"
+      },
+      {
+        "command": "Referee URL/screenshot check",
+        "result": "7/8 approved; 1 blocked for missing approval-quality PDF evidence; HTTP={'200': 7, 'None': 1}",
+        "status": "passed"
+      },
+      {
+        "command": "Current-Goldie separation check",
+        "result": "approved rows written only to a derived ledger; merged-FINAL.csv unchanged; current-Goldie KPI effect is none",
+        "status": "passed"
+      }
+    ],
+    "wave_id": 82
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -99,7 +196,7 @@
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
     "classified_mixed_small_parser_headroom": 2,
-    "goldie_backfill_legacy_scale_42_approved_8_blocked_scale_continue": 1,
+    "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted": 1,
     "goldie_backfill_referee_complete_0_approved_13_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_14_blocked": 2,
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
@@ -152,15 +249,15 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
-  "last_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_10_60_b80_referee.summary.json",
-  "last_event": "batch80.taylor_pdf_legacy_promotion_scale.referee_complete",
+  "last_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+  "last_event": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted",
   "latest_active_agent": "codex-taylor-pdf-backfill-b78",
   "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b78_claim_gate.json",
   "latest_active_at": "2026-06-10T00:15:20Z",
   "latest_active_task": "v2_taylor_pdf_url_2e40646f",
-  "latest_completed_agent": "codex-taylor-pdf-backfill-b77",
-  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_referee.summary.json",
-  "latest_completed_at": "2026-06-10T00:08:50Z",
+  "latest_completed_agent": "codex-taylor-pdf-legacy-promote-b82",
+  "latest_completed_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+  "latest_completed_at": "2026-06-10T01:37:11Z",
   "latest_completed_task": "v2_taylor_pdf_url_2e40646f",
   "latest_taylor_pdf_backfill_batch": {
     "approved_rows_cumulative": 108,
@@ -200,18 +297,24 @@
     "candidate_pdf_cohort_approved": 130,
     "candidate_pdf_cohort_blocked": 3,
     "deferred_off_pattern": 6,
-    "legacy_promoted_approved": 98,
-    "legacy_promoted_blocked": 12,
-    "remaining_promoted": 8,
-    "total_approved": 228,
-    "total_blocked": 15
+    "legacy_promoted_approved": 105,
+    "legacy_promoted_blocked": 13,
+    "remaining_promoted": 0,
+    "total_approved": 235,
+    "total_blocked": 16
   },
   "taylor_pdf_legacy_promotion": {
     "deferred_rows": 6,
-    "promoted_remaining_after_b80": 58,
+    "final_b82_approved": 7,
+    "final_b82_blocked": 1,
+    "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+    "promoted_remaining_after_b82": 0,
     "scale_b80_approved": 46,
     "scale_b80_blocked": 4,
-    "smoke_approved": 10
+    "scale_b81_approved": 42,
+    "scale_b81_blocked": 8,
+    "smoke_approved": 10,
+    "status": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted"
   },
   "top_15_priority": [
     {
@@ -339,12 +442,13 @@
       "worktree_path": null
     },
     {
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_canonical_b59_gate.json",
-      "assigned_agent": "codex-taylor-pdf-canonical-b59",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_referee.summary.json",
+      "assigned_agent": "codex-taylor-pdf-legacy-promote-b82",
+      "claimed_at": "2026-06-10T01:29:04.992903+00:00",
       "created_at": "2026-06-08T10:30:09.059514+00:00",
       "current_kpi": 0.9711,
       "distance_to_98": 0.0089,
-      "empty_empty_passes": 110,
+      "empty_empty_passes": 133,
       "field": "pdf_url",
       "gold_empty_parser_present": 257,
       "gold_fixture_path": "tests/fixtures/taylor-gold.ndjson",
@@ -352,9 +456,9 @@
       "headroom": 0.0289,
       "html_available": 499,
       "html_coverage": 0.9862,
-      "latest_run": "eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
+      "latest_run": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_110_118_b82_gate.json",
       "misses": 1,
-      "next_action": "Ship the Taylor/TandF canonical PDF fix. Taylor pdf_url improved from 0.925333 to 0.971074 on the focused Taylor slice and full-10K pdf_url accuracy improved from 0.954726 to 0.958303. Taylor pdf_url remains below 98, but the remaining current-Goldie residuals are cross-publisher/gold/scorer/retrieval/manual-DOM owned; route 257 Goldie-empty/parser-present Taylor PDF candidates to Goldie-backfilled instead of adding another broad parser rule.",
+      "next_action": "Taylor promoted legacy pdf_url candidates exhausted: route 235 approved derived labels to gold-auditor/derived corpus, keep 16 blocked rows plus 6 deferred off-pattern/chapter rows in manual/retry review, then continue next ranked non-PDF/retrieval lane.",
       "parser_status": "supported",
       "priority": 197.2039,
       "publisher_class": "ready",
@@ -363,7 +467,7 @@
       "retrieval_blocked": 7,
       "row_count": 506,
       "scored_rows_for_field": 242,
-      "status": "shipped_full10k_measured_below_98_with_explainable_residual",
+      "status": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted",
       "target_kpi": 0.98,
       "task_id": "v2_taylor_pdf_url_2e40646f",
       "tractability": 1.0,
@@ -416,7 +520,7 @@
       "html_coverage": 0.9862,
       "latest_run": "eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
       "misses": 7,
-      "next_action": "Residual Taylor abstract gap classified with DOI evidence; route to gold/scorer/manual-DOM and Goldie-backfilled lanes, not broad parser patch.",
+      "next_action": "Taylor abstract b60 classified residual below-98 gap as explainable: 78 current-Goldie misses are mostly snippet/full-text/length/scorer/gold/manual-DOM owned, 7 parser-empty rows lack a safe high-volume selector, and 62 Goldie-empty/parser-present abstracts must go through Goldie-backfilled Browserbase grounding. Do not add broad TandF abstract truncation or citation filters to chase current KPI.",
       "parser_status": "supported",
       "priority": 102.7881,
       "publisher_class": "ready",
@@ -463,8 +567,8 @@
       "worktree_path": null
     },
     {
-      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/oxford_abstract_filter_shield.json",
-      "assigned_agent": "codex-v2-oxford-abstract-02a7eeb9",
+      "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_oxford_abstract_0_38_referee_b64.summary.json",
+      "assigned_agent": "codex-goldie-backfilled-oxford-abstract-b64",
       "created_at": "2026-06-08T10:30:09.059514+00:00",
       "current_kpi": 0.6902,
       "distance_to_98": 0.2898,
@@ -478,7 +582,7 @@
       "html_coverage": 0.9225,
       "latest_run": "eval/runs/whole-goldie-after-taylor-pdf-canonical-b59-20260608T0810Z.json",
       "misses": 7,
-      "next_action": "monitor-next-gap",
+      "next_action": "Route approved Oxford abstract derived candidates to derived-corpus/gold-auditor approval; send blocked citation/snippet/page-identity rows to gold-auditor/manual DOM or improve parser low-quality filters only through focused gates.",
       "parser_status": "supported",
       "priority": 94.1976,
       "publisher_class": "ready",
@@ -487,7 +591,7 @@
       "retrieval_blocked": 21,
       "row_count": 271,
       "scored_rows_for_field": 221,
-      "status": "shipped_full10k_measured",
+      "status": "goldie_backfill_referee_complete_3_approved_35_blocked",
       "target_kpi": 0.98,
       "task_id": "v2_oxford_abstract_02a7eeb9",
       "tractability": 1.0,
@@ -682,5 +786,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-10T01:01:33Z"
+  "updated_at": "2026-06-10T01:37:11Z"
 }
