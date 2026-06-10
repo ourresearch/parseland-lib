@@ -1,0 +1,67 @@
+{
+  "agent_id": "codex-taylor-pdf-legacy-promote-b79",
+  "approved_rows": 10,
+  "blocked_examples": [],
+  "blocked_rows": 0,
+  "candidate_http_status_counts": {
+    "200": 10
+  },
+  "classification": "goldie_backfill_legacy_smoke_10_approved_0_blocked_scale_ready",
+  "completed_at": "2026-06-10T00:43:05Z",
+  "current_goldie_kpi_effect": "none",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_derived.ndjson",
+  "diagnosis": "Taylor legacy pdf_url promotion smoke produced approval-quality evidence for 10/10 promoted candidates. Every approved row reached the promoted /doi/pdf route with HTTP 200, retained a /doi/pdf final URL, and had PDF screenshot evidence.",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_derived.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "gate": "green_goldie_backfilled_legacy_promotion_smoke",
+  "grounded_status_counts": {
+    "candidate_evidence_needs_referee": 10
+  },
+  "legacy_deferred_rows": 6,
+  "legacy_promoted_candidates": 118,
+  "legacy_promoted_remaining_after_smoke": 108,
+  "legacy_promoted_smoke_processed": 10,
+  "publisher_id": "taylor",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_grounded.ndjson",
+  "recommendation": "Scale Taylor legacy promoted pdf_url candidates in 50-row batches, starting at skip 10 over the promoted candidate artifact. Keep derived labels separate from current-Goldie KPI and keep 6 off-pattern/chapter rows deferred.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_referee.ndjson",
+  "referee_status_counts": {
+    "approved_promoted_pdf_route_grounded": 10
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_evidence",
+  "sessions": 10,
+  "shield_verdict": "green_scale_ready",
+  "status": "scale_ready",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_smoke_referee.summary.json",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "Browserbase Taylor legacy promoted pdf_url smoke, skip 0 limit 10 concurrency 4",
+      "result": "10 rows processed: {'candidate_evidence_needs_referee': 10}",
+      "status": "passed"
+    },
+    {
+      "command": "Referee URL/screenshot check",
+      "result": "10/10 approved; approved rows retain /doi/pdf final URLs with HTTP 200 and PDF screenshots; 0 blocked",
+      "status": "passed"
+    },
+    {
+      "command": "Current-Goldie separation check",
+      "result": "approved rows written only to a derived ledger; merged-FINAL.csv unchanged; current-Goldie KPI effect is none",
+      "status": "passed"
+    }
+  ],
+  "wave_id": 79
+}
