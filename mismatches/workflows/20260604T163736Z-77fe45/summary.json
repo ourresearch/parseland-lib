@@ -1,4 +1,6 @@
 {
+  "active_agent": null,
+  "active_task": null,
   "batch74_de_gruyter_pdf_backfill": {
     "approved_rows": 0,
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_de_gruyter_pdf_smoke_b74_referee.summary.json",
@@ -139,6 +141,8 @@
   "coverage_retrieval_blocked_rows": 4430,
   "coverage_total_rows": 10000,
   "created_at": "2026-06-08T10:30:09.059514+00:00",
+  "last_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_110_160_b78_referee.summary.json",
+  "last_event": "batch78.taylor_pdf_backfill_scale.referee_complete",
   "latest_active_agent": "codex-taylor-pdf-backfill-b78",
   "latest_active_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/taylor_pdf_backfill_b78_claim_gate.json",
   "latest_active_at": "2026-06-10T00:15:20Z",
@@ -174,6 +178,12 @@
     "policy": "Goldie-backfilled stays separate from current-Goldie KPI; no merged-FINAL.csv mutation.",
     "remaining_current_candidates": 0,
     "status": "goldie_backfill_referee_complete_21_approved_7_blocked"
+  },
+  "taylor_pdf_backfill": {
+    "approved": 130,
+    "blocked": 3,
+    "legacy_pending_abs_url_candidates": 124,
+    "processed_candidate_pdf_cohort": 133
   },
   "top_15_priority": [
     {
@@ -644,5 +654,5 @@
   ],
   "total_publishers": 50,
   "total_tasks": 250,
-  "updated_at": "2026-06-10T00:15:20Z"
+  "updated_at": "2026-06-10T00:28:14Z"
 }
