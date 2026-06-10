@@ -1,0 +1,44 @@
+{
+  "agent_id": "codex-taylor-pdf-backfill-b77",
+  "approved_rows": 50,
+  "blocked_examples": [],
+  "blocked_rows": 0,
+  "candidate_http_status_counts": {
+    "200": 50
+  },
+  "classification": "goldie_backfill_referee_complete_50_approved_0_blocked_scale_continue",
+  "completed_at": "2026-06-10T00:08:50Z",
+  "current_goldie_kpi_effect": "none",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_derived.ndjson",
+  "diagnosis": "Taylor pdf_url Browserbase scale batch produced approval-quality evidence for 50/50 candidates. Approved rows reached the candidate Taylor /doi/pdf route with HTTP 200, retained a /doi/pdf final URL, and had landing/PDF screenshot evidence.",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_derived.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "grounded_status_counts": {
+    "candidate_evidence_needs_referee": 50
+  },
+  "publisher_id": "taylor",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_grounded.ndjson",
+  "recommendation": "Continue Taylor pdf_url Goldie-backfilled grounding in another 50-row batch if capacity is available. Keep derived labels separate from current-Goldie KPI and do not mutate merged-FINAL.csv.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_referee.ndjson",
+  "referee_status_counts": {
+    "approved_pdf_route_grounded": 50
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_evidence",
+  "sessions": 50,
+  "status": "scale_continue",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_60_110_b77_referee.summary.json",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "wave_id": 77
+}
