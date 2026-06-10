@@ -1,0 +1,29 @@
+{
+  "agent_id": "codex-report336-recent-events-filter-b84",
+  "timestamp_utc": "2026-06-10T05:58:00Z",
+  "classification": "report_builder_high_level_event_filter",
+  "status": "ready_to_ship_report_builder",
+  "shield_verdict": "green_report_builder_recent_event_filter",
+  "current_goldie_kpi_effect": "none_report_visibility_only",
+  "checks": [
+    {
+      "command": "./.venv/bin/python -m py_compile scripts/build_report336.py",
+      "status": "passed"
+    },
+    {
+      "command": "scripts/build_report336.py --evidence-dir /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/evidence --report-yaml /Users/shubh-trips/Documents/OpenAlex/oxjobs/working/parseland-work-reporting/report.yaml",
+      "status": "passed"
+    },
+    {
+      "command": "report marker check",
+      "status": "passed",
+      "result": "report.html recent-events table includes batch84.full10k_queue_refresh.progress and excludes row-level whole_goldie.progress flood"
+    },
+    {
+      "command": "secret-pattern scan over scripts/build_report336.py",
+      "status": "passed",
+      "result": "no secret patterns found"
+    }
+  ],
+  "notes": "Filters row-level whole-Goldie and Browserbase progress rows out of the main report recent-events table while preserving them in live-agent-console.html."
+}

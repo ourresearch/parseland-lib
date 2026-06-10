@@ -431,7 +431,20 @@ def load_recent_events(path: Path, *, limit: int = 12) -> list[dict]:
                 events.append(json.loads(line))
             except json.JSONDecodeError:
                 continue
-    return list(reversed(events[-limit:]))
+    high_level = [ev for ev in events if is_main_report_event(ev)]
+    selected = high_level[-limit:] if high_level else events[-limit:]
+    return list(reversed(selected))
+
+
+def is_main_report_event(event: dict) -> bool:
+    action = str(event.get("action") or "")
+    # Row-level progress can flood the ledger during long gates. Keep those in
+    # live-agent-console.html, but preserve the main report for shipped units,
+    # blockers, claims, and Scribe/Courier progress checkpoints.
+    return action not in {
+        "whole_goldie.progress",
+        "goldie_backfill_ground.progress",
+    }
 
 
 def render_recent_events_table(events: list[dict]) -> str:
