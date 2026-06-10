@@ -1,0 +1,44 @@
+{
+  "agent_id": "codex-taylor-pdf-legacy-promote-b82",
+  "already_grounded_in_prior_promoted_batches": 110,
+  "claimed_at": "2026-06-10T01:29:04.992903+00:00",
+  "created_at": "2026-06-10T01:29:37Z",
+  "current_goldie_kpi_effect": "none",
+  "expected_remaining_after_b82": 0,
+  "field": "pdf_url",
+  "gate": "green_claim_only",
+  "legacy_deferred_rows": 6,
+  "planned_browserbase": {
+    "candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+    "concurrency": 4,
+    "limit": 8,
+    "run_id": "bb-taylor-pdf-legacy-promoted-110-118-b82",
+    "skip": 110
+  },
+  "promoted_candidate_count": 118,
+  "promoted_candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+  "publisher_id": "taylor",
+  "recommendation": "Run final Browserbase cleanup over promoted Taylor legacy candidates skip 110 limit 8; Referee must approve/deny before derived labels are accepted. Deferred off-pattern/chapter rows remain separate manual-review only.",
+  "remaining_before_b82": 8,
+  "run_id": "20260604T163736Z-77fe45",
+  "shield_verdict": "green_claim_only",
+  "status": "in_progress_legacy_promotion_final_cleanup",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "promoted candidate artifact parse",
+      "result": "118 promoted candidate rows are available; prior promoted batches processed 110 rows",
+      "status": "passed"
+    },
+    {
+      "command": "claim protocol check",
+      "result": "workflow_claim.py assigned the Taylor pdf_url goldie-backfilled task to codex-taylor-pdf-legacy-promote-b82",
+      "status": "passed"
+    },
+    {
+      "command": "current-Goldie separation check",
+      "result": "claim only; no current-Goldie KPI effect and merged-FINAL.csv unchanged",
+      "status": "passed"
+    }
+  ]
+}
