@@ -1,0 +1,150 @@
+{
+  "agent_id": "codex-taylor-pdf-legacy-promote-b81",
+  "already_grounded_before_b81": 60,
+  "approved_rows": 42,
+  "blocked_examples": [
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/10903127.2023.2204971",
+      "evidence_excerpt": "tried_pdf_link_count=1 attempts=[{\"url\": \"https://www.tandfonline.com/doi/pdf/10.1080/10903127.2023.2204971\", \"final_url\": null, \"status\": null, \"selector\": \"rendered-pdf-link\", \"error\": \"Error: Page.goto: Download is starting\\nCall log:\\n  - navigating to \\\"https://www.tandfonline.com/doi/pdf/10.1080/10903127.2023.2204971\\\", waiting until \\\"domcontentloaded\\\"\\n\"}]; direct_candidate_final_url=None direct_candidate_status=None",
+      "grounding_confidence": "visible_or_metadata_pdf_url_not_verified",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/14790726.2025.2471747",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/14790726.2025.2471747\" class=\"show-pdf\" target=\"_blank\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View Large Image\"></div>         <",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/15416518.2012.708848",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/15416518.2012.708848\" class=\"show-pdf\" target=\"_blank\" kameleoonlistener-6zm2=\"true\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/17460913.2026.2645510",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/17460913.2026.2645510\" class=\"show-pdf\" target=\"_blank\" kameleoonlistener-1n1s=\"true\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/17474124.2025.2537189",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/17474124.2025.2537189\" class=\"show-pdf\" target=\"_blank\" kameleoonlistener-ffvo=\"true\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/18811248.2010.9711659",
+      "evidence_excerpt": "tried_pdf_link_count=1 attempts=[{\"url\": \"https://www.tandfonline.com/doi/pdf/10.1080/18811248.2010.9711659\", \"final_url\": null, \"status\": null, \"selector\": \"rendered-pdf-link\", \"error\": \"Error: Page.goto: Download is starting\\nCall log:\\n  - navigating to \\\"https://www.tandfonline.com/doi/pdf/10.1080/18811248.2010.9711659\\\", waiting until \\\"domcontentloaded\\\"\\n\"}]; direct_candidate_final_url=None direct_candidate_status=None",
+      "grounding_confidence": "visible_or_metadata_pdf_url_not_verified",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/19397038.2021.2004258",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/19397038.2021.2004258\" class=\"show-pdf\" target=\"_blank\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View Large Image\"></div>         <",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    },
+    {
+      "candidate_final_url": null,
+      "candidate_status": null,
+      "doi": "10.1080/23311983.2026.2650999",
+      "evidence_excerpt": "ive-widget none  widget-none\" id=\"1d3f2ec9-ad2a-4f34-80d8-cd349014c562\">                            <div class=\"wrapped \">                          <div class=\"widget-body body body-none \"><div class=\"downloadPDFLink\">             <a href=\"https://www.tandfonline.com/doi/pdf/10.1080/23311983.2026.2650999\" class=\"show-pdf\" target=\"_blank\" kameleoonlistener-jk47=\"true\">Download PDF</a>         </div></div>         </div>     </div>            </div>          </div>      </div></div> <input id=\"viewLargeImageCaption\" type=\"hidden\" value=\"View",
+      "grounding_confidence": "candidate_text_match",
+      "reason": "Blocked: promoted legacy candidate did not produce approval-quality Taylor PDF evidence. Referee requires HTTP 200 /doi/pdf final URL plus PDF screenshot; rows with missing direct PDF status, non-PDF final URL, or weak render remain retry/manual-review only."
+    }
+  ],
+  "blocked_rows": 8,
+  "candidate_http_status_counts": {
+    "200": 42,
+    "None": 8
+  },
+  "classification": "goldie_backfill_legacy_scale_42_approved_8_blocked_scale_continue",
+  "completed_at": "2026-06-10T01:25:18Z",
+  "cumulative_taylor_pdf_backfill": {
+    "candidate_pdf_cohort_approved": 130,
+    "candidate_pdf_cohort_blocked": 3,
+    "deferred_off_pattern": 6,
+    "legacy_promoted_approved": 98,
+    "legacy_promoted_blocked": 12,
+    "remaining_promoted": 8,
+    "total_approved": 228,
+    "total_blocked": 15
+  },
+  "current_goldie_kpi_effect": "none",
+  "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_derived.ndjson",
+  "diagnosis": "Taylor legacy promoted pdf_url Batch 81 produced approval-quality evidence for 42/50 promoted candidates. Approved rows reached /doi/pdf with HTTP 200 and screenshots. 8 rows lacked approval-quality evidence (missing direct PDF status or weak render).",
+  "expected_kpi_impact": 0.0,
+  "field": "pdf_url",
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_grounded.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_referee.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_derived.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_referee.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "gate": "green_goldie_backfilled_legacy_promotion_scale_batch",
+  "grounded_status_counts": {
+    "candidate_evidence_needs_referee": 48,
+    "weak_page_render_needs_referee": 2
+  },
+  "legacy_deferred_rows": 6,
+  "legacy_promoted_candidates": 118,
+  "legacy_promoted_remaining_after_b81": 8,
+  "legacy_scale_b80_approved": 46,
+  "legacy_scale_b80_blocked": 4,
+  "legacy_scale_b81_approved": 42,
+  "legacy_scale_b81_blocked": 8,
+  "legacy_smoke_approved": 10,
+  "publisher_id": "taylor",
+  "raw_grounded_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_grounded.ndjson",
+  "recommendation": "Continue with final Taylor legacy promoted pdf_url cleanup batch skip 110 limit 8 over the promoted candidate artifact; then route the 6 deferred off-pattern/chapter rows to manual DOI/publisher-specific review. Keep all derived labels separate from current-Goldie KPI.",
+  "referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_referee.ndjson",
+  "referee_status_counts": {
+    "approved_promoted_pdf_route_grounded": 42,
+    "blocked_no_approval_quality_pdf_evidence": 8
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "screenshot_dir": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_evidence",
+  "sessions": 50,
+  "shield_verdict": "green_scale_continue",
+  "status": "scale_continue",
+  "summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_referee.summary.json",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "Browserbase Taylor legacy promoted pdf_url scale, skip 60 limit 50 concurrency 4",
+      "result": "50 rows processed: {'candidate_evidence_needs_referee': 48, 'weak_page_render_needs_referee': 2}",
+      "status": "passed"
+    },
+    {
+      "command": "Referee URL/screenshot check",
+      "result": "42/50 approved; 8 blocked for missing approval-quality PDF evidence; HTTP={'200': 42, 'None': 8}",
+      "status": "passed"
+    },
+    {
+      "command": "Current-Goldie separation check",
+      "result": "approved rows written only to a derived ledger; merged-FINAL.csv unchanged; current-Goldie KPI effect is none",
+      "status": "passed"
+    }
+  ],
+  "wave_id": 81
+}

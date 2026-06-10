@@ -67,6 +67,17 @@
     "publisher_id": "taylor",
     "status": "in_progress_browserbase_scale"
   },
+  "batch81_taylor_pdf_legacy_promotion_scale": {
+    "approved_rows": 42,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_referee.summary.json",
+    "blocked_rows": 8,
+    "classification": "goldie_backfill_legacy_scale_42_approved_8_blocked_scale_continue",
+    "completed_at": "2026-06-10T01:25:18Z",
+    "current_goldie_kpi_effect": "none",
+    "derived_ledger": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_60_110_b81_derived.ndjson",
+    "scale_continue": true,
+    "status": "scale_continue"
+  },
   "by_field": {
     "abstract": 50,
     "affiliations": 50,
@@ -88,6 +99,7 @@
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
     "classified_mixed_small_parser_headroom": 2,
+    "goldie_backfill_legacy_scale_42_approved_8_blocked_scale_continue": 1,
     "goldie_backfill_referee_complete_0_approved_13_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_14_blocked": 2,
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
@@ -108,7 +120,6 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_74_approved_8_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
-    "goldie_backfill_smoke_10_approved_0_blocked_scale_ready": 1,
     "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence": 1,
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
@@ -184,6 +195,16 @@
     "blocked": 3,
     "legacy_pending_abs_url_candidates": 124,
     "processed_candidate_pdf_cohort": 133
+  },
+  "taylor_pdf_backfill_cumulative": {
+    "candidate_pdf_cohort_approved": 130,
+    "candidate_pdf_cohort_blocked": 3,
+    "deferred_off_pattern": 6,
+    "legacy_promoted_approved": 98,
+    "legacy_promoted_blocked": 12,
+    "remaining_promoted": 8,
+    "total_approved": 228,
+    "total_blocked": 15
   },
   "taylor_pdf_legacy_promotion": {
     "deferred_rows": 6,
