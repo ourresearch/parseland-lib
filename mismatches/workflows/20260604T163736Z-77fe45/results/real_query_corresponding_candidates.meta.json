@@ -1,7 +1,7 @@
 {
-  "completed_at_utc": "2026-06-10T20:43:28.555341+00:00",
+  "completed_at_utc": "2026-06-10T21:41:09.084651+00:00",
   "errors": [],
-  "fetched_tickets": 0,
+  "fetched_tickets": 119,
   "limit": 50,
   "query_terms": [
     "corresponding author",
@@ -11,7 +11,7 @@
     "author email",
     "corresponding author openalex"
   ],
-  "raw_private_exports": 0,
-  "started_at_utc": "2026-06-10T20:43:28.554934+00:00",
-  "zendesk_auth_mode": "missing_zendesk_subdomain"
+  "raw_private_exports": 119,
+  "started_at_utc": "2026-06-10T21:39:42.630999+00:00",
+  "zendesk_auth_mode": "zcli_core_keychain"
 }

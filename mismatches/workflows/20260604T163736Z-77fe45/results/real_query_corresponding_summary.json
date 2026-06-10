@@ -1,18 +1,33 @@
 {
   "already_fixed_by_current_parseland": 0,
-  "classification_counts": {},
-  "doi_backed_candidates_found": 0,
+  "classification_counts": {
+    "retrieval_owned": 28
+  },
+  "doi_backed_candidates_found": 28,
   "gold_or_ticket_disagreement": 0,
   "insufficient_private_context": 0,
-  "issue_class_counts": {},
-  "next_recommended_lane": "Set Zendesk Support API credentials or provide a sanitized DOI export; then rerun extraction.",
+  "issue_class_counts": {
+    "author_email": 5,
+    "corresponding_author_general": 22,
+    "missing_corresponding_author": 1
+  },
+  "next_recommended_lane": "Return to retrieval/rendering lane before parser edits.",
   "not_reproducible": 0,
   "private_data_policy": "Raw Zendesk ticket payloads are local-only under mismatches/private and are not report assets.",
-  "publisher_counts": {},
+  "publisher_counts": {
+    "elsevier": 5,
+    "iop": 2,
+    "spie": 1,
+    "springer": 6,
+    "ssrn": 2,
+    "taylor": 1,
+    "unknown": 7,
+    "wiley": 4
+  },
   "repeated_ca_marker_patterns": [],
-  "retrieval_or_access_owned": 0,
-  "rows_joined_to_current_goldie": 0,
-  "rows_spotchecked": 0,
+  "retrieval_or_access_owned": 28,
+  "rows_joined_to_current_goldie": 28,
+  "rows_spotchecked": 28,
   "sanitized_artifacts": [
     "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_candidates.meta.json",
     "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_candidates.ndjson",
@@ -21,10 +36,10 @@
     "mismatches/workflows/20260604T163736Z-77fe45/results/real_query_corresponding_gate.json"
   ],
   "still_parser_owned": 0,
-  "stop_reason": "zendesk_returns_too_few_doi_backed_rows_or_credentials_missing",
+  "stop_reason": "most_failures_not_parser_owned",
   "title": "Real-query corresponding-author spot check",
   "unsupported_publisher": 0,
-  "updated_at_utc": "2026-06-10T20:47:34.016779+00:00",
+  "updated_at_utc": "2026-06-10T21:41:51.289400+00:00",
   "zendesk_queries_attempted": [
     "corresponding author",
     "corresponding_author",
