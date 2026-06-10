@@ -1,0 +1,85 @@
+{
+  "agent_id": "codex-taylor-pdf-legacy-promote-b79",
+  "claimed_at": "2026-06-10T00:34:40.267277+00:00",
+  "created_at": "2026-06-10T00:35:47Z",
+  "deferred_examples": [
+    {
+      "doi": "10.4324/9781315801889-24",
+      "kind": "taylor_chapter_api",
+      "pdf_url": "https://api.taylorfrancis.com/content/chapters/edit/download?identifierName=doi&identifierValue=10.4324/9781315801889-24&type=chapterpdf"
+    },
+    {
+      "doi": "10.15621/ijphy/2025/v12i1s/1611",
+      "kind": "off_pattern",
+      "pdf_url": "https://www.ijphy.com/index.php/journal/downloads"
+    },
+    {
+      "doi": "10.1080/14640749408401120",
+      "kind": "off_pattern",
+      "pdf_url": "https://journals.sagepub.com/doi/pdf/10.1080/14640749408401120?download=true"
+    },
+    {
+      "doi": "10.1080/00071667708416432",
+      "kind": "off_pattern",
+      "pdf_url": "https://doi.org/doi/pdf/10.1080/00071667708416432?download=true"
+    },
+    {
+      "doi": "10.4324/9780203126929-34",
+      "kind": "taylor_chapter_api",
+      "pdf_url": "https://api.taylorfrancis.com/content/chapters/edit/download?identifierName=doi&identifierValue=10.4324/9780203126929-34&type=chapterpdf"
+    },
+    {
+      "doi": "10.1201/9781315393827-91",
+      "kind": "taylor_chapter_api",
+      "pdf_url": "https://api.taylorfrancis.com/content/chapters/edit/download?identifierName=doi&identifierValue=10.1201/9781315393827-91&type=chapterpdf"
+    }
+  ],
+  "deferred_rows": 6,
+  "field": "pdf_url",
+  "gate": "green_claim_and_promotion_precheck",
+  "legacy_pattern_counts": {
+    "off_pattern": 3,
+    "tandfonline_abs": 107,
+    "tandfonline_epdf": 10,
+    "tandfonline_pdf": 1,
+    "taylor_chapter_api": 3
+  },
+  "legacy_pending_total": 124,
+  "planned_browserbase": {
+    "candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+    "concurrency": 4,
+    "limit": 10,
+    "policy": "smoke first; scale only if Browserbase evidence and Referee quality are clean",
+    "run_id": "bb-taylor-pdf-legacy-promoted-b79-smoke",
+    "skip": 0
+  },
+  "promotable_rows": 118,
+  "promoted_candidates": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_taylor_pdf_legacy_promoted_b79_candidates.ndjson",
+  "promotion_counts": {
+    "taylor_legacy_abs_epdf_full_to_pdf": 118
+  },
+  "publisher_id": "taylor",
+  "recommendation": "Run a 10-row Browserbase smoke over the promoted Taylor legacy candidates. If /doi/pdf evidence is clean, scale the remaining promoted cohort in 50-row batches; keep chapter/off-pattern rows deferred for a separate rule.",
+  "run_id": "20260604T163736Z-77fe45",
+  "shield_verdict": "green_claim_and_promotion_precheck",
+  "source_candidates": "mismatches/goldie-backfilled-candidates.ndjson",
+  "status": "in_progress_legacy_promotion_smoke",
+  "task_id": "v2_taylor_pdf_url_2e40646f",
+  "tests_run": [
+    {
+      "command": "legacy candidate pattern audit",
+      "result": "124 legacy pending Taylor pdf_url candidates: {'tandfonline_abs': 107, 'tandfonline_epdf': 10, 'taylor_chapter_api': 3, 'tandfonline_pdf': 1, 'off_pattern': 3}",
+      "status": "passed"
+    },
+    {
+      "command": "canonical promotion precheck",
+      "result": "118 safe tandfonline DOI candidates promoted to /doi/pdf/; 6 off-pattern/chapter rows deferred",
+      "status": "passed"
+    },
+    {
+      "command": "current-Goldie separation check",
+      "result": "promoted candidates are a temporary Browserbase evidence input only; merged-FINAL.csv unchanged; no current-Goldie KPI effect",
+      "status": "passed"
+    }
+  ]
+}
