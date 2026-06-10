@@ -1,0 +1,139 @@
+{
+  "agent_id": "codex-publisher-index-tail-prefix-b83",
+  "classification": "publisher_index_tail_prefixes_reclassified_84_unknown_rows_and_split_ssrn_from_elsevier",
+  "completed_at": "2026-06-10T05:27:45Z",
+  "corpus": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "current_goldie_kpi_effect": "none_until_next_whole_goldie_run",
+  "delta": {
+    "elsevier_rows": -77,
+    "ssrn_rows": 77,
+    "unknown_rows": -84,
+    "unknown_rows_reclassified": 84
+  },
+  "field": "publisher_classification",
+  "gate": "green_classifier_dry_run_and_tests",
+  "impacted_prefix_counts": [
+    {
+      "doi_prefix": "10.1001",
+      "publisher_id": "ama",
+      "row_count": 33
+    },
+    {
+      "doi_prefix": "10.1038",
+      "publisher_id": "springer",
+      "row_count": 97
+    },
+    {
+      "doi_prefix": "10.1039",
+      "publisher_id": "rsc",
+      "row_count": 61
+    },
+    {
+      "doi_prefix": "10.1051",
+      "publisher_id": "edp_sciences",
+      "row_count": 21
+    },
+    {
+      "doi_prefix": "10.1055",
+      "publisher_id": "thieme",
+      "row_count": 60
+    },
+    {
+      "doi_prefix": "10.1088",
+      "publisher_id": "iop",
+      "row_count": 71
+    },
+    {
+      "doi_prefix": "10.1089",
+      "publisher_id": "mary_ann_liebert",
+      "row_count": 15
+    },
+    {
+      "doi_prefix": "10.1128",
+      "publisher_id": "asm",
+      "row_count": 12
+    },
+    {
+      "doi_prefix": "10.1142",
+      "publisher_id": "world_scientific",
+      "row_count": 26
+    },
+    {
+      "doi_prefix": "10.1159",
+      "publisher_id": "karger",
+      "row_count": 37
+    },
+    {
+      "doi_prefix": "10.1161",
+      "publisher_id": "lippincott",
+      "row_count": 16
+    },
+    {
+      "doi_prefix": "10.1201",
+      "publisher_id": "taylor",
+      "row_count": 57
+    },
+    {
+      "doi_prefix": "10.1504",
+      "publisher_id": "inderscience",
+      "row_count": 13
+    },
+    {
+      "doi_prefix": "10.1590",
+      "publisher_id": "scielo",
+      "row_count": 24
+    },
+    {
+      "doi_prefix": "10.21203",
+      "publisher_id": "research_square",
+      "row_count": 24
+    },
+    {
+      "doi_prefix": "10.2139",
+      "publisher_id": "ssrn",
+      "row_count": 77
+    },
+    {
+      "doi_prefix": "10.4324",
+      "publisher_id": "taylor",
+      "row_count": 101
+    }
+  ],
+  "new_counts": {
+    "elsevier_rows": 1487,
+    "publisher_count": 55,
+    "ssrn_rows": 77,
+    "total_rows": 10000,
+    "unknown_rows": 3219
+  },
+  "previous_report_counts": {
+    "elsevier": 1564,
+    "ssrn": 0,
+    "unknown": 3303
+  },
+  "publisher_counts_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/publisher_index_tail_prefix_b83_counts.ndjson",
+  "publisher_id": "workflow",
+  "recommendation": "Ship deterministic publisher-index tail prefixes, then run the next serialized full-10K/queue refresh so report 336 publisher-field accounting reflects 55 publishers instead of the stale 50-publisher queue. Current-Goldie KPI is unchanged by this classifier-only gate.",
+  "run_id": "20260604T163736Z-77fe45",
+  "shield_verdict": "green_classifier_infra_only",
+  "status": "ready_to_ship_classifier_infra",
+  "task_id": "publisher_index_tail_prefix_b83",
+  "tests_run": [
+    {
+      "command": "./.venv/bin/pytest tests/test_publisher_index.py",
+      "result": "3 passed",
+      "status": "passed"
+    },
+    {
+      "command": "full 10K classify_row dry-run with allow_network=False",
+      "result": "total=10000 publishers=55 unknown=3219 reclassified_unknown=84 ssrn=77",
+      "status": "passed"
+    },
+    {
+      "command": "current-Goldie separation check",
+      "result": "merged-FINAL.csv unchanged; no parser/scorer output changed; KPI effect deferred until next whole-Goldie queue refresh",
+      "status": "passed"
+    }
+  ],
+  "wave_id": 83
+}

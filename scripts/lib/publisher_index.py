@@ -39,6 +39,7 @@ DOI_PREFIX_PUBLISHER: dict[str, str] = {
     "10.1016": "elsevier",
     "10.1109": "ieee",
     "10.1007": "springer",
+    "10.1038": "springer",   # Nature Research → Springer Nature
     "10.1021": "acs",
     "10.1080": "taylor",
     "10.1177": "sage",
@@ -57,6 +58,7 @@ DOI_PREFIX_PUBLISHER: dict[str, str] = {
     "10.1103": "aps",
     "10.1175": "ams",
     "10.1108": "emerald",
+    "10.1001": "ama",
     "10.1148": "rsna",
     "10.1155": "hindawi",
     "10.1163": "brill",
@@ -67,6 +69,10 @@ DOI_PREFIX_PUBLISHER: dict[str, str] = {
     "10.1111": "wiley",
     "10.1037": "apa",
     "10.1515": "de_gruyter",
+    "10.1088": "iop",
+    "10.1039": "rsc",
+    "10.1055": "thieme",
+    "10.1159": "karger",
     "10.5194": "copernicus",
     "10.21037": "ame",
     "10.3917": "cairn",
@@ -81,6 +87,17 @@ DOI_PREFIX_PUBLISHER: dict[str, str] = {
     "10.2174": "bentham",
     "10.1029": "wiley",      # AGU → Wiley
     "10.1121": "asa",
+    "10.4324": "taylor",     # Routledge / Taylor & Francis books
+    "10.1201": "taylor",     # CRC Press / Taylor & Francis books
+    "10.2139": "ssrn",
+    "10.1142": "world_scientific",
+    "10.1590": "scielo",
+    "10.21203": "research_square",
+    "10.1051": "edp_sciences",
+    "10.1089": "mary_ann_liebert",
+    "10.1504": "inderscience",
+    "10.1128": "asm",
+    "10.1161": "lippincott",  # AHA journals route through the Lippincott/AHA lane
 }
 
 
