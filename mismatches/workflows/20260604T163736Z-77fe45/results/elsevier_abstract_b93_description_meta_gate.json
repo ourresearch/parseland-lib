@@ -1,0 +1,192 @@
+{
+  "abstract_improved_to_pass": 12,
+  "abstract_regressed_to_fail": 0,
+  "agent_id": "codex-elsevier-abstract-residual-b93",
+  "changed_rows": 12,
+  "classification": "shipped_parser_fix_current_goldie_lift_no_regressions",
+  "created_at": "2026-06-11T20:21:30.672865Z",
+  "cross_field_regressions": 0,
+  "diagnosis": "ScienceDirect/Elsevier residual pages can duplicate the clean abstract in og:description/description while div.article__sections continues into references or unrelated body text. Use description meta only when it is substantial, appears near the start of a much longer parsed body, and citation_abstract did not already win.",
+  "field": "abstract",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "tests/test_elsevier_bv_modern.py"
+  ],
+  "focused_gate": {
+    "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_elsevier_bv_modern.py tests/test_parse_page.py tests/test_app_post_parseland.py -q",
+    "result": "44 passed in 2.28s",
+    "status": "passed"
+  },
+  "improved_rows": 12,
+  "improved_sample": [
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.04658062601987833,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.9534193739801217,
+      "doi": "10.1067/mva.2000.106633",
+      "gold_abstract_len": 628,
+      "parsed_after_len": 628,
+      "parsed_before_len": 26336
+    },
+    {
+      "after_ratio": 0.9981718464351006,
+      "before_ratio": 0.0684039087947883,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.9297679376403123,
+      "doi": "10.1016/j.jtho.2018.03.015",
+      "gold_abstract_len": 273,
+      "parsed_after_len": 274,
+      "parsed_before_len": 7709
+    },
+    {
+      "after_ratio": 0.9963547995139733,
+      "before_ratio": 0.1300761421319797,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.8662786573819936,
+      "doi": "10.1016/j.ajog.2006.10.180",
+      "gold_abstract_len": 412,
+      "parsed_after_len": 411,
+      "parsed_before_len": 5892
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.1429534726904923,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.8570465273095077,
+      "doi": "10.1016/j.ultrasmedbio.2006.02.587",
+      "gold_abstract_len": 212,
+      "parsed_after_len": 212,
+      "parsed_before_len": 2754
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.1598675297305434,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.8401324702694566,
+      "doi": "10.1016/j.jhin.2007.02.012",
+      "gold_abstract_len": 531,
+      "parsed_after_len": 531,
+      "parsed_before_len": 6122
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.20119920053297802,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.798800799467022,
+      "doi": "10.1016/j.thromres.2007.04.013",
+      "gold_abstract_len": 604,
+      "parsed_after_len": 604,
+      "parsed_before_len": 5400
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.224609375,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.775390625,
+      "doi": "10.1016/j.joms.2007.06.259",
+      "gold_abstract_len": 230,
+      "parsed_after_len": 230,
+      "parsed_before_len": 1818
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.23147581139007956,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.7685241886099204,
+      "doi": "10.1053/j.gastro.2021.01.229",
+      "gold_abstract_len": 567,
+      "parsed_after_len": 567,
+      "parsed_before_len": 4334
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.2726114649681529,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.7273885350318471,
+      "doi": "10.1016/s0923-7534(21)00481-6",
+      "gold_abstract_len": 321,
+      "parsed_after_len": 321,
+      "parsed_before_len": 2034
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.285264483627204,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.714735516372796,
+      "doi": "10.1016/j.gie.2011.03.214",
+      "gold_abstract_len": 453,
+      "parsed_after_len": 453,
+      "parsed_before_len": 2723
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.29794149512459367,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.7020585048754063,
+      "doi": "10.1016/j.jaci.2018.12.384",
+      "gold_abstract_len": 275,
+      "parsed_after_len": 275,
+      "parsed_before_len": 1571
+    },
+    {
+      "after_ratio": 1.0,
+      "before_ratio": 0.3239299610894941,
+      "classification": "description_meta_replaces_noisy_long_body",
+      "delta": 0.6760700389105059,
+      "doi": "10.1016/j.hpb.2018.06.1506",
+      "gold_abstract_len": 333,
+      "parsed_after_len": 333,
+      "parsed_before_len": 1723
+    }
+  ],
+  "next_action": "Continue ranked queue; Elsevier abstract remains below 98, with remaining residuals requiring current-Goldie audit, retrieval/router recovery, or manual DOM-specific follow-up.",
+  "publisher_id": "elsevier",
+  "regressed_rows": 0,
+  "regressed_sample": [],
+  "rejected_probe": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch93_elsevier_abstract_description_meta_after.json",
+    "reason": "Initial 120-char/2.5x heuristic improved 21 rows but regressed 3; tightened to >=200 chars and >=5x noisy-body ratio before shipping."
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "passed",
+  "task_id": "v2_elsevier_abstract_1bd46b76",
+  "whole_goldie_after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch93_elsevier_abstract_description_meta_after_v2.json",
+  "whole_goldie_before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch90_elsevier_authors_collaboration_text_after.json",
+  "whole_goldie_delta": {
+    "abstract_present_rate": 0.0,
+    "abstract_ratio_fuzzy": 0.00682016548960207,
+    "affiliations_f1_fuzzy": 0.0,
+    "affiliations_f1_strict": 0.0,
+    "authors_f1_soft": 0.0,
+    "authors_f1_strict": 0.0,
+    "corresponding_accuracy": 0.0,
+    "pdf_url_accuracy": 0.0
+  },
+  "whole_goldie_elsevier_after": {
+    "abstract_present_rate": 0.7004249291784702,
+    "abstract_ratio_fuzzy": 0.9300076067328855,
+    "affiliations_f1_fuzzy": 0.8495797546144768,
+    "authors_f1_soft": 0.9453359657115858,
+    "corresponding_accuracy": 0.9587278278908236,
+    "errors": 1,
+    "n_abstract_scored": 1409,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "rows": 1487,
+    "scored": 1412,
+    "skipped_no_html": 75
+  },
+  "whole_goldie_elsevier_before": {
+    "abstract_present_rate": 0.7004249291784702,
+    "abstract_ratio_fuzzy": 0.9231874412432834,
+    "affiliations_f1_fuzzy": 0.8495797546144768,
+    "authors_f1_soft": 0.9453359657115858,
+    "corresponding_accuracy": 0.9587278278908236,
+    "errors": 1,
+    "n_abstract_scored": 1409,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "rows": 1487,
+    "scored": 1412,
+    "skipped_no_html": 75
+  }
+}

@@ -503,6 +503,65 @@ class ElsevierBV(PublisherParser):
                 return text
         return None
 
+    def parse_description_abstract_meta(self):
+        """Return a clean Elsevier description meta abstract candidate.
+
+        Some ScienceDirect journal-portal pages expose the exact current-gold
+        abstract in og:description / description, while the visible article
+        section extractor continues into references, key messages, or related
+        body text. Keep this narrower than the generic meta fallback: it is
+        only used when the body extractor has already proven noisy.
+        """
+        for meta_tag_name in ("og:description", "dc.description", "description"):
+            for meta_property_name in ("property", "name"):
+                meta_tag = self.soup.find(
+                    "meta",
+                    {meta_property_name: re.compile(f"^{meta_tag_name}$", re.I)},
+                )
+                if meta_tag is None:
+                    continue
+                text = meta_tag.get("content", "").strip()
+                if not text:
+                    continue
+                if "<" in text and ">" in text:
+                    text = BeautifulSoup(text, "html.parser").get_text(" ", strip=True)
+                text = re.sub(r"\s+", " ", text).strip()
+                text = re.sub(r"^(abstract|summary)[:.]?\s*", "", text, flags=re.I).strip()
+                if (
+                    len(text) >= 200
+                    and not text.endswith("...")
+                    and not text.endswith("…")
+                    and not text.lower().startswith("http")
+                ):
+                    return text
+        return None
+
+    @staticmethod
+    def _compact_abstract_text(text):
+        return re.sub(r"\s+", " ", text or "").strip()
+
+    def prefer_description_meta_over_noisy_body(self, body_text, description_text):
+        if not body_text or not description_text:
+            return None
+
+        body = self._compact_abstract_text(body_text)
+        description = self._compact_abstract_text(description_text)
+        if (
+            len(description) < 200
+            or len(body) < 1000
+            or len(body) < len(description) * 5.0
+        ):
+            return None
+
+        # The safe residual cluster has the description text duplicated near
+        # the beginning of the article-section body, followed by unrelated
+        # sections/references. Do not use generic SEO text that does not appear
+        # in the parsed body.
+        probe = description[: min(100, len(description))]
+        if probe and probe in body[:2000]:
+            return description
+        return None
+
     def parse(self):
         author_results = []
         author_soup = self.soup.findAll("li", class_="author")
@@ -584,11 +643,23 @@ class ElsevierBV(PublisherParser):
             self._enrich_from_core_author_blocks(author_results)
             self._enrich_corresponding_from_author_json(author_results)
 
+        citation_abstract = self.parse_short_citation_abstract_meta()
+        abstract = citation_abstract
+        if not abstract:
+            body_abstract = self.parse_abstract()
+            description_abstract = self.parse_description_abstract_meta()
+            abstract = (
+                self.prefer_description_meta_over_noisy_body(
+                    body_abstract,
+                    description_abstract,
+                )
+                or body_abstract
+                or self.parse_abstract_meta_tags()
+            )
+
         return {
             "authors": author_results,
-            "abstract": self.parse_short_citation_abstract_meta()
-            or self.parse_abstract()
-            or self.parse_abstract_meta_tags(),
+            "abstract": abstract,
         }
 
     def _enrich_from_core_author_blocks(self, results):

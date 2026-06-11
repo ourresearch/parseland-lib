@@ -646,3 +646,58 @@ def test_short_generic_description_meta_still_rejected():
     soup = BeautifulSoup(html, "lxml")
     result = ElsevierBV(soup).parse()
     assert result["abstract"] is None
+
+
+def test_description_meta_wins_over_noisy_long_article_sections():
+    """Some Elsevier journal pages expose the clean abstract in
+    og:description while article__sections continues into unrelated body."""
+    clean_abstract = (
+        "The Vascular Surgery Sub-board of the American Board of Surgery "
+        "(ABS) emerged from deliberations between the leadership of vascular "
+        "surgery and general surgery. This report summarizes the rationale, "
+        "implementation, and expected impact of the sub-board on training "
+        "and certification."
+    )
+    noisy_tail = " ".join(f"Reference {i}. Additional unrelated article text." for i in range(80))
+    html = f"""
+    <html><head>
+      <link rel="canonical" href="https://www.sciencedirect.com/science/article/pii/S0741521400106633">
+      <meta name="citation_author" content="Sample Author">
+      <meta property="og:description" content="{clean_abstract}">
+    </head><body>
+      <div class="article__sections">
+        <div class="section-paragraph">{clean_abstract}</div>
+        <h2>References</h2>
+        <div class="section-paragraph">{noisy_tail}</div>
+      </div>
+    </body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    assert result["abstract"] == clean_abstract
+
+
+def test_description_meta_does_not_replace_compact_body_abstract():
+    """Description meta is only an override for clearly noisy long bodies."""
+    body_abstract = (
+        "This compact body abstract is already the publisher-visible abstract "
+        "and should remain authoritative."
+    )
+    description = (
+        "This compact body abstract is already the publisher-visible abstract "
+        "and should remain authoritative. Extra summary wording from the page "
+        "description should not replace the concise body."
+    )
+    html = f"""
+    <html><head>
+      <link rel="canonical" href="https://www.sciencedirect.com/science/article/pii/S0741521400106633">
+      <meta name="citation_author" content="Sample Author">
+      <meta property="og:description" content="{description}">
+    </head><body>
+      <h2>Abstract</h2>
+      <div class="section-paragraph">{body_abstract}</div>
+    </body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    assert result["abstract"] == body_abstract

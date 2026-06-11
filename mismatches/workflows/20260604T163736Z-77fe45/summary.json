@@ -88,6 +88,21 @@
     "regressed_to_fail": 0,
     "status": "shipped_parser_fix_current_goldie_lift_no_regressions"
   },
+  "elsevier_abstract_b93_state": {
+    "after_fuzzy": 0.9300076067328855,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b93_description_meta_gate.json",
+    "before_fuzzy": 0.9231874412432834,
+    "completed_at": "2026-06-11T20:21:30.672865Z",
+    "cross_field_regressions": 0,
+    "delta": 0.00682016548960207,
+    "improved_rows": 12,
+    "improved_to_pass": 12,
+    "regressed_rows": 0,
+    "regressed_to_fail": 0,
+    "residual": "Elsevier abstract remains below 98; remaining residuals are mixed current-Goldie, retrieval/router, and manual DOM follow-up.",
+    "status": "shipped_parser_fix_current_goldie_lift_no_regressions",
+    "tests": "44 focused tests passed; scoped Elsevier whole-Goldie passed"
+  },
   "elsevier_affiliations_b86_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_b86_safe_app_json_gate.json",
     "clean_whole_goldie_affiliations_delta": 1.1102230246251565e-16,
@@ -134,16 +149,16 @@
     "updated_at": "2026-06-10T06:37:11Z"
   },
   "last_shipped_batch": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_abstract_b92_gate.json",
-    "batch": 92,
-    "completed_at": "2026-06-11T19:48:37Z",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b93_description_meta_gate.json",
+    "batch": 93,
+    "completed_at": "2026-06-11T20:21:30.672865Z",
     "field": "abstract",
-    "kpi_after": 0.9885939758438343,
-    "kpi_before": 0.9659189730519734,
-    "publisher_id": "ssrn",
-    "status": "shipped_parser_fix_above_98_no_regressions"
+    "kpi_after": 0.9300076067328855,
+    "kpi_before": 0.9231874412432834,
+    "publisher_id": "elsevier",
+    "status": "shipped_parser_fix_current_goldie_lift_no_regressions"
   },
-  "last_updated_at": "2026-06-11T19:48:37Z",
+  "last_updated_at": "2026-06-11T20:21:30.672865Z",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
