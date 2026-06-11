@@ -1,0 +1,52 @@
+{
+  "agent_id": "codex-sidecar-wiley-abstract-b94",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
+  "classification": "blocked_explainable_no_safe_parser_pattern",
+  "completed_at": "2026-06-11T20:43:30Z",
+  "current_kpi": 0.9472,
+  "diagnosis": "The remaining Wiley abstract gap is mixed gold, retrieval/cache, routing, and manual DOM work. The only tempting long-body parser change would violate the existing false-positive guard for article bodies with more than five paragraphs.",
+  "doi_evidence": [
+    {
+      "classification": "unsafe_long_body_false_positive_risk",
+      "doi": "10.1111/j.1466-7657.2010.00842.x",
+      "notes": "True Wiley page with no abstract section; div.article__body has 17 paragraphs, which the parser intentionally skips."
+    },
+    {
+      "classification": "retrieval_or_gold_source_owned",
+      "doi": "10.1111/aphw.12528",
+      "notes": "Only truncated metadata in cached HTML; no visible full abstract body."
+    },
+    {
+      "classification": "gold_audit",
+      "doi": "10.1002/lia.4070090106",
+      "notes": "Meta text is generic UI copy while current gold abstract is very short."
+    },
+    {
+      "classification": "retrieval_cache_owned",
+      "doi": "10.1002/art.38860",
+      "notes": "Cached page is the Wiley ePDF reader shell, not full article HTML."
+    },
+    {
+      "classification": "cross_publisher_routing",
+      "doi": "10.1002/14651858.cd007992.pub2",
+      "notes": "Cochrane/alternate owner shape despite Wiley registrant bucket."
+    }
+  ],
+  "expected_kpi_impact": 0.0,
+  "field": "abstract",
+  "html_available": 677,
+  "misses": 11,
+  "next_action": "Route residual Wiley abstract rows to gold/retrieval/router/manual-DOM audit. Do not broaden Wiley article-body fallback without a repeated safe selector cluster.",
+  "publisher_id": "wiley",
+  "recommendation": "block parser patch",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "blocked_explainable_no_safe_parser_pattern",
+  "task_id": "v2_wiley_abstract_f51e01cd",
+  "tests_run": [
+    {
+      "command": "read-only sidecar artifact inspection plus focused cached-HTML probes",
+      "result": "No repeated safe Wiley-parser-owned selector pattern found.",
+      "status": "passed"
+    }
+  ]
+}

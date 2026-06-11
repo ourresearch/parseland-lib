@@ -1,0 +1,57 @@
+{
+  "agent_id": "codex-sidecar-springer-abstract-b94",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_b94_sidecar_blocker.json",
+  "classification": "blocked_explainable_no_safe_parser_pattern",
+  "completed_at": "2026-06-11T20:43:30Z",
+  "current_kpi": 0.9645,
+  "diagnosis": "The remaining Springer abstract gap is small and heterogeneous. Existing safe Springer abstract ladders already cover metadata, DOM abstract sections, language headings, structured BMC sections, SpringerMaterials, and Nature intro-summary fallbacks.",
+  "doi_evidence": [
+    {
+      "classification": "nature_digest_or_news_snippet",
+      "doi": "10.1038/ndigest.2025.250907",
+      "notes": "Japanese Nature Digest shape with only twitter description-level signal."
+    },
+    {
+      "classification": "non_springer_host_or_router",
+      "doi": "10.21786/bbrc/12.1/13",
+      "notes": "Not a normal SpringerLink parser-owned page."
+    },
+    {
+      "classification": "non_springer_host_or_router",
+      "doi": "10.37284/jammk.4.1.452",
+      "notes": "Not a normal SpringerLink parser-owned page."
+    },
+    {
+      "classification": "nature_news_or_gold_audit",
+      "doi": "10.1038/536377a",
+      "notes": "Nature news/snippet page rather than a standard article abstract."
+    },
+    {
+      "classification": "cross_publisher_routing",
+      "doi": "10.1038/sj.emboj.7600727",
+      "notes": "EMBO/Wiley-hosted despite 10.1038 DOI."
+    },
+    {
+      "classification": "gold_audit_short_label",
+      "doi": "10.1007/978-1-4419-0461-4_100809",
+      "notes": "Gold abstract is 'MSK1', too short for the deliberate metadata fallback floor."
+    }
+  ],
+  "expected_kpi_impact": 0.0,
+  "field": "abstract",
+  "html_available": 1117,
+  "misses": 6,
+  "next_action": "Route current misses to DOI-level gold/retrieval/router audit and 47 Goldie-empty/parser-present rows to Goldie-backfilled; ship no parser patch without a repeated Springer-owned selector cluster.",
+  "publisher_id": "springer",
+  "recommendation": "block parser patch",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "blocked_explainable_no_safe_parser_pattern",
+  "task_id": "v2_springer_abstract_c2c731f2",
+  "tests_run": [
+    {
+      "command": "read-only sidecar artifact inspection plus focused cached-HTML probes",
+      "result": "No repeated safe Springer-parser-owned selector pattern found.",
+      "status": "passed"
+    }
+  ]
+}

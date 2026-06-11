@@ -17,6 +17,7 @@
     "above_98": 2,
     "blocked_clean_shield_current_kpi_flat_ca_regression": 1,
     "blocked_explainable_current_goldie_residual_below_98": 1,
+    "blocked_explainable_no_safe_parser_pattern": 2,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
@@ -51,7 +52,7 @@
     "retrieval_recovered_above_98_with_backfill_pending": 4,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
-    "shipped_full10k_measured": 12,
+    "shipped_full10k_measured": 10,
     "shipped_full10k_measured_above_98": 1,
     "shipped_full10k_measured_below_98_with_explainable_residual": 2,
     "shipped_full10k_measured_residual_below_98": 1,
@@ -168,6 +169,7 @@
     "above_98": 2,
     "blocked_clean_shield_current_kpi_flat_ca_regression": 1,
     "blocked_explainable_current_goldie_residual_below_98": 1,
+    "blocked_explainable_no_safe_parser_pattern": 2,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
@@ -202,7 +204,7 @@
     "retrieval_recovered_above_98_with_backfill_pending": 4,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
-    "shipped_full10k_measured": 12,
+    "shipped_full10k_measured": 10,
     "shipped_full10k_measured_above_98": 1,
     "shipped_full10k_measured_below_98_with_explainable_residual": 2,
     "shipped_full10k_measured_residual_below_98": 1,
@@ -236,6 +238,13 @@
     "tests": "25 focused tests passed; scoped SAGE whole-Goldie passed"
   },
   "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json",
+  "springer_abstract_b94_blocker_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_b94_sidecar_blocker.json",
+    "completed_at": "2026-06-11T20:43:30Z",
+    "current_kpi": 0.9645,
+    "residual": "Remaining Springer abstract misses are heterogeneous routing/gold/backfill cases, not a repeated Springer-owned selector.",
+    "status": "blocked_explainable_no_safe_parser_pattern"
+  },
   "ssrn_abstract_b92_state": {
     "after_fuzzy": 0.9885939758438343,
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_abstract_b92_gate.json",
@@ -754,5 +763,12 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-11T19:10:53.318063+00:00"
+  "updated_at": "2026-06-11T19:10:53.318063+00:00",
+  "wiley_abstract_b94_blocker_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
+    "completed_at": "2026-06-11T20:43:30Z",
+    "current_kpi": 0.9472,
+    "residual": "Remaining Wiley abstract misses are gold/retrieval/router/manual-DOM owned or unsafe long-body cases, not a repeated parser-owned selector.",
+    "status": "blocked_explainable_no_safe_parser_pattern"
+  }
 }
