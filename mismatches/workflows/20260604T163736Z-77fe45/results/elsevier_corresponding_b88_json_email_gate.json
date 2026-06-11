@@ -1,0 +1,179 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_elsevier_corresponding_c80450b9",
+  "agent_id": "codex-elsevier-corresponding-b88",
+  "publisher_id": "elsevier",
+  "field": "corresponding",
+  "classification": "shipped_parser_fix_current_goldie_lift_no_regressions",
+  "gate": "elsevier_corresponding_b88_json_email_full_publisher_gate",
+  "status": "passed",
+  "created_at": "2026-06-11T18:35:20.169225+00:00",
+  "diagnosis": "ScienceDirect top-level author JSON exposes corresponding authors through cor* cross-refs or encoded/e-address fields. Use this only as additive CA rescue when the parser found no CA; never reuse app JSON for affiliations or add extra CA flags to already-marked rows.",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "tests/test_elsevier_bv_modern.py"
+  ],
+  "diagnosis_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_b88_diagnosis_summary.json",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_b88_residual_focused_gate.json",
+  "whole_goldie_before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch87_elsevier_abstract_citation_meta_after.json",
+  "whole_goldie_after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch88_elsevier_corresponding_json_email_after_v2.json",
+  "whole_goldie_elsevier_before": {
+    "rows": 1487,
+    "scored": 1412,
+    "errors": 1,
+    "skipped_no_html": 75,
+    "authors_f1_soft": 0.9451415006202305,
+    "affiliations_f1_fuzzy": 0.8495797546144768,
+    "abstract_ratio_fuzzy": 0.9231874412432837,
+    "abstract_present_rate": 0.7004249291784702,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "corresponding_accuracy": 0.9475715790814261,
+    "n_corresponding_scored": 1371
+  },
+  "whole_goldie_elsevier_after": {
+    "rows": 1487,
+    "scored": 1412,
+    "errors": 1,
+    "skipped_no_html": 75,
+    "authors_f1_soft": 0.9451415006202305,
+    "affiliations_f1_fuzzy": 0.8495797546144768,
+    "abstract_ratio_fuzzy": 0.9231874412432837,
+    "abstract_present_rate": 0.7004249291784702,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "corresponding_accuracy": 0.9587278278908236,
+    "n_corresponding_scored": 1362
+  },
+  "whole_goldie_delta": {
+    "rows": 0,
+    "scored": 0,
+    "errors": 0,
+    "skipped_no_html": 0,
+    "authors_f1_soft": 0.0,
+    "affiliations_f1_fuzzy": 0.0,
+    "abstract_ratio_fuzzy": 0.0,
+    "abstract_present_rate": 0.0,
+    "pdf_url_accuracy": 0.0,
+    "corresponding_accuracy": 0.011156248809397473,
+    "n_corresponding_scored": -9
+  },
+  "corresponding_improved_to_pass": 15,
+  "corresponding_improved_rows": 16,
+  "corresponding_regressed_rows": 0,
+  "improved_sample": [
+    {
+      "doi": "10.1016/j.copsyc.2018.05.003",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.jdmm.2020.100435",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.3182/20140514-3-fr-4046.00028",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.oraloncology.2017.06.012",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.procs.2024.02.018",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.rard.2016.01.004",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.is.2023.102178",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.procir.2019.04.118",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.chc.2020.02.001",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/s0001-4079(19)30314-0",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.procs.2019.09.314",
+      "before": 0.0,
+      "after": 0.6666666666666666,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.coi.2007.07.011",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.ememar.2004.10.002",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.oraloncology.2025.107302",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.proeng.2018.02.009",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    },
+    {
+      "doi": "10.1016/j.nepr.2017.08.016",
+      "before": 0.0,
+      "after": 1.0,
+      "field_status": "gold_present_parser_present"
+    }
+  ],
+  "regressed_sample": [],
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_elsevier_bv_modern.py -q",
+      "status": "passed",
+      "result": "18 passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_parse_page.py tests/test_app_post_parseland.py tests/test_elsevier_bv_modern.py -q",
+      "status": "passed",
+      "result": "40 passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers elsevier --label batch88-elsevier-corresponding-json-email-after-v2 --concurrency 8",
+      "status": "passed",
+      "result": "corresponding_accuracy 0.9475715790814261 -> 0.9587278278908236; 16 improved; 0 regressed"
+    }
+  ],
+  "recommendation": "Ship parser fix. Continue queue with Elsevier authors or remaining non-Elsevier queue refresh."
+}

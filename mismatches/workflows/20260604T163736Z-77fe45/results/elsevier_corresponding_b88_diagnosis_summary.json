@@ -1,0 +1,796 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_elsevier_corresponding_c80450b9",
+  "agent_id": "codex-elsevier-corresponding-b88",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch87_elsevier_abstract_citation_meta_after.json",
+  "bad_rows": 90,
+  "by_field_status": {
+    "gold_present_parser_empty": 46,
+    "gold_present_parser_present": 44
+  },
+  "by_owner_guess": {
+    "parser_owned_candidate": 63,
+    "scorer_or_match_owned": 14,
+    "gold_or_hidden_marker": 13
+  },
+  "by_marker_combo": {
+    "correspondence_text+app_json": 24,
+    "explicit_correspondence_icon+correspondence_text+preloaded_state": 17,
+    "none": 13,
+    "preloaded_state": 13,
+    "correspondence_text+preloaded_state": 9,
+    "citation_author_email+correspondence_text": 4,
+    "correspondence_text": 4,
+    "explicit_correspondence_icon+correspondence_text+app_json": 2,
+    "corresponding_author_class+correspondence_text+app_json": 2,
+    "app_json": 1,
+    "citation_author_email+corresponding_author_class+correspondence_text+app_json": 1
+  },
+  "by_host": {
+    "sciencedirect.com": 65,
+    "unknown": 10,
+    "contraceptionjournal.org": 2,
+    "em-consulte.com": 2,
+    "sciencedirect.com:5037": 1,
+    "jmig.org": 1,
+    "alz-journals.onlinelibrary.wiley.com": 1,
+    "jem-journal.com": 1,
+    "jmcc-online.com": 1,
+    "ajo.com": 1,
+    "jocn-journal.com": 1,
+    "febs.onlinelibrary.wiley.com": 1,
+    "tipsro.science": 1,
+    "thelancet.com": 1,
+    "nmd-journal.com": 1
+  },
+  "parser_owned_samples": [
+    {
+      "doi": "10.1016/s2221-1691(12)60381-5",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Mayank Gangwar"
+      ],
+      "parsed_ca": [
+        "Gopal Nath"
+      ],
+      "gold_authors": [
+        "Mayank Gangwar",
+        "Ragini Singh",
+        "RK Goel",
+        "Gopal Nath"
+      ],
+      "parsed_authors": [
+        "Mayank Gangwar",
+        "Ragini Singh",
+        "RK Goel",
+        "Gopal Nath"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.copsyc.2018.05.003",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Mina Cikara"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Marius C Vollberg",
+        "Mina Cikara"
+      ],
+      "parsed_authors": [
+        "Marius C Vollberg",
+        "Mina Cikara"
+      ],
+      "markers": [
+        "correspondence_text",
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.micpro.2017.10.001",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.5,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Kecheng Ji",
+        "Ming Ling",
+        "Longxing Shi"
+      ],
+      "parsed_ca": [
+        "Ming Ling"
+      ],
+      "gold_authors": [
+        "Kecheng Ji",
+        "Ming Ling",
+        "Longxing Shi"
+      ],
+      "parsed_authors": [
+        "Kecheng Ji",
+        "Ming Ling",
+        "Longxing Shi"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.physa.2019.04.055",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Cristian Busu",
+        "Mihail Busu"
+      ],
+      "parsed_ca": [
+        "Mihail Busu"
+      ],
+      "gold_authors": [
+        "Cristian Busu",
+        "Mihail Busu"
+      ],
+      "parsed_authors": [
+        "Cristian Busu",
+        "Mihail Busu"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/s0016-7037(02)00888-8",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "E.J. Elzinga"
+      ],
+      "parsed_ca": [
+        "R.J. Reeder"
+      ],
+      "gold_authors": [
+        "E.J. Elzinga",
+        "R.J. Reeder",
+        "S.H. Withers",
+        "R.E. Peale",
+        "R.A. Mason",
+        "K.M. Beck",
+        "W.P. Hess"
+      ],
+      "parsed_authors": [
+        "E.J. Elzinga",
+        "R.J. Reeder",
+        "S.H. Withers",
+        "R.E. Peale",
+        "R.A. Mason",
+        "K.M. Beck",
+        "W.P. Hess"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.jdmm.2020.100435",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Marika Gon"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Marika Gon"
+      ],
+      "parsed_authors": [
+        "Marika Gon"
+      ],
+      "markers": [
+        "correspondence_text",
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/0040-5809(75)90012-x",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Daniel L. Hartl"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Daniel L. Hartl"
+      ],
+      "parsed_authors": [
+        "Daniel L. Hartl"
+      ],
+      "markers": [
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.apsusc.2020.148056",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "A. Jamnig",
+        "K. Sarakinos"
+      ],
+      "parsed_ca": [
+        "K. Sarakinos"
+      ],
+      "gold_authors": [
+        "A. Jamnig",
+        "N. Pliatsikas",
+        "G. Abadias",
+        "K. Sarakinos"
+      ],
+      "parsed_authors": [
+        "A. Jamnig",
+        "N. Pliatsikas",
+        "G. Abadias",
+        "K. Sarakinos"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.cnsns.2014.02.010",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.6666666666666666,
+        "precision": 1.0,
+        "recall": 0.5
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Mario Amrein",
+        "Thomas P. Wihler"
+      ],
+      "parsed_ca": [
+        "Thomas P. Wihler"
+      ],
+      "gold_authors": [
+        "Mario Amrein",
+        "Thomas P. Wihler"
+      ],
+      "parsed_authors": [
+        "Mario Amrein",
+        "Thomas P. Wihler"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.femsle.2004.05.001",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "SlavomÄ±Ìr BystrickÃ½"
+      ],
+      "parsed_ca": [
+        "Slavomı́r Bystrický"
+      ],
+      "gold_authors": [
+        "SlavomÄ±Ìr BystrickÃ½",
+        "Ema PaulovicovÃ¡",
+        "Eva MachovÃ¡",
+        "Slavomı́r Bystrický"
+      ],
+      "parsed_authors": [
+        "Slavomı́r Bystrický",
+        "Ema Paulovicová",
+        "Eva Machová"
+      ],
+      "markers": [
+        "explicit_correspondence_icon",
+        "correspondence_text",
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.ijsolstr.2006.06.007",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Z. Ounaies"
+      ],
+      "parsed_ca": [
+        "Sang-Joo Kim"
+      ],
+      "gold_authors": [
+        "R.C. Smith",
+        "S. Seelecke",
+        "M. Dapino",
+        "Z. Ounaies",
+        "Sang-Joo Kim"
+      ],
+      "parsed_authors": [
+        "Sang-Joo Kim",
+        "Stefan Seelecke"
+      ],
+      "markers": [
+        "explicit_correspondence_icon",
+        "correspondence_text",
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": "the entire nine-dimensional space. It is enough to describe them only near each local minimum state. This generalization of energy barrier equations seems natural, considering the correspondences between Gibbs energy potentials (2) , (10) and between thermodynamic driving forces (6) , (16) . However, this generalization applies only to 180°-switchings, not to 90°-switchings. We have checked how the values of energy barriers for 90°-switchings change with thermodynamic driving forces using the tw"
+    },
+    {
+      "doi": "10.1016/j.segan.2017.04.001",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.14285714285714288,
+        "precision": 1.0,
+        "recall": 0.07692307692307693
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Andrea Angioni",
+        "Shengye Lu",
+        "Hossein Hooshyar",
+        "Ignasi Cairo",
+        "Sami Repo",
+        "Ferdinanda Ponci",
+        "Davide Della Giustina",
+        "Anna Kulmala",
+        "Alessio Dedè",
+        "Antonello Monti",
+        "Gerard Del Rosario",
+        "Luigi Vanfretti",
+        "Cristina Corchero Garcia"
+      ],
+      "parsed_ca": [
+        "Andrea Angioni"
+      ],
+      "gold_authors": [
+        "Andrea Angioni",
+        "Shengye Lu",
+        "Hossein Hooshyar",
+        "Ignasi Cairo",
+        "Sami Repo",
+        "Ferdinanda Ponci",
+        "Davide Della Giustina",
+        "Anna Kulmala",
+        "Alessio Dedè",
+        "Antonello Monti",
+        "Gerard Del Rosario",
+        "Luigi Vanfretti",
+        "Cristina Corchero Garcia"
+      ],
+      "parsed_authors": [
+        "Andrea Angioni",
+        "Shengye Lu",
+        "Hossein Hooshyar",
+        "Ignasi Cairo",
+        "Sami Repo",
+        "Ferdinanda Ponci",
+        "Davide Della Giustina",
+        "Anna Kulmala",
+        "Alessio Dedè",
+        "Antonello Monti",
+        "Gerard Del Rosario",
+        "Luigi Vanfretti",
+        "Cristina Corchero Garcia"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.3182/20140514-3-fr-4046.00028",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Julia L. Fleck",
+        "Christos G. Cassandras"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Julia L. Fleck",
+        "Christos G. Cassandras"
+      ],
+      "parsed_authors": [
+        "Julia L. Fleck",
+        "Christos G. Cassandras"
+      ],
+      "markers": [
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.oraloncology.2017.06.012",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Matthew Old"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Matthew Old"
+      ],
+      "parsed_authors": [
+        "Matthew Old"
+      ],
+      "markers": [
+        "preloaded_state"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.ridd.2017.10.003",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.5,
+        "precision": 1.0,
+        "recall": 0.3333333333333333
+      },
+      "field_status": "gold_present_parser_present",
+      "gold_ca": [
+        "Hanne Alves Bakke",
+        "Silvia Wanick Sarinho",
+        "Maria Teresa Cattuzzo"
+      ],
+      "parsed_ca": [
+        "Hanne Alves Bakke"
+      ],
+      "gold_authors": [
+        "Hanne Alves Bakke",
+        "Silvia Wanick Sarinho",
+        "Maria Teresa Cattuzzo"
+      ],
+      "parsed_authors": [
+        "Hanne Alves Bakke",
+        "Silvia Wanick Sarinho",
+        "Maria Teresa Cattuzzo"
+      ],
+      "markers": [
+        "correspondence_text",
+        "app_json"
+      ],
+      "owner_guess": "parser_owned_candidate",
+      "evidence_excerpt": ""
+    }
+  ],
+  "hidden_or_gold_samples": [
+    {
+      "doi": "10.1016/s0750-7658(05)80459-9",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "J.J. Bussac"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "V. Chauvet",
+        "J.J. Bussac",
+        "H. Jullian",
+        "I. Juhan-Vague",
+        "A. Branchereau"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.ygyno.2006.02.007",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Kathryn Greven"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Kathryn Greven",
+        "Kathryn Winter",
+        "Kelly Underhill",
+        "Jim Fontenesci",
+        "Jay Cooper",
+        "Tom Burke"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.jjie.2012.11.001",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Shiro Kuwahara"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Shiro Kuwahara"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.jenvman.2025.125558",
+      "host": "sciencedirect.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Venkatachalapathy Natarajan"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "K. Sandhya",
+        "C.K. Sunil",
+        "J.A. Moses",
+        "Mahendran Radhakrishnan",
+        "Venkatachalapathy Natarajan"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.crad.2006.04.001",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "P.G. Hillel"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "P.G. Hillel",
+        "E.J.R. van Beek",
+        "C. Taylor",
+        "E. Lorenz",
+        "N.D.S. Bax",
+        "V. Prakash",
+        "W.B. Tindale"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/s1473-3099(03)00547-4",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Trudie Lang"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Trudie Lang",
+        "Brian Greenwood"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.ejheart.2007.09.006",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Ali El-Armouche",
+        "Thomas Eschenhagen"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Ali El-Armouche",
+        "Fabian Gocht",
+        "Elmar Jaeckel",
+        "Katrin Wittköpper",
+        "Micha Peeck",
+        "Thomas Eschenhagen"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/s0278-2391(99)90090-3",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "James E Zins"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Murat C Türegün",
+        "James E Zins"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/j.cahpu.2020.10.009",
+      "host": "em-consulte.com",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Delphine Morin"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Delphine Morin",
+        "Laure Girard",
+        "Géraldine Vallée",
+        "Kelly-Joyce Doisneau"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    },
+    {
+      "doi": "10.1016/s0196-0644(95)70175-3",
+      "host": "",
+      "score": {
+        "accuracy": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "field_status": "gold_present_parser_empty",
+      "gold_ca": [
+        "Ernest S. Stremski, MD"
+      ],
+      "parsed_ca": [],
+      "gold_authors": [
+        "Ernest S. Stremski, MD",
+        "William B. Brady, MD",
+        "Kris Prasad, MD",
+        "Halim A. Hennes, MD, MS"
+      ],
+      "parsed_authors": [],
+      "markers": [],
+      "owner_guess": "gold_or_hidden_marker",
+      "evidence_excerpt": ""
+    }
+  ]
+}

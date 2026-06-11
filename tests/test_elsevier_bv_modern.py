@@ -218,12 +218,11 @@ def test_parse_modern_unlabeled_single_shared_affiliation():
     assert by_name["Anna Daddi"].is_corresponding is False
 
 
-def test_parse_modern_application_json_is_not_used_without_grounding():
-    """Do not trust app JSON author maps until DOI-grounded.
+def test_parse_modern_application_json_enriches_corresponding_only():
+    """Use app JSON only for narrow CA refs, not affiliations.
 
-    A broad script[type=application/json] fallback improved a focused fixture
-    but regressed the full 10K current-Goldie gate. Keep these payloads as
-    Goldie-backfilled evidence candidates, not parser truth.
+    A broad script[type=application/json] author fallback regressed the full
+    10K current-Goldie gate. The safe path is additive CA flags only.
     """
     soup = BeautifulSoup(MODERN_APP_JSON_AFFILIATIONS, "lxml")
     result = ElsevierBV(soup).parse()
@@ -233,7 +232,8 @@ def test_parse_modern_application_json_is_not_used_without_grounding():
     by_name = {a.name: a for a in authors}
     assert by_name["Janelly Burgos-Pino"].affiliations == []
     assert by_name["Brandon Gual-Orozco"].affiliations == []
-    assert by_name["Brandon Gual-Orozco"].is_corresponding is False
+    assert by_name["Janelly Burgos-Pino"].is_corresponding is False
+    assert by_name["Brandon Gual-Orozco"].is_corresponding is True
 
 
 def test_parse_uses_preloaded_state_not_application_json():
@@ -450,6 +450,60 @@ def test_parse_uppercase_cor_refid_still_detected():
     result = ElsevierBV(soup).parse()
     assert len(result["authors"]) == 1
     assert result["authors"][0].is_corresponding is True
+
+
+def test_preloaded_encoded_email_marks_corresponding_when_no_cor_ref():
+    """ScienceDirect preloaded author JSON can expose CA only through
+    encoded-e-address, with no explicit cor* cross-ref."""
+    html = """
+    <html><body>
+      <div class="author-group">
+        <a class="anchor"><span class="given-name">Marius C</span> <span class="text surname">Vollberg</span></a>
+        <a class="anchor"><span class="given-name">Mina</span> <span class="text surname">Cikara</span></a>
+      </div>
+      <script>window.__PRELOADED_STATE__ = {"authors": {
+        "content": [{"$$": [
+          {"#name":"author","$$":[{"#name":"given-name","_":"Marius C"},{"#name":"surname","_":"Vollberg"}]},
+          {"#name":"author","$$":[{"#name":"given-name","_":"Mina"},{"#name":"surname","_":"Cikara"},{"#name":"encoded-e-address","__encoded":"opaque"}]}
+        ]}],
+        "affiliations": {}
+      }};</script>
+    </body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    by_name = {a.name: a for a in result["authors"]}
+
+    assert by_name["Marius C Vollberg"].is_corresponding is False
+    assert by_name["Mina Cikara"].is_corresponding is True
+
+
+def test_application_json_email_does_not_override_explicit_cor_refs():
+    """When JSON has an explicit cor* cross-ref, emails on other authors are
+    not enough to mark those authors corresponding."""
+    html = """
+    <html><body>
+      <div class="author-group">
+        <a class="anchor"><span class="given-name">Kecheng</span> <span class="text surname">Ji</span></a>
+        <a class="anchor"><span class="given-name">Ming</span> <span class="text surname">Ling</span></a>
+        <a class="anchor"><span class="given-name">Longxing</span> <span class="text surname">Shi</span></a>
+      </div>
+      <script type="application/json">{"authors": {
+        "content": [{"$$": [
+          {"#name":"author","$$":[{"#name":"given-name","_":"Kecheng"},{"#name":"surname","_":"Ji"},{"#name":"encoded-e-address","__encoded":"opaque1"}]},
+          {"#name":"author","$$":[{"#name":"given-name","_":"Ming"},{"#name":"surname","_":"Ling"},{"#name":"cross-ref","$":{"refid":"cor0001"}},{"#name":"encoded-e-address","__encoded":"opaque2"}]},
+          {"#name":"author","$$":[{"#name":"given-name","_":"Longxing"},{"#name":"surname","_":"Shi"},{"#name":"encoded-e-address","__encoded":"opaque3"}]}
+        ]}]
+      }}</script>
+    </body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    by_name = {a.name: a for a in result["authors"]}
+
+    assert by_name["Kecheng Ji"].is_corresponding is False
+    assert by_name["Ming Ling"].is_corresponding is True
+    assert by_name["Longxing Shi"].is_corresponding is False
 
 
 def test_parse_short_citation_abstract_meta_fragment():

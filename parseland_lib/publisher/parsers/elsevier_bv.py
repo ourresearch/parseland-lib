@@ -190,6 +190,8 @@ class ElsevierBV(PublisherParser):
                 if email_ca_map.get(r.name) or email_ca_map.get(surname):
                     r.is_corresponding = True
 
+        self._enrich_corresponding_from_author_json(results)
+
         return results
 
     def _modern_sibling_corresponding_tag_ids(self, author_groups):
@@ -556,6 +558,7 @@ class ElsevierBV(PublisherParser):
             # up. Skipped when the meta path already produced affiliations
             # (institution metas are authoritative when present).
             self._enrich_from_core_author_blocks(author_results)
+            self._enrich_corresponding_from_author_json(author_results)
 
         return {
             "authors": author_results,
@@ -626,6 +629,129 @@ class ElsevierBV(PublisherParser):
                 if surname and surname in ca_text:
                     r.is_corresponding = True
                     break
+
+    @staticmethod
+    def _json_author_entry_has_cor_ref(entry) -> bool:
+        for child in entry.get("$$") or []:
+            if not isinstance(child, dict) or child.get("#name") != "cross-ref":
+                continue
+            refid = ((child.get("$") or {}).get("refid") or "").lower()
+            if refid.startswith("cor"):
+                return True
+        return False
+
+    @staticmethod
+    def _json_author_entry_has_email(entry) -> bool:
+        return any(
+            isinstance(child, dict)
+            and child.get("#name") in {"e-address", "encoded-e-address"}
+            for child in entry.get("$$") or []
+        )
+
+    def _enrich_corresponding_from_author_json(self, results):
+        """Add CA flags from ScienceDirect author JSON only.
+
+        This intentionally does not touch affiliations. A previous broad
+        application/json author-data fallback could regress full-10K
+        affiliation scoring. The remaining safe signal is narrower: top-level
+        ScienceDirect author JSON marks corresponding authors through explicit
+        ``cor*`` cross-refs, or through author email fields when no explicit
+        correspondence cross-ref exists in that author group. Apply this only
+        when the parser found no CA at all; using it to add extra CAs to an
+        already-marked row produced false positives in the full gate.
+        """
+        if not results:
+            return
+        if any(r.is_corresponding for r in results):
+            return
+        mapping = self._author_json_corresponding_map()
+        if not mapping:
+            return
+        for r in results:
+            if r.is_corresponding or not r.name:
+                continue
+            surname = r.name.rsplit(" ", 1)[-1]
+            if mapping.get(r.name) or mapping.get(surname):
+                r.is_corresponding = True
+
+    def _author_json_corresponding_map(self):
+        mapping = {}
+        for data in self._science_direct_author_json_payloads():
+            authors_node = data.get("authors") or {}
+            content = authors_node.get("content")
+            if not isinstance(content, list):
+                continue
+            for author_group in content:
+                if not isinstance(author_group, dict):
+                    continue
+                author_entries = [
+                    entry
+                    for entry in author_group.get("$$") or []
+                    if isinstance(entry, dict) and entry.get("#name") == "author"
+                ]
+                group_has_cor_ref = any(
+                    self._json_author_entry_has_cor_ref(entry)
+                    for entry in author_entries
+                )
+                for entry in author_entries:
+                    if not (
+                        self._json_author_entry_has_cor_ref(entry)
+                        or (
+                            self._json_author_entry_has_email(entry)
+                            and not group_has_cor_ref
+                        )
+                    ):
+                        continue
+                    given = None
+                    surname = None
+                    for child in entry.get("$$") or []:
+                        if not isinstance(child, dict):
+                            continue
+                        if child.get("#name") == "given-name":
+                            given = (child.get("_") or "").strip()
+                        elif child.get("#name") == "surname":
+                            surname = (child.get("_") or "").strip()
+                    if not surname:
+                        continue
+                    full_name = " ".join(
+                        part for part in (given, surname) if part
+                    ).strip()
+                    if full_name:
+                        mapping[full_name] = True
+                    mapping[surname] = True
+        return mapping
+
+    def _science_direct_author_json_payloads(self):
+        try:
+            import json
+            import re
+
+            application_json_payloads = []
+            for script in self.soup.find_all("script"):
+                text = script.string or script.text or ""
+                if "__PRELOADED_STATE__" in text:
+                    m = re.search(
+                        r"__PRELOADED_STATE__\s*=\s*(\{.*?\})\s*;?\s*$",
+                        text,
+                        re.DOTALL,
+                    )
+                    if not m:
+                        continue
+                    yield json.loads(m.group(1))
+                    return
+                script_type = (script.get("type") or "").lower()
+                if script_type != "application/json":
+                    continue
+                stripped = text.strip()
+                if not stripped:
+                    continue
+                data = json.loads(stripped)
+                if isinstance(data, dict):
+                    application_json_payloads.append(data)
+            for data in application_json_payloads:
+                yield data
+        except Exception:
+            return
 
     def _parse_citation_author_meta(self):
         """Read <meta name="citation_author"> and follow with any
