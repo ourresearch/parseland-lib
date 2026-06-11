@@ -66,6 +66,7 @@ ADAPTER_VERSION = "0.2.0"
 
 HTML_CACHE_DIR = REPO_ROOT / "mismatches" / "whole-goldie-cache"
 FIELDS = ("authors", "affiliations", "abstract", "pdf_url", "corresponding")
+SSRN_NO_AFFILIATION = "affiliation not provided to ssrn"
 
 
 def _doi_hash(doi: str) -> str:
@@ -257,7 +258,7 @@ def _author_affiliations(authors: list[Any] | tuple[Any, ...]) -> list[str]:
             else:
                 val = str(item)
             val = val.strip()
-            if val:
+            if val and SSRN_NO_AFFILIATION not in val.lower():
                 out.append(val)
     return out
 

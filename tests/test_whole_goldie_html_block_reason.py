@@ -1,4 +1,4 @@
-from scripts.whole_goldie_eval import _html_block_reason
+from scripts.whole_goldie_eval import _author_affiliations, _html_block_reason
 
 
 def test_loading_only_cache_is_js_render_blocked() -> None:
@@ -84,3 +84,13 @@ def test_unrelated_error_page_is_retrieval_blocked() -> None:
     </html>
     """
     assert _html_block_reason(html) == "cached_error_page"
+
+
+def test_author_affiliations_drops_ssrn_no_affiliation_placeholder() -> None:
+    authors = [
+        {"name": "A", "affiliations": [{"name": "affiliation not provided to SSRN"}]},
+        {"name": "B", "affiliations": [{"name": "Independent - affiliation not provided to SSRN"}]},
+        {"name": "C", "affiliations": [{"name": "University of Florida"}]},
+    ]
+
+    assert _author_affiliations(authors) == ["University of Florida"]

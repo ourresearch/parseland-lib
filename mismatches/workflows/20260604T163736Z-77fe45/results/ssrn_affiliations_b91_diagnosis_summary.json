@@ -1,0 +1,579 @@
+{
+  "actual_kpi_impact": 0.04096450617283942,
+  "classification_counts": {
+    "gold_owned_or_backfilled_candidate": 1,
+    "gold_page_granularity_or_scorer_normalization": 2,
+    "goldie_backfilled_candidate": 3,
+    "parser_owned_real_affiliation_missing": 1,
+    "retrieval_owned": 2,
+    "scorer_owned_ssrn_placeholder_affiliation": 3
+  },
+  "current_kpi": 0.9983333333333333,
+  "diagnosed_rows": 12,
+  "examples_by_classification": {
+    "gold_owned_or_backfilled_candidate": [
+      {
+        "doi": "10.2139/ssrn.4644548",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 2,
+        "low_pair_count": 2,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Kleber Francisco Esposto",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Kleber  Francisco Esposto",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "Bucknell University - Department of Management, Lewisburg, PA 17837, United States"
+            ],
+            "gold_name": "Leandro Bonfim",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "Bucknell University - Department of Management"
+            ],
+            "parsed_name": "Leandro Bonfim",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "Universidade Federal de S\u00e3o Carlos (UFScar), Rodovia Washington Luis, 310, Sao Carlos - SP, Brazil"
+            ],
+            "gold_name": "Moacir Godinho Filho",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "Universidade Federal de S\u00e3o Carlos (UFScar)"
+            ],
+            "parsed_name": "Moacir Godinho Filho",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.0,
+          "f1_fuzzy": 0.5,
+          "f1_soft": 0.5,
+          "pairs_scored": 4
+        }
+      }
+    ],
+    "gold_page_granularity_or_scorer_normalization": [
+      {
+        "doi": "10.2139/ssrn.1156271",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 2,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "Barcelona, Spain"
+            ],
+            "gold_name": "Pilar Sorribas-Navarro",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [
+              "University of Barcelona - Faculty of Economic Science and Business Studies"
+            ],
+            "parsed_name": "Pilar Sorribas-Navarro",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "Gran Via de les Corts Catalanes, 585, Barcelona, 08007, Spain",
+              "Poschinger Str. 5, Munich, DE-81679, Germany"
+            ],
+            "gold_name": "Albert Sole-Olle",
+            "gold_total": 2,
+            "matched": 0,
+            "parsed_affiliations": [
+              "University of Barcelona",
+              "CESifo (Center for Economic Studies and Ifo Institute)"
+            ],
+            "parsed_name": "Albert Sole-Olle",
+            "parsed_total": 2,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.0,
+          "f1_fuzzy": 0.0,
+          "f1_soft": 0.0,
+          "pairs_scored": 2
+        }
+      },
+      {
+        "doi": "10.2139/ssrn.1691581",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 1,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "The Culhane Group, United States"
+            ],
+            "gold_name": "Jann-Marie Culhane",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "The Culhane Group"
+            ],
+            "parsed_name": "Jann-Marie Culhane",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "219C ISOM Building, University of Massachusetts, Amherst, MA 01003-4910, United States"
+            ],
+            "gold_name": "Mzamo P. Mangaliso",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [
+              "University of Massachusetts, Amherst - Isenberg School of Management"
+            ],
+            "parsed_name": "Mzamo P. Mangaliso",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.0,
+          "f1_fuzzy": 0.5,
+          "f1_soft": 0.5,
+          "pairs_scored": 2
+        }
+      }
+    ],
+    "goldie_backfilled_candidate": [
+      {
+        "doi": "10.2139/ssrn.4891740",
+        "field_status": "gold_empty_parser_present",
+        "gold_empty_parser_present_pair_count": 2,
+        "low_pair_count": 2,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Razieh Sadat Neyband",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Razieh Sadat Neyband",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Mohammad Almasi",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Mohammad Almasi",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {}
+      },
+      {
+        "doi": "10.2139/ssrn.4942599",
+        "field_status": "gold_empty_parser_present",
+        "gold_empty_parser_present_pair_count": 8,
+        "low_pair_count": 8,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Wu, Shun-Fan",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Shun-Fan Wu",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Pei, Xinguo",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Xinguo Pei",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Song, Xinyu",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Xinyu Song",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {}
+      },
+      {
+        "doi": "10.2139/ssrn.4895667",
+        "field_status": "gold_empty_parser_present",
+        "gold_empty_parser_present_pair_count": 4,
+        "low_pair_count": 4,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Casey Tompkins",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Casey Tompkins",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Nika Salia",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Nika Salia",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [],
+            "gold_name": "Binlong Li",
+            "gold_total": 0,
+            "matched": 0,
+            "parsed_affiliations": [
+              "Independent  - affiliation not provided to SSRN"
+            ],
+            "parsed_name": "Binlong Li",
+            "parsed_total": 1,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {}
+      }
+    ],
+    "parser_owned_real_affiliation_missing": [
+      {
+        "doi": "10.2139/ssrn.4215073",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 1,
+        "parser_missing_real_pair_count": 1,
+        "placeholder_pair_count": 0,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "Hefei University of Technology, 193 Tunxi Rd, Baohe, Hefei, China"
+            ],
+            "gold_name": "Baocai Xu",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [],
+            "parsed_name": "Baocai Xu",
+            "parsed_total": 0,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "Hefei University of Technology, 193 Tunxi Rd, Baohe, Hefei, China"
+            ],
+            "gold_name": "Hui Zhou",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "Hefei University of Technology"
+            ],
+            "parsed_name": "Hui Zhou",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "Hefei University of Technology, 193 Tunxi Rd, Baohe, Hefei, China"
+            ],
+            "gold_name": "Yong Xie",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "Hefei University of Technology"
+            ],
+            "parsed_name": "Yong Xie",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.125,
+          "f1_fuzzy": 0.875,
+          "f1_soft": 0.875,
+          "pairs_scored": 8
+        }
+      }
+    ],
+    "retrieval_owned": [
+      {
+        "doi": "10.2139/ssrn.6740328",
+        "field_status": "retrieval_blocked",
+        "gold_empty_parser_present_pair_count": null,
+        "low_pair_count": null,
+        "parser_missing_real_pair_count": null,
+        "placeholder_pair_count": null,
+        "retrieval_blocked_reason": "missing",
+        "sample_pairs": [],
+        "score_summary": {}
+      },
+      {
+        "doi": "10.2139/ssrn.5041247",
+        "field_status": "retrieval_blocked",
+        "gold_empty_parser_present_pair_count": null,
+        "low_pair_count": null,
+        "parser_missing_real_pair_count": null,
+        "placeholder_pair_count": null,
+        "retrieval_blocked_reason": "missing",
+        "sample_pairs": [],
+        "score_summary": {}
+      }
+    ],
+    "scorer_owned_ssrn_placeholder_affiliation": [
+      {
+        "doi": "10.2139/ssrn.4035271",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 1,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 1,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "University of Michigan at Ann Arbor - Department of Political Science, Ann Arbor, MI 48109, United States"
+            ],
+            "gold_name": "Allen Hicken",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "University of Michigan at Ann Arbor - Department of Political Science"
+            ],
+            "parsed_name": "Allen Hicken",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "affiliation not provided to SSRN"
+            ],
+            "gold_name": "Wooseok Kim",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [],
+            "parsed_name": "Wooseok Kim",
+            "parsed_total": 0,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.3333333333333333,
+          "f1_fuzzy": 0.6666666666666666,
+          "f1_soft": 0.6666666666666666,
+          "pairs_scored": 3
+        }
+      },
+      {
+        "doi": "10.2139/ssrn.4082641",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 1,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 1,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "affiliation not provided to SSRN"
+            ],
+            "gold_name": "Ying Zhang",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [],
+            "parsed_name": "Ying Zhang",
+            "parsed_total": 0,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.8888888888888888,
+          "f1_fuzzy": 0.8888888888888888,
+          "f1_soft": 0.8888888888888888,
+          "pairs_scored": 9
+        }
+      },
+      {
+        "doi": "10.2139/ssrn.4848323",
+        "field_status": "gold_present_parser_present",
+        "gold_empty_parser_present_pair_count": 0,
+        "low_pair_count": 1,
+        "parser_missing_real_pair_count": 0,
+        "placeholder_pair_count": 1,
+        "retrieval_blocked_reason": null,
+        "sample_pairs": [
+          {
+            "fuzzy_f1": 1.0,
+            "gold_affiliations": [
+              "University of Leuven (KUL), Naamsestraat 69, Leuven, Vlaams Brabant B-3000, Belgium"
+            ],
+            "gold_name": "K. De Witte",
+            "gold_total": 1,
+            "matched": 1,
+            "parsed_affiliations": [
+              "University of Leuven (KUL)"
+            ],
+            "parsed_name": "K. De Witte",
+            "parsed_total": 1,
+            "soft_f1": 1.0,
+            "strict_f1": 0.0
+          },
+          {
+            "fuzzy_f1": 0.0,
+            "gold_affiliations": [
+              "affiliation not provided to SSRN"
+            ],
+            "gold_name": "Hannelore Nelissen",
+            "gold_total": 1,
+            "matched": 0,
+            "parsed_affiliations": [],
+            "parsed_name": "Hannelore Nelissen",
+            "parsed_total": 0,
+            "soft_f1": 0.0,
+            "strict_f1": 0.0
+          }
+        ],
+        "score_summary": {
+          "f1": 0.0,
+          "f1_fuzzy": 0.5,
+          "f1_soft": 0.5,
+          "pairs_scored": 2
+        }
+      }
+    ]
+  },
+  "field": "affiliations",
+  "field_counts": {
+    "empty_empty_pass": 6,
+    "gold_empty_parser_present": 3,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 66,
+    "html_available": 75,
+    "retrieval_blocked": 2,
+    "scored_rows": 72,
+    "total_rows": 77
+  },
+  "field_counts_after": {
+    "empty_empty_pass": 11,
+    "gold_empty_parser_present": 0,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 64,
+    "html_available": 75,
+    "retrieval_blocked": 2,
+    "scored_rows": 75,
+    "total_rows": 77
+  },
+  "gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_affiliations_b91_gate.json",
+  "improved_rows": 6,
+  "previous_kpi": 0.9573688271604939,
+  "publisher_id": "ssrn",
+  "recommendation": "Ship scorer/parser fix, update report 336, then continue to next ranked publisher-field lane.",
+  "regressed_rows": 0,
+  "run_id": "20260604T163736Z-77fe45",
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch89_ssrn_pdf_delivery_equivalence_after.json",
+  "status": "shipped_scorer_parser_fix_above_98_no_regressions",
+  "task_id": "v2_ssrn_affiliations_30c93920"
+}

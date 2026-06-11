@@ -1,0 +1,137 @@
+{
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch91_ssrn_affiliations_detail_after_v2.json",
+  "agent_id": "codex-ssrn-affiliations-b91",
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch89_ssrn_pdf_delivery_equivalence_after.json",
+  "classification": "scorer_owned_placeholder_and_parser_owned_detail_affiliations",
+  "completed_at": "2026-06-11T19:33:11Z",
+  "coverage": {
+    "gold_empty_parser_present_count": 13,
+    "html_available": 75,
+    "per_publisher": {
+      "ssrn": {
+        "html_available": 75,
+        "retrieval_blocked": 2,
+        "scored_rows": 75,
+        "total_rows": 77
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "missing": 2
+    },
+    "retrieval_blocked_rows": 2,
+    "scored_rows": 75,
+    "total_rows": 77
+  },
+  "diagnosis": "SSRN had two current-Goldie affiliation problems: the literal SSRN placeholder \"affiliation not provided to SSRN\" was being treated as a real affiliation, and several pages exposed fuller address-level affiliations only in detailed div.author blocks. The scorer and whole-Goldie empty helper now ignore the placeholder, and the parser uses exact-name matched detail blocks with dedupe so similar names do not leak affiliations.",
+  "diagnosis_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_affiliations_b91_diagnosis.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_affiliations_b91_diagnosis_summary.json"
+  ],
+  "eval_repo_files_touched": [
+    "eval/parseland_eval/score/affiliations.py",
+    "eval/tests/test_affiliations.py"
+  ],
+  "field": "affiliations",
+  "field_counts_after": {
+    "empty_empty_pass": 11,
+    "gold_empty_parser_present": 0,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 64,
+    "html_available": 75,
+    "retrieval_blocked": 2,
+    "scored_rows": 75,
+    "total_rows": 77
+  },
+  "field_counts_before": {
+    "empty_empty_pass": 6,
+    "gold_empty_parser_present": 3,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 66,
+    "html_available": 75,
+    "retrieval_blocked": 2,
+    "scored_rows": 72,
+    "total_rows": 77
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/ssrn.py",
+    "tests/test_ssrn_parser.py",
+    "scripts/whole_goldie_eval.py",
+    "tests/test_whole_goldie_html_block_reason.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_affiliations_b91_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "improved_dois": [
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.0,
+      "delta": 1.0,
+      "doi": "10.2139/ssrn.1156271"
+    },
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.5,
+      "delta": 0.5,
+      "doi": "10.2139/ssrn.1691581"
+    },
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.666667,
+      "delta": 0.333333,
+      "doi": "10.2139/ssrn.4035271"
+    },
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.888889,
+      "delta": 0.111111,
+      "doi": "10.2139/ssrn.4082641"
+    },
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.5,
+      "delta": 0.5,
+      "doi": "10.2139/ssrn.4644548"
+    },
+    {
+      "after_fuzzy_f1": 1.0,
+      "before_fuzzy_f1": 0.5,
+      "delta": 0.5,
+      "doi": "10.2139/ssrn.4848323"
+    }
+  ],
+  "improved_rows": 6,
+  "kpi_after": 0.9983333333333333,
+  "kpi_before": 0.9573688271604939,
+  "kpi_delta": 0.04096450617283942,
+  "publisher_id": "ssrn",
+  "recommendation": "Ship scorer/parser fix, update report 336, then continue to next ranked publisher-field lane.",
+  "regressed_dois": [],
+  "regressed_rows": 0,
+  "residual_explanation": "Scoped SSRN affiliations are above 98%. Remaining non-perfect strict score is mostly format/granularity differences; two rows remain retrieval-blocked because no usable HTML is cached.",
+  "run_id": "20260604T163736Z-77fe45",
+  "scorer_commit": "41d5b7d",
+  "status": "shipped_scorer_parser_fix_above_98_no_regressions",
+  "strict_after": 0.8541005291005291,
+  "strict_before": 0.3816798941798942,
+  "target_kpi": 0.98,
+  "task_id": "v2_ssrn_affiliations_30c93920",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_ssrn_parser.py tests/test_whole_goldie_html_block_reason.py tests/test_parse_page.py tests/test_app_post_parseland.py -q",
+      "result": "37 passed",
+      "status": "passed"
+    },
+    {
+      "command": "eval/.venv/bin/python -m pytest eval/tests/test_affiliations.py -q",
+      "result": "14 passed",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers ssrn --label batch91-ssrn-affiliations-detail-after-v2 --concurrency 8",
+      "result": "affiliations_f1_fuzzy 0.9573688271604939 -> 0.9983333333333333; improved_rows=6; regressed_rows=0; errors=0",
+      "status": "passed"
+    }
+  ]
+}
