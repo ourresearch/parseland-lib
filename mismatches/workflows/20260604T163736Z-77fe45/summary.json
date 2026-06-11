@@ -70,7 +70,8 @@
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
     "shipped_below_98_explainable_residual": 1,
     "above_98": 2,
-    "retrieval_recovered_above_98": 1
+    "retrieval_recovered_above_98": 1,
+    "blocked_clean_shield_current_kpi_flat_ca_regression": 1
   },
   "top_15_priority": [
     {
@@ -560,5 +561,13 @@
     "latest_referee_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_b85_smoke_referee.ndjson",
     "latest_summary_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_elsevier_pdf_b85_smoke_summary.json",
     "updated_at": "2026-06-10T06:37:11Z"
+  },
+  "elsevier_affiliations_b86_state": {
+    "status": "blocked_clean_shield_current_kpi_flat_ca_regression",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_affiliations_b86_safe_app_json_gate.json",
+    "focused_affiliations_delta": 0.0218358838667584,
+    "clean_whole_goldie_affiliations_delta": 1.1102230246251565e-16,
+    "clean_whole_goldie_corresponding_delta": -0.00858518472083497,
+    "updated_at": "2026-06-11T17:28:00.555175+00:00"
   }
 }
