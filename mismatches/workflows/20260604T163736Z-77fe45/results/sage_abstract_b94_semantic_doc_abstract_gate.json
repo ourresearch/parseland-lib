@@ -1,0 +1,99 @@
+{
+  "abstract_changed_rows": 1,
+  "abstract_improved_rows": 1,
+  "abstract_improved_to_pass": 1,
+  "abstract_regressed_rows": 0,
+  "abstract_regressed_to_fail": 0,
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch94_sage_semantic_abstract_after.json",
+  "agent_id": "codex-sage-abstract-residual-b94",
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch94_sage_abstract_residual_before.json",
+  "classification": "parser_owned_narrow_semantic_doc_abstract",
+  "completed_at": "2026-06-11T20:36:54.205191+00:00",
+  "coverage": {
+    "gold_empty_parser_present_count": 235,
+    "html_available": 198,
+    "per_publisher": {
+      "sage": {
+        "html_available": 198,
+        "retrieval_blocked": 2,
+        "scored_rows": 198,
+        "total_rows": 200
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "missing": 2
+    },
+    "retrieval_blocked_rows": 2,
+    "scored_rows": 198,
+    "total_rows": 200
+  },
+  "cross_field_changed_rows": 0,
+  "doi_evidence": [
+    {
+      "doi": "10.1177/00220345660450036601",
+      "field_changes": {
+        "abstract": {
+          "after": 0.998699609882965,
+          "before": 0.0,
+          "delta": 0.998699609882965,
+          "parsed_after": 769,
+          "parsed_before": null,
+          "pass_after": true,
+          "pass_before": false,
+          "status_after": "gold_present_parser_present",
+          "status_before": "gold_present_parser_empty"
+        }
+      }
+    }
+  ],
+  "field": "abstract",
+  "metrics": {
+    "abstract": {
+      "after": 0.9418677982726122,
+      "before": 0.9367982571056936,
+      "delta": 0.005069541166918601,
+      "delta_pp": 0.5069541166918601
+    },
+    "affiliations": {
+      "after": 0.8869822485207101,
+      "before": 0.8869822485207101,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    },
+    "authors": {
+      "after": 1.0,
+      "before": 1.0,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    },
+    "corresponding": {
+      "after": 0.9809782608695652,
+      "before": 0.9809782608695652,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    },
+    "pdf_url": {
+      "after": 0.6351351351351351,
+      "before": 0.6351351351351351,
+      "delta": 0.0,
+      "delta_pp": 0.0
+    }
+  },
+  "publisher_id": "sage",
+  "recommendation": "Ship narrow SAGE semantic doc-abstract fallback. Do not broaden to SAGE Knowledge meta description previews; route remaining SAGE abstract residuals to gold/scorer/retrieval/manual DOM audit.",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_parser_fix_small_lift_no_regressions",
+  "task_id": "v2_sage_abstract_residual_b94",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_sage_abstract.py tests/test_sage_knowledge.py tests/test_parse_page.py tests/test_app_post_parseland.py -q",
+      "result": "25 passed in 2.28s",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers sage --label batch94-sage-semantic-abstract-after --concurrency 8",
+      "result": "abstract_ratio_fuzzy 0.9367982571056936 -> 0.9418677982726122; improved_to_pass=1; regressed_to_fail=0; cross_field_changed_rows=0",
+      "status": "passed"
+    }
+  ]
+}

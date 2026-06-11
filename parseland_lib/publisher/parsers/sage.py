@@ -31,6 +31,21 @@ class Sage(PublisherParser):
             if abs_tag := self.soup.select_one(selector):
                 return abs_tag.text.strip()
 
+        if abs_tag := self.soup.select_one(
+                'section[property="abstract"], section[role="doc-abstract"], '
+                'div[property="abstract"], div[role="doc-abstract"]'):
+            paragraphs = [
+                tag.get_text(" ", strip=True)
+                for tag in abs_tag.select('[role="paragraph"], p')
+                if tag.get_text(" ", strip=True)
+            ]
+            if paragraphs:
+                return '\n'.join(paragraphs)
+
+            text = abs_tag.get_text(" ", strip=True)
+            if text and len(text) > 100:
+                return text
+
         return None
 
     def _make_affiliations_list(self):

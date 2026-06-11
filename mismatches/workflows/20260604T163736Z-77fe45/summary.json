@@ -61,11 +61,11 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 2,
+    "shipped_parser_fix_small_lift_no_regressions": 1,
     "shipped_parser_fix_tiny_lift_residual_explainable": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
-    "shipped_scorer_fix_truncated_gold_prefix": 1,
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
   },
   "classification_counts": {
@@ -149,16 +149,16 @@
     "updated_at": "2026-06-10T06:37:11Z"
   },
   "last_shipped_batch": {
-    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b93_description_meta_gate.json",
-    "batch": 93,
-    "completed_at": "2026-06-11T20:21:30.672865Z",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_abstract_b94_semantic_doc_abstract_gate.json",
+    "batch": 94,
+    "completed_at": "2026-06-11T20:36:54.205191+00:00",
     "field": "abstract",
-    "kpi_after": 0.9300076067328855,
-    "kpi_before": 0.9231874412432834,
-    "publisher_id": "elsevier",
-    "status": "shipped_parser_fix_current_goldie_lift_no_regressions"
+    "kpi_after": 0.9418677982726122,
+    "kpi_before": 0.9367982571056936,
+    "publisher_id": "sage",
+    "status": "shipped_parser_fix_small_lift_no_regressions"
   },
-  "last_updated_at": "2026-06-11T20:21:30.672865Z",
+  "last_updated_at": "2026-06-11T20:36:54.205191+00:00",
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
@@ -212,14 +212,29 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 2,
+    "shipped_parser_fix_small_lift_no_regressions": 1,
     "shipped_parser_fix_tiny_lift_residual_explainable": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
-    "shipped_scorer_fix_truncated_gold_prefix": 1,
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
   },
   "run_id": "batch84-full10k-after-publisher-index-tail-prefixes",
+  "sage_abstract_b94_state": {
+    "after_fuzzy": 0.9418677982726122,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/sage_abstract_b94_semantic_doc_abstract_gate.json",
+    "before_fuzzy": 0.9367982571056936,
+    "completed_at": "2026-06-11T20:36:54.205191+00:00",
+    "cross_field_regressions": 0,
+    "delta": 0.005069541166918601,
+    "improved_rows": 1,
+    "improved_to_pass": 1,
+    "regressed_rows": 0,
+    "regressed_to_fail": 0,
+    "residual": "SAGE abstract remains below 98; remaining residuals are gold/scorer/retrieval/manual-DOM or SAGE Knowledge backfill candidates, not a safe broad parser pattern.",
+    "status": "shipped_parser_fix_small_lift_no_regressions",
+    "tests": "25 focused tests passed; scoped SAGE whole-Goldie passed"
+  },
   "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json",
   "ssrn_abstract_b92_state": {
     "after_fuzzy": 0.9885939758438343,
