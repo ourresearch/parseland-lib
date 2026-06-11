@@ -91,18 +91,18 @@ class ElsevierBV(PublisherParser):
             else:
                 unlabeled_affs.append(text)
 
-        # Each author block contains a span.surname. The enclosing element is
-        # either <a class="anchor"> (e.g. mee.2007.12.032) or <button> (e.g.
-        # clpl.2024.100067). Walking up from each surname gives us the right
-        # author container regardless of layout. Note: data-xocs-content-type
-        # ="author" is unreliable — it sometimes appears only on the
-        # "show all authors" toggle button.
+        # Most author blocks contain a span.surname. Collaboration/group
+        # authors can be text-only (e.g. "TASSO Collaboration" or "Groupe de
+        # travail") inside the same author group and still have
+        # data-xocs-content-type="author". Collect both shapes, but ignore
+        # icon-only sibling buttons by requiring a parseable author name.
         seen = set()
         author_tags = []
         for ag in author_groups:
-            for s in ag.find_all("span", class_="surname"):
-                t = s.find_parent(["button", "a"])
-                if t is not None and id(t) not in seen:
+            for t in ag.find_all(["button", "a"]):
+                if id(t) in seen:
+                    continue
+                if self._modern_author_tag_name(t):
                     seen.add(id(t))
                     author_tags.append(t)
 
@@ -111,15 +111,7 @@ class ElsevierBV(PublisherParser):
         )
 
         for tag in author_tags:
-            surname_el = tag.find("span", class_="surname")
-            if not surname_el:
-                continue
-            given_el = tag.find("span", class_="given-name")
-            name_parts = []
-            if given_el:
-                name_parts.append(given_el.get_text(strip=True))
-            name_parts.append(surname_el.get_text(strip=True))
-            name = " ".join(p for p in name_parts if p).strip()
+            name = self._modern_author_tag_name(tag)
             if not name:
                 continue
 
@@ -193,6 +185,38 @@ class ElsevierBV(PublisherParser):
         self._enrich_corresponding_from_author_json(results)
 
         return results
+
+    @staticmethod
+    def _modern_author_tag_name(tag) -> str:
+        surname_el = tag.find("span", class_="surname")
+        if surname_el:
+            given_el = tag.find("span", class_="given-name")
+            name_parts = []
+            if given_el:
+                name_parts.append(given_el.get_text(strip=True))
+            name_parts.append(surname_el.get_text(strip=True))
+            return " ".join(p for p in name_parts if p).strip()
+
+        # Collaboration/group authors have no given-name/surname spans, but
+        # the visible text still lives in the author link/button. Work on a
+        # copy so removing refs/icons does not mutate the source soup used by
+        # affiliation and corresponding-author logic.
+        clone = BeautifulSoup(str(tag), "lxml")
+        root = clone.find(["button", "a"]) or clone
+        for noisy in root.select(".sr-only, .author-ref, sup, svg"):
+            noisy.decompose()
+        text = root.get_text(" ", strip=True)
+        text = re.sub(r"\s+", " ", text).strip(" ,")
+        if not text:
+            return ""
+        if text.lower() in {
+            "author links open overlay panel",
+            "person",
+            "envelope",
+            "person envelope",
+        }:
+            return ""
+        return text
 
     def _modern_sibling_corresponding_tag_ids(self, author_groups):
         """Map modern Elsevier icon-only sibling buttons to the preceding author.

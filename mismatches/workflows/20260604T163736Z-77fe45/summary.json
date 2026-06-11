@@ -72,7 +72,8 @@
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
     "shipped_below_98_explainable_residual": 1,
     "above_98": 2,
-    "retrieval_recovered_above_98": 1
+    "retrieval_recovered_above_98": 1,
+    "shipped_parser_fix_tiny_lift_residual_explainable": 1
   },
   "top_15_priority": [
     {
@@ -598,7 +599,7 @@
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_corresponding_b88_json_email_gate.json",
     "completed_at": "2026-06-11T18:35:20.169225+00:00"
   },
-  "updated_at": "2026-06-11T18:47:53.610023+00:00",
+  "updated_at": "2026-06-11T19:10:53.318063+00:00",
   "ssrn_pdf_b89_state": {
     "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained",
     "publisher": "ssrn",
@@ -662,6 +663,25 @@
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
     "shipped_below_98_explainable_residual": 1,
     "above_98": 2,
-    "retrieval_recovered_above_98": 1
+    "retrieval_recovered_above_98": 1,
+    "shipped_parser_fix_tiny_lift_residual_explainable": 1
+  },
+  "elsevier_authors_b90_state": {
+    "task_id": "v2_elsevier_authors_2f3d8e26",
+    "status": "shipped_parser_fix_tiny_lift_residual_explainable",
+    "current_kpi_after": 0.9453359657115858,
+    "delta": 0.00019446509135534473,
+    "improved_rows": 2,
+    "regressed_rows": 0,
+    "cross_field_regressions": 0,
+    "residual_classification_counts": {
+      "gold_page_disagreement_or_wrong_landing_page": 12,
+      "page_or_gold_owned_no_author_signal": 11,
+      "partial_mismatch_gold_or_parser_needs_spotcheck": 15,
+      "retrieval_or_router_owned_no_author_signal": 48,
+      "unknown": 2
+    },
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_collaboration_text_gate.json",
+    "completed_at": "2026-06-11T19:10:53.318063+00:00"
   }
 }

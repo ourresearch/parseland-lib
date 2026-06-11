@@ -406,6 +406,58 @@ MODERN_SIBLING_CORRESPONDING_ICON = """
 """
 
 
+MODERN_COLLABORATION_AUTHORS = """
+<html><body>
+<div class="author-group" id="author-group">
+  <span class="sr-only">Author links open overlay panel</span>
+  <button data-xocs-content-type="author">
+    <span class="button-link-text">
+      <span class="react-xocs-alternative-link">
+        <span>Haute Autorité de santé (HAS)</span>
+      </span>
+      <span class="author-ref"><sup>1</sup></span>
+    </span>
+  </button>,
+  <button data-xocs-content-type="author">
+    <span class="button-link-text">
+      <span class="react-xocs-alternative-link">
+        <span>Groupe de travail</span>
+      </span>
+    </span>
+  </button>,
+  <button data-xocs-content-type="author">
+    <span class="button-link-text">
+      <span class="react-xocs-alternative-link">
+        <span class="given-name">Jacques</span> <span class="text surname">Glikman</span>
+      </span>
+      <span class="author-ref"><sup>a</sup></span>
+    </span>
+  </button>
+</div>
+<dl class="affiliation"><dt><sup>a</sup></dt><dd>Paris, France</dd></dl>
+</body></html>
+"""
+
+
+MODERN_COLLABORATION_WITH_ICON_ONLY_SIBLING = """
+<html><body>
+<div class="author-group">
+  <button data-xocs-content-type="author">
+    <span class="button-link-text">
+      <span class="react-xocs-alternative-link"><span>TASSO Collaboration</span></span>
+    </span>
+  </button>
+  <button class="button-link react-xocs-icon-only-link">
+    <svg class="icon icon-envelope" title="Author email or social media contact details icon"></svg>
+  </button>
+  <a class="anchor">
+    <span class="given-name">M.</span> <span class="text surname">Althoff</span>
+  </a>
+</div>
+</body></html>
+"""
+
+
 def test_parse_multiple_author_group_divs_collects_all():
     """Older ScienceDirect reprints (e.g. Phys Lett B 1971, Reference Module
     book chapters) wrap EACH author in their own <div class="author-group">
@@ -428,6 +480,32 @@ def test_parse_modern_sibling_corresponding_icon_marks_preceding_author():
     assert by_name["Chong Lei"].is_corresponding is False
     assert by_name["Michael F. Simpson"].is_corresponding is True
     assert by_name["Anil V. Virkar"].is_corresponding is False
+
+
+def test_parse_modern_text_only_collaboration_authors():
+    """ScienceDirect collaboration/group authors can be text-only buttons
+    without given-name/surname spans. Keep them in order and strip refs."""
+    soup = BeautifulSoup(MODERN_COLLABORATION_AUTHORS, "lxml")
+    result = ElsevierBV(soup).parse()
+    names = [a.name for a in result["authors"]]
+
+    assert names == [
+        "Haute Autorité de santé (HAS)",
+        "Groupe de travail",
+        "Jacques Glikman",
+    ]
+    assert result["authors"][0].affiliations == []
+    assert result["authors"][2].affiliations == ["Paris, France"]
+
+
+def test_parse_modern_collaboration_authors_skips_icon_only_siblings():
+    """Adding text-only collaboration support must not turn icon-only
+    envelope/person controls into fake authors."""
+    soup = BeautifulSoup(MODERN_COLLABORATION_WITH_ICON_ONLY_SIBLING, "lxml")
+    result = ElsevierBV(soup).parse()
+    names = [a.name for a in result["authors"]]
+
+    assert names == ["TASSO Collaboration", "M. Althoff"]
 
 
 def test_parse_uppercase_cor_refid_still_detected():

@@ -1,0 +1,940 @@
+{
+  "classification_counts": {
+    "gold_page_disagreement_or_wrong_landing_page": 12,
+    "page_or_gold_owned_no_author_signal": 11,
+    "partial_mismatch_gold_or_parser_needs_spotcheck": 15,
+    "retrieval_or_router_owned_no_author_signal": 48,
+    "unknown": 2
+  },
+  "examples_by_classification": {
+    "gold_page_disagreement_or_wrong_landing_page": [
+      {
+        "cache_path": "mismatches/whole-goldie-cache/817858fc06c9e6cd8b0d079cf2b7972f68103aae.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/0045653582901990",
+        "classification": "gold_page_disagreement_or_wrong_landing_page",
+        "direct_elsevier_n": 1,
+        "direct_elsevier_names": [
+          "Ernest Merian"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/0045-6535(82)90199-0",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 1,
+        "gold_names": [
+          "Ernest Merian"
+        ],
+        "link": "https://doi.org/10.1016/0045-6535(82)90199-0",
+        "meta_author_sample": [],
+        "no": "915",
+        "og_url": "",
+        "parsed_n": 1,
+        "parsed_names": [
+          "D.P.H. Laxen"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 1,
+          "surname_spans": 1
+        },
+        "surname_sample": [
+          "Merian"
+        ],
+        "title": "Lead, pollution and control: By R.M. Harrison and D.P.H. Laxen, University of Lancaster, U.K., 168 pages (including 51 figures, 72 tables, and an index of three pages), hardback, f"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/9ea9b801d70082cb48de7b66d196249718cb6497.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/B9781416033707000493",
+        "classification": "gold_page_disagreement_or_wrong_landing_page",
+        "direct_elsevier_n": 1,
+        "direct_elsevier_names": [
+          "Ludwik S. Szymanski"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/b978-1-4160-3370-7.00049-3",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 1,
+        "gold_names": [
+          "Mashunin Yu. K."
+        ],
+        "link": "https://doi.org/10.1016/b978-1-4160-3370-7.00049-3",
+        "meta_author_sample": [],
+        "no": "4420",
+        "og_url": "",
+        "parsed_n": 1,
+        "parsed_names": [
+          "Ludwik S. Szymanski"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 1,
+          "surname_spans": 1
+        },
+        "surname_sample": [
+          "Szymanski"
+        ],
+        "title": "BEHAVIORAL CHALLENGES AND MENTAL DISORDERS IN CHILDREN AND ADOLESCENTS WITH INTELLECTUAL DISABILITY - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/9f222b305330ced0ed8b99ba2733b2b5d4782da8.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/pii/S1110016817301606",
+        "classification": "gold_page_disagreement_or_wrong_landing_page",
+        "direct_elsevier_n": 1,
+        "direct_elsevier_names": [
+          "Mounir Mahmoud Moghazy Abdel-Aal"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.aej.2017.04.016",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 3,
+        "gold_names": [
+          "Hossam Abdelgawad",
+          "Constantinos Antoniou",
+          "Baher Abdulhai"
+        ],
+        "link": "https://doi.org/10.1016/j.aej.2017.04.016",
+        "meta_author_sample": [],
+        "no": "2112",
+        "og_url": "",
+        "parsed_n": 1,
+        "parsed_names": [
+          "Mounir Mahmoud Moghazy Abdel-Aal"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 1
+        },
+        "surname_sample": [
+          "Abdel-Aal"
+        ],
+        "title": "Value of time determination for the city of Alexandria based on a disaggregate binary mode choice model - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/deee50875aeab3e0dcfd05e7779ef6278a1add30.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/pii/S0166218X04002896",
+        "classification": "gold_page_disagreement_or_wrong_landing_page",
+        "direct_elsevier_n": 3,
+        "direct_elsevier_names": [
+          "Christian Gla\u00dfer",
+          "Steffen Reith",
+          "Heribert Vollmer"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.dam.2004.07.005",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 3,
+        "gold_names": [
+          "Edith Elkind",
+          "Leslie Ann Goldberg",
+          "Paul W. Goldberg"
+        ],
+        "link": "https://doi.org/10.1016/j.dam.2004.07.005",
+        "meta_author_sample": [],
+        "no": "6613",
+        "og_url": "",
+        "parsed_n": 3,
+        "parsed_names": [
+          "Christian Gla\u00dfer",
+          "Steffen Reith",
+          "Heribert Vollmer"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 3
+        },
+        "surname_sample": [
+          "Gla\u00dfer",
+          "Reith",
+          "Vollmer"
+        ],
+        "title": "The complexity of base station positioning in cellular networks - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/1e731d0b55e114be8e1db2edc1da3c25fe1ba157.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/pii/S0011916424008014",
+        "classification": "gold_page_disagreement_or_wrong_landing_page",
+        "direct_elsevier_n": 2,
+        "direct_elsevier_names": [
+          "Allan Soo",
+          "Ho Kyong Shon"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.desal.2024.118090",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 2,
+        "gold_names": [
+          "Prathap Kumar Kore",
+          "Senthilmurugan Subbiah"
+        ],
+        "link": "https://doi.org/10.1016/j.desal.2024.118090",
+        "meta_author_sample": [],
+        "no": "9620",
+        "og_url": "",
+        "parsed_n": 2,
+        "parsed_names": [
+          "Allan Soo",
+          "Ho Kyong Shon"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 2
+        },
+        "surname_sample": [
+          "Soo",
+          "Shon"
+        ],
+        "title": "A nutrient circular economy framework for wastewater treatment plants - ScienceDirect"
+      }
+    ],
+    "page_or_gold_owned_no_author_signal": [
+      {
+        "cache_path": "mismatches/whole-goldie-cache/89e5c71893f3e6d02ff42ced4570ec73c7ff37ca.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/0013469481924196",
+        "classification": "page_or_gold_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0013-4694(81)92419-6",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 2,
+        "gold_names": [
+          "Y. Matsue",
+          "T. Okuma"
+        ],
+        "link": "https://doi.org/10.1016/0013-4694(81)92419-6",
+        "meta_author_sample": [],
+        "no": "8213",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "A study of smooth pursuit eye movements in schizophrenics. Staircase pattern induced by a flickering light spot as a tracking target : Y. Matsue and T. Okuma (Sendai, Japan) - Scie"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/71c82ebbf15742969d957ad2f2aa282ebef0b1bc.html",
+        "canonical_host": "lungcancerjournal.info",
+        "canonical_url": "https://www.lungcancerjournal.info/article/0169-5002(95)90532-4/abstract",
+        "classification": "page_or_gold_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0169-5002(95)90532-4",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 3,
+        "gold_names": [
+          "N Macrez-Lepr\u00eatre",
+          "J L Morel",
+          "J Mironneau"
+        ],
+        "link": "https://doi.org/10.1016/0169-5002(95)90532-4",
+        "meta_author_sample": [],
+        "no": "1017",
+        "og_url": "https://www.lungcancerjournal.info/article/0169-5002(95)90532-4/abstract",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "High frequency of K-ras mutations in spontaneous and vinyl carbamate-induced lung tumors of relatively resistant B6CF1 ( C57BL 6J x BALC cJ) mice - Lung Cancer"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/f246ffd5b26f5f0c641627451f94f3101eb27ef8.html",
+        "canonical_host": "academic.oup.com",
+        "canonical_url": "https://academic.oup.com/ejcts/article-abstract/7/2/91/475591",
+        "classification": "page_or_gold_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/1010-7940(93)90187-g",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 5,
+        "gold_names": [
+          "J. Pym",
+          "P. M. Brown",
+          "F. Charrette",
+          "D. J. Parker",
+          "P. R. Charette"
+        ],
+        "link": "https://doi.org/10.1016/1010-7940(93)90187-g",
+        "meta_author_sample": [],
+        "no": "2111",
+        "og_url": "https://academic.oup.com/ejcts/article/7/2/91/475591",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Total arterial myocardial revascularization | European Journal of Cardio-Thoracic Surgery | Oxford Academic"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/b24bfab401f54102d6815038190f60492678b072.html",
+        "canonical_host": "em-consulte.com",
+        "canonical_url": "https://www.em-consulte.com/article/886876/l-accompagnement-a-l-emmaillotage-en-pmi",
+        "classification": "page_or_gold_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/j.cahpu.2014.02.006",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 1,
+        "gold_names": [
+          "Anne Lucas"
+        ],
+        "link": "https://doi.org/10.1016/j.cahpu.2014.02.006",
+        "meta_author_sample": [],
+        "no": "9825",
+        "og_url": "https://www.em-consulte.com/article/886876/alertePM",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "L\u2019accompagnement \u00e0 l\u2019emmaillotage en PMI - EM consulte"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/1b3c06be30be8ed03d593df292b4dc329b1002dc.html",
+        "canonical_host": "em-consulte.com",
+        "canonical_url": "https://www.em-consulte.com/article/1415133/une-chambre-des-erreurs-en\u00a0reanimation-et-en-medec",
+        "classification": "page_or_gold_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/j.cahpu.2020.10.009",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 4,
+        "gold_names": [
+          "Delphine Morin",
+          "Laure Girard",
+          "G\u00e9raldine Vall\u00e9e",
+          "Kelly-Joyce Doisneau"
+        ],
+        "link": "https://doi.org/10.1016/j.cahpu.2020.10.009",
+        "meta_author_sample": [],
+        "no": "8621",
+        "og_url": "https://www.em-consulte.com/article/1415133/alertePM",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Une chambre des erreurs en r\u00e9animation et en m\u00e9decine n\u00e9onatales - EM consulte"
+      }
+    ],
+    "partial_mismatch_gold_or_parser_needs_spotcheck": [
+      {
+        "cache_path": "mismatches/whole-goldie-cache/482c04eef8aa27521da36bcc9e5957079dbd23b7.html",
+        "canonical_host": "arthroscopytechniques.org",
+        "canonical_url": "",
+        "classification": "partial_mismatch_gold_or_parser_needs_spotcheck",
+        "direct_elsevier_n": 6,
+        "direct_elsevier_names": [
+          "Renato Locks, M.D.",
+          "Hajime Utsunomiya, M.D., Ph.D.",
+          "Ioanna Bolia, M.D., M.Sc.",
+          "Sandeep Mannava, M.D., Ph.D.",
+          "Jorge Chahla, M.D.",
+          "Marc J. Philippon, M.D."
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.eats.2017.03.016",
+        "f1_soft": 0.2857142857142857,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 1,
+        "gold_names": [
+          "Locks, Ryan"
+        ],
+        "link": "https://doi.org/10.1016/j.eats.2017.03.016",
+        "meta_author_sample": [
+          "Renato Locks",
+          "Hajime Utsunomiya",
+          "Ioanna Bolia",
+          "Sandeep Mannava",
+          "Jorge Chahla",
+          "Marc J. Philippon"
+        ],
+        "no": "819",
+        "og_url": "https://www.arthroscopytechniques.org/article/S2212-6287(17)30076-2/abstract",
+        "parsed_n": 6,
+        "parsed_names": [
+          "Renato Locks, M.D.",
+          "Hajime Utsunomiya, M.D., Ph.D.",
+          "Ioanna Bolia, M.D., M.Sc.",
+          "Sandeep Mannava, M.D., Ph.D.",
+          "Jorge Chahla, M.D.",
+          "Marc J. Philippon, M.D."
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 6,
+          "meta_citation_author": 6,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Arthroscopic Focal Subspinal Decompression and Management of Pincer-Type Femoroacetabular Impingement - Arthroscopy Techniques"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/2357052e0fc22884003489ee1718f9f7b55e9cfa.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/S0362546X07000041",
+        "classification": "partial_mismatch_gold_or_parser_needs_spotcheck",
+        "direct_elsevier_n": 1,
+        "direct_elsevier_names": [
+          "Xingwen Liu"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.na.2006.12.029",
+        "f1_soft": 0.5,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 3,
+        "gold_names": [
+          "Yong-Yan Cao",
+          "James Lam",
+          "Xingwen Liu"
+        ],
+        "link": "https://doi.org/10.1016/j.na.2006.12.029",
+        "meta_author_sample": [],
+        "no": "5717",
+        "og_url": "",
+        "parsed_n": 1,
+        "parsed_names": [
+          "Xingwen Liu"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 1
+        },
+        "surname_sample": [
+          "Liu"
+        ],
+        "title": "Delay-dependent H\u221e control for uncertain fuzzy systems with time-varying delays - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/2313db2ae6b9ab17a4fd00c7b36bf4a97f677abf.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/pii/S0020768306002150",
+        "classification": "partial_mismatch_gold_or_parser_needs_spotcheck",
+        "direct_elsevier_n": 2,
+        "direct_elsevier_names": [
+          "Sang-Joo Kim",
+          "Stefan Seelecke"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.ijsolstr.2006.06.007",
+        "f1_soft": 0.5714285714285715,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 5,
+        "gold_names": [
+          "R.C. Smith",
+          "S. Seelecke",
+          "M. Dapino",
+          "Z. Ounaies",
+          "Sang-Joo Kim"
+        ],
+        "link": "https://doi.org/10.1016/j.ijsolstr.2006.06.007",
+        "meta_author_sample": [],
+        "no": "522",
+        "og_url": "",
+        "parsed_n": 2,
+        "parsed_names": [
+          "Sang-Joo Kim",
+          "Stefan Seelecke"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 2
+        },
+        "surname_sample": [
+          "Kim",
+          "Seelecke"
+        ],
+        "title": "A rate-dependent three-dimensional free energy model for ferroelectric single crystals - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/4fb606cfbb86efe581ffdea377a9a2a27bd26236.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/S0378375813001602",
+        "classification": "partial_mismatch_gold_or_parser_needs_spotcheck",
+        "direct_elsevier_n": 2,
+        "direct_elsevier_names": [
+          "Woojoo Lee",
+          "Youngjo Lee"
+        ],
+        "direct_error": null,
+        "doi": "10.1016/j.jspi.2013.07.007",
+        "f1_soft": 0.5714285714285715,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 5,
+        "gold_names": [
+          "Xuecheng Liu",
+          "Fei Tan",
+          "Lijian Yang",
+          "Woojoo Lee",
+          "Youngjo Lee"
+        ],
+        "link": "https://doi.org/10.1016/j.jspi.2013.07.007",
+        "meta_author_sample": [],
+        "no": "20",
+        "og_url": "",
+        "parsed_n": 2,
+        "parsed_names": [
+          "Woojoo Lee",
+          "Youngjo Lee"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": true,
+          "script_authors": 1,
+          "surname_spans": 2
+        },
+        "surname_sample": [
+          "Lee",
+          "Lee"
+        ],
+        "title": "Random-effect models with singular precision - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/c6bbc44a437905cef6a2611b400f8de64aa09cb3.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/0013748068900946",
+        "classification": "partial_mismatch_gold_or_parser_needs_spotcheck",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0013-7480(68)90094-6",
+        "f1_soft": 0.6666666666666666,
+        "field_status": "gold_present_parser_present",
+        "gold_n": 2,
+        "gold_names": [
+          "J. Randall",
+          "R. A. Kenyon"
+        ],
+        "link": "https://doi.org/10.1016/0013-7480(68)90094-6",
+        "meta_author_sample": [],
+        "no": "7021",
+        "og_url": "",
+        "parsed_n": 1,
+        "parsed_names": [
+          "R. A. Kenyon"
+        ],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 1,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Plasma thermocouple figure of merit based on a semiconductor thermocouple analogy : J. Randall and R. A. Kenyon, Cornell University, Room 218, Upson Hall, Ithaca, New York, U.S.A. "
+      }
+    ],
+    "retrieval_or_router_owned_no_author_signal": [
+      {
+        "cache_path": "mismatches/whole-goldie-cache/54a301ec9d7ada0780134154f0041a1e2ead7210.html",
+        "canonical_host": "",
+        "canonical_url": "",
+        "classification": "retrieval_or_router_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0005-2728(96)00008-4",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 4,
+        "gold_names": [
+          "M. Canton",
+          "F. Gennari",
+          "S. Luvisetto",
+          "G.F. Azzone"
+        ],
+        "link": "https://doi.org/10.1016/0005-2728(96)00008-4",
+        "meta_author_sample": [],
+        "no": "1013",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Redirecting"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/f476a64bfcb041af3a797a2e8f0fcdb15cc452fe.html",
+        "canonical_host": "",
+        "canonical_url": "",
+        "classification": "retrieval_or_router_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0006-8993(82)90049-x",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 6,
+        "gold_names": [
+          "V.E. Nahmod",
+          "Mar\u00eda S. Balda",
+          "C.J. Pirola",
+          "S. Finkielman",
+          "P.V. Gejman",
+          "D.P. Cardinali"
+        ],
+        "link": "https://doi.org/10.1016/0006-8993(82)90049-x",
+        "meta_author_sample": [],
+        "no": "9515",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Redirecting"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/51f9c6f469b2f3f2a9608c0e1ea52e50c87ed1b4.html",
+        "canonical_host": "",
+        "canonical_url": "",
+        "classification": "retrieval_or_router_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0008-6223(93)90006-v",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 3,
+        "gold_names": [
+          "Munehiro Ishioka",
+          "Toshihiko Okada",
+          "Kenji Matsubara"
+        ],
+        "link": "https://doi.org/10.1016/0008-6223(93)90006-v",
+        "meta_author_sample": [],
+        "no": "1014",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Redirecting"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/5b2000ae06884e1de963a4558b9ffbbdbf97a163.html",
+        "canonical_host": "",
+        "canonical_url": "",
+        "classification": "retrieval_or_router_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0013-4686(80)87057-5",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 3,
+        "gold_names": [
+          "A. Bhattacharyya",
+          "A.K. Maandal",
+          "S.C. Lahiri"
+        ],
+        "link": "https://doi.org/10.1016/0013-4686(80)87057-5",
+        "meta_author_sample": [],
+        "no": "7020",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Redirecting"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/ce29fb4020fc8915c0a570a63e5626c7208b28b7.html",
+        "canonical_host": "",
+        "canonical_url": "",
+        "classification": "retrieval_or_router_owned_no_author_signal",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0021-8693(89)90176-2",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 1,
+        "gold_names": [
+          "Andrzej Daszkiewicz"
+        ],
+        "link": "https://doi.org/10.1016/0021-8693(89)90176-2",
+        "meta_author_sample": [],
+        "no": "7022",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 0,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 0,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Redirecting"
+      }
+    ],
+    "unknown": [
+      {
+        "cache_path": "mismatches/whole-goldie-cache/d9e2fd65d41d26cf8875e91f83d29929caaaea88.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/abs/pii/0167923687901072",
+        "classification": "unknown",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/0167-9236(87)90107-2",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 1,
+        "gold_names": [
+          "Robert B. Allen"
+        ],
+        "link": "https://doi.org/10.1016/0167-9236(87)90107-2",
+        "meta_author_sample": [],
+        "no": "6215",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 1,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Selecting articles from an electronic newspaper: Some limitations of user models: Robert B. Allen - ScienceDirect"
+      },
+      {
+        "cache_path": "mismatches/whole-goldie-cache/d2b0c72aa999868a2236f7aadab5d172aab6e71c.html",
+        "canonical_host": "sciencedirect.com",
+        "canonical_url": "https://www.sciencedirect.com/science/article/pii/B978012394597609995X",
+        "classification": "unknown",
+        "direct_elsevier_n": 0,
+        "direct_elsevier_names": [],
+        "direct_error": null,
+        "doi": "10.1016/b978-0-12-394597-6.09995-x",
+        "f1_soft": 0.0,
+        "field_status": "gold_present_parser_empty",
+        "gold_n": 14,
+        "gold_names": [
+          "So\u0148a \u0160krov\u00e1nkov\u00e1",
+          "Jarmila Ambro\u017eov\u00e1",
+          "Elke K. Arendt",
+          "Dr Regina Belski",
+          "Susana Buxaderas",
+          "Aidan Coffey",
+          "Mohamed F. Jeebhay",
+          "Elvira L\u00f3pez-Tamames",
+          "Andreas L. Lopata",
+          "Ludmila Mach\u016f",
+          "Ladislava Mi\u0161urcov\u00e1",
+          "Agata M. Pawlowska",
+          "Du\u0161an Samek",
+          "Emanuele Zannini"
+        ],
+        "link": "https://doi.org/10.1016/b978-0-12-394597-6.09995-x",
+        "meta_author_sample": [],
+        "no": "8421",
+        "og_url": "",
+        "parsed_n": 0,
+        "parsed_names": [],
+        "selector_counts": {
+          "a_author_name": 0,
+          "author_groups": 1,
+          "core_author_affiliations": 0,
+          "li_author": 0,
+          "meta_citation_author": 0,
+          "preloaded_state": false,
+          "script_authors": 1,
+          "surname_spans": 0
+        },
+        "surname_sample": [],
+        "title": "Contributors - ScienceDirect"
+      }
+    ]
+  },
+  "field": "authors",
+  "publisher_id": "elsevier",
+  "recommendation": "Spot-check parser_or_dispatch_owned and parser_owned_partial_author_extraction_possible rows; avoid broad fallback on gold/page disagreement and no-author-signal router pages.",
+  "residual_rows": 88,
+  "run_id": "20260604T163736Z-77fe45",
+  "selector_presence_by_classification": {
+    "gold_page_disagreement_or_wrong_landing_page": {
+      "a_author_name": 1,
+      "author_groups": 11,
+      "meta_citation_author": 1,
+      "preloaded_state": 8,
+      "script_authors": 11,
+      "surname_spans": 11
+    },
+    "page_or_gold_owned_no_author_signal": {
+      "preloaded_state": 3,
+      "script_authors": 3
+    },
+    "partial_mismatch_gold_or_parser_needs_spotcheck": {
+      "author_groups": 12,
+      "core_author_affiliations": 1,
+      "li_author": 1,
+      "meta_citation_author": 2,
+      "preloaded_state": 7,
+      "script_authors": 12,
+      "surname_spans": 9
+    },
+    "unknown": {
+      "author_groups": 2,
+      "script_authors": 2
+    }
+  },
+  "source_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch88_elsevier_corresponding_json_email_after_v2.json",
+  "task_id": "v2_elsevier_authors_2f3d8e26"
+}

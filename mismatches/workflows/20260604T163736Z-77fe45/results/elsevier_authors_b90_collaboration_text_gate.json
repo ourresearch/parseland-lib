@@ -1,0 +1,141 @@
+{
+  "actual_kpi_impact": 0.00019446509135534473,
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch90_elsevier_authors_collaboration_text_after.json",
+  "agent_id": "codex-elsevier-authors-b90",
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_collaboration_text_gate.json",
+  "batch": 90,
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch88_elsevier_corresponding_json_email_after_v2.json",
+  "classification": "parser_owned_text_only_collaboration_authors",
+  "completed_at": "2026-06-11T19:10:53.318063+00:00",
+  "coverage": {
+    "gold_empty_parser_present_count": 1020,
+    "html_available": 1412,
+    "per_publisher": {
+      "elsevier": {
+        "html_available": 1412,
+        "retrieval_blocked": 75,
+        "scored_rows": 1412,
+        "total_rows": 1487
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "cached_bot_check": 3,
+      "cached_pdf": 21,
+      "cached_too_small": 38,
+      "missing": 13
+    },
+    "retrieval_blocked_rows": 75,
+    "scored_rows": 1412,
+    "total_rows": 1487
+  },
+  "diagnosis": "Elsevier modern author groups can include text-only collaboration/group author buttons without given-name/surname spans. The parser now keeps those as authors while still rejecting icon-only sibling controls.",
+  "diagnosis_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_diagnosis_summary.json",
+  "diagnosis_summary": {
+    "classification_counts": {
+      "gold_page_disagreement_or_wrong_landing_page": 12,
+      "page_or_gold_owned_no_author_signal": 11,
+      "partial_mismatch_gold_or_parser_needs_spotcheck": 15,
+      "retrieval_or_router_owned_no_author_signal": 48,
+      "unknown": 2
+    },
+    "recommendation": "Spot-check parser_or_dispatch_owned and parser_owned_partial_author_extraction_possible rows; avoid broad fallback on gold/page disagreement and no-author-signal router pages.",
+    "residual_rows": 88
+  },
+  "field": "authors",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "tests/test_elsevier_bv_modern.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_collaboration_text_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_diagnosis_summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_diagnosis.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "improved_rows": [
+    {
+      "after_f1_soft": 1.0,
+      "after_parsed_n_authors": 5,
+      "before_f1_soft": 0.7499999999999999,
+      "before_parsed_n_authors": 3,
+      "doi": "10.1016/j.amp.2023.08.005",
+      "gold_n_authors": 5
+    },
+    {
+      "after_f1_soft": 1.0,
+      "after_parsed_n_authors": 21,
+      "before_f1_soft": 0.975609756097561,
+      "before_parsed_n_authors": 20,
+      "doi": "10.1016/0370-2693(83)91176-0",
+      "gold_n_authors": 21
+    }
+  ],
+  "metric_deltas": {
+    "abstract_present_rate": {
+      "after": 0.7004249291784702,
+      "before": 0.7004249291784702,
+      "delta": 0.0
+    },
+    "abstract_ratio_fuzzy": {
+      "after": 0.9231874412432834,
+      "before": 0.9231874412432837,
+      "delta": -2.220446049250313e-16
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.8495797546144768,
+      "before": 0.8495797546144768,
+      "delta": 0.0
+    },
+    "affiliations_f1_strict": {
+      "after": 0.7333860260943593,
+      "before": 0.7333860260943593,
+      "delta": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.9453359657115858,
+      "before": 0.9451415006202305,
+      "delta": 0.00019446509135534473
+    },
+    "authors_f1_strict": {
+      "after": 0.9303034010245207,
+      "before": 0.9301089359331653,
+      "delta": 0.00019446509135534473
+    },
+    "corresponding_accuracy": {
+      "after": 0.9587278278908236,
+      "before": 0.9587278278908236,
+      "delta": 0.0
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9182509505703422,
+      "before": 0.9182509505703422,
+      "delta": 0.0
+    }
+  },
+  "publisher_id": "elsevier",
+  "recommendation": "Ship tiny parser-owned collaboration author fix; route remaining Elsevier author residuals to retrieval/router recovery, gold-auditor review, or manual DOM investigation before another parser edit.",
+  "regressed_rows": [],
+  "regressions": [],
+  "residual_explanation": "Remaining Elsevier author gap is mostly retrieval/router-owned rows with no usable author signal, page/gold landing-page disagreement, or small manual spot-check cases; no broad parser-empty-with-author-signal cluster remains in the current diagnosis.",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_parser_fix_tiny_lift_residual_explainable",
+  "task_id": "v2_elsevier_authors_2f3d8e26",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_elsevier_bv_modern.py -q",
+      "result": "20 passed in 0.11s",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_parse_page.py tests/test_app_post_parseland.py tests/test_elsevier_bv_modern.py -q",
+      "result": "42 passed in 0.30s",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers elsevier --label batch90-elsevier-authors-collaboration-text-after --concurrency 8",
+      "result": "authors_f1_soft 0.945141500620 -> 0.945335965712; improved_rows=2; regressed_rows=0; cross_field_regressions=0",
+      "status": "passed"
+    }
+  ]
+}
