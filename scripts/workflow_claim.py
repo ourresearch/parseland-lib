@@ -32,6 +32,7 @@ CLAIMABLE_STATUSES = {
     "",
     "queued",
     "needs_agent",
+    "onboarding",
     "goldie_backfill_pending",
     "goldie_backfilled_needed",
     "above_98_with_backfill_pending",
