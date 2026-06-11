@@ -1,0 +1,52 @@
+{
+  "task_id": "v2_elsevier_abstract_1bd46b76",
+  "agent_id": "codex-elsevier-abstract-b87",
+  "publisher_id": "elsevier",
+  "field": "abstract",
+  "miss_count": 160,
+  "categories": {
+    "gold_present_on_page_parser_wrong_block": 14,
+    "parser_empty": 85,
+    "noisy_long": 56,
+    "gold_prefix_not_on_cached_page": 4,
+    "truncated": 1
+  },
+  "selector_totals": {
+    "div.abstract.author": {
+      "gold_present_on_page_parser_wrong_block": 13,
+      "noisy_long": 12,
+      "gold_prefix_not_on_cached_page": 4,
+      "parser_empty": 1,
+      "truncated": 1
+    },
+    ".abstracts": {
+      "gold_present_on_page_parser_wrong_block": 3,
+      "noisy_long": 1,
+      "gold_prefix_not_on_cached_page": 2
+    },
+    "h2_Abstract": {
+      "gold_present_on_page_parser_wrong_block": 13,
+      "noisy_long": 12,
+      "parser_empty": 8,
+      "gold_prefix_not_on_cached_page": 4,
+      "truncated": 1
+    },
+    "section.abstract": {
+      "noisy_long": 1,
+      "parser_empty": 1
+    },
+    "citation_abstract": {
+      "noisy_long": 43,
+      "parser_empty": 9,
+      "gold_present_on_page_parser_wrong_block": 1
+    },
+    "div.Abstracts": {
+      "gold_present_on_page_parser_wrong_block": 10,
+      "noisy_long": 11,
+      "gold_prefix_not_on_cached_page": 2,
+      "parser_empty": 1,
+      "truncated": 1
+    }
+  },
+  "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b87_diagnosis.ndjson"
+}

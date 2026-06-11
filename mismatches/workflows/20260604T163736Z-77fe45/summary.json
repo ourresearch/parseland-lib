@@ -26,13 +26,15 @@
     "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved": 1,
     "goldie_backfill_referee_complete_241_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_323_approved_5_blocked": 1,
-    "needs_agent": 4,
+    "blocked_clean_shield_current_kpi_flat_ca_regression": 1,
     "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted": 1,
     "blocked_pdf_candidate_urls_not_grounded": 1,
     "blocked_explainable_current_goldie_residual_below_98": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
     "goldie_backfill_referee_complete_3_approved_35_blocked": 1,
+    "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
+    "needs_agent": 2,
     "onboarding": 4,
     "goldie_backfill_referee_complete_54_approved_2_blocked_current_goldie_low_gold_owned_retrieval_blocked": 1,
     "shipped_full10k_measured": 12,
@@ -70,8 +72,7 @@
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
     "shipped_below_98_explainable_residual": 1,
     "above_98": 2,
-    "retrieval_recovered_above_98": 1,
-    "blocked_clean_shield_current_kpi_flat_ca_regression": 1
+    "retrieval_recovered_above_98": 1
   },
   "top_15_priority": [
     {
@@ -569,5 +570,15 @@
     "clean_whole_goldie_affiliations_delta": 1.1102230246251565e-16,
     "clean_whole_goldie_corresponding_delta": -0.00858518472083497,
     "updated_at": "2026-06-11T17:28:00.555175+00:00"
+  },
+  "last_updated_at": "2026-06-11T17:56:12.624554+00:00",
+  "elsevier_abstract_b87_state": {
+    "status": "shipped_parser_fix_current_goldie_lift_no_regressions",
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b87_citation_meta_gate.json",
+    "abstract_ratio_fuzzy_before": 0.9164722742292797,
+    "abstract_ratio_fuzzy_after": 0.9231874412432837,
+    "abstract_ratio_fuzzy_delta": 0.0067151670140039865,
+    "improved_to_pass": 18,
+    "regressed_to_fail": 0
   }
 }

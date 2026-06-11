@@ -1,0 +1,171 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "task_id": "v2_elsevier_abstract_1bd46b76",
+  "agent_id": "codex-elsevier-abstract-b87",
+  "publisher_id": "elsevier",
+  "field": "abstract",
+  "classification": "shipped_parser_fix_current_goldie_lift_no_regressions",
+  "status": "passed",
+  "created_at": "2026-06-11T17:56:12.624554+00:00",
+  "diagnosis": "Elsevier journal-portal pages often expose the clean abstract in citation_abstract while article__sections includes noisy body/reference text. Prefer citation_abstract before article section extraction for ElsevierBV.",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "tests/test_elsevier_bv_modern.py"
+  ],
+  "diagnosis_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b87_diagnosis_summary.json",
+  "focused_gate_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b87_focused_gate.json",
+  "whole_goldie_before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json",
+  "whole_goldie_after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch87_elsevier_abstract_citation_meta_after.json",
+  "whole_goldie_elsevier_before": {
+    "rows": 1487,
+    "scored": 1412,
+    "errors": 1,
+    "skipped_no_html": 75,
+    "authors_f1_soft": 0.9451415006202305,
+    "affiliations_f1_fuzzy": 0.849579754614477,
+    "abstract_ratio_fuzzy": 0.9164722742292797,
+    "abstract_present_rate": 0.7004249291784702,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "corresponding_accuracy": 0.9475715790814261,
+    "n_abstract_scored": 1409
+  },
+  "whole_goldie_elsevier_after": {
+    "rows": 1487,
+    "scored": 1412,
+    "errors": 1,
+    "skipped_no_html": 75,
+    "authors_f1_soft": 0.9451415006202305,
+    "affiliations_f1_fuzzy": 0.8495797546144768,
+    "abstract_ratio_fuzzy": 0.9231874412432837,
+    "abstract_present_rate": 0.7004249291784702,
+    "pdf_url_accuracy": 0.9182509505703422,
+    "corresponding_accuracy": 0.9475715790814261,
+    "n_abstract_scored": 1409
+  },
+  "whole_goldie_delta": {
+    "rows": 0,
+    "scored": 0,
+    "errors": 0,
+    "skipped_no_html": 0,
+    "authors_f1_soft": 0.0,
+    "affiliations_f1_fuzzy": -2.220446049250313e-16,
+    "abstract_ratio_fuzzy": 0.0067151670140039865,
+    "abstract_present_rate": 0.0,
+    "pdf_url_accuracy": 0.0,
+    "corresponding_accuracy": 0.0,
+    "n_abstract_scored": 0
+  },
+  "abstract_improved_to_pass": 18,
+  "abstract_regressed_to_fail": 0,
+  "improved_sample": [
+    {
+      "doi": "10.1016/j.ajhg.2018.10.027",
+      "before_ratio": 0.6665369649805448,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1016/j.amjcard.2020.07.014",
+      "before_ratio": 0.625193332187661,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1016/j.ccc.2007.12.006",
+      "before_ratio": 0.6319772942289499,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1016/j.cgh.2008.11.008",
+      "before_ratio": 0.44176081028437864,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1016/j.chest.2022.04.017",
+      "before_ratio": 0.5634800202326757,
+      "after_ratio": 0.9997031760166222
+    },
+    {
+      "doi": "10.1016/j.jaci.2017.04.038",
+      "before_ratio": 0.660482374768089,
+      "after_ratio": 0.9864453665283541
+    },
+    {
+      "doi": "10.1016/j.jpeds.2019.08.039",
+      "before_ratio": 0.6289517470881864,
+      "after_ratio": 0.986159169550173
+    },
+    {
+      "doi": "10.1016/j.jstrokecerebrovasdis.2016.01.037",
+      "before_ratio": 0.6193895870736086,
+      "after_ratio": 0.9888475836431226
+    },
+    {
+      "doi": "10.1016/j.ophtha.2020.01.025",
+      "before_ratio": 0.6219131422083451,
+      "after_ratio": 0.9823305748154775
+    },
+    {
+      "doi": "10.1016/j.surg.2009.11.020",
+      "before_ratio": 0.6229752373859616,
+      "after_ratio": 0.9887839433293979
+    },
+    {
+      "doi": "10.1016/j.tins.2012.06.001",
+      "before_ratio": 0.29297458893871453,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1016/s0002-9394(14)71093-1",
+      "before_ratio": 0.6405063291139241,
+      "after_ratio": 0.9907773386034254
+    },
+    {
+      "doi": "10.1016/s0002-9440(10)64321-0",
+      "before_ratio": 0.056101190476190436,
+      "after_ratio": 0.9996685449121644
+    },
+    {
+      "doi": "10.1016/s0012-3692(15)34463-9",
+      "before_ratio": 0.6317345156522907,
+      "after_ratio": 0.9938415799532809
+    },
+    {
+      "doi": "10.1016/s0025-6196(12)61117-3",
+      "before_ratio": 0.6236639789986874,
+      "after_ratio": 0.9993990384615384
+    },
+    {
+      "doi": "10.1053/j.jvca.2015.10.010",
+      "before_ratio": 0.6199649737302977,
+      "after_ratio": 0.9759879939969985
+    },
+    {
+      "doi": "10.1053/j.jvca.2017.08.011",
+      "before_ratio": 0.6436391090977726,
+      "after_ratio": 1.0
+    },
+    {
+      "doi": "10.1378/chest.57.2.176",
+      "before_ratio": 0.6265590608950844,
+      "after_ratio": 1.0
+    }
+  ],
+  "regressed_sample": [],
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_elsevier_bv_modern.py -q",
+      "status": "passed",
+      "result": "16 passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_parse_page.py tests/test_app_post_parseland.py tests/test_elsevier_bv_modern.py -q",
+      "status": "passed",
+      "result": "38 passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers elsevier --concurrency 4",
+      "status": "passed",
+      "result": "abstract_ratio_fuzzy 0.9164722742292797 -> 0.9231874412432837; 18 improved_to_pass; 0 regressed_to_fail"
+    }
+  ],
+  "recommendation": "Ship parser fix. Continue queue with Elsevier corresponding/authors or sciencedirect-owned abstract residuals."
+}

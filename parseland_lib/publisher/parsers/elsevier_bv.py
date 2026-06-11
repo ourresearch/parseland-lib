@@ -559,8 +559,8 @@ class ElsevierBV(PublisherParser):
 
         return {
             "authors": author_results,
-            "abstract": self.parse_abstract()
-            or self.parse_short_citation_abstract_meta()
+            "abstract": self.parse_short_citation_abstract_meta()
+            or self.parse_abstract()
             or self.parse_abstract_meta_tags(),
         }
 

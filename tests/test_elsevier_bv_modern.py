@@ -471,6 +471,36 @@ def test_parse_short_citation_abstract_meta_fragment():
     )
 
 
+def test_citation_abstract_wins_over_noisy_article_sections():
+    """Elsevier journal portals can expose the exact abstract in
+    citation_abstract while article__sections includes body/reference text."""
+    html = """
+    <html><head>
+      <link rel="canonical" href="https://www.jacionline.org/article/S0091674917307960/abstract">
+      <meta name="citation_author" content="Sample Author">
+      <meta name="citation_abstract" content="<h3>Background</h3><p>Diesel exhaust particles are linked with respiratory symptoms.</p><h3>Objective</h3><p>We tested whether airway sensory nerves mediate these reflexes.</p>">
+    </head><body>
+      <div class="article__sections">
+        <h2>Background</h2>
+        <div class="section-paragraph">
+          Diesel exhaust particles are linked with respiratory symptoms.
+          This article body continues with references, related-article text,
+          and other material that should not be part of the abstract.
+        </div>
+        <h2>References</h2>
+        <div class="section-paragraph">Reference 1. Reference 2.</div>
+      </div>
+    </body></html>
+    """
+    soup = BeautifulSoup(html, "lxml")
+    result = ElsevierBV(soup).parse()
+    assert result["abstract"] == (
+        "Background Diesel exhaust particles are linked with respiratory "
+        "symptoms. Objective We tested whether airway sensory nerves mediate "
+        "these reflexes."
+    )
+
+
 def test_short_generic_description_meta_still_rejected():
     """The short fallback is limited to citation_abstract, not broad page
     descriptions or SEO teasers."""
