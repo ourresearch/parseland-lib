@@ -1,0 +1,69 @@
+{
+  "agent_id": "codex-sidecar-elsevier-authors-b95",
+  "artifacts_consulted": [
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_collaboration_text_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch90_elsevier_authors_collaboration_text_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_diagnosis_summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_authors_b90_diagnosis.ndjson"
+  ],
+  "batch_id": 95,
+  "classification": "blocked_explainable_no_repeated_safe_parser_pattern_after_b90",
+  "classification_counts": {
+    "eval_fulltext_encoding_issue": 1,
+    "gold_page_disagreement_or_wrong_landing_page": 12,
+    "page_or_gold_owned_no_author_signal": 11,
+    "partial_manual_spotcheck_remaining": 13,
+    "repeated_safe_parser_owned_pattern": 0,
+    "retrieval_router_no_author_signal": 48,
+    "unknown_no_safe_structured_author_signal": 2
+  },
+  "created_at": "2026-06-11T21:05:46.349416Z",
+  "current_kpi": 0.9453359657115858,
+  "diagnosis": "Read-only sidecar found no repeated safe Elsevier author DOM/JSON pattern after batch90; remaining residuals are retrieval/router-owned, gold/page disagreement, page/gold-owned no author signal, partial manual spotcheck, one eval encoding issue, or unknown/no safe structured signal.",
+  "doi_examples": [
+    {
+      "classification": "fixed_by_batch90",
+      "doi": "10.1016/j.amp.2023.08.005",
+      "evidence": "Text-only group authors recovered: Haute Autorite de sante (HAS), Groupe de travail."
+    },
+    {
+      "classification": "fixed_by_batch90",
+      "doi": "10.1016/0370-2693(83)91176-0",
+      "evidence": "TASSO Collaboration recovered as author."
+    },
+    {
+      "classification": "retrieval_router_owned",
+      "doi": "10.1016/s0097-8485(00)00109-1",
+      "evidence": "Cached page title is only Redirecting; selector counts zero."
+    },
+    {
+      "classification": "gold_page_disagreement",
+      "doi": "10.1016/j.desal.2024.118090",
+      "evidence": "Gold authors differ from page/parser authors."
+    },
+    {
+      "classification": "partial_manual_spotcheck",
+      "doi": "10.1016/j.na.2006.12.029",
+      "evidence": "Cached author-group and preloaded author data expose only one of three gold authors."
+    },
+    {
+      "classification": "unknown_no_safe_selector",
+      "doi": "10.1016/0167-9236(87)90107-2",
+      "evidence": "Page title contains name but author group text is generic overlay and citation-author meta absent."
+    }
+  ],
+  "field": "authors",
+  "gold_empty_parser_present": 1,
+  "html_available": 1412,
+  "misses": 62,
+  "next_action": "Do not patch Elsevier authors again from this residual set; route to retrieval/router recovery, gold/page audit, manual DOM spotcheck for partials, and eval/fulltext encoding handling.",
+  "publisher": "elsevier",
+  "retrieval_blocked": 75,
+  "rows": 1487,
+  "run_id": "20260604T163736Z-77fe45",
+  "scored_rows_for_field": 1411,
+  "status": "blocked"
+}

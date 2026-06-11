@@ -1,0 +1,66 @@
+{
+  "agent_id": "codex-sidecar-elsevier-abstract-b95",
+  "artifacts_consulted": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b93_description_meta_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch93_elsevier_abstract_description_meta_after_v2.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch93_elsevier_abstract_description_meta_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/elsevier_abstract_b93_diagnosis.ndjson"
+  ],
+  "batch_id": 95,
+  "classification": "blocked_explainable_no_safe_parser_pattern_after_b93",
+  "classification_counts": {
+    "cached_page_lacks_gold_abstract_evidence": 46,
+    "direct_elsevier_candidate_dispatch_conflict": 2,
+    "parser_empty_dispatch_authors_found_no_abstract_evidence": 1,
+    "parser_empty_gold_probe_in_page_no_safe_selector": 8,
+    "parser_empty_metadata_candidates_not_current_path": 6,
+    "parser_empty_visible_nodes_manual_dom_router": 6,
+    "parser_present_alternate_metadata_manual_dom": 4,
+    "parser_present_direct_candidate_broad_patch_unsafe": 22,
+    "parser_present_gold_probe_in_page_no_clean_selector": 18,
+    "parser_present_no_cached_gold_evidence": 1
+  },
+  "created_at": "2026-06-11T21:05:46.349416Z",
+  "current_kpi": 0.9300076067328855,
+  "diagnosis": "Read-only sidecar found no safe broad Elsevier abstract parser patch after batch93. Remaining failures mix cached pages lacking gold evidence, unsafe metadata candidates, no clean selector, off-host/manual DOM cases, dispatch conflicts, and retrieval/cache ownership.",
+  "doi_examples": [
+    {
+      "classification": "tempting_metadata_but_broad_patch_unsafe",
+      "doi": "10.1016/j.bbmt.2015.11.725",
+      "evidence": "og:description matches gold, but looser batch93 probe regressed 3 rows."
+    },
+    {
+      "classification": "science_direct_precedence_conflict",
+      "doi": "10.1016/j.rh.2021.02.001",
+      "evidence": "div#abst0005.abstract.author matches gold; requires separate precedence sub-lane with full gates."
+    },
+    {
+      "classification": "off_host_manual_dom",
+      "doi": "10.1016/j.jacc.2006.03.052",
+      "evidence": "Canonical jacc.org page has section#author-abstract; not safe ElsevierBV patch."
+    },
+    {
+      "classification": "retrieval_cache_owned",
+      "doi": "10.1016/s0097-8485(00)00109-1",
+      "evidence": "Cached page title is Redirecting and has no abstract/meta/node evidence."
+    },
+    {
+      "classification": "manual_dom_gold_cache_followup",
+      "doi": "10.1016/j.earlhumdev.2010.09.336",
+      "evidence": "ScienceDirect page has authors but no body/description/citation abstract from safe selectors."
+    }
+  ],
+  "field": "abstract",
+  "gold_empty_parser_present": 3,
+  "html_available": 1412,
+  "misses": 69,
+  "next_action": "Do not ship another broad Elsevier abstract parser patch; split only into narrow ScienceDirect precedence or metadata-candidate sub-lanes with full cross-field gates, and route off-host/cache-lacking rows to retrieval/router/gold audit.",
+  "publisher": "elsevier",
+  "retrieval_blocked": 75,
+  "rows": 1487,
+  "run_id": "20260604T163736Z-77fe45",
+  "scored_rows_for_field": 1409,
+  "status": "blocked"
+}

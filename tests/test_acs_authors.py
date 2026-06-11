@@ -234,6 +234,24 @@ def test_corresponding_from_unique_initials_email():
     ]
 
 
+def test_corresponding_from_last_dot_initial_email():
+    html = (
+        f"<html><head>{ACS_OG}</head><body>"
+        '<ul class="loa">'
+        '<li><span class="hlFld-ContribAuthor">Osamu Niwa</span></li>'
+        '<li><span class="hlFld-ContribAuthor">Mina Shimizu</span></li>'
+        "</ul>"
+        '<p>* To whom correspondence should be addressed. '
+        '<a href="mailto:niwa.o@example.org">email</a>.</p>'
+        "</body></html>"
+    )
+    out = ACS(BeautifulSoup(html, "lxml")).parse()
+    assert [(a.name, _corr(a)) for a in out["authors"]] == [
+        ("Osamu Niwa", True),
+        ("Mina Shimizu", False),
+    ]
+
+
 def test_invalid_or_ambiguous_correspondence_email_not_flagged():
     invalid_html = (
         f"<html><head>{ACS_OG}</head><body>"

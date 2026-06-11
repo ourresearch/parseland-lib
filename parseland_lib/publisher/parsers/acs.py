@@ -46,6 +46,7 @@ class ACS(PublisherParser):
     @classmethod
     def _email_matches_author(cls, email, name):
         local = cls._normalize_ascii((email or "").split("@", 1)[0])
+        local_compact = re.sub(r"[^a-z0-9]+", "", local)
         parts = [
             p
             for p in re.split(r"[^a-z0-9]+", cls._normalize_ascii(name))
@@ -57,16 +58,18 @@ class ACS(PublisherParser):
         last = parts[-1]
         initials = "".join(p[0] for p in parts if p)
 
-        if len(last) >= 3 and last in local:
-            if first in local:
+        if len(last) >= 3 and last in local_compact:
+            if first in local_compact:
                 return True
-            if local.startswith(first[:1] + last) or local.startswith(last + first[:1]):
+            if local_compact.startswith(first[:1] + last) or local_compact.startswith(
+                last + first[:1]
+            ):
                 return True
-            if local.startswith(first[:1]) and local.endswith(last):
+            if local_compact.startswith(first[:1]) and local_compact.endswith(last):
                 return True
-            if len(last) >= 5 and local.startswith(last):
+            if len(last) >= 5 and local_compact.startswith(last):
                 return True
-        return len(initials) >= 2 and local.startswith(initials)
+        return len(initials) >= 2 and local_compact.startswith(initials)
 
     @staticmethod
     def _node_mentions_corresponding_email(node):

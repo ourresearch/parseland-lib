@@ -1,0 +1,121 @@
+{
+  "agent_id": "codex-acs-corresponding-b95",
+  "artifacts": {
+    "after": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch95_acs_corresponding_dot_initial_after.json",
+    "before": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch95_acs_corresponding_dot_initial_before.json"
+  },
+  "batch_id": 95,
+  "change_summary": "Match ACS correspondence email local-parts after stripping punctuation so last.initial addresses such as niwa.o can map to the matching author without broadening invalid or ambiguous addresses.",
+  "changed_rows": [
+    {
+      "changes": {
+        "corresponding": {
+          "after": {
+            "accuracy": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "before": {
+            "accuracy": 0.0,
+            "f1": 0.0
+          }
+        }
+      },
+      "doi": "10.1021/ac060480y"
+    }
+  ],
+  "created_at": "2026-06-11T20:54:25.480884Z",
+  "cross_field_changed_rows": [],
+  "field": "corresponding",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/acs.py",
+    "tests/test_acs_authors.py"
+  ],
+  "improved_rows": [
+    {
+      "after": {
+        "accuracy": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "before": {
+        "accuracy": 0.0,
+        "f1": 0.0
+      },
+      "classification": "last_dot_initial_email_pattern_fixed",
+      "doi": "10.1021/ac060480y",
+      "evidence": "ACS footnote correspondence mailto local-part niwa.o now matches author Osamu Niwa after punctuation-stripped local-part matching."
+    }
+  ],
+  "kpi": {
+    "acs_corresponding_after": 0.9609375,
+    "acs_corresponding_before": 0.953125,
+    "acs_corresponding_delta_pp": 0.78125,
+    "coverage_total_rows": 130,
+    "current_goldie_counts_after": {
+      "empty_empty_pass": 64,
+      "gold_empty_parser_present": 2,
+      "gold_present_parser_empty": 5,
+      "gold_present_parser_present": 59,
+      "html_available": 130,
+      "retrieval_blocked": 0,
+      "scored_rows": 128,
+      "total_rows": 130
+    },
+    "current_goldie_counts_before": {
+      "empty_empty_pass": 64,
+      "gold_empty_parser_present": 2,
+      "gold_present_parser_empty": 6,
+      "gold_present_parser_present": 58,
+      "html_available": 130,
+      "retrieval_blocked": 0,
+      "scored_rows": 128,
+      "total_rows": 130
+    },
+    "errors": 0,
+    "html_available": 130,
+    "retrieval_blocked_rows": 0
+  },
+  "publisher": "acs",
+  "recommendation": "Ship the one-row ACS corresponding lift; remaining ACS corresponding misses are no-signal, invalid-email, or current-Goldie/page mismatch and should not be chased with broader parser rules.",
+  "regressed_rows": [],
+  "residual_blockers": [
+    {
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "doi": "10.1021/ja076898a"
+    },
+    {
+      "classification": "invalid_email_like_text_not_safe",
+      "doi": "10.1021/ol051044l"
+    },
+    {
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "doi": "10.1021/om030026+"
+    },
+    {
+      "classification": "gold_or_page_mismatch_cen",
+      "doi": "10.1021/cen-v031n013.p1299"
+    },
+    {
+      "classification": "no_corresponding_email_or_text_in_cached_html",
+      "doi": "10.1021/jo991837j"
+    }
+  ],
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "green",
+  "task_id": "v2_acs_corresponding_808ec31a",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_acs_authors.py tests/test_acs_abstract.py tests/test_parse_page.py tests/test_app_post_parseland.py -q",
+      "result": "39 passed in 2.31s",
+      "status": "passed"
+    },
+    {
+      "command": "scripts/whole_goldie_eval.py run --publishers acs --label batch95-acs-corresponding-dot-initial-before/after",
+      "result": "ACS corresponding 0.953125 -> 0.9609375; changed_rows=1; improved_rows=1; regressed_rows=0; cross_field_changed_rows=0",
+      "status": "passed"
+    }
+  ]
+}
