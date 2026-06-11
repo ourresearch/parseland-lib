@@ -1,0 +1,115 @@
+{
+  "agent_id": "codex-ssrn-pdf-b89",
+  "classification": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained",
+  "created_at": "2026-06-11T18:47:15.574401+00:00",
+  "diagnosis": "Goldie stores SSRN generic Delivery.cfm?abstractid=<id> PDF URLs while Parseland/Taxicab emits concrete Delivery.cfm/<file>.pdf?abstractid=<id>&mirid=1 URLs. The abstractid is the stable SSRN PDF identity, so this is scorer-owned URL equivalence rather than a parser miss.",
+  "field": "pdf_url",
+  "files_touched": [
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/parseland_eval/score/normalize.py",
+    "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/tests/test_normalize.py"
+  ],
+  "gate": "ssrn_pdf_delivery_equivalence_full_publisher_gate",
+  "improved_rows_estimate": 74,
+  "improved_sample": [
+    {
+      "doi": "10.2139/ssrn.6632130",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/ff435308-f214-41db-8f5e-4b32a36af662-MECA.pdf?abstractid=6632130&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.3424508",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3610519_code1290444.pdf?abstractid=3424508&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.4398349",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID4398349_code623849.pdf?abstractid=4398349&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.4553657",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/442a09d3-552b-4862-baee-414e204b21b9-MECA.pdf?abstractid=4553657&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.6580920",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/6580920.pdf?abstractid=6580920&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.3057469",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3057469_code40317.pdf?abstractid=3057469&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.2677485",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID2706231_code1358581.pdf?abstractid=2677485&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.3293984",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3455486_code340494.pdf?abstractid=3293984&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.4035271",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID4035271_code2397318.pdf?abstractid=4035271&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.6239931",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/44280774-d25a-4817-af51-617a2b78f4a6-MECA.pdf?abstractid=6239931&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.5847056",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/875d55a6-bd1e-422c-bfb8-f8e50ccef6fc-MECA.pdf?abstractid=5847056&mirid=1"
+    },
+    {
+      "doi": "10.2139/ssrn.5955255",
+      "gold_has_pdf_url": true,
+      "parsed_pdf_url": "https://papers.ssrn.com/sol3/Delivery.cfm/5955255.pdf?abstractid=5955255&mirid=1"
+    }
+  ],
+  "publisher_id": "ssrn",
+  "recommendation": "Ship scorer equivalence. SSRN pdf_url current-Goldie KPI is above 98; keep the 2 missing-HTML rows in retrieval accounting and continue next ranked queue lane.",
+  "regressed_rows": 0,
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "passed",
+  "task_id": "v2_ssrn_pdf_url_e605717a",
+  "tests_run": [
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_normalize.py tests/test_empty_policy.py tests/test_pdf_url_aggregate.py -q",
+      "result": "54 passed",
+      "status": "passed"
+    },
+    {
+      "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers ssrn --label batch89-ssrn-pdf-delivery-equivalence-after --concurrency 8",
+      "result": "SSRN pdf_url_accuracy 0.0133 -> 1.000; 77 rows, 75 HTML available, 2 retrieval_blocked, 0 errors",
+      "status": "passed"
+    }
+  ],
+  "whole_goldie_after": {
+    "abstract_present_rate": 1.0,
+    "abstract_ratio_fuzzy": 0.9659189730519734,
+    "affiliations_f1_fuzzy": 0.9573688271604939,
+    "authors_f1_soft": 1.0,
+    "corresponding_accuracy": 0.9946236559139786,
+    "errors": 0,
+    "pdf_url_accuracy": 1.0,
+    "rows": 77,
+    "scored": 75,
+    "skipped_no_html": 2
+  },
+  "whole_goldie_after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch89_ssrn_pdf_delivery_equivalence_after.json",
+  "whole_goldie_before": {
+    "html_available": 75,
+    "pdf_url_accuracy": 0.0133,
+    "retrieval_blocked": 2,
+    "rows": 77
+  },
+  "whole_goldie_delta": {
+    "pdf_url_accuracy": 0.9867
+  }
+}
