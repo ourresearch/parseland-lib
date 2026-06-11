@@ -79,6 +79,35 @@ def test_ssrn_drops_independent_no_affiliation_placeholder():
     assert [author.affiliations for author in parsed["authors"]] == [[], []]
 
 
+def test_ssrn_joins_multi_paragraph_abstract():
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2677485">
+      </head>
+      <body>
+        <div class="authors">
+          <h2>Example Author</h2>
+          <p>Example University</p>
+        </div>
+        <div class="abstract-text">
+          <p>First paragraph of the SSRN abstract.</p>
+          <p>Second paragraph carries the rest of the claim.</p>
+          <p>   </p>
+        </div>
+      </body>
+    </html>
+    """
+
+    parser = SSRN(BeautifulSoup(html, "lxml"))
+    parsed = parser.parse()
+
+    assert parsed["abstract"] == (
+        "First paragraph of the SSRN abstract. "
+        "Second paragraph carries the rest of the claim."
+    )
+
+
 def test_ssrn_uses_detail_blocks_for_long_affiliations():
     html = """
     <html>

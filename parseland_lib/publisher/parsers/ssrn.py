@@ -139,8 +139,12 @@ class SSRN(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
-        abstract_tag = self.soup.select_one("div.abstract-text p")
-        abstract = abstract_tag.text if abstract_tag else None
+        abstract_parts = [
+            tag.text.strip()
+            for tag in self.soup.select("div.abstract-text p")
+            if tag.text.strip()
+        ]
+        abstract = " ".join(abstract_parts) if abstract_parts else None
         return {"authors": results, "abstract": abstract}
 
     test_cases = [

@@ -1,0 +1,96 @@
+{
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch92_ssrn_abstract_multipara_after_v2.json",
+  "agent_id": "codex-ssrn-abstract-b92",
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch91_ssrn_affiliations_detail_after_v2.json",
+  "classification": "parser_owned_multi_paragraph_abstracts",
+  "completed_at": "2026-06-11T19:48:37Z",
+  "coverage": {
+    "gold_empty_parser_present_count": 13,
+    "html_available": 75,
+    "per_publisher": {
+      "ssrn": {
+        "html_available": 75,
+        "retrieval_blocked": 2,
+        "scored_rows": 75,
+        "total_rows": 77
+      }
+    },
+    "retrieval_blocked_by_reason": {
+      "missing": 2
+    },
+    "retrieval_blocked_rows": 2,
+    "scored_rows": 75,
+    "total_rows": 77
+  },
+  "diagnosis": "SSRN stores some abstracts across multiple div.abstract-text paragraphs. The parser previously returned only the first paragraph, truncating three current-Goldie abstracts. The patch preserves per-paragraph text extraction and joins all non-empty abstract paragraphs.",
+  "diagnosis_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_abstract_b92_diagnosis.ndjson",
+  "field": "abstract",
+  "field_counts_after": {
+    "gold_present_parser_present": 75,
+    "html_available": 75,
+    "retrieval_blocked": 2,
+    "scored_rows": 75,
+    "total_rows": 77
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/ssrn.py",
+    "tests/test_ssrn_parser.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_abstract_b92_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_abstract_b92_diagnosis.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "improved_dois": [
+    {
+      "after_fuzzy_ratio": 0.995498874719,
+      "after_parsed_abstract_len": 3999,
+      "before_fuzzy_ratio": 0.411192696964,
+      "before_parsed_abstract_len": 1042,
+      "delta": 0.584306177755,
+      "doi": "10.2139/ssrn.2677485"
+    },
+    {
+      "after_fuzzy_ratio": 1.0,
+      "after_parsed_abstract_len": 2818,
+      "before_fuzzy_ratio": 0.171910476808,
+      "before_parsed_abstract_len": 270,
+      "delta": 0.828089523192,
+      "doi": "10.2139/ssrn.887882"
+    },
+    {
+      "after_fuzzy_ratio": 0.994428969359,
+      "after_parsed_abstract_len": 718,
+      "before_fuzzy_ratio": 0.706199460916,
+      "before_parsed_abstract_len": 398,
+      "delta": 0.288229508443,
+      "doi": "10.2139/ssrn.2650077"
+    }
+  ],
+  "improved_rows": 3,
+  "kpi_after": 0.9885939758438343,
+  "kpi_before": 0.9659189730519734,
+  "kpi_delta": 0.022675002791860965,
+  "publisher_id": "ssrn",
+  "recommendation": "Ship SSRN abstract parser fix, update report 336, then continue to the next ranked publisher-field lane. SSRN current-Goldie authors/pdf/affiliations/abstract/corresponding are all at or above 98%; only the corresponding Goldie-backfilled candidate lane remains separate from current-Goldie KPI.",
+  "regressed_dois": [],
+  "regressed_rows": 0,
+  "residual_explanation": "SSRN abstract is above 98%. The remaining below-perfect row is current-Goldie owned: DOI 10.2139/ssrn.5087300 has a Goldie abstract truncated to the page meta description while the page/parser expose the full abstract. Two SSRN rows remain retrieval-blocked due missing usable cached HTML.",
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_parser_fix_above_98_no_regressions",
+  "target_kpi": 0.98,
+  "task_id": "v2_ssrn_abstract_4194f36c",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m pytest tests/test_ssrn_parser.py tests/test_parse_page.py tests/test_app_post_parseland.py -q",
+      "result": "28 passed",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers ssrn --label batch92-ssrn-abstract-multipara-after-v2 --concurrency 8",
+      "result": "abstract_ratio_fuzzy 0.965918973052 -> 0.988593975844; improved_rows=3; regressed_rows=0; errors=0",
+      "status": "passed"
+    }
+  ]
+}
