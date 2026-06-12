@@ -1,0 +1,146 @@
+{
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json",
+  "agent_id": "codex-thieme-parser-b102",
+  "batch": 102,
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_retrieval_r2_full_b101.json",
+  "classification": "parser_owned_visible_abstract_and_shared_affiliation_fallbacks",
+  "coverage": {
+    "gold_empty_parser_present_count": 4,
+    "html_available": 61,
+    "per_publisher": {
+      "thieme": {
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "scored_rows": 61,
+        "total_rows": 61
+      }
+    },
+    "retrieval_blocked_by_reason": {},
+    "retrieval_blocked_rows": 0,
+    "scored_rows": 61,
+    "total_rows": 61
+  },
+  "created_at": "2026-06-12T02:29:14Z",
+  "current_kpi_by_field": {
+    "abstract": 0.8938648465395409,
+    "affiliations": 0.9115740740740741,
+    "authors": 0.796553173602354,
+    "corresponding": 0.9836065573770492,
+    "pdf_url": 0.9666666666666667
+  },
+  "delta_by_field": {
+    "abstract": 0.18965744263924,
+    "affiliations": 0.050000000000000044,
+    "authors": 0.0,
+    "corresponding": 0.0,
+    "pdf_url": 0.0
+  },
+  "diagnosis": "Thieme retrieval recovery exposed parser-owned gaps: visible #abstract sections were ignored, unlabelled shared affiliations crashed or stayed empty, and citation_author metadata was needed for pages without structured bylines.",
+  "field": "abstract+affiliations",
+  "field_status_counts": {
+    "abstract": {
+      "empty_empty_pass": 26,
+      "gold_empty_parser_present": 2,
+      "gold_present_parser_empty": 6,
+      "gold_present_parser_present": 27
+    },
+    "affiliations": {
+      "empty_empty_pass": 29,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 5,
+      "gold_present_parser_present": 26
+    },
+    "authors": {
+      "empty_empty_pass": 7,
+      "gold_present_parser_empty": 12,
+      "gold_present_parser_present": 42
+    },
+    "corresponding": {
+      "empty_empty_pass": 49,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 11
+    },
+    "pdf_url": {
+      "empty_empty_pass": 15,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 44
+    }
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/thieme.py",
+    "tests/test_thieme.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "publisher_id": "thieme",
+  "recommendation": "Ship the narrow Thieme parser fix. Continue within Thieme on authors and residual abstract/affiliation cases; corresponding is already above 98 and PDF residual is scorer/parser-specific small-N work.",
+  "row_deltas": {
+    "abstract": {
+      "improved_examples": [
+        "10.1055/s-0031-1273032",
+        "10.1055/s-2008-1053977",
+        "10.1055/s-0029-1223050",
+        "10.1055/s-2004-819542",
+        "10.1055/s-2006-921535",
+        "10.1055/s-0033-1354004",
+        "10.1055/s-2004-822769"
+      ],
+      "improved_to_pass": 7,
+      "regressed_examples": [],
+      "regressed_to_fail": 0
+    },
+    "affiliations": {
+      "improved_examples": [
+        "10.1055/s-2008-1041524",
+        "10.1055/s-2008-1053977",
+        "10.1055/s-2008-1056203"
+      ],
+      "improved_to_pass": 3,
+      "regressed_examples": [],
+      "regressed_to_fail": 0
+    },
+    "authors": {
+      "improved_examples": [],
+      "improved_to_pass": 0,
+      "regressed_examples": [],
+      "regressed_to_fail": 0
+    },
+    "corresponding": {
+      "improved_examples": [],
+      "improved_to_pass": 0,
+      "regressed_examples": [],
+      "regressed_to_fail": 0
+    },
+    "pdf_url": {
+      "improved_examples": [],
+      "improved_to_pass": 0,
+      "regressed_examples": [],
+      "regressed_to_fail": 0
+    }
+  },
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "shipped_parser_fix_current_goldie_lift_below_98_residuals",
+  "task_id": "v2_thieme_abstract_1d10629c",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_thieme.py tests/test_parse_page.py -q",
+      "result": "22 passed",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/thieme.py tests/test_thieme.py",
+      "result": "passed",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers thieme --label thieme-parser-b102 --concurrency 8",
+      "result": "abstract_ratio_fuzzy 0.7042074039003009 -> 0.8938648465395409; affiliations_f1_fuzzy 0.861574074074074 -> 0.9115740740740741; authors/pdf_url/corresponding stable; retrieval_blocked=0; errors=0",
+      "status": "passed"
+    }
+  ]
+}

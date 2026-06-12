@@ -61,7 +61,7 @@
     "retrieval_blocked": 180,
     "retrieval_recovered_above_98": 6,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_below_98_needs_parser_diagnosis": 3,
+    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
@@ -74,6 +74,7 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_gold_page_disagreements": 1,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
+    "shipped_parser_fix_below_98_residual_needs_followup": 2,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
@@ -174,214 +175,166 @@
     "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke",
     "updated_at": "2026-06-10T06:37:11Z"
   },
-  "last_shipped_batch": 101,
-  "last_updated_at": "2026-06-12T02:16:52Z",
+  "last_shipped_batch": 102,
+  "last_updated_at": "2026-06-12T02:29:14Z",
   "open_queue_top": [
     {
-      "current_kpi": 0.807,
+      "current_kpi": 0.9183,
+      "field": "pdf_url",
+      "html_available": 1412,
+      "next_action": "Route to ScienceDirect access/PDF resolver or harvest specialist before any larger Elsevier pdf_url backfill scale; continue the global queue with the next ranked safe lane.",
+      "priority": 751.6897,
+      "publisher_id": "elsevier",
+      "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved",
+      "task_id": "v2_elsevier_pdf_url_6749e7dc"
+    },
+    {
+      "current_kpi": 0.6559,
+      "field": "authors",
+      "html_available": 393,
+      "next_action": "ieee-author-backfill-complete-route-derived-corpus-approval-and-move-to-next-highest-backfill-lane",
+      "priority": 314.1204,
+      "publisher_id": "ieee",
+      "status": "goldie_backfill_referee_complete_241_approved_1_blocked",
+      "task_id": "v2_ieee_authors_f2daf6a6"
+    },
+    {
+      "current_kpi": 0.8674,
+      "field": "affiliations",
+      "html_available": 393,
+      "next_action": "ieee-affiliation-backfill-complete-route-derived-corpus-approval-and-manual-review-5-blocked",
+      "priority": 290.2521,
+      "publisher_id": "ieee",
+      "status": "goldie_backfill_referee_complete_323_approved_5_blocked",
+      "task_id": "v2_ieee_affiliations_e9361b70"
+    },
+    {
+      "current_kpi": 0.8496,
+      "field": "affiliations",
+      "html_available": 1412,
+      "next_action": "route_to_goldie_backfilled_or_doi_clustered_dom_investigation_with_corresponding_gate",
+      "priority": 244.1534,
+      "publisher_id": "elsevier",
+      "status": "blocked_clean_shield_current_kpi_flat_ca_regression",
+      "task_id": "v2_elsevier_affiliations_c9f95b9c"
+    },
+    {
+      "current_kpi": 0.9711,
+      "field": "pdf_url",
+      "html_available": 499,
+      "next_action": "Taylor promoted legacy pdf_url candidates exhausted: route 235 approved derived labels to gold-auditor/derived corpus, keep 16 blocked rows plus 6 deferred off-pattern/chapter rows in manual/retry review, then continue next ranked non-PDF/retrieval lane.",
+      "priority": 197.2039,
+      "publisher_id": "taylor",
+      "status": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted",
+      "task_id": "v2_taylor_pdf_url_2e40646f"
+    },
+    {
+      "current_kpi": 0.6351,
+      "field": "pdf_url",
+      "html_available": 198,
+      "next_action": "SAGE pdf_url backfill blocked after 10-row Browserbase smoke: do not scale until visible/citation PDF URL grounding or access-specialist path resolves redirects/403s.",
+      "priority": 161.2832,
+      "publisher_id": "sage",
+      "status": "blocked_pdf_candidate_urls_not_grounded",
+      "task_id": "v2_sage_pdf_url_d8f9a30d"
+    },
+    {
+      "current_kpi": 0.8672,
+      "field": "abstract",
+      "html_available": 499,
+      "next_action": "Taylor abstract b60 classified residual below-98 gap as explainable: 78 current-Goldie misses are mostly snippet/full-text/length/scorer/gold/manual-DOM owned, 7 parser-empty rows lack a safe high-volume selector, and 62 Goldie-empty/parser-present abstracts must go through Goldie-backfilled Browserbase grounding. Do not add broad TandF abstract truncation or citation filters to chase current KPI.",
+      "priority": 102.7881,
+      "publisher_id": "taylor",
+      "status": "blocked_explainable_current_goldie_residual_below_98",
+      "task_id": "v2_taylor_abstract_3e187ca5"
+    },
+    {
+      "current_kpi": 0.9353,
+      "field": "affiliations",
+      "html_available": 190,
+      "next_action": "Lippincott affiliation current backfill lane complete: route 83 approved derived rows and 35 blocked rows to gold-auditor/manual DOM review; move to next ranked field.",
+      "priority": 96.9939,
+      "publisher_id": "lippincott",
+      "status": "goldie_backfill_referee_complete_83_approved_35_blocked",
+      "task_id": "v2_lippincott_affiliations_861e7de8"
+    },
+    {
+      "current_kpi": 0.6902,
+      "field": "abstract",
+      "html_available": 250,
+      "next_action": "Route approved Oxford abstract derived candidates to derived-corpus/gold-auditor approval; send blocked citation/snippet/page-identity rows to gold-auditor/manual DOM or improve parser low-quality filters only through focused gates.",
+      "priority": 94.1976,
+      "publisher_id": "oxford",
+      "status": "goldie_backfill_referee_complete_3_approved_35_blocked",
+      "task_id": "v2_oxford_abstract_02a7eeb9"
+    },
+    {
+      "current_kpi": 0.93,
+      "field": "abstract",
+      "html_available": 1412,
+      "next_action": "Do not ship another broad Elsevier abstract patch; split only into narrow ScienceDirect precedence or metadata sub-lanes with full gates, and route off-host/cache-lacking rows to retrieval/router/gold audit.",
+      "priority": 91.9511,
+      "publisher_id": "elsevier",
+      "status": "blocked_explainable_no_safe_parser_pattern_after_b93",
+      "task_id": "v2_elsevier_abstract_1bd46b76"
+    },
+    {
+      "current_kpi": 0.887,
+      "field": "affiliations",
+      "html_available": 198,
+      "next_action": "Route approved SAGE affiliation derived labels and blocked rows to gold-auditor review; move active grounding to next ranked publisher-field lane.",
+      "priority": 88.9175,
+      "publisher_id": "sage",
+      "status": "goldie_backfill_referee_complete_72_approved_22_blocked",
+      "task_id": "v2_sage_affiliations_72755779"
+    },
+    {
+      "current_kpi": 0.9587,
       "field": "corresponding",
+      "html_available": 1412,
+      "next_action": "continue_elsevier_authors_or_refresh_ranked_queue",
+      "priority": 76.5389,
+      "publisher_id": "elsevier",
+      "status": "shipped_parser_fix_current_goldie_lift_no_regressions",
+      "task_id": "v2_elsevier_corresponding_c80450b9"
+    },
+    {
+      "current_kpi": 1.0,
+      "field": "pdf_url",
+      "html_available": 75,
+      "next_action": "keep_2_missing_html_rows_in_retrieval_accounting_continue_next_ranked_queue_lane",
+      "priority": 72.5,
+      "publisher_id": "ssrn",
+      "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained",
+      "task_id": "v2_ssrn_pdf_url_e605717a"
+    },
+    {
+      "current_kpi": 0.5592,
+      "field": "affiliations",
       "html_available": 72,
-      "next_action": "Parser-empty corresponding misses are fixed; route 5 visible-star disagreements to gold-auditor, keep 53 approved backfilled corresponding candidates separate, and recover 65 Akamai stubs only through retrieval.",
-      "priority": 52.2047,
+      "next_action": "Route 54 approved MDPI affiliation derived labels and 2 blocked rows to gold-auditor/derived-corpus approval; recover 65 Akamai stubs via harvest/Browserbase if coverage is prioritized.",
+      "priority": 72.2986,
       "publisher_id": "mdpi",
-      "status": "parser_empty_fixed_gold_owned_visible_star_residuals",
-      "task_id": "v2_mdpi_corresponding_cfd37b32"
+      "status": "goldie_backfill_referee_complete_54_approved_2_blocked_current_goldie_low_gold_owned_retrieval_blocked",
+      "task_id": "v2_mdpi_affiliations_29a4c147"
     },
     {
-      "current_kpi": 0.9945,
-      "field": "pdf_url",
-      "html_available": 222,
-      "next_action": "Do not scale De Gruyter PDF backfill under current Browserbase access: 5-row smoke approved 0 and blocked 5. Current-Goldie pdf_url is above 98; keep the 39 Goldie-empty/parser-present candidates separate and continue the next ranked lane.",
-      "priority": 29.25,
-      "publisher_id": "de_gruyter",
-      "status": "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence",
-      "task_id": "v2_de_gruyter_pdf_url_e73da58b"
-    },
-    {
-      "current_kpi": 0.0,
+      "current_kpi": 0.9834,
       "field": "abstract",
-      "html_available": 0,
-      "next_action": "classify-publisher",
-      "priority": 7.8865,
-      "publisher_id": "unknown",
-      "status": "publisher_unknown",
-      "task_id": "v2_unknown_abstract_24970d56"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "affiliations",
-      "html_available": 0,
-      "next_action": "classify-publisher",
-      "priority": 7.8865,
-      "publisher_id": "unknown",
-      "status": "publisher_unknown",
-      "task_id": "v2_unknown_affiliations_05c1d55a"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "authors",
-      "html_available": 0,
-      "next_action": "classify-publisher",
-      "priority": 7.8865,
-      "publisher_id": "unknown",
-      "status": "publisher_unknown",
-      "task_id": "v2_unknown_authors_6286d162"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "corresponding",
-      "html_available": 0,
-      "next_action": "classify-publisher",
-      "priority": 7.8865,
-      "publisher_id": "unknown",
-      "status": "publisher_unknown",
-      "task_id": "v2_unknown_corresponding_bd31e399"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "pdf_url",
-      "html_available": 0,
-      "next_action": "classify-publisher",
-      "priority": 7.8865,
-      "publisher_id": "unknown",
-      "status": "publisher_unknown",
-      "task_id": "v2_unknown_pdf_url_720b5cdc"
-    },
-    {
-      "current_kpi": 0.7042074039003009,
-      "field": "abstract",
-      "html_available": 61,
-      "next_action": "diagnose-thieme-abstract-parser-residual",
-      "priority": 1.682335,
-      "publisher_id": "thieme",
-      "status": "retrieval_recovered_below_98_needs_parser_diagnosis",
-      "task_id": "v2_thieme_abstract_1d10629c"
-    },
-    {
-      "current_kpi": 0.861574074074074,
-      "field": "affiliations",
-      "html_available": 61,
-      "next_action": "diagnose-thieme-affiliations-parser-residual",
-      "priority": 0.722398,
-      "publisher_id": "thieme",
-      "status": "retrieval_recovered_below_98_needs_parser_diagnosis",
-      "task_id": "v2_thieme_affiliations_a54fe408"
-    },
-    {
-      "current_kpi": 0.796553173602354,
-      "field": "authors",
-      "html_available": 61,
-      "next_action": "diagnose-thieme-authors-parser-residual",
-      "priority": 1.119026,
-      "publisher_id": "thieme",
-      "status": "retrieval_recovered_below_98_needs_parser_diagnosis",
-      "task_id": "v2_thieme_authors_8957c43d"
-    },
-    {
-      "current_kpi": 0.9836065573770492,
-      "field": "corresponding",
-      "html_available": 61,
-      "next_action": "monitor-only-after-retrieval-recovery",
-      "priority": 0.0,
-      "publisher_id": "thieme",
-      "status": "retrieval_recovered_above_98",
-      "task_id": "v2_thieme_corresponding_8750add6"
-    },
-    {
-      "current_kpi": 0.9666666666666667,
-      "field": "pdf_url",
-      "html_available": 61,
-      "next_action": "diagnose-pdf-url-scorer-or-parser-residual",
-      "priority": 0.081333,
-      "publisher_id": "thieme",
-      "status": "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis",
-      "task_id": "v2_thieme_pdf_url_4abbe2ca"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "abstract",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.793,
-      "publisher_id": "aip_publishing",
-      "status": "retrieval_blocked",
-      "task_id": "v2_aip_publishing_abstract_0e60b095"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "affiliations",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.793,
-      "publisher_id": "aip_publishing",
-      "status": "retrieval_blocked",
-      "task_id": "v2_aip_publishing_affiliations_7053b4f0"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "authors",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.793,
-      "publisher_id": "aip_publishing",
-      "status": "retrieval_blocked",
-      "task_id": "v2_aip_publishing_authors_6a4c7896"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "corresponding",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.793,
-      "publisher_id": "aip_publishing",
-      "status": "retrieval_blocked",
-      "task_id": "v2_aip_publishing_corresponding_35661353"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "pdf_url",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.793,
-      "publisher_id": "aip_publishing",
-      "status": "retrieval_blocked",
-      "task_id": "v2_aip_publishing_pdf_url_e5ae9ced"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "abstract",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.401,
-      "publisher_id": "cairn",
-      "status": "retrieval_blocked",
-      "task_id": "v2_cairn_abstract_262bdc45"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "affiliations",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.401,
-      "publisher_id": "cairn",
-      "status": "retrieval_blocked",
-      "task_id": "v2_cairn_affiliations_d824620d"
-    },
-    {
-      "current_kpi": 0.0,
-      "field": "authors",
-      "html_available": 0,
-      "next_action": "retrieve-html",
-      "priority": 2.401,
-      "publisher_id": "cairn",
-      "status": "retrieval_blocked",
-      "task_id": "v2_cairn_authors_69ab2f70"
+      "html_available": 151,
+      "next_action": "browserbase-ground",
+      "priority": 57.75,
+      "publisher_id": "cup",
+      "status": "shipped_full10k_measured",
+      "task_id": "v2_cup_abstract_f61595df"
     }
   ],
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
-    "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+    "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "thieme_parser_b102_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
+    "thieme_parser_b102_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json"
   },
   "queue_status_counts": {
     "above_98": 2,
@@ -421,7 +374,7 @@
     "retrieval_blocked": 180,
     "retrieval_recovered_above_98": 6,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_below_98_needs_parser_diagnosis": 3,
+    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
@@ -434,6 +387,7 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_gold_page_disagreements": 1,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
+    "shipped_parser_fix_below_98_residual_needs_followup": 2,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
@@ -482,7 +436,7 @@
     "status": "shipped_parser_fix_small_lift_no_regressions",
     "tests": "25 focused tests passed; scoped SAGE whole-Goldie passed"
   },
-  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch84_after_publisher_index_tail_prefixes.json",
+  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json",
   "springer_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
@@ -551,6 +505,71 @@
     "scorer_commit": "6e30b61",
     "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained"
   },
+  "thieme_parser_b102_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
+    "current_kpi_by_field": {
+      "abstract": 0.8938648465395409,
+      "affiliations": 0.9115740740740741,
+      "authors": 0.796553173602354,
+      "corresponding": 0.9836065573770492,
+      "pdf_url": 0.9666666666666667
+    },
+    "delta_by_field": {
+      "abstract": 0.18965744263924,
+      "affiliations": 0.050000000000000044,
+      "authors": 0.0,
+      "corresponding": 0.0,
+      "pdf_url": 0.0
+    },
+    "recommendation": "Ship the narrow Thieme parser fix. Continue within Thieme on authors and residual abstract/affiliation cases; corresponding is already above 98 and PDF residual is scorer/parser-specific small-N work.",
+    "retrieval_blocked_rows": 0,
+    "row_deltas": {
+      "abstract": {
+        "improved_examples": [
+          "10.1055/s-0031-1273032",
+          "10.1055/s-2008-1053977",
+          "10.1055/s-0029-1223050",
+          "10.1055/s-2004-819542",
+          "10.1055/s-2006-921535",
+          "10.1055/s-0033-1354004",
+          "10.1055/s-2004-822769"
+        ],
+        "improved_to_pass": 7,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "affiliations": {
+        "improved_examples": [
+          "10.1055/s-2008-1041524",
+          "10.1055/s-2008-1053977",
+          "10.1055/s-2008-1056203"
+        ],
+        "improved_to_pass": 3,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "authors": {
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "corresponding": {
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "pdf_url": {
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      }
+    },
+    "status": "shipped_parser_fix_current_goldie_lift_below_98_residuals",
+    "whole_goldie_scored_rows": 61
+  },
   "thieme_retrieval_r2_b101_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_gate.json",
     "current_kpi_by_field": {
@@ -575,108 +594,144 @@
   },
   "top_15_priority": [
     {
+      "current_kpi": 0.9183,
+      "field": "pdf_url",
+      "html_available": 1412,
+      "next_action": "Route to ScienceDirect access/PDF resolver or harvest specialist before any larger Elsevier pdf_url backfill scale; continue the global queue with the next ranked safe lane.",
+      "priority": 751.6897,
+      "publisher_id": "elsevier",
+      "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved"
+    },
+    {
+      "current_kpi": 0.6559,
+      "field": "authors",
+      "html_available": 393,
+      "next_action": "ieee-author-backfill-complete-route-derived-corpus-approval-and-move-to-next-highest-backfill-lane",
+      "priority": 314.1204,
+      "publisher_id": "ieee",
+      "status": "goldie_backfill_referee_complete_241_approved_1_blocked"
+    },
+    {
+      "current_kpi": 0.8674,
+      "field": "affiliations",
+      "html_available": 393,
+      "next_action": "ieee-affiliation-backfill-complete-route-derived-corpus-approval-and-manual-review-5-blocked",
+      "priority": 290.2521,
+      "publisher_id": "ieee",
+      "status": "goldie_backfill_referee_complete_323_approved_5_blocked"
+    },
+    {
+      "current_kpi": 0.8496,
+      "field": "affiliations",
+      "html_available": 1412,
+      "next_action": "route_to_goldie_backfilled_or_doi_clustered_dom_investigation_with_corresponding_gate",
+      "priority": 244.1534,
+      "publisher_id": "elsevier",
+      "status": "blocked_clean_shield_current_kpi_flat_ca_regression"
+    },
+    {
+      "current_kpi": 0.9711,
+      "field": "pdf_url",
+      "html_available": 499,
+      "next_action": "Taylor promoted legacy pdf_url candidates exhausted: route 235 approved derived labels to gold-auditor/derived corpus, keep 16 blocked rows plus 6 deferred off-pattern/chapter rows in manual/retry review, then continue next ranked non-PDF/retrieval lane.",
+      "priority": 197.2039,
+      "publisher_id": "taylor",
+      "status": "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted"
+    },
+    {
+      "current_kpi": 0.6351,
+      "field": "pdf_url",
+      "html_available": 198,
+      "next_action": "SAGE pdf_url backfill blocked after 10-row Browserbase smoke: do not scale until visible/citation PDF URL grounding or access-specialist path resolves redirects/403s.",
+      "priority": 161.2832,
+      "publisher_id": "sage",
+      "status": "blocked_pdf_candidate_urls_not_grounded"
+    },
+    {
+      "current_kpi": 0.8672,
+      "field": "abstract",
+      "html_available": 499,
+      "next_action": "Taylor abstract b60 classified residual below-98 gap as explainable: 78 current-Goldie misses are mostly snippet/full-text/length/scorer/gold/manual-DOM owned, 7 parser-empty rows lack a safe high-volume selector, and 62 Goldie-empty/parser-present abstracts must go through Goldie-backfilled Browserbase grounding. Do not add broad TandF abstract truncation or citation filters to chase current KPI.",
+      "priority": 102.7881,
+      "publisher_id": "taylor",
+      "status": "blocked_explainable_current_goldie_residual_below_98"
+    },
+    {
+      "current_kpi": 0.9353,
+      "field": "affiliations",
+      "html_available": 190,
+      "next_action": "Lippincott affiliation current backfill lane complete: route 83 approved derived rows and 35 blocked rows to gold-auditor/manual DOM review; move to next ranked field.",
+      "priority": 96.9939,
+      "publisher_id": "lippincott",
+      "status": "goldie_backfill_referee_complete_83_approved_35_blocked"
+    },
+    {
+      "current_kpi": 0.6902,
+      "field": "abstract",
+      "html_available": 250,
+      "next_action": "Route approved Oxford abstract derived candidates to derived-corpus/gold-auditor approval; send blocked citation/snippet/page-identity rows to gold-auditor/manual DOM or improve parser low-quality filters only through focused gates.",
+      "priority": 94.1976,
+      "publisher_id": "oxford",
+      "status": "goldie_backfill_referee_complete_3_approved_35_blocked"
+    },
+    {
+      "current_kpi": 0.93,
+      "field": "abstract",
+      "html_available": 1412,
+      "next_action": "Do not ship another broad Elsevier abstract patch; split only into narrow ScienceDirect precedence or metadata sub-lanes with full gates, and route off-host/cache-lacking rows to retrieval/router/gold audit.",
+      "priority": 91.9511,
+      "publisher_id": "elsevier",
+      "status": "blocked_explainable_no_safe_parser_pattern_after_b93"
+    },
+    {
+      "current_kpi": 0.887,
+      "field": "affiliations",
+      "html_available": 198,
+      "next_action": "Route approved SAGE affiliation derived labels and blocked rows to gold-auditor review; move active grounding to next ranked publisher-field lane.",
+      "priority": 88.9175,
+      "publisher_id": "sage",
+      "status": "goldie_backfill_referee_complete_72_approved_22_blocked"
+    },
+    {
       "current_kpi": 0.9587,
       "field": "corresponding",
       "html_available": 1412,
       "next_action": "continue_elsevier_authors_or_refresh_ranked_queue",
-      "priority": 30.07559999999998,
+      "priority": 76.5389,
       "publisher_id": "elsevier",
       "status": "shipped_parser_fix_current_goldie_lift_no_regressions"
     },
     {
-      "current_kpi": 0.807,
-      "field": "corresponding",
-      "html_available": 72,
-      "next_action": "Parser-empty corresponding misses are fixed; route 5 visible-star disagreements to gold-auditor, keep 53 approved backfilled corresponding candidates separate, and recover 65 Akamai stubs only through retrieval.",
-      "priority": 12.455999999999996,
-      "publisher_id": "mdpi",
-      "status": "parser_empty_fixed_gold_owned_visible_star_residuals"
-    },
-    {
-      "current_kpi": 0.8106,
-      "field": "abstract",
-      "html_available": 66,
-      "next_action": "Do not ship broad BMJ body-as-abstract fallback; route 12 residual current-Goldie abstract misses to gold-auditor/Browserbase/manual-DOM, then continue BMJ corresponding/authors/affiliations/pdf residual lanes.",
-      "priority": 11.180399999999999,
-      "publisher_id": "bmj",
-      "status": "shipped_full10k_measured_below_98_with_explainable_residual"
-    },
-    {
-      "current_kpi": 0.9418677982726122,
-      "field": "abstract",
-      "html_available": 198,
-      "next_action": "Do not broaden SAGE abstract parser for SAGE Knowledge/meta-description previews; route remaining 4 current-Goldie misses plus low-ratio full-text rows to gold/scorer/retrieval/manual-DOM audit.",
-      "priority": 7.550175942022772,
-      "publisher_id": "sage",
-      "status": "shipped_parser_fix_small_lift_no_regressions"
-    },
-    {
-      "current_kpi": 0.9745,
-      "field": "authors",
-      "html_available": 499,
-      "next_action": "Taylor product-contributor fallback shipped (+1.00pp Taylor authors, +0.094pp full-10K authors). Taylor authors remains below 98; route residual non-Taylor/no-author-signal/name-variant rows to gold/manual-DOM, and route 7 Goldie-empty/parser-present author candidates to Goldie-backfilled.",
-      "priority": 2.7444999999999746,
-      "publisher_id": "taylor",
-      "status": "shipped_full10k_measured_residual_below_98"
-    },
-    {
-      "current_kpi": 0.9776,
-      "field": "corresponding",
-      "html_available": 1117,
-      "next_action": "diagnose",
-      "priority": 2.6807999999999526,
-      "publisher_id": "springer",
-      "status": "shipped_full10k_measured"
-    },
-    {
-      "current_kpi": 0.9659,
+      "current_kpi": 1.0,
       "field": "pdf_url",
-      "html_available": 190,
-      "next_action": "route six residual current-Goldie failures to Browserbase/gold-auditor/manual-DOM; keep 14 Goldie-empty/parser-present rows in Goldie-backfilled lane",
-      "priority": 2.6790000000000003,
-      "publisher_id": "lippincott",
-      "status": "shipped_scorer_fix_small_lift_below_98_residual_explainable"
+      "html_available": 75,
+      "next_action": "keep_2_missing_html_rows_in_retrieval_accounting_continue_next_ranked_queue_lane",
+      "priority": 72.5,
+      "publisher_id": "ssrn",
+      "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained"
     },
     {
-      "current_kpi": 0.9609375,
-      "field": "corresponding",
-      "html_available": 130,
-      "next_action": "ACS dot-initial singleton shipped; route remaining 5 current-Goldie misses to no-signal/invalid-email/gold-page manual review and keep 2 Goldie-empty/parser-present rows in Goldie-backfilled.",
-      "priority": 2.4781249999999977,
-      "publisher_id": "acs",
-      "status": "shipped_parser_fix_singleton_lift_residual_explainable"
+      "current_kpi": 0.5592,
+      "field": "affiliations",
+      "html_available": 72,
+      "next_action": "Route 54 approved MDPI affiliation derived labels and 2 blocked rows to gold-auditor/derived-corpus approval; recover 65 Akamai stubs via harvest/Browserbase if coverage is prioritized.",
+      "priority": 72.2986,
+      "publisher_id": "mdpi",
+      "status": "goldie_backfill_referee_complete_54_approved_2_blocked_current_goldie_low_gold_owned_retrieval_blocked"
     },
     {
-      "current_kpi": 0.9754,
+      "current_kpi": 0.9834,
       "field": "abstract",
-      "html_available": 393,
-      "next_action": "Ship one generic/TechRxiv page-grounded abstract recovery; route 9 residual current-Goldie misses (8 parser-empty, 1 parser-present mismatch) and 4 Goldie-empty/parser-present candidates to Browserbase/gold-auditor/manual-DOM; continue the global queue.",
-      "priority": 1.8077999999999754,
-      "publisher_id": "ieee",
-      "status": "shipped_full10k_measured_below_98_with_explainable_residual"
-    },
-    {
-      "current_kpi": 0.9689,
-      "field": "authors",
       "html_available": 151,
-      "next_action": "diagnose",
-      "priority": 1.6761,
+      "next_action": "browserbase-ground",
+      "priority": 57.75,
       "publisher_id": "cup",
       "status": "shipped_full10k_measured"
-    },
-    {
-      "current_kpi": 0.9774,
-      "field": "affiliations",
-      "html_available": 130,
-      "next_action": "route residual blank-symbol/combined-affiliation ACS rows to gold-auditor/manual-DOM; continue global queue unless ACS remains top after Browserbase grounding",
-      "priority": 0.33799999999999164,
-      "publisher_id": "acs",
-      "status": "shipped_below_98_explainable_residual"
     }
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T02:16:52Z",
+  "updated_at": "2026-06-12T02:29:14Z",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
