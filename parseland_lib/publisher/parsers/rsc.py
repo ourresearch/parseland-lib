@@ -8,10 +8,18 @@ class RSC(PublisherParser):
     parser_name = "rsc"
 
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url("pubs.rsc.org")
+        return (
+            self.domain_in_meta_og_url("pubs.rsc.org")
+            or self.domain_in_meta_og_url("books.rsc.org")
+        )
 
     def authors_found(self):
-        return bool(self.soup.select('.article__author-link'))
+        return bool(
+            self.soup.select('.article__author-link')
+            or self._citation_abstract()
+            or self.soup.select_one('.article-abstract__heading + div p')
+            or self.soup.select_one('[class*="abstract"] p')
+        )
 
     def parse_affiliations(self):
         aff_tags = self.soup.select('.article__author-affiliation')
@@ -28,8 +36,10 @@ class RSC(PublisherParser):
         return affs
 
     def parse_authors(self):
-        affs = self.parse_affiliations()
         author_tags = self.soup.select('.article__author-link')
+        if not author_tags:
+            return self.parse_author_meta_tags()
+        affs = self.parse_affiliations()
         authors = []
         for author_tag in author_tags:
             name = re.sub('[\n\r]', ' ', author_tag.find('a').text)
@@ -44,9 +54,33 @@ class RSC(PublisherParser):
             authors.append(author)
         return authors
 
+    @staticmethod
+    def _clean_text(text):
+        return re.sub(r'\s+', ' ', text or '').strip()
+
+    def _citation_abstract(self):
+        meta = self.soup.select_one('meta[name="citation_abstract"]')
+        if not meta:
+            return None
+        abstract = self._clean_text(meta.get('content'))
+        if not abstract or abstract.lower() == "no abstract available":
+            return None
+        return abstract
+
     def parse_abstract(self):
-        if abs_tag := self.soup.select_one('.article-abstract__heading + div p'):
-            return abs_tag.text
+        if self.soup.select_one('meta[name="citation_abstract"][content="No abstract available"]'):
+            return None
+        if citation_abstract := self._citation_abstract():
+            return citation_abstract
+        paragraphs = self.soup.select('.article-abstract__heading + div p')
+        if not paragraphs:
+            paragraphs = self.soup.select('[class*="abstract"] p')
+        if paragraphs:
+            return " ".join(
+                self._clean_text(p.get_text(' ', strip=True))
+                for p in paragraphs
+                if p.get_text(' ', strip=True)
+            )
 
     def parse(self):
         return {'authors': self.parse_authors(), 'abstract': self.parse_abstract()}

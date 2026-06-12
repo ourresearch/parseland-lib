@@ -1,0 +1,252 @@
+{
+  "agent_id": "codex-rsc-abstract-b100",
+  "changed_abstract_rows": [
+    {
+      "after_parsed_abstract_len": 1403,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/9781837671540-00215",
+      "gold_abstract_len": 1403
+    },
+    {
+      "after_parsed_abstract_len": 0,
+      "after_ratio": 1.0,
+      "after_status": "empty_empty_pass",
+      "before_parsed_abstract_len": 74,
+      "before_ratio": 0.0,
+      "before_status": "gold_empty_parser_present",
+      "delta": 1.0,
+      "doi": "10.1039/an9416600154",
+      "gold_abstract_len": 0
+    },
+    {
+      "after_parsed_abstract_len": 780,
+      "after_ratio": 0.987828315183,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 324,
+      "before_ratio": 0.586425339367,
+      "before_status": "gold_present_parser_present",
+      "delta": 0.401402975816,
+      "doi": "10.1039/an9830801235",
+      "gold_abstract_len": 781
+    },
+    {
+      "after_parsed_abstract_len": 50,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/c5ee90034d",
+      "gold_abstract_len": 50
+    },
+    {
+      "after_parsed_abstract_len": 50,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/c6gc90055k",
+      "gold_abstract_len": 50
+    },
+    {
+      "after_parsed_abstract_len": 50,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/c6lc90017h",
+      "gold_abstract_len": 50
+    },
+    {
+      "after_parsed_abstract_len": 50,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/c8ja90001a",
+      "gold_abstract_len": 50
+    },
+    {
+      "after_parsed_abstract_len": 50,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 0,
+      "before_ratio": 0.0,
+      "before_status": "gold_present_parser_empty",
+      "delta": 1.0,
+      "doi": "10.1039/c9me90019e",
+      "gold_abstract_len": 50
+    },
+    {
+      "after_parsed_abstract_len": 722,
+      "after_ratio": 1.0,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 722,
+      "before_ratio": 0.997229916898,
+      "before_status": "gold_present_parser_present",
+      "delta": 0.002770083102,
+      "doi": "10.1039/d0nj02276d",
+      "gold_abstract_len": 722
+    },
+    {
+      "after_parsed_abstract_len": 1160,
+      "after_ratio": 0.99224137931,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 1160,
+      "before_ratio": 0.990517241379,
+      "before_status": "gold_present_parser_present",
+      "delta": 0.001724137931,
+      "doi": "10.1039/d4nj00853g",
+      "gold_abstract_len": 1160
+    },
+    {
+      "after_parsed_abstract_len": 0,
+      "after_ratio": 1.0,
+      "after_status": "empty_empty_pass",
+      "before_parsed_abstract_len": 74,
+      "before_ratio": 0.0,
+      "before_status": "gold_empty_parser_present",
+      "delta": 1.0,
+      "doi": "10.1039/jr9510001975",
+      "gold_abstract_len": 0
+    },
+    {
+      "after_parsed_abstract_len": 1139,
+      "after_ratio": 0.999561211057,
+      "after_status": "gold_present_parser_present",
+      "before_parsed_abstract_len": 594,
+      "before_ratio": 0.685121107266,
+      "before_status": "gold_present_parser_present",
+      "delta": 0.314440103791,
+      "doi": "10.1039/p19750000195",
+      "gold_abstract_len": 1140
+    }
+  ],
+  "classification": "parser_owned_rsc_abstract_dispatch_citation_meta_book_fallback",
+  "completed_at": "2026-06-12T02:04:36.151307Z",
+  "coverage": {
+    "gold_empty_parser_present_count": 0,
+    "html_available": 61,
+    "per_publisher": {
+      "rsc": {
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "scored_rows": 61,
+        "total_rows": 61
+      }
+    },
+    "retrieval_blocked_by_reason": {},
+    "retrieval_blocked_rows": 0,
+    "scored_rows": 61,
+    "total_rows": 61
+  },
+  "cross_field_changes": {
+    "affiliations": {
+      "changed_rows": 0,
+      "regressed_rows": 0,
+      "regressions": []
+    },
+    "authors": {
+      "changed_rows": 0,
+      "regressed_rows": 0,
+      "regressions": []
+    },
+    "corresponding": {
+      "changed_rows": 0,
+      "regressed_rows": 0,
+      "regressions": []
+    },
+    "pdf_url": {
+      "changed_rows": 0,
+      "regressed_rows": 0,
+      "regressions": []
+    }
+  },
+  "current_kpi_by_field_after": {
+    "abstract": 0.9984265457360806,
+    "affiliations": 0.9836065573770492,
+    "authors": 1.0,
+    "corresponding": 0.9836065573770492,
+    "pdf_url": 0.9836065573770492
+  },
+  "diagnosis": "RSC abstract misses were a mix of no-author abstract dispatch, multi-paragraph visible abstracts, RSC book pages on books.rsc.org, formula-safe citation_abstract metadata, and Goldie-empty placeholder pages marked No abstract available.",
+  "field": "abstract",
+  "field_counts_after": {
+    "empty_empty_pass": 4,
+    "gold_empty_parser_present": 0,
+    "gold_present_parser_empty": 0,
+    "gold_present_parser_present": 57,
+    "html_available": 61,
+    "retrieval_blocked": 0,
+    "scored_rows": 61,
+    "total_rows": 61
+  },
+  "field_counts_before": {
+    "empty_empty_pass": 2,
+    "gold_empty_parser_present": 2,
+    "gold_present_parser_empty": 6,
+    "gold_present_parser_present": 51,
+    "html_available": 61,
+    "retrieval_blocked": 0,
+    "scored_rows": 59,
+    "total_rows": 61
+  },
+  "files_touched": [
+    "parseland_lib/publisher/parsers/rsc.py",
+    "tests/test_rsc_abstract.py",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_rsc_abstract_meta_author_b100_after.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_abstract_b100_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "improved_rows": 12,
+  "kpi_after": 0.9984265457360806,
+  "kpi_before": 0.8844691862586489,
+  "kpi_delta": 0.11395735947743169,
+  "present_rate_after": 0.9344262295081968,
+  "present_rate_before": 0.8360655737704918,
+  "publisher_id": "rsc",
+  "recommendation": "Ship the RSC parser fix. RSC is now above 98% on all five current-Goldie fields after Taxicab/R2 retrieval recovery; remaining non-perfect affiliations/pdf/corresponding rows are singleton residuals for later gold/manual review, not a repeated RSC abstract parser lane.",
+  "regressed_rows": 0,
+  "run_id": "20260604T163736Z-77fe45",
+  "shield_result": "pass",
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_rsc_retrieval_r2_full_b99.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_rsc_abstract_meta_author_b100_after.json"
+  ],
+  "status": "shipped_parser_fix_above_98_no_regressions",
+  "target_kpi": 0.98,
+  "task_id": "v2_rsc_abstract_3ebeb1bf",
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_rsc_abstract.py tests/test_parse_page.py -q",
+      "result": "22 passed",
+      "status": "passed"
+    },
+    {
+      "command": "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/rsc.py tests/test_rsc_abstract.py",
+      "result": "passed",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers rsc --label rsc-abstract-meta-author-b100",
+      "result": "abstract_ratio_fuzzy 0.884469186259 -> 0.998426545736; authors 1.000 stable; no cross-field regressions",
+      "status": "passed"
+    }
+  ],
+  "wave_id": 100
+}

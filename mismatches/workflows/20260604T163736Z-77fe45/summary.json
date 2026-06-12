@@ -61,7 +61,6 @@
     "retrieval_blocked": 185,
     "retrieval_recovered_above_98": 5,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 9,
@@ -69,7 +68,7 @@
     "shipped_full10k_measured_below_98_with_explainable_residual": 2,
     "shipped_full10k_measured_residual_below_98": 1,
     "shipped_full10k_measured_with_backfill_pending": 1,
-    "shipped_parser_fix_above_98_no_regressions": 1,
+    "shipped_parser_fix_above_98_no_regressions": 2,
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_gold_page_disagreements": 1,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
@@ -173,8 +172,210 @@
     "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke",
     "updated_at": "2026-06-10T06:37:11Z"
   },
-  "last_shipped_batch": 95,
-  "last_updated_at": "2026-06-11T21:09:00.140722Z",
+  "last_shipped_batch": 100,
+  "last_updated_at": "2026-06-12T02:04:36.151307Z",
+  "open_queue_top": [
+    {
+      "current_kpi": 0.807,
+      "field": "corresponding",
+      "html_available": 72,
+      "next_action": "Parser-empty corresponding misses are fixed; route 5 visible-star disagreements to gold-auditor, keep 53 approved backfilled corresponding candidates separate, and recover 65 Akamai stubs only through retrieval.",
+      "priority": 52.2047,
+      "publisher_id": "mdpi",
+      "status": "parser_empty_fixed_gold_owned_visible_star_residuals",
+      "task_id": "v2_mdpi_corresponding_cfd37b32"
+    },
+    {
+      "current_kpi": 0.9945,
+      "field": "pdf_url",
+      "html_available": 222,
+      "next_action": "Do not scale De Gruyter PDF backfill under current Browserbase access: 5-row smoke approved 0 and blocked 5. Current-Goldie pdf_url is above 98; keep the 39 Goldie-empty/parser-present candidates separate and continue the next ranked lane.",
+      "priority": 29.25,
+      "publisher_id": "de_gruyter",
+      "status": "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence",
+      "task_id": "v2_de_gruyter_pdf_url_e73da58b"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "abstract",
+      "html_available": 0,
+      "next_action": "classify-publisher",
+      "priority": 7.8865,
+      "publisher_id": "unknown",
+      "status": "publisher_unknown",
+      "task_id": "v2_unknown_abstract_24970d56"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "affiliations",
+      "html_available": 0,
+      "next_action": "classify-publisher",
+      "priority": 7.8865,
+      "publisher_id": "unknown",
+      "status": "publisher_unknown",
+      "task_id": "v2_unknown_affiliations_05c1d55a"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "authors",
+      "html_available": 0,
+      "next_action": "classify-publisher",
+      "priority": 7.8865,
+      "publisher_id": "unknown",
+      "status": "publisher_unknown",
+      "task_id": "v2_unknown_authors_6286d162"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "corresponding",
+      "html_available": 0,
+      "next_action": "classify-publisher",
+      "priority": 7.8865,
+      "publisher_id": "unknown",
+      "status": "publisher_unknown",
+      "task_id": "v2_unknown_corresponding_bd31e399"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "pdf_url",
+      "html_available": 0,
+      "next_action": "classify-publisher",
+      "priority": 7.8865,
+      "publisher_id": "unknown",
+      "status": "publisher_unknown",
+      "task_id": "v2_unknown_pdf_url_720b5cdc"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "abstract",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.989,
+      "publisher_id": "thieme",
+      "status": "retrieval_blocked",
+      "task_id": "v2_thieme_abstract_1d10629c"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "affiliations",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.989,
+      "publisher_id": "thieme",
+      "status": "retrieval_blocked",
+      "task_id": "v2_thieme_affiliations_a54fe408"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "authors",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.989,
+      "publisher_id": "thieme",
+      "status": "retrieval_blocked",
+      "task_id": "v2_thieme_authors_8957c43d"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "corresponding",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.989,
+      "publisher_id": "thieme",
+      "status": "retrieval_blocked",
+      "task_id": "v2_thieme_corresponding_8750add6"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "pdf_url",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.989,
+      "publisher_id": "thieme",
+      "status": "retrieval_blocked",
+      "task_id": "v2_thieme_pdf_url_4abbe2ca"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "abstract",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.793,
+      "publisher_id": "aip_publishing",
+      "status": "retrieval_blocked",
+      "task_id": "v2_aip_publishing_abstract_0e60b095"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "affiliations",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.793,
+      "publisher_id": "aip_publishing",
+      "status": "retrieval_blocked",
+      "task_id": "v2_aip_publishing_affiliations_7053b4f0"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "authors",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.793,
+      "publisher_id": "aip_publishing",
+      "status": "retrieval_blocked",
+      "task_id": "v2_aip_publishing_authors_6a4c7896"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "corresponding",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.793,
+      "publisher_id": "aip_publishing",
+      "status": "retrieval_blocked",
+      "task_id": "v2_aip_publishing_corresponding_35661353"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "pdf_url",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.793,
+      "publisher_id": "aip_publishing",
+      "status": "retrieval_blocked",
+      "task_id": "v2_aip_publishing_pdf_url_e5ae9ced"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "abstract",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.401,
+      "publisher_id": "cairn",
+      "status": "retrieval_blocked",
+      "task_id": "v2_cairn_abstract_262bdc45"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "affiliations",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.401,
+      "publisher_id": "cairn",
+      "status": "retrieval_blocked",
+      "task_id": "v2_cairn_affiliations_d824620d"
+    },
+    {
+      "current_kpi": 0.0,
+      "field": "authors",
+      "html_available": 0,
+      "next_action": "retrieve-html",
+      "priority": 2.401,
+      "publisher_id": "cairn",
+      "status": "retrieval_blocked",
+      "task_id": "v2_cairn_authors_69ab2f70"
+    }
+  ],
   "outputs": {
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
@@ -236,6 +437,17 @@
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
+  },
+  "rsc_abstract_b100_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_abstract_b100_gate.json",
+    "completed_at": "2026-06-12T02:04:36.151307Z",
+    "current_kpi": 0.9984265457360806,
+    "improved_rows": 12,
+    "kpi_before": 0.8844691862586489,
+    "kpi_delta": 0.11395735947743169,
+    "regressed_rows": 0,
+    "residual": "RSC abstract is above 98; no remaining gold_empty_parser_present rows after suppressing No abstract available placeholders.",
+    "status": "shipped_parser_fix_above_98_no_regressions"
   },
   "rsc_retrieval_r2_b99_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_r2_full_b99_gate.json",
@@ -438,7 +650,7 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T00:33:57.613966+00:00",
+  "updated_at": "2026-06-12T02:04:36.151307Z",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
