@@ -14,6 +14,7 @@ from scripts.goldie_backfill_ground import (
     resolve_abstract_len_candidate,
     resolve_affiliation_candidate,
     resolve_author_count_candidate,
+    resolve_contact_author_parenthetical_candidate,
     resolve_mdpi_starred_corresponding_candidate,
     write_result,
 )
@@ -363,6 +364,62 @@ def test_corresponding_excerpt_rejects_generic_address_needle():
     assert "Marta Valencia" in excerpt
     assert selector == "corresponding-author-name-only"
     assert confidence == "corresponding_author_name_only"
+
+
+def test_resolve_contact_author_parenthetical_candidate_accepts_ssrn_marker():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Steven Ongena",
+                    "affiliations": [],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+    html = """
+    <html><body>
+      <div class="authors"><h2>Steven Ongena</h2></div>
+      <div class="author">
+        <h3>Steven R. G. Ongena (Contact Author)</h3>
+        <p>University of Zurich - Department of Banking and Finance</p>
+      </div>
+    </body></html>
+    """
+
+    resolved, excerpt = resolve_contact_author_parenthetical_candidate(html, candidate)
+
+    assert resolved == {
+        "authors": [
+            {"name": "Steven Ongena", "affiliations": [], "is_corresponding": True},
+        ]
+    }
+    assert "Contact Author" in excerpt
+
+
+def test_resolve_contact_author_parenthetical_candidate_rejects_name_only():
+    candidate = {
+        "field": "corresponding",
+        "parseland_candidate": {
+            "authors": [
+                {
+                    "name": "Steven Ongena",
+                    "affiliations": [],
+                    "is_corresponding": True,
+                }
+            ]
+        },
+    }
+
+    assert (
+        resolve_contact_author_parenthetical_candidate(
+            "<html><body><h3>Steven Ongena</h3></body></html>",
+            candidate,
+        )
+        is None
+    )
 
 
 def test_resolve_mdpi_starred_corresponding_candidate_requires_starred_byline():

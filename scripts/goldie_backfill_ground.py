@@ -402,6 +402,21 @@ def _person_name_key(value: Any) -> str:
     return re.sub(r"[^a-z0-9]+", "", _clean_person_name(value).casefold())
 
 
+def _person_name_signature(value: Any) -> tuple[str, str] | None:
+    tokens = re.findall(r"[A-Za-z]+", _clean_person_name(value).casefold())
+    if not tokens:
+        return None
+    return tokens[-1], tokens[0][:1]
+
+
+def _person_names_match(left: Any, right: Any) -> bool:
+    left_key = _person_name_key(left)
+    right_key = _person_name_key(right)
+    if left_key and right_key and left_key == right_key:
+        return True
+    return _person_name_signature(left) == _person_name_signature(right)
+
+
 def candidate_corresponding_author_names(candidate: dict) -> list[str]:
     if candidate.get("field") != "corresponding":
         return []
@@ -419,6 +434,53 @@ def candidate_corresponding_author_names(candidate: dict) -> list[str]:
             names.append(name)
             seen.add(key)
     return names
+
+
+def resolve_contact_author_parenthetical_candidate(
+    html: str,
+    candidate: dict,
+) -> tuple[dict[str, Any], str] | None:
+    """Ground corresponding authors against visible ``(Contact Author)`` text.
+
+    SSRN pages commonly show a byline name and then an author detail heading
+    such as ``Steven R. G. Ongena (Contact Author)``. Parseland may emit the
+    shorter byline name, so this resolver allows first-initial + last-name
+    matching but still requires the explicit marker.
+    """
+    names = candidate_corresponding_author_names(candidate)
+    if not names:
+        return None
+    soup = BeautifulSoup(html or "", "html.parser")
+    marker_re = re.compile(r"\b(contact author|corresponding author)\b", re.I)
+    chunks_by_name: dict[str, str] = {}
+    for text_node in soup.find_all(string=marker_re):
+        node = getattr(text_node, "parent", None)
+        for _ in range(4):
+            if node is None:
+                break
+            text = node.get_text(" ", strip=True)
+            if marker_re.search(text):
+                for name in names:
+                    if name in chunks_by_name:
+                        continue
+                    marker_stripped = marker_re.sub(" ", text)
+                    marker_stripped = re.sub(r"\s+", " ", marker_stripped).strip(" ()")
+                    if _person_names_match(name, marker_stripped) or _person_name_key(name) in _person_name_key(text):
+                        chunks_by_name[name] = str(node).replace("\n", " ").strip()
+            node = getattr(node, "parent", None)
+    if len(chunks_by_name) != len(names):
+        return None
+    resolved = {
+        "authors": [
+            {
+                "name": name,
+                "affiliations": [],
+                "is_corresponding": True,
+            }
+            for name in names
+        ]
+    }
+    return resolved, " ... ".join(chunks_by_name[name] for name in names)
 
 
 def resolve_mdpi_starred_corresponding_candidate(
@@ -944,6 +1006,19 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     resolved_candidate_source = "browserbase_rendered_authorNames"
             corresponding_resolution = None
             if field == "corresponding" and confidence != "correspondence_candidate_text_match":
+                corresponding_resolution = resolve_contact_author_parenthetical_candidate(html, candidate)
+                if corresponding_resolution:
+                    resolved_candidate, excerpt = corresponding_resolution
+                    selector = "contact-author-parenthetical"
+                    confidence = "contact_author_parenthetical_match"
+                    resolved_candidate_source = "browserbase_rendered_contact_author_parenthetical"
+            if (
+                field == "corresponding"
+                and confidence not in {
+                    "correspondence_candidate_text_match",
+                    "contact_author_parenthetical_match",
+                }
+            ):
                 corresponding_resolution = resolve_mdpi_starred_corresponding_candidate(html, candidate)
                 if corresponding_resolution:
                     resolved_candidate, excerpt = corresponding_resolution
@@ -1036,6 +1111,7 @@ def ground_one(candidate: dict, evidence_dir: Path) -> GroundingResult:
                     "abstract_len_rendered_parse_match",
                     "all_affiliation_candidate_text_match",
                     "correspondence_candidate_text_match",
+                    "contact_author_parenthetical_match",
                     "mdpi_starred_author_byline_match",
                 }
                 else "page_rendered_needs_referee"

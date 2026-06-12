@@ -33,13 +33,13 @@
     "blocked_pdf_candidate_urls_not_grounded_b85_smoke_0_10_approved": 1,
     "blocked_retrieval_access_no_parser_patch_below_98_explainable": 1,
     "goldie_backfill_legacy_final_7_approved_1_blocked_promoted_exhausted": 1,
-    "goldie_backfill_pending": 1,
     "goldie_backfill_referee_complete_0_approved_13_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_14_blocked": 2,
     "goldie_backfill_referee_complete_0_approved_1_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_25_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_2_blocked": 1,
     "goldie_backfill_referee_complete_0_approved_3_blocked": 1,
+    "goldie_backfill_referee_complete_13_approved_0_blocked": 1,
     "goldie_backfill_referee_complete_1_approved_3_blocked": 1,
     "goldie_backfill_referee_complete_1_approved_5_blocked": 1,
     "goldie_backfill_referee_complete_21_approved_7_blocked": 1,
@@ -295,6 +295,14 @@
     "status": "shipped_scorer_parser_fix_above_98_no_regressions",
     "tests": "37 parseland-lib tests passed; 14 parseland-eval affiliation tests passed; scoped SSRN whole-Goldie passed"
   },
+  "ssrn_corresponding_b97_state": {
+    "approved_rows": 13,
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ssrn_corresponding_b97_gate.json",
+    "blocked_rows": 0,
+    "current_goldie_kpi_effect": "none",
+    "recommendation": "Keep these as Goldie-backfilled derived-corpus candidates; do not mutate merged-FINAL.csv and do not count them as current-Goldie KPI lift. SSRN parser does not need a patch for this lane.",
+    "status": "goldie_backfill_referee_complete_13_approved_0_blocked"
+  },
   "ssrn_pdf_b89_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_pdf_delivery_equivalence_b89_gate.json",
     "field": "pdf_url",
@@ -410,7 +418,7 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T00:11:21.222439+00:00",
+  "updated_at": "2026-06-12T00:27:16.469188+00:00",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
