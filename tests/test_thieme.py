@@ -153,3 +153,23 @@ def test_parse_page_dispatches_thieme_from_citation_publisher():
 
     assert parsed["authors"][0]["name"] == "A. Researcher"
     assert parsed["abstract"].startswith("This citation abstract")
+
+
+def test_parse_page_dispatches_thieme_visible_abstract_without_authors():
+    head = """
+    <meta name="description" content="Thieme E-Books & E-Journals">
+    <link rel="canonical" href="https://www.thieme-connect.de/products/ejournals/abstract/10.1055/example">
+    """
+    body = """
+    <div id="abstract">
+      Buy Article (opens in new window) Permissions and Reprints (opens in new window)
+      Die Aortenisthmusstenose ist eine isolierte Enge der Aorta
+      in unmittelbarer Nachbarschaft zum Ductus arteriosus und hat eine relevante
+      Inzidenz bei Neugeborenen.
+    </div>
+    """
+
+    parsed = parse_page(str(_soup(body, head=head)), "doi", "https://doi.org/10.1055/example")
+
+    assert parsed["authors"] == []
+    assert parsed["abstract"].startswith("Die Aortenisthmusstenose")

@@ -1,0 +1,3984 @@
+{
+  "run_id": "thieme-abstract-b104",
+  "label": "thieme-abstract-b104",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-12T02:48:33.832636+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 61,
+  "coverage": {
+    "total_rows": 61,
+    "html_available": 61,
+    "scored_rows": 61,
+    "retrieval_blocked_rows": 0,
+    "retrieval_blocked_by_reason": {},
+    "gold_empty_parser_present_count": 7,
+    "per_publisher": {
+      "thieme": {
+        "total_rows": 61,
+        "html_available": 61,
+        "scored_rows": 61,
+        "retrieval_blocked": 0
+      }
+    }
+  },
+  "skipped_no_html_count": 0,
+  "skipped_no_html_dois": [],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 61,
+      "scored": 61,
+      "errors": 0,
+      "skipped_no_html": 0,
+      "authors_f1_strict": 0.8032786885245902,
+      "authors_f1_soft": 0.8032786885245902,
+      "affiliations_f1_strict": 0.8782407407407408,
+      "affiliations_f1_fuzzy": 0.9115740740740741,
+      "abstract_ratio_fuzzy": 0.924109625018118,
+      "abstract_present_rate": 0.47540983606557374,
+      "pdf_url_accuracy": 0.9666666666666667,
+      "corresponding_accuracy": 0.9836065573770492,
+      "duration_ms_mean": 1976.4173545370825,
+      "n_authors_scored": 61,
+      "n_pdf_scored": 60,
+      "n_corresponding_scored": 61,
+      "n_abstract_scored": 56
+    },
+    "per_publisher": {
+      "thieme": {
+        "rows": 61,
+        "scored": 61,
+        "errors": 0,
+        "skipped_no_html": 0,
+        "authors_f1_strict": 0.8032786885245902,
+        "authors_f1_soft": 0.8032786885245902,
+        "affiliations_f1_strict": 0.8782407407407408,
+        "affiliations_f1_fuzzy": 0.9115740740740741,
+        "abstract_ratio_fuzzy": 0.924109625018118,
+        "abstract_present_rate": 0.47540983606557374,
+        "pdf_url_accuracy": 0.9666666666666667,
+        "corresponding_accuracy": 0.9836065573770492,
+        "duration_ms_mean": 1976.4173545370825,
+        "n_authors_scored": 61,
+        "n_pdf_scored": 60,
+        "n_corresponding_scored": 61,
+        "n_abstract_scored": 56
+      }
+    },
+    "coverage": {
+      "total_rows": 61,
+      "html_available": 61,
+      "scored_rows": 61,
+      "retrieval_blocked_rows": 0,
+      "retrieval_blocked_by_reason": {},
+      "gold_empty_parser_present_count": 7,
+      "per_publisher": {
+        "thieme": {
+          "total_rows": 61,
+          "html_available": 61,
+          "scored_rows": 61,
+          "retrieval_blocked": 0
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 7,
+        "gold_present_parser_empty": 12,
+        "gold_present_parser_present": 42,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      },
+      "affiliations": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 29,
+        "gold_present_parser_empty": 5,
+        "gold_present_parser_present": 26,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 60
+      },
+      "abstract": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 23,
+        "gold_present_parser_empty": 4,
+        "gold_present_parser_present": 29,
+        "gold_empty_parser_present": 5,
+        "scored_rows": 56
+      },
+      "pdf_url": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 15,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 44,
+        "gold_empty_parser_present": 1,
+        "scored_rows": 60
+      },
+      "corresponding": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 49,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 11,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      }
+    },
+    "per_publisher_field": {
+      "thieme": {
+        "authors": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 7,
+          "gold_present_parser_empty": 12,
+          "gold_present_parser_present": 42,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        },
+        "affiliations": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 29,
+          "gold_present_parser_empty": 5,
+          "gold_present_parser_present": 26,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 60
+        },
+        "abstract": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 23,
+          "gold_present_parser_empty": 4,
+          "gold_present_parser_present": 29,
+          "gold_empty_parser_present": 5,
+          "scored_rows": 56
+        },
+        "pdf_url": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 15,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 44,
+          "gold_empty_parser_present": 1,
+          "scored_rows": 60
+        },
+        "corresponding": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 49,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 11,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 436,
+      "doi": "10.1055/s-0035-1547423",
+      "link": "https://doi.org/10.1055/s-0035-1547423",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1435.5509588494897,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 901,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0035-1547423.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 833,
+      "doi": "10.1055/s-0031-1273032",
+      "link": "https://doi.org/10.1055/s-0031-1273032",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1599.8110421933234,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 13
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9990406140070356,
+          "fuzzy_ratio": 0.9987080103359173,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 13,
+        "abstract_len": 1548,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 13,
+        "abstract_len": 1548,
+        "urls": []
+      }
+    },
+    {
+      "no": 126,
+      "doi": "10.1055/s-2008-1041524",
+      "link": "https://doi.org/10.1055/s-2008-1041524",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1649.5822500437498,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1041524.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 641,
+      "doi": "10.1055/s-0041-100204",
+      "link": "https://doi.org/10.1055/s-0041-100204",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1665.0104578584433,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 368,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 368,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0041-100204.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1032,
+      "doi": "10.1055/a-0861-0541",
+      "link": "https://doi.org/10.1055/a-0861-0541",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1751.686166971922,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 560,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 560,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-0861-0541.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1223,
+      "doi": "10.1055/b-0034-41481",
+      "link": "https://doi.org/10.1055/b-0034-41481",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 376.5360419638455,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-41481.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1130,
+      "doi": "10.1055/a-1144-4200",
+      "link": "https://doi.org/10.1055/a-1144-4200",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1815.6917500309646,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-1144-4200.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 332,
+      "doi": "10.1055/s-0036-1579766",
+      "link": "https://doi.org/10.1055/s-0036-1579766",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1849.8625829815865,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 472,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 472,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0036-1579766.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 928,
+      "doi": "10.1055/s-0029-1221554",
+      "link": "https://doi.org/10.1055/s-0029-1221554",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1957.2242079302669,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9420323867636705,
+          "fuzzy_ratio": 0.9421992481203008,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 2005,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 2251,
+        "urls": []
+      }
+    },
+    {
+      "no": 1225,
+      "doi": "10.1055/sos-sd-046-00239",
+      "link": "https://doi.org/10.1055/sos-sd-046-00239",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 219.00979103520513,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_empty_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://doi.org/10.1055/SD-046-00239/16315104938165356165.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1224,
+      "doi": "10.1055/s-0043-119776",
+      "link": "https://doi.org/10.1055/s-0043-119776",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1197.665666230023,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 437,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 437,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0043-119776.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2035,
+      "doi": "10.1055/b-0034-26053",
+      "link": "https://doi.org/10.1055/b-0034-26053",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1009.075874928385,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-26053.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2444,
+      "doi": "10.1055/b-0038-150954",
+      "link": "https://doi.org/10.1055/b-0038-150954",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1487.6846671104431,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 89,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0038-150954.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1332,
+      "doi": "10.1055/sos-sd-033-00307",
+      "link": "https://doi.org/10.1055/sos-sd-033-00307",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1919.1199173219502,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 1638,
+      "doi": "10.1055/s-2008-1053977",
+      "link": "https://doi.org/10.1055/s-2008-1053977",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1867.5627503544092,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 347,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 347,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1053977.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1931,
+      "doi": "10.1055/s-0029-1223050",
+      "link": "https://doi.org/10.1055/s-0029-1223050",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1883.5007497109473,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9959814528593508,
+          "fuzzy_ratio": 0.9959814528593508,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1612,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1623,
+        "urls": []
+      }
+    },
+    {
+      "no": 3135,
+      "doi": "10.1055/s-2004-819542",
+      "link": "https://doi.org/10.1055/s-2004-819542",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1469.8638748377562,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.998426435877262,
+          "fuzzy_ratio": 0.9984164687252572,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1261,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 1265,
+        "urls": []
+      }
+    },
+    {
+      "no": 3839,
+      "doi": "10.1055/b-0034-22909",
+      "link": "https://doi.org/10.1055/b-0034-22909",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1035.0376246497035,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-22909.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2630,
+      "doi": "10.1055/s-1994-22906",
+      "link": "https://doi.org/10.1055/s-1994-22906",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2620.5303333699703,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_empty_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 412,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-1994-22906.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2730,
+      "doi": "10.1055/s-0043-116159",
+      "link": "https://doi.org/10.1055/s-0043-116159",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1940.0267079472542,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 439,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0043-116159.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3343,
+      "doi": "10.1055/sos-sd-026-00614",
+      "link": "https://doi.org/10.1055/sos-sd-026-00614",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1231.8867091089487,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://doi.org/10.1055/SD-026-00614/4049569500380414500.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2129,
+      "doi": "10.1055/s-2006-921535",
+      "link": "https://doi.org/10.1055/s-2006-921535",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 3008.814041968435,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1121,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 1121,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2006-921535.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4333,
+      "doi": "10.1055/s-0043-1774256",
+      "link": "https://doi.org/10.1055/s-0043-1774256",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1519.4023749791086,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 4630,
+      "doi": "10.1055/s-0033-1354004",
+      "link": "https://doi.org/10.1055/s-0033-1354004",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1290.2396656572819,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.999589995899959,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 2439,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 2439,
+        "urls": []
+      }
+    },
+    {
+      "no": 4840,
+      "doi": "10.1055/b-0042-189220",
+      "link": "https://doi.org/10.1055/b-0042-189220",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1163.2695416919887,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0042-189220.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4334,
+      "doi": "10.1055/s-2007-986946",
+      "link": "https://doi.org/10.1055/s-2007-986946",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1791.8859580531716,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9565868263473054,
+          "fuzzy_ratio": 0.9565868263473054,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 1917,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 2091,
+        "urls": []
+      }
+    },
+    {
+      "no": 3236,
+      "doi": "10.1055/s-0029-1201863",
+      "link": "https://doi.org/10.1055/s-0029-1201863",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2649.673833977431,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0029-1201863.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4535,
+      "doi": "10.1055/a-2439-7879",
+      "link": "https://doi.org/10.1055/a-2439-7879",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1496.5232918038964,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 171,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-2439-7879.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4739,
+      "doi": "10.1055/s-2004-822769",
+      "link": "https://doi.org/10.1055/s-2004-822769",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1422.2999173216522,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 444,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 444,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2004-822769.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5129,
+      "doi": "10.1055/b-0034-18895",
+      "link": "https://doi.org/10.1055/b-0034-18895",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1019.2715837620199,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 96,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-18895.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4683,
+      "doi": "10.3415/vcot-08-08-0073",
+      "link": "https://doi.org/10.3415/vcot-08-08-0073",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2457.062750123441,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1603,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1603,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.3415/VCOT-08-08-0073.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4935,
+      "doi": "10.1055/s-0028-1114299",
+      "link": "https://doi.org/10.1055/s-0028-1114299",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2556.0971247032285,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.967761934283943,
+          "fuzzy_ratio": 0.967761934283943,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1561,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1665,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0028-1114299.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5234,
+      "doi": "10.1055/s-0038-1669046",
+      "link": "https://doi.org/10.1055/s-0038-1669046",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1716.6082081384957,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 2300,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 5436,
+      "doi": "10.1055/s-0042-1743770",
+      "link": "https://doi.org/10.1055/s-0042-1743770",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1761.3737499341369,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 3727,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 5027,
+      "doi": "10.1055/s-2008-1056203",
+      "link": "https://doi.org/10.1055/s-2008-1056203",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1981.126084458083,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1032,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1056203.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5130,
+      "doi": "10.1055/s-0038-1634133",
+      "link": "https://doi.org/10.1055/s-0038-1634133",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2326.5864583663642,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9982190560997328,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 1123,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 1123,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0038-1634133.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6043,
+      "doi": "10.1055/s-0038-1623184",
+      "link": "https://doi.org/10.1055/s-0038-1623184",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1449.1515411064029,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 621,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 621,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0038-1623184.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7433,
+      "doi": "10.1055/f-0002-0063-b000001024",
+      "link": "https://doi.org/10.1055/f-0002-0063-b000001024",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 598.0314170010388,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/f-0002-0063-b000001024.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6044,
+      "doi": "10.1055/s-0040-1713886",
+      "link": "https://doi.org/10.1055/s-0040-1713886",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2762.1722910553217,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1214,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 1214,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0040-1713886.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7631,
+      "doi": "10.1055/s-0045-1806183",
+      "link": "https://doi.org/10.1055/s-0045-1806183",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1834.216957911849,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 5727,
+      "doi": "10.1055/s-0037-1615939",
+      "link": "https://doi.org/10.1055/s-0037-1615939",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 4489.786125253886,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9984634725520324,
+          "fuzzy_ratio": 0.997622710110474,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 3570,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 3581,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0037-1615939.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7543,
+      "doi": "10.1055/s-0029-1206558",
+      "link": "https://doi.org/10.1055/s-0029-1206558",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2363.3654578588903,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0029-1206558.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7434,
+      "doi": "10.1055/s-0032-1325636",
+      "link": "https://doi.org/10.1055/s-0032-1325636",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2991.5777086280286,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.995882166613874,
+          "fuzzy_ratio": 0.9971455756422455,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1576,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 1577,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0032-1325636.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7833,
+      "doi": "10.1055/s-0029-1234032",
+      "link": "https://doi.org/10.1055/s-0029-1234032",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2901.7086252570152,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9581326417191552,
+          "fuzzy_ratio": 0.9581015943641082,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1292,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 1405,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0029-1234032.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8330,
+      "doi": "10.1055/s-0035-1567972",
+      "link": "https://doi.org/10.1055/s-0035-1567972",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1152.5827078148723,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.6944444444444443,
+          "f1_soft": 0.6944444444444443,
+          "f1_fuzzy": 0.6944444444444443,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9640287769784173,
+          "fuzzy_ratio": 0.9640287769784173,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1005,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1080,
+        "urls": []
+      }
+    },
+    {
+      "no": 8436,
+      "doi": "10.1055/s-0035-1560937",
+      "link": "https://doi.org/10.1055/s-0035-1560937",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1259.854834061116,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0035-1560937.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8635,
+      "doi": "10.1055/s-0045-1806321",
+      "link": "https://doi.org/10.1055/s-0045-1806321",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1185.2882499806583,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 11
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 11,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 11,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 8732,
+      "doi": "10.1055/b-0034-81766",
+      "link": "https://doi.org/10.1055/b-0034-81766",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1143.7175408937037,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 14,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-81766.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8533,
+      "doi": "10.1055/s-2007-978562",
+      "link": "https://doi.org/10.1055/s-2007-978562",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1924.6339588426054,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9961597542242704,
+          "fuzzy_ratio": 0.9957773512476008,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1297,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1308,
+        "urls": [
+          {
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/j.1438-8677.1999.tb00270.x",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8934,
+      "doi": "10.1055/s-0038-1659972",
+      "link": "https://doi.org/10.1055/s-0038-1659972",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2049.7295833192766,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0038-1659972.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9143,
+      "doi": "10.1055/a-2751-4370",
+      "link": "https://doi.org/10.1055/a-2751-4370",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1863.7220421805978,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.98,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 294,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 306,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-2751-4370.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9231,
+      "doi": "10.1055/a-2045-8873",
+      "link": "https://doi.org/10.1055/a-2045-8873",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1500.1644589938223,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 1284,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-2045-8873.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8733,
+      "doi": "10.1055/s-0037-1618141",
+      "link": "https://doi.org/10.1055/s-0037-1618141",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2821.9993328675628,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 917,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 917,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0037-1618141.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7043,
+      "doi": "10.1055/b-0042-188891",
+      "link": "https://doi.org/10.1055/b-0042-188891",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 6763.651041779667,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 9332,
+      "doi": "10.1055/s-0035-1569104",
+      "link": "https://doi.org/10.1055/s-0035-1569104",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 659.6108749508858,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 259,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 259,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0035-1569104.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7232,
+      "doi": "10.1055/a-2661-0366",
+      "link": "https://doi.org/10.1055/a-2661-0366",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 6947.519708890468,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 31
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 31,
+        "abstract_len": 769,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 31,
+        "abstract_len": 769,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-2661-0366.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9232,
+      "doi": "10.1055/s-2000-7897",
+      "link": "https://doi.org/10.1055/s-2000-7897",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 2051.7698749899864,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1423,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2000-7897.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9539,
+      "doi": "10.1055/s-0031-1274730",
+      "link": "https://doi.org/10.1055/s-0031-1274730",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 988.3848750032485,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_empty"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 1956,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 1956,
+        "urls": []
+      }
+    },
+    {
+      "no": 9936,
+      "doi": "10.1055/s-0036-1595490",
+      "link": "https://doi.org/10.1055/s-0036-1595490",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1126.115582883358,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 261,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 261,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0036-1595490.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7930,
+      "doi": "10.1055/b-0035-103685",
+      "link": "https://doi.org/10.1055/b-0035-103685",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 5829.769666772336,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_empty",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "empty_empty_pass"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.0,
+          "f1_soft": 0.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": false,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 0,
+        "has_pdf_url": false
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": []
+      }
+    },
+    {
+      "no": 9731,
+      "doi": "10.1055/s-0030-1258551",
+      "link": "https://doi.org/10.1055/s-0030-1258551",
+      "publisher": "thieme",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1760.7794580981135,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "http://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-0030-1258551.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    }
+  ],
+  "duration_ms": 16126
+}

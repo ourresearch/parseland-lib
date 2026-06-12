@@ -24,6 +24,7 @@ class Thieme(PublisherParser):
         return bool(
             self.soup.select_one('.authors')
             or self.soup.select_one('meta[name="citation_author"]')
+            or (self.is_publisher_specific_parser() and self.soup.select_one('#abstract'))
         )
 
     def parse_affiliations(self):
@@ -132,8 +133,9 @@ class Thieme(PublisherParser):
     @classmethod
     def _clean_abstract_text(cls, value):
         text = cls._clean_text(value)
+        opens_window = r"(?:\s+\(opens in new window\))?"
         text = re.sub(
-            r"^(?:PDF Download\s+)?(?:Buy Article\s+)?(?:Permissions and Reprints\s+)+",
+            rf"^(?:PDF Download\s+)?(?:Buy Article{opens_window}\s+)?(?:Permissions and Reprints{opens_window}\s+)+",
             "",
             text,
             flags=re.I,

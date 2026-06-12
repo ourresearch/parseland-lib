@@ -73,7 +73,8 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_gold_page_disagreements": 1,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
-    "shipped_parser_fix_below_98_residual_needs_followup": 2,
+    "shipped_parser_fix_below_98_residual_needs_followup": 1,
+    "shipped_parser_fix_current_goldie_lift_below_98_residuals": 1,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
@@ -175,8 +176,8 @@
     "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke",
     "updated_at": "2026-06-10T06:37:11Z"
   },
-  "last_shipped_batch": 103,
-  "last_updated_at": "2026-06-12T02:41:32Z",
+  "last_shipped_batch": 104,
+  "last_updated_at": "2026-06-12T02:47:26Z",
   "open_queue_top": [
     {
       "current_kpi": 0.9183,
@@ -333,6 +334,8 @@
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
     "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "thieme_abstract_b104_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_abstract_b104_gate.json",
+    "thieme_abstract_b104_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_abstract_b104_after.json",
     "thieme_authors_b103_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_authors_b103_gate.json",
     "thieme_authors_b103_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_authors_b103_after.json",
     "thieme_parser_b102_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
@@ -388,7 +391,8 @@
     "shipped_parser_fix_above_98_with_backfill_pending": 5,
     "shipped_parser_fix_above_98_with_gold_page_disagreements": 1,
     "shipped_parser_fix_above_98_with_residual_explained": 1,
-    "shipped_parser_fix_below_98_residual_needs_followup": 2,
+    "shipped_parser_fix_below_98_residual_needs_followup": 1,
+    "shipped_parser_fix_current_goldie_lift_below_98_residuals": 1,
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
@@ -438,7 +442,7 @@
     "status": "shipped_parser_fix_small_lift_no_regressions",
     "tests": "25 focused tests passed; scoped SAGE whole-Goldie passed"
   },
-  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_authors_b103_after.json",
+  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_abstract_b104_after.json",
   "springer_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
@@ -506,6 +510,94 @@
     "rows": 77,
     "scorer_commit": "6e30b61",
     "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained"
+  },
+  "thieme_abstract_b104_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_abstract_b104_gate.json",
+    "current_kpi_by_field": {
+      "abstract": 0.924109625018118,
+      "affiliations": 0.9115740740740741,
+      "authors": 0.8032786885245902,
+      "corresponding": 0.9836065573770492,
+      "pdf_url": 0.9666666666666667
+    },
+    "delta_by_field": {
+      "abstract": 0.030244778478577095,
+      "affiliations": 0.0,
+      "authors": 0.0,
+      "corresponding": 0.0,
+      "pdf_url": 0.0
+    },
+    "recommendation": "Ship the no-author visible abstract dispatch and boilerplate cleanup. Thieme abstract remains below 98; residuals are now mostly low-ratio snippet/full-text/manual-DOM differences that need DOI-level review before any broader cleanup.",
+    "residual_abstract_examples": [
+      "10.1055/s-0035-1547423",
+      "10.1055/s-0029-1221554",
+      "10.1055/s-2007-986946",
+      "10.1055/s-0028-1114299",
+      "10.1055/s-0038-1669046",
+      "10.1055/s-0042-1743770",
+      "10.1055/s-0029-1234032",
+      "10.1055/s-0035-1567972",
+      "10.1055/s-2000-7897"
+    ],
+    "retrieval_blocked_rows": 0,
+    "row_deltas": {
+      "abstract": {
+        "changed_examples": [
+          {
+            "after": 1.0,
+            "before": 0.9878869448183042,
+            "doi": "10.1055/s-0041-100204"
+          },
+          {
+            "after": 1.0,
+            "before": 0.0,
+            "doi": "10.1055/s-0035-1569104"
+          },
+          {
+            "after": 1.0,
+            "before": 0.0,
+            "doi": "10.1055/s-0031-1274730"
+          }
+        ],
+        "improved_examples": [
+          "10.1055/s-0035-1569104",
+          "10.1055/s-0031-1274730"
+        ],
+        "improved_to_pass": 2,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "affiliations": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "authors": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "corresponding": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "pdf_url": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      }
+    },
+    "status": "shipped_parser_fix_current_goldie_lift_below_98_residuals",
+    "whole_goldie_scored_rows": 61
   },
   "thieme_authors_b103_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_authors_b103_gate.json",
@@ -819,7 +911,7 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T02:41:32Z",
+  "updated_at": "2026-06-12T02:47:26Z",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
