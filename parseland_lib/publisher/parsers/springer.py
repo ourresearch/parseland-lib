@@ -463,6 +463,9 @@ class Springer(PublisherParser):
         authors_affiliations = self._repair_authors_from_short_list(
             authors_affiliations
         )
+        authors_affiliations = self._apply_correspondence_author_whitelist(
+            authors_affiliations
+        )
 
         # Prefer the DOM Abstract section when present: on multi-paragraph
         # book-chapter abstracts the JSON-LD ``description`` carried only
@@ -524,6 +527,76 @@ class Springer(PublisherParser):
                     return match.group(1).strip()
 
         return None
+
+    @staticmethod
+    def _set_author_corresponding(author, value):
+        if hasattr(author, 'is_corresponding'):
+            author.is_corresponding = value
+        else:
+            author['is_corresponding'] = value
+
+    @classmethod
+    def _correspondence_text_matches_author(cls, corr_text, author_name):
+        corr_text = (corr_text or '').replace('\xa0', ' ').strip()
+        author_name = (author_name or '').replace('\xa0', ' ').strip()
+        if not corr_text or not author_name:
+            return False
+
+        corr_norm = ' '.join(corr_text.casefold().split())
+        author_norm = ' '.join(author_name.casefold().split())
+        if corr_norm == author_norm or author_norm in corr_norm:
+            return True
+
+        def _meaningful_tokens(value):
+            tokens = set()
+            for token in re.findall(r'[^\W\d_]+', value, flags=re.UNICODE):
+                compact = normalize('NFKD', token).casefold()
+                if (
+                    len(compact) <= 1
+                    or compact == 'ph'
+                    or cls._is_author_suffix_token(token)
+                ):
+                    continue
+                tokens.add(compact)
+            return tokens
+
+        corr_parts = _meaningful_tokens(corr_text)
+        author_parts = _meaningful_tokens(author_name)
+        if not author_parts:
+            return False
+        return len(corr_parts & author_parts) >= 2
+
+    def _apply_correspondence_author_whitelist(self, authors):
+        """Use explicit visible correspondence text to constrain CA flags.
+
+        Springer's JSON-LD fallback marks every author with an email as
+        corresponding. On pages that also expose "Correspondence to ...",
+        that visible text is more specific: apply it after email enrichment,
+        author repair, and dedupe so false-positive email flags are cleared
+        and multi-target text like "A or B" marks both visible targets.
+        """
+        if not authors:
+            return authors
+
+        corr_name = self._get_correspondence_name()
+        if not corr_name:
+            return authors
+
+        matching_indices = set()
+        for index, author in enumerate(authors):
+            author_name = (
+                author.name if hasattr(author, 'name') else author.get('name', '')
+            )
+            if self._correspondence_text_matches_author(corr_name, author_name):
+                matching_indices.add(index)
+
+        if not matching_indices:
+            return authors
+
+        for index, author in enumerate(authors):
+            self._set_author_corresponding(author, index in matching_indices)
+
+        return authors
 
     def _drop_book_editors_from_authors(self, authors):
         """Drop parsed authors that are actually the book's editors.
@@ -957,10 +1030,6 @@ class Springer(PublisherParser):
         if not corr_name:
             return authors
 
-        # Normalize for comparison
-        corr_name_lower = corr_name.lower().strip()
-        corr_name_parts = set(corr_name_lower.replace(',', ' ').split())
-
         for author in authors:
             # Handle both dict and dataclass
             if hasattr(author, 'name'):
@@ -968,17 +1037,8 @@ class Springer(PublisherParser):
             else:
                 author_name = author.get('name', '')
 
-            author_name_lower = author_name.lower().strip()
-            author_name_parts = set(author_name_lower.replace(',', ' ').split())
-
-            # Check if names match (at least 2 parts in common, or exact match)
-            common_parts = corr_name_parts & author_name_parts
-            if len(common_parts) >= 2 or corr_name_lower == author_name_lower:
-                if hasattr(author, 'is_corresponding'):
-                    author.is_corresponding = True
-                else:
-                    author['is_corresponding'] = True
-                break
+            if self._correspondence_text_matches_author(corr_name, author_name):
+                self._set_author_corresponding(author, True)
 
         return authors
 

@@ -1,0 +1,295 @@
+{
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch96_springer_correspondence_to_after.json",
+  "before_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch96_springer_correspondence_to_before.json",
+  "completed_at": "2026-06-12T00:10:46.270508+00:00",
+  "corresponding_changed_count": 18,
+  "corresponding_changed_rows": [
+    {
+      "after": 1.0,
+      "before": 0.5,
+      "delta": 0.5,
+      "doi": "10.1007/978-3-031-12011-4_12",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.0,
+      "delta": 1.0,
+      "doi": "10.1007/978-3-030-95262-4_7",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_empty"
+    },
+    {
+      "after": 0.6666666666666666,
+      "before": 1.0,
+      "delta": -0.33333333333333337,
+      "doi": "10.1007/s10973-009-0548-8",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/s11709-009-0006-5",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 0.6666666666666666,
+      "before": 1.0,
+      "delta": -0.33333333333333337,
+      "doi": "10.1140/epjc/s10052-018-6214-1",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/978-3-030-34724-6_21",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 0.6666666666666666,
+      "before": 1.0,
+      "delta": -0.33333333333333337,
+      "doi": "10.1007/s10549-023-07112-w",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/s10489-019-01487-4",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/s40315-021-00390-9",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/bf02831751",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.8,
+      "delta": 0.19999999999999996,
+      "doi": "10.1007/s00431-010-1281-9",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 0.6666666666666666,
+      "before": 1.0,
+      "delta": -0.33333333333333337,
+      "doi": "10.1007/s11033-023-08259-x",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/978-3-319-99558-8_17",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1007/978-981-97-8673-2_6",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1023/b:jmsm.0000003998.37583.d7",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.8571428571428571,
+      "delta": 0.1428571428571429,
+      "doi": "10.1038/s41545-025-00470-6",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    },
+    {
+      "after": 1.0,
+      "before": 0.0,
+      "delta": 1.0,
+      "doi": "10.1007/978-3-662-58923-6_5",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_empty"
+    },
+    {
+      "after": 1.0,
+      "before": 0.6666666666666666,
+      "delta": 0.33333333333333337,
+      "doi": "10.1038/s41563-019-0424-2",
+      "status_after": "gold_present_parser_present",
+      "status_before": "gold_present_parser_present"
+    }
+  ],
+  "corresponding_improved_count": 14,
+  "corresponding_regressed_count": 4,
+  "current_goldie_regressions_classified_gold_page_owned": 4,
+  "field": "corresponding",
+  "focused_test_command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_springer_corresp.py tests/test_springer_dedupe.py tests/test_springer_book_editors.py tests/test_springer_abstract_fallbacks.py tests/test_springer_abstract_meta_fallback.py tests/test_springer_dispatch_variants.py -q",
+  "focused_test_result": "40 passed",
+  "gate": "springer_corresponding_b96_correspondence_whitelist",
+  "gold_page_disagreement_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_corresponding_b96_gold_page_disagreements.ndjson",
+  "gold_page_disagreements": [
+    {
+      "classification": "gold_page_disagreement_visible_correspondence_text_single_target",
+      "doi": "10.1007/s10973-009-0548-8",
+      "field": "corresponding",
+      "gold_ca": [
+        "He, Hongping",
+        "Frost, Ray L."
+      ],
+      "page_evidence": [
+        "Correspondence to Hongping He ."
+      ],
+      "parsed_ca_after": [
+        "Hongping He"
+      ],
+      "publisher": "springer",
+      "recommended_next_action": "route_to_gold_auditor_browserbase_if_needed_do_not_relax_visible_correspondence_whitelist",
+      "score_after": 0.6666666666666666,
+      "score_before": 1.0
+    },
+    {
+      "classification": "gold_page_disagreement_visible_correspondence_text_single_target",
+      "doi": "10.1140/epjc/s10052-018-6214-1",
+      "field": "corresponding",
+      "gold_ca": [
+        "Ruilin Zhu",
+        "Zhen-Jun Xiao"
+      ],
+      "page_evidence": [
+        "Correspondence to Ruilin Zhu ."
+      ],
+      "parsed_ca_after": [
+        "Ruilin Zhu"
+      ],
+      "publisher": "springer",
+      "recommended_next_action": "route_to_gold_auditor_browserbase_if_needed_do_not_relax_visible_correspondence_whitelist",
+      "score_after": 0.6666666666666666,
+      "score_before": 1.0
+    },
+    {
+      "classification": "gold_page_disagreement_visible_correspondence_text_single_target",
+      "doi": "10.1007/s10549-023-07112-w",
+      "field": "corresponding",
+      "gold_ca": [
+        "Ravani, Lis Victoria",
+        "Shah, Chirag"
+      ],
+      "page_evidence": [
+        "Correspondence to Lis Victoria Ravani ."
+      ],
+      "parsed_ca_after": [
+        "Lis Victoria Ravani"
+      ],
+      "publisher": "springer",
+      "recommended_next_action": "route_to_gold_auditor_browserbase_if_needed_do_not_relax_visible_correspondence_whitelist",
+      "score_after": 0.6666666666666666,
+      "score_before": 1.0
+    },
+    {
+      "classification": "gold_page_disagreement_visible_correspondence_text_single_target",
+      "doi": "10.1007/s11033-023-08259-x",
+      "field": "corresponding",
+      "gold_ca": [
+        "Yanbin Wu",
+        "Shouming Qin"
+      ],
+      "page_evidence": [
+        "Correspondence to Shouming Qin ."
+      ],
+      "parsed_ca_after": [
+        "Shouming Qin"
+      ],
+      "publisher": "springer",
+      "recommended_next_action": "route_to_gold_auditor_browserbase_if_needed_do_not_relax_visible_correspondence_whitelist",
+      "score_after": 0.6666666666666666,
+      "score_before": 1.0
+    }
+  ],
+  "metric_deltas": {
+    "abstract_present_rate": {
+      "after": 0.7967770814682185,
+      "before": 0.7967770814682185,
+      "delta": 0.0
+    },
+    "abstract_ratio_fuzzy": {
+      "after": 0.9644749800841917,
+      "before": 0.9644749800841917,
+      "delta": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "after": 0.9885306428196337,
+      "before": 0.9885306428196337,
+      "delta": 0.0
+    },
+    "affiliations_f1_strict": {
+      "after": 0.5182947551089753,
+      "before": 0.5182947551089753,
+      "delta": 0.0
+    },
+    "authors_f1_soft": {
+      "after": 0.985576671557087,
+      "before": 0.985576671557087,
+      "delta": 0.0
+    },
+    "authors_f1_strict": {
+      "after": 0.9724939573791462,
+      "before": 0.9724939573791462,
+      "delta": 0.0
+    },
+    "corresponding_accuracy": {
+      "after": 0.9818274697938875,
+      "before": 0.9776208244491823,
+      "delta": 0.004206645344705162
+    },
+    "pdf_url_accuracy": {
+      "after": 0.9936594202898551,
+      "before": 0.9936594202898551,
+      "delta": 0.0
+    }
+  },
+  "notes": [
+    "Springer corresponding crossed 98 percent on current scoped Goldie.",
+    "Four current-Goldie recall drops have cached page-visible Correspondence to evidence showing a narrower CA set and are routed to gold-auditor, not treated as parser-owned regressions.",
+    "Visible Correspondence to text now whitelists final CA flags when it matches at least one parsed author.",
+    "Multi-target text marks every matching author instead of stopping after first match."
+  ],
+  "publisher": "springer",
+  "status": "pass_with_gold_owned_current_goldie_regressions",
+  "summary": {
+    "errors": 0,
+    "retrieval_blocked": 6,
+    "rows": 1123,
+    "scored": 1117
+  },
+  "whole_goldie_command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval ./.venv/bin/python scripts/whole_goldie_eval.py run --publishers springer --corpus merged-FINAL.csv --concurrency 8"
+}

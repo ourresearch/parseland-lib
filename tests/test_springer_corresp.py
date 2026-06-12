@@ -185,6 +185,55 @@ CORRESP_NO_SIGNAL = """
 """
 
 
+CORRESP_MULTI_TARGET = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/article/10.1007/example" />
+  </head>
+  <body>
+    <ul>
+      <li class="c-article-authors-listing__item">
+        <span class="search-name">Song-Liang Qiu</span>
+        <ol class="c-article-author-affiliation__list"><li><p>Inst</p></li></ol>
+      </li>
+      <li class="c-article-authors-listing__item">
+        <span class="search-name">Tamanna Akter</span>
+        <ol class="c-article-author-affiliation__list"><li><p>Inst</p></li></ol>
+      </li>
+      <li class="c-article-authors-listing__item">
+        <span class="search-name">Yu-Ming Chu</span>
+        <ol class="c-article-author-affiliation__list"><li><p>Inst</p></li></ol>
+      </li>
+    </ul>
+    <p>Correspondence to Song-Liang Qiu or Yu-Ming Chu.</p>
+  </body>
+</html>
+"""
+
+
+CORRESP_TEXT_OVERRIDES_LDJSON_EMAILS = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/chapter/10.1007/example" />
+    <script type="application/ld+json">
+    {
+      "mainEntity": {
+        "author": [
+          {"@type": "Person", "name": "Kiran Devi", "email": "kiran@example.org"},
+          {"@type": "Person", "name": "Kaushal Sharma", "email": "kaushal@example.org"},
+          {"@type": "Person", "name": "Neeraj Saini", "email": "neeraj@example.org"}
+        ]
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <p>Correspondence to Kiran Devi.</p>
+  </body>
+</html>
+"""
+
+
 def _ca_names(result):
     return [
         a["name"] for a in result["authors"]
@@ -262,3 +311,21 @@ def test_no_ca_signal_means_no_ca_flagged():
     result = Springer(soup).parse()
     ca_names = _ca_names(result)
     assert ca_names == [], f"expected no CA but got {ca_names!r}"
+
+
+def test_correspondence_to_marks_multiple_visible_targets():
+    """Visible multi-name correspondence text should flag every named
+    target, not stop after the first author match."""
+    soup = BeautifulSoup(CORRESP_MULTI_TARGET, "lxml")
+    result = Springer(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["Song-Liang Qiu", "Yu-Ming Chu"]
+
+
+def test_correspondence_to_overrides_ldjson_email_overflags():
+    """When LD+JSON emails mark every author as CA, explicit visible
+    correspondence text should constrain the final CA set."""
+    soup = BeautifulSoup(CORRESP_TEXT_OVERRIDES_LDJSON_EMAILS, "lxml")
+    result = Springer(soup).parse()
+    ca_names = _ca_names(result)
+    assert ca_names == ["Kiran Devi"]
