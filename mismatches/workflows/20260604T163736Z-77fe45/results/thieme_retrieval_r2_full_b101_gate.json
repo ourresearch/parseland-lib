@@ -1,0 +1,173 @@
+{
+  "agent_id": "codex-thieme-retrieval-r2-b101",
+  "audit_summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_audit.summary.json",
+  "batch": 101,
+  "browserbase_used": false,
+  "bytes_written": 5652533,
+  "classification": "retrieval_recovered_via_taxicab_r2",
+  "created_at": "2026-06-12T02:15:29Z",
+  "current_kpi_by_field": {
+    "abstract": 0.7042074039003009,
+    "affiliations": 0.861574074074074,
+    "authors": 0.796553173602354,
+    "corresponding": 0.9836065573770492,
+    "pdf_url": 0.9666666666666667
+  },
+  "diagnosis": "Taxicab/R2 recovered all 61 Thieme rows, moving the publisher from hidden retrieval-blocked state to measurable current-Goldie parser/scorer lanes.",
+  "distance_to_98_by_field": {
+    "abstract": 0.2757925960996991,
+    "affiliations": 0.11842592592592593,
+    "authors": 0.18344682639764598,
+    "corresponding": 0.0,
+    "pdf_url": 0.013333333333333308
+  },
+  "field": "mixed",
+  "field_counts": {
+    "abstract": {
+      "empty_empty_pass": 28,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 18,
+      "gold_present_parser_present": 15,
+      "html_available": 61,
+      "retrieval_blocked": 0,
+      "scored_rows": 61,
+      "total_rows": 61
+    },
+    "affiliations": {
+      "empty_empty_pass": 29,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 8,
+      "gold_present_parser_present": 23,
+      "html_available": 61,
+      "retrieval_blocked": 0,
+      "scored_rows": 60,
+      "total_rows": 61
+    },
+    "authors": {
+      "empty_empty_pass": 7,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 12,
+      "gold_present_parser_present": 42,
+      "html_available": 61,
+      "retrieval_blocked": 0,
+      "scored_rows": 61,
+      "total_rows": 61
+    },
+    "corresponding": {
+      "empty_empty_pass": 49,
+      "gold_empty_parser_present": 0,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 11,
+      "html_available": 61,
+      "retrieval_blocked": 0,
+      "scored_rows": 61,
+      "total_rows": 61
+    },
+    "pdf_url": {
+      "empty_empty_pass": 15,
+      "gold_empty_parser_present": 1,
+      "gold_present_parser_empty": 1,
+      "gold_present_parser_present": 44,
+      "html_available": 61,
+      "retrieval_blocked": 0,
+      "scored_rows": 60,
+      "total_rows": 61
+    }
+  },
+  "files_touched": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_fill.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_audit.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_retrieval_r2_full_b101.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_gate.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-claims.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/task-results.ndjson",
+    "mismatches/workflows/20260604T163736Z-77fe45/summary.json"
+  ],
+  "fill_completed_rows": 61,
+  "fill_state_counts": {
+    "cached": 10,
+    "ok": 51
+  },
+  "fill_summary_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_retrieval_r2_full_b101_fill.summary.json",
+  "fill_target_rows": 61,
+  "full_10k_audit": {
+    "coverage_pct": 52.94,
+    "per_state": {
+      "cached_bot_check": 388,
+      "cached_ok": 5294,
+      "cached_router_only": 112,
+      "cached_tiny": 74,
+      "missing": 913,
+      "unknown_publisher": 3219
+    },
+    "thieme": {
+      "cached_bot_check": 20,
+      "cached_ok": 41,
+      "rows": 61
+    },
+    "total_rows": 10000
+  },
+  "next_action_by_field": {
+    "abstract": "diagnose-thieme-abstract-parser-residual",
+    "affiliations": "diagnose-thieme-affiliations-parser-residual",
+    "authors": "diagnose-thieme-authors-parser-residual",
+    "corresponding": "monitor-only-after-retrieval-recovery",
+    "pdf_url": "diagnose-pdf-url-scorer-or-parser-residual"
+  },
+  "publisher_id": "thieme",
+  "recommendation": "Ship retrieval recovery and continue within Thieme: prioritize abstract, authors, and affiliations parser diagnosis; corresponding is already above 98 after recovery.",
+  "retrieval_order": [
+    "existing_cache",
+    "taxicab_r2"
+  ],
+  "run_id": "20260604T163736Z-77fe45",
+  "status": "completed",
+  "status_by_field": {
+    "abstract": "retrieval_recovered_below_98_needs_parser_diagnosis",
+    "affiliations": "retrieval_recovered_below_98_needs_parser_diagnosis",
+    "authors": "retrieval_recovered_below_98_needs_parser_diagnosis",
+    "corresponding": "retrieval_recovered_above_98",
+    "pdf_url": "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis"
+  },
+  "task_id": "thieme_retrieval_r2_full_b101",
+  "tests_run": [
+    {
+      "command": "retrieval_fill.py --publishers thieme --limit 10 --concurrency 4 --run-id thieme-retrieval-r2-smoke-b101",
+      "result": "10/10 rows recovered with state_counts={'ok': 10}",
+      "status": "passed"
+    },
+    {
+      "command": "retrieval_fill.py --publishers thieme --concurrency 8 --run-id thieme-retrieval-r2-full-b101",
+      "result": "61/61 rows completed with state_counts={'cached': 10, 'ok': 51}",
+      "status": "passed"
+    },
+    {
+      "command": "retrieval_audit.py --run-id thieme-retrieval-r2-full-b101",
+      "result": "Full 10K audit completed; Thieme now has 41 cached_ok and 20 cached_bot_check audit classifications.",
+      "status": "passed_with_quality_caveat"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers thieme --label thieme-retrieval-r2-full-b101",
+      "result": "61 rows scored, retrieval_blocked=0, errors=0; corresponding=0.984 and remaining fields measurable below 98.",
+      "status": "passed"
+    }
+  ],
+  "whole_goldie_after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_retrieval_r2_full_b101.json",
+  "whole_goldie_coverage": {
+    "gold_empty_parser_present_count": 2,
+    "html_available": 61,
+    "per_publisher": {
+      "thieme": {
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "scored_rows": 61,
+        "total_rows": 61
+      }
+    },
+    "retrieval_blocked_by_reason": {},
+    "retrieval_blocked_rows": 0,
+    "scored_rows": 61,
+    "total_rows": 61
+  }
+}
