@@ -59,6 +59,108 @@ def test_thieme_labelled_affiliation_ids_do_not_mutate_soup():
     assert second["authors"][1].affiliations == first["authors"][1].affiliations
 
 
+def test_thieme_collects_multiple_anchor_affiliation_refs():
+    body = """
+    <span class="authors">
+      HC Tsay <a href="#AF1"><sup><b>1</b></sup></a><sup>,</sup><a href="#AF2"><sup><b>2</b></sup></a><sup>,</sup><a href="#AF3"><sup><b>3</b></sup></a>,
+      Q Yuan <a href="#AF2"><sup><b>2</b></sup></a><sup>,</sup><a href="#AF3"><sup><b>3</b></sup></a>
+      <div class="authorsAffiliationsList">
+        <ul>
+          <li><a name="AF1"></a><sup><b>1</b></sup>MicroRNA Group</li>
+          <li><a name="AF2"></a><sup><b>2</b></sup>Gastroenterology Department</li>
+          <li><a name="AF3"></a><sup><b>3</b></sup>TWINCORE</li>
+        </ul>
+      </div>
+    </span>
+    """
+
+    parsed = Thieme(_soup(body)).parse()
+
+    assert parsed["authors"][0].affiliations == [
+        "MicroRNA Group",
+        "Gastroenterology Department",
+        "TWINCORE",
+    ]
+    assert parsed["authors"][1].affiliations == [
+        "Gastroenterology Department",
+        "TWINCORE",
+    ]
+
+
+def test_thieme_numeric_superscript_refs_use_visible_affiliation_list():
+    body = """
+    <span class="authors">
+      M. Lorenzen<sup>1</sup>, C. H. Lund<sup>1</sup>, C. Beythien<sup>2</sup>
+    </span>
+    <div class="authorsAffiliationsList">
+      <ul>
+        <li>1 Abteilung Röntgendiagnostik, Universitätsklinikum Hamburg-Eppendorf</li>
+        <li>2 Kardiologische Klinik, Universitätsklinikum Hamburg-Eppendorf</li>
+      </ul>
+    </div>
+    """
+
+    parsed = Thieme(_soup(body)).parse()
+
+    assert [author.name for author in parsed["authors"]] == [
+        "M. Lorenzen",
+        "C. H. Lund",
+        "C. Beythien",
+    ]
+    assert parsed["authors"][0].affiliations == [
+        "Abteilung Röntgendiagnostik, Universitätsklinikum Hamburg-Eppendorf"
+    ]
+    assert parsed["authors"][2].affiliations == [
+        "Kardiologische Klinik, Universitätsklinikum Hamburg-Eppendorf"
+    ]
+
+
+def test_thieme_embedded_author_spans_include_affiliations():
+    body = """
+    <span class="author">
+      A. Bruderer
+      <div class="affiliation">1 Abteilung für Nutztierchirurgie, Vetsuisse-Fakultät Zürich</div>,
+    </span>
+    <span class="author">
+      S. De Brot
+      <div class="affiliation">2 Institut für Veterinärpathologie der Vetsuisse-Fakultät Zürich</div>,
+    </span>
+    """
+
+    parsed = Thieme(_soup(body)).parse()
+
+    assert [author.name for author in parsed["authors"]] == ["A. Bruderer", "S. De Brot"]
+    assert parsed["authors"][0].affiliations == [
+        "Abteilung für Nutztierchirurgie, Vetsuisse-Fakultät Zürich"
+    ]
+    assert parsed["authors"][1].affiliations == [
+        "Institut für Veterinärpathologie der Vetsuisse-Fakultät Zürich"
+    ]
+
+
+def test_thieme_embedded_author_spans_mark_corresponding_from_email_meta():
+    head = """
+    <meta name="citation_publisher" content="Thieme">
+    <meta name="citation_author" content="Andreas E. May">
+    <meta name="citation_author" content="Klaus T. Preissner">
+    <meta name="citation_author_email" content="klaus.t.preissner@biochemie.example">
+    """
+    body = """
+    <span class="author">
+      <div class="name">Andreas E. May</div>
+      <div class="affiliation">1 Deutsches Herzzentrum München</div>
+    </span>
+    <span class="author">
+      <div class="name">Klaus T. Preissner</div>
+      <div class="affiliation">2 Institut für Biochemie Giessen</div>
+    </span>
+    """
+
+    parsed = Thieme(_soup(body, head=head)).parse()
+
+    assert [author.is_corresponding for author in parsed["authors"]] == [False, True]
+
+
 def test_thieme_dedupes_repeated_visible_author_with_same_affiliation():
     body = """
     <div class="authors">

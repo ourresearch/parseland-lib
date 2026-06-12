@@ -177,7 +177,11 @@
     "updated_at": "2026-06-10T06:37:11Z"
   },
   "last_shipped_batch": 104,
-  "last_updated_at": "2026-06-12T02:47:26Z",
+  "last_updated_at": "2026-06-12T03:01:54Z",
+  "latest_batch": 105,
+  "latest_results": {
+    "thieme_affiliations": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_affiliations_b105_gate.json"
+  },
   "open_queue_top": [
     {
       "current_kpi": 0.9183,
@@ -341,6 +345,15 @@
     "thieme_parser_b102_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
     "thieme_parser_b102_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json"
   },
+  "publisher_current_kpi": {
+    "thieme": {
+      "abstract": 0.9419667678752609,
+      "affiliations": 1.0,
+      "authors": 0.8032786885245902,
+      "corresponding": 0.9836065573770492,
+      "pdf_url": 0.9666666666666667
+    }
+  },
   "queue_status_counts": {
     "above_98": 2,
     "above_98_noop_baselined": 1,
@@ -401,6 +414,9 @@
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
+  },
+  "recommendations": {
+    "thieme": "Ship Batch105. Thieme affiliations are now above the 98% target on the current Goldie slice. Remaining Thieme work is authors below target and small PDF/corresponding residuals; authors residuals appear dominated by book/SOS/eRef no-signal pages and should be classified before another parser patch."
   },
   "rsc_abstract_b100_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_abstract_b100_gate.json",
