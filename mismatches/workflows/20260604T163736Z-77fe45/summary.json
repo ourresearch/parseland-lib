@@ -61,7 +61,6 @@
     "retrieval_blocked": 180,
     "retrieval_recovered_above_98": 6,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
@@ -78,6 +77,7 @@
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
+    "shipped_parser_fix_small_lift_residual_no_signal_rows": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
@@ -175,8 +175,8 @@
     "status": "blocked_pdf_candidate_urls_not_grounded_b85_smoke",
     "updated_at": "2026-06-10T06:37:11Z"
   },
-  "last_shipped_batch": 102,
-  "last_updated_at": "2026-06-12T02:29:14Z",
+  "last_shipped_batch": 103,
+  "last_updated_at": "2026-06-12T02:41:32Z",
   "open_queue_top": [
     {
       "current_kpi": 0.9183,
@@ -333,6 +333,8 @@
     "publisher_classification": "mismatches/workflows/20260604T163736Z-77fe45/publisher-classification.ndjson",
     "publisher_field_queue_v2": "mismatches/workflows/20260604T163736Z-77fe45/publisher-field-queue.v2.ndjson",
     "summary": "mismatches/workflows/20260604T163736Z-77fe45/summary.json",
+    "thieme_authors_b103_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_authors_b103_gate.json",
+    "thieme_authors_b103_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_authors_b103_after.json",
     "thieme_parser_b102_gate": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
     "thieme_parser_b102_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json"
   },
@@ -374,7 +376,6 @@
     "retrieval_blocked": 180,
     "retrieval_recovered_above_98": 6,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
-    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "retrieval_recovered_below_98_needs_pdf_scorer_or_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
@@ -391,6 +392,7 @@
     "shipped_parser_fix_current_goldie_lift_no_regressions": 1,
     "shipped_parser_fix_singleton_lift_residual_explainable": 1,
     "shipped_parser_fix_small_lift_no_regressions": 1,
+    "shipped_parser_fix_small_lift_residual_no_signal_rows": 1,
     "shipped_scorer_fix_above_98_with_backfill_pending": 2,
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
@@ -436,7 +438,7 @@
     "status": "shipped_parser_fix_small_lift_no_regressions",
     "tests": "25 focused tests passed; scoped SAGE whole-Goldie passed"
   },
-  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_parser_b102_after.json",
+  "source_whole_goldie": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_authors_b103_after.json",
   "springer_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/springer_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
@@ -504,6 +506,92 @@
     "rows": 77,
     "scorer_commit": "6e30b61",
     "status": "shipped_scorer_fix_above_98_with_retrieval_blocked_explained"
+  },
+  "thieme_authors_b103_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_authors_b103_gate.json",
+    "current_kpi_by_field": {
+      "abstract": 0.8938648465395409,
+      "affiliations": 0.9115740740740741,
+      "authors": 0.8032786885245902,
+      "corresponding": 0.9836065573770492,
+      "pdf_url": 0.9666666666666667
+    },
+    "delta_by_field": {
+      "abstract": 0.0,
+      "affiliations": 0.0,
+      "authors": 0.006725514922236164,
+      "corresponding": 0.0,
+      "pdf_url": 0.0
+    },
+    "recommendation": "Ship the narrow two-row author cleanup. Do not broaden author guessing for Thieme book/SOS rows without stronger page evidence; route remaining no-signal rows to retrieval/Goldie-backfilled/manual DOM or Taxicab source-quality review.",
+    "residual_author_examples": [
+      "10.1055/b-0034-41481",
+      "10.1055/sos-sd-046-00239",
+      "10.1055/b-0034-26053",
+      "10.1055/sos-sd-033-00307",
+      "10.1055/b-0038-150954",
+      "10.1055/b-0034-22909",
+      "10.1055/sos-sd-026-00614",
+      "10.1055/b-0042-189220",
+      "10.1055/b-0034-18895",
+      "10.1055/b-0034-81766",
+      "10.1055/b-0042-188891",
+      "10.1055/b-0035-103685"
+    ],
+    "retrieval_blocked_rows": 0,
+    "row_deltas": {
+      "abstract": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "affiliations": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "authors": {
+        "changed_examples": [
+          {
+            "after": 1.0,
+            "before": 0.923076923076923,
+            "doi": "10.1055/s-0029-1223050"
+          },
+          {
+            "after": 1.0,
+            "before": 0.6666666666666666,
+            "doi": "10.1055/s-1994-22906"
+          }
+        ],
+        "improved_examples": [
+          "10.1055/s-0029-1223050",
+          "10.1055/s-1994-22906"
+        ],
+        "improved_to_pass": 2,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "corresponding": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      },
+      "pdf_url": {
+        "changed_examples": [],
+        "improved_examples": [],
+        "improved_to_pass": 0,
+        "regressed_examples": [],
+        "regressed_to_fail": 0
+      }
+    },
+    "status": "shipped_parser_fix_small_lift_residual_no_signal_rows",
+    "whole_goldie_scored_rows": 61
   },
   "thieme_parser_b102_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_parser_b102_gate.json",
@@ -731,7 +819,7 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T02:29:14Z",
+  "updated_at": "2026-06-12T02:41:32Z",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",

@@ -51,7 +51,7 @@ class Thieme(PublisherParser):
 
         # Older Thieme pages render "Name A, Name B" as a single text node with
         # no affiliation anchors. Citation metadata gives the reliable split.
-        if not authors_tag.select_one('a[href^="#AF"], a[href*="#AF"], sup'):
+        if not authors_tag.select_one('a[href^="#"]'):
             citation_authors = self._parse_citation_authors()
             if citation_authors:
                 return citation_authors
@@ -67,7 +67,23 @@ class Thieme(PublisherParser):
                     aff_tag = aff_tag.next_sibling
                     aff_ids.append(aff_tag.text.strip())
                 authors.append(Author(name, aff_ids))
-        return authors
+        return self._dedupe_authors(authors)
+
+    @classmethod
+    def _dedupe_authors(cls, authors):
+        seen = set()
+        deduped = []
+        for author in authors:
+            key = (cls._normalize_name(author.name), tuple(author.aff_ids))
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(author)
+        return deduped
+
+    @staticmethod
+    def _normalize_name(value):
+        return re.sub(r"\s+", " ", value.replace("\xa0", " ")).strip().lower()
 
     def _parse_citation_authors(self):
         names = [
