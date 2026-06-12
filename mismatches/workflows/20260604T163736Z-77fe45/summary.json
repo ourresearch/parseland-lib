@@ -24,6 +24,7 @@
   },
   "by_status": {
     "above_98": 2,
+    "above_98_noop_baselined": 1,
     "blocked_clean_shield_current_kpi_flat_ca_regression": 1,
     "blocked_explainable_current_goldie_residual_below_98": 1,
     "blocked_explainable_no_repeated_safe_parser_pattern_after_b90": 1,
@@ -54,7 +55,6 @@
     "goldie_backfill_referee_complete_72_approved_22_blocked": 1,
     "goldie_backfill_referee_complete_83_approved_35_blocked": 1,
     "goldie_backfill_smoke_blocked_no_approval_quality_pdf_evidence": 1,
-    "onboarding": 1,
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 185,
@@ -295,6 +295,12 @@
     "status": "shipped_scorer_parser_fix_above_98_no_regressions",
     "tests": "37 parseland-lib tests passed; 14 parseland-eval affiliation tests passed; scoped SSRN whole-Goldie passed"
   },
+  "ssrn_authors_b98_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/ssrn_authors_b98_above_98_baseline_gate.json",
+    "current_kpi": 1.0,
+    "recommendation": "Close the onboarding task as above-98/no-op. Continue with retrieval/gold/manual-DOM lanes rather than editing the SSRN parser for authors.",
+    "status": "above_98_noop_baselined"
+  },
   "ssrn_corresponding_b97_state": {
     "approved_rows": 13,
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/goldie_backfill_ssrn_corresponding_b97_gate.json",
@@ -418,7 +424,7 @@
   ],
   "total_publishers": 55,
   "total_tasks": 275,
-  "updated_at": "2026-06-12T00:27:16.469188+00:00",
+  "updated_at": "2026-06-12T00:33:57.613966+00:00",
   "wiley_abstract_b94_blocker_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/wiley_abstract_b94_sidecar_blocker.json",
     "completed_at": "2026-06-11T20:43:30Z",
