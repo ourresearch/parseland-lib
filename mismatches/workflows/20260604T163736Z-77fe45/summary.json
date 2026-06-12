@@ -17,9 +17,10 @@
   },
   "by_queue_type": {
     "goldie-backfilled": 50,
-    "harvest-blocked": 190,
+    "harvest-blocked": 185,
     "onboarding": 10,
-    "ready": 20,
+    "ready": 21,
+    "retrieval-recovered": 4,
     "unknown": 5
   },
   "by_status": {
@@ -58,9 +59,9 @@
     "parser_empty_fixed_gold_owned_visible_star_residuals": 1,
     "publisher_unknown": 5,
     "retrieval_blocked": 185,
-    "retrieval_browser_smoke_blocked_0_10_recovered": 5,
-    "retrieval_recovered_above_98": 1,
+    "retrieval_recovered_above_98": 5,
     "retrieval_recovered_above_98_with_backfill_pending": 4,
+    "retrieval_recovered_below_98_needs_parser_diagnosis": 1,
     "shipped_available_html_above_98_retrieval_blocked_explained": 8,
     "shipped_below_98_explainable_residual": 1,
     "shipped_full10k_measured": 9,
@@ -235,6 +236,19 @@
     "shipped_scorer_fix_above_98_with_retrieval_blocked_explained": 1,
     "shipped_scorer_fix_small_lift_below_98_residual_explainable": 1,
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
+  },
+  "rsc_retrieval_r2_b99_state": {
+    "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_r2_full_b99_gate.json",
+    "current_kpi_by_field": {
+      "abstract": 0.8844691862586489,
+      "affiliations": 0.9836065573770492,
+      "authors": 1.0,
+      "corresponding": 0.9836065573770492,
+      "pdf_url": 0.9836065573770492
+    },
+    "next_action": "RSC abstract parser/gold diagnosis; four other RSC fields monitor above 98.",
+    "rows_recovered": 61,
+    "status": "retrieval_recovered_via_taxicab_r2"
   },
   "run_id": "batch84-full10k-after-publisher-index-tail-prefixes",
   "sage_abstract_b94_state": {

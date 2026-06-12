@@ -1,0 +1,21 @@
+{
+  "run_id": "rsc-retrieval-r2-full-b99",
+  "timestamp_utc": "2026-06-12T01:46:13.006131+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "cache_dir": "mismatches/whole-goldie-cache",
+  "target_rows": 61,
+  "completed_rows": 61,
+  "duration_ms": 7134,
+  "throughput_rows_per_sec": 8.55,
+  "bytes_written": 6399458,
+  "state_counts": {
+    "cached": 10,
+    "ok": 51
+  },
+  "per_publisher_state": {
+    "rsc": {
+      "cached": 10,
+      "ok": 51
+    }
+  }
+}

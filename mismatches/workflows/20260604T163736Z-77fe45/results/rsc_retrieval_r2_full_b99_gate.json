@@ -1,0 +1,79 @@
+{
+  "run_id": "20260604T163736Z-77fe45",
+  "wave_id": 99,
+  "agent_id": "codex-rsc-retrieval-r2-b99",
+  "publisher_id": "rsc",
+  "classification": "retrieval_recovered_via_taxicab_r2",
+  "completed_at": "2026-06-12T01:48:21.875053+00:00",
+  "target_rows": 61,
+  "fill_state_counts": {
+    "cached": 10,
+    "ok": 51
+  },
+  "bytes_written": 6399458,
+  "audit_rsc": {
+    "rows": 61,
+    "cached_ok": 61
+  },
+  "coverage": {
+    "total_rows": 61,
+    "html_available": 61,
+    "scored_rows": 61,
+    "retrieval_blocked_rows": 0,
+    "retrieval_blocked_by_reason": {},
+    "gold_empty_parser_present_count": 2,
+    "per_publisher": {
+      "rsc": {
+        "total_rows": 61,
+        "html_available": 61,
+        "scored_rows": 61,
+        "retrieval_blocked": 0
+      }
+    }
+  },
+  "current_kpi_by_field": {
+    "authors": 1.0,
+    "affiliations": 0.9836065573770492,
+    "abstract": 0.8844691862586489,
+    "pdf_url": 0.9836065573770492,
+    "corresponding": 0.9836065573770492
+  },
+  "status_by_field": {
+    "authors": "retrieval_recovered_above_98",
+    "affiliations": "retrieval_recovered_above_98",
+    "abstract": "retrieval_recovered_below_98_needs_parser_diagnosis",
+    "pdf_url": "retrieval_recovered_above_98",
+    "corresponding": "retrieval_recovered_above_98"
+  },
+  "current_goldie_kpi_effect": "focused_rsc_gate_only; full_10k_gate_pending",
+  "diagnosis": "RSC was incorrectly left retrieval-blocked after an earlier Browserbase-first smoke. Taxicab/R2 recovered all 61 RSC rows, so parser/scorer fields are now measurable.",
+  "recommendation": "Close RSC authors/affiliations/pdf_url/corresponding as above-98 after retrieval recovery. Open RSC abstract as the next parser diagnosis lane because abstract_ratio_fuzzy=0.884 and present_rate=0.836.",
+  "source_artifacts": [
+    "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_r2_full_b99_fill.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_retrieval_r2_full_b99_audit.summary.json",
+    "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_rsc_retrieval_r2_full_b99.json"
+  ],
+  "shield_result": "pass",
+  "tests_run": [
+    {
+      "command": "retrieval_fill.py --publishers rsc --limit 10",
+      "result": "10/10 Taxicab/R2 rows recovered",
+      "status": "passed"
+    },
+    {
+      "command": "retrieval_fill.py --publishers rsc",
+      "result": "61/61 RSC rows available: 51 ok, 10 cached",
+      "status": "passed"
+    },
+    {
+      "command": "retrieval_audit.py full 10K",
+      "result": "RSC cached_ok=61/61",
+      "status": "passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers rsc",
+      "result": "61 rows scored, retrieval_blocked=0, errors=0",
+      "status": "passed"
+    }
+  ]
+}

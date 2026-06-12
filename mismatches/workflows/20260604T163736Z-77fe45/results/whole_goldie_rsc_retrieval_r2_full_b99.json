@@ -1,0 +1,4126 @@
+{
+  "run_id": "rsc-retrieval-r2-full-b99",
+  "label": "rsc-retrieval-r2-full-b99",
+  "adapter": "whole_goldie_eval",
+  "adapter_version": "0.2.0",
+  "timestamp_utc": "2026-06-12T01:47:09.383818+00:00",
+  "corpus_path": "/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv",
+  "row_count_corpus": 61,
+  "coverage": {
+    "total_rows": 61,
+    "html_available": 61,
+    "scored_rows": 61,
+    "retrieval_blocked_rows": 0,
+    "retrieval_blocked_by_reason": {},
+    "gold_empty_parser_present_count": 2,
+    "per_publisher": {
+      "rsc": {
+        "total_rows": 61,
+        "html_available": 61,
+        "scored_rows": 61,
+        "retrieval_blocked": 0
+      }
+    }
+  },
+  "skipped_no_html_count": 0,
+  "skipped_no_html_dois": [],
+  "skipped_no_claim": {},
+  "summary": {
+    "overall": {
+      "rows": 61,
+      "scored": 61,
+      "errors": 0,
+      "skipped_no_html": 0,
+      "authors_f1_strict": 0.9972677595628414,
+      "authors_f1_soft": 1.0,
+      "affiliations_f1_strict": 0.9737704918032787,
+      "affiliations_f1_fuzzy": 0.9836065573770492,
+      "abstract_ratio_fuzzy": 0.8844691862586489,
+      "abstract_present_rate": 0.8360655737704918,
+      "pdf_url_accuracy": 0.9836065573770492,
+      "corresponding_accuracy": 0.9836065573770492,
+      "duration_ms_mean": 1229.185611444724,
+      "n_authors_scored": 61,
+      "n_pdf_scored": 61,
+      "n_corresponding_scored": 61,
+      "n_abstract_scored": 59
+    },
+    "per_publisher": {
+      "rsc": {
+        "rows": 61,
+        "scored": 61,
+        "errors": 0,
+        "skipped_no_html": 0,
+        "authors_f1_strict": 0.9972677595628414,
+        "authors_f1_soft": 1.0,
+        "affiliations_f1_strict": 0.9737704918032787,
+        "affiliations_f1_fuzzy": 0.9836065573770492,
+        "abstract_ratio_fuzzy": 0.8844691862586489,
+        "abstract_present_rate": 0.8360655737704918,
+        "pdf_url_accuracy": 0.9836065573770492,
+        "corresponding_accuracy": 0.9836065573770492,
+        "duration_ms_mean": 1229.185611444724,
+        "n_authors_scored": 61,
+        "n_pdf_scored": 61,
+        "n_corresponding_scored": 61,
+        "n_abstract_scored": 59
+      }
+    },
+    "coverage": {
+      "total_rows": 61,
+      "html_available": 61,
+      "scored_rows": 61,
+      "retrieval_blocked_rows": 0,
+      "retrieval_blocked_by_reason": {},
+      "gold_empty_parser_present_count": 2,
+      "per_publisher": {
+        "rsc": {
+          "total_rows": 61,
+          "html_available": 61,
+          "scored_rows": 61,
+          "retrieval_blocked": 0
+        }
+      }
+    },
+    "per_field": {
+      "authors": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 7,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 54,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      },
+      "affiliations": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 23,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 37,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      },
+      "abstract": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 2,
+        "gold_present_parser_empty": 6,
+        "gold_present_parser_present": 51,
+        "gold_empty_parser_present": 2,
+        "scored_rows": 59
+      },
+      "pdf_url": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 0,
+        "gold_present_parser_empty": 0,
+        "gold_present_parser_present": 61,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      },
+      "corresponding": {
+        "total_rows": 61,
+        "html_available": 61,
+        "retrieval_blocked": 0,
+        "empty_empty_pass": 24,
+        "gold_present_parser_empty": 1,
+        "gold_present_parser_present": 36,
+        "gold_empty_parser_present": 0,
+        "scored_rows": 61
+      }
+    },
+    "per_publisher_field": {
+      "rsc": {
+        "authors": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 7,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 54,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        },
+        "affiliations": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 23,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 37,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        },
+        "abstract": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 2,
+          "gold_present_parser_empty": 6,
+          "gold_present_parser_present": 51,
+          "gold_empty_parser_present": 2,
+          "scored_rows": 59
+        },
+        "pdf_url": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 0,
+          "gold_present_parser_empty": 0,
+          "gold_present_parser_present": 61,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        },
+        "corresponding": {
+          "total_rows": 61,
+          "html_available": 61,
+          "retrieval_blocked": 0,
+          "empty_empty_pass": 24,
+          "gold_present_parser_empty": 1,
+          "gold_present_parser_present": 36,
+          "gold_empty_parser_present": 0,
+          "scored_rows": 61
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "no": 228,
+      "doi": "10.1039/c8ja90001a",
+      "link": "https://doi.org/10.1039/c8ja90001a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1141.617708839476,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 50,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2018/ja/c8ja90001a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 927,
+      "doi": "10.1039/p19750000195",
+      "link": "https://doi.org/10.1039/p19750000195",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1296.4276671409607,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.6851211072664359,
+          "fuzzy_ratio": 0.6851211072664359,
+          "present": true,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1140,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 594,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1975/p1/p19750000195",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1423,
+      "doi": "10.1039/an9416600154",
+      "link": "https://doi.org/10.1039/an9416600154",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1156.0701671987772,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 74,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1941/an/an9416600154",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 227,
+      "doi": "10.1039/c5nr01602a",
+      "link": "https://doi.org/10.1039/c5nr01602a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1321.606416720897,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 641,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 641,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/nr/c5nr01602a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 34,
+      "doi": "10.1039/b922668k",
+      "link": "https://doi.org/10.1039/b922668k",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1339.3275840207934,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": false,
+          "accuracy": 0.0,
+          "present": true,
+          "divergent": true
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 361,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 361,
+        "urls": [
+          {
+            "url": "https://www.rsc.org/suppdata/ob/b9/b922668k/b922668k.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1637,
+      "doi": "10.1039/c6ta04934f",
+      "link": "https://doi.org/10.1039/c6ta04934f",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1354.9517500214279,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 953,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 953,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/ta/c6ta04934f",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 640,
+      "doi": "10.1039/d2va00282e",
+      "link": "https://doi.org/10.1039/d2va00282e",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1384.707957971841,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 2218,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 2218,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2023/va/d2va00282e",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 35,
+      "doi": "10.1039/c6nr00652c",
+      "link": "https://doi.org/10.1039/c6nr00652c",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1417.0301253907382,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 14
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9971751412429378,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 14,
+        "abstract_len": 1062,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 14,
+        "abstract_len": 1062,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/nr/c6nr00652c",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1722,
+      "doi": "10.1039/c9me90019e",
+      "link": "https://doi.org/10.1039/c9me90019e",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 352.36329212784767,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 50,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2019/me/c9me90019e",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2126,
+      "doi": "10.1039/c6lc90017h",
+      "link": "https://doi.org/10.1039/c6lc90017h",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 774.6911672875285,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 50,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/lc/c6lc90017h",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 1836,
+      "doi": "10.1039/c8ra07068g",
+      "link": "https://doi.org/10.1039/c8ra07068g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1040.0094999931753,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1062,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1062,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2018/ra/c8ra07068g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2238,
+      "doi": "10.1039/d2ra00045h",
+      "link": "https://doi.org/10.1039/d2ra00045h",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1034.3531668186188,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9989615784008308,
+          "fuzzy_ratio": 0.9989615784008308,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 963,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 963,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2022/ra/d2ra00045h",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2127,
+      "doi": "10.1039/c7ra05860h",
+      "link": "https://doi.org/10.1039/c7ra05860h",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1226.0577087290585,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9924242424242425,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 660,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 660,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2017/ra/c7ra05860h",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2340,
+      "doi": "10.1039/j19660001675",
+      "link": "https://doi.org/10.1039/j19660001675",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1278.6375409923494,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9969788519637462,
+          "fuzzy_ratio": 0.9969788519637462,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 331,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 331,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1966/j1/j19660001675",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2537,
+      "doi": "10.1039/c39800000451",
+      "link": "https://doi.org/10.1039/c39800000451",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1401.8752076663077,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 237,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 237,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1980/c3/c39800000451",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2339,
+      "doi": "10.1039/d3qi01705b",
+      "link": "https://doi.org/10.1039/d3qi01705b",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1694.191750138998,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 10
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 10,
+        "abstract_len": 1295,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 10,
+        "abstract_len": 1295,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2023/qi/d3qi01705b",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2933,
+      "doi": "10.1039/c5ee90034d",
+      "link": "https://doi.org/10.1039/c5ee90034d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1150.8824997581542,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 50,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/ee/c5ee90034d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 2441,
+      "doi": "10.1039/d0nj02276d",
+      "link": "https://doi.org/10.1039/d0nj02276d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1926.886500325054,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 0.8333333333333334,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.997229916897507,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 722,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 722,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2020/nj/d0nj02276d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3134,
+      "doi": "10.1039/c29690000695",
+      "link": "https://doi.org/10.1039/c29690000695",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1019.2122091539204,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9970674486803519,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 341,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 341,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1969/c2/c29690000695",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3235,
+      "doi": "10.1039/c39930000331",
+      "link": "https://doi.org/10.1039/c39930000331",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1012.7170840278268,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 267,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 267,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1993/c3/c39930000331",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3342,
+      "doi": "10.1039/c4cc06180b",
+      "link": "https://doi.org/10.1039/c4cc06180b",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 846.7490840703249,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 257,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 257,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2014/cc/c4cc06180b",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3737,
+      "doi": "10.1039/c4ra10124c",
+      "link": "https://doi.org/10.1039/c4ra10124c",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 871.6000001877546,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 3
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 1092,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 1092,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/ra/c4ra10124c",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3738,
+      "doi": "10.1039/d3cp05053j",
+      "link": "https://doi.org/10.1039/d3cp05053j",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 657.3974168859422,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9983974358974359,
+          "fuzzy_ratio": 0.9987975951903807,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1248,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1247,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2024/cp/d3cp05053j",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3931,
+      "doi": "10.1039/b917880e",
+      "link": "https://doi.org/10.1039/b917880e",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 791.9213748537004,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1685,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 1685,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2010/lc/b917880e",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4136,
+      "doi": "10.1039/j29670001233",
+      "link": "https://doi.org/10.1039/j29670001233",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1374.2402498610318,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 271,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 271,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1967/j2/j29670001233",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3933,
+      "doi": "10.1039/c6ra04039j",
+      "link": "https://doi.org/10.1039/c6ra04039j",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1399.083832744509,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9919871794871795,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1248,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1248,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/ra/c6ra04039j",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4330,
+      "doi": "10.1039/p19840002641",
+      "link": "https://doi.org/10.1039/p19840002641",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1369.7380418889225,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9787234042553191,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 376,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 376,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1984/p1/p19840002641",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 3932,
+      "doi": "10.1039/c6en00287k",
+      "link": "https://doi.org/10.1039/c6en00287k",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1554.2759168893099,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9994562262098967,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1839,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1839,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2017/en/c6en00287k",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4231,
+      "doi": "10.1039/d0qo01638a",
+      "link": "https://doi.org/10.1039/d0qo01638a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1432.509166188538,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9985052316890882,
+          "fuzzy_ratio": 0.9985052316890882,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 668,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 670,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2021/qo/d0qo01638a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4436,
+      "doi": "10.1039/d5cc01220a",
+      "link": "https://doi.org/10.1039/d5cc01220a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1296.9759590923786,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.4,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 359,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 359,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2025/cc/d5cc01220a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4839,
+      "doi": "10.1039/c4sm02344g",
+      "link": "https://doi.org/10.1039/c4sm02344g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1075.4151670262218,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1001,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1001,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/sm/c4sm02344g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 4738,
+      "doi": "10.1039/d2cy00572g",
+      "link": "https://doi.org/10.1039/d2cy00572g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1409.7510422579944,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1041,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1041,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2022/cy/d2cy00572g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5632,
+      "doi": "10.1039/c6gc90055k",
+      "link": "https://doi.org/10.1039/c6gc90055k",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 546.8504587188363,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 50,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/gc/c6gc90055k",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 6533,
+      "doi": "10.1039/c3ay00076a",
+      "link": "https://doi.org/10.1039/c3ay00076a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1197.7563332766294,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.998674618952949,
+          "fuzzy_ratio": 0.998674618952949,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1509,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1509,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2013/ay/c3ay00076a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7040,
+      "doi": "10.1039/c4ce02063d",
+      "link": "https://doi.org/10.1039/c4ce02063d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1604.326999746263,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9977452085682075,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 887,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 887,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/ce/c4ce02063d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7042,
+      "doi": "10.1039/d6nj00240d",
+      "link": "https://doi.org/10.1039/d6nj00240d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1577.638791874051,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 426,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 426,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2026/nj/d6nj00240d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 5128,
+      "doi": "10.1039/9781837671540-00215",
+      "link": "https://doi.org/10.1039/9781837671540-00215",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1686.4199582487345,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_empty",
+        "corresponding": "gold_present_parser_empty",
+        "abstract": "gold_present_parser_empty",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 0.0,
+          "f1_soft": 0.0,
+          "f1_fuzzy": 0.0
+        },
+        "corresponding": {
+          "accuracy": 0.0,
+          "f1": 0.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.0,
+          "fuzzy_ratio": 0.0,
+          "present": false,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1403,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://books.rsc.org/books/edited-volume/chapter-pdf/1752362/bk9781839168727-00215.pdf",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7041,
+      "doi": "10.1039/d4nj00853g",
+      "link": "https://doi.org/10.1039/d4nj00853g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1606.6393330693245,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9905172413793103,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 1160,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 1160,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2024/nj/d4nj00853g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7342,
+      "doi": "10.1039/c7ra08480c",
+      "link": "https://doi.org/10.1039/c7ra08480c",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1473.4574588946998,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1360,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1360,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2017/ra/c7ra08480c",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7231,
+      "doi": "10.1039/c6ra27390d",
+      "link": "https://doi.org/10.1039/c6ra27390d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1514.7264157421887,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 1497,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 1497,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2017/ra/c6ra27390d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8032,
+      "doi": "10.1039/an9830801235",
+      "link": "https://doi.org/10.1039/an9830801235",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 630.4028751328588,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.5864253393665159,
+          "fuzzy_ratio": 0.5864253393665159,
+          "present": true,
+          "match_at_threshold": false
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 781,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 324,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1983/an/an9830801235",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 7343,
+      "doi": "10.1039/d0tc04526h",
+      "link": "https://doi.org/10.1039/d0tc04526h",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1326.465167105198,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1128,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1128,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2021/tc/d0tc04526h",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8033,
+      "doi": "10.1039/p29890001499",
+      "link": "https://doi.org/10.1039/p29890001499",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 637.1632916852832,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 558,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 558,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1989/p2/p29890001499",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8240,
+      "doi": "10.1039/ap984210227b",
+      "link": "https://doi.org/10.1039/ap984210227b",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 655.7129169814289,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1984/ap/ap984210227b",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8135,
+      "doi": "10.1039/d6md00290k",
+      "link": "https://doi.org/10.1039/d6md00290k",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1131.347875110805,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 9,
+        "abstract_len": 1439,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 9,
+        "abstract_len": 1439,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2026/md/d6md00290k",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8241,
+      "doi": "10.1039/c3tb21424a",
+      "link": "https://doi.org/10.1039/c3tb21424a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1123.2628747820854,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.9994672349493873,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1877,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1877,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2014/tb/c3tb21424a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8730,
+      "doi": "10.1039/c398400bx019",
+      "link": "https://doi.org/10.1039/c398400bx019",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1396.0467078723013,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "empty_empty_pass",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "empty_empty_pass",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "empty_empty_pass": true
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": false,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 0,
+        "abstract_len": 0,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1984/c3/c398400bx019",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8329,
+      "doi": "10.1039/c8sc03530j",
+      "link": "https://doi.org/10.1039/c8sc03530j",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1602.2023330442607,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 7
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9995722840034218,
+          "fuzzy_ratio": 0.9991442019683354,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 7,
+        "abstract_len": 2337,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 7,
+        "abstract_len": 2337,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2019/sc/c8sc03530j",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8634,
+      "doi": "10.1039/d6sc02111e",
+      "link": "https://doi.org/10.1039/d6sc02111e",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1591.292374767363,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 942,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 942,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2026/sc/d6sc02111e",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 8932,
+      "doi": "10.1039/p19760000357",
+      "link": "https://doi.org/10.1039/p19760000357",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1449.3070421740413,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 3,
+        "abstract_len": 528,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 3,
+        "abstract_len": 528,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1976/p1/p19760000357",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9139,
+      "doi": "10.1039/c7sc04422d",
+      "link": "https://doi.org/10.1039/c7sc04422d",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1275.7273754104972,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 5
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 5,
+        "abstract_len": 327,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 5,
+        "abstract_len": 327,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2018/sc/c7sc04422d",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9140,
+      "doi": "10.1039/c7tc01224a",
+      "link": "https://doi.org/10.1039/c7tc01224a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1301.4250001870096,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 8
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 0.999104744852283,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 8,
+        "abstract_len": 1117,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 8,
+        "abstract_len": 1117,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2017/tc/c7tc01224a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9331,
+      "doi": "10.1039/c1jm12671g",
+      "link": "https://doi.org/10.1039/c1jm12671g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1083.2285839132965,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 4
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 4,
+        "abstract_len": 1082,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 4,
+        "abstract_len": 1083,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2011/jm/c1jm12671g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9537,
+      "doi": "10.1039/c5ra13982a",
+      "link": "https://doi.org/10.1039/c5ra13982a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1250.3767497837543,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.984287317620651,
+          "fuzzy_ratio": 0.984287317620651,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 891,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 891,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2015/ra/c5ra13982a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9141,
+      "doi": "10.1039/jr9510001975",
+      "link": "https://doi.org/10.1039/jr9510001975",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 934.9939171224833,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_empty_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 0,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 74,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1951/jr/jr9510001975",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9538,
+      "doi": "10.1039/d0fo02123g",
+      "link": "https://doi.org/10.1039/d0fo02123g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1434.6410827711225,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1817,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1817,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2020/fo/d0fo02123g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9639,
+      "doi": "10.1039/b617867g",
+      "link": "https://doi.org/10.1039/b617867g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1444.040833041072,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 1
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 1,
+        "abstract_len": 816,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 1,
+        "abstract_len": 816,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2007/oc/b617867g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9640,
+      "doi": "10.1039/c6cp02642g",
+      "link": "https://doi.org/10.1039/c6cp02642g",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1435.0085421465337,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 2
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 969,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 969,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2016/cp/c6cp02642g",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9641,
+      "doi": "10.1039/c9mh01761e",
+      "link": "https://doi.org/10.1039/c9mh01761e",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1398.2091252692044,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 6
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 6,
+        "abstract_len": 1191,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 6,
+        "abstract_len": 1191,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2020/mh/c9mh01761e",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9729,
+      "doi": "10.1039/c39800000639",
+      "link": "https://doi.org/10.1039/c39800000639",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1265.4045829549432,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "empty_empty_pass",
+        "corresponding": "empty_empty_pass",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "empty_empty_pass": true
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "empty_empty_pass": true
+        },
+        "abstract": {
+          "strict_match": true,
+          "soft_ratio": 1.0,
+          "fuzzy_ratio": 1.0,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 2,
+        "abstract_len": 181,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 2,
+        "abstract_len": 181,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/1980/c3/c39800000639",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    },
+    {
+      "no": 9934,
+      "doi": "10.1039/d4tc05193a",
+      "link": "https://doi.org/10.1039/d4tc05193a",
+      "publisher": "rsc",
+      "publisher_domain": "doi.org",
+      "error": null,
+      "duration_ms": 1002.9730410315096,
+      "skipped_no_html": false,
+      "retrieval_blocked": false,
+      "retrieval_blocked_reason": null,
+      "field_status": {
+        "authors": "gold_present_parser_present",
+        "affiliations": "gold_present_parser_present",
+        "corresponding": "gold_present_parser_present",
+        "abstract": "gold_present_parser_present",
+        "pdf_url": "gold_present_parser_present"
+      },
+      "score": {
+        "authors": {
+          "f1": 1.0,
+          "f1_soft": 1.0
+        },
+        "affiliations": {
+          "f1": 1.0,
+          "f1_soft": 1.0,
+          "f1_fuzzy": 1.0,
+          "pairs_scored": 11
+        },
+        "corresponding": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "abstract": {
+          "strict_match": false,
+          "soft_ratio": 0.9958881578947368,
+          "fuzzy_ratio": 0.9958881578947368,
+          "present": true,
+          "match_at_threshold": true
+        },
+        "pdf_url": {
+          "exact_match": true,
+          "accuracy": 1.0,
+          "present": true,
+          "divergent": false
+        }
+      },
+      "gold": {
+        "n_authors": 11,
+        "abstract_len": 1216,
+        "has_pdf_url": true
+      },
+      "parsed": {
+        "n_authors": 11,
+        "abstract_len": 1216,
+        "urls": [
+          {
+            "url": "https://pubs.rsc.org/en/content/articlepdf/2025/tc/d4tc05193a",
+            "content_type": "pdf"
+          }
+        ]
+      }
+    }
+  ],
+  "duration_ms": 10009
+}
