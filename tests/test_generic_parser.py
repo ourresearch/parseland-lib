@@ -77,6 +77,157 @@ def test_preprints_visible_star_marks_corresponding_author():
     assert [a["is_corresponding"] for a in out["authors"]] == [True, False, False]
 
 
+def test_generic_plain_text_starred_byline_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <p>Jane Smith*, Bob Jones</p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False]
+
+
+def test_generic_sup_starred_byline_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <div class="article-authors">
+          Jane Smith<sup>*</sup>, Bob Jones
+        </div>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False]
+
+
+def test_generic_affiliation_label_plus_star_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <div class="authors">
+          Jane Smith<sup>1,*</sup>, Bob Jones<sup>2</sup>
+        </div>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False]
+
+
+def test_generic_starred_single_author_defaults_to_corresponding_without_note():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+      </head>
+      <body>
+        <p>Jane Smith<sup>*</sup></p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True]
+
+
+def test_generic_starred_byline_positive_footnote_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <p class="byline">Jane Smith<sup>*</sup>, Bob Jones</p>
+        <p>* Corresponding author: jane@example.org</p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False]
+
+
+def test_generic_starred_byline_equal_contribution_note_blocks_corresponding():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <p class="byline">Jane Smith<sup>*</sup>, Bob Jones</p>
+        <p>* These authors contributed equally.</p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [None, None]
+
+
+def test_generic_starred_byline_present_address_note_blocks_corresponding():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <p class="authors">Jane Smith<sup>*</sup>, Bob Jones</p>
+        <p>* Present address: Department of Biology, Example University.</p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [None, None]
+
+
+def test_generic_all_authors_starred_without_positive_note_does_not_overmark():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Jane Smith" />
+        <meta name="citation_author" content="Bob Jones" />
+      </head>
+      <body>
+        <p class="authors">Jane Smith<sup>*</sup>, Bob Jones<sup>*</sup></p>
+        <p><a href="mailto:?subject=Recommended article">Email this article</a></p>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [None, None]
+
+
 def test_explicit_author_popover_marks_corresponding_author():
     html = """
     <html>

@@ -24,6 +24,7 @@ class GenericPublisherParser(PublisherParser):
             authors = self.parse_author_meta_tags()
             authors = self.mark_preprints_starred_corresponding(authors)
             authors = self.mark_explicit_correspondence_block(authors)
+            authors = self.mark_visible_byline_starred_corresponding(authors)
             self._parse_result = {
                 "authors": authors,
                 "abstract": (
@@ -171,6 +172,175 @@ class GenericPublisherParser(PublisherParser):
         for author in authors:
             key = self._person_key(author.get("name"))
             if key in matched_keys:
+                author["is_corresponding"] = True
+            elif author.get("is_corresponding") is None:
+                author["is_corresponding"] = False
+        return authors
+
+    @staticmethod
+    def _node_attr_text(node):
+        parts = []
+        for attr in ("class", "id", "role", "property", "name", "title", "aria-label"):
+            value = node.get(attr)
+            if isinstance(value, list):
+                parts.extend(str(item) for item in value)
+            elif value:
+                parts.append(str(value))
+        return " ".join(parts).lower()
+
+    @classmethod
+    def _is_likely_byline_node(cls, node, text, authors):
+        attr_text = cls._node_attr_text(node)
+        if re.search(r"\b(author|authors|byline|by-line|contrib|contributor|creator)\b", attr_text):
+            return True
+        matched_count = sum(
+            1 for author in authors
+            if cls._text_has_person(text, author.get("name"))
+        )
+        if len(authors) == 1:
+            return matched_count == 1 and len(text) <= 500
+        return matched_count >= 2 and len(text) <= 700
+
+    @staticmethod
+    def _has_star_marker(text):
+        return "*" in (text or "") or "∗" in (text or "")
+
+    @staticmethod
+    def _author_star_patterns(name):
+        tokens = re.findall(r"[A-Za-z0-9]+", name or "")
+        if not tokens:
+            return []
+        orders = [tokens]
+        if len(tokens) >= 2:
+            orders.append(list(reversed(tokens)))
+        patterns = []
+        for ordered in orders:
+            name_re = r"[\s\W]+".join(re.escape(token) for token in ordered)
+            patterns.append(
+                re.compile(
+                    rf"(?<![A-Za-z0-9]){name_re}(?![A-Za-z0-9])"
+                    rf"\s*(?:[\d,\s†‡§#]+)?[*∗]",
+                    re.I,
+                )
+            )
+        return patterns
+
+    @classmethod
+    def _author_has_attached_star(cls, text, name):
+        return any(pattern.search(text or "") for pattern in cls._author_star_patterns(name))
+
+    def _has_nested_byline_star_candidate(self, node, authors):
+        for child in node.find_all(True):
+            if child.name in {"script", "style", "meta", "head", "title"}:
+                continue
+            text = self._node_text(child)
+            if (
+                text
+                and len(text) <= 1200
+                and self._has_star_marker(text)
+                and self._is_likely_byline_node(child, text, authors)
+            ):
+                return True
+        return False
+
+    def _nearby_star_note_text(self, node):
+        pieces = [self._node_text(node)]
+        for sibling in list(node.next_siblings)[:4]:
+            if hasattr(sibling, "get_text"):
+                text = sibling.get_text(" ", strip=True)
+            else:
+                text = str(sibling).strip()
+            if text:
+                pieces.append(text)
+            if len(" ".join(pieces)) > 1200:
+                break
+        parent = getattr(node, "parent", None)
+        if parent:
+            parent_text = self._node_text(parent)
+            if parent_text and len(parent_text) <= 1200:
+                pieces.append(parent_text)
+        return re.sub(r"\s+", " ", " ".join(pieces)).strip()
+
+    @staticmethod
+    def _star_note_polarity(text):
+        snippets = [match.group(0) for match in re.finditer(r"[*∗]\s*.{0,350}", text or "")]
+        if not snippets and text:
+            snippets = [text]
+        positive = any(
+            (
+                re.search(
+                    r"\b(corresponding author|correspondence|"
+                    r"to whom correspondence should be addressed)\b",
+                    snippet,
+                    re.I,
+                )
+                or (
+                    re.search(r"\be-?mail\s*:", snippet, re.I)
+                    or re.search(r"[\w.+-]+@[\w.-]+\.[a-z]{2,}", snippet, re.I)
+                )
+            )
+            for snippet in snippets
+        )
+        negative = any(
+            re.search(
+                r"\b(contributed equally|equal contribution|co-?first|joint first|"
+                r"present address|deceased)\b",
+                snippet,
+                re.I,
+            )
+            for snippet in snippets
+        )
+        return positive, negative
+
+    def mark_visible_byline_starred_corresponding(self, authors):
+        """Use visible byline stars as a conservative generic CA fallback.
+
+        This runs only after higher-confidence generic rules. It trusts a star
+        only when it is attached to a parsed author in a compact byline-like
+        node, and blocks common non-CA star notes such as equal contribution.
+        """
+        if not authors or any(author.get("is_corresponding") is True for author in authors):
+            return authors
+
+        starred_keys = set()
+        has_positive_note = False
+        for tag in self.soup.find_all(True):
+            if tag.name in {"script", "style", "meta", "head", "title", "html", "body"}:
+                continue
+            if any(parent.name in {"nav", "footer"} for parent in tag.parents):
+                continue
+            text = self._node_text(tag)
+            if not self._has_star_marker(text):
+                continue
+            if len(text) > 1200:
+                continue
+            if not self._is_likely_byline_node(tag, text, authors):
+                continue
+            if self._has_nested_byline_star_candidate(tag, authors):
+                continue
+
+            note_text = self._nearby_star_note_text(tag)
+            positive_note, negative_note = self._star_note_polarity(note_text)
+            if negative_note and not positive_note:
+                continue
+            has_positive_note = has_positive_note or positive_note
+
+            for author in authors:
+                if self._author_has_attached_star(text, author.get("name")):
+                    key = self._person_key(author.get("name"))
+                    if key:
+                        starred_keys.add(key)
+
+        if not starred_keys:
+            return authors
+        if not has_positive_note:
+            starred_fraction = len(starred_keys) / max(len(authors), 1)
+            if len(authors) > 1 and len(starred_keys) > 1 and starred_fraction >= 0.5:
+                return authors
+
+        for author in authors:
+            key = self._person_key(author.get("name"))
+            if key in starred_keys:
                 author["is_corresponding"] = True
             elif author.get("is_corresponding") is None:
                 author["is_corresponding"] = False

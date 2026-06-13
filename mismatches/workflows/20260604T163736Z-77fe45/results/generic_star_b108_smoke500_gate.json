@@ -1,0 +1,58 @@
+{
+  "batch": 108,
+  "agent": "codex-generic-starred-byline-ca",
+  "created_at_utc": "2026-06-13T22:15:22Z",
+  "change": "Generic parser now treats a visible star directly attached to a parsed author in a compact byline as a corresponding-author fallback, with blockers for equal-contribution, present-address, deceased, broad page, and non-distinguishing all-author star patterns.",
+  "changed_files": [
+    "parseland_lib/publisher/parsers/generic.py",
+    "tests/test_generic_parser.py"
+  ],
+  "unit_gates": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/generic.py tests/test_generic_parser.py",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_parse_page.py -q",
+      "status": "passed",
+      "result": "32 passed in 0.10s"
+    },
+    {
+      "command": "git diff --check -- parseland_lib/publisher/parsers/generic.py tests/test_generic_parser.py",
+      "status": "passed"
+    }
+  ],
+  "smoke_gate": {
+    "command": "PARSELAND_EVAL_PATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval PYTHONPATH=/Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval:. ./.venv/bin/python scripts/whole_goldie_eval.py run --corpus /Users/shubh-trips/Documents/OpenAlex/parseland-eval/eval/data/merged-FINAL.csv --label batch108-generic-star-smoke500-v2 --limit 500 --concurrency 8 --out mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch108_generic_star_smoke500_after_v2.json",
+    "status": "passed",
+    "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch108_generic_star_smoke500_after_v2.json",
+    "rows": 500,
+    "retrieval_blocked": 228,
+    "errors": 0,
+    "authors_f1_soft": 0.974,
+    "affiliations_f1_fuzzy": 0.971,
+    "abstract_ratio_fuzzy": 0.941,
+    "pdf_url_accuracy": 0.99,
+    "corresponding_accuracy": 0.976,
+    "generic_dispatch_prints": 3
+  },
+  "baseline_comparison": {
+    "baseline_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_batch107_thieme_elsevier_guard_full10k_after.json",
+    "compared_rows": 500,
+    "blocked_before": 228,
+    "blocked_after": 228,
+    "score_changes": 0,
+    "field_status_changes": 0
+  },
+  "broad_parser_snapshot_suite": {
+    "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_parse_page.py tests/test_parsers.py -q",
+    "status": "failed_unrelated_live_snapshot_drift",
+    "result": "42 failed, 74 passed, 3 warnings",
+    "notes": "Failures span many unrelated publishers and include encoding/live fixture drift. The focused generic tests and Whole-Goldie smoke comparison passed with zero row-level deltas."
+  },
+  "full_10k_gate": {
+    "status": "not_run",
+    "reason": "Current queue has no HTML-available generic-only corresponding slice; generic-only and unknown corresponding tasks are retrieval-blocked. The 500-row smoke exercised generic dispatch three times and showed zero score/status movement, so no current-Goldie KPI lift was expected from a full 10K run."
+  },
+  "recommendation": "Ship the narrow generic parser fallback as precision-guarded production behavior. Continue retrieval/Browserbase lanes for generic-only publishers whose static HTML is currently unavailable."
+}
