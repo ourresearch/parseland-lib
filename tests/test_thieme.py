@@ -161,6 +161,32 @@ def test_thieme_embedded_author_spans_mark_corresponding_from_email_meta():
     assert [author.is_corresponding for author in parsed["authors"]] == [False, True]
 
 
+def test_thieme_email_meta_matches_umlaut_hyphenated_surname():
+    head = """
+    <meta name="citation_publisher" content="Thieme">
+    <meta name="citation_author" content="Ute Schäfer-Graf">
+    <meta name="citation_author_email" content="Ute.Schaefer-Graf@sjk.example">
+    """
+
+    parsed = Thieme(_soup("", head=head)).parse()
+
+    assert [author.is_corresponding for author in parsed["authors"]] == [True]
+
+
+def test_thieme_email_meta_matches_initial_plus_surname_prefix():
+    head = """
+    <meta name="citation_publisher" content="Thieme">
+    <meta name="citation_author" content="Ricardo J. Komotar">
+    <meta name="citation_author" content="Robert M. Starke">
+    <meta name="citation_author" content="Daniel M. S. Raper">
+    <meta name="citation_author_email" content="drap7157@uni.example">
+    """
+
+    parsed = Thieme(_soup("", head=head)).parse()
+
+    assert [author.is_corresponding for author in parsed["authors"]] == [False, False, True]
+
+
 def test_thieme_dedupes_repeated_visible_author_with_same_affiliation():
     body = """
     <div class="authors">
@@ -275,3 +301,25 @@ def test_parse_page_dispatches_thieme_visible_abstract_without_authors():
 
     assert parsed["authors"] == []
     assert parsed["abstract"].startswith("Die Aortenisthmusstenose")
+
+
+def test_parse_page_keeps_thieme_abstract_when_onetrust_script_present():
+    head = """
+    <meta name="description" content="Thieme E-Books & E-Journals">
+    <meta name="citation_publisher" content="Georg Thieme Verlag KG">
+    <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"></script>
+    """
+    body = """
+    <div class="authors">M Beden</div>
+    <div class="affiliation">Institut für Sporttherapie</div>
+    <div id="abstract">
+      Buy Article Permissions and Reprints
+      Die Frage, ob Sport- und Bewegungstherapeuten der Pflicht unterliegen,
+      Beiträge zur gesetzlichen Rentenversicherung abzuführen, ist bereits
+      Gegenstand verschiedener gerichtlicher Entscheidungen gewesen.
+    </div>
+    """
+
+    parsed = parse_page(str(_soup(body, head=head)), "doi", "https://doi.org/10.1055/example")
+
+    assert parsed["abstract"].startswith("Die Frage, ob Sport- und Bewegungstherapeuten")

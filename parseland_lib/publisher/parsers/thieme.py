@@ -1,5 +1,6 @@
 import copy
 import re
+import unicodedata
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
@@ -177,7 +178,15 @@ class Thieme(PublisherParser):
 
     @classmethod
     def _normalize_alpha(cls, value):
-        return re.sub(r"[^a-z0-9]+", "", cls._normalize_text(value))
+        value = cls._normalize_text(value)
+        value = (
+            value.replace("ä", "ae")
+            .replace("ö", "oe")
+            .replace("ü", "ue")
+            .replace("ß", "ss")
+        )
+        value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+        return re.sub(r"[^a-z0-9]+", "", value)
 
     @classmethod
     def _name_matches_email(cls, name, email):
@@ -187,17 +196,26 @@ class Thieme(PublisherParser):
         if not email_tokens:
             return False
 
-        name_tokens = [cls._normalize_alpha(token) for token in name.split()]
+        name_tokens = [cls._normalize_alpha(token) for token in re.split(r"[\s\-]+", name)]
         name_tokens = [token for token in name_tokens if token]
         if not name_tokens:
             return False
 
         first_initial = name_tokens[0][:1]
-        last_name = name_tokens[-1]
-        return (
-            last_name in email_tokens
-            or any(token.endswith(last_name) for token in email_tokens)
-        ) and any(token.startswith(first_initial) for token in email_tokens)
+        surname_tokens = [token for token in name_tokens[1:] if len(token) >= 3] or name_tokens[-1:]
+        has_first_initial = any(token.startswith(first_initial) for token in email_tokens)
+        has_surname = any(
+            surname in token or token.endswith(surname)
+            for surname in surname_tokens
+            for token in email_tokens
+        )
+        has_initial_surname_prefix = any(
+            token.startswith(first_initial + surname[:3])
+            for surname in surname_tokens
+            for token in email_tokens
+            if len(surname) >= 4
+        )
+        return (has_first_initial and has_surname) or has_initial_surname_prefix
 
     def _mark_corresponding_from_email_meta(self, authors):
         emails = [

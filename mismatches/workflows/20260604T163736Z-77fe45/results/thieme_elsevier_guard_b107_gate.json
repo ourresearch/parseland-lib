@@ -1,0 +1,261 @@
+{
+  "status": "green",
+  "batch": 107,
+  "task_id": "v2_thieme_abstract_elsevier_guard_b107",
+  "agent_id": "codex-thieme-abstract-b107",
+  "created_at": "2026-06-13T06:46:16.294984Z",
+  "publisher_id": "thieme",
+  "field": "abstract",
+  "classification": "parser_owned_cross_publisher_dispatch_guard_and_thieme_ca_email_match",
+  "diagnosis": "ElsevierBV treated the shared OneTrust cookie script as an Elsevier signal, so Thieme pages with affiliations were selected by ElsevierBV before the Thieme parser, dropping visible #abstract text. Tightening Elsevier dispatch to explicit ScienceDirect/Elsevier URL/meta signals lets Thieme own those pages. Two corresponding-author rows then needed conservative Thieme citation_author_email matching for umlaut/hyphenated surnames and first-initial plus surname-prefix email locals.",
+  "files_touched": [
+    "parseland_lib/publisher/parsers/elsevier_bv.py",
+    "parseland_lib/publisher/parsers/thieme.py",
+    "tests/test_elsevier_canonical_dispatch.py",
+    "tests/test_thieme.py"
+  ],
+  "tests_run": [
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/elsevier_bv.py parseland_lib/publisher/parsers/thieme.py tests/test_elsevier_canonical_dispatch.py tests/test_thieme.py",
+      "status": "passed"
+    },
+    {
+      "command": "PYTHONPATH=. ./.venv/bin/pytest tests/test_elsevier_canonical_dispatch.py tests/test_thieme.py tests/test_parse_page.py -q",
+      "status": "passed",
+      "result": "37 passed"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers thieme --label thieme-elsevier-guard-ca-b107 --concurrency 8",
+      "status": "passed",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_elsevier_guard_ca_b107_after.json"
+    },
+    {
+      "command": "whole_goldie_eval.py run --publishers elsevier --limit 300 --label elsevier-guard-b107-smoke300 --concurrency 8",
+      "status": "passed",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_elsevier_guard_b107_smoke300.json"
+    },
+    {
+      "command": "monkeypatch old ElsevierBV guard on same 300-row Elsevier sample and compare aggregates",
+      "status": "passed",
+      "artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_elsevier_guard_b107_smoke300_oldguard.json",
+      "result": "all compared aggregate metrics unchanged; no pass-to-fail row deltas"
+    }
+  ],
+  "baseline_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_affiliations_b105_after.json",
+  "after_artifact": "mismatches/workflows/20260604T163736Z-77fe45/results/whole_goldie_thieme_elsevier_guard_ca_b107_after.json",
+  "current_kpi_by_field": {
+    "authors_f1_soft": 0.8032786885245902,
+    "affiliations_f1_fuzzy": 1.0,
+    "abstract_ratio_fuzzy": 0.9891825879114204,
+    "abstract_present_rate": 0.5409836065573771,
+    "pdf_url_accuracy": 0.9666666666666667,
+    "corresponding_accuracy": 0.9836065573770492
+  },
+  "delta_by_field": {
+    "authors_f1_soft": 0.0,
+    "affiliations_f1_fuzzy": 0.0,
+    "abstract_ratio_fuzzy": 0.04721582003615954,
+    "abstract_present_rate": 0.049180327868852514,
+    "pdf_url_accuracy": 0.0,
+    "corresponding_accuracy": 0.0
+  },
+  "elsevier_smoke_old_vs_new": {
+    "authors_f1_soft": {
+      "old_guard": 0.9333999333999334,
+      "new_guard": 0.9333999333999334,
+      "delta": 0.0
+    },
+    "affiliations_f1_fuzzy": {
+      "old_guard": 0.852689291591383,
+      "new_guard": 0.852689291591383,
+      "delta": 0.0
+    },
+    "abstract_ratio_fuzzy": {
+      "old_guard": 0.9134388465488952,
+      "new_guard": 0.9134388465488952,
+      "delta": 0.0
+    },
+    "abstract_present_rate": {
+      "old_guard": 0.6608391608391608,
+      "new_guard": 0.6608391608391608,
+      "delta": 0.0
+    },
+    "pdf_url_accuracy": {
+      "old_guard": 0.9369369369369369,
+      "new_guard": 0.9369369369369369,
+      "delta": 0.0
+    },
+    "corresponding_accuracy": {
+      "old_guard": 0.9602302459445315,
+      "new_guard": 0.9602302459445315,
+      "delta": 0.0
+    }
+  },
+  "row_deltas": {
+    "abstract": {
+      "changed_examples": [
+        {
+          "doi": "10.1055/s-0035-1547423",
+          "before": 0.0,
+          "after": 1.0,
+          "before_status": "gold_present_parser_empty",
+          "after_status": "gold_present_parser_present"
+        },
+        {
+          "doi": "10.1055/a-1144-4200",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0043-1774256",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0038-1669046",
+          "before": 0.0,
+          "after": 0.9984805730410246,
+          "before_status": "gold_present_parser_empty",
+          "after_status": "gold_present_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0042-1743770",
+          "before": 0.0,
+          "after": 0.9771893025694809,
+          "before_status": "gold_present_parser_empty",
+          "after_status": "gold_present_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0029-1206558",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0045-1806183",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0035-1560937",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0045-1806321",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/a-2751-4370",
+          "before": 0.98,
+          "after": 0.7241379310344827,
+          "before_status": "gold_present_parser_present",
+          "after_status": "gold_present_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0030-1258551",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        }
+      ],
+      "improved_examples": [
+        "10.1055/s-0035-1547423",
+        "10.1055/s-0038-1669046",
+        "10.1055/s-0042-1743770"
+      ],
+      "regressed_examples": [
+        {
+          "doi": "10.1055/a-1144-4200",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0043-1774256",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0029-1206558",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0045-1806183",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0035-1560937",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0045-1806321",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        },
+        {
+          "doi": "10.1055/a-2751-4370",
+          "before": 0.98,
+          "after": 0.7241379310344827,
+          "before_status": "gold_present_parser_present",
+          "after_status": "gold_present_parser_present"
+        },
+        {
+          "doi": "10.1055/s-0030-1258551",
+          "before": 1.0,
+          "after": null,
+          "before_status": "empty_empty_pass",
+          "after_status": "gold_empty_parser_present"
+        }
+      ]
+    },
+    "corresponding": {
+      "changed_examples": [],
+      "improved_examples": [],
+      "regressed_examples": []
+    },
+    "authors": {
+      "changed_examples": [],
+      "improved_examples": [],
+      "regressed_examples": []
+    },
+    "affiliations": {
+      "changed_examples": [],
+      "improved_examples": [],
+      "regressed_examples": []
+    },
+    "pdf_url": {
+      "changed_examples": [],
+      "improved_examples": [],
+      "regressed_examples": []
+    }
+  },
+  "recommendation": "Ship Batch107. Thieme abstract is now above the 98% target on current Goldie (0.942 -> 0.989) with corresponding restored to 0.984 and no Elsevier smoke regression. Remaining Thieme below-98 fields are authors (book/SOS/eRef no-signal pages) and one PDF URL equivalence/source issue."
+}

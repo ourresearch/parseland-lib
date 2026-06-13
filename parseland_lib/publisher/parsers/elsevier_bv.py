@@ -11,19 +11,52 @@ class ElsevierBV(PublisherParser):
     parser_name = "Elsevier BV"
 
     def is_publisher_specific_parser(self):
-        # Original signal: the OneTrust cookie consent script that runs on
-        # modern ScienceDirect pages. Legacy /abs/ pages (pre-2000s reprints,
-        # older Cell Press supplements, conference abstracts) omit this
-        # script but ARE Elsevier — the canonical link points to
-        # sciencedirect.com. Accept either signal.
+        # OneTrust is used by several publishers, so it cannot identify
+        # Elsevier by itself. Require an explicit ScienceDirect/Elsevier signal
+        # from canonical/og/meta content.
         if self.domain_in_canonical_link("papers.ssrn.com"):
             return False
-        return bool(
-            self.soup.find(
-                "script", {"src": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"}
+        return self._has_elsevier_signal()
+
+    @staticmethod
+    def _is_elsevier_value(value):
+        value = (value or "").lower()
+        return any(
+            token in value
+            for token in (
+                "sciencedirect",
+                "elsevier",
+                "cell.com",
+                "thelancet.com",
             )
-            or self.domain_in_canonical_link("sciencedirect.com")
         )
+
+    def _has_elsevier_signal(self):
+        if self.domain_in_canonical_link("sciencedirect.com"):
+            return True
+        if self.domain_in_meta_og_url("sciencedirect.com"):
+            return True
+
+        for selector in (
+            'meta[name="citation_publisher"]',
+            'meta[name="dc.publisher"]',
+            'meta[property="og:site_name"]',
+            'meta[name="og:site_name"]',
+            'meta[property="og:url"]',
+            'meta[name="og:url"]',
+            'link[rel="canonical"]',
+        ):
+            for tag in self.soup.select(selector):
+                if self._is_elsevier_value(tag.get("content") or tag.get("href")):
+                    return True
+
+        # Some Elsevier Health / EM-Consulte migrated pages expose no canonical
+        # or publisher meta, but do carry Elsevier-specific app metadata.
+        for tag in self.soup.find_all("meta"):
+            if self._is_elsevier_value(tag.get("content")):
+                return True
+
+        return False
 
     def authors_found(self):
         # Legacy ScienceDirect template uses <li class="author">.

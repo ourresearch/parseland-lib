@@ -17,11 +17,21 @@ def _make(html: str) -> ElsevierBV:
 
 
 class TestElsevierDispatch:
-    def test_dispatch_via_cookielaw_script(self) -> None:
-        # Original positive case: modern ScienceDirect page.
+    def test_no_dispatch_via_cookielaw_script_alone(self) -> None:
+        # OneTrust is shared across publishers; it is not an Elsevier signal by
+        # itself.
         html = (
             "<html><head>"
             '<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"></script>'
+            "</head><body/></html>"
+        )
+        assert bool(_make(html).is_publisher_specific_parser()) is False
+
+    def test_dispatch_via_cookielaw_with_elsevier_meta(self) -> None:
+        html = (
+            "<html><head>"
+            '<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"></script>'
+            '<meta name="citation_publisher" content="Elsevier">'
             "</head><body/></html>"
         )
         assert bool(_make(html).is_publisher_specific_parser()) is True
