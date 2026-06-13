@@ -1,0 +1,70 @@
+{
+  "batch": 106,
+  "lane": "generic_corresponding_author_explicit_blocks",
+  "timestamp_utc": "2026-06-13T00:39:03Z",
+  "commands": {
+    "pytest": "PYTHONPATH=. ./.venv/bin/pytest tests/test_generic_parser.py tests/test_parse_page.py -q",
+    "py_compile": "./.venv/bin/python -m py_compile parseland_lib/publisher/parsers/generic.py tests/test_generic_parser.py",
+    "targeted_scan": "three generic-dispatch CA rows from current CA-miss pool"
+  },
+  "pytest": {
+    "returncode": 0,
+    "stdout": "........................                                                 [100%]\n24 passed in 0.08s\n",
+    "stderr": ""
+  },
+  "py_compile": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "examples": [
+    {
+      "doi": "10.1002/essoar.10504659.1",
+      "publisher": "wiley",
+      "used_generic_dispatch": true,
+      "gold_ca": [
+        "Indhu Varatharajan"
+      ],
+      "parsed_ca": [
+        "Indhu Varatharajan"
+      ],
+      "author_f1": 1.0,
+      "corresponding_f1": 1.0,
+      "verdict": "fixed"
+    },
+    {
+      "doi": "10.31124/advance.175705082.24318854/v1",
+      "publisher": "sage",
+      "used_generic_dispatch": true,
+      "gold_ca": [
+        "Mary Rice"
+      ],
+      "parsed_ca": [
+        "Mary Rice"
+      ],
+      "author_f1": 1.0,
+      "corresponding_f1": 1.0,
+      "verdict": "fixed"
+    },
+    {
+      "doi": "10.36227/techrxiv.173337756.60084208/v1",
+      "publisher": "ieee",
+      "used_generic_dispatch": true,
+      "gold_ca": [
+        "Simon Mooar"
+      ],
+      "parsed_ca": [],
+      "author_f1": 0.6666666666666666,
+      "corresponding_f1": 0.0,
+      "verdict": "blocked_precision_email_only_or_author_match_gap"
+    }
+  ],
+  "summary": {
+    "generic_ca_examples": 3,
+    "fixed": 2,
+    "blocked": 1,
+    "precision_policy": "explicit compact correspondence marker plus exactly one parsed author; no email-only inference",
+    "de_gruyter_status": "all publisher-field queue cells are at_or_above_98_current_goldie"
+  },
+  "status": "pass"
+}

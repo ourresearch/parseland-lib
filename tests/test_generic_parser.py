@@ -75,3 +75,100 @@ def test_preprints_visible_star_marks_corresponding_author():
     out = _parse(html)
 
     assert [a["is_corresponding"] for a in out["authors"]] == [True, False, False]
+
+
+def test_explicit_author_popover_marks_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Mary Rice" />
+      </head>
+      <body>
+        <div class="author-popover">
+          <strong>Mary Rice</strong>
+          <p>Corresponding Author: mary.rice@example.org</p>
+          <a>Author Profile</a>
+        </div>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True]
+
+
+def test_explicit_essoar_author_block_marks_only_named_author():
+    html = """
+    <html>
+      <head>
+        <meta name="dc.Creator" content="Indhu Varatharajan" />
+        <meta name="dc.Creator" content="Claudia Stangarone" />
+      </head>
+      <body>
+        <div class="accordion-tabbed__tab-mobile accordion__closed">
+          <a class="author-name" title="Indhu Varatharajan">
+            <span class="author-name-content">Indhu Varatharajan</span>
+          </a>
+          <div class="author-info accordion-tabbed__content">
+            <span class="corresponding-author">Corresponding Author</span>
+            <span class="submitting-author">- Submitting Author</span>
+            <div class="author-affiliation">Institute of Planetary Research</div>
+          </div>
+        </div>
+        <div class="accordion-tabbed__tab-mobile accordion__closed">
+          <a class="author-name" title="Claudia Stangarone">
+            <span class="author-name-content">Claudia Stangarone</span>
+          </a>
+          <div class="author-info accordion-tabbed__content">
+            <div class="author-affiliation">Institute of Planetary Research</div>
+          </div>
+        </div>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False]
+
+
+def test_generic_share_mailto_does_not_mark_corresponding_author():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Alice First" />
+        <meta name="citation_author" content="Bob Second" />
+      </head>
+      <body>
+        <a href="mailto:?subject=Recommended article">Email this article</a>
+        <footer>Contact support@example.org for site questions.</footer>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [None, None]
+
+
+def test_generic_broad_page_correspondence_text_does_not_overmark():
+    html = """
+    <html>
+      <head>
+        <meta name="citation_author" content="Alice First" />
+        <meta name="citation_author" content="Bob Second" />
+      </head>
+      <body>
+        <section>
+          <h2>Authors</h2>
+          <p>Alice First and Bob Second contributed to this paper.</p>
+          <p>Corresponding author information is unavailable from this page.</p>
+        </section>
+      </body>
+    </html>
+    """
+
+    out = _parse(html)
+
+    assert [a["is_corresponding"] for a in out["authors"]] == [None, None]

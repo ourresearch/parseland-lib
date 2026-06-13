@@ -23,6 +23,7 @@ class GenericPublisherParser(PublisherParser):
         if not self._parse_result:
             authors = self.parse_author_meta_tags()
             authors = self.mark_preprints_starred_corresponding(authors)
+            authors = self.mark_explicit_correspondence_block(authors)
             self._parse_result = {
                 "authors": authors,
                 "abstract": (
@@ -73,6 +74,103 @@ class GenericPublisherParser(PublisherParser):
         for author in authors:
             key = self._person_key(author.get("name"))
             if key in starred_keys:
+                author["is_corresponding"] = True
+            elif author.get("is_corresponding") is None:
+                author["is_corresponding"] = False
+        return authors
+
+    @staticmethod
+    def _node_text(node):
+        if not node:
+            return ""
+        parts = []
+        text = node.get_text(" ", strip=True)
+        if text:
+            parts.append(text)
+        for attr in ("title", "aria-label", "data-authorindex"):
+            value = node.get(attr)
+            if value:
+                parts.append(str(value))
+        return re.sub(r"\s+", " ", " ".join(parts)).strip()
+
+    @staticmethod
+    def _person_keys(name):
+        tokens = re.findall(r"[a-z0-9]+", (name or "").lower())
+        if not tokens:
+            return set()
+        keys = {"".join(tokens)}
+        if len(tokens) >= 2:
+            keys.add("".join(reversed(tokens)))
+        return keys
+
+    @classmethod
+    def _text_has_person(cls, text, name):
+        compact = re.sub(r"[^a-z0-9]+", "", (text or "").lower())
+        return any(key and key in compact for key in cls._person_keys(name))
+
+    @staticmethod
+    def _has_email_signal(text, node):
+        if re.search(r"[\w.+-]+@[\w.-]+\.[a-z]{2,}", text or "", re.I):
+            return True
+        return bool(node and node.select_one('a[href^="mailto:"]:not([href^="mailto:?"])'))
+
+    @staticmethod
+    def _has_correspondence_marker(text, node):
+        if node:
+            class_text = " ".join(str(c) for c in (node.get("class") or []))
+            if "corresponding-author" in class_text.lower():
+                return True
+        return bool(re.search(
+            r"\b(corresponding author|correspondence to|author for correspondence|"
+            r"corresponding e-?mail|corresponding email)\b",
+            text or "",
+            re.I,
+        ))
+
+    def _small_explicit_correspondence_block(self, marker_node, authors):
+        for node in [marker_node, *list(marker_node.parents)[:6]]:
+            text = self._node_text(node)
+            if not self._has_correspondence_marker(text, node):
+                continue
+            if len(text) > 1200:
+                continue
+            matched = [
+                author for author in authors
+                if self._text_has_person(text, author.get("name"))
+            ]
+            if len(matched) == 1:
+                return node, matched
+            if len(authors) == 1 and self._has_email_signal(text, node):
+                return node, authors
+        return None, []
+
+    def mark_explicit_correspondence_block(self, authors):
+        """Mark CAs only when a compact author block explicitly says so.
+
+        Generic pages contain many courtesy mailto links and support/contact
+        addresses, so this intentionally ignores email-only signals. The block
+        must contain an explicit correspondence marker and exactly one parsed
+        author name, or be a one-author page with an explicit marker plus email.
+        """
+        if not authors:
+            return authors
+
+        matched_keys = set()
+        for tag in self.soup.find_all(True):
+            text = self._node_text(tag)
+            if not self._has_correspondence_marker(text, tag):
+                continue
+            _, matched = self._small_explicit_correspondence_block(tag, authors)
+            for author in matched:
+                key = self._person_key(author.get("name"))
+                if key:
+                    matched_keys.add(key)
+
+        if not matched_keys:
+            return authors
+        for author in authors:
+            key = self._person_key(author.get("name"))
+            if key in matched_keys:
                 author["is_corresponding"] = True
             elif author.get("is_corresponding") is None:
                 author["is_corresponding"] = False
