@@ -177,10 +177,11 @@
     "updated_at": "2026-06-10T06:37:11Z"
   },
   "last_shipped_batch": 104,
-  "last_updated_at": "2026-06-12T03:01:54Z",
+  "last_updated_at": "2026-06-12T03:04:18Z",
   "latest_batch": 105,
   "latest_results": {
-    "thieme_affiliations": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_affiliations_b105_gate.json"
+    "thieme_affiliations": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_affiliations_b105_gate.json",
+    "thieme_all_fields_b105": "mismatches/workflows/20260604T163736Z-77fe45/results/thieme_affiliations_b105_gate.json"
   },
   "open_queue_top": [
     {
@@ -416,7 +417,7 @@
     "shipped_scorer_parser_fix_above_98_no_regressions": 1
   },
   "recommendations": {
-    "thieme": "Ship Batch105. Thieme affiliations are now above the 98% target on the current Goldie slice. Remaining Thieme work is authors below target and small PDF/corresponding residuals; authors residuals appear dominated by book/SOS/eRef no-signal pages and should be classified before another parser patch."
+    "thieme": "Batch105 closes Thieme affiliations above 98 and lifts abstract to 0.942. Continue only after classifying remaining authors/abstract/PDF residuals as parser-owned vs source/gold/manual-DOM."
   },
   "rsc_abstract_b100_state": {
     "artifact_path": "mismatches/workflows/20260604T163736Z-77fe45/results/rsc_abstract_b100_gate.json",
