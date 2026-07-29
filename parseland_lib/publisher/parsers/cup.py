@@ -37,6 +37,14 @@ class CUP(PublisherParser):
             or self.soup.select_one('section[class*="abstract"]')
         )
 
+    # No-abstract pages put an access notice inside div.abstract ("An abstract is
+    # not available for this content so a preview has been provided..." / the
+    # "A summary is not available..." variant). That notice must never become the
+    # abstract.
+    _NO_ABSTRACT_NOTICE = re.compile(
+        r"(an abstract|a summary) is not available for this content", re.I
+    )
+
     def _visible_abstract(self):
         for selector in (
             "div.abstract",
@@ -45,7 +53,9 @@ class CUP(PublisherParser):
         ):
             for tag in self.soup.select(selector):
                 text = tag.get_text(" ", strip=True)
-                text = re.sub(r"^(abstract\s*)+", "", text, flags=re.I).strip()
+                text = re.sub(r"^((abstract|summary)\s*)+", "", text, flags=re.I).strip()
+                if self._NO_ABSTRACT_NOTICE.search(text):
+                    continue
                 if len(text) >= 20:
                     return text
         return None
@@ -232,12 +242,10 @@ class CUP(PublisherParser):
         # lives in div.abstract. Fall back to it when the meta abstract is
         # missing or too short to be a real abstract.
         abstract = self.parse_abstract_meta_tags()
+        if abstract and self._NO_ABSTRACT_NOTICE.search(abstract):
+            abstract = None
         visible_abstract = self._visible_abstract()
-        if visible_abstract and (
-            not abstract
-            or len(abstract) < 200
-            or "an abstract is not available for this content" in visible_abstract.lower()
-        ):
+        if visible_abstract and (not abstract or len(abstract) < 200):
             abstract = visible_abstract
 
         return {"authors": result_authors, "abstract": abstract}

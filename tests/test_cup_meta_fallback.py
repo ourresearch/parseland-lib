@@ -245,7 +245,11 @@ def test_parse_page_dispatches_cup_without_div_author():
     assert out["abstract"].startswith("Cambridge chapter abstract")
 
 
-def test_parse_page_uses_visible_unavailable_abstract_over_title_meta():
+def test_parse_page_rejects_notice_and_title_meta_junk():
+    # Was: test_parse_page_uses_visible_unavailable_abstract_over_title_meta,
+    # which pinned the no-abstract notice AS the abstract. The notice is junk
+    # (it reached ~872K works via the reparse campaign) — with both the meta
+    # junk and the visible notice rejected, the right answer is no abstract.
     html = _wrap(
         CAMBRIDGE_CANONICAL
         +
@@ -259,5 +263,4 @@ def test_parse_page_uses_visible_unavailable_abstract_over_title_meta():
         "</div>",
     )
     out = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1017/aee.2022.31")
-    assert out["abstract"].startswith("An abstract is not available")
-    assert "title-like erratum" not in out["abstract"]
+    assert not out["abstract"]
