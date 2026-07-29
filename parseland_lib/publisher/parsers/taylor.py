@@ -82,7 +82,16 @@ class Taylor(PublisherParser):
             # Fallback: hlFld-Abstract container covers the older/legacy
             # Taylor & Francis layout where abstractInFull is absent.
             abstract_tag = self.soup.find(class_='hlFld-Abstract')
+        abstract = None
         if abstract_tag:
+            # Free-first-page articles put a scanned page image with zoom
+            # controls ("Click to increase image size") inside hlFld-Abstract
+            # instead of abstract prose.
+            for junk in abstract_tag.select(
+                '.firstPage-container, .firstPage, a.fpp, '
+                '.imgToggleMsg, .imgToggleMsgClose'
+            ):
+                junk.decompose()
             abstract = abstract_tag.text
             # Strip duplicated leading "Abstract" / "ABSTRACT" / "RÉSUMÉ" labels
             # (hlFld-Abstract sometimes contains the heading twice).
@@ -90,8 +99,10 @@ class Taylor(PublisherParser):
                               '', abstract, flags=re.IGNORECASE)
             abstract = re.sub(r'^\s*(?:abstract|résumé|resumen|zusammenfassung)\s*',
                               '', abstract, flags=re.IGNORECASE)
+            abstract = re.sub(r'\s*Click to (?:increase|decrease) image size\s*',
+                              ' ', abstract, flags=re.IGNORECASE)
             abstract = abstract.strip() or None
-        else:
+        if not abstract:
             abstract = self._parse_taylorfrancis_chapter_abstract()
             if not abstract:
                 abstract = self._parse_tandfonline_dc_description()

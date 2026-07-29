@@ -306,6 +306,78 @@ def test_dispatch_negative_when_neither_signal_matches() -> None:
     assert parser.is_publisher_specific_parser() is False
 
 
+# Real markup shape from stored harvest HTML (e.g. 10.1080/14623520500190322):
+# free-first-page articles put a scanned page image with zoom controls inside
+# hlFld-Abstract instead of abstract prose. The 2026-07 reparse campaign wrote
+# "Click to increase image sizeClick to decrease image size" into `abstract`
+# for 1.05M Informa works via this path (oxjob reparse-all-landing-pages,
+# FINDING-tf-click-junk-abstracts.md).
+_FIRST_PAGE_BLOCK = """
+<div class="hlFld-Abstract"><div class="firstPage-container"><div class="firstPage">
+  <a href="#" title="Increase/Reduce Image Size" class="fpp">
+    <span class="imgToggleMsg">Click to increase image size</span>
+    <span class="imgToggleMsgClose hideFullImageToggleMessage">Click to decrease image size<span class="bigx"><span class="fa fa-times" aria-hidden="true"></span></span></span>
+    <img src="/na101/firstpage.png" loading="lazy" alt="Free first page" class="firstPageImage" />
+  </a>
+</div></div></div>
+"""
+
+
+def test_first_page_zoom_controls_do_not_become_abstract() -> None:
+    """Free-first-page zoom UI must not be extracted as the abstract."""
+    html = f"""
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/fpp" />
+      <meta name="dc.Description"
+        content="(2005). Genocide and Nationalism. Journal of Genocide Research: Vol. 7, No. 3, pp. 351-367." />
+    </head><body>
+      {_AUTHORS_BLOCK}
+      {_FIRST_PAGE_BLOCK}
+    </body></html>
+    """
+    out = _parser(html).parse()
+    assert out["abstract"] is None
+
+
+def test_first_page_zoom_controls_fall_through_to_dc_description() -> None:
+    """With no abstract prose, a substantive dc.Description is recovered."""
+    html = f"""
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/fpp2" />
+      <meta name="dc.Description"
+        content="Social movements are at once the symptoms and the instruments of
+        social progress. Ignore them and statesmanship is irrelevant." />
+    </head><body>
+      {_AUTHORS_BLOCK}
+      {_FIRST_PAGE_BLOCK}
+    </body></html>
+    """
+    out = _parser(html).parse()
+    assert out["abstract"] is not None
+    assert out["abstract"].startswith("Social movements are at once")
+    assert "Click to" not in out["abstract"]
+
+
+def test_abstract_prose_survives_alongside_first_page_image() -> None:
+    """Real prose in hlFld-Abstract is kept; only the zoom UI is stripped."""
+    html = f"""
+    <html><head>
+      <meta property="og:url" content="https://www.tandfonline.com/doi/abs/10.1080/mixed" />
+    </head><body>
+      {_AUTHORS_BLOCK}
+      <div class="hlFld-Abstract">
+        <div class="firstPage-container"><div class="firstPage"><a class="fpp" href="#">
+          <span class="imgToggleMsg">Click to increase image size</span>
+          <span class="imgToggleMsgClose">Click to decrease image size</span>
+        </a></div></div>
+        <p>Actual abstract prose that must be preserved by the cleanup.</p>
+      </div>
+    </body></html>
+    """
+    out = _parser(html).parse()
+    assert out["abstract"] == "Actual abstract prose that must be preserved by the cleanup."
+
+
 def test_abstract_none_when_no_abstract_wrapper_present() -> None:
     """If both wrappers are missing, do not grab generic og:description."""
     html = f"""
