@@ -2,6 +2,17 @@
 
 All notable changes to Parseland will be documented in this file.
 
+## [2026-08-19] - OJS article pages are publishedVersion
+
+### Fixed
+- **Repo path version**: pmh-namespace landing pages served by Open Journal Systems
+  (detected via the `generator` meta tag OJS core emits on every page) now return
+  `version: publishedVersion` instead of the repository default `submittedVersion`.
+  An OJS article page is the publisher's own copy — the version of record — not a
+  repository deposit. First consumer: journal-endpoint ingestion (oxjob #805,
+  Chemical Engineering Transactions pilot). Non-OJS repo pages keep the conservative
+  default; regression tests for both in `tests/test_parse_page.py`.
+
 ## [2025-01-03] - ScienceDirect and Springer Improvements
 
 ### Added

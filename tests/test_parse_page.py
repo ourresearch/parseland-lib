@@ -157,3 +157,33 @@ def test_parse_page_keeps_wiley_fmatter_citation_pdf_url():
             "content_type": "pdf",
         }
     ]
+
+
+OJS_ARTICLE_HTML = """<html><head>
+<meta name="generator" content="Open Journal Systems 3.1.1.2">
+<meta name="citation_title" content="Analysis of Environmental Variables During Apple Dehydration">
+<meta name="citation_author" content="Olmos-Cruz, Rosa A.">
+<meta name="citation_pdf_url" content="https://www.cetjournal.it/cet/24/114/007.pdf">
+<meta name="DC.Description" xml:lang="en" content="Variability of the solar resource represents a challenge.">
+</head><body><p>article page</p></body></html>"""
+
+NON_OJS_REPO_HTML = """<html><head>
+<meta name="citation_title" content="Some Deposited Manuscript">
+<meta name="citation_author" content="Doe, Jane">
+<meta name="citation_pdf_url" content="https://repo.example.edu/bitstream/1/2/paper.pdf">
+</head><body><p>repository item page</p></body></html>"""
+
+
+def test_parse_page_pmh_ojs_article_is_published_version():
+    """OJS article pages (generator meta) are the publisher's version of
+    record — the repo-path submittedVersion default must not apply."""
+    result = parse_page(OJS_ARTICLE_HTML, "pmh",
+                        "https://www.cetjournal.it/index.php/cet/article/view/CET24114007")
+    assert result["version"] == "publishedVersion"
+
+
+def test_parse_page_pmh_non_ojs_repo_page_stays_submitted_version():
+    """True repository pages keep the conservative default."""
+    result = parse_page(NON_OJS_REPO_HTML, "pmh",
+                        "https://repo.example.edu/handle/1/2")
+    assert result["version"] == "submittedVersion"

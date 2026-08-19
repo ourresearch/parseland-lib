@@ -285,6 +285,10 @@ def parse_repo_fulltext_location(soup, resolved_url):
 
     # version
     version = find_repo_version(soup_str)
+    # An OJS article page is the publisher's own copy, not a repository deposit.
+    if soup.find('meta', attrs={'name': 'generator',
+                                'content': re.compile(r'^Open Journal Systems')}):
+        version = 'publishedVersion'
 
     # fulltext url
     pdf_url = None
