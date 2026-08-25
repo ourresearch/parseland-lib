@@ -128,13 +128,23 @@ class PublisherParser(Parser, ABC):
 
         return results
 
-    def parse_abstract_meta_tags(self):
-        meta_tag_names = [
-            "citation_abstract",
-            "og:description",
-            "dc.description",
-            "description",
-        ]
+    def parse_abstract_meta_tags(self, include_seo_tags: bool = True):
+        # citation_abstract / dc.description are article-level metadata.
+        # og:description and description are page-level SEO tags: on many
+        # institutional repositories they carry the same site blurb on every
+        # record page, not the paper's abstract (oxjob #23518 — 48,180 UTokyo
+        # works published the repository description as their abstract, and
+        # 42,928 of them were then given topics derived from it). Callers that
+        # know their publisher emits an article-specific og:description keep
+        # the default; the generic parser opts out.
+        meta_tag_names = ["citation_abstract", "dc.description"]
+        if include_seo_tags:
+            meta_tag_names = [
+                "citation_abstract",
+                "og:description",
+                "dc.description",
+                "description",
+            ]
         meta_property_names = ["property", "name"]
 
         for meta_tag_name in meta_tag_names:

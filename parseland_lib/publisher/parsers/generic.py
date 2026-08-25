@@ -28,7 +28,7 @@ class GenericPublisherParser(PublisherParser):
             self._parse_result = {
                 "authors": authors,
                 "abstract": (
-                    self.parse_abstract_meta_tags()
+                    self.parse_abstract_meta_tags(include_seo_tags=False)
                     or self.parse_structured_abstract_section()
                 ),
             }
