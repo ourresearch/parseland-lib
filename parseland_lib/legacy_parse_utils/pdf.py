@@ -82,39 +82,55 @@ def transform_pdf_url(url, html_str):
     return url
 
 
+# Hosts whose pages carry a licence statement that is not the article's own: a site-wide
+# footer ("content of this site is licensed CC BY"), a DOI-independent shell page, a
+# metadata aggregator, or a publisher whose licence text is known to be wrong. A licence
+# scraped from these hosts is discarded; the registered (Crossref/feed) licence stands.
+UNTRUSTED_LICENSE_HOSTS = (
+    'indianjournalofmarketing.com',
+    'rnajournal.cshlp.org',
+    'press.umich.edu',
+    'genome.cshlp.org',
+    'medlit.ru',
+    'journals.eco-vector.com',
+    'alife-robotics.co.jp',
+    'un-pub.eu',
+    'zniso.fcgie.ru',
+    'molbiolcell.org',
+    'jcog.com.tr',
+    'aimsciences.org',
+    'soed.in',
+    'berghahnjournals.com',
+    'ojs.ual.es',
+    'cjc-online.ca',
+    # 2026-09-10: site-wide footer / shell-page licences on paywalled content
+    'scientific.net',        # Trans Tech: footer "for open access content ... CC-BY" on every page
+    'schwabeonline.ch',      # Schwabe: DOI-independent elibrary shell page with a CC BY badge
+    'indianjournals.com',    # Diva: pages marked Paid parse as cc-by
+    'crossref.org',          # defunct-DOI page and the multiple-resolution chooser (site licence CC BY)
+    'doaj.org',              # DOAJ article pages carry the DOAJ site licence (CC BY-SA), not the article's
+)
+
+
 def trust_publisher_license(url):
     if not url:
         return True  # Trust by default if no URL is provided
 
-    hostname = url.split('//')[-1].split('/')[0]
-    untrusted_hosts = [
-        'indianjournalofmarketing.com',
-        'rnajournal.cshlp.org',
-        'press.umich.edu',
-        'genome.cshlp.org',
-        'medlit.ru',
-        'journals.eco-vector.com',
-        'alife-robotics.co.jp',
-        'un-pub.eu',
-        'zniso.fcgie.ru',
-        'molbiolcell.org',
-        'jcog.com.tr',
-        'aimsciences.org',
-        'soed.in',
-        'berghahnjournals.com',
-        'ojs.ual.es',
-        'cjc-online.ca',
-    ]
+    hostname = (urlparse(url).hostname or url.split('//')[-1].split('/')[0]).lower()
 
-    if any(host in hostname for host in untrusted_hosts):
+    if any(hostname == host or hostname.endswith('.' + host) for host in UNTRUSTED_LICENSE_HOSTS):
         return False
 
-    if 'rupress.org' in hostname:
+    if hostname.endswith('rupress.org'):
+        # landing pages have license text like "available after 6 months under ..."
+        # we don't need this for new articles because the licenses are in Crossref
         volume_no = re.findall(r'rupress\.org/jcb/[^/]+/(\d+)', url)
         try:
             if volume_no and int(volume_no[0]) < 217:
+                # 217 is the first volume in 2018, before that we need the license text but the delay is now irrelevant
                 return True
             else:
+                # 2018 or later, ignore the license and get it from Crossref
                 return False
         except ValueError:
             return False
@@ -170,6 +186,11 @@ def get_pdf_in_meta(page):
                 link = DuckLink(href=matches[0], anchor="<meta citation_pdf_url>")
                 return _transform_meta_pdf(link, page)
     return None
+
+
+_CC_SHORTHAND_KEYS = {"ccbyncnd", "ccbyncsa", "ccbynd", "ccbysa", "ccbync", "ccby"}
+_CC_SHORTHAND_RE = re.compile(
+    r'(?<![a-z0-9])cc[\s\-]*by(?:[\s\-]*nc)?(?:[\s\-]*(?:nd|sa))?(?![a-z0-9])', re.IGNORECASE)
 
 
 def find_normalized_license(text, is_dataset=False):
@@ -232,7 +253,19 @@ def find_normalized_license(text, is_dataset=False):
             ("apache2", "apache-2.0"),
         ]
 
+    # The bare "cc by[-nc][-nd|-sa]" shorthands must stand as tokens in the ORIGINAL text.
+    # Matching them as substrings of the space/hyphen-stripped text let base64 blobs and
+    # random identifiers license a page (indianjournals.com: "...sheep rearers..." encodes
+    # to "...ccbyzwfy..." -> cc-by, 2026-09).
+    shorthands = set()
+    for m in _CC_SHORTHAND_RE.finditer(text):
+        shorthands.add(re.sub(r'[\s\-]', '', m.group(0)).lower())
+
     for (lookup, license) in license_lookups:
+        if lookup in _CC_SHORTHAND_KEYS:
+            if lookup in shorthands:
+                return license
+            continue
         if lookup in normalized_text:
             if license == "public-domain":
                 try:
@@ -244,50 +277,6 @@ def find_normalized_license(text, is_dataset=False):
             return license
     return None
 
-def _trust_publisher_license(resolved_url):
-    hostname = urlparse(resolved_url).hostname
-    if not hostname:
-        return True
-
-    untrusted_hosts = [
-        'indianjournalofmarketing.com',
-        'rnajournal.cshlp.org',
-        'press.umich.edu',
-        'genome.cshlp.org',
-        'press.umich.edu',
-        'medlit.ru',
-        'journals.eco-vector.com',
-        'alife-robotics.co.jp',
-        'un-pub.eu',
-        'zniso.fcgie.ru',
-        'molbiolcell.org',
-        'jcog.com.tr',
-        'aimsciences.org',
-        'soed.in',
-        'berghahnjournals.com',
-        'ojs.ual.es',
-        'cjc-online.ca',
-    ]
-
-    for host in untrusted_hosts:
-        if hostname.endswith(host):
-            return False
-
-    if hostname.endswith('rupress.org'):
-        # landing pages have license text like "available after 6 months under ..."
-        # we don't need this for new articles because the licenses are in Crossref
-        volume_no = re.findall(r'rupress\.org/jcb/[^/]+/(\d+)', resolved_url)
-        try:
-            if volume_no and int(volume_no[0]) < 217:
-                # 217 is the first volume in 2018, before that we need the license text but the delay is now irrelevant
-                return True
-            else:
-                # 2018 or later, ignore the license and get it from Crossref
-                return False
-        except ValueError:
-            return False
-
-    return True
 
 
 def get_useful_links(page):

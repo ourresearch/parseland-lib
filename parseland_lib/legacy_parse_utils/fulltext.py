@@ -183,16 +183,22 @@ def _doi_router_relative_pdf_base(pdf_href, resolved_url):
 
 
 def parse_publisher_fulltext_location(soup, resolved_url):
+    # cleanup_soup() extracts <script> in place, so anything read from `soup` after it has
+    # no JSON payloads. The licence search needs them: Next.js pages (eLife reviewed
+    # preprints) carry the article's licence only in __NEXT_DATA__ once site chrome is
+    # stripped. Snapshot before cleanup, for the licence search only.
+    license_page = str(soup)
     cleaned_soup = cleanup_soup(soup)
     detected_resolved_url = get_base_url_from_soup(soup)
     if not resolved_url:
         resolved_url = detected_resolved_url
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_str = str(soup)
-    license_search_substr = page_potential_license_text(soup_str)
+    license_search_substr = page_potential_license_text(license_page)
     version = 'publishedVersion'
-    open_version_source_string, oa_status, license = None, None, trust_publisher_license(
-        resolved_url) and find_normalized_license(license_search_substr)
+    open_version_source_string, oa_status = None, None
+    # untrusted host -> None, never False: a False licence leaks downstream as the string 'False'
+    license = find_normalized_license(license_search_substr) if trust_publisher_license(resolved_url) else None
     def is_ojs_full_index(soup):
         ojs_meta = soup.find('meta', {'name': 'generator',
                                       'content': re.compile(
@@ -281,7 +287,7 @@ def parse_repo_fulltext_location(soup, resolved_url):
 
     # license
     license_search_substr = page_potential_license_text(soup_str)
-    license = find_normalized_license(license_search_substr)
+    license = find_normalized_license(license_search_substr) if trust_publisher_license(resolved_url) else None
 
     # version
     version = find_repo_version(soup_str)

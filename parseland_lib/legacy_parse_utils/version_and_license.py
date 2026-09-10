@@ -19,6 +19,15 @@ def page_potential_license_text(page):
     bad_section_finders = [
         "//div[contains(@class, 'view-pnas-featured')]",  # https://www.pnas.org/content/114/38/10035
         "//meta[contains(@name, 'citation_reference')]",  # https://www.thieme-connect.de/products/ebooks/lookinside/10.1055/sos-SD-226-00098
+        # Site chrome, never the article's own licence statement: a site-wide
+        # "content of this site is licensed CC BY" footer turned paywalled pages into cc-by
+        # (scientific.net, crossref.org defunct-DOI page, 2026-09).
+        "//footer",
+        "//nav",
+        "//*[@role='contentinfo']",
+        "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
+        " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
+        " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
     ]
 
     for section_finder in bad_section_finders:
