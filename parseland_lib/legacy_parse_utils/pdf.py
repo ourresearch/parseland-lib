@@ -329,6 +329,8 @@ def get_useful_links(page):
         "//p[@class=\'bibentry\']",  # http://research.ucc.ie/scenario/2019/01/Voelker/12/de
         "//a[contains(@class, 'cover-out')]",  # https://doi.org/10.5152/dir.2019.18142
         "//div[@class=\'footnotes\']",  # https://mhealth.jmir.org/2020/4/e19359/
+        "//div[contains(@class, 'foot_notes')]",  # https://books.openedition.org/pupo/43808 — footnotes cite third-party PDFs (oxjob #786)
+        "//*[contains(@class, 'widget--buy')]",  # https://books.openedition.org/pupo/43808 — "ePub / PDF" buy button → 7switch store (oxjob #786)
         "//h2[text()='References']/following-sibling::ul",  # http://hdl.handle.net/2027/spo.17063888.0037.114
         "//section[@id=\'article-references\']",  # https://journals.lww.com/academicmedicine/Fulltext/2015/05000/Implicit_Bias_Against_Sexual_Minorities_in.8.aspx
         "//div[@class=\'refs\']",  # https://articles.math.cas.cz/10.21136/AM.2020.0344-19

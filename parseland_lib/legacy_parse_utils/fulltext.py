@@ -182,6 +182,35 @@ def _doi_router_relative_pdf_base(pdf_href, resolved_url):
     return resolved_url
 
 
+
+# OpenEdition Books (books.openedition.org) chapter pages carry no PDF of the chapter
+# itself unless the book is open access, in which case the PDF lives at
+# books.openedition.org/<site>/pdf/<id>. Every other .pdf-shaped anchor on those pages is
+# either a footnote citing a third-party document or the "ePub / PDF" buy button (7switch).
+# The generic finder took those: 2,111 works under 10.4000 ended up with someone else's
+# PDF as best_oa_location.pdf_url and in the Content API store. Oxjob #786.
+_OPENEDITION_BOOKS_HOST_RE = re.compile(r'https?://books\.openedition\.org/', re.I)
+_OPENEDITION_BOOKS_PDF_RE = re.compile(r'^https?://books\.openedition\.org/[^/]+/pdf/\d+', re.I)
+
+
+def is_openedition_books_page(resolved_host, page_markup):
+    """True for a books.openedition.org chapter/book page, by host or by og:url/canonical."""
+    if (resolved_host or '').lower().endswith('books.openedition.org'):
+        return True
+    m = re.search(r'<(?:meta|link)[^>]+(?:property="og:url"|rel="canonical")[^>]+(?:content|href)="([^"]+)"',
+                  page_markup or '', re.I)
+    if m and _OPENEDITION_BOOKS_HOST_RE.match(m.group(1)):
+        return True
+    m = re.search(r'<(?:meta|link)[^>]+(?:content|href)="([^"]+)"[^>]+(?:property="og:url"|rel="canonical")',
+                  page_markup or '', re.I)
+    return bool(m and _OPENEDITION_BOOKS_HOST_RE.match(m.group(1)))
+
+
+def is_openedition_books_pdf(href):
+    """True only for the book's own PDF endpoint, books.openedition.org/<site>/pdf/<id>."""
+    return bool(_OPENEDITION_BOOKS_PDF_RE.match(href or ''))
+
+
 def parse_publisher_fulltext_location(soup, resolved_url):
     # cleanup_soup() extracts <script> in place, so anything read from `soup` after it has
     # no JSON payloads. The licence search needs them: Next.js pages (eLife reviewed
@@ -222,6 +251,11 @@ def parse_publisher_fulltext_location(soup, resolved_url):
 
     pdf_link = find_pdf_link(resolved_url, soup=cleaned_soup,
                              page_with_scripts=soup_str) if not pdf_link else pdf_link
+
+    # books.openedition.org: only the book's own /pdf/<id> endpoint counts. Oxjob #786.
+    if pdf_link is not None and is_openedition_books_page(resolved_host, soup_str) \
+            and not is_openedition_books_pdf(pdf_link.href):
+        pdf_link = None
 
     if pdf_link is None:
         if resolved_host.endswith('ieeexplore.ieee.org') and (
