@@ -1,19 +1,19 @@
-"""OpenEdition Books (books.openedition.org) PDF-link handling. Oxjob #786.
+"""OpenEdition (books./journals.openedition.org) PDF-link handling. Oxjob #786.
 
-Books chapter pages have no PDF of the chapter unless the book is open access, in
-which case it lives at books.openedition.org/<site>/pdf/<id>. Every other .pdf-shaped
-anchor on those pages is a footnote citing a third-party document, or the
-"ePub / PDF" buy button that goes to the 7switch store. The generic finder used to
-take those, so 2,111 works under 10.4000 carried someone else's PDF as
-best_oa_location.pdf_url and in the Content API store.
+A page's own PDF, when it has one, sits on the same openedition.org host
+(books.openedition.org/<site>/pdf/<id>, journals.openedition.org/<site>/pdf/<id>).
+Every .pdf-shaped anchor on another host is a footnote citing a third-party
+document, or on Books the "ePub / PDF" buy button that goes to the 7switch store.
+The generic finder used to take those, so 2,111 works under 10.4000 carried
+someone else's PDF as best_oa_location.pdf_url and in the Content API store.
 
 Hand-crafted HTML modelled on https://books.openedition.org/pupo/43808 — no network.
 """
 from bs4 import BeautifulSoup
 
 from parseland_lib.legacy_parse_utils.fulltext import (
-    is_openedition_books_page,
-    is_openedition_books_pdf,
+    is_openedition_own_pdf,
+    is_openedition_page,
     parse_publisher_fulltext_location,
 )
 from parseland_lib.parse import parse_page
@@ -65,7 +65,7 @@ def test_books_own_pdf_endpoint_is_kept():
     assert _pdf_urls(_books_page(own_pdf=True), "https://books.openedition.org/pupo/43808") == [OWN_PDF]
 
 
-def test_journals_platform_is_not_gated():
+def test_journals_own_pdf_is_kept():
     html = """
     <html><head><meta property="og:url" content="https://journals.openedition.org/lectures/1234" /></head>
     <body><a href="https://journals.openedition.org/lectures/pdf/1234">PDF</a></body></html>
@@ -73,6 +73,15 @@ def test_journals_platform_is_not_gated():
     assert _pdf_urls(html, "https://journals.openedition.org/lectures/1234") == [
         "https://journals.openedition.org/lectures/pdf/1234"
     ]
+
+
+def test_journals_footnote_pdf_is_dropped():
+    # e.g. 10.4000/cahierscfv.408 → achemenet.com PDF from a footnote
+    html = f"""
+    <html><head><meta property="og:url" content="http://journals.openedition.org/cahierscfv/408" /></head>
+    <body><div id="text"><p>Article ... <a href="{FOOTNOTE_PDF}">{FOOTNOTE_PDF}</a></p></div></body></html>
+    """
+    assert _pdf_urls(html, "https://doi.org/10.4000/cahierscfv.408") == []
 
 
 def test_generic_finder_skips_foot_notes_and_buy_widget_on_any_host():
@@ -91,16 +100,20 @@ def test_generic_finder_skips_foot_notes_and_buy_widget_on_any_host():
 
 
 def test_helpers():
-    assert is_openedition_books_pdf(OWN_PDF)
-    assert not is_openedition_books_pdf(FOOTNOTE_PDF)
-    assert not is_openedition_books_pdf(BUY_LINK)
-    # a footnote's relative href joined onto the books host is still not the book's PDF
-    assert not is_openedition_books_pdf(
-        "https://books.openedition.org/pur/www.mce.gouv.qc.ca/publications/rapport.pdf")
-    assert is_openedition_books_page("books.openedition.org", "")
-    assert is_openedition_books_page("doi.org", '<meta property="og:url" content="https://books.openedition.org/pupo/1"/>')
-    assert not is_openedition_books_page("journals.openedition.org", "")
-    assert not is_openedition_books_page("doi.org", '<meta property="og:url" content="https://journals.openedition.org/x/1"/>')
+    og_books = '<meta property="og:url" content="https://books.openedition.org/pupo/1"/>'
+    og_journals = '<meta property="og:url" content="https://journals.openedition.org/x/1"/>'
+    assert is_openedition_own_pdf(OWN_PDF, "books.openedition.org", "")
+    assert is_openedition_own_pdf(OWN_PDF, "doi.org", og_books)
+    assert not is_openedition_own_pdf(FOOTNOTE_PDF, "books.openedition.org", "")
+    assert not is_openedition_own_pdf(BUY_LINK, "books.openedition.org", "")
+    # cross-platform is not "own" either: a books page must not claim a journals PDF
+    assert not is_openedition_own_pdf("https://journals.openedition.org/x/pdf/1", "books.openedition.org", "")
+    assert is_openedition_page("books.openedition.org", "")
+    assert is_openedition_page("journals.openedition.org", "")
+    assert is_openedition_page("doi.org", og_books)
+    assert is_openedition_page("doi.org", og_journals)
+    assert not is_openedition_page("doi.org", "")
+    assert not is_openedition_page("example.org", '<meta property="og:url" content="https://example.org/notopenedition.org/1"/>')
 
 
 def test_fulltext_location_direct():

@@ -183,32 +183,39 @@ def _doi_router_relative_pdf_base(pdf_href, resolved_url):
 
 
 
-# OpenEdition Books (books.openedition.org) chapter pages carry no PDF of the chapter
-# itself unless the book is open access, in which case the PDF lives at
-# books.openedition.org/<site>/pdf/<id>. Every other .pdf-shaped anchor on those pages is
-# either a footnote citing a third-party document or the "ePub / PDF" buy button (7switch).
-# The generic finder took those: 2,111 works under 10.4000 ended up with someone else's
-# PDF as best_oa_location.pdf_url and in the Content API store. Oxjob #786.
-_OPENEDITION_BOOKS_HOST_RE = re.compile(r'https?://books\.openedition\.org/', re.I)
-_OPENEDITION_BOOKS_PDF_RE = re.compile(r'^https?://books\.openedition\.org/[^/]+/pdf/\d+', re.I)
+# OpenEdition (books.openedition.org, journals.openedition.org): a page's own PDF, when it has
+# one, lives on the same host (books.openedition.org/<site>/pdf/<id>,
+# journals.openedition.org/<site>/pdf/<id> or .../<id>?file=N). Every .pdf-shaped anchor on
+# another host is a footnote citing a third-party document, or on Books the "ePub / PDF" buy
+# button (7switch). The generic finder took those: 2,111 works under 10.4000 ended up with
+# someone else's PDF as best_oa_location.pdf_url and in the Content API store. Oxjob #786.
+_OPENEDITION_HOST_RE = re.compile(r'^(?:[a-z0-9-]+\.)*openedition\.org$', re.I)
 
 
-def is_openedition_books_page(resolved_host, page_markup):
-    """True for a books.openedition.org chapter/book page, by host or by og:url/canonical."""
-    if (resolved_host or '').lower().endswith('books.openedition.org'):
-        return True
-    m = re.search(r'<(?:meta|link)[^>]+(?:property="og:url"|rel="canonical")[^>]+(?:content|href)="([^"]+)"',
-                  page_markup or '', re.I)
-    if m and _OPENEDITION_BOOKS_HOST_RE.match(m.group(1)):
-        return True
-    m = re.search(r'<(?:meta|link)[^>]+(?:content|href)="([^"]+)"[^>]+(?:property="og:url"|rel="canonical")',
-                  page_markup or '', re.I)
-    return bool(m and _OPENEDITION_BOOKS_HOST_RE.match(m.group(1)))
+def _openedition_host(resolved_host, page_markup):
+    """The openedition.org host a page belongs to (by resolved host, else og:url / canonical), or None."""
+    host = (resolved_host or '').lower()
+    if _OPENEDITION_HOST_RE.match(host):
+        return host
+    for pat in (r'<(?:meta|link)[^>]+(?:property="og:url"|rel="canonical")[^>]+(?:content|href)="([^"]+)"',
+                r'<(?:meta|link)[^>]+(?:content|href)="([^"]+)"[^>]+(?:property="og:url"|rel="canonical")'):
+        m = re.search(pat, page_markup or '', re.I)
+        if m:
+            h = (urlparse(m.group(1)).hostname or '').lower()
+            if _OPENEDITION_HOST_RE.match(h):
+                return h
+    return None
 
 
-def is_openedition_books_pdf(href):
-    """True only for the book's own PDF endpoint, books.openedition.org/<site>/pdf/<id>."""
-    return bool(_OPENEDITION_BOOKS_PDF_RE.match(href or ''))
+def is_openedition_page(resolved_host, page_markup):
+    return _openedition_host(resolved_host, page_markup) is not None
+
+
+def is_openedition_own_pdf(href, resolved_host, page_markup):
+    """True only when the pdf link sits on the same openedition.org host as the page."""
+    page_host = _openedition_host(resolved_host, page_markup)
+    link_host = (urlparse(href or '').hostname or '').lower()
+    return bool(page_host) and link_host == page_host
 
 
 def parse_publisher_fulltext_location(soup, resolved_url):
@@ -252,9 +259,9 @@ def parse_publisher_fulltext_location(soup, resolved_url):
     pdf_link = find_pdf_link(resolved_url, soup=cleaned_soup,
                              page_with_scripts=soup_str) if not pdf_link else pdf_link
 
-    # books.openedition.org: only the book's own /pdf/<id> endpoint counts. Oxjob #786.
-    if pdf_link is not None and is_openedition_books_page(resolved_host, soup_str) \
-            and not is_openedition_books_pdf(pdf_link.href):
+    # *.openedition.org: only a PDF on the page's own host counts. Oxjob #786.
+    if pdf_link is not None and is_openedition_page(resolved_host, soup_str) \
+            and not is_openedition_own_pdf(pdf_link.href, resolved_host, soup_str):
         pdf_link = None
 
     if pdf_link is None:
