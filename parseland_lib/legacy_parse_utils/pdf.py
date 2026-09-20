@@ -331,6 +331,15 @@ def get_useful_links(page):
         "//div[@class=\'footnotes\']",  # https://mhealth.jmir.org/2020/4/e19359/
         "//div[contains(@class, 'foot_notes')]",  # https://books.openedition.org/pupo/43808 — footnotes cite third-party PDFs (oxjob #786)
         "//*[contains(@class, 'widget--buy')]",  # https://books.openedition.org/pupo/43808 — "ePub / PDF" buy button → 7switch store (oxjob #786)
+        # reference / footnote containers that cite third-party PDFs (oxjob #786, same bug as OpenEdition on other templates)
+        "//div[contains(@class, 'eletters-comment')]",  # https://www.science.org/doi/10.1126/science.add2734 — reader eLetters cite third-party PDFs
+        "//ol[contains(@class, 'articlereference')]",  # https://www.annualreviews.org/content/journals/10.1146/annurev-polisci-040723-013245
+        "//li[contains(@class, 'refbody')]",  # annualreviews.org reference bodies
+        "//ol[contains(@class, 'references')]",  # https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0316527 — WHO/UNAIDS reports cited in <ol class="references">
+        "//section[@id=\'footnotes\']",  # https://dl.acm.org/doi/10.1145/3746132 — <section id="footnotes"> cites the UN report
+        "//*[@role=\'doc-footnote\']",  # DPUB-ARIA footnote (dl.acm.org)
+        "//*[@role=\'doc-endnotes\']",  # DPUB-ARIA endnotes
+        "//*[@role=\'doc-bibliography\']",  # DPUB-ARIA bibliography (dl.acm.org <section id="bibliography">)
         "//h2[text()='References']/following-sibling::ul",  # http://hdl.handle.net/2027/spo.17063888.0037.114
         "//section[@id=\'article-references\']",  # https://journals.lww.com/academicmedicine/Fulltext/2015/05000/Implicit_Bias_Against_Sexual_Minorities_in.8.aspx
         "//div[@class=\'refs\']",  # https://articles.math.cas.cz/10.21136/AM.2020.0344-19
