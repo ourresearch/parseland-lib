@@ -2,6 +2,26 @@
 
 All notable changes to Parseland will be documented in this file.
 
+## [2026-09-28] - Ubiquity Press affiliations from the Next.js payload
+
+### Fixed
+- **Ubiquity Press pages lost every affiliation after the mid-2024 re-platform**: the new
+  article pages emit `citation_author` but no `citation_author_institution`, so the generic
+  parser returned authors with no affiliations. Stored pages fetched before 2024-02 parsed
+  with affiliations 90%+ of the time, pages fetched since 2024-07 ~0% (oxjob #833, ZD 23410:
+  Journal of Long-Term Care 10.31389/jltc.481, where a GROBID PDF parse then filled the gap
+  with the wrong institutions). New `ubiquity.py` reads the article's `authors` array from the
+  `self.__next_f.push` flight payload (gated on `journal-assets.ubiquity.press`; the array is
+  the one whose surnames line up with `citation_author`, so related-article cards are
+  skipped). `institution` is emitted verbatim, with no country appended, because raw
+  affiliation strings are exact-match keys downstream: the new strings are byte-identical to
+  what the old platform published. Names stay the `citation_author` values; `is_corresponding`
+  comes from the payload's explicit flag.
+- Validated on taxicab-stored HTML: 60 post-2024 Ubiquity-family pages went from 12 to 143
+  of 149 authors with an affiliation; 60 pre-2024 pages were unchanged (one page gained
+  affiliations only); no name or existing affiliation changed. Tests:
+  `tests/test_ubiquity_affiliations.py` (offline). Pre-existing suite failures unchanged at 42.
+
 ## [2026-09-10] - Scraped licences must come from the article, not site chrome
 
 ### Fixed
