@@ -9,6 +9,12 @@ load_dotenv()
 # Sentry error reporting (oxjob #1685); a missing SENTRY_DSN makes this a no-op. Errors only:
 # every unhandled exception becomes a 500 that the Flask integration reports, and a gunicorn
 # worker timeout (SystemExit(1) raised mid-request) is reported by its WSGI middleware.
+#
+# Keep events cheap (oxjob #1711). On a timeout the worker has about a second between gunicorn's
+# SIGABRT and its SIGKILL to write the 500. An event with frame locals (the page, the soup tree)
+# took ~145 ms CPU to build, several times that on a busy task, so workers died first and the load
+# balancer returned 502s. Without locals it takes ~1 ms. No traces_sample_rate: 0 still builds a
+# transaction per request.
 if os.environ.get("SENTRY_DSN"):
     import sentry_sdk
 
@@ -16,7 +22,7 @@ if os.environ.get("SENTRY_DSN"):
         dsn=os.environ["SENTRY_DSN"],
         environment=os.environ.get("SENTRY_ENVIRONMENT", "production"),
         send_default_pii=False,
-        traces_sample_rate=0,
+        include_local_variables=False,
     )
 
 from parseland_lib.parse import parse_page, find_pdf_link
