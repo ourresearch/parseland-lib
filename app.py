@@ -6,6 +6,19 @@ import boto3
 
 load_dotenv()
 
+# Sentry error reporting (oxjob #1685); a missing SENTRY_DSN makes this a no-op. Errors only:
+# every unhandled exception becomes a 500 that the Flask integration reports, and a gunicorn
+# worker timeout (SystemExit(1) raised mid-request) is reported by its WSGI middleware.
+if os.environ.get("SENTRY_DSN"):
+    import sentry_sdk
+
+    sentry_sdk.init(
+        dsn=os.environ["SENTRY_DSN"],
+        environment=os.environ.get("SENTRY_ENVIRONMENT", "production"),
+        send_default_pii=False,
+        traces_sample_rate=0,
+    )
+
 from parseland_lib.parse import parse_page, find_pdf_link
 from parseland_lib.s3 import get_landing_page_from_r2
 from parseland_lib.dynamodb import get_dynamodb_record
