@@ -32,6 +32,23 @@ from parseland_lib.dynamodb import get_dynamodb_record
 app = Flask(__name__)
 app.json.sort_keys = False
 
+
+# A gunicorn worker timeout raises SystemExit(1) mid-request. Answer it with a plain 500 right here, below
+# Sentry's middleware, so the worker writes its response at once, as it did before Sentry: building a Sentry
+# event first sometimes outlasted the master's SIGKILL, and the load balancer returned 502 (oxjob #1711).
+# The worker still exits after this request; ox-logs shows each "WORKER TIMEOUT".
+def _answer_timeouts(wsgi_app):
+    def wrapped(environ, start_response):
+        try:
+            return wsgi_app(environ, start_response)
+        except SystemExit:
+            start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+            return [b"worker timeout"]
+    return wrapped
+
+
+app.wsgi_app = _answer_timeouts(app.wsgi_app)
+
 r2_account_id = os.environ.get('R2_ACCOUNT_ID')
 r2_access_key = os.environ.get('R2_ACCESS_KEY_ID')
 r2_secret_key = os.environ.get('R2_SECRET_ACCESS_KEY')
