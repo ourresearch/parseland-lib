@@ -9,7 +9,7 @@ from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     try_pdf_link_as_doc, find_bhl_view_link
 from parseland_lib.legacy_parse_utils.version_and_license import \
     page_potential_license_text, detect_sd_author_manuscript, detect_bronze, \
-    detect_hybrid
+    detect_hybrid, sciencedirect_article_license_text
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
 
 
@@ -231,6 +231,10 @@ def parse_publisher_fulltext_location(soup, resolved_url):
     resolved_host = urlparse(resolved_url).hostname or ''
     soup_str = str(soup)
     license_search_substr = page_potential_license_text(license_page)
+    # ScienceDirect: only the article's own licence statement counts, never the self-archiving or
+    # open-research licences in the same page state (oxjob #1794).
+    if (sd_license_text := sciencedirect_article_license_text(license_page)) is not None:
+        license_search_substr = sd_license_text
     version = 'publishedVersion'
     open_version_source_string, oa_status = None, None
     # untrusted host -> None, never False: a False licence leaks downstream as the string 'False'
