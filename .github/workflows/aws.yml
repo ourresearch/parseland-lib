@@ -55,11 +55,6 @@ jobs:
         python gate/corpus.py fetch dev
         python gate/corpus.py fetch holdout
 
-    - name: Unit tests (network off)
-      env:
-        GATE_REQUIRE_CORPUS: "1"
-      run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
-
     - name: Find the commit in production
       run: |
         IMAGE=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --query 'taskDefinition.containerDefinitions[0].image' --output text)
@@ -68,6 +63,16 @@ jobs:
         echo "PROD_SHA=$PROD_SHA" >> "$GITHUB_ENV"
         git worktree add --detach "$RUNNER_TEMP/prod" "$PROD_SHA"
         echo "Comparing ${{ github.sha }} with production $PROD_SHA" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Unit tests (network off)
+      env:
+        GATE_REQUIRE_CORPUS: "1"
+      run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
+
+    - name: Ledger guard (a regression written into the ledger is still a regression)
+      run: |
+        git show "${PROD_SHA}:gate/known_failures.json" > "$RUNNER_TEMP/prod_ledger.json" 2>/dev/null || true
+        python gate/ledger.py guard --base "$RUNNER_TEMP/prod_ledger.json"
 
     - name: Holdout gate
       run: |

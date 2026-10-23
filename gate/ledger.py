@@ -34,7 +34,7 @@ def current(workers=None):
 
 
 def as_ledger(results):
-    return {"corpus": corpus.lock()["version"],
+    return {"corpus": corpus.version(),
             "pages": {r["page_id"]: sorted(f for f, ok in r["right"].items() if not ok)
                       for r in sorted(results, key=lambda r: r["page_id"]) if not all(r["right"].values())}}
 
@@ -52,10 +52,33 @@ def diff(old, new):
     return sorted(better), sorted(worse)
 
 
+def guard(base_path):
+    """CI: refuse a ledger that records new failures relative to production's (a regression written down
+    with `ledger.py update` is still a regression). Corpus version changes reset the comparison."""
+    if not base_path or not os.path.exists(base_path) or os.path.getsize(base_path) == 0:
+        print("no production ledger to compare with (first gated deploy)")
+        return 0
+    base, head = json.load(open(base_path)), load()
+    if base.get("corpus") != head.get("corpus"):
+        print(f"corpus changed {base.get('corpus')} -> {head.get('corpus')}: ledger guard skipped")
+        return 0
+    _, worse = diff(base, head)
+    if worse:
+        print(f"REFUSED: the ledger records {len(worse)} page-fields as newly wrong; fix the regression instead")
+        for pid, f in worse[:20]:
+            print(f"  {pid[:8]} {f}")
+        return 1
+    print("ledger guard ok")
+    return 0
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["update", "check"])
+    ap.add_argument("cmd", choices=["update", "check", "guard"])
+    ap.add_argument("--base", help="guard: production's known_failures.json")
     a = ap.parse_args()
+    if a.cmd == "guard":
+        sys.exit(guard(a.base))
     new = as_ledger(current())
     better, worse = diff(load(), new)
     print(f"{len(better)} page-fields now right, {len(worse)} now wrong")

@@ -54,7 +54,7 @@ def test_corpus_present():
 def test_ledger_matches_corpus_version(ledger):
     if not HAVE:
         pytest.skip("no dev corpus")
-    assert ledger["corpus"] == corpus.lock()["version"], "ledger was built on another corpus version"
+    assert ledger["corpus"] == corpus.version(), "ledger was built on another corpus version"
 
 
 @pytest.mark.parametrize("page", PAGES, ids=[f"{p.get('cell') or p['stratum']}/{p['page_id'][:8]}" for p in PAGES])

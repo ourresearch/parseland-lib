@@ -39,6 +39,7 @@ pages. The gate refuses when:
 | pooled | for any field over all publishers, losses - wins >= 3 |
 | cumulative | any publisher x field has >= 2 fewer right pages than the published baseline (`gate/baseline.json`) |
 | crashes | any page now crashes `parse_page` |
+| ledger | the commit's `known_failures.json` lists a dev page x field as wrong that production's ledger didn't (writing a regression into the ledger doesn't make it pass) |
 
 One lone loss passes and shows in the summary. The gate doesn't require a gain, so non-parser changes deploy.
 Fields: authors (names, order), affiliations (strings per author, strict), corresponding author, abstract (>= 0.90

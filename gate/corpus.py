@@ -33,6 +33,10 @@ def lock():
     return json.load(open(LOCK))
 
 
+def version():
+    return lock()["version"] if os.path.exists(LOCK) else "unlocked"
+
+
 def cache_root():
     return os.environ.get("PARSELAND_GATE_CACHE") or os.path.expanduser("~/.cache/parseland-gate")
 
@@ -65,6 +69,11 @@ def _openssl(args, src, dst):
 
 
 def fetch(split):
+    if not os.path.exists(LOCK):  # local dry runs before a corpus is published
+        d = bundle_dir(split)
+        if os.path.exists(os.path.join(d, "manifest.ndjson")):
+            return d
+        raise SystemExit("gate/corpus.lock.json is missing: no corpus published yet")
     lk = lock()
     meta = lk[split]
     dest = bundle_dir(split)
@@ -98,8 +107,8 @@ def pack(src, split, version, bucket):
     with tempfile.TemporaryDirectory() as tmp:
         tar = os.path.join(tmp, f"{split}.tar.gz")
         with tarfile.open(tar, "w:gz") as t:
-            for name in ("manifest.ndjson", "gold.ndjson", "pages", "regression"):
-                if os.path.exists(os.path.join(src, name)) or name != "regression":
+            for name in ("manifest.ndjson", "gold.ndjson", "pages", "regression", "labels"):
+                if os.path.exists(os.path.join(src, name)) or name in ("manifest.ndjson", "gold.ndjson", "pages"):
                     t.add(os.path.join(src, name), arcname=name)
         out, key = tar, f"corpus/{version}/{split}.tar.gz"
         if split == "holdout":
