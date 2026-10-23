@@ -66,7 +66,8 @@ def decide(base, head, baseline=None):
             if base_v and base_v["n"] == v["n"] and base_v["right"] - v["right"] >= BASELINE_MAX_DROP:
                 cell, f = key.split("|")
                 drops.append(key)
-                reasons.append(f"{cell} {f}: {base_v['right'] - v['right']} pages below the published baseline")
+                name = "all publishers" if cell == "*" else cell
+                reasons.append(f"{name} {f}: {base_v['right'] - v['right']} pages below the published baseline")
     if new_crashes:
         reasons.append(f"{new_crashes} pages now crash the parser")
     return {"verdict": "refuse" if reasons else "pass", "reasons": reasons, "changed_cells": rows,
