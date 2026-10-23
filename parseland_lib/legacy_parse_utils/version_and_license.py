@@ -44,6 +44,30 @@ def page_potential_license_text(page):
         return page
 
 
+# ScienceDirect states the article's own licence in its page state, once per page:
+#   "access":{"openAccess":<bool>,"openArchive":<bool>[,"license":"<url>"]}
+# The same state also holds licences that are not the article's: the journal's self-archiving policy
+# ("sa-user-license": the licence an author's accepted manuscript may carry after an embargo, CC BY-NC-ND on most
+# journals) and open-research agreements ("or-agreement-license"). Read anywhere on the page, those turned
+# paywalled articles into cc-by-nc-nd (oxjob #1794: 12 of 12 such dev pages).
+_SD_ACCESS = re.compile(r'"access":\{([^{}]*"openAccess":\s*(?:true|false)[^{}]*)\}')
+_SD_ACCESS_LICENSE = re.compile(r'"license":\s*"([^"]*)"')
+
+
+def sciencedirect_article_license_text(page):
+    """The ScienceDirect article's own licence statement: its licence URL, or '' when it states none.
+
+    None when the page carries no ScienceDirect article state, so other pages keep the whole-page search.
+    """
+    if not page or '"openAccess"' not in page:
+        return None
+    access = _SD_ACCESS.search(page)
+    if access is None:
+        return None
+    license_url = _SD_ACCESS_LICENSE.search(access.group(1))
+    return license_url.group(1) if license_url else ''
+
+
 def detect_bronze(soup, resolved_url):
     from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
     from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
