@@ -90,8 +90,9 @@ jobs:
           python gate/run_parser.py --lib "$RUNNER_TEMP/prod" --corpus "$H" --out "$T/prod_parsed.ndjson"
           python gate/score.py --corpus "$H" --parsed "$T/prod_parsed.ndjson" --out "$T/prod_scores.ndjson"
         fi
-        # This commit's scores: identical to production's when neither parser code nor its pins changed.
-        if git diff --quiet "$PROD_SHA" HEAD -- parseland_lib requirements.txt gate/score.py gate/fields.py gate/corpus.lock.json; then
+        # This commit's scores: identical to production's when neither parser code nor its pins changed (production's
+        # scores above were computed with this commit's scorer, or reused only when the scorer is unchanged).
+        if git diff --quiet "$PROD_SHA" HEAD -- parseland_lib requirements.txt; then
           cp "$T/prod_scores.ndjson" "$T/head_scores.ndjson"
           echo "No parser change since production: holdout scores carried over." >> "$GITHUB_STEP_SUMMARY"
         else
