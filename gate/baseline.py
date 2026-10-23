@@ -29,12 +29,17 @@ def table(c, results):
                    key=lambda h: -c[f"{h}|authors"]["n"])
     pooled = ["tail", "repository", "unresolved", "wall"]
     fail = sorted({r["cell"] for r in results if r["stratum"] == "failure"})
-    head = "| Publisher | Pages | " + " | ".join(SHORT[f] for f in F.FIELDS) + " |"
-    lines = [head, "|" + "---|" * (len(F.FIELDS) + 2)]
+    head = "| Publisher (holdout pages) | Pages | " + " | ".join(SHORT[f] for f in F.FIELDS) + " |"
+    lines = [head, "|---|" + "---:|" * (len(F.FIELDS) + 1)]
     for h in hosts + [p for p in pooled if f"{p}|authors" in c] + fail + ["*"]:
         n = c[f"{h}|authors"]["n"]
-        name = {"*": "**all holdout pages**"}.get(h, h)
-        lines.append(f"| {name} | {n} | " + " | ".join(f"{c[f'{h}|{f}']['right']}" for f in F.FIELDS) + " |")
+        name = {"*": "**all holdout pages**", "tail": "long tail (pooled)", "repository": "repository pages",
+                "unresolved": "unresolved older pages", "wall": "walls and shells"}.get(h, h)
+        lines.append(f"| {name} | {n} | " + " | ".join(
+            f"{round(100 * c[f'{h}|{f}']['right'] / n)}" for f in F.FIELDS) + " |")
+    lines.append("")
+    lines.append("% of pages where Parseland's value matches the gold (absent-and-absent counts as right; an extra "
+                 "value counts as wrong).")
     return "\n".join(lines)
 
 

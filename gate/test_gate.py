@@ -69,6 +69,10 @@ def test_mismatched_runs_error():
 def test_name_and_url_matching():
     assert F.name_match("Gooch, Jan W.", "Jan W. Gooch")
     assert not F.name_match("Wei Zhang", "Wei Chen")
+    assert F.name_match("V. Peréz‐Tello", "V. Peréz-Tello")  # Unicode hyphen
+    assert F.name_match("O’Brien, Pat", "Pat O'Brien")
+    assert F.aff_match("Daito Bunka University - Department of Economics",
+                       "Daito Bunka University - Department of Economics Takashimadaira 1-9-1, Tokyo 175-857 Japan")
     assert F.canon_url("https://onlinelibrary.wiley.com/doi/epdf/10.1/x") == F.canon_url(
         "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1/x?download=true")
     assert not F.aff_match("Department of Physics", "Department of Physics, MIT, Cambridge, MA, USA")

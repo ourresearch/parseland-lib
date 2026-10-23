@@ -67,6 +67,7 @@ jobs:
     - name: Unit tests (network off)
       env:
         GATE_REQUIRE_CORPUS: "1"
+        GATE_DEV_SCORES_OUT: ${{ runner.temp }}/dev_scores.ndjson
       run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
 
     - name: Ledger guard (a regression written into the ledger is still a regression)
@@ -90,8 +91,9 @@ jobs:
     - name: Keep the result (private bucket, counts and per-page scores)
       if: always()
       run: |
-        T="$RUNNER_TEMP/gate"
-        for f in gate.json head_scores.ndjson prod_scores.ndjson; do
+        T="$RUNNER_TEMP/gate"; mkdir -p "$T"
+        if [ -f "$RUNNER_TEMP/dev_scores.ndjson" ]; then cp "$RUNNER_TEMP/dev_scores.ndjson" "$T/"; fi
+        for f in gate.json head_scores.ndjson prod_scores.ndjson dev_scores.ndjson; do
           if [ -f "$T/$f" ]; then aws s3 cp --quiet "$T/$f" "s3://openalex-parseland-gate/runs/${{ github.sha }}/$f"; fi
         done
 

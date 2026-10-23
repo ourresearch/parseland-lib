@@ -37,8 +37,13 @@ def fold(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip().casefold()
 
 
+DASHES = re.compile(r"[‐‑‒–—―−­-]")
+QUOTES = re.compile(r"[‘’ʼ`´]")
+
+
 def name_tokens(name: str) -> list[str]:
-    n = fold(name)
+    # any dash splits (Garcia-Lopez == Garcia Lopez == Garcia‐Lopez); curly apostrophes become straight
+    n = QUOTES.sub("'", DASHES.sub(" ", fold(name)))
     if "," in n:  # "Family, Given" -> "Given Family"
         fam, _, giv = n.partition(",")
         n = f"{giv} {fam}"

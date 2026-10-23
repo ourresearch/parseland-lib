@@ -30,7 +30,13 @@ def current(workers=None):
     with tempfile.TemporaryDirectory() as tmp:
         parsed = os.path.join(tmp, "parsed.ndjson")
         run(ROOT, dev, parsed, workers or max(1, min(4, os.cpu_count() or 2)))
-        return score_corpus(dev, parsed)
+        res = score_corpus(dev, parsed)
+    out = os.environ.get("GATE_DEV_SCORES_OUT")  # CI keeps its own dev scores (rebuild the ledger from them if needed)
+    if out:
+        with open(out, "w") as f:
+            for r in res:
+                f.write(json.dumps(r) + "\n")
+    return res
 
 
 def as_ledger(results):
