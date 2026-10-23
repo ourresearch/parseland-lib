@@ -56,6 +56,7 @@ jobs:
         python gate/corpus.py fetch holdout
 
     - name: Find the commit in production
+      id: prod
       run: |
         IMAGE=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --query 'taskDefinition.containerDefinitions[0].image' --output text)
         PROD_SHA="${IMAGE##*:}"
@@ -71,11 +72,13 @@ jobs:
       run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
 
     - name: Ledger guard (a regression written into the ledger is still a regression)
+      if: ${{ !cancelled() && steps.prod.outcome == 'success' }}
       run: |
         git show "${PROD_SHA}:gate/known_failures.json" > "$RUNNER_TEMP/prod_ledger.json" 2>/dev/null || true
         python gate/ledger.py guard --base "$RUNNER_TEMP/prod_ledger.json"
 
     - name: Holdout gate
+      if: ${{ !cancelled() && steps.prod.outcome == 'success' }}
       run: |
         H=$(python gate/corpus.py path holdout)
         T="$RUNNER_TEMP/gate"; mkdir -p "$T"
