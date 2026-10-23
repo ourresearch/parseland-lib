@@ -1,0 +1,18 @@
+{
+ "version": "v1",
+ "bucket": "openalex-parseland-gate",
+ "holdout": {
+  "key": "corpus/v1/holdout.tar.gz.enc",
+  "sha256": "e84184b37dd5112e137b373bc2ac4b631c5b2b191556d4ac33dfab81dec0b343",
+  "pages": 1898,
+  "encrypted": true,
+  "bytes": 66888160
+ },
+ "dev": {
+  "key": "corpus/v1/dev.tar.gz",
+  "sha256": "a1d25eb80e40709e6835c8b9a4239bf4aa12e4b9c3fb441761c515bddcd57cdb",
+  "pages": 1915,
+  "encrypted": false,
+  "bytes": 61108440
+ }
+}

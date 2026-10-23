@@ -1,0 +1,2696 @@
+{
+"cells": {
+"*|abstract": {
+"cand_present": 875,
+"gold_present": 1104,
+"n": 1898,
+"right": 1416,
+"true_pos": 712
+},
+"*|affiliations": {
+"cand_present": 841,
+"gold_present": 955,
+"n": 1898,
+"right": 1674,
+"true_pos": 751
+},
+"*|authors": {
+"cand_present": 1327,
+"gold_present": 1484,
+"n": 1898,
+"right": 1631,
+"true_pos": 1233
+},
+"*|corresponding": {
+"cand_present": 331,
+"gold_present": 423,
+"n": 1898,
+"right": 1719,
+"true_pos": 280
+},
+"*|license": {
+"cand_present": 509,
+"gold_present": 646,
+"n": 1898,
+"right": 1674,
+"true_pos": 459
+},
+"*|pdf_url": {
+"cand_present": 1376,
+"gold_present": 1259,
+"n": 1898,
+"right": 1594,
+"true_pos": 1125
+},
+"acm.org|abstract": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 16,
+"right": 13,
+"true_pos": 10
+},
+"acm.org|affiliations": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 16,
+"right": 16,
+"true_pos": 12
+},
+"acm.org|authors": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 16,
+"right": 16,
+"true_pos": 13
+},
+"acm.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 16,
+"right": 16,
+"true_pos": 0
+},
+"acm.org|license": {
+"cand_present": 3,
+"gold_present": 7,
+"n": 16,
+"right": 12,
+"true_pos": 3
+},
+"acm.org|pdf_url": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 16,
+"right": 16,
+"true_pos": 13
+},
+"acs.org|abstract": {
+"cand_present": 16,
+"gold_present": 17,
+"n": 28,
+"right": 25,
+"true_pos": 15
+},
+"acs.org|affiliations": {
+"cand_present": 16,
+"gold_present": 17,
+"n": 28,
+"right": 26,
+"true_pos": 15
+},
+"acs.org|authors": {
+"cand_present": 20,
+"gold_present": 21,
+"n": 28,
+"right": 27,
+"true_pos": 20
+},
+"acs.org|corresponding": {
+"cand_present": 9,
+"gold_present": 14,
+"n": 28,
+"right": 23,
+"true_pos": 9
+},
+"acs.org|license": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 28,
+"right": 27,
+"true_pos": 0
+},
+"acs.org|pdf_url": {
+"cand_present": 13,
+"gold_present": 14,
+"n": 28,
+"right": 27,
+"true_pos": 13
+},
+"aip.org|abstract": {
+"cand_present": 4,
+"gold_present": 9,
+"n": 9,
+"right": 4,
+"true_pos": 4
+},
+"aip.org|affiliations": {
+"cand_present": 9,
+"gold_present": 9,
+"n": 9,
+"right": 9,
+"true_pos": 9
+},
+"aip.org|authors": {
+"cand_present": 9,
+"gold_present": 9,
+"n": 9,
+"right": 9,
+"true_pos": 9
+},
+"aip.org|corresponding": {
+"cand_present": 1,
+"gold_present": 3,
+"n": 9,
+"right": 7,
+"true_pos": 1
+},
+"aip.org|license": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 9,
+"right": 9,
+"true_pos": 1
+},
+"aip.org|pdf_url": {
+"cand_present": 9,
+"gold_present": 9,
+"n": 9,
+"right": 9,
+"true_pos": 9
+},
+"apa.org|abstract": {
+"cand_present": 0,
+"gold_present": 2,
+"n": 10,
+"right": 8,
+"true_pos": 0
+},
+"apa.org|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 10,
+"right": 10,
+"true_pos": 0
+},
+"apa.org|authors": {
+"cand_present": 0,
+"gold_present": 5,
+"n": 10,
+"right": 5,
+"true_pos": 0
+},
+"apa.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 10,
+"right": 10,
+"true_pos": 0
+},
+"apa.org|license": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 10,
+"right": 10,
+"true_pos": 1
+},
+"apa.org|pdf_url": {
+"cand_present": 3,
+"gold_present": 2,
+"n": 10,
+"right": 7,
+"true_pos": 1
+},
+"aps.org|abstract": {
+"cand_present": 10,
+"gold_present": 17,
+"n": 19,
+"right": 12,
+"true_pos": 10
+},
+"aps.org|affiliations": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 19,
+"right": 17,
+"true_pos": 16
+},
+"aps.org|authors": {
+"cand_present": 18,
+"gold_present": 19,
+"n": 19,
+"right": 16,
+"true_pos": 16
+},
+"aps.org|corresponding": {
+"cand_present": 4,
+"gold_present": 7,
+"n": 19,
+"right": 10,
+"true_pos": 0
+},
+"aps.org|license": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 19,
+"right": 19,
+"true_pos": 1
+},
+"aps.org|pdf_url": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 19,
+"right": 19,
+"true_pos": 18
+},
+"arxiv.org|abstract": {
+"cand_present": 8,
+"gold_present": 14,
+"n": 14,
+"right": 8,
+"true_pos": 8
+},
+"arxiv.org|affiliations": {
+"cand_present": 0,
+"gold_present": 6,
+"n": 14,
+"right": 8,
+"true_pos": 0
+},
+"arxiv.org|authors": {
+"cand_present": 8,
+"gold_present": 14,
+"n": 14,
+"right": 8,
+"true_pos": 8
+},
+"arxiv.org|corresponding": {
+"cand_present": 0,
+"gold_present": 2,
+"n": 14,
+"right": 12,
+"true_pos": 0
+},
+"arxiv.org|license": {
+"cand_present": 0,
+"gold_present": 8,
+"n": 14,
+"right": 6,
+"true_pos": 0
+},
+"arxiv.org|pdf_url": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 14,
+"right": 14,
+"true_pos": 8
+},
+"biomedcentral.com|abstract": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 13,
+"true_pos": 13
+},
+"biomedcentral.com|affiliations": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 15,
+"true_pos": 15
+},
+"biomedcentral.com|authors": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 6,
+"true_pos": 6
+},
+"biomedcentral.com|corresponding": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 15,
+"true_pos": 15
+},
+"biomedcentral.com|license": {
+"cand_present": 14,
+"gold_present": 15,
+"n": 15,
+"right": 14,
+"true_pos": 14
+},
+"biomedcentral.com|pdf_url": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 15,
+"true_pos": 15
+},
+"biorxiv.org|abstract": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 8,
+"true_pos": 7
+},
+"biorxiv.org|affiliations": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 9,
+"true_pos": 8
+},
+"biorxiv.org|authors": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 9,
+"true_pos": 8
+},
+"biorxiv.org|corresponding": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 9,
+"true_pos": 8
+},
+"biorxiv.org|license": {
+"cand_present": 7,
+"gold_present": 7,
+"n": 9,
+"right": 9,
+"true_pos": 7
+},
+"biorxiv.org|pdf_url": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 9,
+"true_pos": 8
+},
+"bmj.com|abstract": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 26,
+"right": 26,
+"true_pos": 15
+},
+"bmj.com|affiliations": {
+"cand_present": 20,
+"gold_present": 20,
+"n": 26,
+"right": 25,
+"true_pos": 19
+},
+"bmj.com|authors": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 26,
+"right": 25,
+"true_pos": 23
+},
+"bmj.com|corresponding": {
+"cand_present": 11,
+"gold_present": 8,
+"n": 26,
+"right": 23,
+"true_pos": 8
+},
+"bmj.com|license": {
+"cand_present": 5,
+"gold_present": 13,
+"n": 26,
+"right": 18,
+"true_pos": 5
+},
+"bmj.com|pdf_url": {
+"cand_present": 26,
+"gold_present": 26,
+"n": 26,
+"right": 26,
+"true_pos": 26
+},
+"brill.com|abstract": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 18,
+"right": 18,
+"true_pos": 1
+},
+"brill.com|affiliations": {
+"cand_present": 4,
+"gold_present": 4,
+"n": 18,
+"right": 18,
+"true_pos": 4
+},
+"brill.com|authors": {
+"cand_present": 15,
+"gold_present": 16,
+"n": 18,
+"right": 17,
+"true_pos": 15
+},
+"brill.com|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 18,
+"right": 18,
+"true_pos": 0
+},
+"brill.com|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 18,
+"right": 18,
+"true_pos": 0
+},
+"brill.com|pdf_url": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 18,
+"right": 18,
+"true_pos": 13
+},
+"cairn.info|abstract": {
+"cand_present": 3,
+"gold_present": 5,
+"n": 18,
+"right": 14,
+"true_pos": 1
+},
+"cairn.info|affiliations": {
+"cand_present": 3,
+"gold_present": 3,
+"n": 18,
+"right": 18,
+"true_pos": 3
+},
+"cairn.info|authors": {
+"cand_present": 16,
+"gold_present": 16,
+"n": 18,
+"right": 18,
+"true_pos": 16
+},
+"cairn.info|corresponding": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 18,
+"right": 17,
+"true_pos": 0
+},
+"cairn.info|license": {
+"cand_present": 0,
+"gold_present": 4,
+"n": 18,
+"right": 14,
+"true_pos": 0
+},
+"cairn.info|pdf_url": {
+"cand_present": 11,
+"gold_present": 10,
+"n": 18,
+"right": 17,
+"true_pos": 10
+},
+"cambridge.org|abstract": {
+"cand_present": 19,
+"gold_present": 13,
+"n": 26,
+"right": 19,
+"true_pos": 12
+},
+"cambridge.org|affiliations": {
+"cand_present": 12,
+"gold_present": 13,
+"n": 26,
+"right": 25,
+"true_pos": 12
+},
+"cambridge.org|authors": {
+"cand_present": 23,
+"gold_present": 23,
+"n": 26,
+"right": 25,
+"true_pos": 22
+},
+"cambridge.org|corresponding": {
+"cand_present": 5,
+"gold_present": 4,
+"n": 26,
+"right": 25,
+"true_pos": 4
+},
+"cambridge.org|license": {
+"cand_present": 2,
+"gold_present": 2,
+"n": 26,
+"right": 26,
+"true_pos": 2
+},
+"cambridge.org|pdf_url": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 26,
+"right": 26,
+"true_pos": 24
+},
+"copernicus.org|abstract": {
+"cand_present": 8,
+"gold_present": 10,
+"n": 16,
+"right": 8,
+"true_pos": 5
+},
+"copernicus.org|affiliations": {
+"cand_present": 16,
+"gold_present": 14,
+"n": 16,
+"right": 13,
+"true_pos": 12
+},
+"copernicus.org|authors": {
+"cand_present": 16,
+"gold_present": 16,
+"n": 16,
+"right": 12,
+"true_pos": 12
+},
+"copernicus.org|corresponding": {
+"cand_present": 12,
+"gold_present": 4,
+"n": 16,
+"right": 5,
+"true_pos": 2
+},
+"copernicus.org|license": {
+"cand_present": 16,
+"gold_present": 13,
+"n": 16,
+"right": 13,
+"true_pos": 13
+},
+"copernicus.org|pdf_url": {
+"cand_present": 9,
+"gold_present": 11,
+"n": 16,
+"right": 10,
+"true_pos": 6
+},
+"degruyterbrill.com|abstract": {
+"cand_present": 4,
+"gold_present": 5,
+"n": 31,
+"right": 30,
+"true_pos": 4
+},
+"degruyterbrill.com|affiliations": {
+"cand_present": 2,
+"gold_present": 2,
+"n": 31,
+"right": 28,
+"true_pos": 0
+},
+"degruyterbrill.com|authors": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 31,
+"right": 31,
+"true_pos": 24
+},
+"degruyterbrill.com|corresponding": {
+"cand_present": 2,
+"gold_present": 4,
+"n": 31,
+"right": 29,
+"true_pos": 2
+},
+"degruyterbrill.com|license": {
+"cand_present": 2,
+"gold_present": 8,
+"n": 31,
+"right": 25,
+"true_pos": 2
+},
+"degruyterbrill.com|pdf_url": {
+"cand_present": 30,
+"gold_present": 9,
+"n": 31,
+"right": 2,
+"true_pos": 1
+},
+"ekb.eg|abstract": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 15,
+"right": 14,
+"true_pos": 10
+},
+"ekb.eg|affiliations": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 15,
+"right": 15,
+"true_pos": 12
+},
+"ekb.eg|authors": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 15,
+"right": 15,
+"true_pos": 12
+},
+"ekb.eg|corresponding": {
+"cand_present": 0,
+"gold_present": 6,
+"n": 15,
+"right": 9,
+"true_pos": 0
+},
+"ekb.eg|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 15,
+"right": 15,
+"true_pos": 0
+},
+"ekb.eg|pdf_url": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 15,
+"right": 15,
+"true_pos": 13
+},
+"emerald.com|abstract": {
+"cand_present": 2,
+"gold_present": 16,
+"n": 20,
+"right": 6,
+"true_pos": 2
+},
+"emerald.com|affiliations": {
+"cand_present": 11,
+"gold_present": 14,
+"n": 20,
+"right": 17,
+"true_pos": 11
+},
+"emerald.com|authors": {
+"cand_present": 15,
+"gold_present": 17,
+"n": 20,
+"right": 18,
+"true_pos": 15
+},
+"emerald.com|corresponding": {
+"cand_present": 4,
+"gold_present": 5,
+"n": 20,
+"right": 19,
+"true_pos": 4
+},
+"emerald.com|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 20,
+"right": 20,
+"true_pos": 0
+},
+"emerald.com|pdf_url": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 20,
+"right": 20,
+"true_pos": 10
+},
+"encodeproject.org|abstract": {
+"cand_present": 0,
+"gold_present": 10,
+"n": 11,
+"right": 1,
+"true_pos": 0
+},
+"encodeproject.org|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"encodeproject.org|authors": {
+"cand_present": 0,
+"gold_present": 11,
+"n": 11,
+"right": 0,
+"true_pos": 0
+},
+"encodeproject.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"encodeproject.org|license": {
+"cand_present": 0,
+"gold_present": 11,
+"n": 11,
+"right": 0,
+"true_pos": 0
+},
+"encodeproject.org|pdf_url": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"failure:cairn_no_aff|abstract": {
+"cand_present": 1,
+"gold_present": 2,
+"n": 11,
+"right": 9,
+"true_pos": 0
+},
+"failure:cairn_no_aff|affiliations": {
+"cand_present": 0,
+"gold_present": 2,
+"n": 11,
+"right": 9,
+"true_pos": 0
+},
+"failure:cairn_no_aff|authors": {
+"cand_present": 8,
+"gold_present": 9,
+"n": 11,
+"right": 10,
+"true_pos": 8
+},
+"failure:cairn_no_aff|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"failure:cairn_no_aff|license": {
+"cand_present": 0,
+"gold_present": 4,
+"n": 11,
+"right": 7,
+"true_pos": 0
+},
+"failure:cairn_no_aff|pdf_url": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 11,
+"right": 11,
+"true_pos": 8
+},
+"failure:degruyter_brill_no_aff|abstract": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 23,
+"right": 23,
+"true_pos": 1
+},
+"failure:degruyter_brill_no_aff|affiliations": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 23,
+"right": 22,
+"true_pos": 0
+},
+"failure:degruyter_brill_no_aff|authors": {
+"cand_present": 16,
+"gold_present": 17,
+"n": 23,
+"right": 22,
+"true_pos": 16
+},
+"failure:degruyter_brill_no_aff|corresponding": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 23,
+"right": 22,
+"true_pos": 0
+},
+"failure:degruyter_brill_no_aff|license": {
+"cand_present": 1,
+"gold_present": 4,
+"n": 23,
+"right": 20,
+"true_pos": 1
+},
+"failure:degruyter_brill_no_aff|pdf_url": {
+"cand_present": 20,
+"gold_present": 7,
+"n": 23,
+"right": 7,
+"true_pos": 4
+},
+"failure:jstor_any|abstract": {
+"cand_present": 1,
+"gold_present": 2,
+"n": 14,
+"right": 13,
+"true_pos": 1
+},
+"failure:jstor_any|affiliations": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 14,
+"right": 14,
+"true_pos": 1
+},
+"failure:jstor_any|authors": {
+"cand_present": 3,
+"gold_present": 5,
+"n": 14,
+"right": 11,
+"true_pos": 2
+},
+"failure:jstor_any|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"failure:jstor_any|license": {
+"cand_present": 0,
+"gold_present": 2,
+"n": 14,
+"right": 12,
+"true_pos": 0
+},
+"failure:jstor_any|pdf_url": {
+"cand_present": 9,
+"gold_present": 9,
+"n": 14,
+"right": 8,
+"true_pos": 3
+},
+"failure:oup_no_authors|abstract": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 18,
+"right": 17,
+"true_pos": 0
+},
+"failure:oup_no_authors|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 18,
+"right": 18,
+"true_pos": 0
+},
+"failure:oup_no_authors|authors": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 18,
+"right": 17,
+"true_pos": 0
+},
+"failure:oup_no_authors|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 18,
+"right": 18,
+"true_pos": 0
+},
+"failure:oup_no_authors|license": {
+"cand_present": 1,
+"gold_present": 3,
+"n": 18,
+"right": 16,
+"true_pos": 1
+},
+"failure:oup_no_authors|pdf_url": {
+"cand_present": 3,
+"gold_present": 3,
+"n": 18,
+"right": 18,
+"true_pos": 3
+},
+"failure:sd_authors_no_aff|abstract": {
+"cand_present": 9,
+"gold_present": 7,
+"n": 19,
+"right": 15,
+"true_pos": 6
+},
+"failure:sd_authors_no_aff|affiliations": {
+"cand_present": 0,
+"gold_present": 3,
+"n": 19,
+"right": 16,
+"true_pos": 0
+},
+"failure:sd_authors_no_aff|authors": {
+"cand_present": 19,
+"gold_present": 19,
+"n": 19,
+"right": 19,
+"true_pos": 19
+},
+"failure:sd_authors_no_aff|corresponding": {
+"cand_present": 2,
+"gold_present": 4,
+"n": 19,
+"right": 15,
+"true_pos": 1
+},
+"failure:sd_authors_no_aff|license": {
+"cand_present": 5,
+"gold_present": 4,
+"n": 19,
+"right": 17,
+"true_pos": 3
+},
+"failure:sd_authors_no_aff|pdf_url": {
+"cand_present": 19,
+"gold_present": 6,
+"n": 19,
+"right": 4,
+"true_pos": 4
+},
+"failure:sd_no_authors|abstract": {
+"cand_present": 3,
+"gold_present": 5,
+"n": 33,
+"right": 31,
+"true_pos": 3
+},
+"failure:sd_no_authors|affiliations": {
+"cand_present": 3,
+"gold_present": 5,
+"n": 33,
+"right": 30,
+"true_pos": 2
+},
+"failure:sd_no_authors|authors": {
+"cand_present": 5,
+"gold_present": 7,
+"n": 33,
+"right": 30,
+"true_pos": 4
+},
+"failure:sd_no_authors|corresponding": {
+"cand_present": 3,
+"gold_present": 3,
+"n": 33,
+"right": 32,
+"true_pos": 2
+},
+"failure:sd_no_authors|license": {
+"cand_present": 6,
+"gold_present": 2,
+"n": 33,
+"right": 27,
+"true_pos": 1
+},
+"failure:sd_no_authors|pdf_url": {
+"cand_present": 15,
+"gold_present": 6,
+"n": 33,
+"right": 22,
+"true_pos": 4
+},
+"failure:springer_no_corresp|abstract": {
+"cand_present": 12,
+"gold_present": 8,
+"n": 15,
+"right": 11,
+"true_pos": 8
+},
+"failure:springer_no_corresp|affiliations": {
+"cand_present": 14,
+"gold_present": 12,
+"n": 15,
+"right": 12,
+"true_pos": 11
+},
+"failure:springer_no_corresp|authors": {
+"cand_present": 15,
+"gold_present": 14,
+"n": 15,
+"right": 12,
+"true_pos": 12
+},
+"failure:springer_no_corresp|corresponding": {
+"cand_present": 5,
+"gold_present": 5,
+"n": 15,
+"right": 14,
+"true_pos": 4
+},
+"failure:springer_no_corresp|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 15,
+"right": 15,
+"true_pos": 0
+},
+"failure:springer_no_corresp|pdf_url": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 15,
+"right": 15,
+"true_pos": 15
+},
+"failure:tandf_short_abstract|abstract": {
+"cand_present": 25,
+"gold_present": 4,
+"n": 25,
+"right": 4,
+"true_pos": 4
+},
+"failure:tandf_short_abstract|affiliations": {
+"cand_present": 15,
+"gold_present": 14,
+"n": 25,
+"right": 24,
+"true_pos": 14
+},
+"failure:tandf_short_abstract|authors": {
+"cand_present": 19,
+"gold_present": 19,
+"n": 25,
+"right": 25,
+"true_pos": 19
+},
+"failure:tandf_short_abstract|corresponding": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 25,
+"right": 25,
+"true_pos": 8
+},
+"failure:tandf_short_abstract|license": {
+"cand_present": 0,
+"gold_present": 4,
+"n": 25,
+"right": 21,
+"true_pos": 0
+},
+"failure:tandf_short_abstract|pdf_url": {
+"cand_present": 25,
+"gold_present": 13,
+"n": 25,
+"right": 4,
+"true_pos": 4
+},
+"failure:taylorfrancis_no_aff|abstract": {
+"cand_present": 11,
+"gold_present": 6,
+"n": 11,
+"right": 6,
+"true_pos": 6
+},
+"failure:taylorfrancis_no_aff|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"failure:taylorfrancis_no_aff|authors": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 11,
+"right": 11,
+"true_pos": 11
+},
+"failure:taylorfrancis_no_aff|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"failure:taylorfrancis_no_aff|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"failure:taylorfrancis_no_aff|pdf_url": {
+"cand_present": 7,
+"gold_present": 7,
+"n": 11,
+"right": 11,
+"true_pos": 7
+},
+"figshare.com|abstract": {
+"cand_present": 1,
+"gold_present": 8,
+"n": 10,
+"right": 1,
+"true_pos": 0
+},
+"figshare.com|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 10,
+"right": 10,
+"true_pos": 0
+},
+"figshare.com|authors": {
+"cand_present": 5,
+"gold_present": 10,
+"n": 10,
+"right": 4,
+"true_pos": 4
+},
+"figshare.com|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 10,
+"right": 10,
+"true_pos": 0
+},
+"figshare.com|license": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 10,
+"right": 10,
+"true_pos": 8
+},
+"figshare.com|pdf_url": {
+"cand_present": 8,
+"gold_present": 3,
+"n": 10,
+"right": 5,
+"true_pos": 3
+},
+"frontiersin.org|abstract": {
+"cand_present": 18,
+"gold_present": 14,
+"n": 21,
+"right": 14,
+"true_pos": 12
+},
+"frontiersin.org|affiliations": {
+"cand_present": 19,
+"gold_present": 15,
+"n": 21,
+"right": 12,
+"true_pos": 12
+},
+"frontiersin.org|authors": {
+"cand_present": 19,
+"gold_present": 15,
+"n": 21,
+"right": 13,
+"true_pos": 13
+},
+"frontiersin.org|corresponding": {
+"cand_present": 19,
+"gold_present": 13,
+"n": 21,
+"right": 15,
+"true_pos": 13
+},
+"frontiersin.org|license": {
+"cand_present": 21,
+"gold_present": 15,
+"n": 21,
+"right": 15,
+"true_pos": 15
+},
+"frontiersin.org|pdf_url": {
+"cand_present": 21,
+"gold_present": 15,
+"n": 21,
+"right": 15,
+"true_pos": 15
+},
+"ieee.org|abstract": {
+"cand_present": 23,
+"gold_present": 23,
+"n": 26,
+"right": 26,
+"true_pos": 23
+},
+"ieee.org|affiliations": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 26,
+"right": 26,
+"true_pos": 24
+},
+"ieee.org|authors": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 26,
+"right": 26,
+"true_pos": 24
+},
+"ieee.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 26,
+"right": 26,
+"true_pos": 0
+},
+"ieee.org|license": {
+"cand_present": 5,
+"gold_present": 7,
+"n": 26,
+"right": 24,
+"true_pos": 5
+},
+"ieee.org|pdf_url": {
+"cand_present": 0,
+"gold_present": 26,
+"n": 26,
+"right": 0,
+"true_pos": 0
+},
+"inlibra.com|abstract": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 14,
+"right": 13,
+"true_pos": 0
+},
+"inlibra.com|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"inlibra.com|authors": {
+"cand_present": 5,
+"gold_present": 11,
+"n": 14,
+"right": 3,
+"true_pos": 1
+},
+"inlibra.com|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"inlibra.com|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"inlibra.com|pdf_url": {
+"cand_present": 8,
+"gold_present": 1,
+"n": 14,
+"right": 7,
+"true_pos": 1
+},
+"iop.org|abstract": {
+"cand_present": 20,
+"gold_present": 22,
+"n": 26,
+"right": 20,
+"true_pos": 16
+},
+"iop.org|affiliations": {
+"cand_present": 22,
+"gold_present": 22,
+"n": 26,
+"right": 25,
+"true_pos": 21
+},
+"iop.org|authors": {
+"cand_present": 22,
+"gold_present": 22,
+"n": 26,
+"right": 26,
+"true_pos": 22
+},
+"iop.org|corresponding": {
+"cand_present": 11,
+"gold_present": 9,
+"n": 26,
+"right": 16,
+"true_pos": 3
+},
+"iop.org|license": {
+"cand_present": 8,
+"gold_present": 9,
+"n": 26,
+"right": 25,
+"true_pos": 8
+},
+"iop.org|pdf_url": {
+"cand_present": 23,
+"gold_present": 22,
+"n": 26,
+"right": 25,
+"true_pos": 22
+},
+"jamanetwork.com|abstract": {
+"cand_present": 8,
+"gold_present": 4,
+"n": 11,
+"right": 7,
+"true_pos": 4
+},
+"jamanetwork.com|affiliations": {
+"cand_present": 3,
+"gold_present": 8,
+"n": 11,
+"right": 6,
+"true_pos": 3
+},
+"jamanetwork.com|authors": {
+"cand_present": 9,
+"gold_present": 9,
+"n": 11,
+"right": 11,
+"true_pos": 9
+},
+"jamanetwork.com|corresponding": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 11,
+"right": 11,
+"true_pos": 1
+},
+"jamanetwork.com|license": {
+"cand_present": 1,
+"gold_present": 2,
+"n": 11,
+"right": 10,
+"true_pos": 1
+},
+"jamanetwork.com|pdf_url": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 11,
+"right": 11,
+"true_pos": 11
+},
+"jhu.edu|abstract": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 11,
+"right": 9,
+"true_pos": 0
+},
+"jhu.edu|affiliations": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 11,
+"right": 11,
+"true_pos": 1
+},
+"jhu.edu|authors": {
+"cand_present": 7,
+"gold_present": 7,
+"n": 11,
+"right": 11,
+"true_pos": 7
+},
+"jhu.edu|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 11,
+"right": 11,
+"true_pos": 0
+},
+"jhu.edu|license": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 11,
+"right": 11,
+"true_pos": 1
+},
+"jhu.edu|pdf_url": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 11,
+"right": 11,
+"true_pos": 8
+},
+"jst.go.jp|abstract": {
+"cand_present": 7,
+"gold_present": 11,
+"n": 18,
+"right": 13,
+"true_pos": 6
+},
+"jst.go.jp|affiliations": {
+"cand_present": 14,
+"gold_present": 15,
+"n": 18,
+"right": 17,
+"true_pos": 14
+},
+"jst.go.jp|authors": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 18,
+"right": 18,
+"true_pos": 15
+},
+"jst.go.jp|corresponding": {
+"cand_present": 1,
+"gold_present": 0,
+"n": 18,
+"right": 17,
+"true_pos": 0
+},
+"jst.go.jp|license": {
+"cand_present": 0,
+"gold_present": 14,
+"n": 18,
+"right": 4,
+"true_pos": 0
+},
+"jst.go.jp|pdf_url": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 18,
+"right": 14,
+"true_pos": 13
+},
+"jstor.org|abstract": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 21,
+"right": 21,
+"true_pos": 0
+},
+"jstor.org|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 21,
+"right": 21,
+"true_pos": 0
+},
+"jstor.org|authors": {
+"cand_present": 0,
+"gold_present": 7,
+"n": 21,
+"right": 14,
+"true_pos": 0
+},
+"jstor.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 21,
+"right": 21,
+"true_pos": 0
+},
+"jstor.org|license": {
+"cand_present": 1,
+"gold_present": 1,
+"n": 21,
+"right": 21,
+"true_pos": 1
+},
+"jstor.org|pdf_url": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 21,
+"right": 11,
+"true_pos": 1
+},
+"karger.com|abstract": {
+"cand_present": 3,
+"gold_present": 10,
+"n": 14,
+"right": 7,
+"true_pos": 3
+},
+"karger.com|affiliations": {
+"cand_present": 7,
+"gold_present": 8,
+"n": 14,
+"right": 11,
+"true_pos": 6
+},
+"karger.com|authors": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 14,
+"right": 12,
+"true_pos": 11
+},
+"karger.com|corresponding": {
+"cand_present": 0,
+"gold_present": 6,
+"n": 14,
+"right": 8,
+"true_pos": 0
+},
+"karger.com|license": {
+"cand_present": 3,
+"gold_present": 5,
+"n": 14,
+"right": 12,
+"true_pos": 3
+},
+"karger.com|pdf_url": {
+"cand_present": 14,
+"gold_present": 13,
+"n": 14,
+"right": 13,
+"true_pos": 13
+},
+"lww.com|abstract": {
+"cand_present": 15,
+"gold_present": 14,
+"n": 22,
+"right": 18,
+"true_pos": 11
+},
+"lww.com|affiliations": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 22,
+"right": 19,
+"true_pos": 14
+},
+"lww.com|authors": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 22,
+"right": 22,
+"true_pos": 17
+},
+"lww.com|corresponding": {
+"cand_present": 8,
+"gold_present": 10,
+"n": 22,
+"right": 18,
+"true_pos": 6
+},
+"lww.com|license": {
+"cand_present": 8,
+"gold_present": 9,
+"n": 22,
+"right": 15,
+"true_pos": 5
+},
+"lww.com|pdf_url": {
+"cand_present": 21,
+"gold_present": 17,
+"n": 22,
+"right": 18,
+"true_pos": 17
+},
+"mdpi.com|abstract": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"mdpi.com|affiliations": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"mdpi.com|authors": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"mdpi.com|corresponding": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"mdpi.com|license": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"mdpi.com|pdf_url": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 21,
+"right": 21,
+"true_pos": 13
+},
+"nature.com|abstract": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 19,
+"right": 18,
+"true_pos": 16
+},
+"nature.com|affiliations": {
+"cand_present": 16,
+"gold_present": 16,
+"n": 19,
+"right": 19,
+"true_pos": 16
+},
+"nature.com|authors": {
+"cand_present": 16,
+"gold_present": 18,
+"n": 19,
+"right": 13,
+"true_pos": 12
+},
+"nature.com|corresponding": {
+"cand_present": 9,
+"gold_present": 11,
+"n": 19,
+"right": 17,
+"true_pos": 9
+},
+"nature.com|license": {
+"cand_present": 7,
+"gold_present": 10,
+"n": 19,
+"right": 16,
+"true_pos": 7
+},
+"nature.com|pdf_url": {
+"cand_present": 16,
+"gold_present": 17,
+"n": 19,
+"right": 18,
+"true_pos": 16
+},
+"openedition.org|abstract": {
+"cand_present": 4,
+"gold_present": 4,
+"n": 15,
+"right": 7,
+"true_pos": 0
+},
+"openedition.org|affiliations": {
+"cand_present": 7,
+"gold_present": 6,
+"n": 15,
+"right": 10,
+"true_pos": 1
+},
+"openedition.org|authors": {
+"cand_present": 10,
+"gold_present": 13,
+"n": 15,
+"right": 6,
+"true_pos": 4
+},
+"openedition.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 15,
+"right": 15,
+"true_pos": 0
+},
+"openedition.org|license": {
+"cand_present": 5,
+"gold_present": 12,
+"n": 15,
+"right": 8,
+"true_pos": 5
+},
+"openedition.org|pdf_url": {
+"cand_present": 5,
+"gold_present": 5,
+"n": 15,
+"right": 15,
+"true_pos": 5
+},
+"optica.org|abstract": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 16,
+"right": 16,
+"true_pos": 11
+},
+"optica.org|affiliations": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 16,
+"right": 15,
+"true_pos": 9
+},
+"optica.org|authors": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 16,
+"right": 16,
+"true_pos": 14
+},
+"optica.org|corresponding": {
+"cand_present": 0,
+"gold_present": 4,
+"n": 16,
+"right": 12,
+"true_pos": 0
+},
+"optica.org|license": {
+"cand_present": 0,
+"gold_present": 3,
+"n": 16,
+"right": 13,
+"true_pos": 0
+},
+"optica.org|pdf_url": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 16,
+"right": 16,
+"true_pos": 11
+},
+"oup.com|abstract": {
+"cand_present": 17,
+"gold_present": 11,
+"n": 28,
+"right": 20,
+"true_pos": 9
+},
+"oup.com|affiliations": {
+"cand_present": 12,
+"gold_present": 13,
+"n": 28,
+"right": 25,
+"true_pos": 10
+},
+"oup.com|authors": {
+"cand_present": 20,
+"gold_present": 20,
+"n": 28,
+"right": 27,
+"true_pos": 19
+},
+"oup.com|corresponding": {
+"cand_present": 5,
+"gold_present": 5,
+"n": 28,
+"right": 28,
+"true_pos": 5
+},
+"oup.com|license": {
+"cand_present": 4,
+"gold_present": 7,
+"n": 28,
+"right": 25,
+"true_pos": 4
+},
+"oup.com|pdf_url": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 28,
+"right": 28,
+"true_pos": 18
+},
+"plos.org|abstract": {
+"cand_present": 8,
+"gold_present": 10,
+"n": 19,
+"right": 3,
+"true_pos": 1
+},
+"plos.org|affiliations": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 19,
+"right": 19,
+"true_pos": 10
+},
+"plos.org|authors": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 19,
+"right": 19,
+"true_pos": 12
+},
+"plos.org|corresponding": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 19,
+"right": 17,
+"true_pos": 9
+},
+"plos.org|license": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 19,
+"right": 19,
+"true_pos": 12
+},
+"plos.org|pdf_url": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 19,
+"right": 19,
+"true_pos": 12
+},
+"repository|abstract": {
+"cand_present": 20,
+"gold_present": 52,
+"n": 106,
+"right": 71,
+"true_pos": 17
+},
+"repository|affiliations": {
+"cand_present": 25,
+"gold_present": 32,
+"n": 106,
+"right": 95,
+"true_pos": 21
+},
+"repository|authors": {
+"cand_present": 66,
+"gold_present": 79,
+"n": 106,
+"right": 89,
+"true_pos": 63
+},
+"repository|corresponding": {
+"cand_present": 4,
+"gold_present": 5,
+"n": 106,
+"right": 105,
+"true_pos": 4
+},
+"repository|license": {
+"cand_present": 30,
+"gold_present": 39,
+"n": 106,
+"right": 88,
+"true_pos": 23
+},
+"repository|pdf_url": {
+"cand_present": 57,
+"gold_present": 59,
+"n": 106,
+"right": 100,
+"true_pos": 54
+},
+"researchsquare.com|abstract": {
+"cand_present": 0,
+"gold_present": 12,
+"n": 14,
+"right": 2,
+"true_pos": 0
+},
+"researchsquare.com|affiliations": {
+"cand_present": 1,
+"gold_present": 11,
+"n": 14,
+"right": 4,
+"true_pos": 1
+},
+"researchsquare.com|authors": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 14,
+"right": 14,
+"true_pos": 12
+},
+"researchsquare.com|corresponding": {
+"cand_present": 1,
+"gold_present": 12,
+"n": 14,
+"right": 3,
+"true_pos": 1
+},
+"researchsquare.com|license": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 14,
+"right": 14,
+"true_pos": 14
+},
+"researchsquare.com|pdf_url": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 14,
+"right": 13,
+"true_pos": 13
+},
+"rsc.org|abstract": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 18,
+"right": 18,
+"true_pos": 17
+},
+"rsc.org|affiliations": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 18,
+"right": 18,
+"true_pos": 10
+},
+"rsc.org|authors": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 18,
+"right": 18,
+"true_pos": 17
+},
+"rsc.org|corresponding": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 18,
+"right": 18,
+"true_pos": 10
+},
+"rsc.org|license": {
+"cand_present": 3,
+"gold_present": 3,
+"n": 18,
+"right": 18,
+"true_pos": 3
+},
+"rsc.org|pdf_url": {
+"cand_present": 17,
+"gold_present": 17,
+"n": 18,
+"right": 18,
+"true_pos": 17
+},
+"sagepub.com|abstract": {
+"cand_present": 16,
+"gold_present": 17,
+"n": 29,
+"right": 28,
+"true_pos": 16
+},
+"sagepub.com|affiliations": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 29,
+"right": 27,
+"true_pos": 19
+},
+"sagepub.com|authors": {
+"cand_present": 26,
+"gold_present": 26,
+"n": 29,
+"right": 27,
+"true_pos": 24
+},
+"sagepub.com|corresponding": {
+"cand_present": 14,
+"gold_present": 15,
+"n": 29,
+"right": 28,
+"true_pos": 14
+},
+"sagepub.com|license": {
+"cand_present": 6,
+"gold_present": 7,
+"n": 29,
+"right": 25,
+"true_pos": 4
+},
+"sagepub.com|pdf_url": {
+"cand_present": 23,
+"gold_present": 29,
+"n": 29,
+"right": 23,
+"true_pos": 23
+},
+"scielo.br|abstract": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 17,
+"right": 12,
+"true_pos": 8
+},
+"scielo.br|affiliations": {
+"cand_present": 8,
+"gold_present": 13,
+"n": 17,
+"right": 10,
+"true_pos": 6
+},
+"scielo.br|authors": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 17,
+"right": 17,
+"true_pos": 13
+},
+"scielo.br|corresponding": {
+"cand_present": 0,
+"gold_present": 8,
+"n": 17,
+"right": 9,
+"true_pos": 0
+},
+"scielo.br|license": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 17,
+"right": 17,
+"true_pos": 14
+},
+"scielo.br|pdf_url": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 17,
+"right": 16,
+"true_pos": 13
+},
+"science.org|abstract": {
+"cand_present": 5,
+"gold_present": 6,
+"n": 13,
+"right": 12,
+"true_pos": 5
+},
+"science.org|affiliations": {
+"cand_present": 7,
+"gold_present": 8,
+"n": 13,
+"right": 10,
+"true_pos": 6
+},
+"science.org|authors": {
+"cand_present": 9,
+"gold_present": 10,
+"n": 13,
+"right": 12,
+"true_pos": 9
+},
+"science.org|corresponding": {
+"cand_present": 4,
+"gold_present": 6,
+"n": 13,
+"right": 9,
+"true_pos": 2
+},
+"science.org|license": {
+"cand_present": 3,
+"gold_present": 6,
+"n": 13,
+"right": 10,
+"true_pos": 3
+},
+"science.org|pdf_url": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 13,
+"right": 12,
+"true_pos": 10
+},
+"sciencedirect.com|abstract": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 29,
+"right": 27,
+"true_pos": 16
+},
+"sciencedirect.com|affiliations": {
+"cand_present": 21,
+"gold_present": 22,
+"n": 29,
+"right": 25,
+"true_pos": 18
+},
+"sciencedirect.com|authors": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 29,
+"right": 29,
+"true_pos": 24
+},
+"sciencedirect.com|corresponding": {
+"cand_present": 14,
+"gold_present": 13,
+"n": 29,
+"right": 26,
+"true_pos": 11
+},
+"sciencedirect.com|license": {
+"cand_present": 11,
+"gold_present": 4,
+"n": 29,
+"right": 21,
+"true_pos": 3
+},
+"sciencedirect.com|pdf_url": {
+"cand_present": 24,
+"gold_present": 6,
+"n": 29,
+"right": 9,
+"true_pos": 4
+},
+"scientific.net|abstract": {
+"cand_present": 7,
+"gold_present": 8,
+"n": 9,
+"right": 8,
+"true_pos": 7
+},
+"scientific.net|affiliations": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 9,
+"right": 9,
+"true_pos": 0
+},
+"scientific.net|authors": {
+"cand_present": 8,
+"gold_present": 8,
+"n": 9,
+"right": 9,
+"true_pos": 8
+},
+"scientific.net|corresponding": {
+"cand_present": 3,
+"gold_present": 3,
+"n": 9,
+"right": 9,
+"true_pos": 3
+},
+"scientific.net|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 9,
+"right": 9,
+"true_pos": 0
+},
+"scientific.net|pdf_url": {
+"cand_present": 9,
+"gold_present": 8,
+"n": 9,
+"right": 8,
+"true_pos": 8
+},
+"spiedigitallibrary.org|abstract": {
+"cand_present": 10,
+"gold_present": 11,
+"n": 14,
+"right": 13,
+"true_pos": 10
+},
+"spiedigitallibrary.org|affiliations": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 14,
+"right": 13,
+"true_pos": 10
+},
+"spiedigitallibrary.org|authors": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 14,
+"right": 13,
+"true_pos": 10
+},
+"spiedigitallibrary.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"spiedigitallibrary.org|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 14,
+"right": 14,
+"true_pos": 0
+},
+"spiedigitallibrary.org|pdf_url": {
+"cand_present": 11,
+"gold_present": 10,
+"n": 14,
+"right": 13,
+"true_pos": 10
+},
+"springer.com|abstract": {
+"cand_present": 15,
+"gold_present": 15,
+"n": 17,
+"right": 16,
+"true_pos": 14
+},
+"springer.com|affiliations": {
+"cand_present": 17,
+"gold_present": 16,
+"n": 17,
+"right": 16,
+"true_pos": 16
+},
+"springer.com|authors": {
+"cand_present": 17,
+"gold_present": 16,
+"n": 17,
+"right": 10,
+"true_pos": 10
+},
+"springer.com|corresponding": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 17,
+"right": 17,
+"true_pos": 14
+},
+"springer.com|license": {
+"cand_present": 4,
+"gold_present": 5,
+"n": 17,
+"right": 16,
+"true_pos": 4
+},
+"springer.com|pdf_url": {
+"cand_present": 17,
+"gold_present": 16,
+"n": 17,
+"right": 16,
+"true_pos": 16
+},
+"ssrn.com|abstract": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 23,
+"right": 22,
+"true_pos": 20
+},
+"ssrn.com|affiliations": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 23,
+"right": 19,
+"true_pos": 17
+},
+"ssrn.com|authors": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 23,
+"right": 23,
+"true_pos": 21
+},
+"ssrn.com|corresponding": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 23,
+"right": 23,
+"true_pos": 21
+},
+"ssrn.com|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 23,
+"right": 23,
+"true_pos": 0
+},
+"ssrn.com|pdf_url": {
+"cand_present": 21,
+"gold_present": 21,
+"n": 23,
+"right": 23,
+"true_pos": 21
+},
+"tail|abstract": {
+"cand_present": 280,
+"gold_present": 428,
+"n": 610,
+"right": 426,
+"true_pos": 249
+},
+"tail|affiliations": {
+"cand_present": 264,
+"gold_present": 337,
+"n": 610,
+"right": 506,
+"true_pos": 236
+},
+"tail|authors": {
+"cand_present": 431,
+"gold_present": 515,
+"n": 610,
+"right": 497,
+"true_pos": 404
+},
+"tail|corresponding": {
+"cand_present": 46,
+"gold_present": 85,
+"n": 610,
+"right": 561,
+"true_pos": 41
+},
+"tail|license": {
+"cand_present": 243,
+"gold_present": 276,
+"n": 610,
+"right": 556,
+"true_pos": 230
+},
+"tail|pdf_url": {
+"cand_present": 473,
+"gold_present": 454,
+"n": 610,
+"right": 558,
+"true_pos": 430
+},
+"tandfonline.com|abstract": {
+"cand_present": 18,
+"gold_present": 13,
+"n": 24,
+"right": 18,
+"true_pos": 12
+},
+"tandfonline.com|affiliations": {
+"cand_present": 16,
+"gold_present": 16,
+"n": 24,
+"right": 24,
+"true_pos": 16
+},
+"tandfonline.com|authors": {
+"cand_present": 19,
+"gold_present": 19,
+"n": 24,
+"right": 24,
+"true_pos": 19
+},
+"tandfonline.com|corresponding": {
+"cand_present": 14,
+"gold_present": 14,
+"n": 24,
+"right": 24,
+"true_pos": 14
+},
+"tandfonline.com|license": {
+"cand_present": 1,
+"gold_present": 3,
+"n": 24,
+"right": 22,
+"true_pos": 1
+},
+"tandfonline.com|pdf_url": {
+"cand_present": 22,
+"gold_present": 10,
+"n": 24,
+"right": 6,
+"true_pos": 4
+},
+"taylorfrancis.com|abstract": {
+"cand_present": 22,
+"gold_present": 16,
+"n": 24,
+"right": 17,
+"true_pos": 15
+},
+"taylorfrancis.com|affiliations": {
+"cand_present": 2,
+"gold_present": 2,
+"n": 24,
+"right": 24,
+"true_pos": 2
+},
+"taylorfrancis.com|authors": {
+"cand_present": 23,
+"gold_present": 23,
+"n": 24,
+"right": 24,
+"true_pos": 23
+},
+"taylorfrancis.com|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 24,
+"right": 24,
+"true_pos": 0
+},
+"taylorfrancis.com|license": {
+"cand_present": 1,
+"gold_present": 2,
+"n": 24,
+"right": 23,
+"true_pos": 1
+},
+"taylorfrancis.com|pdf_url": {
+"cand_present": 12,
+"gold_present": 12,
+"n": 24,
+"right": 24,
+"true_pos": 12
+},
+"thieme-connect.de|abstract": {
+"cand_present": 10,
+"gold_present": 9,
+"n": 21,
+"right": 17,
+"true_pos": 6
+},
+"thieme-connect.de|affiliations": {
+"cand_present": 6,
+"gold_present": 6,
+"n": 21,
+"right": 21,
+"true_pos": 6
+},
+"thieme-connect.de|authors": {
+"cand_present": 12,
+"gold_present": 14,
+"n": 21,
+"right": 17,
+"true_pos": 10
+},
+"thieme-connect.de|corresponding": {
+"cand_present": 2,
+"gold_present": 1,
+"n": 21,
+"right": 18,
+"true_pos": 0
+},
+"thieme-connect.de|license": {
+"cand_present": 2,
+"gold_present": 4,
+"n": 21,
+"right": 19,
+"true_pos": 2
+},
+"thieme-connect.de|pdf_url": {
+"cand_present": 14,
+"gold_present": 15,
+"n": 21,
+"right": 18,
+"true_pos": 13
+},
+"unresolved|abstract": {
+"cand_present": 16,
+"gold_present": 21,
+"n": 43,
+"right": 36,
+"true_pos": 14
+},
+"unresolved|affiliations": {
+"cand_present": 14,
+"gold_present": 15,
+"n": 43,
+"right": 42,
+"true_pos": 14
+},
+"unresolved|authors": {
+"cand_present": 24,
+"gold_present": 28,
+"n": 43,
+"right": 33,
+"true_pos": 20
+},
+"unresolved|corresponding": {
+"cand_present": 5,
+"gold_present": 8,
+"n": 43,
+"right": 40,
+"true_pos": 5
+},
+"unresolved|license": {
+"cand_present": 4,
+"gold_present": 12,
+"n": 43,
+"right": 35,
+"true_pos": 4
+},
+"unresolved|pdf_url": {
+"cand_present": 29,
+"gold_present": 21,
+"n": 43,
+"right": 30,
+"true_pos": 17
+},
+"wall|abstract": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 44,
+"right": 43,
+"true_pos": 0
+},
+"wall|affiliations": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 44,
+"right": 43,
+"true_pos": 0
+},
+"wall|authors": {
+"cand_present": 0,
+"gold_present": 3,
+"n": 44,
+"right": 41,
+"true_pos": 0
+},
+"wall|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 44,
+"right": 44,
+"true_pos": 0
+},
+"wall|license": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 44,
+"right": 44,
+"true_pos": 0
+},
+"wall|pdf_url": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 44,
+"right": 44,
+"true_pos": 0
+},
+"wiley.com|abstract": {
+"cand_present": 20,
+"gold_present": 19,
+"n": 29,
+"right": 24,
+"true_pos": 15
+},
+"wiley.com|affiliations": {
+"cand_present": 22,
+"gold_present": 22,
+"n": 29,
+"right": 28,
+"true_pos": 21
+},
+"wiley.com|authors": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 29,
+"right": 28,
+"true_pos": 24
+},
+"wiley.com|corresponding": {
+"cand_present": 13,
+"gold_present": 15,
+"n": 29,
+"right": 27,
+"true_pos": 13
+},
+"wiley.com|license": {
+"cand_present": 4,
+"gold_present": 7,
+"n": 29,
+"right": 26,
+"true_pos": 4
+},
+"wiley.com|pdf_url": {
+"cand_present": 27,
+"gold_present": 27,
+"n": 29,
+"right": 29,
+"true_pos": 27
+},
+"worldscientific.com|abstract": {
+"cand_present": 1,
+"gold_present": 10,
+"n": 15,
+"right": 5,
+"true_pos": 0
+},
+"worldscientific.com|affiliations": {
+"cand_present": 9,
+"gold_present": 6,
+"n": 15,
+"right": 8,
+"true_pos": 2
+},
+"worldscientific.com|authors": {
+"cand_present": 10,
+"gold_present": 10,
+"n": 15,
+"right": 15,
+"true_pos": 10
+},
+"worldscientific.com|corresponding": {
+"cand_present": 0,
+"gold_present": 9,
+"n": 15,
+"right": 6,
+"true_pos": 0
+},
+"worldscientific.com|license": {
+"cand_present": 0,
+"gold_present": 1,
+"n": 15,
+"right": 14,
+"true_pos": 0
+},
+"worldscientific.com|pdf_url": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 15,
+"right": 11,
+"true_pos": 9
+},
+"zenodo.org|abstract": {
+"cand_present": 0,
+"gold_present": 6,
+"n": 17,
+"right": 11,
+"true_pos": 0
+},
+"zenodo.org|affiliations": {
+"cand_present": 0,
+"gold_present": 2,
+"n": 17,
+"right": 15,
+"true_pos": 0
+},
+"zenodo.org|authors": {
+"cand_present": 7,
+"gold_present": 6,
+"n": 17,
+"right": 15,
+"true_pos": 5
+},
+"zenodo.org|corresponding": {
+"cand_present": 0,
+"gold_present": 0,
+"n": 17,
+"right": 17,
+"true_pos": 0
+},
+"zenodo.org|license": {
+"cand_present": 7,
+"gold_present": 6,
+"n": 17,
+"right": 16,
+"true_pos": 6
+},
+"zenodo.org|pdf_url": {
+"cand_present": 7,
+"gold_present": 5,
+"n": 17,
+"right": 15,
+"true_pos": 5
+}
+},
+"commit": "3e2db229fe39148f3bdda85b5dceac692b691b07",
+"computed_at": "2026-10-23T22:46:32+00:00",
+"corpus": "v1",
+"pages": 1898
+}
