@@ -82,10 +82,22 @@ jobs:
       run: |
         H=$(python gate/corpus.py path holdout)
         T="$RUNNER_TEMP/gate"; mkdir -p "$T"
-        python gate/run_parser.py --lib "$RUNNER_TEMP/prod" --corpus "$H" --out "$T/prod_parsed.ndjson"
-        python gate/run_parser.py --lib . --corpus "$H" --out "$T/head_parsed.ndjson"
-        python gate/score.py --corpus "$H" --parsed "$T/prod_parsed.ndjson" --out "$T/prod_scores.ndjson"
-        python gate/score.py --corpus "$H" --parsed "$T/head_parsed.ndjson" --out "$T/head_scores.ndjson"
+        # Production's scores: reuse the ones saved by the run that deployed it, if scorer and corpus are unchanged.
+        if git diff --quiet "$PROD_SHA" HEAD -- gate/score.py gate/fields.py gate/corpus.lock.json \
+           && aws s3 cp --quiet "s3://openalex-parseland-gate/runs/$PROD_SHA/head_scores.ndjson" "$T/prod_scores.ndjson" 2>/dev/null; then
+          echo "Production scores reused from its own gate run." >> "$GITHUB_STEP_SUMMARY"
+        else
+          python gate/run_parser.py --lib "$RUNNER_TEMP/prod" --corpus "$H" --out "$T/prod_parsed.ndjson"
+          python gate/score.py --corpus "$H" --parsed "$T/prod_parsed.ndjson" --out "$T/prod_scores.ndjson"
+        fi
+        # This commit's scores: identical to production's when neither parser code nor its pins changed.
+        if git diff --quiet "$PROD_SHA" HEAD -- parseland_lib requirements.txt gate/score.py gate/fields.py gate/corpus.lock.json; then
+          cp "$T/prod_scores.ndjson" "$T/head_scores.ndjson"
+          echo "No parser change since production: holdout scores carried over." >> "$GITHUB_STEP_SUMMARY"
+        else
+          python gate/run_parser.py --lib . --corpus "$H" --out "$T/head_parsed.ndjson"
+          python gate/score.py --corpus "$H" --parsed "$T/head_parsed.ndjson" --out "$T/head_scores.ndjson"
+        fi
         OVERRIDE=$(git log -1 --format=%B | sed -n 's/^Gate-Override: *//p' | head -1)
         python gate/compare.py --base "$T/prod_scores.ndjson" --head "$T/head_scores.ndjson" \
           --baseline gate/baseline.json --summary "$GITHUB_STEP_SUMMARY" --json "$T/gate.json" \
