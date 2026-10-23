@@ -1,0 +1,5 @@
+# Test gate only (CI and local runs); not installed in the production image.
+pytest>=8,<9
+pytest-socket>=0.7,<1
+rapidfuzz>=3,<4
+requests>=2,<3

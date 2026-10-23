@@ -1,7 +1,13 @@
 name: Deploy to Amazon ECS
 on:
   push:
-    branches: [ "main" ]
+    # gate-proof/** branches run the gate only (never deploy): how a change is tested against it off main.
+    branches: [ "main", "gate-proof/**" ]
+
+# One run at a time per branch, so the gate always compares against the commit actually in production.
+concurrency:
+  group: parseland-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   AWS_REGION: us-east-1
@@ -12,9 +18,83 @@ env:
   CONTAINER_NAME: parseland
 
 jobs:
+  # The test gate (oxjob #1791; rules in gate/README.md). The deploy below runs only if it passes:
+  # offline unit tests, then the sealed holdout scored for this commit and for the commit now in ECS.
+  gate:
+    name: Test gate
+    runs-on: ubuntu-24.04
+    environment: production
+    timeout-minutes: 40
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+
+    - name: Install
+      run: pip install -r requirements.txt -r gate/requirements.txt
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Fetch the frozen corpus
+      env:
+        PARSELAND_HOLDOUT_KEY: ${{ secrets.PARSELAND_HOLDOUT_KEY }}
+      run: |
+        python gate/corpus.py fetch dev
+        python gate/corpus.py fetch holdout
+
+    - name: Unit tests (network off)
+      env:
+        GATE_REQUIRE_CORPUS: "1"
+      run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
+
+    - name: Find the commit in production
+      run: |
+        IMAGE=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --query 'taskDefinition.containerDefinitions[0].image' --output text)
+        PROD_SHA="${IMAGE##*:}"
+        if ! git cat-file -e "${PROD_SHA}^{commit}" 2>/dev/null; then PROD_SHA="${{ github.event.before }}"; fi
+        echo "PROD_SHA=$PROD_SHA" >> "$GITHUB_ENV"
+        git worktree add --detach "$RUNNER_TEMP/prod" "$PROD_SHA"
+        echo "Comparing ${{ github.sha }} with production $PROD_SHA" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Holdout gate
+      run: |
+        H=$(python gate/corpus.py path holdout)
+        T="$RUNNER_TEMP/gate"; mkdir -p "$T"
+        python gate/run_parser.py --lib "$RUNNER_TEMP/prod" --corpus "$H" --out "$T/prod_parsed.ndjson"
+        python gate/run_parser.py --lib . --corpus "$H" --out "$T/head_parsed.ndjson"
+        python gate/score.py --corpus "$H" --parsed "$T/prod_parsed.ndjson" --out "$T/prod_scores.ndjson"
+        python gate/score.py --corpus "$H" --parsed "$T/head_parsed.ndjson" --out "$T/head_scores.ndjson"
+        OVERRIDE=$(git log -1 --format=%B | sed -n 's/^Gate-Override: *//p' | head -1)
+        python gate/compare.py --base "$T/prod_scores.ndjson" --head "$T/head_scores.ndjson" \
+          --baseline gate/baseline.json --summary "$GITHUB_STEP_SUMMARY" --json "$T/gate.json" \
+          ${OVERRIDE:+--override "$OVERRIDE"}
+
+    - name: Keep the result (private bucket, counts and per-page scores)
+      if: always()
+      run: |
+        T="$RUNNER_TEMP/gate"
+        for f in gate.json head_scores.ndjson prod_scores.ndjson; do
+          if [ -f "$T/$f" ]; then aws s3 cp --quiet "$T/$f" "s3://openalex-parseland-gate/runs/${{ github.sha }}/$f"; fi
+        done
+
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    needs: gate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
     environment: production
 
     steps:
@@ -53,11 +133,11 @@ jobs:
         NEW_TASK_DEF=$(jq --arg IMAGE "$IMAGE_URI" \
           '.containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' \
           task-def.json)
-          
+
         echo "$NEW_TASK_DEF" > new-task-def.json
-        
+
         NEW_TASKDEF_ARN=$(aws ecs register-task-definition --cli-input-json file://new-task-def.json --query 'taskDefinition.taskDefinitionArn' --output text)
-        
+
         echo "NEW_TASKDEF_ARN=$NEW_TASKDEF_ARN" >> $GITHUB_ENV
 
     - name: Deploy New Task Definition to ECS Service

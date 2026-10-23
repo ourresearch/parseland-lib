@@ -1,24 +1,60 @@
 """
 Pytest fixtures for Parseland parser tests.
 """
+import gzip
+import json
+import os
+import sys
+
 import requests
 import pytest
 from functools import lru_cache
 from typing import Optional
 
 TAXICAB_BASE = "http://harvester-load-balancer-366186003.us-east-1.elb.amazonaws.com/taxicab"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _dev_bundle() -> Optional[str]:
+    if os.environ.get("PARSELAND_GATE_DEV"):
+        return os.environ["PARSELAND_GATE_DEV"]
+    try:
+        sys.path.insert(0, ROOT)
+        from gate import corpus
+        return corpus.bundle_dir("dev")
+    except Exception:
+        return None
+
+
+@lru_cache(maxsize=1)
+def _frozen_index():
+    d = _dev_bundle()
+    path = os.path.join(d, "regression", "index.json") if d else None
+    return (d, json.load(open(path))) if path and os.path.exists(path) else (None, {})
+
+
+def frozen_html_for_doi(doi: str) -> Optional[str]:
+    """The page this DOI's test was frozen on (gate dev bundle, oxjob #1791), so tests never fetch live."""
+    d, idx = _frozen_index()
+    hit = idx.get(doi)
+    if not hit or "file" not in hit:
+        return None
+    return gzip.open(os.path.join(d, "regression", hit["file"])).read().decode("utf-8", "replace")
 
 
 @lru_cache(maxsize=500)
 def fetch_html_for_doi(doi: str) -> Optional[str]:
     """
-    Fetch HTML content for a DOI via Taxicab.
-    Returns the HTML content as a string, or None if not available.
-    Uses LRU cache to avoid re-fetching the same DOI.
+    HTML for a DOI: the frozen copy from the gate's dev bundle when present, else a live Taxicab fetch
+    (which pytest --disable-socket, as in CI, turns into None, so the test skips).
     """
     # Remove https://doi.org/ prefix if present
     if doi.startswith("https://doi.org/"):
         doi = doi[16:]
+
+    frozen = frozen_html_for_doi(doi)
+    if frozen is not None:
+        return frozen
 
     # Step 1: Get html_uuid from Taxicab
     taxicab_url = f"{TAXICAB_BASE}/doi/{doi}"

@@ -5,6 +5,9 @@ This module discovers all parser classes that have test_cases defined,
 fetches the HTML for each test DOI via Taxicab, runs the parser,
 and compares the output to the expected result.
 """
+import json
+import os
+
 import pytest
 from bs4 import BeautifulSoup
 from dataclasses import dataclass
@@ -143,6 +146,10 @@ def compare_authors(expected: list, actual: list) -> Tuple[bool, str]:
 # Discover all test cases at module load time
 ALL_TEST_CASES = discover_test_cases()
 
+# Cases whose expected result no longer matches the page frozen for that DOI (oxjob #1791): strict xfail, so a fix
+# shows up as a pass that must be recorded by deleting its line from tests/frozen_known_failures.json.
+_KNOWN = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "frozen_known_failures.json")))["dois"]
+
 
 def generate_test_id(tc: ParserTestCase) -> str:
     """Generate a readable test ID."""
@@ -151,11 +158,14 @@ def generate_test_id(tc: ParserTestCase) -> str:
     return f"{tc.parser_name}:{short_doi}"
 
 
-@pytest.mark.parametrize(
-    "test_case",
-    ALL_TEST_CASES,
-    ids=[generate_test_id(tc) for tc in ALL_TEST_CASES]
-)
+def _param(tc: ParserTestCase):
+    if tc.doi in _KNOWN:
+        return pytest.param(tc, id=generate_test_id(tc), marks=pytest.mark.xfail(
+            strict=True, reason=f"expected result predates the frozen page: {_KNOWN[tc.doi][:80]}"))
+    return pytest.param(tc, id=generate_test_id(tc))
+
+
+@pytest.mark.parametrize("test_case", [_param(tc) for tc in ALL_TEST_CASES])
 def test_parser(test_case: ParserTestCase):
     """
     Test a parser against its expected output.
