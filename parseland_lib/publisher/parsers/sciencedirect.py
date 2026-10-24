@@ -141,10 +141,13 @@ class ScienceDirect(PublisherParser):
                 affiliation_label = affiliation.get("$", {}).get("id")
                 for affiliation_property in affiliation.get("$$", []):
                     if affiliation_property.get("#name") == "textfn":
-                        if affiliation_label and affiliation_property.get("_"):
-                            group_affiliation_labels[
-                                affiliation_label
-                            ] = affiliation_property["_"]
+                        # newer pages nest the text: {"#name":"textfn","$$":[{"#name":"__text__","_":"..."}]}
+                        # or wrap it in formatting ({"#name":"italic","_":"..."}); oxjob #1794
+                        text = affiliation_property.get("_") or self.abstract_text(
+                            affiliation_property.get("$$", []))
+                        text = re.sub(r"\s+", " ", text or "").strip()
+                        if affiliation_label and text:
+                            group_affiliation_labels[affiliation_label] = text
 
             for footnote in footnote_dicts:
                 footnote_label = footnote.get("$", {}).get("id")
