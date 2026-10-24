@@ -24,7 +24,7 @@ jobs:
     name: Test gate
     runs-on: ubuntu-24.04
     environment: production
-    timeout-minutes: 40
+    timeout-minutes: 75
 
     steps:
     - name: Checkout Code
@@ -104,6 +104,27 @@ jobs:
         python gate/compare.py --base "$T/prod_scores.ndjson" --head "$T/head_scores.ndjson" \
           --baseline gate/baseline.json --summary "$GITHUB_STEP_SUMMARY" --json "$T/gate.json" \
           ${OVERRIDE:+--override "$OVERRIDE"}
+
+    - name: TEMPORARY proof (oxjob #1791, gate-proof only) - rebuild the baseline without different-paper pages
+      if: ${{ !cancelled() && steps.prod.outcome == 'success' && startsWith(github.ref, 'refs/heads/gate-proof/') }}
+      run: |
+        H=$(python gate/corpus.py path holdout)
+        T="$RUNNER_TEMP/gate"; P="$RUNNER_TEMP/proof"; mkdir -p "$P"
+        B=3e2db229fe39148f3bdda85b5dceac692b691b07
+        cp gate/baseline.json "$P/baseline_old.json"
+        aws s3 cp --quiet "s3://openalex-parseland-gate/runs/$PROD_SHA/head_scores.ndjson" "$P/prod_old_scores.ndjson"
+        aws s3 cp --quiet "s3://openalex-parseland-gate/runs/924d20e6f50c66ac60bc507917c934e8e67ac75d/prod_scores.ndjson" "$P/baseline_old_scores.ndjson"
+        git worktree add --detach "$RUNNER_TEMP/baseline" "$B"
+        python gate/baseline.py --lib "$RUNNER_TEMP/baseline" --commit "$B" --md "$P/baseline.md" > /dev/null
+        cp gate/baseline.json "$P/baseline_new.json"
+        python gate/_proof_dont_care.py "$H" "$P/prod_old_scores.ndjson" "$T/prod_scores.ndjson" \
+          "$P/baseline_old_scores.ndjson" "$P/baseline_old.json" "$P/baseline_new.json" "$P/proof.json"
+        python gate/compare.py --base "$T/prod_scores.ndjson" --head "$T/head_scores.ndjson" \
+          --baseline "$P/baseline_new.json" --json "$P/gate_new_baseline.json" > "$P/gate_new_baseline.md" || true
+        for f in proof.json baseline_new.json baseline.md gate_new_baseline.json gate_new_baseline.md; do
+          aws s3 cp --quiet "$P/$f" "s3://openalex-parseland-gate/runs/${{ github.sha }}/proof/$f"
+        done
+        { echo '### Temporary proof (oxjob #1791)'; echo '```'; cat "$P/proof.json"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
 
     - name: Keep the result (private bucket, counts and per-page scores)
       if: always()
