@@ -75,7 +75,8 @@ jobs:
       if: ${{ !cancelled() && steps.prod.outcome == 'success' }}
       run: |
         git show "${PROD_SHA}:gate/known_failures.json" > "$RUNNER_TEMP/prod_ledger.json" 2>/dev/null || true
-        python gate/ledger.py guard --base "$RUNNER_TEMP/prod_ledger.json"
+        python gate/ledger.py guard --base "$RUNNER_TEMP/prod_ledger.json" \
+          --dev-scores "$RUNNER_TEMP/dev_scores.ndjson" --summary "$GITHUB_STEP_SUMMARY"
 
     - name: Holdout gate
       if: ${{ !cancelled() && steps.prod.outcome == 'success' }}

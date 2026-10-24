@@ -6,6 +6,10 @@ and decide whether the deploy may go ahead. Rules (oxjob #1791 EXPLORE § 5; cha
   cumulative   refuse if any cell x field has >= 2 fewer right pages than the published baseline
   crashes      refuse if any page crashes that didn't crash in production
 
+Pages of a different paper (gold page_kind "different_item": the stored page shows another paper) are don't-care
+for every field (charter § 6, 24 Oct 2026): no rule counts them, the summary reports them on a separate line, and only
+the crash rule still sees them (a crash is a code fault whatever the page shows).
+
 A "loss" is a page that was right and is now wrong; a "win" the reverse. Parseland is deterministic, so a flip is a
 real output change; one lone loss passes (it can be a gold error or a one-off page) and is reported.
 Output is counts per cell only, never page ids, URLs or values: this runs in a public repo's CI.
@@ -24,7 +28,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gate import fields as F  # noqa: E402
-from gate.score import cells, load_ndjson  # noqa: E402
+from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
 
 CELL_MIN_LOSSES = 2
 POOLED_MAX_NET_LOSS = 3
@@ -36,12 +40,18 @@ def decide(base, head, baseline=None):
     h = {r["page_id"]: r for r in head}
     if set(b) != set(h):
         return {"verdict": "error", "reasons": [f"runs differ: {len(set(b) ^ set(h))} pages not in both"]}
+    # don't-care pages: flagged by the scorer on either run (both runs score the same gold); flag both runs alike
+    dc = {pid for pid in h if h[pid].get("dont_care") or b[pid].get("dont_care")}
+    base = [dict(r, dont_care=r["page_id"] in dc) for r in base]
+    head = [dict(r, dont_care=r["page_id"] in dc) for r in head]
     flips = collections.defaultdict(lambda: {"wins": 0, "losses": 0})
     pooled = collections.defaultdict(lambda: {"wins": 0, "losses": 0})
     new_crashes = 0
     for pid, hr in h.items():
         br = b[pid]
         new_crashes += hr["crash"] and not br["crash"]
+        if pid in dc:
+            continue
         for f in F.FIELDS:
             if hr["right"][f] == br["right"][f]:
                 continue
@@ -72,9 +82,10 @@ def decide(base, head, baseline=None):
         reasons.append(f"{new_crashes} pages now crash the parser")
     return {"verdict": "refuse" if reasons else "pass", "reasons": reasons, "changed_cells": rows,
             "pooled": {f: dict(v) for f, v in pooled.items()}, "new_crashes": new_crashes,
-            "pages": len(h), "baseline_drops": drops,
-            "right_total": {"before": sum(sum(r["right"].values()) for r in base),
-                            "after": sum(sum(r["right"].values()) for r in head)}}
+            "pages": len(scored(head)), "baseline_drops": drops,
+            "other_paper": {"before": other_paper(base), "after": other_paper(head)},
+            "right_total": {"before": sum(sum(r["right"].values()) for r in scored(base)),
+                            "after": sum(sum(r["right"].values()) for r in scored(head))}}
 
 
 def markdown(res, override=None):
@@ -84,9 +95,13 @@ def markdown(res, override=None):
     if override and v == "refuse":
         head = f"OVERRIDDEN ({override}); the gate would have refused"
     lines = [f"### Parseland holdout gate: {head}", "",
-             f"{res.get('pages', 0)} sealed holdout pages; page-fields right: "
+             f"{res.get('pages', 0)} sealed holdout pages scored; page-fields right: "
              f"{res.get('right_total', {}).get('before')} in production -> {res.get('right_total', {}).get('after')} "
              f"with this commit."]
+    op = res.get("other_paper")
+    if op and op["after"]["pages"]:
+        lines += ["", other_paper_line(op["after"], "Pages of a different paper (don't-care, not scored), this commit"),
+                  "", other_paper_line(op["before"], "Same pages, production")]
     if res.get("reasons"):
         lines += ["", "**Why:**"] + [f"- {r}" for r in res["reasons"]]
     if res.get("changed_cells"):

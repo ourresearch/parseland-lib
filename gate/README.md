@@ -42,6 +42,13 @@ pages. The gate refuses when:
 | ledger | the commit's `known_failures.json` lists a dev page x field as wrong that production's ledger didn't (writing a regression into the ledger doesn't make it pass) |
 
 One lone loss passes and shows in the summary. The gate doesn't require a gain, so non-parser changes deploy.
+
+**Pages of a different paper are don't-care** (charter § 6, 24 Oct 2026). When the gold marks a stored page
+`page_kind: different_item` (the page shows another paper, e.g. a DOI one digit off), that is a fetch error the parser
+can't see. No rule above counts those pages, on any field, in the holdout gate, the dev ledger, its guard or the
+baseline; the unit test for such a dev page skips. Both the gate summary and `ledger.py` print them on a separate line
+(how many, and on how many Parseland emits a value per field), so a future DOI-mismatch check is measured by itself.
+Only the crash rule still sees them. Lanes never change gate rules: the charter session decides, #1791 implements.
 Fields: authors (names, order), affiliations (strings per author, strict), corresponding author, abstract (>= 0.90
 similarity), PDF link (canonical URL), licence (Parseland's slugs). A value the gold doesn't have counts as wrong.
 

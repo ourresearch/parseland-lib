@@ -7,13 +7,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gate import fields as F  # noqa: E402
 from gate.compare import decide  # noqa: E402
+from gate.score import cells, other_paper  # noqa: E402
 
 
-def page(pid, cell, right=None, crash=False):
+def page(pid, cell, right=None, crash=False, dont_care=False, emits=True):
     right = right or {}
-    return {"page_id": pid, "cell": cell, "stratum": "host", "crash": crash,
+    return {"page_id": pid, "cell": cell, "stratum": "host", "crash": crash, "dont_care": dont_care,
             "right": {f: right.get(f, True) for f in F.FIELDS},
-            "gold_present": {f: True for f in F.FIELDS}, "cand_present": {f: True for f in F.FIELDS}}
+            "gold_present": {f: True for f in F.FIELDS}, "cand_present": {f: emits for f in F.FIELDS}}
 
 
 def run(base, head, baseline=None):
@@ -60,6 +61,42 @@ def test_baseline_ratchet_refuses():
     baseline = {"cells": {"x.com|license": {"n": 10, "right": 10}}}            # published baseline: 10 right
     res = run(base, head, baseline)
     assert res["verdict"] == "refuse" and "below the published baseline" in res["reasons"][-1]
+
+
+def test_different_paper_pages_are_dont_care():
+    """A stored page showing another paper can't make the gate refuse, and is reported apart (charter § 6, 24 Oct)."""
+    base = [page(f"p{i}", "karger.com") for i in range(10)] + [
+        page(f"d{i}", "karger.com", dont_care=True, emits=False) for i in range(3)]
+    head = [page(f"p{i}", "karger.com") for i in range(10)] + [
+        page(f"d{i}", "karger.com", {"abstract": False, "authors": False}, dont_care=True) for i in range(3)]
+    baseline = {"cells": cells(base)}
+    res = run(base, head, baseline)
+    assert res["verdict"] == "pass" and not res["changed_cells"] and not res["pooled"]
+    assert res["pages"] == 10 and res["right_total"]["before"] == res["right_total"]["after"] == 60
+    assert res["other_paper"]["before"]["pages"] == 3 and res["other_paper"]["before"]["emits"]["abstract"] == 0
+    assert res["other_paper"]["after"]["emits"]["abstract"] == 3
+    assert cells(head)["karger.com|abstract"]["n"] == 10
+
+
+def test_dont_care_flag_on_either_run_counts():
+    """Production's saved scores can predate the flag: a page flagged on either run is left out."""
+    base = [page(f"p{i}", "x.com") for i in range(5)] + [page(f"d{i}", "x.com") for i in range(2)]
+    head = [page(f"p{i}", "x.com") for i in range(5)] + [
+        page(f"d{i}", "x.com", {"license": False}, dont_care=True) for i in range(2)]
+    res = run(base, head)
+    assert res["verdict"] == "pass" and res["pages"] == 5 and not res["changed_cells"]
+
+
+def test_crash_on_dont_care_page_still_refuses():
+    base = [page("p0", "x.com"), page("d0", "x.com", dont_care=True)]
+    head = [page("p0", "x.com"), page("d0", "x.com", dont_care=True, crash=True)]
+    assert run(base, head)["verdict"] == "refuse"
+
+
+def test_other_paper_counts():
+    rows = [page("a", "x.com", dont_care=True), page("b", "x.com", dont_care=True, emits=False), page("c", "x.com")]
+    o = other_paper(rows)
+    assert o["pages"] == 2 and o["emits"]["authors"] == 1 and o["crash"] == 0
 
 
 def test_mismatched_runs_error():
