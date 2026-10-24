@@ -50,6 +50,15 @@ def test_paywalled_article_reached_through_doi_router_has_no_licence():
     assert parse_page(page, "doi", "https://doi.org/10.1016/j.est.2026.124827")["license"] is None
 
 
+def test_repository_record_resolving_to_sciencedirect_gets_the_same_rule():
+    # e.g. a Zenodo record whose link resolves to the ScienceDirect page: Parseland parses it on the
+    # repository (pmh) path, which searched the whole page and took the self-archiving licence
+    page = sd_page(PAYWALLED, SELF_ARCHIVING + ",")
+    assert parse_page(page, "pmh", SD_URL)["license"] is None
+    assert parse_page(page, "pmh", None)["license"] is None
+    assert parse_page(sd_page(OA_CC_BY, SELF_ARCHIVING + ","), "pmh", SD_URL)["license"] == "cc-by"
+
+
 def test_paywalled_article_has_no_licence_without_a_resolved_url():
     assert parse_page(sd_page(PAYWALLED, SELF_ARCHIVING + ","), "doi", None)["license"] is None
 

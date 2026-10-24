@@ -68,6 +68,17 @@ def sciencedirect_article_license_text(page):
     return license_url.group(1) if license_url else ''
 
 
+def license_search_text(page):
+    """The text the licence regexes run over, on both the publisher and the repository path.
+
+    A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
+    deposits often resolve to the ScienceDirect page, so the repository path needs the same rule); any other
+    page is searched whole, minus site chrome.
+    """
+    sd_license_text = sciencedirect_article_license_text(page)
+    return sd_license_text if sd_license_text is not None else page_potential_license_text(page)
+
+
 def detect_bronze(soup, resolved_url):
     from parseland_lib.publisher.parsers.nejm import NewEnglandJournalOfMedicine
     from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
