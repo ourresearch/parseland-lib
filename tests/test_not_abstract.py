@@ -73,9 +73,17 @@ NOT_ABSTRACTS = [
     "(volume 72, issue 3).",
     "Authors and Affiliations Department of Neurology, Academic Medical Centre, Amsterdam, 1100, DE, The Netherlands "
     "Pim van Gool Authors Pim van Gool View author publications You can also search for this author in PubMed Google Scholar",
+    # CABI Compendium datasheet stand-ins (one per taxon; 564 of 581 CABI front-matter texts in the 24 Oct pilot)
+    "This datasheet on Mesorchis covers Identity.",
+    "This datasheet on Brassolis sophorae covers Identity, Distribution, Hosts/Species Affected, Natural Enemies, "
+    "Further Information.",
 ]
 
 REAL_ABSTRACTS = [
+    # a real CABI book-chapter abstract from the same pilot
+    "This chapter describes in detail the structure of the egg shell and sclerotization of Culex, Aedes, Anopheles and "
+    "other genera; water relations (resistance to water loss, water uptake and waterproofing); and hatching stimulus "
+    "and mechanism.",
     "We report a case of severe cobalt poisoning from a damaged metal-on-ceramic hip prosthesis.",
     "No abstract reasoning task has been solved by current language models; we propose a benchmark of 400 puzzles "
     "and show that the best system solves 31% of them.",
