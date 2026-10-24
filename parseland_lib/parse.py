@@ -6,7 +6,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
-from parseland_lib.publisher.parsers.parser import frontmatter_abstract
+from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract
 
 
 def _is_doi_router_url(url):
@@ -81,6 +81,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
         chosen = authors_and_abstract.get('abstract')
         if not chosen or is_not_abstract(chosen) or len(chosen) < 0.8 * len(front):
             authors_and_abstract['abstract'] = front
+
+    # Silverchair's abstract section fills a page the winning parser left without one (pubs.aip.org) (#1800).
+    if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
+        if (silver := silverchair_abstract(soup)) and not is_not_abstract(silver):
+            authors_and_abstract['abstract'] = silver
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []

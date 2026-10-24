@@ -8,7 +8,7 @@ Offline: inline HTML only.
 from bs4 import BeautifulSoup
 
 from parseland_lib.parse import parse_page
-from parseland_lib.publisher.parsers.parser import frontmatter_abstract
+from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract
 
 FULL = (
     "Background Prediction of high-risk pathologic features such as microvascular invasion has clinical value. "
@@ -54,3 +54,28 @@ def test_parse_page_keeps_a_parser_abstract_that_is_as_complete():
 def test_no_abstract_section_means_no_frontmatter_abstract():
     html = _page(FULL[:200], '<section id="graphical-abstract"><h2>Visual Abstract</h2></section>')
     assert frontmatter_abstract(BeautifulSoup(html, "lxml")) is None
+
+
+SILVER_PAGE = """<html><head>
+  <meta property="og:site_name" content="AIP Publishing" />
+  <meta name="citation_title" content="Numerical methods for locating stable periodic orbits" />
+  <meta name="citation_author" content="Marcinek, Roman" />
+  <meta name="citation_author_institution" content="Chemical Physics Department, Weizmann Institute of Science" />
+  <meta name="description" content="Monte Carlo methods are combined with a Newton method to construct an efficient numerical procedure for locating stable periodic orbits embedded in a largel" />
+</head><body><div class="widget-ArticleFulltext widget-instance-ArticleFulltext_Abstract">
+  <section class="abstract"><p>Monte Carlo methods are combined with a Newton method to construct an efficient
+  numerical procedure for locating stable periodic orbits embedded in a largely chaotic system in CO<sub>2</sub>.</p>
+  <p>We find that the Newton method converges in a few iterations.</p></section>
+</div></body></html>"""
+
+
+def test_silverchair_section_fills_a_missing_abstract():
+    """pubs.aip.org: no publisher parser claims the page, the generic one finds authors but no abstract."""
+    out = parse_page(SILVER_PAGE, "doi", "https://pubs.aip.org/aip/jcp/article/100/8/5894/480305")
+    assert out["abstract"].startswith("Monte Carlo methods are combined")
+    assert "CO2" in out["abstract"] and "Newton method converges" in out["abstract"]
+
+
+def test_silverchair_needs_the_article_widget():
+    page = SILVER_PAGE.replace('class="widget-ArticleFulltext widget-instance-ArticleFulltext_Abstract"', "")
+    assert silverchair_abstract(BeautifulSoup(page, "lxml")) is None
