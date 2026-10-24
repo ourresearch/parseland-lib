@@ -91,6 +91,8 @@ _TEMPLATE_RES = [
     re.compile(r"(?:article|chapter|book|journal) .{1,500} was published on (?:[a-z]+ \d{1,2}, )?\d{4} in the (?:journal|book|series|edited volume) .{1,300}$"),
     # Springer / Nature author block: 'Authors and Affiliations ... View author publications ...'
     re.compile(r"authors .{0,800}view author publications"),
+    # CABI Compendium datasheet stand-in, one per taxon: 'This datasheet on Mesorchis covers Identity, Distribution.'
+    re.compile(r"this datasheet on .{1,200} covers [a-z/ ,&()-]{3,400}\.?$"),
 ]
 
 
