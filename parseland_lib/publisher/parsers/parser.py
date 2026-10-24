@@ -51,6 +51,22 @@ def frontmatter_abstract(soup):
     return text or None
 
 
+def silverchair_abstract(soup):
+    """The abstract in a Silverchair article page's ``section.abstract`` (AIP, OUP, Karger, Emerald ...), or None.
+
+    Silverchair meta descriptions stop at ~160 characters, under the parsers' 200-character floor, so a page no
+    publisher parser claims (the new pubs.aip.org) came out with no abstract (oxjob #1800). Paragraph text is
+    joined as Oxford's parser does it (tag.text keeps CO<sub>2</sub> as CO2).
+    """
+    section = soup.select_one("div.widget-ArticleFulltext section.abstract")
+    if section is None:
+        return None
+    paras = [p.text.strip() for p in section.find_all("p") if p.text and p.text.strip()]
+    text = "\n".join(paras) if paras else " ".join(section.text.split())
+    text = re.sub(r"^abstract[:.]?\s*", "", text.strip(), flags=re.I)
+    return text or None
+
+
 class PublisherParser(Parser, ABC):
     def __init__(self, soup):
         self.soup = soup
