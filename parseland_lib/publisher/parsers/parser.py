@@ -119,7 +119,11 @@ class PublisherParser(Parser, ABC):
                 }
             if meta.get("name", None) and meta[
                 "name"] in ("citation_author_institution", "bepress_citation_author_institution"):
-                if meta.get("content") and meta["content"].strip():
+                # An institution with no named author open has no one to attach to: an empty
+                # citation_author (OJS sites with blank author names, e.g. in-academy.uz) or a
+                # tag before the first author. Drop it rather than crash the whole page
+                # (Sentry PARSELAND-2, ~590 pages/day; oxjob #1794).
+                if result is not None and meta.get("content") and meta["content"].strip():
                     result["affiliations"].append(meta["content"].strip())
 
         # append name from last loop

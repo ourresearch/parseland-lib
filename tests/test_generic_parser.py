@@ -323,3 +323,40 @@ def test_generic_broad_page_correspondence_text_does_not_overmark():
     out = _parse(html)
 
     assert [a["is_corresponding"] for a in out["authors"]] == [None, None]
+
+
+def test_institution_after_empty_author_name_does_not_crash():
+    # OJS pages with blank author names (in-academy.uz): every citation_author is empty and is
+    # followed by its institution. Used to raise TypeError (Sentry PARSELAND-2) and fail the page.
+    html = """
+    <html><head>
+      <meta name="citation_author" content=""/>
+      <meta name="citation_author_institution" content="Guliston davlat universiteti"/>
+      <meta name="citation_author" content=""/>
+      <meta name="citation_author_institution" content="Guliston davlat universiteti"/>
+      <meta name="citation_title" content="A title"/>
+    </head><body></body></html>
+    """
+    parser = GenericPublisherParser(BeautifulSoup(html, "lxml"))
+
+    assert parser.parse_author_meta_tags() == []
+    assert not parser.authors_found()
+
+
+def test_institution_before_first_author_is_dropped_not_misattributed():
+    html = """
+    <html><head>
+      <meta name="citation_author_institution" content="Orphan Institute"/>
+      <meta name="citation_author" content="Ada Lovelace"/>
+      <meta name="citation_author_institution" content="University of London"/>
+      <meta name="citation_author" content=""/>
+      <meta name="citation_author_institution" content="Blank Author College"/>
+      <meta name="citation_author" content="Charles Babbage"/>
+    </head><body></body></html>
+    """
+    authors = GenericPublisherParser(BeautifulSoup(html, "lxml")).parse_author_meta_tags()
+
+    assert [(a["name"], a["affiliations"]) for a in authors] == [
+        ("Ada Lovelace", ["University of London"]),
+        ("Charles Babbage", []),
+    ]
