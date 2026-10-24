@@ -45,6 +45,28 @@ def test_split_text_affiliation_is_joined():
     assert out["authors"][0]["affiliations"] == ["Laboratoire LEP, Limeil-Brévannes, France"]
 
 
+def test_nested_footnote_is_not_affiliation_text():
+    out = page({"#name": "textfn", "$$": [
+        {"#name": "__text__", "_": "Laboratoire de Physique Théorique de L' École Normale Supérieure"},
+        {"#name": "cross-ref", "$": {"refid": "FN2"}, "$$": [{"#name": "sup", "_": "2"}]},
+        {"#name": "footnote", "$": {"id": "FN2"}, "$$": [{"#name": "label", "_": "2"},
+                                                        {"#name": "note-para", "_": "Unité Mixte associée au CNRS"}]},
+        {"#name": "__text__", "_": ", 24 Rue Lhomond, F-75231, Paris CEDEX 05, France."}]})
+    assert out["authors"][0]["affiliations"] == [
+        "Laboratoire de Physique Théorique de L' École Normale Supérieure, 24 Rue Lhomond, F-75231, Paris CEDEX 05, France."]
+
+
+def test_phone_and_page_reference_are_dropped():
+    out = page({"#name": "textfn", "$$": [
+        {"#name": "__text__", "_": "Department of Agricultural Sciences, La Trobe University, Victoria 3086, Australia "},
+        {"#name": "math", "$$": [{"#name": "rm", "$$": [{"#name": "__text__", "_": "Tel.: +61-3-9479-1111"}]}]}]})
+    assert out["authors"][0]["affiliations"] == ["Department of Agricultural Sciences, La Trobe University, Victoria 3086, Australia"]
+    out = page({"#name": "textfn", "$$": [
+        {"#name": "__text__", "_": "("}, {"#name": "intra-ref", "_": "159"},
+        {"#name": "__text__", "_": "), Center for the Study of Reading, University of Illinois"}]})
+    assert out["authors"][0]["affiliations"] == ["Center for the Study of Reading, University of Illinois"]
+
+
 def test_plain_text_affiliation_unchanged():
     out = page({"#name": "textfn", "_": "Department of Mathematics, Tulane University"})
     assert out["authors"][0]["affiliations"] == ["Department of Mathematics, Tulane University"]

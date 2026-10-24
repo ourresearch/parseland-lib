@@ -141,11 +141,7 @@ class ScienceDirect(PublisherParser):
                 affiliation_label = affiliation.get("$", {}).get("id")
                 for affiliation_property in affiliation.get("$$", []):
                     if affiliation_property.get("#name") == "textfn":
-                        # newer pages nest the text: {"#name":"textfn","$$":[{"#name":"__text__","_":"..."}]}
-                        # or wrap it in formatting ({"#name":"italic","_":"..."}); oxjob #1794
-                        text = affiliation_property.get("_") or self.abstract_text(
-                            affiliation_property.get("$$", []))
-                        text = re.sub(r"\s+", " ", text or "").strip()
+                        text = self.affiliation_text(affiliation_property)
                         if affiliation_label and text:
                             group_affiliation_labels[affiliation_label] = text
 
@@ -246,6 +242,30 @@ class ScienceDirect(PublisherParser):
                 abstract = re.sub(r" +", " ", abstract).strip()
 
         return {"authors": all_authors, "abstract": abstract}
+
+    # Nodes nested in an affiliation's textfn that are not its text: footnote markers and footnote bodies,
+    # page references, phone/fax set as math, e-mail. Oxjob #1794 (live sample: these made up most of the noise).
+    _AFFILIATION_SKIP = {"cross-ref", "cross-refs", "footnote", "label", "intra-ref", "math", "e-address",
+                         "encoded-e-address"}
+
+    @classmethod
+    def affiliation_text(cls, textfn):
+        """Text of a page-state affiliation `textfn`, given plainly ({"_": ...}) or nested
+        ({"$$": [{"#name": "__text__", ...}, {"#name": "italic", ...}]}), without nested footnotes and references."""
+        if isinstance(textfn.get("_"), str):
+            return textfn["_"]  # plain text: unchanged from before
+
+        def walk(node):
+            if isinstance(node, list):
+                return "".join(walk(n) for n in node)
+            if not isinstance(node, dict) or node.get("#name") in cls._AFFILIATION_SKIP:
+                return ""
+            text = node.get("_")
+            return text if isinstance(text, str) else walk(node.get("$$", []))
+
+        text = re.sub(r"\s+", " ", walk(textfn.get("$$", []))).strip()
+        text = re.sub(r"\s+([,;.])", r"\1", text)
+        return re.sub(r"^[\s(),;.]+", "", text).rstrip(" ,;")
 
     def has_collab(self):
         return bool(self.soup.select('div.author-collaboration'))
