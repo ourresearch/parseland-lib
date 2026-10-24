@@ -1,5 +1,5 @@
 {
-"corpus": "v1",
+"corpus": "v1.2",
 "pages": {
 "00a75d60-1e2a-468a-9ad4-b263243ae4b5": [
 "abstract",
@@ -1706,6 +1706,7 @@
 "pdf_url"
 ],
 "741e47df-0517-466f-82e6-8202844ec863": [
+"abstract",
 "affiliations",
 "authors"
 ],

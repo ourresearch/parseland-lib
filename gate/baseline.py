@@ -2,7 +2,9 @@
 refreshed). Writes gate/baseline.json (counts only) and a markdown table per publisher x field for the charter.
 
 Usage: python gate/baseline.py --lib <checkout of the baseline commit> --commit <sha> [--md baseline.md]
-Needs the holdout bundle (CI, or #1791 while sealing it).
+       python gate/baseline.py --scores <a gate run's saved head_scores.ndjson> --commit <that run's sha> [--md ...]
+The first needs the holdout bundle (CI, or #1791 while sealing it); the second re-baselines on a commit the gate
+already scored (s3://openalex-parseland-gate/runs/<sha>/head_scores.ndjson, same corpus and scorer) without it.
 """
 from __future__ import annotations
 
@@ -18,7 +20,7 @@ sys.path.insert(0, ROOT)
 from gate import corpus  # noqa: E402
 from gate import fields as F  # noqa: E402
 from gate.run_parser import run  # noqa: E402
-from gate.score import cells, other_paper, other_paper_line, scored, score_corpus  # noqa: E402
+from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored, score_corpus  # noqa: E402
 
 SHORT = {"authors": "authors", "affiliations": "affil.", "corresponding": "corresp.", "abstract": "abstract",
          "pdf_url": "PDF", "license": "licence"}
@@ -48,15 +50,21 @@ def table(c, results, op):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--lib", required=True)
+    ap.add_argument("--lib")
+    ap.add_argument("--scores")
     ap.add_argument("--commit", required=True)
     ap.add_argument("--md")
     a = ap.parse_args()
-    h = corpus.fetch("holdout")
-    with tempfile.TemporaryDirectory() as tmp:
-        parsed = os.path.join(tmp, "parsed.ndjson")
-        run(a.lib, h, parsed)
-        res = score_corpus(h, parsed)
+    if a.scores:
+        res = list(load_ndjson(a.scores))
+        if not all("dont_care" in r for r in res):
+            raise SystemExit("these scores predate the don't-care rule: rescore them first")
+    else:
+        h = corpus.fetch("holdout")
+        with tempfile.TemporaryDirectory() as tmp:
+            parsed = os.path.join(tmp, "parsed.ndjson")
+            run(a.lib, h, parsed)
+            res = score_corpus(h, parsed)
     c, op = cells(res), other_paper(res)
     out = {"commit": a.commit, "corpus": corpus.version(), "pages": len(scored(res)), "other_paper": op,
            "computed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "cells": c}
