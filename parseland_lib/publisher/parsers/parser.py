@@ -6,6 +6,7 @@ from parseland_lib.elements import AuthorAffiliations, Author
 from parseland_lib.legacy_parse_utils.fulltext import \
     parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
+from parseland_lib.not_abstract import is_not_abstract
 from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, \
     strip_prefix, \
     is_h_tag
@@ -151,25 +152,30 @@ class PublisherParser(Parser, ABC):
             ]
         meta_property_names = ["property", "name"]
 
+        # The first matching tag decides, as before, with one exception (oxjob #1800): a page can carry a
+        # journal blurb in its first DC.Description and the article's abstract in the next one, so a
+        # candidate that is not an abstract hands over to the next tag of the same name.
         for meta_tag_name in meta_tag_names:
             for meta_property_name in meta_property_names:
-                if meta_tag := self.soup.find(
+                for meta_tag in self.soup.find_all(
                         "meta", {
                             meta_property_name: re.compile(f"^{meta_tag_name}$",
                                                            re.I)}
                 ):
-                    if description := meta_tag.get("content", '').strip():
-                        if (
-                                len(description) > 200
-                                and not description.endswith("...")
-                                and not description.endswith("…")
-                                and not description.startswith("http")
-                        ):
-                            description = re.sub(
-                                r"^abstract[:.]?\s*", "", description,
-                                flags=re.I
-                            )
-                            return description
+                    description = meta_tag.get("content", '').strip()
+                    if not (
+                            len(description) > 200
+                            and not description.endswith("...")
+                            and not description.endswith("…")
+                            and not description.startswith("http")
+                    ):
+                        break
+                    if is_not_abstract(description):
+                        continue
+                    return re.sub(
+                        r"^abstract[:.]?\s*", "", description,
+                        flags=re.I
+                    )
 
         return None
 

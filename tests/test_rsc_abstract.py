@@ -15,17 +15,24 @@ def _html(body: str, og_url: str = "https://pubs.rsc.org/en/content/articlelandi
     """
 
 
-def test_rsc_dispatches_no_author_graphical_abstract() -> None:
-    html = _html(
-        """
+_GRAPHICAL_NOTICE = """
         <h2 class="article-abstract__heading">Abstract</h2>
         <div><p>A graphical abstract is available for this content</p></div>
         """
-    )
 
-    parsed = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1039/example")
+
+def test_rsc_dispatches_no_author_graphical_abstract() -> None:
+    parsed = parse_page(_html(_GRAPHICAL_NOTICE), namespace="doi", resolved_url="https://doi.org/10.1039/example")
 
     assert parsed["authors"] == []
+    # the notice is not an abstract (oxjob #1800: 49K RSC works showed it); parse_page drops it
+    assert parsed["abstract"] is None
+
+
+def test_rsc_dispatches_no_author_page_to_rsc_parser(monkeypatch) -> None:
+    """The dispatch this file pins: with the not-an-abstract filter off, RSC's own text comes through."""
+    monkeypatch.setattr("parseland_lib.parse.clean_abstract", lambda text: text)
+    parsed = parse_page(_html(_GRAPHICAL_NOTICE), namespace="doi", resolved_url="https://doi.org/10.1039/example")
     assert parsed["abstract"] == "A graphical abstract is available for this content"
 
 

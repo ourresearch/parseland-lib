@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
+from parseland_lib.not_abstract import clean_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 
 
@@ -109,7 +110,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         "urls": urls,
         "license": response.get("license"),
         "version": response.get("version"),
-        "abstract": response.get("abstract"),
+        # one check for every parser: placeholders, site blurbs and SEO templates are not abstracts (#1800)
+        "abstract": clean_abstract(response.get("abstract")),
     }
 
     return ordered_response
