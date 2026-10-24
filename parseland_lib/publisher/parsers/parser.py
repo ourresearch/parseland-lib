@@ -24,6 +24,33 @@ class Parser(ABC):
         pass
 
 
+def frontmatter_abstract(soup):
+    """The abstract in Atypon's ``<div id="abstracts" data-extent="frontmatter">`` block, or None.
+
+    Atypon sites (Elsevier society sites, RSNA, Neurology, CABI ...) put the full abstract there: either sections
+    (``#abstract`` / ``#author-abstract`` beside editor summaries, highlights and graphical abstracts) or, for
+    meeting abstracts and research letters, bare paragraphs with no heading. Their meta tags cut it to the first
+    200 characters or first section (oxjob #1794 for Elsevier, #1800 for the rest).
+    """
+    block = soup.select_one('#abstracts[data-extent="frontmatter"]')
+    if block is None:
+        return None
+    sections = block.find_all("section")
+    if sections:
+        chosen = next((s for s in sections if s.get("id") in ("author-abstract", "abstract")), None)
+        if chosen is None:
+            return None
+        text = chosen.get_text(" ", strip=True)
+        heading = chosen.find(re.compile("^h[1-6]$"))
+        heading_text = heading.get_text(" ", strip=True) if heading is not None else ""
+        if heading_text and text.startswith(heading_text):
+            text = text[len(heading_text):]
+    else:
+        text = block.get_text(" ", strip=True)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text or None
+
+
 class PublisherParser(Parser, ABC):
     def __init__(self, soup):
         self.soup = soup

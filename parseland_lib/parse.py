@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup
 
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
-from parseland_lib.not_abstract import clean_abstract
+from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
+from parseland_lib.publisher.parsers.parser import frontmatter_abstract
 
 
 def _is_doi_router_url(url):
@@ -71,6 +72,15 @@ def parse_page(lp_content, namespace, resolved_url=None):
         authors_and_abstract = {'authors': raw_authors_and_abstract, 'abstract': None}
     else:
         authors_and_abstract = raw_authors_and_abstract
+
+    # Atypon's front-matter block holds the publisher's full abstract; whichever parser won the page may only
+    # have its cut meta tag (RSNA, Neurology: first 200 characters or first section), so a clearly longer
+    # front-matter abstract wins (#1800). "Clearly": the block's get_text adds spaces inside inline markup, so a
+    # parser's own, equally complete text is a few characters shorter and must stay.
+    if (front := frontmatter_abstract(soup)) and not is_not_abstract(front):
+        chosen = authors_and_abstract.get('abstract')
+        if not chosen or is_not_abstract(chosen) or len(chosen) < 0.8 * len(front):
+            authors_and_abstract['abstract'] = front
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []

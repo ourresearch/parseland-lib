@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup, Tag
 
 from parseland_lib.elements import AuthorAffiliations
-from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.parser import PublisherParser, frontmatter_abstract
 from parseland_lib.publisher.parsers.utils import is_h_tag
 
 
@@ -502,7 +502,7 @@ class ElsevierBV(PublisherParser):
                         break
                 return text
 
-        if frontmatter_text := self._frontmatter_abstract():
+        if frontmatter_text := frontmatter_abstract(self.soup):
             # Only when it beats the meta fallback parse() would use instead: on most society sites that is a
             # cut og:description, but on theclinics.com the frontmatter is a one-line key point and the meta
             # description is the full synopsis.
@@ -511,33 +511,6 @@ class ElsevierBV(PublisherParser):
                 return frontmatter_text
 
         return abs_text
-
-    def _frontmatter_abstract(self):
-        """Abstract from the newer society-site template (jaad.org, jaacap.org, ijoms.com ...).
-
-        The abstract is ``<div id="abstracts" data-extent="frontmatter">``: either sections (``#abstract`` /
-        ``#author-abstract`` beside editor summaries, highlights and graphical abstracts) or, for meeting
-        abstracts and research letters, bare paragraphs with no heading. Without this, the generic meta
-        fallback returns ``og:description``, which these sites cut to the abstract's first sentences
-        (oxjob #1794).
-        """
-        block = self.soup.select_one('#abstracts[data-extent="frontmatter"]')
-        if block is None:
-            return None
-        sections = block.find_all("section")
-        if sections:
-            chosen = next((s for s in sections if s.get("id") in ("author-abstract", "abstract")), None)
-            if chosen is None:
-                return None
-            text = chosen.get_text(" ", strip=True)
-            heading = chosen.find(re.compile("^h[1-6]$"))
-            heading_text = heading.get_text(" ", strip=True) if heading is not None else ""
-            if heading_text and text.startswith(heading_text):
-                text = text[len(heading_text):]
-        else:
-            text = block.get_text(" ", strip=True)
-        text = re.sub(r"\s+", " ", text).strip()
-        return text or None
 
     def parse_short_citation_abstract_meta(self):
         """Elsevier-only fallback for short Highwire citation abstracts.
