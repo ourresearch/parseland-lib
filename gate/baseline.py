@@ -18,13 +18,14 @@ sys.path.insert(0, ROOT)
 from gate import corpus  # noqa: E402
 from gate import fields as F  # noqa: E402
 from gate.run_parser import run  # noqa: E402
-from gate.score import cells, score_corpus  # noqa: E402
+from gate.score import cells, other_paper, other_paper_line, scored, score_corpus  # noqa: E402
 
 SHORT = {"authors": "authors", "affiliations": "affil.", "corresponding": "corresp.", "abstract": "abstract",
          "pdf_url": "PDF", "license": "licence"}
 
 
-def table(c, results):
+def table(c, results, op):
+    results = scored(results)  # pages of a different paper are don't-care (charter § 6, 24 Oct 2026)
     hosts = sorted({r["cell"] for r in results if r["stratum"] == "host"},
                    key=lambda h: -c[f"{h}|authors"]["n"])
     pooled = ["tail", "repository", "unresolved", "wall"]
@@ -40,6 +41,8 @@ def table(c, results):
     lines.append("")
     lines.append("% of pages where Parseland's value matches the gold (absent-and-absent counts as right; an extra "
                  "value counts as wrong).")
+    lines.append("")
+    lines.append(other_paper_line(op) + ".")
     return "\n".join(lines)
 
 
@@ -54,11 +57,11 @@ if __name__ == "__main__":
         parsed = os.path.join(tmp, "parsed.ndjson")
         run(a.lib, h, parsed)
         res = score_corpus(h, parsed)
-    c = cells(res)
-    out = {"commit": a.commit, "corpus": corpus.version(), "pages": len(res),
+    c, op = cells(res), other_paper(res)
+    out = {"commit": a.commit, "corpus": corpus.version(), "pages": len(scored(res)), "other_paper": op,
            "computed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "cells": c}
     json.dump(out, open(os.path.join(ROOT, "gate", "baseline.json"), "w"), indent=0, sort_keys=True)
-    md = table(c, res)
+    md = table(c, res, op)
     if a.md:
         open(a.md, "w").write(md + "\n")
     print(md)

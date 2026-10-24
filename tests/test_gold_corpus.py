@@ -2,6 +2,7 @@
 
 Every dev page x field is pinned to gate/known_failures.json. A page-field that turns wrong is a regression; one that
 turns right must be recorded with `python gate/ledger.py update` in the same commit, so progress is explicit.
+Pages of a different paper (gold page_kind "different_item") are don't-care and skip (charter § 6, 24 Oct 2026).
 Needs the dev bundle (`python gate/corpus.py fetch dev`); without it these tests skip, except in CI
 (GATE_REQUIRE_CORPUS=1), where a missing corpus fails the run.
 """
@@ -57,10 +58,20 @@ def test_ledger_matches_corpus_version(ledger):
     assert ledger["corpus"] == corpus.version(), "ledger was built on another corpus version"
 
 
+def test_ledger_lists_no_dont_care_page(results, ledger):
+    if not HAVE:
+        pytest.skip("no dev corpus")
+    listed = sorted(p[:8] for p in ledger["pages"] if results.get(p, {}).get("dont_care"))
+    assert not listed, (f"the ledger lists pages of a different paper, which are don't-care: {listed}; "
+                        "rebuild it with `python gate/ledger.py update`")
+
+
 @pytest.mark.parametrize("page", PAGES, ids=[f"{p.get('cell') or p['stratum']}/{p['page_id'][:8]}" for p in PAGES])
 def test_page(page, results, ledger):
     r = results.get(page["page_id"])
     assert r is not None, "page has no gold row"
+    if r.get("dont_care"):
+        pytest.skip(f"stored page shows a different paper (gold page_kind {r.get('page_kind')}): don't-care")
     expected_wrong = set(ledger["pages"].get(page["page_id"], []))
     now_wrong = {f for f, ok in r["right"].items() if not ok}
     worse = sorted(now_wrong - expected_wrong)

@@ -1,8 +1,14 @@
 """Score parse_page outputs against the gold, page by page and field by field (rules in gate/fields.py).
 
 Usage: python gate/score.py --corpus <bundle dir> --parsed parsed.ndjson --out scores.ndjson [--cells cells.json]
-Each output line: {"page_id", "cell", "stratum", "right": {field: bool}, "gold_present": {...},
-                   "cand_present": {...}, "crash": bool, "ms": float}
+Each output line: {"page_id", "cell", "stratum", "page_kind", "dont_care": bool, "right": {field: bool},
+                   "gold_present": {...}, "cand_present": {...}, "crash": bool, "ms": float}
+
+Don't-care pages (charter plans/landing-pages.md § 6, 24 Oct 12:58 CT): a stored page the gold marks as showing a
+different paper (page_kind "different_item", e.g. a DOI one digit off) is a fetch error the parser can't see. Its row
+keeps the raw right/wrong, but "dont_care" is set and no count the gate or the ledger judges on includes it (cells(),
+compare.py, ledger.py). other_paper() reports them on their own line: how many, and on how many Parseland emits a
+value per field (today it emits the other paper's metadata), so a future DOI-mismatch check is measured by itself.
 """
 from __future__ import annotations
 
@@ -16,6 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gate import fields as F  # noqa: E402
 
 EMPTY = {"authors": [], "abstract": None, "pdf_url": None, "license": None}
+DONT_CARE_KINDS = {"different_item"}
 
 
 def load_ndjson(path):
@@ -44,8 +51,10 @@ def score_corpus(corpus, parsed_path):
             continue
         g = F.from_label(gold[pid]["gold"])
         c = F.from_parseland(p["out"]) if p.get("out") else dict(EMPTY)
+        kind = gold[pid]["gold"].get("page_kind")
         out.append({
             "page_id": pid, "cell": cell_of(man[pid]), "stratum": man[pid]["stratum"],
+            "page_kind": kind, "dont_care": kind in DONT_CARE_KINDS,
             "right": {f: F.compare(f, g, c) for f in F.FIELDS},
             "gold_present": {f: F.present(f, g) for f in F.FIELDS},
             "cand_present": {f: F.present(f, c) for f in F.FIELDS},
@@ -54,10 +63,29 @@ def score_corpus(corpus, parsed_path):
     return out
 
 
+def scored(results):
+    """The rows the gate and the ledger judge on: every page except the don't-care ones."""
+    return [r for r in results if not r.get("dont_care")]
+
+
+def other_paper(results):
+    """Don't-care pages, reported apart: {"pages", "emits": {field: pages where Parseland emits a value}, "crash"}."""
+    dc = [r for r in results if r.get("dont_care")]
+    return {"pages": len(dc), "emits": {f: sum(bool(r["cand_present"][f]) for r in dc) for f in F.FIELDS},
+            "crash": sum(bool(r["crash"]) for r in dc)}
+
+
+def other_paper_line(o, label="Pages of a different paper (gold page_kind different_item; don't-care, not scored)"):
+    emits = ", ".join(f"{f} {o['emits'][f]}" for f in F.FIELDS)
+    return f"{label}: {o['pages']} pages; Parseland emits a value on: {emits}" + (
+        f"; {o['crash']} crash" if o.get("crash") else "")
+
+
 def cells(results):
-    """(cell, field) -> {"n", "right", "gold_present", "cand_present", "true_pos"}; plus "*" pooled rows."""
+    """(cell, field) -> {"n", "right", "gold_present", "cand_present", "true_pos"}; plus "*" pooled rows.
+    Don't-care pages are left out."""
     agg = collections.defaultdict(lambda: collections.Counter())
-    for r in results:
+    for r in scored(results):
         for f in F.FIELDS:
             for key in ((r["cell"], f), ("*", f)):
                 a = agg[key]
@@ -82,5 +110,7 @@ if __name__ == "__main__":
             f.write(json.dumps(r) + "\n")
     if a.cells:
         json.dump(cells(res), open(a.cells, "w"), indent=1)
-    tot = sum(sum(r["right"].values()) for r in res)
-    print(f"scored {len(res)} pages: {tot}/{len(res) * len(F.FIELDS)} page-fields right", file=sys.stderr)
+    sc = scored(res)
+    tot = sum(sum(r["right"].values()) for r in sc)
+    print(f"scored {len(sc)} pages: {tot}/{len(sc) * len(F.FIELDS)} page-fields right", file=sys.stderr)
+    print(other_paper_line(other_paper(res)), file=sys.stderr)
