@@ -54,3 +54,19 @@ def test_frontmatter_without_an_abstract_section_yields_nothing():
     </body></html>
     """
     assert not _abstract(html)
+
+
+def test_full_meta_synopsis_beats_a_one_line_frontmatter_key_point():
+    # theclinics.com: the frontmatter holds one key point; og:description holds the whole synopsis.
+    synopsis = FULL + " Familiarity with the relevant anatomy and imaging findings is essential for diagnosis."
+    html = f"""
+    <html><head>
+      <meta name="citation_publisher" content="Elsevier"/>
+      <meta property="og:description" content="{synopsis}"/>
+    </head><body>
+      <div id="abstracts" data-extent="frontmatter"><div class="core-container">
+        <div id="p0020" role="paragraph">Characteristic soft tissue injuries may be associated with instability.</div>
+      </div></div>
+    </body></html>
+    """
+    assert not _abstract(html)

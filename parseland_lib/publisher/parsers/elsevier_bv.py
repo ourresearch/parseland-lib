@@ -503,7 +503,12 @@ class ElsevierBV(PublisherParser):
                 return text
 
         if frontmatter_text := self._frontmatter_abstract():
-            return frontmatter_text
+            # Only when it beats the meta fallback parse() would use instead: on most society sites that is a
+            # cut og:description, but on theclinics.com the frontmatter is a one-line key point and the meta
+            # description is the full synopsis.
+            meta_text = re.sub(r"\s+", " ", self.parse_abstract_meta_tags() or "").strip()
+            if len(frontmatter_text) > len(meta_text):
+                return frontmatter_text
 
         return abs_text
 
