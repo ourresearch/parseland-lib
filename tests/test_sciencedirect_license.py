@@ -84,6 +84,21 @@ def test_open_access_label_without_licence_url_stays_unspecified_oa():
     assert parse_page(page, "doi", SD_URL)["license"] == "unspecified-oa"
 
 
+def escaped_sd_page(access, extra_state=""):
+    # peer-review reports and year-book articles hold the page state as an escaped JSON string
+    state = f'{{"article":{{"access":{access},{extra_state}"srctitle":"Agricultural and Forest Meteorology"}}}}'
+    return f"""<html><head><title>Peer review report 1 - ScienceDirect</title></head><body><article><h1>Report</h1>
+</article><script>window.__PRELOADED_STATE__ = JSON.parse("{state.replace('"', '\\"')}");</script></body></html>"""
+
+
+def test_escaped_page_state_gets_the_same_rule():
+    page = escaped_sd_page(PAYWALLED, SELF_ARCHIVING + ",")
+    assert '\\"sa-user-license\\"' in page
+    assert parse_page(page, "doi", "https://doi.org/10.1016/j.agrformet.2016.01.093")["license"] is None
+    assert parse_page(escaped_sd_page(OA_CC_BY, SELF_ARCHIVING + ","), "doi", SD_URL)["license"] == "cc-by"
+    assert sciencedirect_article_license_text(escaped_sd_page(PAYWALLED)) == ""
+
+
 def test_article_licence_text_helper():
     assert sciencedirect_article_license_text(sd_page(PAYWALLED, SELF_ARCHIVING + ",")) == ""
     assert sciencedirect_article_license_text(sd_page(OA_CC_BY)) == "http://creativecommons.org/licenses/by/4.0/"
