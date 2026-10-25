@@ -153,3 +153,14 @@ def same_person(name1, name2):
         return True
     t1 = _name_tokens(name1)
     return bool(t1) and t1 == _name_tokens(name2)
+
+
+def fill_affiliations_by_name(authors, pairs):
+    """Give each (name, affiliations) pair's affiliations to the one parsed author with that name (same_person), if
+    that author has none yet. For pages whose names and affiliations sit in different places (oxjob #1809)."""
+    for name, affiliations in pairs:
+        if not name or not affiliations:
+            continue
+        matches = [a for a in authors if same_person(a.name, name)]
+        if len(matches) == 1 and not matches[0].affiliations:
+            matches[0].affiliations.extend(affiliations)

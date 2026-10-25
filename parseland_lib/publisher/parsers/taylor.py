@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup, NavigableString
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name
 
 
 class Taylor(PublisherParser):
@@ -77,6 +78,7 @@ class Taylor(PublisherParser):
             )
         if not results:
             results = self._parse_taylorfrancis_chapter_authors()
+            self._fill_taylorfrancis_contributor_affiliations(results)
         abstract_tag = self.soup.find('div', class_='abstractInFull')
         if not abstract_tag:
             # Fallback: hlFld-Abstract container covers the older/legacy
@@ -186,17 +188,7 @@ class Taylor(PublisherParser):
                     roles = [roles]
                 if roles and "author" not in {str(r).lower() for r in roles}:
                     continue
-                name = str(contributor.get("fullName") or "").strip()
-                if not name:
-                    name = " ".join(
-                        part
-                        for part in (
-                            str(contributor.get("givenName") or "").strip(),
-                            str(contributor.get("familyName") or "").strip(),
-                        )
-                        if part
-                    )
-                name = re.sub(r"\s+", " ", name).strip()
+                name = self._taylorfrancis_contributor_name(contributor)
                 key = self._name_key(name)
                 if not name or key in seen:
                     continue
@@ -204,13 +196,57 @@ class Taylor(PublisherParser):
                 results.append(
                     AuthorAffiliations(
                         name=name,
-                        affiliations=[],
+                        affiliations=self._taylorfrancis_contributor_affiliations(contributor),
                         is_corresponding=False,
                     )
                 )
             if results:
                 return results
         return results
+
+    def _fill_taylorfrancis_contributor_affiliations(self, results):
+        """Give chapter authors the affiliations T&F keeps for them in the page's product data.
+
+        taylorfrancis.com pages carry the chapter's contributors in Angular TransferState JSON
+        (``contributors[].affiliations[].name``). Older stored pages hold them only there; newer ones also print a
+        single comma-joined ``citation_author_institution`` tag that can't be split per author. Names that came from
+        JSON-LD get each contributor's affiliations by name (authors built from the contributors already have them).
+        """
+        if not results or all(a.affiliations for a in results):
+            return
+        for product in self._taylorfrancis_product_payloads():
+            contributors = [c for c in (product.get("contributors") or []) if isinstance(c, dict)]
+            if contributors:
+                fill_affiliations_by_name(results, (
+                    (self._taylorfrancis_contributor_name(c), self._taylorfrancis_contributor_affiliations(c))
+                    for c in contributors
+                ))
+                return
+
+    def _taylorfrancis_contributor_name(self, contributor):
+        name = str(contributor.get("fullName") or "").strip()
+        if not name:
+            name = " ".join(
+                part
+                for part in (
+                    str(contributor.get("givenName") or "").strip(),
+                    str(contributor.get("familyName") or "").strip(),
+                )
+                if part
+            )
+        return re.sub(r"\s+", " ", name).strip()
+
+    def _taylorfrancis_contributor_affiliations(self, contributor):
+        affiliations, seen = [], set()
+        for affiliation in contributor.get("affiliations") or []:
+            if not isinstance(affiliation, dict):
+                continue
+            # T&F's data sometimes opens with a stray curly quote ("“Department of Political Science, ...")
+            name = self._clean_tandf_affiliation(str(affiliation.get("name") or "").strip(" “”\""))
+            if name and name.lower() not in seen:
+                seen.add(name.lower())
+                affiliations.append(name)
+        return affiliations
 
     def _taylorfrancis_jsonld_author_names(self, author):
         """Return one or more names from TaylorFrancis Chapter JSON-LD.

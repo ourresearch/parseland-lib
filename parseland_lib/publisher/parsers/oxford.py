@@ -4,6 +4,7 @@ import re
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name
 
 
 class Oxford(PublisherParser):
@@ -99,6 +100,8 @@ class Oxford(PublisherParser):
             )
         if not results:
             results = self._extract_schema_author_meta()
+            if results and not any(author.affiliations for author in results):
+                self._fill_chapter_card_affiliations(results)
         if results and not any(author.affiliations for author in results):
             results = self._merge_better_affiliation_fallbacks(results)
         if not results:
@@ -181,9 +184,26 @@ class Oxford(PublisherParser):
                 merged.append(author)
         return merged if changed else fallbacks
 
-    def _extract_article_card_affiliations(self, author_card):
+    def _fill_chapter_card_affiliations(self, results):
+        """Give meta-tag authors the affiliations in a book chapter's author cards.
+
+        Oxford Academic chapter pages (academic.oup.com/book/<id>/chapter/<id>) have no article byline; names come
+        from the schema meta tags ("Family, Given"), while each author's card, with OUP's structured affiliations when
+        it has them, sits in ``div.at-ChapterAuthors``. Each card's ``div.aff`` strings go to the one meta-tag author
+        with that name, if that author has none yet (oxjob #1809).
+        """
+        block = self.soup.find("div", class_="at-ChapterAuthors")
+        if not block:
+            return
+        fill_affiliations_by_name(results, (
+            (self._clean_author_name(name_tag.get_text(" ", strip=True)), self._structured_card_affiliations(card))
+            for card in block.find_all("div", class_="info-card-author")
+            if (name_tag := card.find("div", class_="info-card-name"))
+        ))
+
+    def _structured_card_affiliations(self, author_card):
+        """An author card's ``div.aff`` strings (OUP spells the wrapper ``info-card-affilitation``)."""
         affiliations = []
-        sources = []
         for selector in (
             "div.info-card-affilitation",
             "div.info-card-affiliation",
@@ -198,15 +218,14 @@ class Oxford(PublisherParser):
                 )
                 if affiliation:
                     affiliations.append(affiliation)
-                    sources.append("structured")
+        return self._dedupe(affiliations)
 
-        if not affiliations:
-            affiliation = self._extract_free_text_card_affiliation(author_card)
-            if affiliation:
-                affiliations.append(affiliation)
-                sources.append("free_text")
-
-        return self._dedupe(affiliations), sources
+    def _extract_article_card_affiliations(self, author_card):
+        affiliations = self._structured_card_affiliations(author_card)
+        if affiliations:
+            return affiliations, ["structured"]
+        affiliation = self._extract_free_text_card_affiliation(author_card)
+        return ([affiliation], ["free_text"]) if affiliation else ([], [])
 
     def _extract_free_text_card_affiliation(self, author_card):
         card_text = author_card.get_text(" ", strip=True)
