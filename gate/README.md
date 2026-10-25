@@ -74,6 +74,16 @@ similarity), PDF link (canonical URL), licence (Parseland's slugs). A value the 
 | `baseline.json` | holdout counts per cell for the published baseline commit |
 | `test_gate.py` | tests of the rules themselves |
 
+## Gold versions
+
+| Version | Change |
+|---|---|
+| v1.1 (23 Oct) | sealed; the labeller's page views read JSON assigned inside ordinary scripts (IEEE, Springer `pageData`) |
+| v1.2 (24 Oct) | a templated stand-in is not an abstract (CABI datasheets; 1 dev row) |
+| v1.3 (25 Oct) | **attribute-held data is page data**: the views now carry attributes whose name, or whose element's name, says author, affiliation, corresponding, abstract, licence, ORCID or email (De Gruyter `<contributor-popdown affiliations= email=>`, Emerald `corresp="yes"`, JATS `<corresp>`). The 98 pages whose view changed were re-labelled (selected by page bytes only); 14 values moved. Plus a **current-template stratum**: 50 pages each of ACS and RSC on Silverchair, MDPI's Nuxt front end and Frontiers' V4 template (normal harvest since 1 Sep; none from #1802's pilot or #1805's fixtures), split dev/holdout by the corpus rule; cells `template:<name>`. |
+
+Disputes are ruled in `disputes.ndjson` (`ruling` field) and land in the next gold version.
+
 The corpus, labelling method (Opus 5.5 at xhigh, two independent passes on two renderings, adjudication of
 disagreements and of values not found in the page), sampling plan and the checks on the gold are in oxjob #1791's
 README and EXPLORE.

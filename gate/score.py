@@ -33,11 +33,12 @@ def load_ndjson(path):
 
 
 def cell_of(m):
-    """Gate cell: the host for random host pages, the failure class for diagnostic pages, else the stratum."""
+    """Gate cell: the host for random host pages; the failure class or the current template for the purposive strata
+    (e.g. "failure:cairn_no_aff", "template:mdpi.com (Nuxt)"); else the stratum."""
     if m["stratum"] == "host":
         return m["cell"]
-    if m["stratum"] == "failure":
-        return f"failure:{m['cell']}"
+    if m["stratum"] in ("failure", "template"):
+        return f"{m['stratum']}:{m['cell']}"
     return m["stratum"]
 
 

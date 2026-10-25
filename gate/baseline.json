@@ -1,46 +1,46 @@
 {
 "cells": {
 "*|abstract": {
-"cand_present": 859,
-"gold_present": 1104,
-"n": 1876,
-"right": 1415,
-"true_pos": 717
+"cand_present": 976,
+"gold_present": 1194,
+"n": 1972,
+"right": 1536,
+"true_pos": 833
 },
 "*|affiliations": {
-"cand_present": 836,
-"gold_present": 955,
-"n": 1876,
-"right": 1663,
-"true_pos": 754
+"cand_present": 923,
+"gold_present": 1046,
+"n": 1972,
+"right": 1754,
+"true_pos": 838
 },
 "*|authors": {
-"cand_present": 1311,
-"gold_present": 1481,
-"n": 1876,
-"right": 1625,
-"true_pos": 1233
+"cand_present": 1403,
+"gold_present": 1573,
+"n": 1972,
+"right": 1721,
+"true_pos": 1325
 },
 "*|corresponding": {
-"cand_present": 325,
-"gold_present": 423,
-"n": 1876,
-"right": 1703,
-"true_pos": 280
+"cand_present": 427,
+"gold_present": 514,
+"n": 1972,
+"right": 1808,
+"true_pos": 381
 },
 "*|license": {
-"cand_present": 488,
-"gold_present": 646,
-"n": 1876,
-"right": 1673,
-"true_pos": 460
+"cand_present": 553,
+"gold_present": 711,
+"n": 1972,
+"right": 1769,
+"true_pos": 525
 },
 "*|pdf_url": {
-"cand_present": 1358,
-"gold_present": 1259,
-"n": 1876,
-"right": 1590,
-"true_pos": 1125
+"cand_present": 1454,
+"gold_present": 1355,
+"n": 1972,
+"right": 1686,
+"true_pos": 1221
 },
 "acm.org|abstract": {
 "cand_present": 13,
@@ -85,11 +85,11 @@
 "true_pos": 13
 },
 "acs.org|abstract": {
-"cand_present": 15,
+"cand_present": 16,
 "gold_present": 17,
 "n": 28,
-"right": 26,
-"true_pos": 15
+"right": 27,
+"true_pos": 16
 },
 "acs.org|affiliations": {
 "cand_present": 16,
@@ -106,11 +106,11 @@
 "true_pos": 20
 },
 "acs.org|corresponding": {
-"cand_present": 9,
+"cand_present": 10,
 "gold_present": 14,
 "n": 28,
-"right": 23,
-"true_pos": 9
+"right": 24,
+"true_pos": 10
 },
 "acs.org|license": {
 "cand_present": 0,
@@ -127,11 +127,11 @@
 "true_pos": 13
 },
 "aip.org|abstract": {
-"cand_present": 4,
+"cand_present": 9,
 "gold_present": 9,
 "n": 9,
-"right": 4,
-"true_pos": 4
+"right": 9,
+"true_pos": 9
 },
 "aip.org|affiliations": {
 "cand_present": 9,
@@ -148,11 +148,11 @@
 "true_pos": 9
 },
 "aip.org|corresponding": {
-"cand_present": 1,
+"cand_present": 3,
 "gold_present": 3,
 "n": 9,
-"right": 7,
-"true_pos": 1
+"right": 9,
+"true_pos": 3
 },
 "aip.org|license": {
 "cand_present": 1,
@@ -597,10 +597,10 @@
 },
 "degruyterbrill.com|affiliations": {
 "cand_present": 2,
-"gold_present": 2,
+"gold_present": 4,
 "n": 31,
-"right": 28,
-"true_pos": 0
+"right": 29,
+"true_pos": 2
 },
 "degruyterbrill.com|authors": {
 "cand_present": 24,
@@ -610,11 +610,11 @@
 "true_pos": 24
 },
 "degruyterbrill.com|corresponding": {
-"cand_present": 2,
+"cand_present": 4,
 "gold_present": 4,
 "n": 31,
-"right": 29,
-"true_pos": 2
+"right": 31,
+"true_pos": 4
 },
 "degruyterbrill.com|license": {
 "cand_present": 2,
@@ -673,11 +673,11 @@
 "true_pos": 13
 },
 "emerald.com|abstract": {
-"cand_present": 2,
+"cand_present": 9,
 "gold_present": 16,
 "n": 20,
-"right": 6,
-"true_pos": 2
+"right": 13,
+"true_pos": 9
 },
 "emerald.com|affiliations": {
 "cand_present": 11,
@@ -695,9 +695,9 @@
 },
 "emerald.com|corresponding": {
 "cand_present": 4,
-"gold_present": 5,
+"gold_present": 9,
 "n": 20,
-"right": 19,
+"right": 15,
 "true_pos": 4
 },
 "emerald.com|license": {
@@ -807,9 +807,9 @@
 },
 "failure:degruyter_brill_no_aff|affiliations": {
 "cand_present": 0,
-"gold_present": 1,
+"gold_present": 2,
 "n": 23,
-"right": 22,
+"right": 21,
 "true_pos": 0
 },
 "failure:degruyter_brill_no_aff|authors": {
@@ -820,11 +820,11 @@
 "true_pos": 16
 },
 "failure:degruyter_brill_no_aff|corresponding": {
-"cand_present": 0,
+"cand_present": 1,
 "gold_present": 1,
 "n": 23,
-"right": 22,
-"true_pos": 0
+"right": 23,
+"true_pos": 1
 },
 "failure:degruyter_brill_no_aff|license": {
 "cand_present": 1,
@@ -1187,8 +1187,8 @@
 "cand_present": 13,
 "gold_present": 15,
 "n": 15,
-"right": 12,
-"true_pos": 12
+"right": 13,
+"true_pos": 13
 },
 "frontiersin.org|authors": {
 "cand_present": 13,
@@ -1513,11 +1513,11 @@
 "true_pos": 1
 },
 "karger.com|abstract": {
-"cand_present": 3,
+"cand_present": 10,
 "gold_present": 10,
 "n": 13,
-"right": 6,
-"true_pos": 3
+"right": 13,
+"true_pos": 10
 },
 "karger.com|affiliations": {
 "cand_present": 6,
@@ -1534,11 +1534,11 @@
 "true_pos": 11
 },
 "karger.com|corresponding": {
-"cand_present": 0,
+"cand_present": 5,
 "gold_present": 6,
 "n": 13,
-"right": 7,
-"true_pos": 0
+"right": 12,
+"true_pos": 5
 },
 "karger.com|license": {
 "cand_present": 3,
@@ -2311,18 +2311,18 @@
 "true_pos": 21
 },
 "tail|abstract": {
-"cand_present": 280,
+"cand_present": 286,
 "gold_present": 428,
 "n": 604,
-"right": 425,
-"true_pos": 253
+"right": 431,
+"true_pos": 259
 },
 "tail|affiliations": {
 "cand_present": 263,
-"gold_present": 337,
+"gold_present": 338,
 "n": 604,
-"right": 501,
-"true_pos": 236
+"right": 502,
+"true_pos": 237
 },
 "tail|authors": {
 "cand_present": 429,
@@ -2332,11 +2332,11 @@
 "true_pos": 404
 },
 "tail|corresponding": {
-"cand_present": 46,
+"cand_present": 50,
 "gold_present": 85,
 "n": 604,
-"right": 555,
-"true_pos": 41
+"right": 557,
+"true_pos": 44
 },
 "tail|license": {
 "cand_present": 243,
@@ -2435,6 +2435,174 @@
 "n": 24,
 "right": 24,
 "true_pos": 12
+},
+"template:acs.org (Silverchair)|abstract": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:acs.org (Silverchair)|affiliations": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 22,
+"true_pos": 22
+},
+"template:acs.org (Silverchair)|authors": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:acs.org (Silverchair)|corresponding": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:acs.org (Silverchair)|license": {
+"cand_present": 5,
+"gold_present": 5,
+"n": 25,
+"right": 25,
+"true_pos": 5
+},
+"template:acs.org (Silverchair)|pdf_url": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:frontiersin.org (V4)|abstract": {
+"cand_present": 23,
+"gold_present": 22,
+"n": 24,
+"right": 23,
+"true_pos": 22
+},
+"template:frontiersin.org (V4)|affiliations": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 24,
+"right": 24,
+"true_pos": 24
+},
+"template:frontiersin.org (V4)|authors": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 24,
+"right": 24,
+"true_pos": 24
+},
+"template:frontiersin.org (V4)|corresponding": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 24,
+"right": 24,
+"true_pos": 24
+},
+"template:frontiersin.org (V4)|license": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 24,
+"right": 24,
+"true_pos": 24
+},
+"template:frontiersin.org (V4)|pdf_url": {
+"cand_present": 24,
+"gold_present": 24,
+"n": 24,
+"right": 24,
+"true_pos": 24
+},
+"template:mdpi.com (Nuxt)|abstract": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:mdpi.com (Nuxt)|affiliations": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 21,
+"true_pos": 21
+},
+"template:mdpi.com (Nuxt)|authors": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:mdpi.com (Nuxt)|corresponding": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:mdpi.com (Nuxt)|license": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:mdpi.com (Nuxt)|pdf_url": {
+"cand_present": 25,
+"gold_present": 25,
+"n": 25,
+"right": 25,
+"true_pos": 25
+},
+"template:rsc.org (Silverchair)|abstract": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 22,
+"right": 22,
+"true_pos": 18
+},
+"template:rsc.org (Silverchair)|affiliations": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 22,
+"right": 22,
+"true_pos": 13
+},
+"template:rsc.org (Silverchair)|authors": {
+"cand_present": 18,
+"gold_present": 18,
+"n": 22,
+"right": 22,
+"true_pos": 18
+},
+"template:rsc.org (Silverchair)|corresponding": {
+"cand_present": 13,
+"gold_present": 13,
+"n": 22,
+"right": 22,
+"true_pos": 13
+},
+"template:rsc.org (Silverchair)|license": {
+"cand_present": 11,
+"gold_present": 11,
+"n": 22,
+"right": 22,
+"true_pos": 11
+},
+"template:rsc.org (Silverchair)|pdf_url": {
+"cand_present": 22,
+"gold_present": 22,
+"n": 22,
+"right": 22,
+"true_pos": 22
 },
 "thieme-connect.de|abstract": {
 "cand_present": 10,
@@ -2689,9 +2857,9 @@
 "true_pos": 5
 }
 },
-"commit": "e2a71715bb2ba081e225da0c96b254f390d4ecad",
-"computed_at": "2026-10-24T19:16:24+00:00",
-"corpus": "v1.2",
+"commit": "64ef739d14753dbc8d486fd9f4161f5e7c350c0b",
+"computed_at": "2026-10-25T13:58:15+00:00",
+"corpus": "v1.3",
 "other_paper": {
 "crash": 0,
 "emits": {
@@ -2704,5 +2872,5 @@
 },
 "pages": 22
 },
-"pages": 1876
+"pages": 1972
 }

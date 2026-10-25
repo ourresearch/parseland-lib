@@ -31,10 +31,11 @@ def table(c, results, op):
     hosts = sorted({r["cell"] for r in results if r["stratum"] == "host"},
                    key=lambda h: -c[f"{h}|authors"]["n"])
     pooled = ["tail", "repository", "unresolved", "wall"]
+    tmpl = sorted({r["cell"] for r in results if r["stratum"] == "template"})
     fail = sorted({r["cell"] for r in results if r["stratum"] == "failure"})
     head = "| Publisher (holdout pages) | Pages | " + " | ".join(SHORT[f] for f in F.FIELDS) + " |"
     lines = [head, "|---|" + "---:|" * (len(F.FIELDS) + 1)]
-    for h in hosts + [p for p in pooled if f"{p}|authors" in c] + fail + ["*"]:
+    for h in hosts + [p for p in pooled if f"{p}|authors" in c] + tmpl + fail + ["*"]:
         n = c[f"{h}|authors"]["n"]
         name = {"*": "**all holdout pages**", "tail": "long tail (pooled)", "repository": "repository pages",
                 "unresolved": "unresolved older pages", "wall": "walls and shells"}.get(h, h)
