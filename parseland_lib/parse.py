@@ -6,6 +6,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
+from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names
 from parseland_lib.publisher.parsers.utils import same_person
@@ -48,17 +49,17 @@ def _sniff_publisher_url(soup):
     return None
 
 
-def _mark_silverchair_corresponding(soup, authors):
-    """Fill the corresponding flag from a Silverchair byline when the winning parser marked no one (#1805).
+def _mark_corresponding_by_name(authors, names):
+    """Fill the corresponding flag from a byline's marks when the winning parser marked no one (#1805).
 
-    ACS and RSC pages moved to Silverchair (pubs.acs.org/<journal>/article/..., pubs.rsc.org/<journal>/article/...)
-    and no publisher parser claims them, so the meta-tag parser wins and every new page lost its corresponding
-    author. Each name the byline marks sets the flag on the one parsed author with that name; a name that matches
-    no author, or more than one, is skipped.
+    For bylines the winning parser can't read marks from: Silverchair (ACS and RSC moved there and no publisher
+    parser claims the pages, so the meta-tag parser wins) and old-template Frontiers (the '*' sits outside <sup>).
+    Each marked name sets the flag on the one parsed author with that name; a name that matches no author, or more
+    than one, is skipped.
     """
     if not authors or any(a["is_corresponding"] for a in authors):
         return
-    for name in silverchair_corresponding_names(soup):
+    for name in names:
         matches = [a for a in authors if same_person(a["name"], name)]
         if len(matches) == 1:
             matches[0]["is_corresponding"] = True
@@ -135,8 +136,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
-        if _has(lp_content, "al-author-name"):
-            _mark_silverchair_corresponding(soup, authors)
+        if authors and not any(a["is_corresponding"] for a in authors):
+            if _has(lp_content, "al-author-name"):
+                _mark_corresponding_by_name(authors, silverchair_corresponding_names(soup))
+            elif _has(lp_content, '<div class="authors"') and _has(lp_content, "/10.3389/"):
+                _mark_corresponding_by_name(authors, frontiers_corresponding_names(soup))
 
     # Merge into a single response
     response = authors_and_abstract

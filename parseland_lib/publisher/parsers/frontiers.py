@@ -4,6 +4,76 @@ from parseland_lib.elements import Author, Affiliation
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
+def frontiers_corresponding_names(soup):
+    """Names an old-template Frontiers page (``div.authors``) marks as corresponding, in byline order ([] if none).
+
+    The old byline puts the '*' as plain text after the name ("<a><img/>Kati Sarnola</a>*,", "Ping Yan* and",
+    "<a>Michiel van Elk</a><sup>1</sup>*"), not inside the <sup> Frontiers.get_authors reads, and pages without
+    profile images give that parser no authors at all, so the meta-tag parser wins with no flag (oxjob #1805). From
+    ~2016 the abstract footer repeats it ("*Correspondence: Kati Sarnola, kati.sarnola@kela.fi; ..."): that note is
+    the fallback when the byline marks no one. Only on Frontiers-platform pages (an og:url holding a 10.3389 DOI:
+    frontiersin.org and partners such as ssph-journal.org).
+    """
+    if not any("/10.3389/" in (m.get("content") or "") for m in soup.find_all("meta", attrs={"property": "og:url"})):
+        return []
+    byline = soup.find("div", class_="authors")
+    names = _starred_byline_names(byline) if byline is not None else []
+    return names or _correspondence_note_names(soup)
+
+
+def _starred_byline_names(byline):
+    names, buf, last, prev_owner = [], "", None, None
+
+    def finish():
+        nonlocal buf, last
+        if buf.strip(" ,; "):
+            last = re.sub(r"\s+", " ", buf).strip(" ,; ")
+        buf = ""
+
+    for s in byline.find_all(string=True):
+        if s.find_parent("sup") is not None:
+            finish()  # a <sup> ends the name before it
+            if "*" in s and last and last not in names:
+                names.append(last)
+            continue
+        # each linked name / author-wrapper span is its own name, even with no separator between them
+        owner = s.find_parent(["a", "span"])
+        if owner is not prev_owner:
+            finish()
+        prev_owner = owner
+        for tok in re.split(r"(\*|,|;|\band\b)", s):
+            if tok == "*":
+                finish()
+                if last and last not in names:
+                    names.append(last)
+            elif tok in (",", ";", "and"):
+                finish()
+            else:
+                buf += tok
+    return names
+
+
+def _correspondence_note_names(soup):
+    for p in soup.find_all("p"):
+        label = p.find("span")
+        if label is None or "*" not in label.get_text() or "orrespondence" not in p.get_text():
+            continue
+        # the note's own text, without the e-mail links (mailto or base64 "encmail")
+        text = " ".join(t for t in p.find_all(string=True) if t.find_parent("a") is None)
+        text = re.sub(r"\s+", " ", text)
+        m = re.search(r"Correspondence:?\s*(.*)$", text)
+        if not m:
+            continue
+        names = []
+        for entry in m.group(1).split(";"):
+            entry = re.sub(r"\S+@\S+", "", entry)  # a plain-text e-mail
+            name = entry.split(",")[0].strip(" .;:")
+            if name:
+                names.append(name)
+        return names
+    return []
+
+
 class Frontiers(PublisherParser):
     parser_name = "frontiers"
 
