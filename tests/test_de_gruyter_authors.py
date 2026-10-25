@@ -33,15 +33,29 @@ def _dgb_li(role, people):
     return f'<li class="contributors-{role}">{"".join(spans)}</li>'
 
 
-def test_degruyterbrill_template_reads_affiliations_and_corresponding_mark():
+def _dgb_soup():
     body = _dgb_li("AUTHOR", [
         ("Min Lu", "", "School of Pharmacy, Guizhou University of Traditional Chinese Medicine, Guiyang, 550025, China"),
         ("Tiantian Li", "525708251@qq.com", "School of Pharmacy, Guizhou University; Second Institute, Guiyang"),
     ])
-    soup = BeautifulSoup(f'<html>{HEAD}<body><ul class="contributors-dgb">{body}</ul></body></html>', "lxml")
-    parser = DeGruyter(soup)
+    return BeautifulSoup(f'<html>{HEAD}<body><ul class="contributors-dgb">{body}</ul></body></html>', "lxml")
+
+
+def test_degruyterbrill_template_reads_names_and_corresponding_mark_affiliations_held():
+    # Affiliations on this template are held until #1791 rules on the popdown gold dispute (DGB_AFFILIATIONS).
+    parser = DeGruyter(_dgb_soup())
 
     assert parser.authors_found()
+    assert parser.parse_authors() == [
+        {"name": "Min Lu", "is_corresponding": False, "affiliations": []},
+        {"name": "Tiantian Li", "is_corresponding": True, "affiliations": []},
+    ]
+
+
+def test_degruyterbrill_template_reads_affiliations_when_turned_on(monkeypatch):
+    monkeypatch.setattr(DeGruyter, "DGB_AFFILIATIONS", True)
+    parser = DeGruyter(_dgb_soup())
+
     assert parser.parse_authors() == [
         {"name": "Min Lu", "is_corresponding": False,
          "affiliations": ["School of Pharmacy, Guizhou University of Traditional Chinese Medicine, Guiyang, 550025, China"]},

@@ -25,12 +25,17 @@ class DeGruyter(PublisherParser):
     def authors_found(self):
         return bool(self.author_tags() or self.parse_author_meta_tags())
 
+    # Held: affiliations on the degruyterbrill.com template stay off until #1791 rules on the gold dispute that the
+    # gold misses <contributor-popdown affiliations=...> (dev 4d328b3e; 152 of 152 sampled strings match Crossref).
+    # Turn on by reverting the commit that added this flag (oxjob #1808).
+    DGB_AFFILIATIONS = False
+
     def parse_authors(self):
         author_tags = self.author_tags()
         authors = []
         for author_tag in author_tags:
-            if 'contributor-dgb' in (author_tag.get('class') or []) and (
-                    display_name := author_tag.select_one('span.displayName')):
+            is_dgb = 'contributor-dgb' in (author_tag.get('class') or [])
+            if is_dgb and (display_name := author_tag.select_one('span.displayName')):
                 name = display_name.get_text(' ', strip=True)
             else:
                 name = author_tag.text.strip('\n ')
@@ -38,6 +43,8 @@ class DeGruyter(PublisherParser):
                 is_corresponding = bool(cont_popdown.get('email', ''))
                 affiliations = [aff.strip() for aff in cont_popdown.get('affiliations', '').split(';')
                                 if aff.strip()]
+                if is_dgb and not self.DGB_AFFILIATIONS:
+                    affiliations = []
             else:
                 is_corresponding = '@' in author_tag.get('title', '')
                 affiliations = [aff.strip() for aff in author_tag.get('title', '').split(';')
