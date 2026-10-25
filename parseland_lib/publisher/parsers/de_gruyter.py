@@ -14,20 +14,34 @@ class DeGruyter(PublisherParser):
             or self.domain_in_canonical_link('degruyterbrill.com')
         )
 
+    def author_tags(self):
+        # The degruyter.com template wraps each contributor in span.contributor. The degruyterbrill.com template
+        # (2023 on) uses span.contributor-dgb inside li.contributors-<ROLE>; only AUTHOR rows are authors (a book
+        # can list only its editors there). Without this the parser fell back to meta tags and lost every
+        # affiliation and corresponding mark on current pages (oxjob #1808).
+        return (self.soup.select('span.contributor')
+                or self.soup.select('li.contributors-AUTHOR span.contributor-dgb'))
+
     def authors_found(self):
-        return bool(self.soup.select('span.contributor') or self.parse_author_meta_tags())
+        return bool(self.author_tags() or self.parse_author_meta_tags())
 
     def parse_authors(self):
-        author_tags = self.soup.select('span.contributor')
+        author_tags = self.author_tags()
         authors = []
         for author_tag in author_tags:
-            name = author_tag.text.strip('\n ')
+            if 'contributor-dgb' in (author_tag.get('class') or []) and (
+                    display_name := author_tag.select_one('span.displayName')):
+                name = display_name.get_text(' ', strip=True)
+            else:
+                name = author_tag.text.strip('\n ')
             if cont_popdown := author_tag.select_one('contributor-popdown'):
                 is_corresponding = bool(cont_popdown.get('email', ''))
-                affiliations = [aff for aff in cont_popdown.get('affiliations', '').split(';') if aff]
+                affiliations = [aff.strip() for aff in cont_popdown.get('affiliations', '').split(';')
+                                if aff.strip()]
             else:
                 is_corresponding = '@' in author_tag.get('title', '')
-                affiliations = [aff for aff in author_tag.get('title', '').split(';') if '@' not in aff and aff]
+                affiliations = [aff.strip() for aff in author_tag.get('title', '').split(';')
+                                if '@' not in aff and aff.strip()]
 
             authors.append({
                 'name': name,
