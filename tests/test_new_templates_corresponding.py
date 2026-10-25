@@ -8,8 +8,9 @@ import json
 
 from bs4 import BeautifulSoup
 
-from parseland_lib.parse import _mark_silverchair_corresponding, parse_page
-from parseland_lib.publisher.parsers.frontiers import Frontiers
+from parseland_lib.parse import _mark_corresponding_by_name, parse_page
+from parseland_lib.publisher.parsers.frontiers import Frontiers, frontiers_corresponding_names
+from parseland_lib.publisher.parsers.parser import silverchair_corresponding_names
 from parseland_lib.publisher.parsers.mdpi import MDPI
 from parseland_lib.publisher.parsers.utils import NuxtPayload, same_person
 
@@ -90,7 +91,7 @@ def test_silverchair_marks_never_override_a_parser_that_found_one():
     html = _silverchair_page("https://pubs.acs.org/jacs/article/1/1/1/1/x", [("Ann", "Smith", False), ("Bo", "Li", True)])
     authors = [{"name": "Ann Smith", "affiliations": [], "is_corresponding": True},
                {"name": "Bo Li", "affiliations": [], "is_corresponding": None}]
-    _mark_silverchair_corresponding(BeautifulSoup(html, "lxml"), authors)
+    _mark_corresponding_by_name(authors, silverchair_corresponding_names(BeautifulSoup(html, "lxml")))
     assert [a["is_corresponding"] for a in authors] == [True, None]
 
 
@@ -259,3 +260,83 @@ def test_nuxt_payload_lazy_reads_and_sentinels():
     assert NuxtPayload([[1], {"name": 2}, "Ann"]).dicts(0) == [{"name": 2}]
     assert p.node(-1) is None and p.node(99) is None
     assert NuxtPayload.from_soup(BeautifulSoup("<html><body></body></html>", "lxml")) is None
+
+
+# Frontiers old template (div.authors): the '*' is plain text after the name, and a footer note repeats it
+
+FRONTIERS_OLD_OG = '<meta property="og:url" content="https://www.frontiersin.org/articles/10.3389/fphar.2022.943249/full">'
+
+
+def _frontiers_old(byline, note="", metas=""):
+    img = '<img class="pr5" src="https://loop.frontiersin.org/images/profile/1/24"/>'
+    return (f"<html><head>{FRONTIERS_OLD_OG}{metas}</head><body><main><div class=\"authors\">"
+            f"{byline.replace('<img/>', img)}</div>"
+            f'<div class="AbstractSummary"><p>Copyright text.</p>{note}</div>'
+            '<script>var s = {"Article_Correspondence":"* Correspondence:"};</script></main></body></html>')
+
+
+def test_frontiers_old_star_after_linked_name():
+    # 10.3389/fphar.2022.943249: "<a><img/>Kati Sarnola</a>*, <a><img/>Heini Kari</a> ..."
+    html = _frontiers_old('<a href="#"><img/>Kati Sarnola</a>*, <a href="#"><img/>Heini Kari</a> and '
+                          '<a href="#"><img/>Hanna Koskinen</a>')
+    out = parse_page(html.encode(), "doi", None)
+    assert [a["name"] for a in out["authors"]] == ["Kati Sarnola", "Heini Kari", "Hanna Koskinen"]
+    assert _corresponding(out) == ["Kati Sarnola"]
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False, False]
+
+
+def test_frontiers_old_unlinked_names_and_two_stars():
+    # 10.3389/fcell.2021.755670: some names have no link; "Ping Yan* and <a><img/>Xian Guo</a>*"
+    soup = BeautifulSoup(_frontiers_old('<a href="#"><img/>Xingdong Wang</a>, <img/>Jie Pei, <img/>Ping Yan* and '
+                                        '<a href="#"><img/>Xian Guo</a>*'), "lxml")
+    assert frontiers_corresponding_names(soup) == ["Ping Yan", "Xian Guo"]
+
+
+def test_frontiers_old_star_after_affiliation_sup_and_wrapper_spans():
+    # 10.3389/fneur.2010.00150 and 10.3389/fphar.2024.1372110
+    soup = BeautifulSoup(_frontiers_old('<a href="#">Michiel van Elk</a><sup>1</sup>*, <a href="#">Celine Crajé</a>'
+                                        '<sup>1,2</sup>'), "lxml")
+    assert frontiers_corresponding_names(soup) == ["Michiel van Elk"]
+    soup = BeautifulSoup(_frontiers_old('<span class="author-wrapper"><a href="#"><img/>Weiling Li</a><sup>†</sup></span>'
+                                        '<span class="author-wrapper"><img/>Yuchen Liu</span>'
+                                        '<span class="author-wrapper"><a href="#"><img/>Yiyuan Xia</a>*</span>'
+                                        '<span class="author-wrapper"><a href="#"><img/>Binlian Sun</a>*</span>'), "lxml")
+    assert frontiers_corresponding_names(soup) == ["Yiyuan Xia", "Binlian Sun"]
+
+
+def test_frontiers_old_imageless_byline_marks_the_meta_tag_winner():
+    # 2010-2015 pages have no profile images: the Frontiers parser reads no one and the meta-tag parser wins
+    metas = ('<meta name="citation_author" content="Van Elk, Michiel">'
+             '<meta name="citation_author_institution" content="Radboud University Nijmegen, Netherlands">'
+             '<meta name="citation_author" content="Crajé, Celine">'
+             '<meta name="citation_author_institution" content="Radboud University Nijmegen, Netherlands">')
+    html = _frontiers_old('<a href="#">Michiel van Elk</a><sup>1</sup>*, <a href="#">Celine Crajé</a><sup>1</sup>',
+                          metas=metas)
+    out = parse_page(html.encode(), "doi", None)
+    assert _corresponding(out) == ["Van Elk, Michiel"]
+
+
+def test_frontiers_old_footer_note_when_the_byline_has_no_star():
+    note = ('<p><span>&#x0002a;Correspondence:</span> Ping Yan, <a href="mailto:yanping@caas.cn">yanping@caas.cn</a>; '
+            'Xian Guo, <a id="encmail">Z3VveGlhbkBjYWFzLmNu</a></p>')
+    soup = BeautifulSoup(_frontiers_old('<img/>Ping Yan and <a href="#"><img/>Xian Guo</a>', note), "lxml")
+    assert frontiers_corresponding_names(soup) == ["Ping Yan", "Xian Guo"]
+    # 2011 form: name, postal address, plain-text e-mail
+    note = ('<p><span>*Correspondence:</span> Henk J. M. Aarts, National Institute of Public Health, Bilthoven, '
+            'Netherlands. e-mail: henk.aarts&#x00040;rivm.nl</p>')
+    soup = BeautifulSoup(_frontiers_old('Angela van Hoek<sup>1</sup> and <a href="#">Henk J. M. Aarts</a><sup>1</sup>',
+                                        note), "lxml")
+    assert frontiers_corresponding_names(soup) == ["Henk J. M. Aarts"]
+
+
+def test_frontiers_old_page_without_marks_and_ui_strings_only_sets_no_one():
+    # every Frontiers page carries "Article_Correspondence" in its UI-strings script: not a mark
+    html = _frontiers_old('<a href="#"><img/>Ann Smith</a> and <a href="#"><img/>Bo Li</a>')
+    out = parse_page(html.encode(), "doi", None)
+    assert _corresponding(out) == []
+
+
+def test_frontiers_byline_reader_ignores_other_publishers():
+    html = _frontiers_old('<a href="#">Ann Smith</a>*, <a href="#">Bo Li</a>').replace(
+        "https://www.frontiersin.org/articles/10.3389/fphar.2022.943249/full", "https://example.org/article/1")
+    assert frontiers_corresponding_names(BeautifulSoup(html, "lxml")) == []
