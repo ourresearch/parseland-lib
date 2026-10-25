@@ -127,10 +127,12 @@ def test_extra_value_is_wrong():
     assert not any(F.compare(f, gold, cand) for f in ("authors", "abstract", "pdf_url", "license"))
 
 
-def test_shards_cover_every_page_once():
-    rows = list(range(10))
-    parts = [shard_rows(rows, (i, 3)) for i in range(3)]
-    assert sorted(sum(parts, [])) == rows and shard_rows(rows, None) == rows
+def test_shards_cover_every_page_once_and_balance_by_size():
+    rows = [{"page_id": f"p{i}", "size": s} for i, s in enumerate([90, 10, 10, 10, 30, 30, 20, 20, 5, 5])]
+    parts = [shard_rows(rows, (i, 3), lambda r: r["size"]) for i in range(3)]
+    assert sorted(r["page_id"] for p in parts for r in p) == sorted(r["page_id"] for r in rows)
+    assert [sum(r["size"] for r in p) for p in parts] == [90, 70, 70]
+    assert shard_rows(rows, None) == rows
     with pytest.raises(ValueError):
         shard_rows(rows, (3, 3))
 
