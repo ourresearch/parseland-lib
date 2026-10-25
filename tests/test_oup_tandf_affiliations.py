@@ -7,6 +7,7 @@ Angular TransferState JSON (product.contributors[].affiliations); older stored p
 also print one comma-joined citation_author_institution tag that the generic parser gave to one author.
 """
 import json
+import re
 
 from parseland_lib.parse import parse_page
 
@@ -127,3 +128,26 @@ def test_tandf_title_stand_in_description_is_not_an_abstract():
     url = "https://www.taylorfrancis.com/chapters/edit/10.4324/9780203052792-7/x"
     assert not parse_page(stand_in, "doi", url)["abstract"]
     assert parse_page(real, "doi", url)["abstract"].startswith("This chapter introduces")
+
+
+def test_tandf_title_stand_in_with_subtitle_is_not_an_abstract():
+    # 10.4324/9780203880968-61: description "Commentary - 1 - <subtitle>", citation_title "Commentary : <subtitle>"
+    html = _tf_page([_contributor("Ann", "Lee", [], 1)], {"@type": "Person", "givenName": "Ann", "familyName": "Lee"},
+                    description="Commentary - 1 - Informing Teaching and Learning Policy")
+    html = html.replace(b"</head>",
+                        b'<meta name="citation_title" content="Commentary : Informing Teaching and Learning Policy"></head>')
+    assert not parse_page(html, "doi", "https://www.taylorfrancis.com/chapters/edit/10.4324/9780203880968-61/x")["abstract"]
+
+
+def test_tandf_page_json_apostrophes_are_decoded():
+    # Angular TransferState writes ' as &s; (10.4324/9781315550787-8 came out "Zimbabwe&s;s Gonarezhou National Park")
+    contributors = [_contributor("Ann", "Lee", [], 1)]
+    html = _tf_page(contributors, {"@type": "Person", "givenName": "Ann", "familyName": "Lee"})
+    state = {"product": {"_id": "b4d87522", "type": "chapter", "title": "Introduction", "contributors": contributors,
+                         "abstracts": [{"type": "xml", "value": "This chapter focuses on Zimbabwe's Gonarezhou National "
+                                                                 "Park and the transfrontier conservation area."}]}}
+    encoded = json.dumps(state).replace("&", "&a;").replace('"', "&q;").replace("'", "&s;")
+    html = re.sub(rb'(<script id="product-detail-page-state" type="application/json">).*?(</script>)',
+                  lambda m: m.group(1) + encoded.encode() + m.group(2), html, flags=re.S)
+    out = parse_page(html, "doi", "https://www.taylorfrancis.com/chapters/edit/10.4324/9781315550787-8/x")
+    assert out["abstract"].startswith("This chapter focuses on Zimbabwe's Gonarezhou")

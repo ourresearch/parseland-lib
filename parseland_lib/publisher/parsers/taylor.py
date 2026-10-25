@@ -385,15 +385,16 @@ class Taylor(PublisherParser):
         return abstract
 
     def _is_taylorfrancis_title_stand_in(self, text, chapter):
-        """True when a chapter's JSON-LD description is only its title, optionally plus " - <n>".
+        """True when a chapter's JSON-LD description is only its title with T&F's " - <n>" marker.
 
-        T&F writes "<chapter title> - 1" there (and in meta description) when a chapter has no abstract
-        (oxjob #1809: e.g. "Masculinity and Femininity: Defining the Undefinable - 1").
+        T&F writes "<chapter title> - 1" there (and in meta description) when a chapter has no abstract, or
+        "<title> - 1 - <subtitle>" for "<title> : <subtitle>" (oxjob #1809: "Masculinity and Femininity: Defining the
+        Undefinable - 1"; "Commentary - 1 - Informing Teaching and Learning Policy"). Compared on letters and digits.
         """
         def norm(value):
-            return re.sub(r"\s+", " ", html.unescape(str(value or ""))).strip().casefold()
+            return re.sub(r"\W+", "", html.unescape(str(value or ""))).casefold()
 
-        stem = norm(re.sub(r"\s+-\s+\d+\s*$", "", text or ""))
+        stem = norm(re.sub(r"\s+-\s+\d+(?=\s+-\s+|\s*$)", "", text or ""))
         meta = self.soup.find("meta", attrs={"name": "citation_title"})
         titles = {norm(chapter.get("name")), norm(chapter.get("headline")), norm(meta.get("content") if meta else "")}
         return bool(stem) and stem in titles - {""}
@@ -480,9 +481,11 @@ class Taylor(PublisherParser):
         return None
 
     def _decode_taylorfrancis_jsonish(self, value):
+        # Angular TransferState escapes " ' < > & as &q; &s; &l; &g; &a; (&a; last, so "&a;s;" stays a literal "&s;")
         return html.unescape(
             value
             .replace("&q;", '"')
+            .replace("&s;", "'")
             .replace("&l;", "<")
             .replace("&g;", ">")
             .replace("&a;", "&")
