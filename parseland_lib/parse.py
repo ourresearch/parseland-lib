@@ -6,7 +6,9 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
-from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract
+from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
+    silverchair_corresponding_names
+from parseland_lib.publisher.parsers.utils import same_person
 
 
 def _is_doi_router_url(url):
@@ -44,6 +46,31 @@ def _sniff_publisher_url(soup):
     except Exception:
         pass
     return None
+
+
+def _mark_silverchair_corresponding(soup, authors):
+    """Fill the corresponding flag from a Silverchair byline when the winning parser marked no one (#1805).
+
+    ACS and RSC pages moved to Silverchair (pubs.acs.org/<journal>/article/..., pubs.rsc.org/<journal>/article/...)
+    and no publisher parser claims them, so the meta-tag parser wins and every new page lost its corresponding
+    author. Each name the byline marks sets the flag on the one parsed author with that name; a name that matches
+    no author, or more than one, is skipped.
+    """
+    if not authors or any(a["is_corresponding"] for a in authors):
+        return
+    for name in silverchair_corresponding_names(soup):
+        matches = [a for a in authors if same_person(a["name"], name)]
+        if len(matches) == 1:
+            matches[0]["is_corresponding"] = True
+    if any(a["is_corresponding"] for a in authors):
+        for a in authors:
+            if a["is_corresponding"] is None:
+                a["is_corresponding"] = False
+
+
+def _has(content, marker):
+    """Cheap raw-bytes check before a whole-tree search (lp_content may be bytes or str)."""
+    return (marker.encode() if isinstance(content, (bytes, bytearray)) else marker) in content
 
 
 def parse_page(lp_content, namespace, resolved_url=None):
@@ -108,6 +135,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
+        if _has(lp_content, "al-author-name"):
+            _mark_silverchair_corresponding(soup, authors)
 
     # Merge into a single response
     response = authors_and_abstract

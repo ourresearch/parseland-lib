@@ -1,3 +1,4 @@
+import json
 import re
 import unicodedata
 from nameparser import HumanName
@@ -89,3 +90,66 @@ def names_match(name1: HumanName, name2: HumanName):
     if not isinstance(name2, HumanName):
         name2 = HumanName(name2)
     return name1.last.lower() == name2.last.lower() and name1.first.lower() == name2.first.lower()
+
+
+class NuxtPayload:
+    """A Nuxt 3 page's ``<script id="__NUXT_DATA__">`` payload (devalue's flat format), read lazily.
+
+    The payload is one JSON array; containers hold indices into it, and wrappers such as ["ShallowReactive", i]
+    or ["Ref", i] point at their value. MDPI's article pages keep their full author and affiliation lists there
+    (the HTML shows only the first four affiliations; oxjob #1805). ``node(i)`` resolves one level: a dict or list
+    of indices, or a plain value.
+    """
+    WRAPPERS = {"ShallowReactive", "Reactive", "Ref", "ShallowRef", "EmptyRef", "EmptyShallowRef"}
+
+    def __init__(self, arr):
+        self.arr = arr
+
+    @classmethod
+    def from_soup(cls, soup):
+        tag = soup.find("script", id="__NUXT_DATA__")
+        if tag is None or not tag.string:
+            return None
+        try:
+            arr = json.loads(tag.string)
+        except ValueError:
+            return None
+        return cls(arr) if isinstance(arr, list) and arr else None
+
+    def node(self, i):
+        for _ in range(8):  # wrapper chains are short; a loop guard, not a real limit
+            if not isinstance(i, int) or not 0 <= i < len(self.arr):
+                return None  # devalue's negative sentinels: undefined, NaN, Infinity, -0
+            v = self.arr[i]
+            if isinstance(v, list) and len(v) == 2 and v[0] in self.WRAPPERS:
+                i = v[1]
+                continue
+            return v
+        return None
+
+    def dicts(self, i):
+        """The dicts in the list at index i (e.g. an article's authors), one level resolved."""
+        return [d for d in map(self.node, self.node(i) or []) if isinstance(d, dict)]
+
+
+def _name_tokens(name):
+    """Accent-free lower-case name tokens; 'Family, Given' reads as 'Given Family'; any dash splits; curly
+    apostrophes read straight. Kept close to gate/fields.py name_tokens (minus its title list), which scores us."""
+    n = unicodedata.normalize("NFKD", name)
+    n = "".join(c for c in n if not unicodedata.combining(c)).casefold()
+    n = re.sub(r"[‘’ʼ`´]", "'", n)
+    if "," in n:
+        family, _, given = n.partition(",")
+        n = f"{given} {family}"
+    return sorted(t for t in re.split(r"[^\w']+", n.replace("-", " ")) if t)
+
+
+def same_person(name1, name2):
+    """True when two renderings of one byline name agree: 'Qu, Junle' / 'Junle Qu', 'Yan-Yan Song' /
+    'Yan Yan Song', 'Jürgen' / 'Jurgen'. Exact first and last name (names_match) or the same token set."""
+    if not name1 or not name2:
+        return False
+    if names_match(name1, name2):
+        return True
+    t1 = _name_tokens(name1)
+    return bool(t1) and t1 == _name_tokens(name2)

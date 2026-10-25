@@ -11,11 +11,14 @@ class Frontiers(PublisherParser):
         return self.domain_in_meta_og_url("frontiersin.org")
 
     def authors_found(self):
-        return self.soup.find("div", class_="authors")
+        return self._old_template() or self._v4_people_list()
 
     def parse(self):
-        authors = self.get_authors()
-        affiliations = self.get_affiliations()
+        if self._old_template():
+            authors = self.get_authors()
+            affiliations = self.get_affiliations()
+        else:
+            authors, affiliations = self.get_v4()
         authors_affiliations = self.merge_authors_affiliations(authors, affiliations)
         return {
             "authors": authors_affiliations,
@@ -52,6 +55,54 @@ class Frontiers(PublisherParser):
                 Author(name=name, aff_ids=aff_ids, is_corresponding=is_corresponding)
             )
         return authors
+
+    def _v4_people_list(self):
+        """The author list of Frontiers' current article template (``ArticleDetailsV4``), or None.
+
+        It is the first ``div.PeopleList`` after the article title; editors and reviewers come in later lists.
+        """
+        if not hasattr(self, "_v4"):  # authors_found runs on every page of every publisher: look once
+            # one pass over h1 tags is much cheaper than a CSS [class*=] select across the whole page
+            title = next((h for h in self.soup.find_all("h1") if "ArticleDetails" in " ".join(h.get("class") or ())),
+                         None)
+            people = title.find_next("div", class_="PeopleList") if title else None
+            self._v4 = people if people is not None and people.select_one("p.PeopleListItem__name") else None
+        return self._v4
+
+    def _old_template(self):
+        if not hasattr(self, "_old"):
+            self._old = self.soup.find("div", class_="authors")
+        return self._old
+
+    def get_v4(self):
+        """Authors and affiliations from the ``ArticleDetailsV4`` byline (oxjob #1805).
+
+        Each name carries ``<sup>`` affiliation numbers and a ``<sup>*</sup>`` for a corresponding author; the
+        ``AffiliationList`` inside the same block numbers its entries "1. ...". Without this the meta-tag parser won
+        these pages: no corresponding authors on ~1 in 5 and shortened affiliations (meta tags hold only the first
+        unit and the country).
+        """
+        people = self._v4_people_list()
+        authors = []
+        for tag in people.select("p.PeopleListItem__name"):
+            # read without mutating: every parser shares this soup
+            sups = [s.get_text("", strip=True) for s in tag.find_all("sup")]
+            name = " ".join(t for t in tag.find_all(string=True) if t.find_parent("sup") is None)
+            name = re.sub(r"\s+", " ", name).strip(" ,")
+            if not name:
+                continue
+            aff_ids = self.format_ids(",".join(sups))
+            authors.append(Author(name=name, aff_ids=aff_ids, is_corresponding=any("*" in s for s in sups)))
+        affiliations = []
+        aff_list = people.find("div", class_="AffiliationList")
+        for item in aff_list.select(".AffiliationList__name") if aff_list else []:
+            text = re.sub(r"\s+", " ", item.get_text(" ", strip=True))
+            m = re.match(r"^(\d+)\.\s*(.*)$", text)
+            if m:
+                affiliations.append(Affiliation(aff_id=int(m.group(1)), organization=m.group(2)))
+            elif text:
+                affiliations.append(Affiliation(aff_id=None, organization=text))
+        return authors, affiliations
 
     def get_affiliations(self):
         aff_soup = self.soup.find("ul", class_="notes")

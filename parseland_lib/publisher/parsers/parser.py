@@ -67,6 +67,27 @@ def silverchair_abstract(soup):
     return text or None
 
 
+def silverchair_corresponding_names(soup):
+    """Names of the authors a Silverchair article page marks as corresponding, in byline order ([] if none).
+
+    Silverchair bylines hold one ``.al-author-name`` per author; a corresponding author carries the
+    "Corresponding author note" link (``a.xref-corresp``) and/or an ``.info-author-correspondence`` block in its
+    info card. ACS and RSC moved to Silverchair in 2025-26; no publisher parser claims their new pages, so the
+    winning parser reads meta tags and marked no one (oxjob #1805).
+    """
+    names = []
+    for tag in soup.select(".al-author-name"):
+        if not (tag.select_one("a.xref-corresp") or tag.select_one(".info-author-correspondence")):
+            continue
+        name_tag = tag.select_one(".info-card-name") or tag.select_one("a.linked-name")
+        if name_tag is not None:
+            # the card name may carry a footnote label ("Nien-Hui Ge a)" on AIP) or a trailing '*'
+            text = " ".join(s for s in name_tag.find_all(string=True)
+                            if s.find_parent(class_="info-card-footnote") is None and s.find_parent("sup") is None)
+            names.append(re.sub(r"\s+", " ", text).strip(" *†‡§,;"))
+    return names
+
+
 class PublisherParser(Parser, ABC):
     def __init__(self, soup):
         self.soup = soup
