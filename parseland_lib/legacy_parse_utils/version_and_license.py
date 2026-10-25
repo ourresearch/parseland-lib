@@ -28,6 +28,10 @@ def page_potential_license_text(page):
         "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
         " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
         " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
+        # Page-template code that looks for a CC badge is not a licence statement: SAGE's older template ships
+        # `if ($('.creative-commons-badge.cc-by').length){ console.debug('... CC-BY type of article.') ...}` on every
+        # article page, paywalled or not, which read as cc-by (oxjob #1794: 755 closed works turned hybrid).
+        "//script[contains(., 'creative-commons-badge')]",
     ]
 
     for section_finder in bad_section_finders:
@@ -59,9 +63,13 @@ def sciencedirect_article_license_text(page):
 
     None when the page carries no ScienceDirect article state, so other pages keep the whole-page search.
     """
-    if not page or '"openAccess"' not in page:
+    if not page:
         return None
-    access = _SD_ACCESS.search(page)
+    access = _SD_ACCESS.search(page) if '"openAccess"' in page else None
+    if access is None and '\\"openAccess\\"' in page:
+        # some pages (peer-review reports, year-book articles) hold the state as an escaped JSON string:
+        # \"access\":{\"openAccess\":false,...}; read it the same way, or the self-archiving licence leaks again
+        access = _SD_ACCESS.search(page.replace('\\"', '"'))
     if access is None:
         return None
     license_url = _SD_ACCESS_LICENSE.search(access.group(1))
