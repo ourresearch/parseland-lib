@@ -19,7 +19,8 @@ env:
   # The gate parses each corpus as this many slices on separate runners at once (gate/shard.py), ~3 min each.
   GATE_SHARDS: 3
   # This run's slice scores (private bucket; booleans per page x field, no page text). Kept for re-runs of a job.
-  GATE_RUN: s3://openalex-parseland-gate/ci/${{ github.run_id }}
+  # Under runs/: the bucket policy lets CI write nowhere else.
+  GATE_RUN: s3://openalex-parseland-gate/runs/ci/${{ github.run_id }}
 
 jobs:
   # The test gate (oxjob #1791; rules in gate/README.md), as parallel jobs since 25 Oct 2026:
@@ -134,7 +135,7 @@ jobs:
         if [ "$TARGET" = dev ]; then SPLIT=dev; fi
         if [ "$TARGET" = prod ]; then LIB=.prod; fi
         python gate/shard.py parse --split "$SPLIT" --lib "$LIB" --shard "$SHARD/$GATE_SHARDS" --out "$RUNNER_TEMP/scores.ndjson"
-        aws s3 cp --quiet "$RUNNER_TEMP/scores.ndjson" "$GATE_RUN/$TARGET-$SHARD.ndjson"
+        aws s3 cp --no-progress "$RUNNER_TEMP/scores.ndjson" "$GATE_RUN/$TARGET-$SHARD.ndjson"
 
   gate:
     name: Test gate
@@ -175,7 +176,7 @@ jobs:
       run: |
         S="$RUNNER_TEMP/shards"; T="$RUNNER_TEMP/gate"; mkdir -p "$S" "$T"
         for t in $TARGETS; do
-          for i in $(seq 0 $((GATE_SHARDS - 1))); do aws s3 cp --quiet "$GATE_RUN/$t-$i.ndjson" "$S/$t-$i.ndjson"; done
+          for i in $(seq 0 $((GATE_SHARDS - 1))); do aws s3 cp --no-progress "$GATE_RUN/$t-$i.ndjson" "$S/$t-$i.ndjson"; done
         done
         python gate/shard.py merge --split dev --out "$T/dev_scores.ndjson" "$S"/dev-*.ndjson
         case " $TARGETS " in
