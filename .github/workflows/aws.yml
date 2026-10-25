@@ -24,7 +24,9 @@ jobs:
     name: Test gate
     runs-on: ubuntu-24.04
     environment: production
-    timeout-minutes: 40
+    # 60, not 40 (25 Oct, corpus v1.3): unit tests take ~10-14 min on CI and a branch whose corpus differs from
+    # production's parses the holdout twice (~13 min each); #1808's run 40210174501 hit 40 min.
+    timeout-minutes: 60
 
     steps:
     - name: Checkout Code
