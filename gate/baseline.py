@@ -13,14 +13,13 @@ import datetime
 import json
 import os
 import sys
-import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gate import corpus  # noqa: E402
 from gate import fields as F  # noqa: E402
-from gate.run_parser import run  # noqa: E402
-from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored, score_corpus  # noqa: E402
+from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
+from gate.shard import parse_and_score  # noqa: E402
 
 SHORT = {"authors": "authors", "affiliations": "affil.", "corresponding": "corresp.", "abstract": "abstract",
          "pdf_url": "PDF", "license": "licence"}
@@ -61,11 +60,7 @@ if __name__ == "__main__":
         if not all("dont_care" in r for r in res):
             raise SystemExit("these scores predate the don't-care rule: rescore them first")
     else:
-        h = corpus.fetch("holdout")
-        with tempfile.TemporaryDirectory() as tmp:
-            parsed = os.path.join(tmp, "parsed.ndjson")
-            run(a.lib, h, parsed)
-            res = score_corpus(h, parsed)
+        res = parse_and_score("holdout", a.lib)
     c, op = cells(res), other_paper(res)
     out = {"commit": a.commit, "corpus": corpus.version(), "pages": len(scored(res)), "other_paper": op,
            "computed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"), "cells": c}

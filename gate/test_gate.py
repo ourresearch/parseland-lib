@@ -1,12 +1,17 @@
 """Tests for the gate's own rules and matching (no corpus needed). Run: python -m pytest gate/test_gate.py"""
 from __future__ import annotations
 
+import json
 import os
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from gate import corpus, shard  # noqa: E402
 from gate import fields as F  # noqa: E402
 from gate.compare import decide  # noqa: E402
+from gate.run_parser import shard_rows  # noqa: E402
 from gate.score import cells, other_paper  # noqa: E402
 
 
@@ -120,3 +125,25 @@ def test_extra_value_is_wrong():
     cand = {"authors": [{"name": "A B", "affiliations": [], "is_corresponding": False}], "abstract": "x" * 50,
             "pdf_url": "https://x/login.html", "license": "cc-by"}
     assert not any(F.compare(f, gold, cand) for f in ("authors", "abstract", "pdf_url", "license"))
+
+
+def test_shards_cover_every_page_once():
+    rows = list(range(10))
+    parts = [shard_rows(rows, (i, 3)) for i in range(3)]
+    assert sorted(sum(parts, [])) == rows and shard_rows(rows, None) == rows
+    with pytest.raises(ValueError):
+        shard_rows(rows, (3, 3))
+
+
+def test_merge_refuses_a_missing_or_doubled_shard(tmp_path, monkeypatch):
+    monkeypatch.setattr(corpus, "lock", lambda: {"dev": {"pages": 3}})
+    a, b = tmp_path / "a.ndjson", tmp_path / "b.ndjson"
+    a.write_text("".join(json.dumps(page(p, "x.com")) + "\n" for p in ("p0", "p1")))
+    b.write_text(json.dumps(page("p2", "x.com")) + "\n")
+    out = tmp_path / "out.ndjson"
+    shard.merge("dev", str(out), [str(a), str(b)])
+    assert len(out.read_text().splitlines()) == 3
+    with pytest.raises(SystemExit, match="a shard is missing"):
+        shard.merge("dev", str(out), [str(a)])
+    with pytest.raises(SystemExit, match="in two shards"):
+        shard.merge("dev", str(out), [str(a), str(a), str(b)])

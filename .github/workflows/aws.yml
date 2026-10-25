@@ -16,23 +16,96 @@ env:
   ECS_CLUSTER: parseland
   TASK_FAMILY: parseland
   CONTAINER_NAME: parseland
+  # The gate parses each corpus as this many slices on separate runners at once (gate/shard.py), ~3 min each.
+  GATE_SHARDS: 3
+  # This run's slice scores (private bucket; booleans per page x field, no page text). Kept for re-runs of a job.
+  GATE_RUN: s3://openalex-parseland-gate/ci/${{ github.run_id }}
 
 jobs:
-  # The test gate (oxjob #1791; rules in gate/README.md). The deploy below runs only if it passes:
-  # offline unit tests, then the sealed holdout scored for this commit and for the commit now in ECS.
-  gate:
-    name: Test gate
+  # The test gate (oxjob #1791; rules in gate/README.md), as parallel jobs since 25 Oct 2026:
+  #   plan   the commit in production, what must be parsed, and whether this push changes what the image runs;
+  #   parse  slices of the dev corpus and of the sealed holdout, parsed and scored on separate runners at once;
+  #   gate   ("Test gate") merges the slices, then runs the unit tests (network off), the ledger guard and the holdout gate.
+  # The deploy runs only if the gate passes, and only when a file the image runs on changed since production.
+  plan:
+    name: Gate plan
     runs-on: ubuntu-24.04
     environment: production
-    # 60, not 40 (25 Oct, corpus v1.3): unit tests take ~10-14 min on CI and a branch whose corpus differs from
-    # production's parses the holdout twice (~13 min each); #1808's run 40210174501 hit 40 min.
-    timeout-minutes: 60
+    timeout-minutes: 10
+    outputs:
+      prod_sha: ${{ steps.plan.outputs.prod_sha }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+      deploy: ${{ steps.plan.outputs.deploy }}
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        fetch-depth: 0
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Find the commit in production and what to parse
+      id: plan
+      run: |
+        IMAGE=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --query 'taskDefinition.containerDefinitions[0].image' --output text)
+        PROD_SHA="${IMAGE##*:}"
+        if ! git fetch -q --depth=1 origin "$PROD_SHA" 2>/dev/null; then
+          PROD_SHA="${{ github.event.before }}"; git fetch -q --depth=1 origin "$PROD_SHA" 2>/dev/null || true
+        fi
+        echo "Comparing ${{ github.sha }} with production $PROD_SHA" >> "$GITHUB_STEP_SUMMARY"
+        # A diff that fails (production commit unknown) counts as a change everywhere below: parse it all, deploy.
+        TARGETS=dev
+        # Production's holdout scores: reuse the ones saved by the run that deployed it, if scorer and corpus are unchanged.
+        if git diff --quiet "$PROD_SHA" HEAD -- gate/score.py gate/fields.py gate/corpus.lock.json \
+           && aws s3api head-object --bucket openalex-parseland-gate --key "runs/$PROD_SHA/head_scores.ndjson" >/dev/null 2>&1; then
+          echo "Production scores reused from its own gate run." >> "$GITHUB_STEP_SUMMARY"
+        else
+          TARGETS="$TARGETS prod"
+        fi
+        # This commit's holdout scores equal production's when neither parser code nor its pins changed (production's
+        # scores are computed with this commit's scorer, or reused only when the scorer is unchanged).
+        if git diff --quiet "$PROD_SHA" HEAD -- parseland_lib requirements.txt; then
+          echo "No parser change since production: holdout scores carried over." >> "$GITHUB_STEP_SUMMARY"
+        else
+          TARGETS="$TARGETS holdout"
+        fi
+        # Deploy only when a file the image runs on changed: anything but the gate, tests, tools, CI and docs.
+        if CHANGED=$(git diff --name-only "$PROD_SHA" HEAD 2>/dev/null) \
+           && ! printf '%s\n' "$CHANGED" | grep -qvE '^(gate|tests|eval|scripts|dashboard|mismatches|\.github|\.claude)/|\.md$|^$'; then
+          DEPLOY=false
+          echo "No file the image runs on changed since production: this push deploys nothing." >> "$GITHUB_STEP_SUMMARY"
+        else
+          DEPLOY=true
+        fi
+        {
+          echo "prod_sha=$PROD_SHA"
+          echo "deploy=$DEPLOY"
+          echo "matrix=$(jq -cn --arg t "$TARGETS" --argjson n "$GATE_SHARDS" '{target: ($t | split(" ")), shard: [range($n)]}')"
+        } >> "$GITHUB_OUTPUT"
+
+  parse:
+    name: Parse ${{ matrix.target }} ${{ matrix.shard }}
+    needs: plan
+    runs-on: ubuntu-24.04
+    environment: production
+    timeout-minutes: 30
+    strategy:
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Check out the commit in production
+      if: matrix.target == 'prod'
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ needs.plan.outputs.prod_sha }}
+        path: .prod
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -50,58 +123,88 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Fetch the frozen corpus
+    # dev = this commit on the dev corpus; holdout = this commit on the holdout; prod = production's code on the holdout.
+    - name: Parse and score this slice
       env:
-        PARSELAND_HOLDOUT_KEY: ${{ secrets.PARSELAND_HOLDOUT_KEY }}
+        PARSELAND_HOLDOUT_KEY: ${{ matrix.target != 'dev' && secrets.PARSELAND_HOLDOUT_KEY || '' }}
+        TARGET: ${{ matrix.target }}
+        SHARD: ${{ matrix.shard }}
       run: |
-        python gate/corpus.py fetch dev
-        python gate/corpus.py fetch holdout
+        SPLIT=holdout; LIB=.
+        if [ "$TARGET" = dev ]; then SPLIT=dev; fi
+        if [ "$TARGET" = prod ]; then LIB=.prod; fi
+        python gate/shard.py parse --split "$SPLIT" --lib "$LIB" --shard "$SHARD/$GATE_SHARDS" --out "$RUNNER_TEMP/scores.ndjson"
+        aws s3 cp --quiet "$RUNNER_TEMP/scores.ndjson" "$GATE_RUN/$TARGET-$SHARD.ndjson"
 
-    - name: Find the commit in production
-      id: prod
+  gate:
+    name: Test gate
+    needs: [plan, parse]
+    runs-on: ubuntu-24.04
+    environment: production
+    timeout-minutes: 20
+    env:
+      PROD_SHA: ${{ needs.plan.outputs.prod_sha }}
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+
+    - name: Install
+      run: pip install -r requirements.txt -r gate/requirements.txt
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Fetch the dev corpus
+      run: python gate/corpus.py fetch dev
+
+    - name: Collect the parsed slices
+      id: collect
+      env:
+        TARGETS: ${{ join(fromJSON(needs.plan.outputs.matrix).target, ' ') }}
       run: |
-        IMAGE=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --query 'taskDefinition.containerDefinitions[0].image' --output text)
-        PROD_SHA="${IMAGE##*:}"
-        if ! git cat-file -e "${PROD_SHA}^{commit}" 2>/dev/null; then PROD_SHA="${{ github.event.before }}"; fi
-        echo "PROD_SHA=$PROD_SHA" >> "$GITHUB_ENV"
-        git worktree add --detach "$RUNNER_TEMP/prod" "$PROD_SHA"
-        echo "Comparing ${{ github.sha }} with production $PROD_SHA" >> "$GITHUB_STEP_SUMMARY"
+        S="$RUNNER_TEMP/shards"; T="$RUNNER_TEMP/gate"; mkdir -p "$S" "$T"
+        for t in $TARGETS; do
+          for i in $(seq 0 $((GATE_SHARDS - 1))); do aws s3 cp --quiet "$GATE_RUN/$t-$i.ndjson" "$S/$t-$i.ndjson"; done
+        done
+        python gate/shard.py merge --split dev --out "$T/dev_scores.ndjson" "$S"/dev-*.ndjson
+        case " $TARGETS " in
+          *" prod "*) python gate/shard.py merge --split holdout --out "$T/prod_scores.ndjson" "$S"/prod-*.ndjson ;;
+          *) aws s3 cp --quiet "s3://openalex-parseland-gate/runs/$PROD_SHA/head_scores.ndjson" "$T/prod_scores.ndjson" ;;
+        esac
+        case " $TARGETS " in
+          *" holdout "*) python gate/shard.py merge --split holdout --out "$T/head_scores.ndjson" "$S"/holdout-*.ndjson ;;
+          *) cp "$T/prod_scores.ndjson" "$T/head_scores.ndjson" ;;
+        esac
 
     - name: Unit tests (network off)
       env:
         GATE_REQUIRE_CORPUS: "1"
-        GATE_DEV_SCORES_OUT: ${{ runner.temp }}/dev_scores.ndjson
+        GATE_DEV_SCORES_IN: ${{ runner.temp }}/gate/dev_scores.ndjson
       run: python -m pytest tests gate/test_gate.py -q --disable-socket -p no:cacheprovider
 
     - name: Ledger guard (a regression written into the ledger is still a regression)
-      if: ${{ !cancelled() && steps.prod.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.collect.outcome == 'success' }}
       run: |
+        git fetch -q --depth=1 origin "$PROD_SHA"
         git show "${PROD_SHA}:gate/known_failures.json" > "$RUNNER_TEMP/prod_ledger.json" 2>/dev/null || true
         python gate/ledger.py guard --base "$RUNNER_TEMP/prod_ledger.json" \
-          --dev-scores "$RUNNER_TEMP/dev_scores.ndjson" --summary "$GITHUB_STEP_SUMMARY"
+          --dev-scores "$RUNNER_TEMP/gate/dev_scores.ndjson" --summary "$GITHUB_STEP_SUMMARY"
 
     - name: Holdout gate
-      if: ${{ !cancelled() && steps.prod.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.collect.outcome == 'success' }}
       run: |
-        H=$(python gate/corpus.py path holdout)
-        T="$RUNNER_TEMP/gate"; mkdir -p "$T"
-        # Production's scores: reuse the ones saved by the run that deployed it, if scorer and corpus are unchanged.
-        if git diff --quiet "$PROD_SHA" HEAD -- gate/score.py gate/fields.py gate/corpus.lock.json \
-           && aws s3 cp --quiet "s3://openalex-parseland-gate/runs/$PROD_SHA/head_scores.ndjson" "$T/prod_scores.ndjson" 2>/dev/null; then
-          echo "Production scores reused from its own gate run." >> "$GITHUB_STEP_SUMMARY"
-        else
-          python gate/run_parser.py --lib "$RUNNER_TEMP/prod" --corpus "$H" --out "$T/prod_parsed.ndjson"
-          python gate/score.py --corpus "$H" --parsed "$T/prod_parsed.ndjson" --out "$T/prod_scores.ndjson"
-        fi
-        # This commit's scores: identical to production's when neither parser code nor its pins changed (production's
-        # scores above were computed with this commit's scorer, or reused only when the scorer is unchanged).
-        if git diff --quiet "$PROD_SHA" HEAD -- parseland_lib requirements.txt; then
-          cp "$T/prod_scores.ndjson" "$T/head_scores.ndjson"
-          echo "No parser change since production: holdout scores carried over." >> "$GITHUB_STEP_SUMMARY"
-        else
-          python gate/run_parser.py --lib . --corpus "$H" --out "$T/head_parsed.ndjson"
-          python gate/score.py --corpus "$H" --parsed "$T/head_parsed.ndjson" --out "$T/head_scores.ndjson"
-        fi
+        T="$RUNNER_TEMP/gate"
         OVERRIDE=$(git log -1 --format=%B | sed -n 's/^Gate-Override: *//p' | head -1)
         python gate/compare.py --base "$T/prod_scores.ndjson" --head "$T/head_scores.ndjson" \
           --baseline gate/baseline.json --summary "$GITHUB_STEP_SUMMARY" --json "$T/gate.json" \
@@ -111,15 +214,14 @@ jobs:
       if: always()
       run: |
         T="$RUNNER_TEMP/gate"; mkdir -p "$T"
-        if [ -f "$RUNNER_TEMP/dev_scores.ndjson" ]; then cp "$RUNNER_TEMP/dev_scores.ndjson" "$T/"; fi
         for f in gate.json head_scores.ndjson prod_scores.ndjson dev_scores.ndjson; do
           if [ -f "$T/$f" ]; then aws s3 cp --quiet "$T/$f" "s3://openalex-parseland-gate/runs/${{ github.sha }}/$f"; fi
         done
 
   deploy:
     name: Deploy
-    needs: gate
-    if: github.ref == 'refs/heads/main'
+    needs: [plan, gate]
+    if: github.ref == 'refs/heads/main' && needs.plan.outputs.deploy == 'true'
     runs-on: ubuntu-24.04
     environment: production
 

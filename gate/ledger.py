@@ -16,29 +16,21 @@ import argparse
 import json
 import os
 import sys
-import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gate import corpus  # noqa: E402
-from gate.run_parser import run  # noqa: E402
-from gate.score import load_ndjson, other_paper, other_paper_line, score_corpus, scored  # noqa: E402
+from gate.score import load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
+from gate.shard import parse_and_score  # noqa: E402
 
 LEDGER = os.path.join(ROOT, "gate", "known_failures.json")
 
 
 def current(workers=None):
-    dev = corpus.fetch("dev")
-    with tempfile.TemporaryDirectory() as tmp:
-        parsed = os.path.join(tmp, "parsed.ndjson")
-        run(ROOT, dev, parsed, workers or max(1, min(4, os.cpu_count() or 2)))
-        res = score_corpus(dev, parsed)
-    out = os.environ.get("GATE_DEV_SCORES_OUT")  # CI keeps its own dev scores (rebuild the ledger from them if needed)
-    if out:
-        with open(out, "w") as f:
-            for r in res:
-                f.write(json.dumps(r) + "\n")
-    return res
+    pre = os.environ.get("GATE_DEV_SCORES_IN")  # CI: this commit's dev scores, parsed in slices (gate/shard.py merge)
+    if pre:
+        return list(load_ndjson(pre))
+    return parse_and_score("dev", ROOT, workers=workers)
 
 
 def as_ledger(results):

@@ -11,6 +11,13 @@ Every push to `main` now runs this gate before the ECS deploy, and the deploy ha
    this commit and with the commit now running in ECS, scores both against the gold, and refuses the deploy when a
    field gets worse on a publisher beyond noise (rules below). It prints counts per publisher x field only.
 
+**How CI runs it (since 25 Oct 2026).** "Gate plan" finds the commit in ECS and what must be parsed; "Parse" jobs
+parse 3 slices of each corpus on separate runners at once (`gate/shard.py`; production's holdout parse only when
+its saved scores can't be reused); "Test gate" merges the slices and runs the unit tests, ledger guard and holdout
+gate on them. About 6-8 minutes instead of 16-28. **A push to `main` deploys only when a file the image runs on
+changed since production**: changes to only `gate/`, `tests/`, `eval/`, `scripts/`, `dashboard/`, `mismatches/`,
+`.github/`, `.claude/` or `*.md` still run the gate but restart nothing, so a gold or gate change needs no deploy slot.
+
 ## Working on Parseland with the gate
 
 ```bash

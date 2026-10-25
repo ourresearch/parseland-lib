@@ -32,6 +32,12 @@ def load_ndjson(path):
                 yield json.loads(line)
 
 
+def write_ndjson(rows, path):
+    with open(path, "w") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
+
+
 def cell_of(m):
     """Gate cell: the host for random host pages; the failure class or the current template for the purposive strata
     (e.g. "failure:cairn_no_aff", "template:mdpi.com (Nuxt)"); else the stratum."""
@@ -106,9 +112,7 @@ if __name__ == "__main__":
     ap.add_argument("--cells")
     a = ap.parse_args()
     res = score_corpus(a.corpus, a.parsed)
-    with open(a.out, "w") as f:
-        for r in res:
-            f.write(json.dumps(r) + "\n")
+    write_ndjson(res, a.out)
     if a.cells:
         json.dump(cells(res), open(a.cells, "w"), indent=1)
     sc = scored(res)

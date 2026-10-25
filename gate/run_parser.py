@@ -20,6 +20,7 @@ import traceback
 import warnings
 
 _parse = None
+WORKERS = max(1, min(4, os.cpu_count() or 2))  # GitHub's standard runners have 4 vCPUs
 
 
 def _init(lib):
@@ -49,8 +50,18 @@ def _one(args):
     return {"page_id": r["page_id"], "out": out, "error": err, "ms": round((time.perf_counter() - t0) * 1000, 1)}
 
 
-def run(lib, corpus, out_path, workers=4):
-    rows = [json.loads(l) for l in open(os.path.join(corpus, "manifest.ndjson"))]
+def shard_rows(rows, shard):
+    """Pages i, i+n, i+2n, ... of the manifest for shard (i, n): CI parses a corpus as n slices at once."""
+    if not shard:
+        return rows
+    i, n = shard
+    if not 0 <= i < n:
+        raise ValueError(f"shard {i}/{n} out of range")
+    return rows[i::n]
+
+
+def run(lib, corpus, out_path, workers=WORKERS, shard=None):
+    rows = shard_rows([json.loads(l) for l in open(os.path.join(corpus, "manifest.ndjson"))], shard)
     pages = os.path.join(corpus, "pages")
     t0 = time.time()
     with mp.get_context("spawn").Pool(workers, initializer=_init, initargs=(lib,), maxtasksperchild=200) as pool, \
@@ -60,6 +71,7 @@ def run(lib, corpus, out_path, workers=4):
             if i % 500 == 0:
                 print(f"  parsed {i}/{len(rows)} ({time.time() - t0:.0f}s)", file=sys.stderr, flush=True)
     print(f"parsed {len(rows)} pages with {lib} in {time.time() - t0:.0f}s", file=sys.stderr)
+    return len(rows)
 
 
 if __name__ == "__main__":
@@ -67,6 +79,6 @@ if __name__ == "__main__":
     ap.add_argument("--lib", required=True)
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--workers", type=int, default=max(1, min(4, (os.cpu_count() or 2))))
+    ap.add_argument("--workers", type=int, default=WORKERS)
     a = ap.parse_args()
     run(a.lib, a.corpus, a.out, a.workers)
