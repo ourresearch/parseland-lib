@@ -379,7 +379,24 @@ class Taylor(PublisherParser):
         description = str(chapter.get("description") or "").strip()
         if not description:
             return None
-        return self._clean_taylorfrancis_abstract(description)
+        abstract = self._clean_taylorfrancis_abstract(description)
+        if self._is_taylorfrancis_title_stand_in(abstract, chapter):
+            return None
+        return abstract
+
+    def _is_taylorfrancis_title_stand_in(self, text, chapter):
+        """True when a chapter's JSON-LD description is only its title, optionally plus " - <n>".
+
+        T&F writes "<chapter title> - 1" there (and in meta description) when a chapter has no abstract
+        (oxjob #1809: e.g. "Masculinity and Femininity: Defining the Undefinable - 1").
+        """
+        def norm(value):
+            return re.sub(r"\s+", " ", html.unescape(str(value or ""))).strip().casefold()
+
+        stem = norm(re.sub(r"\s+-\s+\d+\s*$", "", text or ""))
+        meta = self.soup.find("meta", attrs={"name": "citation_title"})
+        titles = {norm(chapter.get("name")), norm(chapter.get("headline")), norm(meta.get("content") if meta else "")}
+        return bool(stem) and stem in titles - {""}
 
     def _parse_taylorfrancis_product_abstract(self):
         for payload, raw in self._taylorfrancis_product_payload_items():

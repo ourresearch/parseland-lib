@@ -64,11 +64,13 @@ def _tf_encode(obj):
     return json.dumps(obj).replace("&", "&a;").replace('"', "&q;")
 
 
-def _tf_page(contributors, jsonld_authors, institution_meta=None):
+def _tf_page(contributors, jsonld_authors, institution_meta=None, description=None):
     state = {"product": {"_id": "b4d87522", "type": "chapter", "title": "Introduction", "contributors": contributors}}
     jsonld = {"@context": "https://schema.org", "@type": "Chapter", "name": "Introduction",
               "url": "https://www.taylorfrancis.com/chapters/edit/10.4324/9780203881866-8/introduction",
               "publisher": {"@type": "Organization", "name": "Taylor & Francis"}, "author": jsonld_authors}
+    if description:
+        jsonld["description"] = description
     metas = "".join(f'<meta name="citation_author" content="{c["fullName"]}">' for c in contributors)
     if institution_meta:
         metas += f'<meta name="citation_author_institution" content="{institution_meta}">'
@@ -114,3 +116,14 @@ def test_tandf_empty_or_unnamed_affiliations_add_nothing():
                     {"@type": "Person", "givenName": "Emma", "familyName": "Heywood"})
     out = parse_page(html, "doi", "https://www.taylorfrancis.com/chapters/mono/10.4324/9781315542171-4/x")
     assert _affs(out) == [("Emma Heywood", [])]
+
+
+def test_tandf_title_stand_in_description_is_not_an_abstract():
+    # T&F writes "<chapter title> - 1" in the JSON-LD description when a chapter has no abstract (32.5K works showed it)
+    author = {"@type": "Person", "givenName": "Janet", "familyName": "Spence"}
+    stand_in = _tf_page([_contributor("Janet", "Spence", [], 1)], author, description="Introduction - 1")
+    real = _tf_page([_contributor("Janet", "Spence", [], 1)], author,
+                    description="This chapter introduces the volume's argument about masculinity and femininity.")
+    url = "https://www.taylorfrancis.com/chapters/edit/10.4324/9780203052792-7/x"
+    assert not parse_page(stand_in, "doi", url)["abstract"]
+    assert parse_page(real, "doi", url)["abstract"].startswith("This chapter introduces")
