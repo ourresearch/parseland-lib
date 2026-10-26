@@ -111,10 +111,12 @@ _TEMPLATE_RES = [
     re.compile(r"[a-z][a-z -]{2,40} article front\. [^,]{2,60}, \d{1,2} [a-z]+ \d{4}.{0,200}?https?://doi\.org/10\.3389/\S+$"),
 ]
 
-# Platform page furniture anywhere in the text: Silverchair's author card and toolbar ("Search for other works by
-# this author on: Oxford Academic Google Scholar", "Cite Icon Cite", "Share Icon Share", "Views Icon Views"). No
-# abstract contains these strings; on 26 Oct 2026 ~781K works showed such a page dump as their abstract (OUP 454K,
-# UC Press 80K, AIP 40K, Portland 36K, Duke 33K, GSA 20K; all from the legacy abstracts_backfill; #1857 / #1800).
+# Platform page furniture anywhere in a short text: Silverchair's author card and toolbar ("Search for other works by
+# this author on: Oxford Academic Google Scholar", "Cite Icon Cite", "Share Icon Share", "Views Icon Views"). On 26 Oct
+# 2026 ~781K works showed such a page dump as their abstract (OUP 454K, UC Press 80K, AIP 40K, Portland 36K, Duke 33K,
+# GSA 20K; all from the legacy abstracts_backfill; #1857 / #1800). Short only, like the templates: a judge read 200 of
+# 200 dumps under 1,500 characters as boilerplate, but 80 of 200 longer ones hold the work's own abstract among the
+# furniture (7 of 79 already at 1,500-2,000 characters).
 _FURNITURE_RE = re.compile(r"search for other works by this author on|\b(?:cite|share|views) icon (?:cite|share|views)\b")
 
 
@@ -136,9 +138,7 @@ def is_not_abstract(text) -> bool:
         return True
     if len(k) <= 200 and _KEY_RE.fullmatch(k):
         return True
-    if _FURNITURE_RE.search(plain):
-        return True
-    return len(plain) <= 1500 and any(r.match(plain) for r in _TEMPLATE_RES)
+    return len(plain) <= 1500 and (bool(_FURNITURE_RE.search(plain)) or any(r.match(plain) for r in _TEMPLATE_RES))
 
 
 def clean_abstract(text):
