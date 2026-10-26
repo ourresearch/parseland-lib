@@ -84,7 +84,35 @@ def license_search_text(page):
     page is searched whole, minus site chrome.
     """
     sd_license_text = sciencedirect_article_license_text(page)
-    return sd_license_text if sd_license_text is not None else page_potential_license_text(page)
+    if sd_license_text is not None:
+        return sd_license_text
+    tf_license_text = taylorfrancis_product_license_text(page)
+    if tf_license_text is not None:
+        return tf_license_text
+    return page_potential_license_text(page)
+
+
+# Taylor & Francis book pages (taylorfrancis.com) keep the product in Angular TransferState JSON, `"` escaped as `&q;`,
+# and state the product's own licence once there:
+#   &q;license&q;:{&q;type&q;:&q;open-access&q;,&q;description&q;:...,&q;location&q;:&q;http://creativecommons.org/licenses/by-nc-nd/4.0&q;}
+# or &q;license&q;:null. The same JSON holds the chapter's subject keywords and text, so the whole-page search read a
+# keyword ("Creative Commons Attribution ShareAlike") or a sentence ("... into the public domain") as the licence
+# (oxjob #1809 pilot: 3 of 3,016 pages; the 37 right licences there all came from the object). Pages that hold several
+# objects repeat the same one (8 of 372 sampled).
+_TF_LICENSE = re.compile(r'&q;license&q;:(null|\{[^{}]*\})')
+
+
+def taylorfrancis_product_license_text(page):
+    """The T&F product's own licence statement (its licence object, quotes decoded), or '' when it is null.
+
+    None when the page is not a T&F page carrying that object, so other pages keep the whole-page search.
+    """
+    if not page or '&q;license&q;:' not in page or 'taylorfrancis.com' not in page:
+        return None
+    m = _TF_LICENSE.search(page)
+    if m is None:
+        return None
+    return '' if m.group(1) == 'null' else m.group(1).replace('&q;', '"')
 
 
 def detect_bronze(soup, resolved_url):
