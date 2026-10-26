@@ -18,9 +18,19 @@ repo_dont_scrape_list = [
 
 
 class DuckLink(object):
+    """A link found somewhere other than an <a> element's own attributes (meta tag, script, button, a pdf-download
+    container). find_pdf_link reads these beside lxml <a> elements, so a DuckLink answers the element questions it
+    asks: no child images, no attributes. Without them, an OJS PDF-viewer page whose download link sits in a
+    pdf-download container with a non-English label errored the whole page (Sentry PARSELAND-4; oxjob #1809).
+    """
+
     def __init__(self, href, anchor):
         self.href = href
         self.anchor = anchor
+        self.attrib = {}
+
+    def findall(self, path):
+        return []
 
 
 def transform_pdf_url(url, html_str):
