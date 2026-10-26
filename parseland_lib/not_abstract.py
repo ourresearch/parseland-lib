@@ -78,6 +78,8 @@ _KEY_PATTERNS = [
     r"n ?a|none|nil|null|tb[ad]|not (?:provided|applicable)|no translation|full text available|"
     r"(?:graphical abstract)?display full size|j stage|abstract figure legend|"
     r"摘要|要旨|抄録|はじめに|中图分类号|zusammenfassung|resumen|resumo|résumé|аннотация|\d{1,3}",
+    # a meeting abstract's disclosure checkbox standing alone (GIE / DDW, 978 works on 26 Oct; oxjob #1794)
+    r"(?:disclosure compliance )?i understand",
 ]
 _KEY_RE = re.compile("|".join(f"(?:{p})" for p in _KEY_PATTERNS))
 
@@ -93,6 +95,13 @@ _TEMPLATE_RES = [
     re.compile(r"authors .{0,800}view author publications"),
     # CABI Compendium datasheet stand-in, one per taxon: 'This datasheet on Mesorchis covers Identity, Distribution.'
     re.compile(r"this datasheet on .{1,200} covers [a-z/ ,&()-]{3,400}\.?$"),
+    # Meeting-abstract pages with no abstract show a presenter or author line instead (HPB 'Presenter: Nora Singh
+    # BA | Hartford Hospital', Endocrine Practice 'Author Block: ...'; ~850 works on 26 Oct, oxjob #1794). Short
+    # only: a field that goes on past the byline into the abstract is kept.
+    re.compile(r"(?:presenter|presenting author(?: contact details)?|author block|primary author|authors?)\s*:.{0,400}$", re.S),
+    # CABI book front matter: the publisher's disclaimers (oxjob #1800 EXPLORE § 13, 26 Oct)
+    re.compile(r"the views expressed in this (?:publication|book|volume|report|chapter) are those of the author"),
+    re.compile(r"the information is supplied without obligation and on the understanding that"),
 ]
 
 

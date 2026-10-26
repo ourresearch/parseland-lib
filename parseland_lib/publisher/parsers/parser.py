@@ -24,6 +24,17 @@ class Parser(ABC):
         pass
 
 
+# Figures in the front matter are never abstract text: JACC's graphical abstract is a figure with an "Open in
+# Viewer / Download figure / Download PowerPoint" toolbar and nothing else (oxjob #1794, 26 Oct).
+_FRONTMATTER_FIGURES = '[id^="graphical-abstract"], figure, .core-figure-tools, .figure-wrap'
+# Bare paragraphs carry no heading saying "abstract". On meeting-abstract pages that show no abstract they hold one
+# short line instead: a disclosure ("I understand."), a presenter or affiliation line, a session title, a date.
+# Real ones (a purpose or background sentence) start at ~100 characters; the junk that is longer is caught by
+# is_not_abstract's patterns (oxjob #1794: of the 22K first abstracts the 26 Oct End 2 End gave Elsevier society
+# works, 1.8K were under 100 characters besides presenter lines, nearly all junk).
+_BARE_PARAGRAPH_FLOOR = 100
+
+
 def frontmatter_abstract(soup):
     """The abstract in Atypon's ``<div id="abstracts" data-extent="frontmatter">`` block, or None.
 
@@ -35,6 +46,9 @@ def frontmatter_abstract(soup):
     block = soup.select_one('#abstracts[data-extent="frontmatter"]')
     if block is None:
         return None
+    block = copy.copy(block)  # never edit the page other parsers read
+    for figure in block.select(_FRONTMATTER_FIGURES):  # also CABI chapters whose "Abstract" is a figure caption
+        figure.decompose()
     sections = block.find_all("section")
     if sections:
         chosen = next((s for s in sections if s.get("id") in ("author-abstract", "abstract")), None)
@@ -47,6 +61,8 @@ def frontmatter_abstract(soup):
             text = text[len(heading_text):]
     else:
         text = block.get_text(" ", strip=True)
+        if len(re.sub(r"\s+", " ", text).strip()) < _BARE_PARAGRAPH_FLOOR:
+            return None
     text = re.sub(r"\s+", " ", text).strip()
     return text or None
 

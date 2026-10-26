@@ -1,8 +1,10 @@
 """Elsevier society sites on the newer template (jaad.org, jaacap.org, ijoms.com ...) put the abstract in
 <div id="abstracts" data-extent="frontmatter">, sometimes as bare paragraphs. Parseland used to fall back to
 og:description, which these sites cut to the abstract's first sentences (oxjob #1794)."""
+import pytest
 from bs4 import BeautifulSoup
 
+from parseland_lib.parse import parse_page
 from parseland_lib.publisher.parsers.elsevier_bv import ElsevierBV
 
 FULL = (
@@ -70,3 +72,59 @@ def test_full_meta_synopsis_beats_a_one_line_frontmatter_key_point():
     </body></html>
     """
     assert not _abstract(html)
+
+
+# Meeting-abstract pages that show no abstract (26 Oct End 2 End: ~5.8K Elsevier society works got one of these
+# as a first abstract; oxjob #1794). Their og:description is the same short line, which the meta floor rejects.
+def _bare(frontmatter_inner, og=None):
+    og_tag = f'<meta property="og:description" content="{og}"/>' if og else ""
+    return f"""
+    <html><head><meta name="citation_publisher" content="Elsevier"/>{og_tag}</head><body>
+      <div id="abstracts" data-extent="frontmatter"><div class="core-container">{frontmatter_inner}</div></div>
+      <section id="bodymatter" data-extent="bodymatter"><p>Get full text access. Log in, subscribe or purchase.</p></section>
+    </body></html>
+    """
+
+
+def test_graphical_abstract_alone_is_not_an_abstract():
+    # JACC: the block holds only the graphical abstract's figure and its toolbar
+    html = _bare("""
+      <div id="graphical-abstract" role="doc-abstract"><div>Corresponding Author</div>
+        <div class="figure-wrap"><figure id="undfig1" class="graphic"><img src="ga.jpg"/>
+          <div class="core-figure-tools"><a>Open in Viewer</a><a>Download figure</a><a>Download PowerPoint</a></div>
+        </figure></div></div>""")
+    assert not _abstract(html)
+
+
+def test_graphical_abstract_toolbar_is_dropped_from_bare_paragraphs():
+    html = _bare(f"""<div id="p0010" role="paragraph">{FULL}</div>
+      <div id="graphical-abstract" role="doc-abstract"><figure><div class="core-figure-tools">Download figure</div></figure></div>""")
+    assert _abstract(html) == FULL
+
+
+@pytest.mark.parametrize("line", [
+    "I understand.",
+    "Presenter: Nora Singh BA | Hartford Hospital",
+    "Wake Forest University School of Medicine, USA.",
+    "Radiotherapy and radiobiology",
+])
+def test_one_short_bare_line_is_not_an_abstract(line):
+    assert not _abstract(_bare(f'<div id="p0010" role="paragraph">{line}</div>', og=line))
+
+
+@pytest.mark.parametrize("line", [
+    "I understand.",
+    "Presenter: Nora Singh BA | Hartford Hospital",
+    "Author Block: Mikayla Deckard, BS, Soliana Kahassai, MS, BS, Sam Cotton, PhD, Claudiu Moisa, MD, University of "
+    "Louisville School of Medicine, Louisville, Kentucky",
+])
+def test_parse_page_gives_no_abstract_for_a_bare_byline(line):
+    html = _bare(f'<div id="p0010" role="paragraph">{line}</div>', og=line)
+    assert not parse_page(html, "doi", "https://www.hpbonline.org/article/S1365-182X(26)00458-2/fulltext")["abstract"]
+
+
+def test_short_real_purpose_sentence_is_kept():
+    # meeting abstracts whose page shows only the first section still give it (100-200 characters)
+    purpose = ("The purpose of this study is to evaluate whether observation or intervention impacts recurrence free "
+               "survival after close pathologic margins in squamous cell carcinoma of the vulva.")
+    assert _abstract(_bare(f'<div id="p0010" role="paragraph">{purpose}</div>', og=purpose)) == purpose

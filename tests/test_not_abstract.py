@@ -77,6 +77,20 @@ NOT_ABSTRACTS = [
     "This datasheet on Mesorchis covers Identity.",
     "This datasheet on Brassolis sophorae covers Identity, Distribution, Hosts/Species Affected, Natural Enemies, "
     "Further Information.",
+    # meeting-abstract pages that show no abstract (Elsevier society sites, 26 Oct; oxjob #1794)
+    "I understand.",
+    "Disclosure Compliance: I understand.",
+    "Presenter: Nora Singh BA | Hartford Hospital",
+    "Author Block: Mikayla Deckard, BS, Soliana Kahassai, MS, BS, Sam Cotton, PhD, Claudiu Moisa, MD, University of "
+    "Louisville School of Medicine, Louisville, Kentucky",
+    "Presenting Author Contact Details: 8D Interventional Pain Clinic, 1081 Burrard St., Vancouver, BC, Canada",
+    "Authors: Maria Virginia Amesty , Carla Ramirez Amoros , Pedro López Pereira",
+    # CABI book front matter (oxjob #1800)
+    "The views expressed in this publication are those of the author(s) and do not necessarily represent those of, "
+    "and should not be attributed to, CAB International (CABI). Any images, figures and tables not otherwise "
+    "attributed are the author(s)' own.",
+    "The information is supplied without obligation and on the understanding that any person who acts upon it, or "
+    "otherwise changes their position in reliance thereon, does so entirely at their own risk.",
 ]
 
 REAL_ABSTRACTS = [
@@ -93,6 +107,9 @@ REAL_ABSTRACTS = [
     "Summary: the inelastic scattering of alpha particles from 40Ca and 208Pb has been studied at 79.1 MeV.",
     # kept out of the list on purpose: a real abstract Pensoft repeats on the paper's figure DOIs
     "Rhiniinae (Diptera, Calliphoridae) is a taxon of nearly 400 known species, many of them termitophilous.",
+    # a byline field that runs on into the abstract is kept (the presenter pattern is short-only)
+    "Authors: Ada Lovelace, Charles Babbage. " + LONG_REAL + " " + LONG_REAL,
+    "I understand the risks of cobalt-chromium hip implants better after this case of severe poisoning.",
 ]
 
 

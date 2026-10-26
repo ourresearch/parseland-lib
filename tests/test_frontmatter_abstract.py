@@ -79,3 +79,11 @@ def test_silverchair_section_fills_a_missing_abstract():
 def test_silverchair_needs_the_article_widget():
     page = SILVER_PAGE.replace('class="widget-ArticleFulltext widget-instance-ArticleFulltext_Abstract"', "")
     assert silverchair_abstract(BeautifulSoup(page, "lxml")) is None
+
+
+def test_abstract_section_holding_only_a_figure_is_not_an_abstract():
+    # CABI chapters: the "Abstract" section is a figure and its caption (oxjob #1800 EXPLORE § 13; #1794)
+    html = _page("", '<section id="abstract"><h2>Abstract</h2><div class="figure-wrap"><figure id="fig3_100" '
+                     'class="graphic"><figcaption>Fig. 3 . Mind the Gap: Conventional versus Metronomic '
+                     'Chemotherapy.</figcaption></figure></div></section>')
+    assert frontmatter_abstract(BeautifulSoup(html, "lxml")) is None
