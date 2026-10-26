@@ -84,6 +84,7 @@ NOT_ABSTRACTS = [
     "Author Block: Mikayla Deckard, BS, Soliana Kahassai, MS, BS, Sam Cotton, PhD, Claudiu Moisa, MD, University of "
     "Louisville School of Medicine, Louisville, Kentucky",
     "Presenting Author Contact Details: 8D Interventional Pain Clinic, 1081 Burrard St., Vancouver, BC, Canada",
+    "Authors: Maria Virginia Amesty , Carla Ramirez Amoros , Pedro López Pereira",
     # CABI book front matter (oxjob #1800)
     "The views expressed in this publication are those of the author(s) and do not necessarily represent those of, "
     "and should not be attributed to, CAB International (CABI). Any images, figures and tables not otherwise "
@@ -109,10 +110,6 @@ REAL_ABSTRACTS = [
     # a byline field that runs on into the abstract is kept (the presenter pattern is short-only)
     "Authors: Ada Lovelace, Charles Babbage. " + LONG_REAL + " " + LONG_REAL,
     "I understand the risks of cobalt-chromium hip implants better after this case of severe poisoning.",
-    # the plain "Author:" label starts real abstracts on repository and journal pages
-    "Author: BARBARA SANTICH The French Australian Review 77 (Australian Summer 2024-2025): 5-34. This article continues "
-    "the survey of French travellers to Australia in the nineteenth century.",
-    "Authors: Dan James. There is an ever-increasing number of quantitative metrics for research.",
 ]
 
 

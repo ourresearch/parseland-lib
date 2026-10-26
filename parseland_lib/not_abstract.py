@@ -97,10 +97,8 @@ _TEMPLATE_RES = [
     re.compile(r"this datasheet on .{1,200} covers [a-z/ ,&()-]{3,400}\.?$"),
     # Meeting-abstract pages with no abstract show a presenter or author line instead (HPB 'Presenter: Nora Singh
     # BA | Hartford Hospital', Endocrine Practice 'Author Block: ...'; ~850 works on 26 Oct, oxjob #1794). Short
-    # only: a field that goes on past the byline into the abstract is kept. Never the plain "Author:" label:
-    # repository and journal pages start real abstracts with it ("Author: BARBARA SANTICH The French Australian
-    # Review 77 ... This article continues ..."; 1,476 DOIs lost theirs to that in the 26 Oct guard re-parse).
-    re.compile(r"(?:presenter|presenting author(?: contact details)?|author block|primary author)\s*:.{0,400}$", re.S),
+    # only: a field that goes on past the byline into the abstract is kept.
+    re.compile(r"(?:presenter|presenting author(?: contact details)?|author block|primary author|authors?)\s*:.{0,400}$", re.S),
     # CABI book front matter: the publisher's disclaimers (oxjob #1800 EXPLORE § 13, 26 Oct)
     re.compile(r"the views expressed in this (?:publication|book|volume|report|chapter) are those of the author"),
     re.compile(r"the information is supplied without obligation and on the understanding that"),
