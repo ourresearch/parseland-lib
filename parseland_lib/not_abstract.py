@@ -35,7 +35,9 @@ _INLINE_TAGS = frozenset(
     "a abbr b bdi bdo cite code data dfn em font i kbd mark q s samp small span strong sub sup "
     "time tt u var wbr".split()
 )
-_TAG_RE = re.compile(r"<\s*/?\s*([a-zA-Z][\w:.-]*)[^<>]*>")
+# No space after '<': "<< ABSTRACT Starting with French Painting Today ... >>" is text, and reading "< ABSTRACT ... >"
+# as one tag emptied a 1,529-character abstract (5 texts on 26 Oct; oxjob #1800 EXPLORE § 15).
+_TAG_RE = re.compile(r"</?([a-zA-Z][\w:.-]*)[^<>]*>")
 _WORD_RE = re.compile(r"[^\W_]+")
 
 
@@ -102,7 +104,16 @@ _TEMPLATE_RES = [
     # CABI book front matter: the publisher's disclaimers (oxjob #1800 EXPLORE § 13, 26 Oct)
     re.compile(r"the views expressed in this (?:publication|book|volume|report|chapter) are those of the author"),
     re.compile(r"the information is supplied without obligation and on the understanding that"),
+    # Frontiers article header saved as the abstract: 'EDITORIAL article Front. Neurol., 30 August 2023Sec. Epilepsy
+    # Volume 14 - 2023 | https://doi.org/10.3389/fneur.2023.1270702' (16.6K works on 26 Oct, legacy backfill; #1857)
+    re.compile(r"[a-z][a-z -]{2,40} article front\. [^,]{2,60}, \d{1,2} [a-z]+ \d{4}.{0,200}?https?://doi\.org/10\.3389/\S+$"),
 ]
+
+# Platform page furniture anywhere in the text: Silverchair's author card and toolbar ("Search for other works by
+# this author on: Oxford Academic Google Scholar", "Cite Icon Cite", "Share Icon Share", "Views Icon Views"). No
+# abstract contains these strings; on 26 Oct 2026 ~781K works showed such a page dump as their abstract (OUP 454K,
+# UC Press 80K, AIP 40K, Portland 36K, Duke 33K, GSA 20K; all from the legacy abstracts_backfill; #1857 / #1800).
+_FURNITURE_RE = re.compile(r"search for other works by this author on|\b(?:cite|share|views) icon (?:cite|share|views)\b")
 
 
 @cache
@@ -122,6 +133,8 @@ def is_not_abstract(text) -> bool:
     if k in _known():
         return True
     if len(k) <= 200 and _KEY_RE.fullmatch(k):
+        return True
+    if _FURNITURE_RE.search(plain):
         return True
     return len(plain) <= 1500 and any(r.match(plain) for r in _TEMPLATE_RES)
 
