@@ -32,6 +32,17 @@ def page_potential_license_text(page):
         # `if ($('.creative-commons-badge.cc-by').length){ console.debug('... CC-BY type of article.') ...}` on every
         # article page, paywalled or not, which read as cc-by (oxjob #1794: 755 closed works turned hybrid).
         "//script[contains(., 'creative-commons-badge')]",
+        # IOP's Accepted Manuscript notice for a subscription article states a future licence for the manuscript,
+        # not the article's licence: "During the embargo period ... the Accepted Manuscript is fully protected by
+        # copyright ... As the Version of Record of this article is going to be / has been published on a
+        # subscription basis, this Accepted Manuscript will be available for reuse under a CC BY-NC-ND 4.0 licence
+        # after the 12 month embargo period", with a cc-by-nc-nd.png badge in the same block. Read as the article's
+        # licence it turned paywalled IOP articles into hybrid OA (oxjob #1860: 249 of 250 sampled cc-by-nc-nd IOP
+        # pages). Only the subscription notice goes; the gold-OA notice ("published on a gold open access basis
+        # under a CC BY 4.0 licence") and the published article's own licence block stay.
+        "//div[contains(@class, 'media') or contains(@class, 'license')]"
+        "[contains(normalize-space(.), 'subscription basis')]"
+        "[contains(., 'Accepted Manuscript')][contains(., 'embargo')]",
     ]
 
     for section_finder in bad_section_finders:
