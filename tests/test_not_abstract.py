@@ -129,6 +129,10 @@ REAL_ABSTRACTS = [
     "Icons that share a visual language were rated faster; we tested 120 share icons and 80 cite buttons.",
     # a Frontiers paper that names its own DOI in a real abstract
     "This article in Front. Psychol. reports two experiments on reading speed (https://doi.org/10.3389/fpsyg.2011.00075).",
+    # a long page dump that holds the work's own abstract among the furniture is kept (80 of 200 such dumps, 26 Oct)
+    "Research Article| June 01, 1997 Sr isotope evidence for a lacustrine origin of the Bouse Formation Jon E. "
+    "Spencer; Jon E. Spencer 1Arizona Geological Survey Search for other works by this author on: GSW Google Scholar "
+    "Abstract " + " ".join([LONG_REAL] * 6) + " Share Icon Share Cite Icon Cite",
     # '<<' is text, not a tag: the whole abstract stays (was keyed to nothing before 26 Oct)
     "<< ABSTRACT Starting with French Painting Today (1953) this chapter considers developments in exhibitions from "
     "the 1950s to 1980s. >>",
