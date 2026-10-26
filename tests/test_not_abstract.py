@@ -90,6 +90,19 @@ NOT_ABSTRACTS = [
     "attributed are the author(s)' own.",
     "The information is supplied without obligation and on the understanding that any person who acts upon it, or "
     "otherwise changes their position in reliance thereon, does so entirely at their own risk.",
+    # Silverchair page furniture saved as the abstract (legacy backfill, ~781K works on 26 Oct; #1857 / #1800)
+    "Journal Article Yeardley Get access J. O. H.-P. J. O. H.-P. Search for other works by this author on: Oxford "
+    "Academic Google Scholar Notes and Queries, Volume s6-VIII, Issue 196, 6 October 1883, Page 268",
+    "Research Article| October 01, 1952 OUR SHRINKING GLOBE—A REPLY KENNETH K LANDES KENNETH K LANDES UNIVERSITY OF "
+    "MICHIGAN, ANN ARBOR, MICH. Search for other works by this author on: GSW Google Scholar GSA Bulletin (1952) 63 "
+    "Abstract No Abstracts available This content is PDF only. Please click on the PDF icon to access.",
+    "Neurology| June 01 2004 Pseudotumor Cerebri and Sickle Cell Disease AAP Grand Rounds (2004) 11 (6): 64. "
+    "https://doi.org/10.1542/gr.11-6-64 Views Icon Views Article contents Figures & tables Video Audio Supplementary "
+    "Data Peer Review Share Icon Share Twitter LinkedIn Tools Icon Tools Cite Icon Cite",
+    # Frontiers article header (16.6K works, legacy backfill)
+    "EDITORIAL article Front. Neurol., 30 August 2023Sec. Epilepsy Volume 14 - 2023 | "
+    "https://doi.org/10.3389/fneur.2023.1270702",
+    "BOOK REVIEW article Front. Genet., 07 February 2012 | https://doi.org/10.3389/fgene.2012.00016",
 ]
 
 REAL_ABSTRACTS = [
@@ -113,6 +126,15 @@ REAL_ABSTRACTS = [
     "Author: BARBARA SANTICH The French Australian Review 77 (Australian Summer 2024-2025): 5-34. This article continues "
     "the survey of French travellers to Australia in the nineteenth century.",
     "Authors: Dan James. There is an ever-increasing number of quantitative metrics for research.",
+    # the furniture rule needs the toolbar strings, not search engines named in a methods sentence
+    "We searched PubMed, Embase and Google Scholar for other works by these authors on vaccine uptake; 41 studies met "
+    "the inclusion criteria.",
+    "Icons that share a visual language were rated faster; we tested 120 share icons and 80 cite buttons.",
+    # a Frontiers paper that names its own DOI in a real abstract
+    "This article in Front. Psychol. reports two experiments on reading speed (https://doi.org/10.3389/fpsyg.2011.00075).",
+    # '<<' is text, not a tag: the whole abstract stays (was keyed to nothing before 26 Oct)
+    "<< ABSTRACT Starting with French Painting Today (1953) this chapter considers developments in exhibitions from "
+    "the 1950s to 1980s. >>",
 ]
 
 
