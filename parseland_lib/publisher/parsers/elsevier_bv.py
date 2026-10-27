@@ -1,6 +1,6 @@
 import re
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Comment, Tag
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser, frontmatter_abstract
@@ -285,6 +285,27 @@ class ElsevierBV(PublisherParser):
                 return True
         return False
 
+    def _preloaded_state_texts(self):
+        """Texts of the scripts that set window.__PRELOADED_STATE__.
+
+        Some ScienceDirect pages serve that script inside an HTML comment
+        (``<!--<script>window.__PRELOADED_STATE__ = {...};</script>-->``), so
+        the parsed tree has no <script> for it and the author affiliations,
+        held only in that JSON, were lost (oxjob #1794, ZD 24137). Commented
+        copies are read only when no live script carries the state.
+        """
+        found = False
+        for script in self.soup.find_all("script"):
+            text = script.string or script.text or ""
+            if "__PRELOADED_STATE__" in text:
+                found = True
+                yield text
+        if found:
+            return
+        for comment in self.soup.find_all(string=lambda s: isinstance(s, Comment) and "__PRELOADED_STATE__" in s):
+            text = re.sub(r"^\s*<script[^>]*>", "", str(comment))
+            yield re.sub(r"</script>\s*$", "", text)
+
     def _authors_data_from_preloaded_state(self):
         """Pull structured author data from window.__PRELOADED_STATE__.
 
@@ -316,10 +337,7 @@ class ElsevierBV(PublisherParser):
             # slice, but regressed the full 10K current-Goldie gate because
             # those payloads can carry mismatched affiliation/correspondence
             # refs. Re-enable only behind DOI-grounded evidence.
-            for script in self.soup.find_all("script"):
-                text = script.string or script.text or ""
-                if "__PRELOADED_STATE__" not in text:
-                    continue
+            for text in self._preloaded_state_texts():
                 m = re.search(r"__PRELOADED_STATE__\s*=\s*(\{.*?\})\s*;?\s*$", text, re.DOTALL)
                 if not m:
                     continue
@@ -884,6 +902,17 @@ class ElsevierBV(PublisherParser):
                 data = json.loads(stripped)
                 if isinstance(data, dict):
                     application_json_payloads.append(data)
+            # No live script set the state: a commented-out copy (see
+            # _preloaded_state_texts) comes before the application/json payloads.
+            for text in self._preloaded_state_texts():
+                m = re.search(r"__PRELOADED_STATE__\s*=\s*(\{.*?\})\s*;?\s*$", text, re.DOTALL)
+                try:
+                    data = json.loads(m.group(1)) if m else None
+                except ValueError:
+                    data = None
+                if isinstance(data, dict):
+                    yield data
+                    return
             for data in application_json_payloads:
                 yield data
         except Exception:

@@ -701,3 +701,59 @@ def test_description_meta_does_not_replace_compact_body_abstract():
     soup = BeautifulSoup(html, "lxml")
     result = ElsevierBV(soup).parse()
     assert result["abstract"] == body_abstract
+
+
+# ScienceDirect sometimes serves the page-state script inside an HTML comment; the author list renders without
+# <dl class="affiliation"> blocks, so the commented JSON is the page's only affiliation source (oxjob #1794, ZD 24137:
+# e.g. 10.1016/j.jebo.2026.107465).
+MODERN_COMMENTED_PRELOADED_STATE = """
+<html><body>
+<div class="author-group" id="author-group">
+  <button data-xocs-content-type="author"><span class="button-link-text">
+    <span class="react-xocs-alternative-link">
+      <span class="given-name">Ann-Kristin</span> <span class="text surname">Reitmann</span>
+    </span>
+  </span></button>
+  <button data-xocs-content-type="author"><span class="button-link-text">
+    <span class="react-xocs-alternative-link">
+      <span class="given-name">Eleonora</span> <span class="text surname">Nillesen</span>
+    </span>
+  </span></button>
+</div>
+<!--<script type="text/javascript">
+        window.__PRELOADED_STATE__ = {"authors": {
+  "content": [{"#name": "author-group", "$$": [
+    {"#name":"author","$$":[{"#name":"given-name","_":"Ann-Kristin"},{"#name":"surname","_":"Reitmann"},
+      {"#name":"cross-ref","$":{"refid":"cor0001"}},{"#name":"cross-ref","$":{"refid":"aff0001"}}]},
+    {"#name":"author","$$":[{"#name":"given-name","_":"Eleonora"},{"#name":"surname","_":"Nillesen"},
+      {"#name":"cross-ref","$":{"refid":"aff0002"}}]}
+  ]}],
+  "affiliations": {
+    "aff0001": {"$$": [{"#name":"label","_":"a"},{"#name":"textfn","_":"Université de Rennes CNRS, CREM-UMR 6211"}]},
+    "aff0002": {"$$": [{"#name":"label","_":"b"},{"#name":"textfn","_":"Maastricht University"}]}
+  }
+}};
+      </script>-->
+</body></html>
+"""
+
+
+def test_parse_reads_commented_out_preloaded_state():
+    soup = BeautifulSoup(MODERN_COMMENTED_PRELOADED_STATE, "lxml")
+    authors = {a.name: a for a in ElsevierBV(soup).parse()["authors"]}
+    assert authors["Ann-Kristin Reitmann"].affiliations == ["Université de Rennes CNRS, CREM-UMR 6211"]
+    assert authors["Eleonora Nillesen"].affiliations == ["Maastricht University"]
+    assert authors["Ann-Kristin Reitmann"].is_corresponding is True
+    assert authors["Eleonora Nillesen"].is_corresponding is False
+
+
+def test_live_preloaded_state_wins_over_a_commented_copy():
+    html = MODERN_COMMENTED_PRELOADED_STATE.replace(
+        "</body>",
+        '<script>window.__PRELOADED_STATE__ = {"authors": {"content": [{"$$": ['
+        '{"#name":"author","$$":[{"#name":"surname","_":"Reitmann"},{"#name":"cross-ref","$":{"refid":"aff9"}}]}]}],'
+        '"affiliations": {"aff9": {"$$": [{"#name":"textfn","_":"Live affiliation"}]}}}};</script></body>',
+    )
+    authors = {a.name: a for a in ElsevierBV(BeautifulSoup(html, "lxml")).parse()["authors"]}
+    assert authors["Ann-Kristin Reitmann"].affiliations == ["Live affiliation"]
+    assert authors["Eleonora Nillesen"].affiliations == []
