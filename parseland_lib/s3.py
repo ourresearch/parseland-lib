@@ -42,7 +42,12 @@ def get_landing_page_from_r2(harvest_id, s3):
     try:
         # check if content starts with gzip magic number
         if content.startswith(b'\x1f\x8b\x08'):
-            return decompress(content)
+            content = decompress(content)
+            # The range check above sees only the gzip header, so a gzipped PDF (doi.org serving the file, e.g. old
+            # JBC articles) got here and was parsed as HTML until the worker timeout (oxjob #1794). Same answer as
+            # an uncompressed PDF: no landing page.
+            if content.startswith(b'%PDF-'):
+                return None
         # if not compressed, return as is
         return content
     except Exception as e:
