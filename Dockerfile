@@ -14,4 +14,6 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "8", "--timeout", "10", "app:app"]
+# --timeout 25: just under the 30 s its callers wait (walden scraping/parseland.ipynb). At 10 s, 2-7 MB open-access
+# ScienceDirect pages never finished (oxjob #1794: ~70% of 47K Elsevier DOIs whose every parse errored).
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "8", "--timeout", "25", "app:app"]

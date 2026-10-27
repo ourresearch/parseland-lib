@@ -45,6 +45,12 @@ def get_authors_and_abstract(soup, namespace):
                     parsed = parser.parse()
                     if parser.is_publisher_specific_parser():
                         both_conditions_parsers.append((parser, parsed))
+                        # The first publisher-specific parser with affiliations is the one returned below, so the
+                        # parsers after it can't change the answer. Stop here: running them roughly doubled the
+                        # time per page, and 2-7 MB open-access ScienceDirect pages ran past the service's worker
+                        # timeout (oxjob #1794).
+                        if has_affs(parsed):
+                            break
                     else:
                         authors_found_parsers.append((parser, parsed))
             except Exception:
