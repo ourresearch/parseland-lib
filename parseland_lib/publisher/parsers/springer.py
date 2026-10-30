@@ -256,10 +256,19 @@ class Springer(PublisherParser):
             for name in current_names
         )
 
+        # Meta tags write "Last, First"; the byline shows "First Last" for the same people (oxjob #1943: once the
+        # editor block stopped feeding method 2, older chapter pages fall through to the meta tags).
+        current_inverted = (
+            short_set == current_set
+            and all(',' in name for name in current_names)
+            and not any(',' in short_author['name'] for short_author in short_authors)
+        )
+
         should_replace = (
             current_set < short_set
             or short_set < current_set
             or (current_all_in_editor_section and short_set != current_set)
+            or current_inverted
         )
         if not should_replace:
             return authors
@@ -295,9 +304,48 @@ class Springer(PublisherParser):
             })
         return repaired
 
+    # Blocks that list the containing book's editors on chapter and reference-entry pages (current template:
+    # <section data-title="Editor information"> / #editor-information-section; old template: #editorsandaffiliations).
+    _EDITOR_SECTION_IDS = {
+        "editor-information",
+        "editor-information-section",
+        "editor-information-content",
+        "editor-affiliations",
+        "editorsandaffiliations",
+    }
+
+    @classmethod
+    def _in_editor_section(cls, tag):
+        for parent in tag.parents:
+            if not getattr(parent, "attrs", None):
+                continue
+            if (parent.get("id") or "") in cls._EDITOR_SECTION_IDS:
+                return True
+            if (parent.get("data-title") or "").strip().lower() == "editor information":
+                return True
+            if parent.get("aria-labelledby") == "editor-information":
+                return True
+        return False
+
+    def _is_book_part(self):
+        """A chapter, reference-work entry or protocol page (it belongs to a book, whose editors it may list)."""
+        if self.soup.find("meta", {"name": "citation_inbook_title"}):
+            return True
+        for tag in (self.soup.find("link", {"rel": "canonical"}),
+                    self.soup.find("meta", {"property": "og:url"})):
+            url = (tag.get("href") or tag.get("content") or "") if tag else ""
+            if re.search(r"/(chapter|referenceworkentry|rwe|protocol)/", url):
+                return True
+        return False
+
     def parse_authors_method_2(self):
-        author_tags = self.soup.select(
-            'ol.c-article-author-affiliation__list li[id*=A]')
+        # The editor block uses the same affiliation-list markup as the author block (its items are
+        # <li id="Aff1">), so without this filter a reference entry that names no author got the book's
+        # editors as its authors: 152K Springer entries in OpenAlex, 30 Oct 2026 (oxjob #1943).
+        author_tags = [
+            tag for tag in self.soup.select('ol.c-article-author-affiliation__list li[id*=A]')
+            if not self._in_editor_section(tag)
+        ]
         authors_by_key = {}
         author_order = []
         for author_tag in author_tags:
@@ -402,7 +450,9 @@ class Springer(PublisherParser):
             for author in authors_affiliations:
                 author['affiliations'] = [aff.split('Fax')[0] for aff in author['affiliations']]
 
-        if not authors_affiliations:
+        # A book part's editors are the book's, never the part's authors (oxjob #1943). Whole-book pages keep the
+        # old fallback.
+        if not authors_affiliations and not self._is_book_part():
             authors = self.get_authors(try_editors=True)
             if authors:
                 affiliations = self.get_affiliations(try_editors=True)

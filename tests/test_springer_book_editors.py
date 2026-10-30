@@ -419,3 +419,110 @@ def test_short_author_list_recovers_corporate_author_when_no_primary_path():
     result = Springer(soup).parse()
     names = _names(result)
     assert names == ["National Industrial Fuel Efficiency Service Ltd."]
+
+
+# --- oxjob #1943: reference entries that name no author got the book's editors ---------------------------------
+
+REFERENCE_ENTRY_EDITORS_ONLY = """
+<html>
+  <head>
+    <link rel="canonical" href="https://link.springer.com/referenceworkentry/10.1007/978-1-4419-1005-9_100784" />
+    <meta name="citation_inbook_title" content="Encyclopedia of Behavioral Medicine" />
+    <meta name="citation_title" content="Heavy Episodic Drinking" />
+  </head>
+  <body>
+    <section aria-labelledby="editor-information" data-title="Editor information">
+      <div class="c-article-section" id="editor-information-section">
+        <h2 id="editor-information">Editor information</h2>
+        <div class="c-article-section__content" id="editor-information-content">
+          <h3 class="c-article__sub-heading" id="editor-affiliations">Editors and Affiliations</h3>
+          <ol class="c-article-author-affiliation__list">
+            <li id="Aff1">
+              <p class="c-article-author-affiliation__address">Behavioral Medicine Research Center, University of Miami, Miami, FL, USA</p>
+              <p class="c-article-author-affiliation__authors-list">Marc D. Gellman</p>
+            </li>
+            <li id="Aff2">
+              <p class="c-article-author-affiliation__address">Cardiovascular Safety, Quintiles, Durham, NC, USA</p>
+              <p class="c-article-author-affiliation__authors-list">J. Rick Turner</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+"""
+
+
+def test_reference_entry_with_only_an_editor_block_has_no_authors():
+    """The editor block uses the author block's markup (<li id="Aff1">); the entry names no author, so it has none."""
+    result = Springer(BeautifulSoup(REFERENCE_ENTRY_EDITORS_ONLY, "lxml")).parse()
+    assert _names(result) == []
+
+
+def test_reference_entry_author_block_kept_editor_block_ignored():
+    html = REFERENCE_ENTRY_EDITORS_ONLY.replace(
+        "<body>",
+        """<body>
+        <section data-title="Authors and Affiliations"><div id="author-information-section">
+          <ol class="c-article-author-affiliation__list">
+            <li id="Aff3">
+              <p class="c-article-author-affiliation__address">School of Public Health, Boston, MA, USA</p>
+              <p class="c-article-author-affiliation__authors-list">Jane Q. Writer</p>
+            </li>
+          </ol>
+        </div></section>""",
+    )
+    result = Springer(BeautifulSoup(html, "lxml")).parse()
+    assert _names(result) == ["Jane Q. Writer"]
+    assert result["authors"][0]["affiliations"] == ["School of Public Health, Boston, MA, USA"]
+
+
+OLD_TEMPLATE_EDITORS = """
+<html>
+  <head><link rel="canonical" href="https://link.springer.com/{kind}/10.1007/978-3-540-29676-8{suffix}" /></head>
+  <body>
+    <div id="editorsandaffiliations">
+      <ul>
+        <li itemprop="editor"><span>Florian Lang</span><ul data-role="AuthorsIndexes"><li>1</li></ul></li>
+      </ul>
+      <ol>
+        <li class="affiliation" data-affiliation-highlight="affiliation-1">
+          <span itemprop="name">University of Tuebingen</span>
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>
+"""
+
+
+def test_old_template_chapter_does_not_fall_back_to_editors():
+    html = OLD_TEMPLATE_EDITORS.format(kind="referenceworkentry", suffix="_6092")
+    assert _names(Springer(BeautifulSoup(html, "lxml")).parse()) == []
+
+
+def test_old_template_whole_book_keeps_editor_fallback():
+    html = OLD_TEMPLATE_EDITORS.format(kind="book", suffix="")
+    assert _names(Springer(BeautifulSoup(html, "lxml")).parse()) == ["Florian Lang"]
+
+
+def test_inverted_meta_names_take_the_byline_form():
+    """Meta tags write "Last, First"; the byline shows the same people as "First Last"."""
+    html = """
+    <html>
+      <head>
+        <link rel="canonical" href="https://link.springer.com/chapter/10.1007/978-3-642-72386-5_8" />
+        <meta name="citation_author" content="Makuuchi, Masatoshi" />
+        <meta name="citation_author" content="Bandai, Yasutsugu" />
+      </head>
+      <body>
+        <ul class="c-article-author-list">
+          <li><a data-test="author-name">Masatoshi Makuuchi</a></li>
+          <li><a data-test="author-name">Yasutsugu Bandai</a></li>
+        </ul>
+      </body>
+    </html>
+    """
+    result = Springer(BeautifulSoup(html, "lxml")).parse()
+    assert _names(result) == ["Masatoshi Makuuchi", "Yasutsugu Bandai"]
