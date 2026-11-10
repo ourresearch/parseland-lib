@@ -9,7 +9,7 @@ from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstr
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
-    silverchair_corresponding_names
+    silverchair_corresponding_names, world_scientific_abstract
 from parseland_lib.publisher.parsers.utils import same_person
 
 
@@ -119,6 +119,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
         if (silver := silverchair_abstract(soup)) and not is_not_abstract(silver):
             authors_and_abstract['abstract'] = silver
+
+    # World Scientific's own abstract block fills a page the winning parser left without one (#2145).
+    if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
+        if (ws := world_scientific_abstract(soup)) and not is_not_abstract(ws):
+            authors_and_abstract['abstract'] = ws
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []

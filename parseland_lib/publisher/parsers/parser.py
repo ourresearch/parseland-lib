@@ -83,6 +83,48 @@ def silverchair_abstract(soup):
     return text or None
 
 
+# World Scientific's stand-ins under its "Abstract:" heading (oxjob #2145, 550 sampled pages read by #1800's judge):
+# a section list for chapters with no abstract ("The following sections are included: Introduction ..."), a book's
+# contents list for proceedings, a back-matter heading alone ("Index", "Author Index", "CONTENTS") and a notice.
+_WS_STAND_IN = re.compile(
+    r"^(?:the following (?:[\w-]+ )*(?:sections?|articles?|chapters?|topics?|papers?|items?) (?:is|are) included"
+    r"|the table of contents for the book is as follows"
+    r"|no abstract (?:received|available)\.?$"
+    r"|(?:(?:author|subject|name|name and subject|cumulative)\s+)?index\.?$"
+    r"|(?:table of )?contents\.?$)",
+    re.I)
+
+
+def world_scientific_abstract(soup):
+    """The abstract on a World Scientific (worldscientific.com) page, or None.
+
+    Older pages hold it in ``div.NLM_abstract`` after a bold "Abstract:", newer ones in
+    ``div.abstractSection.abstractInFull``. No publisher parser read either: the World Scientific parser looks only
+    for the new block and its author code throws on most pages, so ~0.3% of stored pages yielded an abstract and
+    ~104K book chapters and proceedings papers showed none (oxjob #2145). Stand-ins (section or contents lists,
+    headings, notices) are not abstracts (charter 24 Oct 14:17), nor is a chapter's opening paragraph cut off with
+    "…" or mid-sentence, World Scientific's preview of a chapter that has no abstract (24 of 32 texts ending in "…"
+    read as the chapter's opening, not a summary).
+    """
+    context = soup.select_one('meta[name="pbContext"]')
+    if context is None or "wspc-site" not in (context.get("content") or ""):
+        return None
+    block = soup.select_one("div.NLM_abstract") or soup.select_one("div.abstractSection.abstractInFull")
+    if block is None:
+        return None
+    paras = [p.get_text(" ", strip=True) for p in block.find_all("p")]
+    paras = [p for p in paras if p]
+    text = "\n".join(paras) if paras else block.get_text(" ", strip=True)
+    text = re.sub(r"^abstract\s*[:.]?\s*", "", re.sub(r"[ \t\r\f\v]+", " ", text).strip(), flags=re.I)
+    if not text or _WS_STAND_IN.match(text) or re.search(r"(?:…|\.\.\.)\.?$", text):
+        return None
+    # A preview cut at an equation the page drops ends mid-sentence ("It is easy to see that"); 275 of 277 real
+    # World Scientific abstracts in the sample end with closing punctuation.
+    if not re.search(r"[.!?)\]\"”’'。]$", text):
+        return None
+    return text
+
+
 def silverchair_corresponding_names(soup):
     """Names of the authors a Silverchair article page marks as corresponding, in byline order ([] if none).
 
