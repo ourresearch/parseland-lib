@@ -7,6 +7,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_locati
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
+from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names
 from parseland_lib.publisher.parsers.utils import same_person
@@ -86,6 +87,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
         if sniffed:
             resolved_url = sniffed
 
+    # read before the parsers run: Lippincott.get_authors removes the byline's <sup> marks from this soup (#2128)
+    lww_names = lww_corresponding_names(soup) if namespace == "doi" and _has(
+        lp_content, "ejp-article-authors-info-holder") else []
+
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
     if namespace == "doi":
         fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
@@ -141,6 +146,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 _mark_corresponding_by_name(authors, silverchair_corresponding_names(soup))
             elif _has(lp_content, '<div class="authors"') and _has(lp_content, "/10.3389/"):
                 _mark_corresponding_by_name(authors, frontiers_corresponding_names(soup))
+            elif lww_names:
+                _mark_corresponding_by_name(authors, lww_names)
 
     # Merge into a single response
     response = authors_and_abstract

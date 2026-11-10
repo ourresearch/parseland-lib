@@ -1684,9 +1684,6 @@
 "75173fb3-1e0a-4abd-8620-cdf2232b12d5": [
 "pdf_url"
 ],
-"7587c9c9-a599-4171-8892-a53a93bf6601": [
-"corresponding"
-],
 "75a26320-a863-4ba8-9eb7-3bd20825719c": [
 "affiliations",
 "authors",
@@ -3149,8 +3146,7 @@
 "authors"
 ],
 "e3fc45f9-c5a3-4a16-a559-82054a9d2417": [
-"affiliations",
-"corresponding"
+"affiliations"
 ],
 "e45f0a71-a216-48b3-a705-1f09cddbed1d": [
 "abstract"

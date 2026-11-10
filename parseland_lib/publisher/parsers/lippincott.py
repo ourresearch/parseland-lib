@@ -5,7 +5,128 @@ from nameparser import HumanName
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.elements import Author, Affiliation, AuthorAffiliations
-from parseland_lib.publisher.parsers.utils import name_in_text, split_name, strip_prefix
+from parseland_lib.publisher.parsers.utils import name_in_text, split_name, strip_prefix, same_person
+
+import unicodedata
+
+from bs4 import Comment, NavigableString
+
+# The label of an LWW author-info note that names the corresponding author: "Reprints:", "Reprint requests to:",
+# "Address for reprints:", "Address correspondence and reprint requests to", "Address requests for reprints to:",
+# "Corresponding Author:", "* Corresponding author:", "Correspondence:", "Correspondance to", "Correspondence to:",
+# "Address for correspondence:", "Email for corresponding author:" (oxjob #2128). It must open the note or follow a
+# sentence end, so prose that mentions correspondence never counts.
+_LWW_CORR_LABEL = re.compile(
+    r"(?:^|(?<=[.;]\s))\*?\s*(?:"
+    r"(?:e-?mail\s+(?:address\s+)?for\s+)?correspond(?:ing|ence)\s+authors?"
+    r"|(?:send\s+|address\s+(?:all\s+)?)?(?:correspond[ae]nce|reprint\s+requests?|requests?\s+for\s+reprints)"
+    r"(?:\s+and\s+(?:reprint\s+)?requests?(?:\s+for\s+reprints)?|\s+and\s+reprints?)?(?:\s+address)?"
+    r"|address\s+for\s+(?:correspond[ae]nce|reprints?)(?:\s+and\s+reprints?)?"
+    r"|reprints?"
+    r")\s*(?:to)?\s*[:\-\u2013]?\s*(?:to\s*:?\s*)?",
+    re.I)
+_TITLES = re.compile(r"^(?:(?:Dr|Drs|Prof|Professor|Mr|Mrs|Ms|Miss|Sir)\.?\s+)+", re.I)
+
+
+def _fold(text):
+    text = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in text if not unicodedata.combining(c)).casefold()
+
+
+def _byline_entries(authors_section):
+    """(name, marks) per author in an LWW byline paragraph ("Lee, Nathan J. MD<sup>1,a</sup>; ..."), byline order."""
+    para = authors_section.find("p")
+    if para is None:
+        return []
+    entries, buf, marks = [], "", []
+    for node in para.descendants:
+        if getattr(node, "name", None) == "sup":
+            marks.extend(m for m in re.split(r"[\s,]+", node.get_text(" ", strip=True)) if m)
+            continue
+        if not isinstance(node, NavigableString) or isinstance(node, Comment) or node.find_parent("sup") is not None:
+            continue
+        for i, part in enumerate(node.split(";")):
+            if i > 0:
+                entries.append((buf, marks))
+                buf, marks = "", []
+            buf += part
+    entries.append((buf, marks))
+    return [(re.sub(r"\s+", " ", n).strip(" ,;*\u2217"), m) for n, m in entries if n.strip(" ,;*\u2217")]
+
+
+def _statement_name(rest):
+    """The person a corresponding note names: the words before the first comma, "(", " is ", ";" or " at "."""
+    chunk = re.split(r",|\(|;|\s+is\s+|\s+at\s+|\s+-\s+", _TITLES.sub("", rest.strip()), maxsplit=1)[0]
+    chunk = chunk.strip(" .:")
+    if not chunk or "@" in chunk or len(chunk.split()) > 5 or not re.match(r"[^\W\d_]", chunk):
+        return None
+    return chunk
+
+
+def _match_byline(name, entries):
+    """The one byline name that is this person: same_person, else same surname and (no given name, or the same
+    first initial). None when nobody or more than one author matches."""
+    hits = [n for n, _ in entries if same_person(n, name)]
+    if len(hits) == 1:
+        return hits[0]
+    words = _fold(name).replace("-", " ").split()
+    if not words:
+        return None
+    surname, initial = words[-1].strip("."), (words[0][0] if len(words) > 1 else None)
+    hits = []
+    for n, _ in entries:
+        family, _, given = _fold(n).partition(",")
+        if not given:  # "Given Family" byline form
+            parts = family.split()
+            family, given = (parts[-1], " ".join(parts[:-1])) if parts else ("", "")
+        if family.replace("-", " ").split()[-1:] != [surname]:
+            continue
+        if initial and given.strip() and given.strip()[0] != initial:
+            continue
+        hits.append(n)
+    return hits[0] if len(hits) == 1 else None
+
+
+def lww_corresponding_names(soup):
+    """Byline names an LWW article page (journals.lww.com, ``#ejp-article-authors``) names as corresponding ([] if none).
+
+    The author-info block under the byline (``div.ejp-article-authors-info-holder``) carries one note per paragraph;
+    the corresponding author's reads "Reprints: Nathan J. Lee, MD, ...", "Reprint requests: Dr. Steinmann, ...",
+    "Corresponding Author: Arseniy P. Yashkin, PhD, ..." or, with only an e-mail, "<sup>CA</sup>Corresponding Author:
+    [e-mail]" whose mark ("CA", "a", "*") sits on that author in the byline. Lippincott.get_authors looks only for a
+    paragraph containing "correspondence", so these pages showed no corresponding author (oxjob #2128: ~11% of LWW
+    pages whose work has none). A reprints note names the corresponding author, as the gold reads it. Names come back
+    as the byline writes them, so the parsed author is found whichever parser won the page. Call it on the page's
+    soup before any parser runs: Lippincott.get_authors removes the byline's <sup> marks.
+    """
+    authors_section = soup.find(id="ejp-article-authors")
+    holder = soup.select_one("div.ejp-article-authors-info-holder")
+    if authors_section is None or holder is None:
+        return []
+    entries = _byline_entries(authors_section)
+    if not entries:
+        return []
+    paras = holder.find_all("p")
+    for i, para in enumerate(paras):
+        text = re.sub(r"\s+", " ", para.get_text(" ", strip=True))
+        first_sup = para.find("sup")
+        mark = first_sup.get_text(strip=True) if first_sup is not None and text.startswith(
+            first_sup.get_text(" ", strip=True)) else None
+        body = text[len(first_sup.get_text(" ", strip=True)):].strip() if mark else text
+        found = _LWW_CORR_LABEL.search(body)
+        if not found:
+            continue
+        rest = body[found.end():].strip()
+        if not rest and i + 1 < len(paras):  # "Address reprint requests to:" with the name in the next paragraph
+            rest = re.sub(r"\s+", " ", paras[i + 1].get_text(" ", strip=True))
+        name = _statement_name(rest)
+        if name and (hit := _match_byline(name, entries)):
+            return [hit]
+        if mark and not mark.isdigit():
+            marked = [n for n, marks in entries if mark in marks]
+            if len(marked) == 1:
+                return marked
+    return []
 
 
 class Lippincott(PublisherParser):
