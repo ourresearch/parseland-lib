@@ -98,3 +98,26 @@ def test_page_without_affiliation_list_still_gets_the_mark():
             '<ul class="no-bullet contrib-notes"><li id="n1"><sup>*</sup>hershkowitz@engr.wisc.edu</li></ul>'
             '</div></section></body></html>')
     assert _corr(html) == ["Noah Hershkowitz"]
+
+
+ABSTRACT = ("We numerically investigate the multicritical behavior of the three-dimensional lattice system in which a "
+            "SU(2) gauge field is coupled to two flavors of scalar fields, and show that the transition lines meet at "
+            "a multicritical point whose behavior is controlled by an O(5) fixed point.")
+
+
+def test_aps_description_fills_the_abstract_when_the_generic_parser_wins():
+    # APS's newer template: no publisher parser claims it, the generic parser wins and skips description tags
+    html = (f'<html><head><meta content="https://journals.aps.org/pre/abstract/10.1103/l6wr-6p69" property="og:url" />'
+            f'<meta content="{ABSTRACT}" property="og:description" /><meta content="{ABSTRACT}" name="description" />'
+            '<meta name="citation_author" content="Claudio Bonati">'
+            '<meta name="citation_author_institution" content="Universita di Pisa"></head><body></body></html>')
+    out = parse_page(html.encode(), "doi", "https://doi.org/10.1103/l6wr-6p69")
+    assert out["abstract"] == ABSTRACT
+
+
+def test_description_on_another_site_is_not_used():
+    html = (f'<html><head><meta content="https://example.org/x" property="og:url" />'
+            f'<meta content="{ABSTRACT}" name="description" />'
+            '<meta name="citation_author" content="A. One">'
+            '<meta name="citation_author_institution" content="Somewhere"></head><body></body></html>')
+    assert parse_page(html.encode(), "doi", "https://example.org/x")["abstract"] is None

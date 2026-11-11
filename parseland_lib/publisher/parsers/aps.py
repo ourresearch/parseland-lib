@@ -32,6 +32,19 @@ def _byline_marks(author_link):
     return symbols
 
 
+def aps_abstract(soup):
+    """The abstract APS keeps in its description meta tags, on journals.aps.org pages (oxjob #2146).
+
+    No publisher parser claims APS's newer template, and older pages with no affiliation list lose the dispatch, so
+    the generic parser wins those pages; since 9c1dc07 (25 Aug) it skips description / og:description (repository
+    site blurbs), which on APS hold the article's abstract. parse_page fills from here only when the winner left none.
+    """
+    parser = APS(soup)
+    if not parser.domain_in_meta_og_url("journals.aps.org"):
+        return None
+    return parser.parse_abstract_meta_tags()
+
+
 def aps_corresponding_names(soup):
     """Byline names APS marks as corresponding authors, from the notes under the affiliations (oxjob #2146).
 

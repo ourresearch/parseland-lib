@@ -6,7 +6,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
-from parseland_lib.publisher.parsers.aps import aps_corresponding_names
+from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
@@ -93,6 +93,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
         lp_content, "ejp-article-authors-info-holder") else []
     # read before the parsers run: APS.parse_affs_2 removes <sup> marks from this soup (#2146)
     aps_names = aps_corresponding_names(soup) if namespace == "doi" and _has(lp_content, "contrib-notes") else []
+    aps_abs = aps_abstract(soup) if namespace == "doi" and _has(lp_content, "journals.aps.org") else None
 
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
     if namespace == "doi":
@@ -127,6 +128,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
         if (ws := world_scientific_abstract(soup)) and not is_not_abstract(ws):
             authors_and_abstract['abstract'] = ws
+
+    # APS's description meta tag (its abstract) fills a page the winning generic parser left without one (#2146).
+    if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
+        if aps_abs and not is_not_abstract(aps_abs):
+            authors_and_abstract['abstract'] = aps_abs
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []
