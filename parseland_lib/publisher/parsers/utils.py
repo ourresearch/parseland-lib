@@ -1,6 +1,8 @@
 import json
 import re
 import unicodedata
+
+import unidecode
 from nameparser import HumanName
 
 EMAIL_RE = re.compile(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b',
@@ -164,3 +166,68 @@ def fill_affiliations_by_name(authors, pairs):
         matches = [a for a in authors if same_person(a.name, name)]
         if len(matches) == 1 and not matches[0].affiliations:
             matches[0].affiliations.extend(affiliations)
+
+
+# Finding an author's name inside free text, e.g. a correspondence note (oxjob #2149, first used for SciELO).
+NAME_SUFFIXES = {"filho", "junior", "jr", "neto", "sobrinho", "segundo"}
+NAME_PARTICLES = {"de", "da", "do", "dos", "das", "del", "della", "di", "du", "e", "y", "van", "von", "der", "den", "la", "le"}
+
+
+def _fold_name(text):
+    """Lower-case ASCII letters and single spaces only (accents and punctuation dropped), for name matching."""
+    return re.sub(r"[^a-z]+", " ", unidecode.unidecode(text or "").lower()).strip()
+
+
+def _initial_letters(words):
+    """Initials a run of words spells: a word of up to 3 letters may itself be initials ("nrt", "mr"), longer words
+    give their first letter."""
+    return "".join(t if len(t) <= 3 else t[0] for t in words)
+
+
+def _initials_span(tokens, givens, before):
+    """How many of the words next to a surname (read back from it when before) spell the given names' initials, or 0.
+    Single letters are always initials here, even 'e' and 'y'."""
+    initials = _initial_letters(givens)
+    words = [t for t in tokens if len(t) == 1 or t not in NAME_PARTICLES]
+    need = min(2, len(initials))
+    for cut in range(len(words)):
+        part = words[cut:] if before else words[:len(words) - cut]
+        letters = _initial_letters(part)
+        if len(letters) >= need and initials.startswith(letters):
+            return len(part)
+    return 0
+
+
+def name_position(name, text):
+    """Where the author's name starts in text (folded), or None: the surname plus a given name, or the surname next to
+    the given names' initials ('N.R.T. Damasceno', 'MCC NASCIMENTO'). Names come 'Last, First' or 'First Last'."""
+    if "," in name:
+        last, given = name.split(",", 1)
+    else:
+        tokens = name.split()
+        while len(tokens) > 1 and _fold_name(tokens[-1]) in NAME_SUFFIXES:
+            tokens = tokens[:-1]
+        last, given = (tokens[-1], " ".join(tokens[:-1])) if len(tokens) > 1 else (name, "")
+    surnames = [t for t in _fold_name(last).split() if len(t) >= 3 and t not in NAME_PARTICLES]
+    givens = [t for t in _fold_name(given).split() if t not in NAME_PARTICLES]
+    folded = _fold_name(text)
+    positions = []
+    for surname in surnames:
+        for m in re.finditer(r"\b" + re.escape(surname) + r"\b", folded):
+            window = folded[max(0, m.start() - 45):m.end() + 45]
+            ok = any(len(g) >= 3 and re.search(r"\b" + re.escape(g) + r"\b", window) for g in givens)
+            pos = m.start()
+            if ok:  # start at the given name when it comes first
+                first = folded.find(givens[0])
+                if 0 <= first < pos:
+                    pos = first
+            elif givens:  # given names as initials, either side: "N R T damasceno", "levy carvalho gomes", "damasceno N"
+                before = folded[:m.start()].split()[-6:]
+                n = _initials_span(before, givens, before=True)
+                if n:
+                    ok, pos = True, max(0, m.start() - len(" ".join(before[-n:])) - 1)
+                else:
+                    ok = bool(_initials_span(folded[m.end():].split()[:4], givens, before=False))
+            if ok:
+                positions.append(pos)
+    return min(positions, default=None)

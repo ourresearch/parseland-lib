@@ -2,6 +2,7 @@ import re
 from urllib.parse import urlparse
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import name_position
 from bs4.element import NavigableString
 import unidecode
 
@@ -22,22 +23,20 @@ SCIELO_NOTE_LABEL_RE = re.compile(
     r"(?:corresponding\s+author|autora?\s+(?:para\s+)?(?:correspondente|correspond[eê]ncia))\s*(?=:))"
     r"\s*[:.|/–-]?\s*(?:correspondence(?:\s+to)?\s*:?\s*)?(?:(?:dr|dra|prof|profa)\.?\s+)?", re.I)
 EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
-NAME_SUFFIXES = {"filho", "junior", "jr", "neto", "sobrinho", "segundo"}
-NAME_PARTICLES = {"de", "da", "do", "dos", "das", "del", "della", "di", "du", "e", "y", "van", "von", "der", "den", "la", "le"}
 
 
 def is_scielo_br_page(soup, resolved_url):
-    """A www.scielo.br article page, by its own og:url or canonical link, or the URL it was fetched from."""
-    urls = [resolved_url or ""]
-    og = soup.find("meta", attrs={"property": "og:url"})
-    if og is not None:
-        urls.append(og.get("content") or "")
-    canonical = soup.find("link", attrs={"rel": "canonical"})
-    if canonical is not None:
-        urls.append(canonical.get("href") or "")
-    for url in urls:
+    """A www.scielo.br article page, by the URL it was fetched from, its own og:url or its canonical link."""
+    def lookups():
+        yield resolved_url
+        og = soup.find("meta", attrs={"property": "og:url"})
+        yield og.get("content") if og is not None else None
+        canonical = soup.find("link", attrs={"rel": "canonical"})
+        yield canonical.get("href") if canonical is not None else None
+
+    for url in lookups():
         try:
-            host = urlparse(url.strip()).netloc.lower()
+            host = urlparse((url or "").strip()).netloc.lower()
         except ValueError:
             continue
         if host == "scielo.br" or host.endswith(".scielo.br"):
@@ -45,66 +44,8 @@ def is_scielo_br_page(soup, resolved_url):
     return False
 
 
-def _fold(text):
-    return re.sub(r"[^a-z]+", " ", unidecode.unidecode(text or "").lower()).strip()
-
-
 def _squash(text):
     return re.sub(r"\s+", " ", text or "").strip()
-
-
-def _letters(words):
-    """Initials a run of words spells: a word of up to 3 letters may itself be initials ("nrt", "mr"), longer words
-    give their first letter."""
-    return "".join(t if len(t) <= 3 else t[0] for t in words)
-
-
-def _initials_span(tokens, givens, before):
-    """How many of the words next to a surname (read back from it when before) spell the given names' initials, or 0.
-    Single letters are always initials here, even 'e' and 'y'."""
-    initials = _letters(givens)
-    words = [t for t in tokens if len(t) == 1 or t not in NAME_PARTICLES]
-    need = min(2, len(initials))
-    for cut in range(len(words)):
-        part = words[cut:] if before else words[:len(words) - cut]
-        letters = _letters(part)
-        if len(letters) >= need and initials.startswith(letters):
-            return len(part)
-    return 0
-
-
-def name_position(name, text):
-    """Where the author's name starts in text (folded), or None: the surname plus a given name, or the surname next to
-    the given names' initials ('N.R.T. Damasceno', 'MCC NASCIMENTO'). Names come 'Last, First' or 'First Last'."""
-    if "," in name:
-        last, given = name.split(",", 1)
-    else:
-        tokens = name.split()
-        while len(tokens) > 1 and _fold(tokens[-1]) in NAME_SUFFIXES:
-            tokens = tokens[:-1]
-        last, given = (tokens[-1], " ".join(tokens[:-1])) if len(tokens) > 1 else (name, "")
-    surnames = [t for t in _fold(last).split() if len(t) >= 3 and t not in NAME_PARTICLES]
-    givens = [t for t in _fold(given).split() if t not in NAME_PARTICLES]
-    folded = _fold(text)
-    best = None
-    for surname in surnames:
-        for m in re.finditer(r"\b" + re.escape(surname) + r"\b", folded):
-            window = folded[max(0, m.start() - 45):m.end() + 45]
-            ok = any(len(g) >= 3 and re.search(r"\b" + re.escape(g) + r"\b", window) for g in givens)
-            pos = m.start()
-            if ok:
-                first = folded.find(givens[0]) if givens else -1
-                pos = first if 0 <= first < m.start() else m.start()
-            elif givens:  # given names as initials, either side: "N R T damasceno", "levy carvalho gomes", "damasceno N"
-                before = folded[:m.start()].split()[-6:]
-                n = _initials_span(before, givens, before=True)
-                if n:
-                    ok, pos = True, max(0, m.start() - len(" ".join(before[-n:])) - 1)
-                else:
-                    ok = bool(_initials_span(folded[m.end():].split()[:4], givens, before=False))
-            if ok:
-                best = pos if best is None else min(best, pos)
-    return best
 
 
 def _byline_text_before(footnote):
@@ -155,13 +96,19 @@ def scielo_corresponding_marks(soup):
             corr_bylines.append(_byline_text_before(footnote))
         elif EMAIL_RE.search(text) and len(text) < 200:
             mail_bylines.append(_byline_text_before(footnote))
-    heads = [_squash(box.get_text(" "))[:110] for box in soup.select("div.correspondence")]
-    texts = [_squash(box.get_text(" ")) for box in soup.select("div.corresp, div.correspondence")]
-    texts.append(_squash(soup.get_text(" ")))
-    for text in texts:
+    # the note texts are taken now (parsers edit the soup) and searched for labels only if the footnotes don't decide
+    boxes = [(box, _squash(box.get_text(" "))) for box in soup.select("div.corresp, div.correspondence")]
+    lead_heads = [text[:110] for box, text in boxes if "correspondence" in box.get("class", [])]
+    texts = [text for _, text in boxes] + [_squash(soup.get_text(" "))]
+    return {"bylines": corr_bylines, "mail_bylines": mail_bylines, "lead_heads": lead_heads, "texts": texts}
+
+
+def _note_heads(marks):
+    """The text right after each correspondence label, in page order: div.correspondence boxes first."""
+    yield from marks["lead_heads"]
+    for text in marks["texts"]:
         for m in SCIELO_NOTE_LABEL_RE.finditer(text):
-            heads.append(text[m.end():m.end() + 110])
-    return {"bylines": corr_bylines, "mail_bylines": mail_bylines, "heads": heads}
+            yield text[m.end():m.end() + 110]
 
 
 def pick_scielo_corresponding(author_names, marks):
@@ -175,15 +122,15 @@ def pick_scielo_corresponding(author_names, marks):
         hits = [n for n in author_names if name_position(n, text) is not None]
         return hits[0] if len(hits) == 1 else None
 
-    picked = list(dict.fromkeys(n for n in (one_author_in(t) for t in marks.get("bylines", [])) if n))
+    picked = list(dict.fromkeys(n for n in (one_author_in(t) for t in marks["bylines"]) if n))
     if len(author_names) > 1 and len(picked) == len(author_names):
         picked = []  # the same note on every author marks no one
-    if not picked and marks.get("mail_bylines"):
+    if not picked:
         mailed = {n for n in (one_author_in(t) for t in marks["mail_bylines"]) if n}
         picked = list(mailed) if len(mailed) == 1 else []
     if picked:
         return picked
-    for head in marks.get("heads", []):
+    for head in _note_heads(marks):
         found = sorted((p, n) for n in author_names if (p := name_position(n, head)) is not None)
         if found and found[0][0] <= 12 and (len(found) == 1 or found[1][0] > found[0][0]):
             return [found[0][1]]
