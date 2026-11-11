@@ -155,6 +155,13 @@ class Taylor(PublisherParser):
             ]
         if isinstance(raw_authors, dict):
             raw_authors = [raw_authors]
+        # A Person packing several names whose given and family lists don't pair up ("Chandni, Geetanjali" /
+        # "Verma, Mishra, Omkar": one author has no given name) can't be split; the product data lists each
+        # contributor (oxjob #2162: 4 of 1,463 pilot DOIs collapsed to one garbled name).
+        if any(isinstance(a, dict) and self._taylorfrancis_jsonld_names_unpaired(a) for a in raw_authors):
+            product_results = self._parse_taylorfrancis_product_contributor_authors()
+            if product_results:
+                return product_results
         results = []
         for author in raw_authors:
             if not isinstance(author, dict):
@@ -273,6 +280,11 @@ class Taylor(PublisherParser):
             name = " ".join(part for part in (given, family) if part)
         name = re.sub(r"\s+", " ", name).strip()
         return [name] if name else []
+
+    def _taylorfrancis_jsonld_names_unpaired(self, author):
+        given = self._split_taylorfrancis_name_parts(str(author.get("givenName") or ""))
+        family = self._split_taylorfrancis_name_parts(str(author.get("familyName") or ""))
+        return max(len(given), len(family)) > 1 and len(given) != len(family)
 
     def _split_taylorfrancis_name_parts(self, value):
         return [
