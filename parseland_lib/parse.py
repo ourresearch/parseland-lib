@@ -9,6 +9,7 @@ from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstr
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
+from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
     scielo_corresponding_marks
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
@@ -172,6 +173,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
             elif scielo_marks:
                 _mark_corresponding_by_name(
                     authors, pick_scielo_corresponding([a["name"] for a in authors], scielo_marks))
+            elif namespace == "doi" and _has(lp_content, '"correspondingAuthor"'):
+                # Research Square flags it in the page's embedded Next.js data, not in the byline HTML (#2153)
+                _mark_corresponding_by_name(authors, research_square_corresponding_names(lp_content))
 
     # Merge into a single response
     response = authors_and_abstract
