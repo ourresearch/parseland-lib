@@ -9,6 +9,8 @@ from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstr
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
+from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
+    scielo_corresponding_marks
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names, world_scientific_abstract
 from parseland_lib.publisher.parsers.utils import same_person
@@ -94,6 +96,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # read before the parsers run: APS.parse_affs_2 removes <sup> marks from this soup (#2146)
     aps_names = aps_corresponding_names(soup) if namespace == "doi" and _has(lp_content, "contrib-notes") else []
     aps_abs = aps_abstract(soup) if namespace == "doi" and _has(lp_content, "journals.aps.org") else None
+    # scielo.br marks the corresponding author in the byline dropdown, a footnote or a correspondence note (#2149)
+    scielo_marks = scielo_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "scielo.br") \
+        and is_scielo_br_page(soup, resolved_url) else None
 
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
     if namespace == "doi":
@@ -164,6 +169,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 _mark_corresponding_by_name(authors, lww_names)
             elif aps_names:
                 _mark_corresponding_by_name(authors, aps_names)
+            elif scielo_marks:
+                _mark_corresponding_by_name(
+                    authors, pick_scielo_corresponding([a["name"] for a in authors], scielo_marks))
 
     # Merge into a single response
     response = authors_and_abstract
