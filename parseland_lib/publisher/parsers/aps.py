@@ -1,5 +1,71 @@
+import re
+
+from bs4 import NavigableString, Tag
+
 from parseland_lib.elements import Affiliation, AuthorAffiliations, Author
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import EMAIL_RE
+
+# APS's contrib notes: "*Corresponding author: x@y", "*Contact author: x@y", or in the older style only that author's
+# e-mail ("*x@y"; gold v1.3 physrevlett.108.183001) (oxjob #2146).
+CORRESPONDING_NOTE_RE = re.compile(r"(?:corresponding|contact)\s+author|correspondence", re.I)
+NOT_CORRESPONDING_NOTE_RE = re.compile(r"present address|permanent address|also at|deceased|contributed equally", re.I)
+APS_AUTHOR_LINK = 'a[href*="/search/field/author/"]'
+
+
+def _byline_marks(author_link):
+    """The symbols in the <sup> right after one byline name (ORCID icons may sit between); stops at the next name."""
+    symbols = set()
+    for sib in author_link.next_siblings:
+        if isinstance(sib, NavigableString):
+            if sib.strip():
+                break
+            continue
+        if not isinstance(sib, Tag):
+            continue
+        if sib.name == "sup":
+            symbols |= {s for s in re.split(r"[,\s]+", sib.get_text()) if s}
+        elif sib.name == "a" and not sib.get_text(strip=True):
+            continue  # ORCID icon link
+        else:
+            break
+    return symbols
+
+
+def aps_corresponding_names(soup):
+    """Byline names APS marks as corresponding authors, from the notes under the affiliations (oxjob #2146).
+
+    A note saying "Corresponding author" / "Contact author" wins; without one, e-mail-only notes mark their authors,
+    unless every author has one (an e-mail shown for every author is no mark, gold rule #1791 label-v1). parse_page
+    calls this before the parsers run (APS.parse_affs_2 edits the soup) and fills the flag by name only when the
+    winning parser marked no one: on pages with no affiliation list the APS parser loses the dispatch.
+    """
+    notes = soup.select("ul.contrib-notes")
+    if not notes:
+        return []
+    box = soup.select_one("section.article.authors") or notes[0].find_parent(["details", "section"])
+    if box is None:
+        return []
+    phrase, email = set(), set()
+    for li in box.select("ul.contrib-notes li"):
+        sup = li.find("sup")
+        symbol = sup.get_text(strip=True) if sup else ""
+        if not symbol:
+            continue
+        text = li.get_text(" ", strip=True)
+        if CORRESPONDING_NOTE_RE.search(text):
+            phrase.add(symbol)
+        elif EMAIL_RE.search(text) and not NOT_CORRESPONDING_NOTE_RE.search(text):
+            email.add(symbol)
+    if not (phrase or email):
+        return []
+    byline = [(a.get_text(" ", strip=True), _byline_marks(a)) for a in box.select(APS_AUTHOR_LINK)]
+    byline = [(name, marks) for name, marks in byline if name]
+    wanted = phrase or email
+    names = [name for name, marks in byline if marks & wanted]
+    if not phrase and len(names) == len(byline):
+        return []
+    return names
 
 
 class APS(PublisherParser):
