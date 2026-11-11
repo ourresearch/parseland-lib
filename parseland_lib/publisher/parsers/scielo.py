@@ -2,7 +2,7 @@ import re
 from urllib.parse import urlparse
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import name_position
+from parseland_lib.publisher.parsers.utils import name_position, squash as _squash
 from bs4.element import NavigableString
 import unidecode
 
@@ -42,10 +42,6 @@ def is_scielo_br_page(soup, resolved_url):
         if host == "scielo.br" or host.endswith(".scielo.br"):
             return True
     return False
-
-
-def _squash(text):
-    return re.sub(r"\s+", " ", text or "").strip()
 
 
 def _byline_text_before(footnote):
