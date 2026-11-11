@@ -2,6 +2,7 @@ import re
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import same_opening_text, states_what_the_work_does
 
 
 class CUP(PublisherParser):
@@ -45,13 +46,41 @@ class CUP(PublisherParser):
         r"(an abstract|a summary) is not available for this content", re.I
     )
 
+    # When a chapter or article has no abstract, Cambridge Core shows its opening instead and marks it on the page:
+    # a chapter's "Summary" holds div.abstract with data-abstract-type="extract", an article's section is headed
+    # "Extract" (oxjob #2162). An opening is body text, not an abstract (landing-pages charter § 6, 24 Oct 2026; gold
+    # v1.3 labels these pages "no abstract"). data-abstract-type="normal" under "Summary" or "Abstract" is kept.
+    def _section_heading(self, tag):
+        for parent in list(tag.parents)[:3]:
+            heading = parent.find(["h2", "h3"], recursive=False)
+            if heading:
+                return heading.get_text(" ", strip=True)
+        return ""
+
+    def _is_marked_extract(self, tag):
+        if states_what_the_work_does(tag.get_text(" ", strip=True)):
+            return False
+        if (tag.get("data-abstract-type") or "").strip().lower() == "extract":
+            return True
+        return self._section_heading(tag).strip().lower() == "extract"
+
+    def _marked_extracts(self):
+        return [tag for tag in self.soup.select("div.abstract") if self._is_marked_extract(tag)]
+
+    def marked_openings(self):
+        """The texts this page marks as the work's opening (its extract), for parse_page's guard."""
+        return [tag.get_text(" ", strip=True) for tag in self._marked_extracts()]
+
     def _visible_abstract(self):
+        extracts = self._marked_extracts()
         for selector in (
             "div.abstract",
             'div[class*="abstract"]',
             'section[class*="abstract"]',
         ):
             for tag in self.soup.select(selector):
+                if any(tag is m or m in tag.parents or tag in m.parents for m in extracts):
+                    continue
                 text = tag.get_text(" ", strip=True)
                 text = re.sub(r"^((abstract|summary)\s*)+", "", text, flags=re.I).strip()
                 if self._NO_ABSTRACT_NOTICE.search(text):
@@ -244,6 +273,9 @@ class CUP(PublisherParser):
         abstract = self.parse_abstract_meta_tags()
         if abstract and self._NO_ABSTRACT_NOTICE.search(abstract):
             abstract = None
+        # The meta abstract (citation_abstract) repeats the opening on pages that mark it as an extract (#2162).
+        if abstract and any(same_opening_text(abstract, opening) for opening in self.marked_openings()):
+            abstract = None
         visible_abstract = self._visible_abstract()
         if visible_abstract and (not abstract or len(abstract) < 200):
             abstract = visible_abstract
@@ -288,3 +320,9 @@ class CUP(PublisherParser):
             },
         },
     ]
+
+
+def cambridge_marked_openings(soup):
+    """Openings a Cambridge Core page marks as its extract (oxjob #2162); [] elsewhere."""
+    return CUP(soup).marked_openings()
+

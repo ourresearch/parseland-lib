@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup, NavigableString
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name
+from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name, states_what_the_work_does
 
 
 class Taylor(PublisherParser):
@@ -369,8 +369,38 @@ class Taylor(PublisherParser):
     def _name_key(self, value):
         return re.sub(r"\W+", "", value or "").lower()
 
+    # T&F's product data labels the text it shows for a chapter: textType "abstract" or "enriched" (written about the
+    # chapter) or "first-paragraph" (the chapter's opening, shown when it has no abstract). The JSON-LD and meta
+    # descriptions repeat that same opening. An opening is body text, not an abstract (oxjob #2162; landing-pages
+    # charter § 6, 24 Oct 2026; gold v1.3 labels 11 of 12 such dev pages "no abstract"), except one that opens by
+    # saying what the chapter does (utils.states_what_the_work_does), which the gold counts as the abstract.
+
+    def _taylorfrancis_product_abstract_text_type(self):
+        for payload, raw in self._taylorfrancis_product_payload_items():
+            item = self._find_product_abstract_item(payload) if payload else None
+            if item is not None:
+                return str(item.get("textType") or "").strip().lower()
+            match = re.search(r"&q;abstracts&q;\s*:\s*\[\s*\{(.*?)\}", raw, flags=re.DOTALL)
+            if match:
+                text_type = re.search(r"&q;textType&q;\s*:\s*&q;(.*?)&q;", match.group(1))
+                return text_type.group(1).strip().lower() if text_type else ""
+        return ""
+
+    def marked_opening(self):
+        """The chapter opening T&F shows as the chapter's text ("first-paragraph"), unless it opens by saying what
+        the chapter does; None otherwise. parse_page drops it whichever parser won (meta tags repeat it)."""
+        if self._taylorfrancis_product_abstract_text_type() != "first-paragraph":
+            return None
+        product_abstract = self._parse_taylorfrancis_product_abstract()
+        if not product_abstract or states_what_the_work_does(product_abstract):
+            return None
+        return product_abstract
+
     def _parse_taylorfrancis_chapter_abstract(self):
         product_abstract = self._parse_taylorfrancis_product_abstract()
+        if (self._taylorfrancis_product_abstract_text_type() == "first-paragraph"
+                and not states_what_the_work_does(product_abstract)):
+            return None
         if product_abstract:
             return product_abstract
         chapter = self._taylorfrancis_jsonld_chapter()
@@ -462,23 +492,27 @@ class Taylor(PublisherParser):
             and re.search(r"\bpp\.\s+", text)
         )
 
-    def _find_product_abstract_value(self, payload):
+    def _find_product_abstract_item(self, payload):
         if isinstance(payload, dict):
             abstracts = payload.get("abstracts")
             if isinstance(abstracts, list):
                 for item in abstracts:
                     if isinstance(item, dict) and item.get("value"):
-                        return item["value"]
+                        return item
             for value in payload.values():
-                found = self._find_product_abstract_value(value)
-                if found:
+                found = self._find_product_abstract_item(value)
+                if found is not None:
                     return found
         elif isinstance(payload, list):
             for item in payload:
-                found = self._find_product_abstract_value(item)
-                if found:
+                found = self._find_product_abstract_item(item)
+                if found is not None:
                     return found
         return None
+
+    def _find_product_abstract_value(self, payload):
+        item = self._find_product_abstract_item(payload)
+        return item["value"] if item is not None else None
 
     def _decode_taylorfrancis_jsonish(self, value):
         # Angular TransferState escapes " ' < > & as &q; &s; &l; &g; &a; (&a; last, so "&a;s;" stays a literal "&s;")
@@ -544,3 +578,9 @@ class Taylor(PublisherParser):
             ],
         },
     ]
+
+
+def taylorfrancis_marked_opening(soup):
+    """The chapter opening a taylorfrancis.com page marks as "first-paragraph" (oxjob #2162); None elsewhere."""
+    return Taylor(soup).marked_opening()
+

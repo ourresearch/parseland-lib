@@ -7,14 +7,16 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_locati
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
+from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
+from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
 from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
     scielo_corresponding_marks
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names, world_scientific_abstract
-from parseland_lib.publisher.parsers.utils import same_person
+from parseland_lib.publisher.parsers.utils import same_opening_text, same_person
 
 
 def _is_doi_router_url(url):
@@ -101,6 +103,15 @@ def parse_page(lp_content, namespace, resolved_url=None):
     scielo_marks = scielo_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "scielo.br") \
         and is_scielo_br_page(soup, resolved_url) else None
 
+    # read before the parsers run (the fulltext step changes this soup): openings the page marks as such (#2162)
+    openings = []
+    if namespace == "doi" and _has(lp_content, "taylorfrancis.com") and _has(lp_content, "first-paragraph"):
+        openings.append(taylorfrancis_marked_opening(soup))
+    if namespace == "doi" and _has(lp_content, "cambridge.org") and (
+            _has(lp_content, 'data-abstract-type="extract"') or _has(lp_content, "Extract</h2>")):
+        openings.extend(cambridge_marked_openings(soup))
+    openings = [o for o in openings if o]
+
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
     if namespace == "doi":
         fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
@@ -139,6 +150,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
         if aps_abs and not is_not_abstract(aps_abs):
             authors_and_abstract['abstract'] = aps_abs
+
+    # A text the publisher marks on its page as the work's opening is body text, not its abstract, whichever parser
+    # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it
+    # "first-paragraph" in their product data, Cambridge Core as an "extract".
+    if (chosen := authors_and_abstract.get('abstract')) and any(same_opening_text(chosen, o) for o in openings):
+        authors_and_abstract['abstract'] = None
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
         authors = []

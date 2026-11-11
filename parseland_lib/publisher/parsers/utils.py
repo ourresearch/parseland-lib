@@ -231,3 +231,54 @@ def name_position(name, text):
             if ok:
                 positions.append(pos)
     return min(positions, default=None)
+
+
+def _letters_key(text):
+    return re.sub(r"[\W_]+", "", text or "").casefold()
+
+
+def same_opening_text(text, opening, prefix=80):
+    """True when text starts like opening, or opening starts like text (letters and digits only, first `prefix`).
+
+    For a page that marks the text it shows as the work's opening (oxjob #2162): its meta tags and JSON-LD repeat
+    the same opening, with other spacing, quotes or a cut end.
+    """
+    a, b = _letters_key(text), _letters_key(opening)
+    if len(a) < 20 or len(b) < 20:
+        return False
+    return a[:prefix] in b or b[:prefix] in a
+
+
+# An opening that says what the work itself does reads as its abstract (gold v1.3 keeps "This chapter discusses the
+# Chain Rule...", 10.1201/9781003449652-5), so a page's opening marker never removes it (oxjob #2162). Any other opening
+# prose (background, narrative, a topic introduction, a quotation) is body text (gold convention, #1791 EXPLORE § 6).
+# Read in the first ~600 characters: the self-description often comes after a sentence or two of setting.
+# shortcut: English phrasing only; other languages' openings are removed when marked.
+_WORK = (r"(?:chapter|paper|article|essay|study|contribution|note|review|preface|introduction|book|volume|report|"
+         r"section|overview|survey|commentary|editorial|lecture)")
+_DOES = (r"(?:examines|explores|addresses|argues|discusses|describes|presents|considers|outlines|introduces|reviews|"
+         r"focuses|investigates|analy[sz]es|provides|traces|offers|looks|is\s+concerned|deals|sets\s+out|seeks|aims|"
+         r"identifies|reports|proposes|shows|summari[sz]es|surveys|assesses|evaluates|develops|demonstrates|highlights|"
+         r"maps|charts|draws|uses|takes|begins|turns|is\s+about|will|asks|compares|documents|situates|reflects|builds|"
+         r"shifts|contends|includes|covers|gives|collects|brings)")
+_STATES_WHAT_THE_WORK_DOES = re.compile(
+    r"^\W*(?:abstract|summary)\b"
+    r"|\bthis\s+" + _WORK + r"\s+(?:\S+\s+){0,6}?" + _DOES + r"\b"
+    r"|\b(?:the\s+present|the|our)\s+" + _WORK + r"\s+(?:\w+\s+){0,2}?" + _DOES + r"\b"
+    r"|\bthis\s+is\s+an?\s+(?:\S+\s+){0,3}?" + _WORK + r"\b"
+    r"|\b(?:purpose|aim|goal|objective|focus|subject|concern)\s+of\s+(?:this|the\s+present)\s+" + _WORK +
+    r"|\bin\s+(?:this|the\s+present|the\s+following)\s+" + _WORK + r"\b"
+    r"|\b(?:the\s+aim\s+here|in\s+what\s+follows|in\s+the\s+following\s+pages)\b"
+    r"|\bchapter\s+\d+\s+" + _DOES + r"\b"
+    r"|\b(?:here|below|herein)\s+(?:we|i)\s+\w+"
+    r"|\b(?:we|i)\s+(?:present|report|describe|propose|examine|investigate|study|show|review|discuss|consider|analy[sz]e|"
+    r"argue|explore|explored|introduce|outline|suggest|focus|examined|investigated|studied|develop|developed|"
+    r"compare|assess|evaluate|test|use|draw|trace|offer|collect)\b",
+    re.IGNORECASE,
+)
+
+
+def states_what_the_work_does(text):
+    # stored texts can carry literal "\n" escapes (T&F product data), which would hide a word boundary
+    head = re.sub(r"\\[nrt]", " ", (text or "")[:600])
+    return bool(_STATES_WHAT_THE_WORK_DOES.search(head))
