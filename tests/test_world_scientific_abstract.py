@@ -39,8 +39,19 @@ def test_section_list_stand_in_is_not_an_abstract():
 
 
 def test_headings_and_notices_are_not_abstracts():
-    for text in ("Index", "Author Index.", "CONTENTS", "No abstract received."):
+    for text in ("Index", "Author Index.", "CONTENTS", "No abstract received.", "Please refer to the full text.",
+                 "PREFACE."):
         assert _abstract(_old(text)) is None, text
+
+
+def test_front_matter_heading_list_is_not_an_abstract():
+    assert _abstract(_new(["Symposium Organization.", "Preface.", "Contents.", "OPENING ADDRESS."])) is None
+    assert _abstract(_new(["Program.", "List of Participants."])) is None
+
+
+def test_text_without_spaces_is_not_a_heading_list():
+    zh = ["这本书记录了冯达旋教授对全球高等教育的思考及亲身感受。", "《全球高等教育复兴》，是21世纪瞬息万变的全球学术领域的“秘籍”。"]
+    assert _abstract(_new(zh)) == "\n".join(zh)
 
 
 def test_chapter_preview_cut_off_is_not_an_abstract():

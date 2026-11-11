@@ -85,14 +85,25 @@ def silverchair_abstract(soup):
 
 # World Scientific's stand-ins under its "Abstract:" heading (oxjob #2145, 550 sampled pages read by #1800's judge):
 # a section list for chapters with no abstract ("The following sections are included: Introduction ..."), a book's
-# contents list for proceedings, a back-matter heading alone ("Index", "Author Index", "CONTENTS") and a notice.
+# contents list for proceedings, a front- or back-matter heading alone ("Index", "PREFACE.") and a notice.
 _WS_STAND_IN = re.compile(
     r"^(?:the following (?:[\w-]+ )*(?:sections?|articles?|chapters?|topics?|papers?|items?) (?:is|are) included"
     r"|the table of contents for the book is as follows"
     r"|no abstract (?:received|available)\.?$"
+    r"|please refer to (?:the )?full text\.?$"
     r"|(?:(?:author|subject|name|name and subject|cumulative)\s+)?index\.?$"
-    r"|(?:table of )?contents\.?$)",
+    r"|(?:table of )?contents\.?$"
+    r"|(?:preface|foreword|prologue|epilogue|list of (?:participants|contributors|authors)|program(?:me)?"
+    r"|(?:organizing |program(?:me)? |scientific )?committees?|acknowledge?ments?|editorial board)\.?$)",
     re.I)
+
+
+def _ws_heading_list(text):
+    """A proceedings volume's front matter as a list of headings ("PREFACE.\nCONTENTS.", "Program.\nList of
+    Participants."): two or more lines, each a short heading (oxjob #2145 pilot: 6 of 968 gains). ASCII only: a short
+    sentence in Chinese or Japanese has no spaces to count words by, so it would look like a heading."""
+    lines = [line.strip() for line in text.split("\n") if line.strip()]
+    return len(lines) >= 2 and all(len(line.split()) <= 5 and len(line) <= 40 and line.isascii() for line in lines)
 
 
 def world_scientific_abstract(soup):
@@ -116,7 +127,7 @@ def world_scientific_abstract(soup):
     paras = [p for p in paras if p]
     text = "\n".join(paras) if paras else block.get_text(" ", strip=True)
     text = re.sub(r"^abstract\s*[:.]?\s*", "", re.sub(r"[ \t\r\f\v]+", " ", text).strip(), flags=re.I)
-    if not text or _WS_STAND_IN.match(text) or re.search(r"(?:…|\.\.\.)\.?$", text):
+    if not text or _WS_STAND_IN.match(text) or _ws_heading_list(text) or re.search(r"(?:…|\.\.\.)\.?$", text):
         return None
     # A preview cut at an equation the page drops ends mid-sentence ("It is easy to see that"); 275 of 277 real
     # World Scientific abstracts in the sample end with closing punctuation.
