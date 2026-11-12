@@ -55,6 +55,19 @@ def is_ojs_page(soup, lp_content):
                for meta in soup.find_all("meta", attrs={"name": re.compile(r"^generator$", re.I)}))
 
 
+_OJS_GENERATOR_META_RE = re.compile(r"<meta\b[^>]*\bname=[\"']?generator\b[^>]*>", re.I)
+
+
+def is_ojs_markup(lp_content):
+    """is_ojs_page on the raw markup alone (no soup): PKP's template markers, or a generator meta tag naming OJS."""
+    if any(raw_has(lp_content, m) for m in _OJS_RAW_MARKERS):
+        return True
+    if not _raw_search(r"open journal systems", lp_content):
+        return False
+    text = lp_content.decode("utf-8", "replace") if isinstance(lp_content, (bytes, bytearray)) else lp_content
+    return any(_OJS_GENERATOR_RE.search(m.group(0)) for m in _OJS_GENERATOR_META_RE.finditer(text))
+
+
 def _primary_contact_items(soup):
     texts = []
     for mark in soup.select(".primary_contact"):

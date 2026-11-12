@@ -8,6 +8,27 @@ from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal, \
     get_tree
 
 
+# Site footers, which are site chrome on most sites: a site-wide "content of this site is licensed CC BY" footer turned
+# paywalled pages into cc-by (scientific.net, crossref.org defunct-DOI page, 2026-09).
+_SITE_FOOTER_FINDERS = [
+    "//footer",
+    "//*[@role='contentinfo']",
+    "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
+    " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
+    " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
+]
+
+
+def _footer_states_article_licence(page):
+    """Open Journal Systems journals state the journal's licence, which every article carries, in the site footer
+    ("This work is licensed under a Creative Commons Attribution 4.0 International License", PKP's
+    `pkp_structure_footer_wrapper` or the theme's `<footer>`), and the article page often states it nowhere else.
+    Gold v1.3 counts it as the article's licence (oxjob #2166: 6 of the 7 CC licences main missed on OJS dev pages sat
+    in the footer, and re-parsing July-parsed OJS pages dropped a correct CC licence on 8.5% of them)."""
+    from parseland_lib.publisher.parsers.ojs import is_ojs_markup  # the parsers package imports this module
+    return is_ojs_markup(page)
+
+
 def page_potential_license_text(page):
     tree = get_tree(page)
 
@@ -19,15 +40,7 @@ def page_potential_license_text(page):
     bad_section_finders = [
         "//div[contains(@class, 'view-pnas-featured')]",  # https://www.pnas.org/content/114/38/10035
         "//meta[contains(@name, 'citation_reference')]",  # https://www.thieme-connect.de/products/ebooks/lookinside/10.1055/sos-SD-226-00098
-        # Site chrome, never the article's own licence statement: a site-wide
-        # "content of this site is licensed CC BY" footer turned paywalled pages into cc-by
-        # (scientific.net, crossref.org defunct-DOI page, 2026-09).
-        "//footer",
-        "//nav",
-        "//*[@role='contentinfo']",
-        "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
-        " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
-        " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
+        "//nav",  # site chrome, never the article's own licence statement
         # Page-template code that looks for a CC badge is not a licence statement: SAGE's older template ships
         # `if ($('.creative-commons-badge.cc-by').length){ console.debug('... CC-BY type of article.') ...}` on every
         # article page, paywalled or not, which read as cc-by (oxjob #1794: 755 closed works turned hybrid).
@@ -44,6 +57,9 @@ def page_potential_license_text(page):
         "[contains(normalize-space(.), 'subscription basis')]"
         "[contains(., 'Accepted Manuscript')][contains(., 'embargo')]",
     ]
+
+    if not _footer_states_article_licence(page):
+        bad_section_finders += _SITE_FOOTER_FINDERS
 
     for section_finder in bad_section_finders:
         for bad_section in tree.xpath(section_finder):
