@@ -169,3 +169,41 @@ def test_parse_integration_uses_fallback() -> None:
     parser = _make_parser(html)
     result = parser.parse()
     assert result["abstract"] == "Fallback abstract via chapter-para."
+
+
+def test_citation_line_meta_description_is_not_an_abstract() -> None:
+    """oxjob #1800: OUP pages with no abstract carry '<authors>; <title>, <journal>, Volume ...' cut at 160 chars,
+    with the DOI link cut off. It is a citation line, not an abstract (W2472549188)."""
+    desc = ("Mary M. Rockwell, Robert F. Manchester, M.B.A.; Funding and marketing of an investigational drug service, "
+            "American Journal of Hospital Pharmacy, Volume 46, Issu")
+    html = f"""
+    <html><head>
+      <meta name="citation_title" content="Funding and marketing of an investigational drug service" />
+      <meta name="description" content="{desc}" />
+      <meta property="og:description" content="{desc}" />
+    </head><body></body></html>
+    """
+    assert _make_parser(html)._extract_abstract() == ""
+
+
+def test_citation_line_cut_inside_a_long_title() -> None:
+    desc = ("THE COMMISSION ON ACUTE RESPIRATORY DISEASES, FORT BRAGG, NORTH CAROLINA; IDENTIFICATION AND "
+            "CHARACTERISTICS OF THE BALKAN GRIPPE STRAIN OF RICKETTSIA BURNETI12")
+    html = f"""
+    <html><head>
+      <meta property="og:title" content="IDENTIFICATION AND CHARACTERISTICS OF THE BALKAN GRIPPE STRAIN OF RICKETTSIA BURNETI" />
+      <meta property="og:description" content="{desc}" />
+    </head><body></body></html>
+    """
+    assert _make_parser(html)._extract_abstract() == ""
+
+
+def test_semicolon_snippet_that_does_not_repeat_the_title_is_kept() -> None:
+    desc = "Abstract. Background; hypertension is common in adults and its control remains poor in rural clinics."
+    html = f"""
+    <html><head>
+      <meta name="citation_title" content="Blood pressure control in rural clinics" />
+      <meta property="og:description" content="{desc}" />
+    </head><body></body></html>
+    """
+    assert _make_parser(html)._extract_abstract().startswith("Background; hypertension is common")

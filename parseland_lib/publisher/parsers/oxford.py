@@ -492,9 +492,24 @@ class Oxford(PublisherParser):
                 continue
             # Strip leading "Abstract" / "Abstract." prefix that OUP injects.
             content = re.sub(r'^abstract[\.\s:]*', '', content, flags=re.I).strip()
-            if content and not self._is_low_quality_abstract_fallback(content):
+            if (content and not self._is_low_quality_abstract_fallback(content)
+                    and not self._is_citation_line(content)):
                 return content
         return ''
+
+    def _is_citation_line(self, content):
+        """OUP's meta description on a page with no abstract: '<authors>; <title>, <journal>, Volume N, Issue N,
+        <date>, Pages ..., https://doi.org/...', cut at ~160 chars, so the DOI link that
+        _is_low_quality_abstract_fallback needs is usually gone (oxjob #1800, 12 Nov 2026: ~395K works showed one).
+        A citation line when the part after the first '; ' starts like the page's title (at least 10 letters and
+        digits in common); the same rule as walden's not_abstract key oupcite-v1."""
+        title = self._meta_content("citation_title") or self._meta_content("og:title")
+        cut = content.find("; ", 1)
+        if not title or len(content) > 170 or cut < 0:
+            return False
+        rest, ttl = (re.sub(r"[\W_]+", "", s.lower()) for s in (content[cut + 2:], title))
+        m = min(len(rest), len(ttl))
+        return m >= 10 and rest[:m] == ttl[:m]
 
     @staticmethod
     def _is_low_quality_abstract_fallback(content):
