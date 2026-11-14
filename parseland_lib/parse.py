@@ -16,7 +16,7 @@ from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
 from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
     scielo_corresponding_marks
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
-    silverchair_corresponding_names, world_scientific_abstract
+    silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
 from parseland_lib.publisher.parsers.utils import raw_has as _has, same_opening_text, same_person
 
 
@@ -100,6 +100,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # scielo.br marks the corresponding author in the byline dropdown, a footnote or a correspondence note (#2149)
     scielo_marks = scielo_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "scielo.br") \
         and is_scielo_br_page(soup, resolved_url) else None
+    # World Scientific marks it "Corresponding author." in the author's info card (#2211); read before the parsers
+    # run (the World Scientific parser removes parts of the cards from this soup)
+    ws_names = world_scientific_corresponding_names(soup) if namespace == "doi" and _has(
+        lp_content, "loa-wrapper") and _has(lp_content, "wspc-site") else []
     # Open Journal Systems sites mark the primary contact, a lone e-mail, a starred byline or "Author for correspondence"
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_marks = ojs_corresponding_marks(soup, lp_content) if namespace == "doi" else []
@@ -194,6 +198,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
             elif namespace == "doi" and _has(lp_content, '"correspondingAuthor"'):
                 # Research Square flags it in the page's embedded Next.js data, not in the byline HTML (#2153)
                 _mark_corresponding_by_name(authors, research_square_corresponding_names(lp_content))
+            elif ws_names:
+                _mark_corresponding_by_name(authors, ws_names)
             elif ojs_marks:
                 _mark_corresponding_by_name(authors, pick_ojs_corresponding([a["name"] for a in authors], ojs_marks))
 

@@ -136,6 +136,41 @@ def world_scientific_abstract(soup):
     return text
 
 
+_WS_CORRESPONDING = re.compile(
+    r"\W*(?:corresponding authors?|authors? for correspondence|correspond(?:ence|ing) to)\b", re.I)
+
+
+def world_scientific_corresponding_names(soup):
+    """Names of the authors a World Scientific (worldscientific.com) page marks as corresponding, in byline order.
+
+    Each author of the byline accordion (``div.loa-wrapper``) has an info card (``div.author-info``) with the
+    affiliations, e-mail and, for the corresponding author, a paragraph that reads "Corresponding author." The World
+    Scientific parser reads it but is claimed on few pages and throws on most, so the winning parser marked no one on
+    ~14% of stored pages (oxjob #2211, from #2145's sample). Older pages word it "Author for correspondence." or
+    "Correspondence to: Dr. ..." in the same card (9 of 48 marked pages). Only a paragraph that opens with such a
+    label counts: an e-mail alone is not a mark here (many cards carry one).
+    """
+    context = soup.select_one('meta[name="pbContext"]')
+    if context is None or "wspc-site" not in (context.get("content") or ""):
+        return []
+    wrapper = soup.select_one("div.loa-wrapper")
+    if wrapper is None:
+        return []
+    names = []
+    for tab in wrapper.select("div.accordion-tabbed__tab-mobile"):
+        info = tab.select_one("div.author-info")
+        name_tag = tab.select_one("a.author-name")
+        if info is None or name_tag is None:
+            continue
+        if not any(_WS_CORRESPONDING.match(p.get_text(" ", strip=True)) for p in info.find_all("p")):
+            continue
+        name = name_tag.get("title") or name_tag.get_text(" ", strip=True)
+        name = re.sub(r"\s+", " ", name).strip(" *†‡§,;")
+        if name and name not in names:
+            names.append(name)
+    return names
+
+
 def silverchair_corresponding_names(soup):
     """Names of the authors a Silverchair article page marks as corresponding, in byline order ([] if none).
 
