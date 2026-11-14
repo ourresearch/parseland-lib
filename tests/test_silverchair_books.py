@@ -93,6 +93,16 @@ def test_monograph_chapter_reads_affiliation_cards():
                               ("Monalisa Mullins", ["University of Dayton, USA"])]
 
 
+def test_credentials_and_years_leave_the_name():
+    names = ["G. J. Bignold, BSc, PhD", "Wing Fung, PhD MSc BSc (ENG) CEng MCIBSE", "Maya Bunik, MD, MPH, FABM, FAAP",
+             "Horace Bushnell, 1853", "Joerg Gutzeit, M.S.Chem.Eng.", "Martin Luther King, Jr.", "Smith, John",
+             "Smith, J. R.", "van der Berg, J."]
+    html = _page(_chapter_top(names))
+    assert [n for n, _ in _authors(html)] == ["G. J. Bignold", "Wing Fung", "Maya Bunik", "Horace Bushnell",
+                                              "Joerg Gutzeit", "Martin Luther King, Jr.", "Smith, John",
+                                              "Smith, J. R.", "van der Berg, J."]
+
+
 def test_editors_only_chapter_credits_nobody():
     html = _page(_left_rail(["Joseph Masco", "Lisa Wedeen"], role="editors") + _chapter_top())
     assert _parse(html)["authors"] == []
@@ -122,10 +132,8 @@ def test_book_page_reads_book_byline_and_description():
             + _card("Alan L. Smith", ["Department of Geology, University of Puerto Rico, Mayaguez"], instance="BookTocTopCenter")
             + f'</div></div></div><div class="book-info__abstract"><section class="abstract"><p>{BOOK_BLURB}</p>'
             '</section></div></div></div><div class="widget widget-BookToc widget-instance-BookToc"></div>')
-    out = _parse(_page(book))
-    assert [(a["name"], [x["name"] for x in a["affiliations"]]) for a in out["authors"]] == [
-        ("Alan L. Smith", ["Department of Geology, University of Puerto Rico, Mayaguez"])]
-    assert out["abstract"] == BOOK_BLURB
+    assert _authors(_page(book)) == [("Alan L. Smith", ["Department of Geology, University of Puerto Rico, Mayaguez"])]
+    assert _parse(_page(book))["abstract"] == BOOK_BLURB
 
 
 def test_new_fields_are_empty():
