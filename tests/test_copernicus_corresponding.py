@@ -127,3 +127,10 @@ def test_statement_names():
     assert _statement_names("Correspondence: A. Laeng (alexandra.laeng@kit.edu) and J. Doe (j@x.org)") == \
         ["A. Laeng", "J. Doe"]
     assert _statement_names("Correspondence: Maria Sand") == ["Maria Sand"]
+
+
+def test_statement_with_a_mis_decoded_non_breaking_space():
+    # stored pages decoded as Latin-1 turn the statement's "A.&nbsp;de Kluijver" into "A.\u00c2\u00a0de Kluijver"
+    html = _old("Liji M.\u00c2\u00a0David (liji.david@usu.edu)")
+    assert copernicus_corresponding_names(BeautifulSoup(html, "lxml")) == ["Liji M. David"]
+    assert _marked(html) == ["Liji M. David"]

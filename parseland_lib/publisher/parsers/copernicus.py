@@ -41,7 +41,8 @@ def copernicus_corresponding_names(soup):
     names = []
 
     def add(name):
-        name = re.sub(r"\s+", " ", name or "").strip(" ,;*")
+        # a non-breaking space read as Latin-1 ("A.\u00c2\u00a0de Kluijver") must still match the byline's "A. de Kluijver"
+        name = re.sub(r"\s+", " ", re.sub(r"\u00c2(?=\s)", "", name or "")).strip(" ,;*")
         if name and name not in names:
             names.append(name)
 
