@@ -19,6 +19,8 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 
 
 MINIMAL_HTML = "<html><body><p>hello world</p></body></html>"
+RESPONSE_KEYS = {"authors", "urls", "license", "version", "abstract",
+                 "acknowledgments", "funding_statement", "references", "references_complete"}  # #2215
 
 
 @pytest.mark.parametrize("namespace", [None, "", "unknown", "DOI", "Pmh"])
@@ -40,7 +42,7 @@ def test_parse_page_namespace_doi_returns_structured_response():
     result = parse_page(MINIMAL_HTML, "doi")
 
     assert isinstance(result, dict)
-    assert set(result.keys()) == {"authors", "urls", "license", "version", "abstract"}
+    assert set(result.keys()) == RESPONSE_KEYS
     assert isinstance(result["authors"], list)
     assert isinstance(result["urls"], list)
 
@@ -82,7 +84,7 @@ def test_parse_page_namespace_pmh_returns_structured_response():
     result = parse_page(MINIMAL_HTML, "pmh")
 
     assert isinstance(result, dict)
-    assert set(result.keys()) == {"authors", "urls", "license", "version", "abstract"}
+    assert set(result.keys()) == RESPONSE_KEYS
 
 
 def test_parse_page_accepts_resolved_url_kwarg():
