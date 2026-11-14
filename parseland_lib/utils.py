@@ -149,7 +149,12 @@ def check_bad_landing_page(soup):
                 ])
 
 
+_DOI_PREFIX = re.compile(r"^\s*(?:https?://(?:dx\.)?doi\.org/|doi:\s*)", re.IGNORECASE)
+
+
 def normalize_doi(doi):
-    if doi.startswith('http'):
-        return re.findall(r'doi.org/(.*?)$', doi)[0]
-    return doi
+    """A bare DOI ('10.x/y') from a bare DOI, a doi.org link or 'doi:...', or None when it isn't one."""
+    if not isinstance(doi, str):
+        return None
+    doi = _DOI_PREFIX.sub("", doi).strip()
+    return doi if doi.startswith("10.") and "/" in doi else None

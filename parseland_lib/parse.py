@@ -18,6 +18,7 @@ from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_sciel
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
 from parseland_lib.publisher.parsers.utils import raw_has as _has, same_opening_text, same_person
+from parseland_lib.utils import normalize_doi
 
 
 def _is_doi_router_url(url):
@@ -77,6 +78,42 @@ def _mark_corresponding_by_name(authors, names):
                 a["is_corresponding"] = False
 
 
+
+
+# Four keys every parser may return from parse() beside authors and abstract (oxjob #2215; contract in the job's
+# README). A parser that doesn't read them returns none of them, and the response carries None and False.
+MAX_SECTION_CHARS = 65535  # longer than any real acknowledgments or funding section: a parser that caught the page body
+MAX_REFERENCES = 5000  # the most citations a work serves; a longer list is kept to this length and never called whole
+
+
+def _section_text(value):
+    """A section's text as the parser read it, or None when there is none or it can't be one."""
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text or len(text) > MAX_SECTION_CHARS:
+        return None
+    return text
+
+
+def _references(parsed):
+    """(references, references_complete) in page order. Every value is type-checked, so a malformed one can't raise.
+
+    `references_complete` stays True only when the parser said True and every entry it returned is kept: an entry
+    with no text, or a list cut at MAX_REFERENCES, makes the list one we can't call whole.
+    """
+    refs = parsed.get("references")
+    if not isinstance(refs, list):
+        return None, False
+    kept = []
+    for ref in refs[:MAX_REFERENCES]:
+        raw = _section_text(ref.get("raw")) if isinstance(ref, dict) else None
+        if raw is None:
+            continue
+        kept.append({"position": len(kept) + 1, "raw": raw, "doi": normalize_doi(ref.get("doi"))})
+    if not kept:
+        return None, False
+    return kept, parsed.get("references_complete") is True and len(kept) == len(refs)
 
 
 def parse_page(lp_content, namespace, resolved_url=None):
@@ -213,6 +250,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if response.get("resolved_url"):
         urls.append({"url": response["resolved_url"], "content_type": "html"})
 
+    references, references_complete = _references(response)
+
     # reorder the response
     ordered_response = {
         "authors": response.get("authors", []),
@@ -221,6 +260,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
         "version": response.get("version"),
         # one check for every parser: placeholders, site blurbs and SEO templates are not abstracts (#1800)
         "abstract": clean_abstract(response.get("abstract")),
+        # acknowledgments, funding statement and reference list from the same winning parse (#2215)
+        "acknowledgments": _section_text(response.get("acknowledgments")),
+        "funding_statement": _section_text(response.get("funding_statement")),
+        "references": references,
+        "references_complete": references_complete,
     }
 
     return ordered_response
