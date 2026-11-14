@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
@@ -7,6 +8,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_locati
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
+from parseland_lib.publisher.parsers.copernicus import copernicus_corresponding_names
 from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
@@ -104,6 +106,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # run (the World Scientific parser removes parts of the cards from this soup)
     ws_names = world_scientific_corresponding_names(soup) if namespace == "doi" and _has(
         lp_content, "loa-wrapper") and _has(lp_content, "wspc-site") else []
+    # Copernicus marks it "CORRESPONDING AUTHOR" in the author's pop-up, or in a "Correspondence:" statement (#2218);
+    # the current template's pages go to the meta-tag parser, which marks no one. A referee or author comment's DOI
+    # resolves to the discussed preprint's page (".../egusphere-2025-3710/#AC1"): those marks are the preprint's.
+    cop_names = copernicus_corresponding_names(soup) if namespace == "doi" and _has(lp_content, "copernicus.org") and (
+        _has(lp_content, "CORRESPONDING AUTHOR") or _has(lp_content, "correspondence-statement")) and not (
+        resolved_url and re.search(r"#(AC|RC|CC|EC|CEC)\d+$", resolved_url)) else []
     # Open Journal Systems sites mark the primary contact, a lone e-mail, a starred byline or "Author for correspondence"
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_marks = ojs_corresponding_marks(soup, lp_content) if namespace == "doi" else []
@@ -183,6 +191,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
+        # Copernicus pages mark the corresponding authors themselves (#2218): those marks replace any the winning
+        # parser guessed (the meta-tag parser marks only the authors its e-mail tags pair with, often one of two)
+        if cop_names and any(same_person(a["name"], n) for a in authors for n in cop_names):
+            for a in authors:
+                a["is_corresponding"] = None
+            _mark_corresponding_by_name(authors, cop_names)
         if authors and not any(a["is_corresponding"] for a in authors):
             if _has(lp_content, "al-author-name"):
                 _mark_corresponding_by_name(authors, silverchair_corresponding_names(soup))
