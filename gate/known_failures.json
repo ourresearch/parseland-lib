@@ -1495,9 +1495,6 @@
 "6d5b1aaa-1e97-461c-bb9b-aa741057e166": [
 "license"
 ],
-"6dc27d22-f842-43ca-baf2-253ea38b335c": [
-"corresponding"
-],
 "6de6e253-067d-4e05-a017-3f0516f59e13": [
 "abstract",
 "affiliations",
@@ -2697,7 +2694,6 @@
 "corresponding"
 ],
 "c7c629bb-1388-4e36-9878-b4e68184c2bb": [
-"corresponding",
 "license",
 "pdf_url"
 ],
@@ -2901,8 +2897,7 @@
 "authors"
 ],
 "d6fde0fd-ebf9-4f16-81e5-21e48eacb102": [
-"abstract",
-"corresponding"
+"abstract"
 ],
 "d8186d55-0029-4135-ac7a-75304f6edf4a": [
 "license"
