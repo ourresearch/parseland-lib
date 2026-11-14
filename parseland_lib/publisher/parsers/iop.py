@@ -1,9 +1,19 @@
 import re
 
+from bs4 import Tag
+
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 from parseland_lib.publisher.parsers.utils import email_matches_name
+
+CORRESPONDENCE_NOTE_RE = re.compile(r"authors?\s+to\s+whom\s+(?:any\s+)?correspondence\s+should\s+be\s+addressed", re.I)
+
+
+def _name_key(name):
+    """'Xi-Ling Xue (薛希玲)' and 'Xi-Ling  Xue' compare equal."""
+    name = re.sub(r"\([^)]*\)", " ", name or "")
+    return re.sub(r"\s+", " ", name).strip().casefold()
 
 
 class IOP(PublisherParser):
@@ -112,19 +122,7 @@ class IOP(PublisherParser):
                 if email_matches_name(href, author["name"]):
                     author["is_corresponding"] = True
 
-        for name_tag in self.soup.select(".author-list__name"):
-            name = name_tag.get_text(" ", strip=True)
-            if not name:
-                continue
-            scope = name_tag.find_parent(class_=re.compile(r"author-list__(?:author|item|entry)"))
-            if scope is None:
-                scope = name_tag.parent
-            text = scope.get_text(" ", strip=True).lower() if scope else ""
-            has_correspondence_note = "author to whom any correspondence should be addressed" in text
-            if has_correspondence_note:
-                for author in authors:
-                    if author["name"].strip().lower() == name.strip().lower():
-                        author["is_corresponding"] = True
+        self._mark_author_cards(authors)
 
         for block in self.soup.select(".wd-jnl-art-author-affiliations, .wd-jnl-art-author-notes"):
             text = block.get_text(" ", strip=True)
@@ -135,6 +133,33 @@ class IOP(PublisherParser):
             )
             if match:
                 self._mark_numbered_corresponding_author(authors, match.group(1))
+
+    def _mark_author_cards(self, authors):
+        """Mark the authors whose own card in IOP's author list carries the correspondence note, and only them.
+
+        An author's card is the name's following siblings up to the next name: the `dd` after a `dt.author-list__name`
+        in the `dl` layout, the rest of the author's own `div` in the `p.author-list__name` layout. Reading the whole
+        `dl` as one author's text marked every author on a page with one singular note, and the plural 'Authors to whom
+        ...' note marked no one (oxjob #2217). A card's e-mail alone is left to the page-wide rule above: gold v1.3
+        splits on it (#2146 disputes).
+        """
+        noted = set()
+        for name_tag in self.soup.select(".author-list__name"):
+            for sibling in name_tag.next_siblings:
+                if not isinstance(sibling, Tag):
+                    continue
+                if "author-list__name" in (sibling.get("class") or []):
+                    break
+                if CORRESPONDENCE_NOTE_RE.search(sibling.get_text(" ", strip=True)):
+                    noted.add(_name_key(name_tag.get_text(" ", strip=True)))
+                    break
+        if not any(_name_key(author["name"]) in noted for author in authors):
+            return
+        for author in authors:
+            if _name_key(author["name"]) in noted:
+                author["is_corresponding"] = True
+            elif author.get("is_corresponding"):
+                author["is_corresponding"] = False
 
     def _mark_numbered_corresponding_author(self, authors, note_number):
         matched_by_superscript = False
