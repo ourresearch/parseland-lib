@@ -1,8 +1,10 @@
+import copy
 import re
+from urllib.parse import unquote
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import same_opening_text, states_what_the_work_does
+from parseland_lib.publisher.parsers.utils import same_opening_text, squash, states_what_the_work_does
 
 
 class CUP(PublisherParser):
@@ -17,10 +19,14 @@ class CUP(PublisherParser):
     )
 
     def is_publisher_specific_parser(self):
-        return (
-            self.domain_in_meta_og_url("cambridge.org")
-            or self.domain_in_canonical_link("cambridge.org")
-        )
+        # cached: parse() asks again for the new fields and the caller asks after parse(); on a long page without
+        # og:url each ask walks the whole tree (oxjob #2222)
+        if getattr(self, "_claimed", None) is None:
+            self._claimed = bool(
+                self.domain_in_meta_og_url("cambridge.org")
+                or self.domain_in_canonical_link("cambridge.org")
+            )
+        return self._claimed
 
     def authors_found(self):
         if self.soup.find("div", class_="author"):
@@ -220,6 +226,107 @@ class CUP(PublisherParser):
 
         return by_authors or unlabeled_authors or editor_authors
 
+    # Acknowledgments, funding statement and reference list (oxjob #2222; output contract: oxjob #2215 README).
+    # Cambridge Core renders JATS back matter: div.ack ("Acknowledgements"), a funding section headed "Funding",
+    # "Financial support" or "Funding statement" (div.funding-statement, div.notes or div.sec), and #references-list
+    # with one .circle-list__item per entry. That list also holds footnotes on many humanities journals (item ids
+    # fn1, en1; old pages "page 381 note 1"): notes are not references, so they are never returned.
+    _ACK_HEADING = re.compile(r"^acknowledge?ments?(\s+(and|&)\s+funding)?$", re.I)  # combined section: acknowledgments
+    _FUNDING_HEADING = re.compile(
+        r"^(funding(\s+(statement|information|sources?))?|financial\s+support|sources?\s+of\s+funding)$", re.I)
+    _NOTE_ID = re.compile(r"^(fn|en)\d", re.I)
+    _PAGE_NOTE = re.compile(r"^page\s+\S+\s+note\b", re.I)
+    _ENTRY_NUMBER = re.compile(r"^[\[(]?(\d+)[\])]?\.?$")
+    _DOI_IN_LINK = re.compile(r"doi\.org/(10\.\d{4,9}/[^\s?#]+)", re.I)
+    _MORE_MARKER = re.compile(r"\b(show|load|view)\s+(all|more)\b|\bfirst\s+\d+\s+references\b", re.I)
+
+    @staticmethod
+    def _heading_text(section):
+        heading = section.find(["h2", "h3", "h4"], recursive=False)
+        return squash(heading.get_text()).rstrip(":").strip() if heading else ""
+
+    @staticmethod
+    def _section_body(section):
+        """The section's text without its heading: its paragraphs joined by a newline."""
+        paragraphs = [squash(p.get_text()) for p in section.find_all("p")]
+        if not paragraphs:
+            section = copy.copy(section)  # never edit the page the other parsers read
+            for heading in section.find_all(["h2", "h3", "h4"]):
+                heading.decompose()
+            paragraphs = [squash(section.get_text())]
+        return "\n".join(p for p in paragraphs if p) or None
+
+    def _back_matter(self):
+        """(acknowledgments, funding_statement) as the page prints them, each None when it prints none."""
+        acknowledgments, funding = [], []
+        for section in self.soup.find_all("div", class_=["ack", "funding-statement", "notes", "sec"]):
+            heading = self._heading_text(section)
+            in_ack = "ack" in (section.get("class") or [])
+            if self._FUNDING_HEADING.match(heading):
+                bucket = funding
+            elif self._ACK_HEADING.match(heading) or (in_ack and not heading):
+                bucket = acknowledgments
+            else:
+                continue
+            text = self._section_body(section)
+            if text and text not in bucket:
+                bucket.append(text)
+        return "\n".join(acknowledgments) or None, "\n".join(funding) or None
+
+    def _references(self):
+        """(references, references_complete). Complete only when the entries are numbered 1..n with no gap, no
+        footnote sits among them and nothing in the list's container says there are more."""
+        container = self.soup.select_one("#references-list")
+        if container is None:
+            return None, False
+        refs, numbers, skipped = [], [], False
+        for item in container.select(".circle-list__item"):
+            number_tag = item.select_one(".circle-list__item__number")
+            number = number_tag.get_text(strip=True) if number_tag else ""
+            if self._NOTE_ID.match(item.get("id") or "") or self._PAGE_NOTE.match(number):
+                skipped = True
+                continue
+            content = item.select_one(".circle-list__item__grouped__content")
+            if content is None:
+                skipped = True
+                continue
+            content = copy.copy(content)
+            doi = None
+            for link in content.select("a.ref-link"):  # "CrossRef", "Google Scholar", "PubMed" buttons
+                match = self._DOI_IN_LINK.search(unquote(link.get("href") or ""))
+                if match and doi is None:
+                    doi = match.group(1).rstrip(".,;")
+                link.decompose()
+            label = content.find("span", class_="label", recursive=False)
+            if label:
+                label.decompose()
+            raw = squash(content.get_text())
+            if not raw:
+                skipped = True
+                continue
+            refs.append({"position": len(refs) + 1, "raw": raw, "doi": doi})
+            numbered = self._ENTRY_NUMBER.match(number)
+            numbers.append(int(numbered.group(1)) if numbered else None)
+        if not refs:
+            return None, False
+        if skipped or numbers != list(range(1, len(refs) + 1)):
+            return refs, False
+        # a "show more" marker outside the entries (a reference's own title may say "view all")
+        markers = container.find_all(string=self._MORE_MARKER)
+        return refs, all(marker.find_parent(class_="circle-list__item") for marker in markers)
+
+    def _new_fields(self):
+        if not self.is_publisher_specific_parser():
+            return {}
+        acknowledgments, funding_statement = self._back_matter()
+        references, references_complete = self._references()
+        return {
+            "acknowledgments": acknowledgments,
+            "funding_statement": funding_statement,
+            "references": references,
+            "references_complete": references_complete,
+        }
+
     def parse(self):
         result_authors = self._chapter_contributor_authors()
         if not result_authors:
@@ -280,7 +387,7 @@ class CUP(PublisherParser):
         if visible_abstract and (not abstract or len(abstract) < 200):
             abstract = visible_abstract
 
-        return {"authors": result_authors, "abstract": abstract}
+        return {"authors": result_authors, "abstract": abstract, **self._new_fields()}
 
     test_cases = [
         {
