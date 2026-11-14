@@ -10,6 +10,8 @@ from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_
 from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
+from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
+    pick_literatum_corresponding
 from parseland_lib.publisher.parsers.ojs import ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
@@ -144,6 +146,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # Open Journal Systems sites mark the primary contact, a lone e-mail, a starred byline or "Author for correspondence"
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_marks = ojs_corresponding_marks(soup, lp_content) if namespace == "doi" else []
+    # Atypon Literatum sites name the corresponding author in a correspondence note or the author's own block (#2220);
+    # read before the parsers run, used only when the winning parser marked no one
+    literatum_marks = literatum_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "orrespond") \
+        and is_literatum_page(lp_content) else None
 
     # read before the parsers run (the fulltext step changes this soup): openings the page marks as such (#2162)
     openings = []
@@ -237,6 +243,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 _mark_corresponding_by_name(authors, research_square_corresponding_names(lp_content))
             elif ws_names:
                 _mark_corresponding_by_name(authors, ws_names)
+            elif literatum_marks:
+                _mark_corresponding_by_name(
+                    authors, pick_literatum_corresponding([a["name"] for a in authors], literatum_marks))
             elif ojs_marks:
                 _mark_corresponding_by_name(authors, pick_ojs_corresponding([a["name"] for a in authors], ojs_marks))
 
