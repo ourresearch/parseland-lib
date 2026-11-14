@@ -17,6 +17,9 @@ class Emerald(PublisherParser):
         authors = author_soup.findAll("div", {"contrib-type": "author"})
         if not authors:
             return results
+        # The Emerald Insight template marks the corresponding author with JATS corresp="yes" on the author's div
+        # (2015+ articles); pages that mark no one leave every flag None (oxjob #2212).
+        any_marked = any(a.get("corresp") == "yes" for a in authors)
         for author in authors:
             name = author.a.text.strip()
 
@@ -35,7 +38,8 @@ class Emerald(PublisherParser):
                         organization = organization[:-1]
                     affiliations.append(organization)
 
-            results.append(AuthorAffiliations(name=name, affiliations=affiliations))
+            is_corresponding = (author.get("corresp") == "yes") if any_marked else None
+            results.append(AuthorAffiliations(name=name, affiliations=affiliations, is_corresponding=is_corresponding))
         return results
 
     test_cases = [
@@ -48,28 +52,28 @@ class Emerald(PublisherParser):
                         "School of Business and Economics, Universiti Putra Malaysia, Serdang, Malaysia",
                         "Kulliyyah of Economics and Management Sciences, International Islamic University Malaysia, Gombak, Malaysia",
                     ],
-                    "is_corresponding": None,
+                    "is_corresponding": True,  # the page marks this author corresp="yes" (oxjob #2212)
                 },
                 {
                     "name": "Normaz Wana Ismail",
                     "affiliations": [
                         "School of Business and Economics, Universiti Putra Malaysia, Serdang, Malaysia"
                     ],
-                    "is_corresponding": None,
+                    "is_corresponding": False,
                 },
                 {
                     "name": "N.A.M. Naseem",
                     "affiliations": [
                         "School of Business and Economics, Universiti Putra Malaysia, Serdang, Malaysia"
                     ],
-                    "is_corresponding": None,
+                    "is_corresponding": False,
                 },
                 {
                     "name": "Ly Slesman",
                     "affiliations": [
                         "Centre for Advanced Research (CARe), Universiti Brunei Darussalam, Bandar Seri Begawan, Brunei Darussalam"
                     ],
-                    "is_corresponding": None,
+                    "is_corresponding": False,
                 },
             ],
         },
