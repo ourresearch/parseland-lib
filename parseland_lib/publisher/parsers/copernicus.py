@@ -5,6 +5,68 @@ from bs4 import BeautifulSoup
 from parseland_lib.elements import Author, Affiliation
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
+_STATEMENT_LABEL = re.compile(r"^\s*correspondence\s*:?\s*", re.I)
+_EMAIL_IN_PARENS = re.compile(r"\(\s*[^()\s]+@[^()\s]+\s*\)")
+
+
+def is_copernicus_page(soup):
+    """A copernicus.org journal page: its <link rel="preconnect"> points at copernicus.org (the parser's claim)."""
+    return any("copernicus.org" in (link.get("href") or "")
+               for link in soup.find_all("link", rel="preconnect"))
+
+
+def _statement_names(text):
+    """Names in a correspondence statement: "Correspondence: Liji M. David (liji.david@usu.edu), Mary Barth
+    (barthm@ucar.edu), and A. R. Ravishankara (...)". Each name is the text before an e-mail in parentheses."""
+    text = _STATEMENT_LABEL.sub("", re.sub(r"\s+", " ", text or ""))
+    parts = _EMAIL_IN_PARENS.split(text)[:-1] if _EMAIL_IN_PARENS.search(text) else re.split(r",|\band\b", text)
+    names = []
+    for part in parts:
+        name = re.sub(r"^[\s,;]*(and\s+)?", "", part).strip(" ,;.")
+        if name and "@" not in name and len(name.split()) <= 8:
+            names.append(name)
+    return names
+
+
+def copernicus_corresponding_names(soup):
+    """Names of the authors a Copernicus (copernicus.org) journal page marks as corresponding (oxjob #2218).
+
+    The current template opens a pop-up per byline author (``div.authors-with-affiliations`` -> ``div.modal``); the
+    corresponding author's pop-up header reads "CORRESPONDING AUTHOR" above the e-mail. The older template (byline in
+    ``span.authors-full``) states it under the affiliations: ``p.correspondence-statement`` "Correspondence: Name
+    (e-mail), ...". An ORCID logo is not a mark: the parser used to mark every ORCID holder corresponding.
+    """
+    if not is_copernicus_page(soup):
+        return []
+    names = []
+
+    def add(name):
+        # a non-breaking space read as Latin-1 ("A.\u00c2\u00a0de Kluijver") must still match the byline's "A. de Kluijver"
+        name = re.sub(r"\s+", " ", re.sub(r"\u00c2(?=\s)", "", name or "")).strip(" ,;*")
+        if name and name not in names:
+            names.append(name)
+
+    box = soup.find("div", class_="authors-with-affiliations")
+    if box is not None:
+        for span in box.select("span[data-target]"):
+            # the byline links each pop-up by id ("#author831047") or, on newer pages, by class (".author916884")
+            target = span.get("data-target") or ""
+            modal = soup.find(id=target[1:]) if target.startswith("#") else \
+                soup.find("div", class_=target[1:]) if target.startswith(".") and len(target) > 1 else None
+            header = modal.find(class_="modal-header") if modal is not None else None
+            if header is None:
+                continue
+            if not any(div.get_text(" ", strip=True).upper() == "CORRESPONDING AUTHOR"
+                       for div in header.find_all("div")):
+                continue
+            title = header.find(class_="modal-title")
+            add(title.get_text(" ", strip=True) if title else None)
+    if not names:
+        for statement in soup.select("p.correspondence-statement"):
+            for name in _statement_names(statement.get_text(" ", strip=True)):
+                add(name)
+    return names
+
 
 class Copernicus(PublisherParser):
     parser_name = "copernicus"
@@ -49,10 +111,9 @@ class Copernicus(PublisherParser):
                 name = name[:-1].strip()
             if name.startswith("and"):
                 name = name[3:].strip()
-            is_corresponding = bool(
-                author.find('a', class_='orcid-authors-logo'))
-            authors.append(Author(name=name, aff_ids=aff_ids,
-                                  is_corresponding=is_corresponding))
+            # an ORCID logo is not a corresponding mark (#2218): parse_page applies the page's own marks
+            # (copernicus_corresponding_names) to whichever parser wins the page
+            authors.append(Author(name=name, aff_ids=aff_ids))
         return authors
 
     def get_affiliations(self):
