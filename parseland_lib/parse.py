@@ -29,12 +29,12 @@ from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 _GENERIC_ABSTRACT_FILL = ("pmh",)
 
 
-def dublin_core_authors(soup):
+def dublin_core_authors(soup, keys=("eprints.creators_name", "dc.creator", "dcterms.creator", "dc.creator.personalname")):
     """Creators from Dublin Core / EPrints tags, in page order (#2239). Creators only: dc.contributor holds advisors
     and editors. The first tag family a page uses wins, so a page that lists its creators twice (DC and EPrints)
     keeps one list."""
     names = []
-    for key in ("eprints.creators_name", "dc.creator", "dcterms.creator", "dc.creator.personalname"):
+    for key in keys:
         for meta in soup.find_all("meta", attrs={"name": re.compile(f"^{re.escape(key)}$", re.I)}):
             if (name := (meta.get("content") or "").strip()) and name not in names:
                 names.append(name)
@@ -262,6 +262,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # on publisher pages the creator tags would change which publisher parser wins.
     if namespace == "pmh" and not authors_and_abstract.get('authors'):
         authors_and_abstract['authors'] = dublin_core_authors(soup)
+    # Figshare (and the institutional portals built on it) lists an item's creators as DataCite.contributor
+    if namespace == "pmh" and not authors_and_abstract.get('authors') and _has(lp_content, "figshare"):
+        authors_and_abstract['authors'] = dublin_core_authors(soup, keys=("datacite.creator", "datacite.contributor"))
 
     # A text the publisher marks on its page as the work's opening is body text, not its abstract, whichever parser
     # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it
@@ -322,6 +325,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # Merge into a single response
     response = authors_and_abstract
     response.update(fulltext_location or {})
+    # Figshare's "Download" link serves whatever the item's file is (a TIFF figure, a spreadsheet): it is a PDF link
+    # only when the item lists a PDF file (#2239: 15 of 1,000 sampled records were figures and datasets).
+    if (namespace == "pmh" and "/ndownloader/files/" in (response.get("pdf_url") or "")
+            and not _has(lp_content, "application\\u002Fpdf") and not _has(lp_content, "application/pdf")):
+        response["pdf_url"] = None
 
     urls = []
     if response.get("pdf_url"):
