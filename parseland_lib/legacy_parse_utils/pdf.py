@@ -458,7 +458,25 @@ def is_purchase_link(link):
     return False
 
 
+# A link to an image, archive, data or media file is never the PDF (#2239 round 6: J-STAGE preview thumbnails, Zenodo
+# figures, InvenioRDM's zip of every file); checked on the path, so "figure.png?download=1" counts.
+NOT_PDF_FILE = re.compile(r"\.(?:jpe?g|png|gif|tiff?|bmp|svg|webp|zip|gz|tgz|tar|rar|7z|csv|tsv|xlsx?|mp4|mov|avi|mp3|"
+                          r"wav|json|torrent|epub|mobi)$", re.I)
+
+
+def is_not_pdf_file(url):
+    try:
+        parsed = urlparse(url or "")
+    except ValueError:
+        return False
+    # archive.org's "ZIP of all files" link has no extension (http://archive.org/compress/02168_202012)
+    return bool(NOT_PDF_FILE.search(parsed.path)) or (
+        parsed.netloc.endswith("archive.org") and parsed.path.startswith("/compress/"))
+
+
 def has_bad_href_word(href):
+    if is_not_pdf_file(href):  # skip to the next candidate link, not to no PDF at all
+        return True
     href_blacklist = [
         # = closed 10.1021/acs.jafc.6b02480
         # editorial and advisory board

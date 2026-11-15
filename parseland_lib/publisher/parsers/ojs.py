@@ -105,9 +105,10 @@ def _about_authors_names(soup):
     return texts
 
 
-def ojs_corresponding_marks(soup, lp_content):
-    """Text snippets, one per author an OJS page marks as corresponding, strongest form first; [] if not an OJS page."""
-    if not is_ojs_page(soup, lp_content):
+def ojs_corresponding_marks(soup, lp_content, ojs_page=None):
+    """Text snippets, one per author an OJS page marks as corresponding, strongest form first; [] if not an OJS page.
+    `ojs_page`: is_ojs_page's answer when the caller already has it."""
+    if not (is_ojs_page(soup, lp_content) if ojs_page is None else ojs_page):
         return []
     marks = (_primary_contact_items(soup) if raw_has(lp_content, "primary_contact") else []) or _lone_mail_item(soup)
     # the last two forms both need the word on the page

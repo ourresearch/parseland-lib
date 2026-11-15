@@ -3,7 +3,10 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
+from parseland_lib.back_matter import headed_back_matter, literatum_back_matter, ojs_back_matter, \
+    springer_nature_back_matter
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
+from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
@@ -14,7 +17,7 @@ from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_na
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
     pick_literatum_corresponding
-from parseland_lib.publisher.parsers.ojs import ojs_corresponding_marks, pick_ojs_corresponding
+from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.springer import springer_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
@@ -237,15 +240,28 @@ def parse_page(lp_content, namespace, resolved_url=None):
         resolved_url and re.search(r"#(AC|RC|CC|EC|CEC)\d+$", resolved_url)) else []
     # Open Journal Systems sites mark the primary contact, a lone e-mail, a starred byline or "Author for correspondence"
     # (#2166); read before the parsers run, used only when the winning parser marked no one
-    ojs_marks = ojs_corresponding_marks(soup, lp_content) if namespace == "doi" else []
+    ojs_page = is_ojs_page(soup, lp_content)
+    ojs_marks = ojs_corresponding_marks(soup, lp_content, ojs_page) if namespace == "doi" else []
     # Atypon Literatum sites name the corresponding author in a correspondence note or the author's own block (#2220);
     # read before the parsers run, used only when the winning parser marked no one
-    literatum_marks = literatum_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "orrespond") \
-        and is_literatum_page(lp_content) else None
+    literatum = namespace == "doi" and is_literatum_page(lp_content)
+    literatum_marks = literatum_corresponding_marks(soup) if literatum and _has(lp_content, "orrespond") else None
 
     # Springer Link marks it on the byline link (data-corresp-id) (#2247); used only when the winning parser marked no one
     springer_names = springer_corresponding_names(soup) if namespace == "doi" and _has(
         lp_content, "data-corresp-id") else []
+
+    # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
+    # run, used for each key the winning parser left empty
+    back_matter = springer_nature_back_matter(soup) if _has(lp_content, "c-article-references__item") or _has(
+        lp_content, "c-article-section__content") else {}
+    if not back_matter and literatum:
+        back_matter = literatum_back_matter(soup, lp_content)
+    if not back_matter and ojs_page:
+        back_matter = ojs_back_matter(soup)
+    # then any page's own "Acknowledgments" / "Funding" sections, for the keys still empty
+    if not ("acknowledgments" in back_matter and "funding_statement" in back_matter):
+        back_matter = {**headed_back_matter(soup, lp_content), **back_matter}
 
     # read before the parsers run (the fulltext step changes this soup): openings the page marks as such (#2162)
     openings = []
@@ -413,11 +429,25 @@ def parse_page(lp_content, namespace, resolved_url=None):
             and not _has(lp_content, "application\\u002Fpdf") and not _has(lp_content, "application/pdf")):
         response["pdf_url"] = None
 
+    # A link to an image, archive, data or media file is never the PDF, whichever reader found it (#2239 round 6:
+    # Zenodo figure records offered their .jpg download, InvenioRDM records a zip of every file).
+    # (the PDF finder already skips such links; this guards the other paths: doc links, BHL views)
+    if is_not_pdf_file(response.get("pdf_url")):
+        response["pdf_url"] = None
+
     urls = []
     if response.get("pdf_url"):
         urls.append({"url": response["pdf_url"], "content_type": "pdf"})
     if response.get("resolved_url"):
         urls.append({"url": response["resolved_url"], "content_type": "html"})
+
+    # the page template's back matter fills each key the winning parser left empty (#2239 round 6)
+    for key in ("acknowledgments", "funding_statement"):
+        if not response.get(key) and back_matter.get(key):
+            response[key] = back_matter[key]
+    if not response.get("references") and back_matter.get("references"):
+        response["references"] = back_matter["references"]
+        response["references_complete"] = back_matter["references_complete"]
 
     references, references_complete = _references(response)
 

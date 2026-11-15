@@ -1,0 +1,239 @@
+"""Back matter a platform's template prints the same way on every journal it hosts (oxjob #2239 round 6): reference
+lists, acknowledgments and funding statements, for parse.py to fill where the winning parser returned none (#2215's
+contract: each key from the parser that won the page, else from here, else nothing).
+
+Every reader takes the page's soup before the parsers run (some parsers change it) and returns only the keys it
+found: {"references": [...], "references_complete": bool, "acknowledgments": str, "funding_statement": str}.
+"""
+import copy
+import re
+from urllib.parse import unquote
+
+from parseland_lib.publisher.parsers.utils import raw_has, squash
+
+_DOI = re.compile(r"\b(10\.\d{4,9}/\S+)")
+
+
+def _clean_doi(value):
+    return (m := _DOI.search(value or "")) and m.group(1).rstrip(".,;")
+
+
+def _paragraphs(block):
+    """A section body's text, one line per paragraph (or the whole block when it has no <p>)."""
+    paragraphs = [squash(p.get_text()) for p in block.find_all("p")] or [squash(block.get_text())]
+    return "\n".join(p for p in paragraphs if p) or None
+
+
+_LIST_NUMBER = re.compile(r"^[\[(]?(\d+)[.)\]]?$")  # "1", "1.", "[1]", "(1)", "1)"
+
+
+def _numbering_whole(labels):
+    """False when the entries carry list numbers that don't run 1..n (endnote lists print only the notes that cite
+    something: "2.", "3.", "8." ...). Labels that aren't list numbers ("p70_1)") or none at all say nothing."""
+    numbers = [int(m.group(1)) if (m := _LIST_NUMBER.match((c or "").strip())) else None for c in labels]
+    return all(n is None for n in numbers) or numbers == list(range(1, len(numbers) + 1))
+
+
+_ACK_HEADING = re.compile(r"^acknowledge?ments?$", re.I)
+_FUNDING_HEADING = re.compile(r"^(?:funding(?: information| sources?| statement)?|financial support|sources? of funding)$",
+                              re.I)
+
+
+def _key_for(title):
+    """The back-matter key a section title names: "Acknowledgements" -> acknowledgments, "Funding" -> funding_statement."""
+    title = squash(title).rstrip(":.")
+    return "acknowledgments" if _ACK_HEADING.match(title) else (
+        "funding_statement" if _FUNDING_HEADING.match(title) else None)
+
+
+# Springer Nature's article template (link.springer.com, nature.com, BioMed Central, SpringerOpen): one
+# <li class="c-article-references__item"> per entry, the entry's text in <p class="c-article-references__text">, its
+# DOI on the "Article" button (data-doi) or as a doi.org link in the text; sections labelled by data-title.
+def springer_nature_back_matter(soup):
+    found = {}
+    items = soup.select("li.c-article-references__item")
+    refs = []
+    for item in items:
+        text = item.select_one("p.c-article-references__text")
+        raw = squash(text.get_text()) if text else ""
+        if not raw:
+            continue
+        doi = None
+        if (button := item.find("a", attrs={"data-doi": True})) is not None:
+            doi = button["data-doi"]
+        elif (link := text.find("a", href=re.compile(r"doi\.org/10\."))) is not None:
+            doi = _clean_doi(unquote(link["href"]))
+        refs.append({"raw": raw, "doi": doi})
+    if refs:
+        found["references"] = refs
+        # Every entry kept and, where the list numbers its entries, numbered 1..n: endnote lists ("Notes",
+        # "Literatur") print only the notes that cite something, numbered with gaps.
+        counters = [item.get("data-counter") for item in items]
+        found["references_complete"] = len(refs) == len(items) and _numbering_whole(counters)
+    for section in soup.select("section[data-title]"):
+        key = _key_for(section["data-title"])
+        content = section.select_one("div.c-article-section__content")
+        if key and key not in found and content is not None and (text := _paragraphs(content)):
+            found[key] = text
+    return found
+
+
+# Atypon Literatum (Wiley, Taylor & Francis, SAGE, Cell Press, ASM ...): three list shapes, one entry per element.
+_LITERATUM_ENTRIES = (  # (raw marker checked first, so a page without the shape skips its whole-page search; selector)
+    ("references-Section", "[id^=references-Section] ul.references > li"),  # Taylor & Francis: <li id="CIT0001">
+    ("article-section__references", "section.article-section__references li[data-bib-id]"),  # Wiley
+    ("citation-content", "section#references div.citation, #bibliography div.citation"),  # core template
+    ("refnumber", "table.references tr[id^=bibr]"),  # SAGE's older template: <tr id="bibr1-..."><td class="refnumber">
+)
+# link buttons, labels and placeholders printed inside an entry: not its text
+_LITERATUM_NOT_TEXT = (".xlinks-container, .googleScholar-container, .refLink-block, ul.getFTR, .external-links, "
+                       ".extra-links, .citation-links, .label, .bullet, .ref-google, .ref-xLink, .ref-SFXLink, td.refnumber")
+_BLOCKS = ["div", "p", "br", "td", "li", "tr"]
+_LINKOUT_KEY = re.compile(r"[?&]key=(10\.\d{4,9}/[^&\s]+)")
+_REF_DOI_PARAM = re.compile(r"[?&](?:refDoi|doiOfLink)=(10\.\d{4,9}/[^&\s]+)")
+
+
+def _entry_doi(entry, text):
+    """The cited work's DOI: the entry's own DOI data (data-doi, Wiley's hidden DOI span, T&F's getFTR target), a
+    link parameter naming it (refDoi=, doiOfLink=, a Crossref linkout's key=), a doi.org link, or the DOI it prints.
+    Never a link's bare doi= parameter: linkouts and Google Scholar wrappers put the CITING article's DOI there."""
+    for tag in entry.select("[data-doi], span.data-doi, ul.getFTR[data-target]"):
+        if doi := _clean_doi(tag.get("data-doi") or tag.get("data-target") or tag.get_text()):
+            return doi
+    for link in entry.find_all("a", href=True):
+        href = unquote(link["href"])
+        if match := _REF_DOI_PARAM.search(href):
+            return match.group(1).rstrip(".,;")
+        if "linkout" in href.lower():
+            if "dbid=16" in href and (match := _LINKOUT_KEY.search(href)):  # dbid=16: the Crossref button
+                return match.group(1).rstrip(".,;")
+        elif "doi.org/10." in href and "scholar" not in href:
+            return _clean_doi(href)
+    return _clean_doi(text)
+
+
+def _entry_text(entry):
+    entry = copy.copy(entry)  # the parsers still read this soup
+    for tag in entry.select(_LITERATUM_NOT_TEXT):
+        tag.decompose()
+    for block in entry.find_all(_BLOCKS):  # a space between block parts (the core template: author, title, journal
+        block.append(" ")                 # in separate <div>s); inline markup joins as printed ("79-94", "(2016)")
+    text = squash(entry.get_text())
+    return re.sub(r"([(\[]) ", r"\1", re.sub(r" ([,.;:)\]])", r"\1", text))
+
+
+def _plain_citation_tags(soup):
+    """citation_reference tags that hold each reference's printed text (Elsevier-hosted Literatum journals), not
+    Highwire's key=value form ("citation_title=...; citation_author=..."): one entry per tag, in page order."""
+    texts = [squash(m.get("content")) for m in soup.find_all("meta", attrs={"name": "citation_reference"})]
+    if not texts or any(not t or "citation_" in t for t in texts):
+        return {}
+    refs = [{"raw": t, "doi": _clean_doi(t)} for t in texts]
+    return {"references": refs, "references_complete": True}
+
+
+def literatum_back_matter(soup, lp_content):
+    for marker, selector in _LITERATUM_ENTRIES:
+        if raw_has(lp_content, marker) and (entries := soup.select(selector)):
+            break
+    else:
+        return _plain_citation_tags(soup) if raw_has(lp_content, "citation_reference") else {}
+    refs, labels = [], []
+    for entry in entries:
+        label = entry.select_one(".label, .bullet")
+        labels.append(label.get_text(strip=True) if label else None)
+        if raw := _entry_text(entry):
+            refs.append({"raw": raw, "doi": _entry_doi(entry, raw)})
+    if not refs:
+        return {}
+    # whole when every entry has text and, where the list numbers its entries, they run 1..n
+    return {"references": refs, "references_complete": len(refs) == len(entries) and _numbering_whole(labels)}
+
+
+# Open Journal Systems: the article page's "References" item prints the journal's reference text one entry per <p>,
+# <li> or line break, and the same entries go to citation_reference tags (plain text).
+_LINE_BREAK = "\u2028"  # a <br> in the references text, before splitting it into entries
+_YEAR = re.compile(r"\b(1[5-9]|20)\d{2}\b|\b[nN]\.\s?d\.")
+
+
+def _lines(value):
+    items = value.find_all("li") or value.find_all("p")
+    if items:
+        return [squash(item.get_text()) for item in items]
+    value = copy.copy(value)
+    for br in value.find_all("br"):
+        br.replace_with(_LINE_BREAK)
+    return [squash(line) for line in value.get_text().split(_LINE_BREAK)]
+
+
+def ojs_back_matter(soup):
+    """For an Open Journal Systems page (parse.py checks with is_ojs_page)."""
+    value = soup.select_one("section.item.references .value, div.item.references .value")
+    lines = [line for line in _lines(value) if line] if value else []
+    if not lines:
+        return _plain_citation_tags(soup)
+    refs = [{"raw": line, "doi": _clean_doi(line)} for line in lines]
+    # A journal whose source text broke references across lines prints fragments ("Silica from Spent Hydrafluoric
+    # Acid – How"): a list where many entries carry no year is not one we can call whole.
+    undated = sum(not _YEAR.search(line) for line in lines)
+    return {"references": refs, "references_complete": undated <= 0.2 * len(lines)}
+
+
+# Any template: a section headed "Acknowledgments" or "Funding" (ScienceDirect's server-rendered body, Atypon's
+# div.ack, PLOS, MDPI ...). The heading's own section: the paragraphs after it, up to the next heading.
+_HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
+_HEADED_WORDS = ("cknowledg", "CKNOWLEDG", "unding", "UNDING", "inancial", "INANCIAL")
+_CHROME_TAGS = {"nav", "footer"}  # not <aside>: Springer Nature leaves an ad <aside> open around the whole body
+_CHROME_TOKENS = ("nav", "menu", "toc", "outline", "sidebar", "footer", "breadcrumb")
+_CHROME_PREFIXES = tuple(t + "-" for t in _CHROME_TOKENS if t != "toc")  # not "toc-": PLOS's body is "toc-section"
+
+
+def _in_navigation(heading):
+    """Inside navigation, a table of contents, a sidebar or a footer (PLOS's article body is 'toc-section': not one)."""
+    for node in heading.parents:
+        if node.name in _CHROME_TAGS:
+            return True
+        for token in [node.get("id") or ""] + (node.get("class") or []):
+            token = token.lower()
+            if token in _CHROME_TOKENS or token.startswith(_CHROME_PREFIXES):
+                return True
+    return False
+
+
+def _block_text(block):
+    """A block's paragraphs: its <p>s, or its own text when it has none (ScienceDirect, Atypon and MDPI print
+    paragraphs as <div>s). Copy-link buttons and financial-disclosure notes are not acknowledgment text."""
+    if block.name in ("script", "style", "button", "form") or block.find("button") or block.get("data-type") == \
+            "financial-disclosure" or any("copy" in c for c in block.get("class") or []):
+        return []
+    paragraphs = [] if block.name == "p" else block.find_all("p")
+    texts = [squash(p.get_text()) for p in paragraphs] or [squash(block.get_text())]
+    # a list of links (a funder widget: "+ Simons Foundation More from this funder") is not a statement
+    link_chars = sum(len(squash(a.get_text())) for a in block.find_all("a"))
+    return [] if link_chars > 0.5 * sum(len(t) for t in texts) else texts
+
+
+def _section_after(heading):
+    siblings = heading.find_next_siblings()
+    if not siblings and not squash(heading.parent.get_text()).replace(squash(heading.get_text()), "").strip():
+        siblings = heading.parent.find_next_siblings()  # a heading wrapped alone in its own block
+    paragraphs = []
+    for sibling in siblings:
+        if sibling.name in _HEADINGS or any(d.name in _HEADINGS for d in sibling.descendants):
+            break
+        paragraphs += _block_text(sibling)
+    return "\n".join(p for p in paragraphs if p) or None
+
+
+def headed_back_matter(soup, lp_content):
+    if not any(raw_has(lp_content, word) for word in _HEADED_WORDS):
+        return {}
+    found = {}
+    # a name-set scan of the tree: find_all() with a list of names is ~15x slower on large pages
+    for heading in [tag for tag in soup.descendants if tag.name in _HEADINGS]:
+        key = _key_for(heading.get_text())
+        if key is None or key in found or _in_navigation(heading):
+            continue
+        if (text := _section_after(heading)) and len(text) >= 20:
+            found[key] = text
+    return found
