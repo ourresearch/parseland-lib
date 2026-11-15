@@ -20,6 +20,67 @@ _BODY_CONTAINER = re.compile(
     r"articlebody|main-text)(?:$|[\s_-])", re.I)
 
 
+# A heading or label that names the abstract section, alone (#2239). English plus the languages repository pages
+# in the random sample print it in.
+_ABSTRACT_HEADING = re.compile(
+    r"^\s*(?:abstracts?|résumé|resumen|resumo|riassunto|zusammenfassung|abstrakt|streszczenie|samenvatting|"
+    r"sammanfattning|tiivistelmä|аннотация|анотація|özet|摘要|要旨|抄録|초록|요약)\s*[:.]?\s*$", re.I)
+_SECTION_STOP = {"h1", "h2", "h3", "h4", "h5", "h6", "dt", "th", "header", "footer", "nav", "aside", "form", "button"}
+# Site chrome, not content: a tab strip's labels, menus, footers. Not "tab-pane" / "article-header": abstracts live
+# inside those (Zenodo prints its abstract in an HTML5 <header>).
+_CHROME = re.compile(r"(?:^|[\s_-])(?:nav|navbar|menu|footer|site-header|page-header|masthead|breadcrumbs?|tabs|"
+                     r"tablist|nav-tabs|toolbar|sidebar|modal|dropdown)(?:$|[\s_])", re.I)
+
+
+def _in_page_chrome(el):
+    node = el
+    while node is not None and node.name not in ("body", "html", "[document]"):
+        if node.name in ("nav", "footer", "aside", "menu", "select"):
+            return True
+        if node.get("role") in ("navigation", "banner", "tablist", "tab", "menu", "menubar"):
+            return True
+        if _CHROME.search(" ".join([node.get("id") or ""] + (node.get("class") or []))):
+            return True
+        node = node.parent
+    return False
+
+
+def _text_after(anchor):
+    """The block that follows `anchor`: its first non-empty sibling (bare text runs until the next element), plus
+    the paragraphs that continue it. None when `anchor` has no following element (look one level up); '' when the
+    value it labels is empty (a label/value row with no value: never read on into the next field)."""
+    parts, first = [], None
+    for sib in anchor.next_siblings:
+        name = getattr(sib, "name", None)
+        if name is None:
+            t = str(sib).strip()
+            if t and first is None:
+                parts.append(t)
+            continue
+        if name in _SECTION_STOP or name in ("script", "style", "noscript", "template"):
+            break
+        t = sib.get_text(" ", strip=True)
+        if first is None:
+            if not t:
+                if name in ("td", "dd") or "value" in " ".join(sib.get("class") or []):
+                    return ""  # the labelled value is empty
+                continue
+            if _ABSTRACT_HEADING.match(t):
+                break
+            # a list of links (tabs, downloads, related items) is not an abstract
+            if sum(len(a.get_text(strip=True)) for a in sib.find_all("a")) > 0.5 * len(t):
+                break
+            first = name
+            parts.append(t)
+        elif name == "p" and first == "p" and t:
+            parts.append(t)  # a multi-paragraph abstract
+        else:
+            break
+    if first is None and not parts:
+        return None
+    return re.sub(r"\s+", " ", " ".join(parts)).strip()
+
+
 def _alnum(text):
     """Letters and digits only, lower case: a key that ignores markup, spacing, punctuation and entities."""
     return re.sub(r"[\W_]+", "", re.sub(r"<[^<>]*>", " ", text or "")).lower()
@@ -323,7 +384,9 @@ class PublisherParser(Parser, ABC):
         # 42,928 of them were then given topics derived from it). Callers that
         # know their publisher emits an article-specific og:description keep
         # the default; the generic parser opts out.
-        meta_tag_names = ["citation_abstract", "dc.description"]
+        # DSpace and EPrints repositories hold the record's abstract in dcterms.abstract / dc.description.abstract,
+        # with dc.description often a note ("Thesis (M.A.)...") (#2239)
+        meta_tag_names = ["citation_abstract", "dcterms.abstract", "dc.description.abstract", "dc.description"]
         if include_seo_tags:
             meta_tag_names = [
                 "citation_abstract",
@@ -418,6 +481,28 @@ class PublisherParser(Parser, ABC):
                 return True
             node = node.parent
         return False
+
+    def parse_headed_abstract_section(self):
+        """The text a page prints under its own "Abstract" heading, read the way a person reads it (#2239).
+
+        Repository and small-journal record pages (DOAJ, PMC, Elsevier Pure portals, Redalyc, DergiPark ...) often
+        print the abstract under a heading or label ("Abstract", "Resumen", "Özet" ...) while their meta tags hold
+        a cut snippet or nothing. The heading is a short element whose whole text is such a word, outside
+        navigation, menus, footers and links (tabs); the abstract is the text that follows it, up to the next
+        heading, from its siblings, or from its parent's siblings when the heading sits in a label wrapper.
+        """
+        for node in self.soup.find_all(string=_ABSTRACT_HEADING):
+            heading = node.parent
+            if heading is None or heading.name in ("a", "button", "option", "title", "script", "style", "label"):
+                continue
+            if len(heading.get_text(" ", strip=True)) > 40 or _in_page_chrome(heading):
+                continue
+            text = _text_after(heading)
+            if text is None:  # the heading sits alone in a label wrapper: the value follows the wrapper
+                text = _text_after(heading.parent) or ""
+            if 100 <= len(text) <= 10_000 and not is_not_abstract(text):
+                return text
+        return None
 
     @staticmethod
     def format_name(name):
