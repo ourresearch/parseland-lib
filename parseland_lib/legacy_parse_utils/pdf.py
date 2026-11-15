@@ -122,13 +122,38 @@ UNTRUSTED_LICENSE_HOSTS = (
 )
 
 
+# Whole-site open-access publishers that state their licence once, in the site footer, for every article they serve,
+# with no per-article statement and no licence in Crossref. On these hosts the footer IS the article's licence, so the
+# footer rule in page_potential_license_text() does not apply (oxjob #1792, 14 Nov 2026: a re-parse under that rule
+# dropped IJISRT's cc-by-nc from 10,764 pages and Juniper's cc-by from 4,469, turning gold and hybrid works bronze).
+# Add a host only when every article on it is open under the footer's licence.
+SITE_LICENSE_HOSTS = (
+    'ijisrt.com',             # <footer>: "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 ..."
+    'juniperpublishers.com',  # "Open Access by Juniper Publishers is licensed under a Creative Commons Attribution 4.0 ..."
+)
+
+
+def _url_host(url):
+    return (urlparse(url).hostname or url.split('//')[-1].split('/')[0]).lower()
+
+
+def _host_in(url, hosts):
+    hostname = _url_host(url)
+    return any(hostname == host or hostname.endswith('.' + host) for host in hosts)
+
+
+def site_license_covers_articles(url):
+    """True when the page's host licenses every article in its site footer (SITE_LICENSE_HOSTS)."""
+    return bool(url) and _host_in(url, SITE_LICENSE_HOSTS)
+
+
 def trust_publisher_license(url):
     if not url:
         return True  # Trust by default if no URL is provided
 
-    hostname = (urlparse(url).hostname or url.split('//')[-1].split('/')[0]).lower()
+    hostname = _url_host(url)
 
-    if any(hostname == host or hostname.endswith('.' + host) for host in UNTRUSTED_LICENSE_HOSTS):
+    if _host_in(url, UNTRUSTED_LICENSE_HOSTS):
         return False
 
     if hostname.endswith('rupress.org'):

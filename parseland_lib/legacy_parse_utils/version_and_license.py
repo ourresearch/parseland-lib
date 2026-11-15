@@ -3,12 +3,25 @@ import re
 from lxml import etree
 
 from parseland_lib.legacy_parse_utils.pdf import get_pdf_in_meta, \
-    trust_publisher_license, find_normalized_license
+    trust_publisher_license, find_normalized_license, site_license_covers_articles
 from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal, \
     get_tree
 
 
-def page_potential_license_text(page):
+# Site chrome, never the article's own licence statement: a site-wide "content of this site is licensed CC BY" footer
+# turned paywalled pages into cc-by (scientific.net, crossref.org defunct-DOI page, 2026-09). Kept on SITE_LICENSE_HOSTS,
+# whose footer licenses every article (pdf.py).
+SITE_CHROME_FINDERS = [
+    "//footer",
+    "//nav",
+    "//*[@role='contentinfo']",
+    "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
+    " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
+    " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
+]
+
+
+def page_potential_license_text(page, keep_site_chrome=False):
     tree = get_tree(page)
 
     if tree is None:
@@ -16,18 +29,9 @@ def page_potential_license_text(page):
 
     section_removed = False
 
-    bad_section_finders = [
+    bad_section_finders = ([] if keep_site_chrome else SITE_CHROME_FINDERS) + [
         "//div[contains(@class, 'view-pnas-featured')]",  # https://www.pnas.org/content/114/38/10035
         "//meta[contains(@name, 'citation_reference')]",  # https://www.thieme-connect.de/products/ebooks/lookinside/10.1055/sos-SD-226-00098
-        # Site chrome, never the article's own licence statement: a site-wide
-        # "content of this site is licensed CC BY" footer turned paywalled pages into cc-by
-        # (scientific.net, crossref.org defunct-DOI page, 2026-09).
-        "//footer",
-        "//nav",
-        "//*[@role='contentinfo']",
-        "//*[contains(concat(' ', normalize-space(@class), ' '), ' footer ')"
-        " or contains(@class, 'footer-') or contains(@class, '-footer') or contains(@class, '_footer')"
-        " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
         # Page-template code that looks for a CC badge is not a licence statement: SAGE's older template ships
         # `if ($('.creative-commons-badge.cc-by').length){ console.debug('... CC-BY type of article.') ...}` on every
         # article page, paywalled or not, which read as cc-by (oxjob #1794: 755 closed works turned hybrid).
@@ -87,12 +91,12 @@ def sciencedirect_article_license_text(page):
     return license_url.group(1) if license_url else ''
 
 
-def license_search_text(page):
+def license_search_text(page, resolved_url=None):
     """The text the licence regexes run over, on both the publisher and the repository path.
 
     A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
     deposits often resolve to the ScienceDirect page, so the repository path needs the same rule); any other
-    page is searched whole, minus site chrome.
+    page is searched whole, minus site chrome (kept on hosts whose footer licenses every article).
     """
     sd_license_text = sciencedirect_article_license_text(page)
     if sd_license_text is not None:
@@ -100,7 +104,7 @@ def license_search_text(page):
     tf_license_text = taylorfrancis_product_license_text(page)
     if tf_license_text is not None:
         return tf_license_text
-    return page_potential_license_text(page)
+    return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url))
 
 
 # Taylor & Francis book pages (taylorfrancis.com) keep the product in Angular TransferState JSON, `"` escaped as `&q;`,

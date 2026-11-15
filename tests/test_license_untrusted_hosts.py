@@ -82,6 +82,34 @@ def test_chrome_containers_are_stripped(wrapper):
     assert "creativecommons" not in page_potential_license_text(html)
 
 
+# --- whole-site OA publishers whose footer licenses every article keep it (oxjob #1792, 14 Nov 2026)
+
+@pytest.mark.parametrize("url", [
+    "https://www.ijisrt.com/mental-health-outcomes-and-their-associated-factors-among-children-and-adolescents",
+    "https://ijisrt.com/x",
+    "https://juniperpublishers.com/aaps/AAPS.MS.ID.555583.php",
+])
+def test_site_licence_hosts_keep_their_footer_licence(url):
+    assert parse_page(FOOTER_ONLY, "doi", url)["license"] == "cc-by"
+
+
+@pytest.mark.parametrize("url", [
+    "https://journals.plos.org/x",
+    "https://notijisrt.com/x",           # dot boundary
+    "https://juniperpublishers.com.example.org/x",
+    None,
+])
+def test_other_hosts_still_ignore_footer_licences(url):
+    assert parse_page(FOOTER_ONLY, "doi", url)["license"] is None
+
+
+def test_site_licence_host_still_drops_other_chrome():
+    html = f"<html><body><main>body</main><script>if ($('.creative-commons-badge.cc-by').length){{}}</script></body></html>"
+    assert "creative-commons-badge" not in page_potential_license_text(html, keep_site_chrome=True)
+    assert "creativecommons" in page_potential_license_text(f"<html><body><footer>{CC_LINK}</footer></body></html>",
+                                                            keep_site_chrome=True)
+
+
 def test_article_body_is_not_stripped():
     html = f'<html><body><div class="article-footnotes">{CC_LINK}</div></body></html>'
     assert "creativecommons" in page_potential_license_text(html)
