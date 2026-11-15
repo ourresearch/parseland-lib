@@ -16,6 +16,7 @@ from parseland_lib.publisher.parsers.literatum import is_literatum_page, literat
     pick_literatum_corresponding
 from parseland_lib.publisher.parsers.ojs import ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
+from parseland_lib.publisher.parsers.springer import springer_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
 from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
     scielo_corresponding_marks
@@ -242,6 +243,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     literatum_marks = literatum_corresponding_marks(soup) if namespace == "doi" and _has(lp_content, "orrespond") \
         and is_literatum_page(lp_content) else None
 
+    # Springer Link marks it on the byline link (data-corresp-id) (#2247); used only when the winning parser marked no one
+    springer_names = springer_corresponding_names(soup) if namespace == "doi" and _has(
+        lp_content, "data-corresp-id") else []
+
     # read before the parsers run (the fulltext step changes this soup): openings the page marks as such (#2162)
     openings = []
     if namespace == "doi" and _has(lp_content, "taylorfrancis.com") and _has(lp_content, "first-paragraph"):
@@ -394,6 +399,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
             elif literatum_marks:
                 _mark_corresponding_by_name(
                     authors, pick_literatum_corresponding([a["name"] for a in authors], literatum_marks))
+            elif springer_names:
+                _mark_corresponding_by_name(authors, springer_names)
             elif ojs_marks:
                 _mark_corresponding_by_name(authors, pick_ojs_corresponding([a["name"] for a in authors], ojs_marks))
 

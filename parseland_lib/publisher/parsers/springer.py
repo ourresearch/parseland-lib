@@ -355,9 +355,13 @@ class Springer(PublisherParser):
                 continue
 
             aff_text = aff_tag.text.strip().split('E-mail')[0].strip()
+            # A role or a name in another script in parentheses ("Hong-ying Sun (Doctor Candidate, Engineer)",
+            # "Lian-wen Deng (邓联文)") is not part of the name. Cut it before splitting on commas: its own comma
+            # made "Engineer)" an author and dropped the person (oxjob #2247).
+            names_text = self._strip_parenthesised(authors_tag.text)
             author_names = [
                 name.strip(' ,')
-                for name in self._split(authors_tag.text.replace('&', ',').strip())
+                for name in self._split(names_text.replace('&', ',').strip())
                 if '(' not in name and name.strip(' ,')
             ]
             author_names = self._merge_author_suffix_tokens(author_names)
@@ -647,6 +651,14 @@ class Springer(PublisherParser):
             self._set_author_corresponding(author, index in matching_indices)
 
         return authors
+
+    @staticmethod
+    def _strip_parenthesised(text):
+        """Text without its parenthesised parts, nested ones included ("(Fellow of the ... (CIC) ...)")."""
+        n = 1
+        while n:
+            text, n = re.subn(r'\s*\([^()]*\)', '', text)
+        return text
 
     def _drop_book_editors_from_authors(self, authors):
         """Drop parsed authors that are actually the book's editors.
@@ -1709,3 +1721,20 @@ class Springer(PublisherParser):
             },
         },
     ]
+
+
+def springer_corresponding_names(soup):
+    """Names Springer Link's byline marks as corresponding (oxjob #2247), for parse.py's fill-only pass.
+
+    The article template renders the corresponding author's byline link with ``data-corresp-id`` (and a mail icon).
+    The parser's text and e-mail paths miss it when the name differs between the byline, the "Correspondence to"
+    note and the meta tags (surname-first Chinese names, roles in parentheses), and pages with only an og:url are
+    won by another parser. Read before the parsers run; link.springer.com pages only.
+    """
+    page_url = soup.find('link', rel='canonical') or soup.find('meta', property='og:url')
+    page_url = (page_url.get('href') or page_url.get('content') or '') if page_url else ''
+    byline = soup.find('ul', class_='c-article-author-list')
+    if 'link.springer.com/' not in page_url or not byline:
+        return []
+    return [tag.get('data-author-search') or tag.get_text(' ', strip=True)
+            for tag in byline.find_all(attrs={'data-test': 'author-name', 'data-corresp-id': True})]
