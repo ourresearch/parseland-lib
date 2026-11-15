@@ -67,8 +67,11 @@ def _text_after(anchor):
                 continue
             if _ABSTRACT_HEADING.match(t):
                 break
-            # a list of links (tabs, downloads, related items) is not an abstract
+            # a list of links (tabs, downloads, related items) is not an abstract; a short link line between the
+            # heading and the text ("Read online" on DOAJ records) is skipped
             if sum(len(a.get_text(strip=True)) for a in sib.find_all("a")) > 0.5 * len(t):
+                if len(t) <= 40:
+                    continue
                 break
             first = name
             parts.append(t)

@@ -29,6 +29,33 @@ from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 _GENERIC_ABSTRACT_FILL = ("pmh",)
 
 
+def dublin_core_authors(soup):
+    """Creators from Dublin Core / EPrints tags, in page order (#2239). Creators only: dc.contributor holds advisors
+    and editors. The first tag family a page uses wins, so a page that lists its creators twice (DC and EPrints)
+    keeps one list."""
+    names = []
+    for key in ("eprints.creators_name", "dc.creator", "dcterms.creator", "dc.creator.personalname"):
+        for meta in soup.find_all("meta", attrs={"name": re.compile(f"^{re.escape(key)}$", re.I)}):
+            if (name := (meta.get("content") or "").strip()) and name not in names:
+                names.append(name)
+        if names:
+            break
+    if not names:
+        for meta in soup.find_all("meta", attrs={"name": re.compile(r"^citation_authors$", re.I)}):
+            names += [n.strip() for n in re.split(r"[;；]", meta.get("content") or "") if n.strip()]
+    # Digitised-heritage portals (Biblioteca Digital de Andalucía, Hispana) put the holding or publishing body in
+    # DC.creator ("Junta de Andalucía", "Ministerio de Cultura"); the page credits no author. People only here.
+    names = [n for n in names if not _INSTITUTION_WORD.search(n)]
+    return [{"name": n, "affiliations": [], "is_corresponding": None} for n in names]
+
+
+_INSTITUTION_WORD = re.compile(
+    r"\b(?:junta|ministerio|ministry|minist[eè]re|gobierno|government|biblioteca|library|biblioth[eè]que|bibliothek|"
+    r"archivo|archives?|museo|museum|universi(?:ty|dad|dade|té|tät|tà)|institut[eo]?|instituto|department|"
+    r"departamento|council|consejo|ayuntamiento|diputaci[oó]n|academ(?:y|ia)|society|sociedad|centro|cent(?:er|re))\b",
+    re.I)
+
+
 def _is_doi_router_url(url):
     """True for bare DOI router URLs (doi.org / dx.doi.org)."""
     if not url:
@@ -229,6 +256,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
             not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract'])):
         if headed := GenericPublisherParser(soup).parse_headed_abstract_section():
             authors_and_abstract['abstract'] = headed
+
+    # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
+    # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:
+    # on publisher pages the creator tags would change which publisher parser wins.
+    if namespace == "pmh" and not authors_and_abstract.get('authors'):
+        authors_and_abstract['authors'] = dublin_core_authors(soup)
 
     # A text the publisher marks on its page as the work's opening is body text, not its abstract, whichever parser
     # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it
