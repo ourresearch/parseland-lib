@@ -32,6 +32,11 @@ _CHROME = re.compile(r"(?:^|[\s_-])(?:nav|navbar|menu|footer|site-header|page-he
                      r"tablist|nav-tabs|toolbar|sidebar|modal|dropdown)(?:$|[\s_])", re.I)
 
 
+def _ident(node):
+    """An element's id and classes as one string, for matching its role by name."""
+    return " ".join([node.get("id") or ""] + (node.get("class") or []))
+
+
 def _in_page_chrome(el):
     node = el
     while node is not None and node.name not in ("body", "html", "[document]"):
@@ -39,10 +44,52 @@ def _in_page_chrome(el):
             return True
         if node.get("role") in ("navigation", "banner", "tablist", "tab", "menu", "menubar"):
             return True
-        if _CHROME.search(" ".join([node.get("id") or ""] + (node.get("class") or []))):
+        if _CHROME.search(_ident(node)):
             return True
         node = node.parent
     return False
+
+
+# Blocks that show other works than the page's own: related-article panels, recommendations, listings, citing works,
+# peer-review reports (#2239: on publisher pages an "Abstract" heading also labels these).
+_OTHER_WORKS = re.compile(r"related|recommend|similar|also-?read|more-?(?:from|like)|you-?may|trending|popular|"
+                          r"most-?(?:read|cited|viewed)|listing|search-?result|toc|table-?of-?contents|issue-?items?|"
+                          r"citing|cited-?by|peer-?review|reviewer|referee|decision-?letter|carousel|teaser", re.I)
+
+
+# The article's history and copyright lines printed in the abstract's block (APS: '... Received 15 February 2005 DOI:
+# https://doi.org/... ©2005 American Physical Society'): not abstract text.
+# So are the keyword line and a trailing download link ("... Keywords : Tumor immune microenvironment, ...", "... Download").
+_ARTICLE_HISTORY_TAIL = re.compile(
+    r"\s(?=(?:Received|Accepted|Published)(?: online)?:? \d{1,2} [A-Z][a-z]+ \d{4}|©\s?\d{4}|DOI: https?://"
+    r"|Key ?words?\s*:|Download(?: PDF| full text| article)?$)", re.I)
+
+
+def _trim_article_tail(text):
+    """`text` up to the first history / copyright / keyword / download tail that starts after its 100th character."""
+    m = _ARTICLE_HISTORY_TAIL.search(text, 100)
+    return (text[:m.start()] if m else text).strip()
+
+
+def _in_other_works_block(el):
+    """True when an ancestor of `el` (not `el` itself) names itself a block of other works. Run after
+    _in_page_chrome, which already rules out <aside>."""
+    node = el.parent
+    while node is not None and node.name not in ("body", "html", "[document]"):
+        if _OTHER_WORKS.search(_ident(node)):
+            return True
+        node = node.parent
+    return False
+
+
+_CLOSING = tuple(".!?)]\"”’'。")
+
+
+def _is_cut_preview(text):
+    """A preview cut short: it ends in "..." / "…" or mid-sentence. A chapter's or article's opening, not its
+    abstract (World Scientific: 275 of 277 real abstracts in its sample end with closing punctuation)."""
+    text = text.rstrip("\n")  # as "$" would: it also matches before a final newline
+    return text.endswith(("…", "….", "...")) or not text.endswith(_CLOSING)
 
 
 def _text_after(anchor):
@@ -204,11 +251,8 @@ def world_scientific_abstract(soup):
     paras = [p for p in paras if p]
     text = "\n".join(paras) if paras else block.get_text(" ", strip=True)
     text = re.sub(r"^abstract\s*[:.]?\s*", "", re.sub(r"[ \t\r\f\v]+", " ", text).strip(), flags=re.I)
-    if not text or _WS_STAND_IN.match(text) or _ws_heading_list(text) or re.search(r"(?:…|\.\.\.)\.?$", text):
-        return None
-    # A preview cut at an equation the page drops ends mid-sentence ("It is easy to see that"); 275 of 277 real
-    # World Scientific abstracts in the sample end with closing punctuation.
-    if not re.search(r"[.!?)\]\"”’'。]$", text):
+    # a preview cut at "…" or at an equation the page drops ("It is easy to see that") is not an abstract
+    if not text or _WS_STAND_IN.match(text) or _ws_heading_list(text) or _is_cut_preview(text):
         return None
     return text
 
@@ -477,7 +521,7 @@ class PublisherParser(Parser, ABC):
         _, starts, nodes = self._body_text()
         node = nodes[max(bisect.bisect_right(starts, at) - 1, 0)].parent
         while node is not None and node.name not in ("body", "html", "[document]"):
-            ident = " ".join([node.get("id") or ""] + (node.get("class") or []))
+            ident = _ident(node)
             if "abstract" in ident.lower():
                 return False
             if _BODY_CONTAINER.search(ident) or (node.name == "article" and re.search(r"\bpost\b", ident)):
@@ -485,7 +529,7 @@ class PublisherParser(Parser, ABC):
             node = node.parent
         return False
 
-    def parse_headed_abstract_section(self):
+    def parse_headed_abstract_section(self, main_article=False):
         """The text a page prints under its own "Abstract" heading, read the way a person reads it (#2239).
 
         Repository and small-journal record pages (DOAJ, PMC, Elsevier Pure portals, Redalyc, DergiPark ...) often
@@ -494,18 +538,32 @@ class PublisherParser(Parser, ABC):
         navigation, menus, footers and links (tabs); the abstract is the text that follows it, up to the next
         heading, from its siblings, or from its parent's siblings when the heading sits in a label wrapper.
         """
+        found = None
         for node in self.soup.find_all(string=_ABSTRACT_HEADING):
             heading = node.parent
             if heading is None or heading.name in ("a", "button", "option", "title", "script", "style", "label"):
                 continue
             if len(heading.get_text(" ", strip=True)) > 40 or _in_page_chrome(heading):
                 continue
+            if main_article and _in_other_works_block(heading):
+                continue
             text = _text_after(heading)
             if text is None:  # the heading sits alone in a label wrapper: the value follows the wrapper
                 text = _text_after(heading.parent) or ""
-            if 100 <= len(text) <= 10_000 and not is_not_abstract(text):
+            if main_article:  # publisher pages: history, keyword and download tails off; no cut previews
+                text = _trim_article_tail(text)
+                if _is_cut_preview(text):
+                    continue
+            if not 100 <= len(text) <= 10_000 or is_not_abstract(text):
+                continue
+            if not main_article:
                 return text
-        return None
+            # publisher pages: one abstract only. Two different texts under "Abstract" headings mean the page also
+            # shows other works' abstracts (a listing, an issue's table of contents): no telling which is this one.
+            if found is not None and text != found:
+                return None
+            found = text
+        return found
 
     @staticmethod
     def format_name(name):

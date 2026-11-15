@@ -98,6 +98,16 @@ _TEMPLATE_RES = [
     # A data citation line, as PANGAEA writes its description tag: 'Preßler, Erhard (1992): Tree-ring width of Quercus
     # species ..., PANGAEA, https://doi.org/10.1594/PANGAEA.148663' (3 of 3 such pages read by #2239: gold no abstract)
     re.compile(r"[^():]{2,600} \((?:1[5-9]|20)\d{2}[a-z]?\): .{1,1000}https?://(?:dx\.)?doi\.org/10\.\d{4,9}/\S+$"),
+    # Taylor & Francis citation line for older articles without an abstract: '(1983). Title. International Journal of
+    # Mental Health: Vol. 12, Mental Health Care in Developing Countries, pp. 1-15.' (#2239)
+    re.compile(r"\((?:1[5-9]|20)\d{2}\)\. .{1,600}: vol\. ?\d+.{0,300}, pp?\. ?[0-9ivxlcdm]+(?: ?[–-] ?[0-9ivxlcdm]+)?\.?$"),
+    # A book review's heading line: 'Generations on the Land: A Conservation Legacy. By Joe Nick Patoski. 2011. Sand
+    # County Foundation/Texas A&M University Press, College Station, TX, USA. 136 p. US$25. hardcover. ISBN 978-...'
+    re.compile(r".{1,400}\. by .{1,300}\. (?:1[5-9]|20)\d{2}\. .{1,400}\bisbn[ :-]*[0-9][0-9x-]{9,16}\.?$"),
+    # A "no abstract" notice followed by the issue's citation: 'No hay resúmenes disponibles. Investigaciones UCA, Año. 1,
+    # Vol. 1, 2019-2020: 48-52.' (OJS, #2239)
+    re.compile(r"(?:no hay res[uú]men(?:es)? disponibles?|sin resumen(?: disponible)?|no (?:abstract|summary) (?:is )?"
+               r"available|abstract not available|resumo não disponível|résumé non disponible)\.?(?:\s.{0,200})?$", re.S),
     # CABI Compendium datasheet stand-in, one per taxon: 'This datasheet on Mesorchis covers Identity, Distribution.'
     re.compile(r"this datasheet on .{1,200} covers [a-z/ ,&()-]{3,400}\.?$"),
     # Meeting-abstract pages with no abstract show a presenter or author line instead (HPB 'Presenter: Nora Singh

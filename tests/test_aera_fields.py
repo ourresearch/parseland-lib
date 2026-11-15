@@ -81,4 +81,4 @@ def test_other_dnn_site_with_same_grid_is_not_claimed():
     parser = AERA(BeautifulSoup(html, "lxml"))
     assert not parser.is_publisher_specific_parser()
     assert not parser.authors_found()
-    assert _parse(html)["abstract"] != ABSTRACT
+    # the page's printed abstract may still be read by the generic "Abstract" heading reader (#2239), not by AERA's

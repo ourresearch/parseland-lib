@@ -1,5 +1,8 @@
 """World Scientific's own abstract block fills pages the winning parser left without one (oxjob #2145)."""
+from bs4 import BeautifulSoup
+
 from parseland_lib.parse import parse_page
+from parseland_lib.publisher.parsers.parser import world_scientific_abstract
 
 _CONTEXT = '<meta name="pbContext" content=";website:website:wspc-site;article:article:10.1142/S0000;">'
 
@@ -62,4 +65,11 @@ def test_chapter_preview_cut_off_is_not_an_abstract():
 
 def test_other_sites_are_not_read():
     other = '<meta name="pbContext" content=";website:website:other-site;">'
-    assert _abstract(_old(REAL, context=other)) is None
+    assert world_scientific_abstract(BeautifulSoup(_old(REAL, context=other), "lxml")) is None
+
+
+def test_generic_heading_reader_leaves_world_scientific_previews_alone():
+    # the generic "Abstract" heading reader (#2239) must not take a preview World Scientific's own reader turned down
+    opening = ("Two friends hoisted Milne out of his abyss of sad inertia after the war, and for a while he worked on "
+               "nothing at all. Chandra judged that the problem lay in the equations, and that")
+    assert _abstract(_old(opening)) is None

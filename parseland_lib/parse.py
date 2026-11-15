@@ -21,12 +21,63 @@ from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_sciel
     scielo_corresponding_marks
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
-from parseland_lib.publisher.parsers.utils import raw_has as _has, same_opening_text, same_person
+from parseland_lib.publisher.parsers.utils import _letters_key, raw_has as _has, same_opening_text, same_person
 from parseland_lib.utils import normalize_doi
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 
 # Namespaces whose pages get the generic abstract reader when the winning parser left them without one (#2239).
 _GENERIC_ABSTRACT_FILL = ("pmh",)
+
+
+# A peer-review report's own DOI or page: PLOS '10.1371/journal.pgph.0000105.r005' and '/peerReview?id=...', eLife's
+# decision letters and author responses '10.7554/eLife.12345.sa1'. Its page carries the reviewed article's meta tags.
+# Not "peer-reviewed" (repository paths: ".../peer-reviewed-articles/...").
+_REVIEW_REPORT_URL = re.compile(
+    r"peer-?review(?![a-z])|10\.1371/journal\.[a-z]+\.\d+\.r\d{3}\b|10\.7554/elife\.\d+\.sa\d\b", re.I)
+
+
+def _is_review_report_url(*urls):
+    """A peer-review report's own page: its meta tags and printed abstract are the reviewed article's."""
+    return any(url and _REVIEW_REPORT_URL.search(url) for url in urls)
+
+
+_SHORT_ABSTRACT_TAGS = [re.compile(rf"^{re.escape(n)}$", re.I)
+                        for n in ("citation_abstract", "dcterms.abstract", "dc.description.abstract")]
+_TITLE_TAG = re.compile(r"^(?:citation_title|dc\.title|og:title)$", re.I)
+
+
+def short_named_abstract(soup):
+    """An abstract of 40-200 characters from a meta tag named for one (#2239).
+
+    The meta-tag readers keep only texts over 200 characters (shorter ones were mostly notes and placeholders), so a
+    one- or two-sentence abstract (HAL, Figshare items, OJS) was lost. Only tags whose name says abstract, not
+    dc.description (on repositories a note: "Thesis (M.A.)..."); at least six words, not cut ("..."), not a link, not
+    a known non-abstract, and not the page's own title repeated.
+    """
+    metas = soup.find_all("meta", attrs={"name": True})  # one scan of the page
+    titles = None
+    for name in _SHORT_ABSTRACT_TAGS:  # in this order: the first tag name that holds one wins
+        for tag in metas:
+            if not name.search(tag["name"]):
+                continue
+            text = re.sub(r"^abstract[:.]?\s*", "", (tag.get("content") or "").strip(), flags=re.I)
+            if not 40 <= len(text) <= 200 or text.endswith(("...", "…")) or text.startswith("http"):
+                continue
+            if len(text.split()) < 6 or is_not_abstract(text):
+                continue
+            if titles is None:
+                titles = _page_titles(soup, metas)
+            if _letters_key(text) not in titles:
+                return text
+    return None
+
+
+def _page_titles(soup, named_metas):
+    titles = {_letters_key(m.get("content")) for m in named_metas if _TITLE_TAG.search(m["name"])}
+    titles |= {_letters_key(m.get("content")) for m in soup.find_all("meta", attrs={"property": "og:title"})}
+    if soup.title and soup.title.string:
+        titles.add(_letters_key(soup.title.string))
+    return titles
 
 
 def dublin_core_authors(soup, keys=("eprints.creators_name", "dc.creator", "dcterms.creator", "dc.creator.personalname")):
@@ -153,6 +204,7 @@ def _references(parsed):
 
 def parse_page(lp_content, namespace, resolved_url=None):
     soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
+    given_url = resolved_url  # before the doi.org sniff below: a review report's DOI is only in this one
 
     # If the caller passed a bare doi.org link, the relative-PDF-URL joiner
     # downstream produces broken hosts like https://doi.org/doi/pdf/... .
@@ -238,24 +290,47 @@ def parse_page(lp_content, namespace, resolved_url=None):
         if aps_abs and not is_not_abstract(aps_abs):
             authors_and_abstract['abstract'] = aps_abs
 
-    # A record page whose winning parser reads no abstract (the DOAJ, HAL, DergiPark ... repository parsers return
-    # authors only) gets the generic reader's: an article-level meta tag, a structured abstract section, or a
-    # description tag the page prints (#2239: DOAJ record pages printed their abstract and lost it).
-    if namespace in _GENERIC_ABSTRACT_FILL and (
-            not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract'])):
-        generic = GenericPublisherParser(soup)
-        filled = (generic.parse_abstract_meta_tags(include_seo_tags=False) or generic.parse_structured_abstract_section()
-                  or generic.parse_printed_seo_description())
-        if filled and not is_not_abstract(filled):
-            authors_and_abstract['abstract'] = filled
+    # Fills after every site's own reader (#2239), each only while the page still has no abstract. Never on a
+    # peer-review report's page (it carries the reviewed article's tags and abstract) nor on World Scientific pages,
+    # whose own reader above decides there (it turns down chapter previews printed under "Abstract:").
+    def needs_abstract():
+        chosen = authors_and_abstract.get('abstract')
+        return not chosen or is_not_abstract(chosen)
 
-    # Last resort on record pages, after every site's own reader: the text the page prints under its own "Abstract"
-    # heading (DOAJ, PMC, Pure portals, Redalyc ... whose meta tags hold a cut snippet or nothing) (#2239). Not on
-    # publisher pages: there an "Abstract" heading also labels related-article panels and peer-review reports.
-    if namespace == "pmh" and (
-            not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract'])):
-        if headed := GenericPublisherParser(soup).parse_headed_abstract_section():
-            authors_and_abstract['abstract'] = headed
+    if needs_abstract():
+        other_reader_decides = _is_review_report_url(given_url, resolved_url) or _has(lp_content, "wspc-site")
+        generic = GenericPublisherParser(soup)
+        if namespace in _GENERIC_ABSTRACT_FILL:
+            # A record page whose winning parser reads no abstract (the DOAJ, HAL, DergiPark ... repository parsers
+            # return authors only) gets the generic reader's: an article-level meta tag, a structured abstract
+            # section, or a description tag the page prints (DOAJ record pages printed their abstract and lost it).
+            if needs_abstract():
+                filled = (generic.parse_abstract_meta_tags(include_seo_tags=False)
+                          or generic.parse_structured_abstract_section() or generic.parse_printed_seo_description())
+                if filled and not is_not_abstract(filled):
+                    authors_and_abstract['abstract'] = filled
+            # Then the text the page prints under its own "Abstract" heading (DOAJ, PMC, Pure portals, Redalyc ...
+            # whose meta tags hold a cut snippet or nothing).
+            if needs_abstract() and (headed := generic.parse_headed_abstract_section()):
+                authors_and_abstract['abstract'] = headed
+        elif namespace == "doi" and not other_reader_decides:
+            # A publisher page whose winning parser reads authors only (PLOS returns its byline and nothing else) gets
+            # the page's article-level abstract tag: citation_abstract, dcterms.abstract, dc.description. Not the
+            # structured-section or printed-description readers: on publisher pages those also find related-article
+            # panels and openings.
+            if needs_abstract():
+                filled = generic.parse_abstract_meta_tags(include_seo_tags=False)
+                if filled and not is_not_abstract(filled):
+                    authors_and_abstract['abstract'] = filled
+            # Then the "Abstract" heading, with a main-article guard: not inside a block of other works (related
+            # articles, recommendations, listings, peer-review reports), not when the page shows two different
+            # abstracts.
+            if needs_abstract() and (headed := generic.parse_headed_abstract_section(main_article=True)):
+                authors_and_abstract['abstract'] = headed
+        # Last of all, a short abstract in a tag named for one (HAL, Figshare: one or two sentences): the meta-tag
+        # readers keep only texts over 200 characters, so these were lost (14 of 1,000 sampled records).
+        if not other_reader_decides and needs_abstract() and (short := short_named_abstract(soup)):
+            authors_and_abstract['abstract'] = short
 
     # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:
