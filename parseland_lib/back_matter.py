@@ -9,13 +9,18 @@ import copy
 import re
 from urllib.parse import unquote
 
+from bs4 import Comment
+
 from parseland_lib.publisher.parsers.utils import raw_has, squash
 
 _DOI = re.compile(r"\b(10\.\d{4,9}/\S+)")
 
 
 def _clean_doi(value):
-    return (m := _DOI.search(value or "")) and m.group(1).rstrip(".,;")
+    """The first DOI in a text or link, without what a printed reference wraps it in ("<...doi/10.x/y/full>.")."""
+    if not (m := _DOI.search(value or "")):
+        return None
+    return re.sub(r"/(?:full|abstract|pdf|epdf)$", "", m.group(1).rstrip(".,;>)]\"'"))
 
 
 def _paragraphs(block):
@@ -122,7 +127,7 @@ def _entry_text(entry):
     return re.sub(r"([(\[]) ", r"\1", re.sub(r" ([,.;:)\]])", r"\1", text))
 
 
-def _plain_citation_tags(soup):
+def plain_citation_tags(soup):
     """citation_reference tags that hold each reference's printed text (Elsevier-hosted Literatum journals), not
     Highwire's key=value form ("citation_title=...; citation_author=..."): one entry per tag, in page order."""
     texts = [squash(m.get("content")) for m in soup.find_all("meta", attrs={"name": "citation_reference"})]
@@ -137,7 +142,7 @@ def literatum_back_matter(soup, lp_content):
         if raw_has(lp_content, marker) and (entries := soup.select(selector)):
             break
     else:
-        return _plain_citation_tags(soup) if raw_has(lp_content, "citation_reference") else {}
+        return plain_citation_tags(soup) if raw_has(lp_content, "citation_reference") else {}
     refs, labels = [], []
     for entry in entries:
         label = entry.select_one(".label, .bullet")
@@ -171,7 +176,7 @@ def ojs_back_matter(soup):
     value = soup.select_one("section.item.references .value, div.item.references .value")
     lines = [line for line in _lines(value) if line] if value else []
     if not lines:
-        return _plain_citation_tags(soup)
+        return plain_citation_tags(soup)
     refs = [{"raw": line, "doi": _clean_doi(line)} for line in lines]
     # A journal whose source text broke references across lines prints fragments ("Silica from Spent Hydrafluoric
     # Acid – How"): a list where many entries carry no year is not one we can call whole.
@@ -237,3 +242,48 @@ def headed_back_matter(soup, lp_content):
         if (text := _section_after(heading)) and len(text) >= 20:
             found[key] = text
     return found
+
+
+# SciELO: the newer template lists references as div.ref-list ul.refList > li (number in sup.xref, text in a <div>);
+# the classic one prints each as the <p> after an <!-- ref --> comment, number first ("1. Biermann JS. ..."), with a
+# "[ Links ]" button.
+_LEADING_NUMBER = re.compile(r"^(\d{1,4})\s*[.)]\s+")
+_LINKS_BUTTON = re.compile(r"\[\s*(?:Links)?\s*\]")
+
+
+_REFERENCES_ANCHOR = re.compile(r"refer|bibliogr|literat", re.I)
+
+
+def _scielo_reference_list(soup):
+    """(entries, sure): the article's reference list among the page's ref-list blocks (footnotes and table notes use
+    the same markup): the one in a section named for references, else the longest, unsure when two real lists compete."""
+    blocks = [items for block in soup.select("div.ref-list") if (items := block.select("ul.refList > li"))]
+    named = [block.select("ul.refList > li") for block in soup.select("div.articleSection[data-anchor] div.ref-list")
+             if _REFERENCES_ANCHOR.search(block.find_parent("div", class_="articleSection")["data-anchor"])]
+    if named and named[0]:
+        return named[0], True
+    if not blocks:
+        return [], False
+    return max(blocks, key=len), sum(len(items) >= 2 for items in blocks) <= 1
+
+
+def scielo_back_matter(soup, lp_content):
+    labels, texts, sure = [], [], True
+    if raw_has(lp_content, "refList") and (found := _scielo_reference_list(soup))[0]:
+        items, sure = found
+        for item in items:
+            item = copy.copy(item)  # the parsers still read this soup
+            number = item.find("sup", class_="xref")
+            labels.append(number.extract().get_text(strip=True) if number else None)
+            texts.append(squash(item.get_text(" ")))
+    elif raw_has(lp_content, "<!-- ref -->"):
+        for marker in soup.find_all(string=lambda s: isinstance(s, Comment) and s.strip() == "ref"):
+            entry = marker.find_next_sibling()
+            text = _LINKS_BUTTON.sub("", squash(entry.get_text(" "))) if entry is not None else ""
+            number = _LEADING_NUMBER.match(text)
+            labels.append(number.group(1) if number else None)
+            texts.append(squash(text[number.end():] if number else text))
+    refs = [{"raw": text, "doi": _clean_doi(text)} for text in texts if text]
+    if not refs:
+        return {}
+    return {"references": refs, "references_complete": sure and len(refs) == len(texts) and _numbering_whole(labels)}

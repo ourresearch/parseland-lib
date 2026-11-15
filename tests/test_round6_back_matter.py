@@ -82,3 +82,35 @@ def test_an_image_link_is_never_the_pdf():
     head = '<meta name="citation_pdf_url" content="https://www.jstage.jst.go.jp/pub/pdfpreview/kds/60/6_60_1.jpg"/>'
     out = parse("", head, "https://www.jstage.jst.go.jp/article/kds/60/6/60_1/_article")
     assert not [u for u in out["urls"] if u["content_type"] == "pdf"]
+
+
+def test_scielo_classic_references_follow_their_markers_without_numbers_or_link_buttons():
+    body = "".join(f'<!-- ref --><p><font size="2">{n}. Author {n}. A title. J Med 2002; 22: 268. [ <a href="#">Links</a> ]'
+                   f'</font></p><!-- end-ref -->' for n in (1, 2))
+    url = "https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0718"
+    out = parse(body, f'<link rel="canonical" href="{url}"/>', url)
+    assert [r["raw"] for r in out["references"]] == ["Author 1. A title. J Med 2002; 22: 268.",
+                                                     "Author 2. A title. J Med 2002; 22: 268."]
+    assert out["references_complete"] is True
+
+
+def test_scielo_reference_list_is_the_references_section_not_a_footnote_list():
+    notes = '<div class="ref-list"><ul class="refList"><li><sup class="xref">*</sup><div>Corresponding note.</div></li></ul></div>'
+    refs = ('<div class="articleSection" data-anchor="References"><h1>REFERENCES</h1><div class="ref-list"><ul class="refList">'
+            '<li><sup class="xref big">1</sup><div> Li TC. Recurrent miscarriage. Hum Reprod Update. 8: 463-81, 2002.</div></li>'
+            '<li><sup class="xref big">2</sup><div> Rai R. Antiphospholipid syndrome. Lancet. 2010. '
+            '&lt;https://doi.org/10.1359/jbmr.1999.14.7.1061/full&gt;.</div></li></ul></div></div>')
+    url = "https://www.scielo.br/j/rbr/a/crWMcpXPZjPpSzdVbBHt"
+    out = parse(notes + refs, f'<link rel="canonical" href="{url}"/>', url)
+    assert [r["raw"][:20] for r in out["references"]] == ["Li TC. Recurrent mis", "Rai R. Antiphospholi"]
+    assert out["references"][1]["doi"] == "10.1359/jbmr.1999.14.7.1061"
+    assert out["references_complete"] is True
+
+
+def test_plain_citation_reference_tags_are_a_reference_list_highwire_ones_are_not():
+    plain = ('<meta name="citation_reference" content="Smith J. A study of things. J Things. 2001;1:1-2."/>'
+             '<meta name="citation_reference" content="Doe A. More things. J Things. 2003;3:3-4."/>')
+    out = parse("", plain)
+    assert len(out["references"]) == 2 and out["references_complete"] is True
+    highwire = '<meta name="citation_reference" content="citation_title=A study; citation_author=J. Smith"/>'
+    assert parse("", plain + highwire)["references"] is None

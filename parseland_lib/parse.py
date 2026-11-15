@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 from parseland_lib.back_matter import headed_back_matter, literatum_back_matter, ojs_back_matter, \
-    springer_nature_back_matter
+    plain_citation_tags, scielo_back_matter, springer_nature_back_matter
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
@@ -259,6 +259,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
         back_matter = literatum_back_matter(soup, lp_content)
     if not back_matter and ojs_page:
         back_matter = ojs_back_matter(soup)
+    if not back_matter and _has(lp_content, "scielo"):
+        back_matter = scielo_back_matter(soup, lp_content)
+    # any other page whose citation_reference tags print each reference's text (plain, not Highwire key=value)
+    if "references" not in back_matter and _has(lp_content, "citation_reference"):
+        back_matter = {**plain_citation_tags(soup), **back_matter}
     # then any page's own "Acknowledgments" / "Funding" sections, for the keys still empty
     if not ("acknowledgments" in back_matter and "funding_statement" in back_matter):
         back_matter = {**headed_back_matter(soup, lp_content), **back_matter}
