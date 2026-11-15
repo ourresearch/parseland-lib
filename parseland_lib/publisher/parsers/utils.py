@@ -14,6 +14,15 @@ def squash(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+def cross_ref_footnotes(author):
+    """ScienceDirect page state: footnotes nested in an author's cross-refs. Older Academic Press / Churchill Livingstone
+    state (DOIs 10.1006, 10.1054) puts the footnote inside the cross-ref that points to it, not beside the authors:
+    {"#name": "cross-ref", "$": {"refid": "FN3"}, "$$": [{"#name": "sup"}, {"#name": "footnote", "$": {"id": "FN3"},
+    "$$": [{"#name": "note-para", "_": "To whom correspondence should be addressed..."}]}]} (oxjob #2246)."""
+    return [x for ref in author.get("$$") or [] if isinstance(ref, dict) and ref.get("#name") == "cross-ref"
+            for x in ref.get("$$") or [] if isinstance(x, dict) and x.get("#name") == "footnote"]
+
+
 def raw_has(content, marker):
     """Cheap raw-bytes check before a whole-tree search (content may be bytes or str)."""
     return (marker.encode() if isinstance(content, (bytes, bytearray)) else marker) in content

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser, frontmatter_abstract
-from parseland_lib.publisher.parsers.utils import is_h_tag
+from parseland_lib.publisher.parsers.utils import cross_ref_footnotes, is_h_tag
 
 
 class ElsevierBV(PublisherParser):
@@ -774,7 +774,16 @@ class ElsevierBV(PublisherParser):
             refid = ((child.get("$") or {}).get("refid") or "").lower()
             if refid.startswith("cor"):
                 return True
-        return False
+        # A correspondence footnote nested in the author's cross-ref (utils.cross_ref_footnotes, oxjob #2246).
+        # Imported here, not at module level: parsers register in import order, and that order decides which
+        # parser wins a page, so a module-level import of sciencedirect would reorder them.
+        from parseland_lib.publisher.parsers.sciencedirect import ScienceDirect
+        return any(
+            "correspond" in ScienceDirect.affiliation_text(para).lower()
+            for footnote in cross_ref_footnotes(entry)
+            for para in footnote.get("$$") or []
+            if isinstance(para, dict) and para.get("#name") == "note-para"
+        )
 
     @staticmethod
     def _json_author_entry_has_email(entry) -> bool:

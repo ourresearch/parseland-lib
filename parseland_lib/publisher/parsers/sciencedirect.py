@@ -2,6 +2,7 @@ import json
 import re
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import cross_ref_footnotes
 
 
 class ScienceDirect(PublisherParser):
@@ -94,6 +95,17 @@ class ScienceDirect(PublisherParser):
         return authors
 
     @staticmethod
+    def _group_footnotes(author_group):
+        """Footnotes of an author group: its own children and those nested in its authors' cross-refs."""
+        footnotes = []
+        for child in author_group.get("$$", []):
+            if child.get("#name") == "footnote":
+                footnotes.append(child)
+            elif child.get("#name") == "author":
+                footnotes.extend(cross_ref_footnotes(child))
+        return footnotes
+
+    @staticmethod
     def _get_corresponding_ids(author_group):
         ids = set()
         for item in author_group.get('$$', []):
@@ -130,10 +142,7 @@ class ScienceDirect(PublisherParser):
                 if
                 x.get("#name") == "affiliation" or x.get("#name") == "footnote"
             ]
-            footnote_dicts = [
-                x for x in author_group.get("$$", []) if
-                x.get("#name") == "footnote"
-            ]
+            footnote_dicts = self._group_footnotes(author_group)
 
             corresponding_ids = self._get_corresponding_ids(author_group)
 
@@ -149,11 +158,9 @@ class ScienceDirect(PublisherParser):
                 footnote_label = footnote.get("$", {}).get("id")
                 for footnote_property in footnote.get("$$", []):
                     if footnote_property.get("#name") == "note-para":
-                        if footnote_label and footnote_property.get("_"):
-                            group_footnote_labels[footnote_label] = \
-                                footnote_property[
-                                    "_"
-                                ]
+                        text = self.affiliation_text(footnote_property)  # plain {"_": ...} or nested {"$$": [...]}
+                        if footnote_label and text:
+                            group_footnote_labels[footnote_label] = text
 
             author_dicts = [
                 x for x in author_group.get("$$", []) if
