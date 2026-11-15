@@ -511,6 +511,9 @@ def has_bad_href_word(href):
 
         ".zip",
 
+        # InvenioRDM's "Download all" button: a zip of every file in the record (https://zenodo.org/records/5807860)
+        "/files-archive",
+
         # https://zenodo.org/record/1238858
         ".gz",
 
