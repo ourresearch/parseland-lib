@@ -23,6 +23,10 @@ from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverc
     silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
 from parseland_lib.publisher.parsers.utils import raw_has as _has, same_opening_text, same_person
 from parseland_lib.utils import normalize_doi
+from parseland_lib.publisher.parsers.generic import GenericPublisherParser
+
+# Namespaces whose pages get the generic abstract reader when the winning parser left them without one (#2239).
+_GENERIC_ABSTRACT_FILL = ("pmh",)
 
 
 def _is_doi_router_url(url):
@@ -206,6 +210,25 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
         if aps_abs and not is_not_abstract(aps_abs):
             authors_and_abstract['abstract'] = aps_abs
+
+    # A record page whose winning parser reads no abstract (the DOAJ, HAL, DergiPark ... repository parsers return
+    # authors only) gets the generic reader's: an article-level meta tag, a structured abstract section, or a
+    # description tag the page prints (#2239: DOAJ record pages printed their abstract and lost it).
+    if namespace in _GENERIC_ABSTRACT_FILL and (
+            not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract'])):
+        generic = GenericPublisherParser(soup)
+        filled = (generic.parse_abstract_meta_tags(include_seo_tags=False) or generic.parse_structured_abstract_section()
+                  or generic.parse_printed_seo_description())
+        if filled and not is_not_abstract(filled):
+            authors_and_abstract['abstract'] = filled
+
+    # Last resort on record pages, after every site's own reader: the text the page prints under its own "Abstract"
+    # heading (DOAJ, PMC, Pure portals, Redalyc ... whose meta tags hold a cut snippet or nothing) (#2239). Not on
+    # publisher pages: there an "Abstract" heading also labels related-article panels and peer-review reports.
+    if namespace == "pmh" and (
+            not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract'])):
+        if headed := GenericPublisherParser(soup).parse_headed_abstract_section():
+            authors_and_abstract['abstract'] = headed
 
     # A text the publisher marks on its page as the work's opening is body text, not its abstract, whichever parser
     # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it

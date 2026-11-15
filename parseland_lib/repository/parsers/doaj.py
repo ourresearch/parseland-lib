@@ -22,10 +22,13 @@ class DOAJ(RepositoryParser):
             }
 
             for dd_or_dt in dt.find_next_siblings():
-                if dd_or_dt.name == "dd":
-                    author["affiliations"].append(dd_or_dt.text)
-                else:
+                if dd_or_dt.name != "dd":
                     break
+                # DOAJ lists the author's ORCID link ("ORCiD") in the same <dd> slots as affiliations (#2239)
+                link = dd_or_dt.find("a", href=True)
+                if link and "orcid.org/" in link["href"] and dd_or_dt.get_text(" ", strip=True).lower() == "orcid":
+                    continue
+                author["affiliations"].append(dd_or_dt.text)
 
             authors.append(author)
 
