@@ -30,6 +30,7 @@ class GenericPublisherParser(PublisherParser):
                 "abstract": (
                     self.parse_abstract_meta_tags(include_seo_tags=False)
                     or self.parse_structured_abstract_section()
+                    or self.parse_printed_seo_description()
                 ),
             }
 

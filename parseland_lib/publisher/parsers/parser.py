@@ -1,3 +1,4 @@
+import bisect
 import copy
 import re
 from abc import ABC, abstractmethod
@@ -10,6 +11,18 @@ from parseland_lib.not_abstract import is_not_abstract
 from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, \
     strip_prefix, \
     is_h_tag
+
+
+# Containers that hold a work's own full text or a post's body (oxjob #2239): JAMA div.article-full-text, Cell Press
+# section#bodymatter, WordPress div.entry-content / .post-content.
+_BODY_CONTAINER = re.compile(
+    r"(?:^|[\s_-])(?:article-full-?text|full-?text|bodymatter|body-matter|entry-content|post-content|article-body|"
+    r"articlebody|main-text)(?:$|[\s_-])", re.I)
+
+
+def _alnum(text):
+    """Letters and digits only, lower case: a key that ignores markup, spacing, punctuation and entities."""
+    return re.sub(r"[\W_]+", "", re.sub(r"<[^<>]*>", " ", text or "")).lower()
 
 
 class Parser(ABC):
@@ -346,6 +359,65 @@ class PublisherParser(Parser, ABC):
                     )
 
         return None
+
+    def parse_printed_seo_description(self):
+        """og:description / description / twitter:description, kept only when the page also prints that text.
+
+        The generic parser skips these page-level SEO tags (9c1dc07: on many repositories they hold the same site
+        blurb on every record page). But on most repository and small-publisher record pages (DSpace, Digital
+        Commons, figshare, Zenodo, OJS-like sites) they are the only tags that hold the record's abstract, and
+        dropping them cost ~5% of stored pages their abstract (oxjob #2239; #2215 EXPLORE § 4). A record's
+        abstract is printed on its record page; a site blurb sits in the head. So a tag counts when its text
+        (letters and digits, from the 20th) is in the page's body text, scripts and styles left out, and is not
+        printed inside the work's full text or a post's body: there the description is the text's opening
+        paragraph (JAMA case reports, Cell Press commentaries, news and blog posts), and the gold says such pages
+        have no abstract.
+        """
+        for name in ("og:description", "description", "twitter:description"):
+            for attr in ("property", "name"):
+                for tag in self.soup.find_all("meta", {attr: re.compile(f"^{name}$", re.I)}):
+                    text = (tag.get("content") or "").strip()
+                    # over 10,000 characters it is the work's text, not its abstract (a short story's whole text)
+                    if (len(text) <= 200 or len(text) > 10_000 or text.endswith(("...", "…"))
+                            or text.startswith("http") or is_not_abstract(text)):
+                        continue
+                    key = _alnum(text)[20:160]
+                    at = self._body_text()[0].find(key) if len(key) >= 60 else -1
+                    if at >= 0 and not self._inside_full_text(at):
+                        return re.sub(r"^abstract[:.]?\s*", "", text, flags=re.I)
+        return None
+
+    def _body_text(self):
+        """(the body's visible text as one letters-and-digits key, where each text node starts in it, the nodes)."""
+        if getattr(self, "_body_text_cache", None) is None:
+            body = self.soup.body or self.soup
+            starts, nodes, parts, n = [], [], [], 0
+            for s in body.find_all(string=True):
+                if s.parent is None or s.parent.name in ("script", "style", "noscript", "template"):
+                    continue
+                if k := _alnum(s):
+                    starts.append(n)
+                    nodes.append(s)
+                    parts.append(k)
+                    n += len(k)
+            self._body_text_cache = ("".join(parts), starts, nodes)
+        return self._body_text_cache
+
+    def _inside_full_text(self, at):
+        """True when the text at offset `at` of _body_text() sits in the work's full text or a post body rather
+        than an abstract block: the nearest container that names itself an abstract wins; otherwise one named
+        full text / body matter / article body / entry content, or an <article class="post">, means the text is
+        the work's opening."""
+        _, starts, nodes = self._body_text()
+        node = nodes[max(bisect.bisect_right(starts, at) - 1, 0)].parent
+        while node is not None and node.name not in ("body", "html", "[document]"):
+            ident = " ".join([node.get("id") or ""] + (node.get("class") or []))
+            if "abstract" in ident.lower():
+                return False
+            if _BODY_CONTAINER.search(ident) or (node.name == "article" and re.search(r"\bpost\b", ident)):
+                return True
+            node = node.parent
+        return False
 
     @staticmethod
     def format_name(name):

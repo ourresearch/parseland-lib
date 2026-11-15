@@ -95,6 +95,9 @@ _TEMPLATE_RES = [
     re.compile(r"(?:article|chapter|book|journal) .{1,500} was published on (?:[a-z]+ \d{1,2}, )?\d{4} in the (?:journal|book|series|edited volume) .{1,300}$"),
     # Springer / Nature author block: 'Authors and Affiliations ... View author publications ...'
     re.compile(r"authors .{0,800}view author publications"),
+    # A data citation line, as PANGAEA writes its description tag: 'Preßler, Erhard (1992): Tree-ring width of Quercus
+    # species ..., PANGAEA, https://doi.org/10.1594/PANGAEA.148663' (3 of 3 such pages read by #2239: gold no abstract)
+    re.compile(r"[^():]{2,600} \((?:1[5-9]|20)\d{2}[a-z]?\): .{1,1000}https?://(?:dx\.)?doi\.org/10\.\d{4,9}/\S+$"),
     # CABI Compendium datasheet stand-in, one per taxon: 'This datasheet on Mesorchis covers Identity, Distribution.'
     re.compile(r"this datasheet on .{1,200} covers [a-z/ ,&()-]{3,400}\.?$"),
     # Meeting-abstract pages with no abstract show a presenter or author line instead (HPB 'Presenter: Nora Singh
@@ -133,6 +136,11 @@ def is_not_abstract(text) -> bool:
     if not k:
         return True  # punctuation or symbols only ('.', '-', '■')
     if k in _known():
+        return True
+    # Digital Commons (bepress) record pages that have no abstract describe the item with its opening paragraph and
+    # say so: "(First paragraph) Plucking chickens the kosher way ..." An opening the page marks as such is body
+    # text, not the abstract (oxjob #2162's rule; seen by #2239 on repository pages).
+    if plain.startswith("(first paragraph)"):
         return True
     if len(k) <= 200 and _KEY_RE.fullmatch(k):
         return True
