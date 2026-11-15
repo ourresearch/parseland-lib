@@ -9,6 +9,17 @@ import re
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 SUFFIXES = {"jr", "jr.", "sr", "sr.", "ii", "iii", "iv"}
+# A degree or credential the byline lists after a name, as its own comma part ("Maayan Abargil, PhD, Orya Tishby,
+# PhD"; ~110 of 22K supp pages, mostly Psychoanalytic Psychology and Families, Systems, & Health): one word of
+# letters (dots and hyphens allowed), at most 8 letters, at least 2 capitals: PhD, MD, MSc, PsyD, DClinPsy, CCC-SLP,
+# Ph.D., L.A.D.C. A one-word name keeps its place (Samian, Scout, Kashaf-A-Duja).
+CREDENTIAL = re.compile(r"[A-Za-z][A-Za-z.\-]*")
+
+
+def _is_credential(part):
+    letters = re.sub(r"[.\-]", "", part)
+    return (CREDENTIAL.fullmatch(part) is not None and 2 <= len(letters) <= 8
+            and sum(c.isupper() for c in letters) >= 2)
 
 
 class APASupplementalMaterial(PublisherParser):
@@ -37,6 +48,8 @@ class APASupplementalMaterial(PublisherParser):
                 continue
             if names and part.lower() in SUFFIXES:
                 names[-1] += " " + part
+            elif names and _is_credential(part):
+                continue
             else:
                 names.append(part)
         return {"authors": [{"name": n, "affiliations": [], "is_corresponding": None} for n in names],

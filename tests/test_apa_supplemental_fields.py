@@ -100,3 +100,17 @@ def test_other_pages_are_not_claimed():
 def test_parse_returns_no_new_fields_the_page_does_not_show():
     out = APASupplementalMaterial(BeautifulSoup(_old("Ann Lee and Bo Chen"), "lxml")).parse()
     assert set(out) == {"authors", "abstract"}
+
+
+def test_degrees_after_names_are_not_authors():
+    # ~110 of 22K supp pages list each author's degrees as comma parts (#2213, measured on works 15 Nov 2026)
+    byline = "Maayan Abargil, PhD, and \nOrya Tishby, PhD"
+    assert _names(_old(byline)) == ["Maayan Abargil", "Orya Tishby"]
+    byline = ("Joni K. Beck, PharmD, BC-ADM, CDE, Ying Zhang, MD, PhD, Selene Mezzalira, PhD, PsyD, "
+              "Ann Lee, Ph.D., Bo Chen, L.A.D.C., Kim Roe, CCC-SLP, and Al Poe, DClinPsy")
+    assert _names(_old(byline)) == ["Joni K. Beck", "Ying Zhang", "Selene Mezzalira", "Ann Lee", "Bo Chen", "Kim Roe",
+                                    "Al Poe"]
+
+
+def test_one_word_names_and_suffixes_are_kept():
+    assert _names(_old("Samian, Kashaf-A-Duja, and Bo Chen III, PhD")) == ["Samian", "Kashaf-A-Duja", "Bo Chen III"]
