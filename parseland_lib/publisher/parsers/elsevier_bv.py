@@ -826,6 +826,14 @@ class ElsevierBV(PublisherParser):
             content = authors_node.get("content")
             if not isinstance(content, list):
                 continue
+            # A surname two authors share is not a key: matching on it would flag both (jmla.2001.2825: Jenn-Yeu
+            # and Train-Min Chen; oxjob #2246). Those authors match on their full name only.
+            surname_counts = {}
+            for author_group in content:
+                for entry in (author_group.get("$$") or []) if isinstance(author_group, dict) else []:
+                    if isinstance(entry, dict) and entry.get("#name") == "author":
+                        sn = self._json_author_surname(entry)
+                        surname_counts[sn] = surname_counts.get(sn, 0) + 1
             for author_group in content:
                 if not isinstance(author_group, dict):
                     continue
@@ -863,8 +871,16 @@ class ElsevierBV(PublisherParser):
                     ).strip()
                     if full_name:
                         mapping[full_name] = True
-                    mapping[surname] = True
+                    if surname_counts.get(surname, 0) < 2:
+                        mapping[surname] = True
         return mapping
+
+    @staticmethod
+    def _json_author_surname(entry):
+        for child in entry.get("$$") or []:
+            if isinstance(child, dict) and child.get("#name") == "surname":
+                return (child.get("_") or "").strip()
+        return ""
 
     def _science_direct_author_json_payloads(self):
         try:

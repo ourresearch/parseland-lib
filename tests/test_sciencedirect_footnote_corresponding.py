@@ -116,3 +116,15 @@ def test_elsevier_bv_reads_nested_correspondence_footnote_as_a_cor_ref():
     assert ElsevierBV._json_author_entry_has_cor_ref(TAMURA[2]) is True
     assert ElsevierBV._json_author_entry_has_cor_ref(TAMURA[1]) is False
     assert ElsevierBV._json_author_entry_has_cor_ref(TAMURA[0]) is False
+
+
+def test_shared_surname_marks_only_the_footnoted_author():
+    # ElsevierBV matched JSON marks by surname too, so a same-surname coauthor was flagged as well (jmla.2001.2825).
+    group = [author("Jenn-Yeu", "Chen", aff_ref("A1"), nested_footnote("FNUN2", "f2", "Address correspondence to Jenn-Yeu Chen.")),
+             author("Train-Min", "Chen", aff_ref("A1")),
+             author("Gary S", "Dell", aff_ref("A2")),
+             affiliation("A1", "National Cheng Kung University, Tainan, Taiwan"),
+             affiliation("A2", "University of Illinois at Urbana-Champaign")]
+    mapping = ElsevierBV(BeautifulSoup(html([group]), "lxml"))._author_json_corresponding_map()
+    assert mapping == {"Jenn-Yeu Chen": True}
+    assert sd_corr([group]) == ["Jenn-Yeu Chen"]
