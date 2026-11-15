@@ -386,6 +386,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
         # readers keep only texts over 200 characters, so these were lost (14 of 1,000 sampled records).
         if not other_reader_decides and needs_abstract() and (short := short_named_abstract(soup)):
             authors_and_abstract['abstract'] = short
+        # And after every other reader, the description tag when it is about this item: pages that render their
+        # abstract with JavaScript (DSpace 7, Redalyc, Cureus, IEEE Xplore) hold it nowhere else (#2215).
+        if not other_reader_decides and needs_abstract() and (titled := generic.parse_titled_seo_description()):
+            authors_and_abstract['abstract'] = titled
 
     # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:

@@ -136,6 +136,18 @@ def _alnum(text):
     return re.sub(r"[\W_]+", "", re.sub(r"<[^<>]*>", " ", text or "")).lower()
 
 
+# Words too common in titles and abstracts to say two texts are about the same item.
+_COMMON_WORDS = frozenset(
+    "this that with from into over under their which were have been between among about after before during within "
+    "without study analysis effect effects using based case cases review research article paper results pour dans "
+    "avec sobre entre como para with über eine einer dans des".split())
+
+
+def _content_words(text):
+    """Words of four or more letters, lower case, without the most common ones (a 'what is it about' set)."""
+    return {w for w in re.findall(r"[^\W\d_]{4,}", (text or "").lower()) if w not in _COMMON_WORDS}
+
+
 class Parser(ABC):
 
     @abstractmethod
@@ -496,6 +508,56 @@ class PublisherParser(Parser, ABC):
                     if at >= 0 and not self._inside_full_text(at):
                         return re.sub(r"^abstract[:.]?\s*", "", text, flags=re.I)
         return None
+
+    def parse_titled_seo_description(self):
+        """og:description / description about this item, for pages that render their abstract with JavaScript.
+
+        DSpace 7 (Angular), Redalyc, Cureus and IEEE Xplore print no abstract in the stored HTML: the description tag
+        is the only place it is (oxjob #2215 EXPLORE § 5: 85 of the 155 sampled abstracts 9c1dc07 dropped). A site
+        blurb is the same on every record page and says nothing about the item, so the tag counts when it shares at
+        least two content words with the item's title, and is not a citation line (one that carries the whole title:
+        "Walbank, Greek Inscriptions from the Athenian Agora, Hesperia ...", PANGAEA's "(2010): <title> [dataset]").
+        """
+        if self.soup.find("link", href=re.compile("bloomsbury_assets/")):
+            return None  # Bloomsbury's encyclopedias and books describe an entry with its opening (the gold: none)
+        title = self._item_title()
+        # the site's and journal's own names say nothing about the item ("Kalliope-Verbund", a journal in og:title)
+        site_words = set()
+        for name in ("og:site_name", "citation_journal_title", "dc.publisher", "citation_publisher"):
+            for attr in ("property", "name"):
+                for tag in self.soup.find_all("meta", {attr: re.compile(f"^{re.escape(name)}$", re.I)}):
+                    site_words |= _content_words(tag.get("content"))
+        title_words = _content_words(title) - site_words
+        if len(title_words) < 2:
+            return None
+        title_start = _alnum(title)[:40]
+        for name in ("og:description", "description"):
+            for attr in ("property", "name"):
+                for tag in self.soup.find_all("meta", {attr: re.compile(f"^{name}$", re.I)}):
+                    text = (tag.get("content") or "").strip()
+                    if (len(text) <= 200 or len(text) > 10_000 or text.endswith(("...", "…"))
+                            or text.startswith("http") or is_not_abstract(text)):
+                        continue
+                    if len(title_words & _content_words(text)) < 2:
+                        continue  # not about this item: a site blurb
+                    key = _alnum(text)[20:160]
+                    if len(key) < 60 or key in self._body_text()[0]:
+                        continue  # printed: parse_printed_seo_description decided (an opening paragraph, JAMA, Science)
+                    # a citation line names the authors, then the title ("Walbank, Greek Inscriptions ..., Hesperia",
+                    # "Galgani, Luisa; ... (2019): <title> [dataset]"); an abstract may use the title's words later
+                    head = _alnum(text)[:150 + len(title_start)]
+                    if (len(title_start) >= 20 and title_start in head) or re.search(r"doi[:.]\s?(?:org/)?10\.", text[:400], re.I):
+                        continue  # ... or a bibliographic line ("Review Article | doi:10.5530/...")
+                    return re.sub(r"^abstract[:.]?\s*", "", text, flags=re.I)
+        return None
+
+    def _item_title(self):
+        for name in ("citation_title", "dc.title", "DC.title", "og:title"):
+            for attr in ("name", "property"):
+                tag = self.soup.find("meta", {attr: name})
+                if tag and (tag.get("content") or "").strip():
+                    return tag["content"].strip()
+        return self.soup.title.get_text(" ", strip=True) if self.soup.title else ""
 
     def _body_text(self):
         """(the body's visible text as one letters-and-digits key, where each text node starts in it, the nodes)."""
