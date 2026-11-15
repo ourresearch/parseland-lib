@@ -3,8 +3,8 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from parseland_lib.back_matter import headed_back_matter, literatum_back_matter, ojs_back_matter, \
-    plain_citation_tags, scielo_back_matter, springer_nature_back_matter
+from parseland_lib.back_matter import _YEAR, _numbering_whole, headed_back_matter, literatum_back_matter, \
+    ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
@@ -203,7 +203,36 @@ def _references(parsed):
         kept.append({"position": len(kept) + 1, "raw": raw, "doi": normalize_doi(ref.get("doi"))})
     if not kept:
         return None, False
-    return kept, parsed.get("references_complete") is True and len(kept) == len(refs)
+    return kept, (parsed.get("references_complete") is True and len(kept) == len(refs)
+                  and _entries_look_whole([ref["raw"] for ref in kept]))
+
+
+# Entries a whole list doesn't have, whichever parser read it (oxjob #2215, 15 Nov: 7 of 223 lists called whole on
+# #2239's gold were broken in these ways; downstream uses a list only when it is whole).
+_FRAGMENT_START = re.compile(r"^(?:[,;%)\]}]|[-–—]\s?\d)")  # "-197, 2016. Disponível em: ...", ",n.1,2023."
+_CONTINUATION = re.compile(r"^(?:dispon[íi]vel|available (?:at|from|online)|retrieved (?:from|on)|acess(?:o|ado) em|"
+                           r"accessed|https?:|www\.|doi:)", re.I)
+# "...Gdynia.2. Cwilewicz, R., ...": a numbered entry starting inside another (not "Vol.42. No.253. P. 349")
+_MERGED_ENTRY = re.compile(r"[^\d\s]\.\s?\d{1,3}\.\s+[A-ZÀ-ÖØ-Þ][\w'’-]+,\s")
+_LEADING_NUMBER = re.compile(r"^[\[(]?(\d{1,3})[.)\]]?\s+\S")  # "1 Whitehead ...", "[12] Smith ..."
+_MARKUP = re.compile(r"<[a-z][a-z0-9]*[\s>/]", re.I)  # "<strong>2024</strong>, <em>13</em>(7), 921;": a page's own
+# citation in a tag, not a reference
+
+
+def _entries_look_whole(texts):
+    """False for a list with a sign that it isn't the page's whole reference list, one entry per reference."""
+    for text in texts:
+        if _FRAGMENT_START.match(text) or _CONTINUATION.match(text):
+            return False  # the rest of the entry before it, on its own line
+        if text[0].islower() and not _YEAR.search(text):
+            return False  # "de Derecho y Sociedad."; a dated "de Souza, A. (2019)" is an entry
+        if text.endswith(":") and len(text) < 40:
+            return False  # a sub-heading inside the list ("Jurnal :", "Artikel in Press :")
+        if len(_MERGED_ENTRY.findall(text)) >= 2 or _MARKUP.search(text):
+            return False  # several numbered entries read as one, or markup that no printed reference carries
+    numbers = [m.group(1) for text in texts if (m := _LEADING_NUMBER.match(text))]
+    # every entry printed with its number: they must run 1..n (footnotes cited by a page carry gaps)
+    return len(numbers) < len(texts) or _numbering_whole(numbers)
 
 
 def parse_page(lp_content, namespace, resolved_url=None):

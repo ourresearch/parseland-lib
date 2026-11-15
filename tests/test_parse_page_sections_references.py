@@ -131,6 +131,45 @@ def test_positions_are_page_order_and_dois_are_bare():
     assert result["references_complete"] is True
 
 
+def whole(raws):
+    return run({"references": [{"position": i, "raw": raw, "doi": None} for i, raw in enumerate(raws, 1)],
+                "references_complete": True})["references_complete"]
+
+
+@pytest.mark.parametrize("raws", [
+    # OJS lists whose source text broke entries across lines (#2239 gold 70fbdcb5, 099a2e15)
+    ["Andrade RJ. Fatores relacionados. Escola Anna Nery, v. 19, p. 181-186, 2015.",
+     "Disponível em: https://www.scielo.br/j/rbgo/a/5BFRY7wZB4VcMmP8JBxwLrR/"],
+    ["Silva A. Saúde da mulher. Femina, v. 44, n. 3, p. 192", "-197, 2016. Disponível em: https://docs.bvsalud.org/x"],
+    ["Dussel, E. (2005). Ética del discurso. Madri: Trotta.", "de Derecho y Sociedad."],
+    ["Smith, J. (2020). A title. Journal 1, 2-3.", "https://repository.example.org/handle/1/2"],
+    # a sub-heading printed inside the list (838abe02)
+    ["Sudjana. (1996). Metoda Statistika. Bandung: Tarsito.", "Jurnal :", "Solehah, R. A. (2023). Penerapan. 1-9."],
+    # a list printed as one paragraph, read as one entry (070b3c6d)
+    ["Cicholska, M., Czechowski, M., 2013, Materiałoznawstwo okrętowe, Gdynia.2. Cwilewicz, R., Perepeczko, A., 2014, "
+     "Okrętowe silniki, Gdańsk.3. Dudziak, J., 2008, Teoria okrętu, Gdańsk."],
+    # an MDPI page's own citation tag (f810f2eb)
+    ["<strong>2024</strong>, <em>13</em>(7), 921;"],
+    # footnotes numbered with gaps (25b67f5c)
+    ["1 Whitehead and Berkeley was presented at a conference.", "2 Locke, Essay, II.", "4 Ibid., 72."],
+], ids=["available-at", "page-range-tail", "lowercase-undated", "bare-url", "sub-heading", "merged", "markup",
+        "numbers-with-gaps"])
+def test_a_list_with_fragments_merged_entries_or_gaps_is_not_whole(raws):
+    assert whole(raws) is False
+
+
+@pytest.mark.parametrize("raws", [
+    ["Dehorter, N. et al. Tuning of interneuron properties. Science 349, 1216–1220 (2015)."],  # a one-reference work
+    ["de Souza, A. (2019). Um título. Revista 2, 3-4.", "van der Berg, P. (2001). A title. J 1, 2."],
+    [". Daly MB, Pal T, et al. Genetic/Familial High-Risk Assessment. 2020.", ". Doe J. Another. 2021."],
+    ["Macindoe N. Mediterranian Hilltowns. Ecistics. 1976. Vol.42. No.253. P. 349-353.", "Doe J. A title. 2001."],
+    ["Vaskuti András: A közösség elleni izgatás bírói gyakorlata. In Ligeti Katalin (szerk.):", "Doe J. 2001."],
+    ["1. Smith J. A paper. 2001.", "2. Doe J. Another. 2003.", "3. Roe R. A third. 2005."],
+], ids=["one-reference", "lowercase-particles", "leading-dot", "volume-numbers", "long-entry-colon", "numbers-1-to-n"])
+def test_a_whole_list_stays_whole(raws):
+    assert whole(raws) is True
+
+
 @pytest.mark.parametrize("value", ["", "   \n ", None, ["We thank"], "x" * (MAX_SECTION_CHARS + 1)],
                          ids=["empty", "blank", "none", "list", "page-body"])
 def test_sections_that_are_empty_or_not_text_or_the_whole_page_are_none(value):
