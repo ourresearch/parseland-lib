@@ -6,6 +6,8 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import remove_parents, squash
 
 _LABEL = re.compile(r"^\[(\d+)\]$")  # scientific.net numbers each entry "[n]" in a span
+# the old selector meta[name=citation_publisher] matched with soupsieve's ^...$ (a trailing newline passes); kept exact
+_PUBLISHER_TAG = re.compile(r"^citation_publisher$")
 
 
 class TransTechPub(PublisherParser):
@@ -16,12 +18,22 @@ class TransTechPub(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def is_publisher_specific_parser(self):
-        if meta := self.soup.select_one('meta[name=citation_publisher]'):
-            return 'Trans Tech' in meta['content']
-        return False
+        # Every parser is asked authors_found() on every DOI page, so the claim goes first and stays cheap (#2239's
+        # per-page CPU rule): the page's first citation_publisher tag, looked for in the small <head>, and in the rest
+        # of the page only when the head has none (lxml moves a broken head's tags into the body: 1 page in 300 from
+        # other templates). The answer is kept: authors_found(), parse() and the caller all ask (oxjob #2268).
+        if getattr(self, '_claimed', None) is None:
+            head = self.soup.head
+            meta = head.find('meta', attrs={'name': _PUBLISHER_TAG}) if head is not None else None
+            if meta is None:
+                meta = self.soup.find('meta', attrs={'name': _PUBLISHER_TAG})
+            self._claimed = meta is not None and 'Trans Tech' in meta['content']
+        return self._claimed
 
     def authors_found(self):
-        return bool(self.soup.find(
+        # The claim first: on a page with no "Authors" this search reads .text on every tag (2.8 ms a page). A page
+        # this parser does not claim never takes its byline, which has no affiliations (oxjob #2268).
+        return self.is_publisher_specific_parser() and bool(self.soup.find(
             lambda tag: 'Authors' in tag.text))
 
     def parse_authors(self):
