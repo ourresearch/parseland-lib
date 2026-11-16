@@ -715,6 +715,10 @@ def has_bad_href_word(href):
 
     bad_patterns = [
         r'jmir_v[a-z0-9]+_app\d+\.pdf',  # https://www.jmir.org/2019/9/e15011
+        # A usage-statistics route shows how often the file was downloaded; it is not the file (#2239):
+        # https://repository.hkust.edu.hk/ir/usage-metrics/download/1783.1-136951, anchor "Full-text downloads".
+        # Only a path part named so: a file called "...non-linear metrics contribution.pdf" is still a file.
+        r'/(?:usage|downloads?)[-_]?(?:metrics|statistics|stats)(?:[/?#]|$)',
     ]
 
     for bad_pattern in bad_patterns:
