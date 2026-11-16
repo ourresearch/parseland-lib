@@ -543,7 +543,10 @@ class Springer(PublisherParser):
             'correspondence to' in tag.text.lower()[:30]
         ))
         if corr_p:
-            text = corr_p.get_text(" ", strip=True)
+            # Collapse whitespace first: a name with its other-script form in parentheses spans a line break
+            # ("An Cheng\xa0\n ( 鄭安 )"), and `.` below stops at it, so the note went unread and every emailed
+            # coauthor stayed corresponding (oxjob #2247, night 2026-11-16 gainers).
+            text = " ".join(corr_p.get_text(" ", strip=True).split())
             # Extract name after "Correspondence to".
             # Original pattern was `(.+?)(?:\.|$)` — non-greedy `.+?` paired
             # with `(?:\.|$)` truncates at the FIRST period in the candidate
