@@ -295,8 +295,11 @@ def test_keeps_author_whose_name_is_not_in_editor_section():
 def test_short_author_list_fills_missing_coauthor_and_preserves_affiliation():
     """Some Springer chapter pages expose the complete chapter-author list
     only in `ul.c-article-author-list`, while an earlier parser path returns
-    a partial list. When the page has one parsed affiliation, the repair can
-    safely attach it to the added coauthor too."""
+    a partial list. The added coauthor gets the affiliations the page gives
+    that author and no one else's: here the affiliation block lists Qasim
+    alone, so Shareefdeen has none (oxjob #2239; before, he got Qasim's,
+    which the page does not say. A coauthor who was dropped as a book editor
+    gets their own back: tests/test_affiliations_r2.py)."""
     html = """
     <html>
       <head>
@@ -325,7 +328,7 @@ def test_short_author_list_fills_missing_coauthor_and_preserves_affiliation():
     names = _names(result)
     assert names == ["Muhammad Qasim", "Zarook Shareefdeen"]
     assert result["authors"][0]["affiliations"] == ["Department A"]
-    assert result["authors"][1]["affiliations"] == ["Department A"]
+    assert result["authors"][1]["affiliations"] == []
 
 
 def test_short_author_list_drops_extra_editor_name():

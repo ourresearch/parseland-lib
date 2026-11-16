@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser, frontmatter_abstract
-from parseland_lib.publisher.parsers.utils import cross_ref_footnotes, is_h_tag
+from parseland_lib.publisher.parsers.utils import _letters_key, cross_ref_footnotes, is_h_tag
 
 
 class ElsevierBV(PublisherParser):
@@ -189,6 +189,7 @@ class ElsevierBV(PublisherParser):
         json_data = self._authors_data_from_preloaded_state()
         if json_data:
             by_surname = json_data.get("by_surname", {})
+            unlinked = [r for r in results if not r.affiliations]  # before the fill below (#2239)
             for r in results:
                 surname_tail = (r.name or "").rstrip().rsplit(" ", 1)[-1]
                 info = by_surname.get(surname_tail)
@@ -198,6 +199,7 @@ class ElsevierBV(PublisherParser):
                     r.is_corresponding = True
                 if not r.affiliations and info.get("affiliations"):
                     r.affiliations = list(info["affiliations"])
+            self._link_affiliations_from_page_state(results, unlinked, json_data.get("state"))
 
         # citation_author_email meta enrichment. On many modern ScienceDirect
         # pages the icon-person SVG marker is shown next to only ONE
@@ -387,9 +389,50 @@ class ElsevierBV(PublisherParser):
                         "is_corresponding": is_corresp,
                         "affiliations": affs,
                     }
-            return {"by_surname": by_surname}
+            return {"by_surname": by_surname, "state": data}
         except Exception:
             return None
+
+    def _link_affiliations_from_page_state(self, results, unlinked, state):
+        """Who has which affiliation, for the authors the byline markup linked to none: as the page state links them,
+        read by the ScienceDirect parser's reader and matched on the full name (#2239).
+
+        The fill before this one matches the state's authors on the last word of the name, keys them by surname,
+        reads plain affiliation text only and looks across author groups. So "Rodrigo M. de Carvalho" (surname
+        "de Carvalho") matched nobody and got nothing; of two authors named Ahmed the first got the second's
+        affiliation; and when an affiliation's text was nested (CO<inf>2</inf>) the one affiliation left went to
+        authors the page links elsewhere: 14 of the 175 ScienceDirect pages with affiliations in #2239's dev
+        sample lost or swapped one this way. The ScienceDirect parser's reader of the same state has none of these
+        faults, so for every author it names in full its answer replaces that fill's.
+
+        Only on a page where this parser has found an affiliation already. Where it has found none, the page is
+        returned from the ScienceDirect parser as before (the first publisher parser with affiliations wins the
+        page: authors, abstract and corresponding marks together), and filling here would move the whole page to
+        this parser. For the same reason the change is never applied when it would leave no affiliation at all.
+        An author the state doesn't name in full (it lists the first authors only on long bylines), or names
+        twice, stays as the earlier fill left it.
+        """
+        if not unlinked or not isinstance(state, dict) or not any(r.affiliations for r in results):
+            return
+        # Imported here, not at module level: see _json_author_entry_has_cor_ref.
+        from parseland_lib.publisher.parsers.sciencedirect import ScienceDirect
+        try:
+            state_authors = ScienceDirect.page_state_authors(state)
+        except Exception:
+            return
+        by_name = {}
+        for author in state_authors:
+            by_name.setdefault(_letters_key(author["name"]), []).append(author)
+        linked = {}
+        for r in unlinked:
+            named = by_name.get(_letters_key(r.name), [])
+            if r.name and len(named) == 1:
+                linked[id(r)] = list(named[0]["affiliations"])
+        if not any(linked.get(id(r), r.affiliations) for r in results):
+            return
+        for r in unlinked:
+            if id(r) in linked:
+                r.affiliations = linked[id(r)]
 
     def parse_abstract(self):
 

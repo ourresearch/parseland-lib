@@ -1,7 +1,6 @@
 {
  "why": "Parser test_cases whose expected result no longer matches the page stored for that DOI (frozen 2026-10-23, oxjob #1791). Strict xfail: fix the parser or the expected result, then delete the line.",
  "dois": {
-  "10.1007/0-306-48581-8_7": "Author mismatch for 10.1007/0-306-48581-8_7: Author 0 affiliation count mismatch: expected 0, got 1",
   "10.1007/0-306-48688-1_15": "Author mismatch for 10.1007/0-306-48688-1_15: Author 2 name mismatch: expected 'Jay K. Kolls', got 'Steve Nelson'",
   "10.1007/978-0-387-39343-8_21": "Author mismatch for 10.1007/978-0-387-39343-8_21: Author count mismatch: expected 2, got 3",
   "10.1016/0022-247x(79)90002-7": "Author mismatch for 10.1016/0022-247x(79)90002-7: Author count mismatch: expected 2, got 0",
