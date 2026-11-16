@@ -7,6 +7,7 @@ found: {"references": [...], "references_complete": bool, "acknowledgments": str
 """
 import copy
 import re
+import unicodedata
 from itertools import islice
 from urllib.parse import unquote
 
@@ -99,8 +100,8 @@ def _numbering_whole(labels):
 
 
 _ACK_HEADING = re.compile(r"^acknowledge?ments?$", re.I)
-_FUNDING_HEADING = re.compile(r"^(?:funding(?: information| sources?| statement)?|financial support|sources? of funding)$",
-                              re.I)
+_FUNDING_HEADING = re.compile(r"^(?:funding(?: information| sources?| statement)?|financial support|"
+                              r"sources? of (?:funding|support))$", re.I)
 
 
 def _key_for(title):
@@ -125,17 +126,32 @@ def _springer_entry_doi(item, text, raw):
 
 
 _SUB_HEADINGS = ["h3", "h4", "h5"]
+_BOLD = ["b", "strong"]
+
+
+def _bold_label(tag):
+    """The label a paragraph prints in bold and nothing else ("<p><b>Sources of support</b></p>"), else None: older
+    BMC pages head the sub-sections of "Acknowledgments" this way (#2239). A bold sentence is text, and so is a
+    label with its text run in after it."""
+    if tag.name != "p" or (bold := tag.find(_BOLD)) is None:
+        return None
+    label = squash(tag.get_text())
+    if not label or len(label) > 60 or label.count(" ") > 5 or label[-1] in ".!?":
+        return None
+    return label if label == squash(bold.get_text()) else None
 
 
 def _section_parts(content):
     """(the section's own text, {key: text of a sub-section headed "Funding" or "Acknowledgements"}) (#2239). BMC and
     Adis pages print "Funding", "Author contributions", "Availability of data" ... as sub-headings inside the
     "Acknowledgements" section: the section's own text ends at the first of them."""
-    if content.find(_SUB_HEADINGS) is None:
+    children = content.find_all(True, recursive=False)
+    labels = [_bold_label(child) for child in children]
+    if content.find(_SUB_HEADINGS) is None and not any(labels):
         return _paragraphs(content), {}
     own, parts, key = [], {}, "own"
-    for child in content.find_all(True, recursive=False):
-        if child.name in _SUB_HEADINGS:
+    for child, label in zip(children, labels):
+        if child.name in _SUB_HEADINGS or label:
             key = _key_for(child.get_text())  # None: a sub-section that is neither (its text is dropped)
         elif child.find(_SUB_HEADINGS) is not None:
             key = None  # a sub-heading wrapped in a block: whatever it heads is not the text read so far
@@ -309,18 +325,31 @@ def _without_list_numbers(texts):
     return [_TYPED_NUMBER.sub("", t, count=1) for t in texts], True
 
 
+def _sort_letter(text):
+    """The letter a list sorts the entry by, without its mark: "Şişko" sorts with "S", before "Tabachnick"."""
+    letter = _LETTER.search(text)
+    return unicodedata.normalize("NFKD", letter.group(0))[0].casefold() if letter else ""
+
+
 def _has_broken_entry(texts):
     """True when a list its author typed as plain text, in alphabetical order, shows an entry broken in two by a
-    line break (#2239): the first half stops on a bare word and the line after it falls out of the order
-    ("Safitri, D. (2015) ... in Nbc News Online Mass" / "Media of Michael Brown's Case ..." / "Memon, N. ...").
+    line break (#2239): the first half stops on a bare word, or on a comma, and the second half falls out of the
+    order, against the first half ("Safitri, D. (2015) ... in Nbc News Online Mass" / "Media of Michael Brown's Case
+    ..." / "Memon, N. ...") or against the entry after it ("Genette, Gerard. ... Traducido por Luciano Padilla
+    López," / "México: Fondo de Cultura Económica, 2004." / "Landsberg, Alison. ...").
     A list in citation order gives no such sign (its numbers do: _without_list_numbers)."""
-    if len(texts) < 5:
-        return False
-    first = [m.group(0).casefold() if (m := _LETTER.search(t)) else "" for t in texts]
-    pairs = list(zip(first, first[1:]))
-    if sum(a <= b for a, b in pairs) < 0.85 * len(pairs):
+    if len(texts) < 7:
+        return False  # too few lines to show an order
+    first = [_sort_letter(t) for t in texts]
+    if sum(b < a for a, b in zip(first, first[1:])) > max(1, 0.15 * (len(texts) - 1)):
         return False  # not an alphabetical list
-    return any(b < a and text[-1].isalpha() and not _URL_END.search(text) for text, (a, b) in zip(texts, pairs))
+    for i, text in enumerate(texts[:-1]):
+        # an entry closed with a full stop, a bracket or its link is whole: a line out of order after it is mis-sorted
+        open_ended = text[-1] == "," or (text[-1].isalpha() and not _URL_END.search(text))
+        # the line after an open one sorts before it, or before the next entry while the open one doesn't
+        if open_ended and (first[i + 1] < first[i] or (i + 2 < len(texts) and first[i] <= first[i + 2] < first[i + 1])):
+            return True
+    return False
 
 
 def _lines(value):
@@ -379,6 +408,12 @@ def _block_text(block):
     # portals), a label/value list of awards (Zenodo, ORA: "Funding agency for: ... Grant: ...").
     if block.name in ("table", "dl") or (block.find(["dt", "dd"]) is not None and block.find("p") is None):
         return []
+    # Atypon's pop-up of a cited reference, hidden inside the text beside its "[24]" (Elsevier's society journals,
+    # Cell Press): the reference is not part of the sentence that cites it (#2239).
+    if block.find(class_="dropBlock__holder") is not None:
+        block = copy.copy(block)  # the parsers still read this soup
+        for pop_up in block.find_all(class_="dropBlock__holder"):
+            pop_up.decompose()
     paragraphs = [] if block.name == "p" else block.find_all("p")
     texts = [squash(p.get_text()) for p in paragraphs] or [squash(block.get_text())]
     # a list of links (a funder widget: "+ Simons Foundation More from this funder") is not a statement
@@ -455,11 +490,19 @@ _LINKS_BUTTON = re.compile(r"\[\s*(?:Links)?\s*\]")
 
 
 _REFERENCES_ANCHOR = re.compile(r"refer|bibliogr|literat", re.I)
+# How a reference opens: a surname, then initials ("Guimarães, f. H., A. P. do Prado ...", "Silva AB, Souza C. ...")
+_ENTRY_OPENING = re.compile(r"[A-ZÀ-Þ][\w'’-]+(?: [A-ZÀ-Þ][\w'’-]+){0,2},? (?:[A-Za-z]\.|[A-Z]{1,3}[,.;]? )")
+
+
+def _reads_like_entry(text):
+    """A paragraph that reads like a reference: it opens with a name and its initials and carries a year."""
+    return len(text) <= 1000 and bool(_ENTRY_OPENING.match(text)) and bool(_YEAR.search(text))
 
 
 def _scielo_reference_list(soup):
     """(entries, sure): the article's reference list among the page's ref-list blocks (footnotes and table notes use
-    the same markup): the one in a section named for references, else the longest, unsure when two real lists compete."""
+    the same markup): the one in a section named for references, else the longest, unsure when two real lists compete
+    or when a reference is printed outside it."""
     blocks = [items for block in soup.select("div.ref-list") if (items := block.select("ul.refList > li"))]
     named = [block.select("ul.refList > li") for block in soup.select("div.articleSection[data-anchor] div.ref-list")
              if _REFERENCES_ANCHOR.search(block.find_parent("div", class_="articleSection")["data-anchor"])]
@@ -467,7 +510,11 @@ def _scielo_reference_list(soup):
         return named[0], True
     if not blocks:
         return [], False
-    return max(blocks, key=len), sum(len(items) >= 2 for items in blocks) <= 1
+    longest = max(blocks, key=len)
+    # No heading says where this list starts, and SciELO's markup of older articles leaves out references it could
+    # not read: one printed as a plain paragraph right before the list is an entry the list lacks (#2239).
+    before = next((text for p in longest[0].find_all_previous("p", limit=8) if (text := squash(p.get_text()))), "")
+    return longest, sum(len(items) >= 2 for items in blocks) <= 1 and not _reads_like_entry(before)
 
 
 def scielo_back_matter(soup, lp_content):

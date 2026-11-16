@@ -457,8 +457,8 @@ def _references(parsed):
     kept = []
     for ref in refs[:MAX_REFERENCES]:
         raw = _section_text(ref.get("raw")) if isinstance(ref, dict) else None
-        if raw is None:
-            continue
+        if raw is None or not any(map(str.isalpha, raw)):
+            continue  # no text, or no letter: "-", ".", "***" typed where the form wanted a reference (#2239)
         kept.append({"position": len(kept) + 1, "raw": raw, "doi": normalize_doi(ref.get("doi"))})
     if not kept:
         return None, False
