@@ -2,6 +2,8 @@ import copy
 import re
 from urllib.parse import unquote
 
+from bs4 import Tag
+
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import squash
@@ -25,8 +27,30 @@ class CAIRN(PublisherParser):
     def authors_found(self):
         # The old template's byline is div.auteur. The current one (shs. / stm. / droit.cairn.info) prints the byline
         # without markup: its pages are taken only for their reference list, the rest stays the generic parser's.
+        if getattr(self, "_claimed", None) is None:
+            self._claimed = self._might_claim() and self._claim()
+        return self._claimed
+
+    def _claim(self):
         return bool(self.soup.select('div.auteur')) or bool(
             self.is_publisher_specific_parser() and self.soup.select_one(self._REFERENCE_ITEMS))
+
+    def _might_claim(self):
+        """False only when _claim() is surely False: no tag has a class naming "auteur" or an id naming
+        "decoupe-bibliographie" (either, in any case). One plain walk of the tree, about a tenth of what the two
+        selects cost: every PublisherParser is asked authors_found() on every DOI page, so this is paid on every page
+        (oxjob #2239's per-page CPU budget). It can't be a <head>-only test: div.auteur is also the byline on
+        non-Cairn (Lodel) pages, which this parser has always claimed."""
+        for el in self.soup.descendants:
+            if not isinstance(el, Tag) or not el.attrs:
+                continue
+            classes = el.attrs.get("class")
+            if classes and "auteur" in (" ".join(classes) if isinstance(classes, list) else str(classes)).lower():
+                return True
+            el_id = el.attrs.get("id")
+            if el_id and "decoupe-bibliographie" in (" ".join(el_id) if isinstance(el_id, list) else str(el_id)).lower():
+                return True
+        return False
 
     def parse_authors(self):
         author_tags = self.soup.select('div.auteur')
