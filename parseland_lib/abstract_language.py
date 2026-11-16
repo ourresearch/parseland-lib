@@ -81,6 +81,7 @@ _CODE_LABEL = re.compile(r"(?:^|(?<=\s))(UK|UKR|UA|RU|RUS|EN|ENG)\s?:\s")
 _NAMED_LABEL = re.compile(r"(?:^|(?<=\s))([A-Z][a-z]{3,12}) abstract\s?:\s")
 _LEAD_LABEL = re.compile(r"^(?:abstract|summary)\s*[:.]\s*", re.I)
 _MIN_PART = 150  # characters: a version shorter than this is a title or a keyword line, not an abstract
+_MIN_LABELLED_PART = 40  # ... unless the page labels it as a version: then a sentence is enough
 
 
 def _labelled_english(text: str):
@@ -231,8 +232,13 @@ def _middle_english(text: str):
 def english_part(text):
     """`text` without the other-language versions run together with its English one; `text` itself when it is one
     version, or when the parts cannot be told apart for sure."""
-    if not text or not isinstance(text, str) or len(text) < 2 * _MIN_PART:
+    if not text or not isinstance(text, str):
         return text
+    if len(text) < 2 * _MIN_PART:
+        # Too short for the splits below to tell languages apart, but not for the page's own labels: one-sentence
+        # versions under "UK: ... EN: ... RU: ..." (round 6). The labelled part must be in Latin script.
+        part = _labelled_english(text) if text[:1].isupper() else None
+        return part if part and len(part) >= _MIN_LABELLED_PART and foreign_share(part) <= 0.05 else text
     part = _labelled_english(text)
     if part is None or len(part) < _MIN_PART:
         part = _script_split(text) or _word_split(text) or _middle_english(text)

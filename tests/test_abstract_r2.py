@@ -379,8 +379,10 @@ def test_title_page_and_keywords_come_off_the_abstract(label):
 
 
 def test_abstract_that_mentions_correspondence_is_kept():
-    real = EN + " Correspondence: the two series agree. Keywords: brushless exciter, transients"
+    real = EN + " Correspondence: the two series agree."
     assert clean_abstract(real) == real
+    # the keyword line behind it comes off by the general rule since round 6, the text before it untouched
+    assert clean_abstract(real + " Keywords: brushless exciter, transients") == real
 
 
 # --- the value under a heading: text with inline markup, or a block that holds only a link -------------------------
