@@ -46,6 +46,8 @@ BIO = re.compile(
 # an affiliation is short; a longer note sentence is a CV line ("Professeur de ..., titulaire de la chaire ... et
 # membre du comité ...") that the gold leaves out (every kept note over 200 characters in #2219's sample was one)
 MAX_AFFILIATION = 200
+# the ids of the two author sections (journals' #authors, 2025 books' #anchor-persons)
+SECTION_IDS = ('authors', 'anchor-persons')
 
 
 def _lines(el):
@@ -92,14 +94,52 @@ class OpenEdition(PublisherParser):
     # "Auteurs", for an author on multi-author pages, and other books' titles from "Du même auteur" for authors)
     prefer_publisher_authors_over_generic = True
 
+    def __init__(self, soup):
+        super().__init__(soup)
+        self._marks = None
+        self._on_openedition = None
+
+    def _page_marks(self):
+        """(whether the page has an author section, its first <meta property="og:url">, whether any <meta> names
+        og:url at all), from one pass over the page's tags, cached. Every parser's authors_found runs on every DOI page
+        (oxjob #2268, #2239's CPU rule), and bs4's find(id=...) and the og:url lookups each walked the whole page; this
+        pass costs a fraction of one and stops once it has the section and the og:url tag."""
+        if self._marks is None:
+            section, og_tag, og_named = False, None, False
+            for el in self.soup.descendants:
+                if not isinstance(el, Tag):
+                    continue
+                attrs = el.attrs
+                if not section and attrs.get('id') in SECTION_IDS:
+                    section = True
+                if og_tag is None and el.name.lower() == 'meta':
+                    if el.name == 'meta' and attrs.get('property') == 'og:url':
+                        og_tag = el
+                    elif any(isinstance(v, str) and 'og:url' in v for v in attrs.values()):
+                        og_named = True
+                if section and og_tag is not None:
+                    break
+            self._marks = (section, og_tag, og_named)
+        return self._marks
+
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url('openedition.org')
+        # domain_in_meta_og_url('openedition.org'), answered from the pass: its find("meta", property="og:url") is the
+        # pass's first such tag; without one, only a page with a <meta> that names og:url can match its
+        # meta[name="og:url"] fallback, so only such a page asks it
+        if self._on_openedition is None:
+            _, og_tag, og_named = self._page_marks()
+            if og_tag is not None:
+                content = og_tag.get('content')
+                self._on_openedition = bool(content and 'openedition.org' in content)
+            else:
+                self._on_openedition = bool(og_named and self.domain_in_meta_og_url('openedition.org'))
+        return self._on_openedition
 
     def authors_found(self):
         # every parser's authors_found runs on every page: one scan for the two author sections rejects almost all
         # of them; off OpenEdition, read only where main's claim did (a Lodel ".section.authors" block: none of the
         # gate's 2,018 dev pages off OpenEdition has one)
-        if not self.soup.find(id=['authors', 'anchor-persons']):
+        if not self._page_marks()[0]:
             # no author section: the item's DC.creator tags, on OpenEdition only (oxjob #2268)
             return bool(self.is_publisher_specific_parser() and self.parse_authors())
         if not (self.is_publisher_specific_parser() or self.soup.select_one('.section.authors')):
@@ -153,7 +193,7 @@ class OpenEdition(PublisherParser):
         if hasattr(self, '_authors'):
             return self._authors
         self._authors = []
-        if not self.soup.find(id=['authors', 'anchor-persons']):
+        if not self._page_marks()[0]:
             self._authors = self._creators()
             return self._authors
         for name, notes in self._notes():
