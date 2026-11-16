@@ -134,6 +134,7 @@ def _script_split(text: str):
 
 
 _TOKEN = re.compile(r"\S+")
+_OPENING_QUOTES = "„“\"«‹"
 
 
 def _word_split(text: str):
@@ -152,6 +153,11 @@ def _word_split(text: str):
     # are mostly marked, by their accents if nothing else)
     nxt = next((i for i in range(k, len(tokens)) if tags[i]), len(tokens))
     ends = [i + 1 for i in range(k - 1, nxt) if tokens[i].group(0)[-1] in ".!?]"]
+    # English that opens inside the other language's sentence, in quotation marks, is a quotation, not a version
+    # ("... als Fuzzy-Mengen betrachten kann: „… a pictorial object is a fuzzy set ...": a German Zusammenfassung
+    # that ends on a quoted passage) (round 3)
+    if not english_first and not ends and any(tokens[i].group(0)[0] in _OPENING_QUOTES for i in range(k, nxt)):
+        return None
     k = ends[-1] if ends else nxt if english_first else k
     if not 0 < k < len(tokens):
         return None
@@ -165,6 +171,63 @@ def _word_split(text: str):
     return english
 
 
+_GLUED_SENTENCE_END = re.compile(r"[.!?](?=[^\W\d_])")  # "... of the Constitution.RiassuntoIn questo lavoro"
+
+
+def _middle_english(text: str):
+    """[another language][English][another language ...]: three or more versions run together with the English
+    one inside (a DOAJ record: Turkish, English, French, Arabic; an old journal's Zusammenfassung, Abstract and
+    Résumé). The English version is found by the run of words where English function words most outnumber the
+    other languages' marks; it reaches from the sentence after the last such mark before that run to the last
+    sentence end before the next one. It counts only when it reads as English, the text before it and the text
+    after it each clearly do not, and it is not far shorter than they are (an English quotation inside a German
+    text is not a version of it) (round 3)."""
+    tokens = list(_TOKEN.finditer(text))
+    if len(tokens) < 90:
+        return None
+    tags = [_mark("".join(c for c in m.group(0).lower() if c.isalpha())) for m in tokens]
+    if tags.count(1) < 8 or tags.count(-1) < 8:
+        return None
+    best, run, first = (0, 0, 0), 0, 0  # (score, first token, one past the last): the maximum-sum run
+    for i, t in enumerate(tags):
+        if run <= 0:
+            run, first = 0, i
+        run += t
+        if run > best[0]:
+            best = (run, first, i + 1)
+    score, a, b = best
+    p = max((i for i in range(a) if tags[i] < 0), default=None)
+    q = next((i for i in range(b, len(tokens)) if tags[i] < 0), None)
+    if score < 8 or p is None or q is None:
+        return None  # no such run, or English at one end: _word_split's and _script_split's case
+    start = tokens[p + 1].start()
+    for i in range(p, a):  # the first sentence end from that mark on
+        word = tokens[i].group(0)
+        if word[-1] in ".!?":
+            start = tokens[i + 1].start()
+            break
+        if glued := _GLUED_SENTENCE_END.search(word):
+            start = tokens[i].start() + glued.end()
+            break
+    end = tokens[b - 1].end()
+    for i in range(q - 1, b - 2, -1):  # the last sentence end before the next mark
+        word = tokens[i].group(0)
+        if word[-1] in ".!?":
+            end = tokens[i].end()
+            break
+        if glued := _GLUED_SENTENCE_END.search(word):
+            end = tokens[i].start() + glued.end()
+            break
+    english, before, after = text[start:end].strip(), text[:start], text[end:]
+    if min(len(english), len(before), len(after)) < _MIN_PART or len(english) < 0.3 * max(len(before), len(after)):
+        return None
+    if english[0] in _OPENING_QUOTES:
+        return None  # a quoted passage
+    if not is_english(english) or not is_other_language(before) or not is_other_language(after):
+        return None
+    return english
+
+
 def english_part(text):
     """`text` without the other-language versions run together with its English one; `text` itself when it is one
     version, or when the parts cannot be told apart for sure."""
@@ -172,7 +235,7 @@ def english_part(text):
         return text
     part = _labelled_english(text)
     if part is None or len(part) < _MIN_PART:
-        part = _script_split(text) or _word_split(text)
+        part = _script_split(text) or _word_split(text) or _middle_english(text)
     if not part:
         return text
     part = part.strip()

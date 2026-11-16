@@ -180,11 +180,27 @@ class Lippincott(PublisherParser):
             abs_wrap = abs_wrap.select_one('.ejp-article-text-abstract') or abs_wrap
             if len(abs_wrap.text) > 100:
                 abstract = abs_wrap.text.strip()
-        elif abstract_tag := self.soup.select_one('section#ArticleBody'):
+        elif (abstract_tag := self.soup.select_one('section#ArticleBody')) and not self._is_full_text(abstract_tag):
             abstract = abstract_tag.text.strip()
         abstract = re.sub('^abstract', '', abstract,
                           flags=re.IGNORECASE).strip() if abstract else None
         return {"authors": authors_affiliations, "abstract": abstract}
+
+    # What only a work's full text holds: its closing statements, its reference list, a letter's salutation. A
+    # meeting abstract's body (the one case where the body is the abstract) has none of them.
+    _BACK_MATTER_HEADING = re.compile(
+        r"^\s*(?:conflicts? of interest|financial support|declaration of|references?$|acknowledge?ments?|"
+        r"authors?['’]? contributions?|data availability|ethic)", re.I)
+    _LETTER_OPENING = re.compile(r"^\s*(?:dear (?:editor|sir)|to the editor|sir)\b", re.I)
+
+    def _is_full_text(self, body):
+        """True when section#ArticleBody is the work's full text (a letter, an editorial, a case report with no
+        abstract section), not an abstract standing where the body would be (#2239 phase 2, round 3: letters came
+        out with their whole text, statements and all, as the abstract)."""
+        if self._LETTER_OPENING.match(body.get_text()):
+            return True
+        return any(self._BACK_MATTER_HEADING.match(h.get_text(" ", strip=True))
+                   for h in body.find_all(re.compile("^h[1-6]$")))
 
     @classmethod
     def affs_last_name_map(cls, aff_tags):
