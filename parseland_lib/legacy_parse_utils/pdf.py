@@ -274,6 +274,9 @@ def find_normalized_license(text, is_dataset=False):
 
         ("creativecommons.org/publicdomain/mark", "public-domain"),
         ("publicdomain", "public-domain"),
+        # the rights statement of digitised and extracted works (Plazi treatments, BHL scans): "No known copyright
+        # restrictions apply." The label counts it as a public-domain statement (#2239, round 2: 2 of 2 dev pages)
+        ("noknowncopyrightrestrictions", "public-domain"),
 
         ("arxiv.orgperpetual", "publisher-specific-oa"),
         ("arxiv.orgnonexclusive", "publisher-specific-oa"),

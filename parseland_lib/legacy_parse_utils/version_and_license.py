@@ -1,4 +1,5 @@
 import re
+from urllib.parse import unquote
 
 from lxml import etree
 
@@ -25,6 +26,35 @@ SITE_CHROME_FINDERS = [
 _MAIN_CONTENT = etree.XPath("//main | //*[@role='main'][not(self::nav or self::footer)]")
 
 
+# A statement in site chrome that speaks of the page's article, not of the site (#2239, round 2): "This is an open
+# access article distributed under ...", "This article is licensed under ...". Journals print it once, in the footer
+# of every article page (4 dev pages, all labelled with that licence). The sentence is kept; the rest of the footer
+# still goes. What stays chrome, on purpose:
+# - "This work is licensed under ..." (the Creative Commons chooser's badge text, pasted into site footers, where "this
+#   work" is the site): 26 dev pages whose label is no licence against 1 with one;
+# - "All published work is licensed under ...", "<Journal> is licensed under ...", "content of this site ...": the
+#   labels go both ways on the same wording (clausiuspress.com with a licence, an iMedPub journal without), so that
+#   is a decision, not a rule.
+# The licence must be named in the same sentence, so "Share this article" beside a site badge keeps nothing, and a
+# condition ("if this article is published under ...") is not a statement.
+_ARTICLE_STATEMENT = re.compile(
+    r"\bthis\s+(?:is\s+an?\s+)?(?:open[\s\-]?access\s+)?article\s+"
+    r"(?:(?:is\s+)?(?:licen[sc]ed|distributed|published|(?:made\s+)?available)\s+)?under"
+    r"\b(?:[^.]|\.(?=\S)){0,300}", re.IGNORECASE)
+_CONDITION_BEFORE = re.compile(r"\b(?:if|when|where|whether|unless)\s+$", re.IGNORECASE)
+
+
+def _article_statements(section):
+    """The sentences in a site-chrome element that license the page's article itself (_ARTICLE_STATEMENT)."""
+    text = " ".join(section.itertext())
+    if 'rticle' not in text and 'RTICLE' not in text:
+        return []  # nearly every nav and footer: skip the whitespace pass
+    text = re.sub(r"\s+", " ", text)
+    return [m.group(0) for m in _ARTICLE_STATEMENT.finditer(text)
+            if find_normalized_license(m.group(0))
+            and not _CONDITION_BEFORE.search(text, max(0, m.start() - 12), m.start())]
+
+
 def _clear_all_but_main(element, mains, holders):
     """Clear what a <nav> or <footer> holds beside the page's main content; True when anything went."""
     cleared = False
@@ -37,6 +67,10 @@ def _clear_all_but_main(element, mains, holders):
             child.clear()
             cleared = True
     return cleared
+
+
+# class="article-footer", "article__footer", "articleFooter": the article's footer by the page's own naming
+_ARTICLE_OWN_FOOTER = re.compile(r"(?:^|\s)article[\w\-]*footer", re.IGNORECASE)
 
 
 def _clear_site_chrome(tree):
@@ -57,6 +91,14 @@ def _clear_site_chrome(tree):
     footer with 70% of the page's visible text, another repository's with 85%, DOAJ's with 40%, OpenGrey's with
     40-60% once its inline scripts count), and site navs and footers carry <h1> logos and <article> teasers (PLOS,
     APS, Frontiers, Erudit). Sparing those would bring back the site-footer licences this rule exists to keep out.
+
+    Round 2 (#2239), the same structure read the other way, and one wording rule:
+    - a footer-named element the page itself names as the ARTICLE's, inside an <article>, is that article's own
+      (<article class="article-body">...<footer class="article-footer"> with its licence line): it stays. Both are
+      needed. Where it sits is not enough: doi.org's pages and some OJS themes put the SITE footer inside <main>,
+      doi.org's "not found" page even inside <main><article> (5 gold pages took the site's licence when position
+      alone counted);
+    - a cleared element keeps the sentences that license the page's article itself (_ARTICLE_STATEMENT), as plain text.
     """
     mains = set(_MAIN_CONTENT(tree))
     holders = {ancestor for main in mains for ancestor in main.iterancestors()}
@@ -65,21 +107,123 @@ def _clear_site_chrome(tree):
         for section in tree.xpath(section_finder):
             if section in mains or section.tag in ('html', 'body'):
                 continue  # <main class="has-footer">, <body class="ast-footer-overlay">: the content itself
+            if _ARTICLE_OWN_FOOTER.search(section.get('class') or '') \
+                    and next(section.iterancestors('article'), None) is not None:
+                continue  # <article> ... <footer class="article-footer">: the article's own footer
             if section not in holders:
+                if section.getroottree().getroot() is not tree:
+                    continue  # already gone with an enclosing element cleared earlier in this pass
+                statements = _article_statements(section)
                 section.clear()
+                for statement in statements:
+                    etree.SubElement(section, 'p').text = statement
                 cleared = True
             elif section.tag in ('nav', 'footer') or section.get('role') == 'contentinfo':
                 cleared |= _clear_all_but_main(section, mains, holders)
     return cleared
 
 
+# A RightsLink permissions link names the licence of ONE article, the one in its contentID (#2239, round 2):
+#   /servlet/linkout?type=rightslinkReprints&url=...%26contentID%3D10.1080%252F13530194.2021.1916154...%26oa%3DCC-BY-NC-ND...
+# On older Taylor & Francis pages it is the only place the article's licence is named (beside an "Open access" badge),
+# and its doubly URL-encoded "oa%3DCC-BY-NC-ND" stopped reading as a licence when the CC shorthands began to need
+# token boundaries. On a Wiley issue page each listed article has its own link, and one open article licensed the
+# issue. So the link is replaced by what it states: its decoded oa= value when its contentID is the page's own DOI,
+# nothing otherwise (never the whole decoded link: its title= parameter is the article's title, which may name a
+# licence). A page that names no DOI trusts none.
+_RIGHTSLINK_OA = re.compile(r"(?<![A-Za-z])oa=[A-Za-z0-9\-+ ]+")
+_RIGHTSLINK_CONTENT_ID = re.compile(r"contentID=(10\.\d{4,9}/[^&\s]+)", re.IGNORECASE)
+_DOI_META_NAMES = {"citation_doi", "dc.identifier", "dc.identifier.doi", "prism.doi", "doi"}
+_DOI_VALUE = re.compile(r"^(?:doi:\s*|https?://(?:dx\.)?doi\.org/)?(10\.\d{4,9}/\S+)$", re.IGNORECASE)
+
+
+def _page_dois(tree):
+    dois = set()
+    for meta in tree.iter('meta'):
+        if (meta.get('name') or meta.get('property') or '').lower() in _DOI_META_NAMES:
+            doi = _DOI_VALUE.match((meta.get('content') or '').strip())
+            if doi:
+                dois.add(doi.group(1).lower())
+    return dois
+
+
+def _keep_own_rightslink_licence(tree):
+    """Rewrite RightsLink links so only the page's own article can state a licence; True when any link changed."""
+    changed, dois = False, None
+    for link in tree.xpath("//a[contains(@href, 'rightslink')]"):
+        href = unquote(unquote(link.get('href')))
+        oa = _RIGHTSLINK_OA.search(href)
+        if not oa:
+            continue
+        if dois is None:  # read once, and only on a page whose links name a licence
+            dois = _page_dois(tree)
+        content_id = _RIGHTSLINK_CONTENT_ID.search(href)
+        own = content_id and content_id.group(1).lower() in dois
+        link.set('href', 'rightslink ' + oa.group(0).replace('+', ' ') if own else 'rightslink')
+        changed = True
+    return changed
+
+
+# Text that names a licence without stating the work's (#2239, round 2), dropped from the search text:
+# - a JSON schema's "enum": the list of values a field MAY take. AgEcon Search (TIND) record pages define their file
+#   table's licence column with every licence on offer, and each record read as cc-by-nc-nd;
+# - a map's attribution ("Map data (c) OpenStreetMap contributors CC-BY-SA", in UNT Digital Library record pages);
+# - an image credit: "Image by CSTAR via Wikipedia licensed under CC-BY-SA 3.0" (a schema.org image caption),
+#   "Featured image by <a ...>Katherine Lynn</a> under a CC-BY-NC-ND license" (a blog post and its description),
+#   "Image by Rob Palmer via iNaturalist (CC BY-NC-SA 4.0)" (an alt text). The credit ends at the next sentence,
+#   and is not one when it reaches a word for the work itself before its licence.
+# A map attribution or image credit runs over text and its own <a> links only (raw or escaped, as in a script once the
+# tree is serialised), so on a one-line page it cannot swallow a statement in the next element.
+_LICENSE_OPTIONS = re.compile(r'"enum"\s*:\s*\[[^\[\]]*\]')
+_MAP_ATTRIBUTION = re.compile(
+    r"OpenStreetMap(?:\s*(?:</a>|&lt;/a&gt;))?\s*contributors"
+    r"(?:</?a\b[^>]*>|&lt;/?a\b(?:(?!&gt;)[^\n])*&gt;|[^\"<>\n]){0,200}")
+# cheap gate for _IMAGE_CREDIT, which would otherwise scan every page: the usual casings only
+_IMAGE_CREDIT_HINTS = ("mage by", "hoto by", "icture by", "mage credit", "hoto credit")
+_IMAGE_CREDIT = re.compile(
+    r"\b(?:image|photo|picture)\s+(?:by|credit)\b"
+    r"(?:(?!\b(?:article|paper|work|post|text|content)\b)(?:[^\"<>]|</?a\b[^>]*>)){0,80}?(?:\bunder\b|\(\s*CC\b)"
+    r"(?:[^\"<>.]|\.(?!\s+[A-Z])){0,120}", re.IGNORECASE)
+# anchored on the newline before the comment (the caller prepends one): a fixed first character keeps the scan fast
+_LICENSE_IN_CODE_COMMENT = re.compile(
+    r"\n[ \t]*//[^\r\n]*(?:public\s*domain|creative\s*commons)[^\r\n]*", re.IGNORECASE)
+
+
+def _drop_code_comments_naming_a_license(tree):
+    """Drop the comment lines of code scripts that name a licence ("// Appends the Public Domain image", on every
+    ROSAP and CDC Stacks record page); True when any went."""
+    changed = False
+    for script in tree.iter('script'):
+        if 'json' in (script.get('type') or '').lower():
+            continue  # data, not code
+        text = script.text
+        if text and ('ommons' in text or 'omain' in text):
+            without, dropped = _LICENSE_IN_CODE_COMMENT.subn('\n', '\n' + text)
+            if dropped:
+                script.text = without[1:]
+                changed = True
+    return changed
+
+
+def _drop_non_statements(text):
+    """The search text without option lists, map attributions and image credits; the same object when it has none."""
+    text = _LICENSE_OPTIONS.sub('', text)
+    text = _MAP_ATTRIBUTION.sub('', text)
+    if any(hint in text for hint in _IMAGE_CREDIT_HINTS):
+        text = _IMAGE_CREDIT.sub('', text)
+    return text
+
+
 def page_potential_license_text(page, keep_site_chrome=False):
     tree = get_tree(page)
 
     if tree is None:
-        return page
+        return _drop_non_statements(page)
 
     section_removed = False if keep_site_chrome else _clear_site_chrome(tree)
+    if 'rightslink' in page:
+        section_removed |= _keep_own_rightslink_licence(tree)
+    section_removed |= _drop_code_comments_naming_a_license(tree)
 
     bad_section_finders = [
         "//div[contains(@class, 'view-pnas-featured')]",  # https://www.pnas.org/content/114/38/10035
@@ -106,13 +250,12 @@ def page_potential_license_text(page, keep_site_chrome=False):
             bad_section.clear()
             section_removed = True
 
-    if not section_removed:
-        return page
-
-    try:
-        return etree.tostring(tree, encoding=str)
-    except Exception:
-        return page
+    if section_removed:
+        try:
+            page = etree.tostring(tree, encoding=str)
+        except Exception:
+            pass
+    return _drop_non_statements(page)
 
 
 # ScienceDirect states the article's own licence in its page state, once per page:
