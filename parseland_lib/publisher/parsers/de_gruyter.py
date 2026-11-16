@@ -1,6 +1,29 @@
 import re
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import EMAIL_RE, _fold_name, name_position
+
+# "Corresponding author: ...", "Corresponding authors ...", "* Correspondence address: ...", "Korrespondenz: ..."
+CORRESPONDING_NOTE = re.compile(
+    r'^[\s*†]*(?:corresponding\s+authors?|(?:address\s+for\s+)?correspondence|korrespondenz\w*)\b', re.I)
+EMAIL_PART = re.compile(rf'^\s*(?:e-?\s?mail\b|{EMAIL_RE.pattern}\s*$)', re.I)
+
+
+def _email_owner(authors, email):
+    """The one author an email's local part names (its surname, first initial + surname, surname + first initial,
+    or 3+ initials: 'gatta', 'glauc', 'schneiderr', 'upv'), or None when none or several do."""
+    tokens = set(re.split(r'[._+-]+', email.split('@', 1)[0].lower()))
+    hits = []
+    for author in authors:
+        words = _fold_name(author['name']).split()
+        if len(words) < 2:
+            continue
+        first, surnames = words[0][0], [w for w in words[1:] if len(w) >= 2]
+        initials = ''.join(w[0] for w in words)
+        if any(t in (s, first + s, s + first) for t in tokens for s in surnames) or (
+                len(initials) >= 3 and initials in tokens):
+            hits.append(author)
+    return hits[0] if len(hits) == 1 else None
 
 
 class DeGruyter(PublisherParser):
@@ -29,15 +52,22 @@ class DeGruyter(PublisherParser):
         author_tags = self.author_tags()
         authors = []
         for author_tag in author_tags:
-            if 'contributor-dgb' in (author_tag.get('class') or []) and (
-                    display_name := author_tag.select_one('span.displayName')):
+            # span.displayName holds the name on both templates; the tag's whole text can also carry the
+            # pop-up's biography ("Panu M. Jaakkola\n\nPanu M. Jaakkola MD, PhD currently works...", oxjob #2251).
+            if display_name := author_tag.select_one('span.displayName'):
                 name = display_name.get_text(' ', strip=True)
             else:
                 name = author_tag.text.strip('\n ')
             if cont_popdown := author_tag.select_one('contributor-popdown'):
                 is_corresponding = bool(cont_popdown.get('email', ''))
-                affiliations = [aff.strip() for aff in cont_popdown.get('affiliations', '').split(';')
-                                if aff.strip()]
+                affiliations = []
+                for aff in cont_popdown.get('affiliations', '').split(';'):
+                    aff = aff.strip()
+                    if CORRESPONDING_NOTE.match(aff):
+                        # IUPAC entries put "Corresponding author" in that author's own pop-up (oxjob #2251)
+                        is_corresponding = True
+                    elif aff and not EMAIL_PART.match(aff):
+                        affiliations.append(aff)
             else:
                 is_corresponding = '@' in author_tag.get('title', '')
                 affiliations = [aff.strip() for aff in author_tag.get('title', '').split(';')
@@ -50,7 +80,31 @@ class DeGruyter(PublisherParser):
             })
         if not authors:
             authors = self.parse_author_meta_tags()
-        return self.dedupe_authors(authors)
+        authors = self.dedupe_authors(authors)
+        if author_tags and 'contributor' in (author_tags[0].get('class') or []):  # the old template only
+            self.mark_corresponding_from_notes(authors)
+        return authors
+
+    def mark_corresponding_from_notes(self, authors):
+        """The degruyter.com template leaves every pop-up's email empty and names the corresponding author in a
+        `div.correspondingAuthor` note instead. Fill-only: mark the author the note names, else the one its email
+        names; address notes with no corresponding wording single no one out (oxjob #2251)."""
+        if not authors or any(a.get('is_corresponding') for a in authors):
+            return
+        for note in self.soup.find_all('div', class_='correspondingAuthor'):
+            text = note.get_text(' ', strip=True)
+            if not CORRESPONDING_NOTE.match(text):
+                continue
+            named = [a for a in authors if name_position(a['name'], text) is not None]
+            if len(named) == 1:
+                named[0]['is_corresponding'] = True
+                continue
+            for email in EMAIL_RE.findall(text):
+                if owner := _email_owner(authors, email):
+                    owner['is_corresponding'] = True
+        if any(a.get('is_corresponding') for a in authors):
+            for a in authors:
+                a['is_corresponding'] = bool(a.get('is_corresponding'))
 
     @staticmethod
     def dedupe_authors(authors):

@@ -12,6 +12,11 @@ class Brill(PublisherParser):
 
     def parse_authors(self):
         authors_block = self.soup.select_one('div.contributor-line')
+        # On a part of a book (front or back matter, index, chapter) this line can be the book's "Editors:", who are
+        # not the part's authors (#1943's rule); a whole book's page (/title/) keeps them (oxjob #2251).
+        label = authors_block.select_one('span.creator-type-label')
+        if label and 'editor' in label.get_text().lower() and not self.domain_in_meta_og_url('/title/'):
+            return []
         author_tags = authors_block.select('.contributor-details')
         authors = []
         for author_tag in author_tags:
