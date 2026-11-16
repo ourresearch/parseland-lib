@@ -4,14 +4,19 @@ from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
 _EPRINTS_GENERATOR = re.compile(r"^\s*EPrints\b", re.I)
+_GENERATOR_NAME = re.compile(r"^generator$", re.I)
 
 
 def is_eprints_page(soup):
     """A page served by the EPrints repository software: <meta name="Generator" content="EPrints 3.3.15">. Journal
     platforms that copy EPrints' eprints.* meta tags for Google Scholar (IATED's digital library, some WordPress
-    journal themes) print no such generator and are not EPrints."""
+    journal themes) print no such generator and are not EPrints.
+
+    Every parser's claim runs on every DOI page (oxjob #2239's per-page CPU budget), so the generator tag is looked for
+    in the small <head> only, where EPrints prints it; a page with no <head> is searched whole, as before."""
+    scope = soup.head or soup
     return any(_EPRINTS_GENERATOR.match(meta.get("content") or "")
-               for meta in soup.find_all("meta", attrs={"name": re.compile(r"^generator$", re.I)}))
+               for meta in scope.find_all("meta", attrs={"name": _GENERATOR_NAME}))
 
 
 class EPrints(PublisherParser):
@@ -28,7 +33,9 @@ class EPrints(PublisherParser):
     parser_name = "eprints"
 
     def is_publisher_specific_parser(self):
-        return is_eprints_page(self.soup)
+        if not hasattr(self, "_claim"):  # authors_found() and the dispatcher both ask: work it out once
+            self._claim = is_eprints_page(self.soup)
+        return self._claim
 
     def _citation_authors(self):
         return [meta for meta in self.soup.find_all("meta", attrs={"name": "citation_author"})
