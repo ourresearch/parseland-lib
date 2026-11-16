@@ -19,7 +19,7 @@ from parseland_lib.publisher.parsers.highwire import highwire_corresponding_mark
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
     pick_literatum_corresponding
-from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_corresponding_marks, pick_ojs_corresponding
+from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_abstract, ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.springer import springer_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
@@ -273,6 +273,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_page = is_ojs_page(soup, lp_content)
     ojs_marks = ojs_corresponding_marks(soup, lp_content, ojs_page) if namespace == "doi" else []
+    # and print the abstract in the theme's own block, which the generic heading reader skips (#2267)
+    ojs_abs = ojs_abstract(soup, lp_content) if namespace == "doi" and ojs_page else None
     # Atypon Literatum sites name the corresponding author in a correspondence note or the author's own block (#2220);
     # read before the parsers run, used only when the winning parser marked no one
     literatum = namespace == "doi" and is_literatum_page(lp_content)
@@ -396,6 +398,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
         # abstract with JavaScript (DSpace 7, Redalyc, Cureus, IEEE Xplore) hold it nowhere else (#2215).
         if not other_reader_decides and needs_abstract() and (titled := generic.parse_titled_seo_description()):
             authors_and_abstract['abstract'] = titled
+
+    # Last of all, the abstract an Open Journal Systems theme prints in its own block, on pages where no reader above
+    # found one: the generic heading reader skips it (OJS 3's `has_sidebar` column reads as chrome) (#2267)
+    if ojs_abs and needs_abstract() and not _is_review_report_url(given_url, resolved_url):
+        authors_and_abstract['abstract'] = ojs_abs
 
     # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:

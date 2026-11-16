@@ -16,9 +16,14 @@ depending on the site's theme (all four are what gold v1.3 labels as the corresp
 
 parse_page reads the marks before the parsers run (some edit the soup) and fills the flag only when the winning parser
 marked no one; pick_ojs_corresponding ties each mark to the one parsed author whose name it holds.
+
+ojs_abstract reads the abstract an OJS theme prints in its own block, for pages whose meta tags hold none (#2267).
 """
 import re
 
+from parseland_lib.not_abstract import is_not_abstract
+from parseland_lib.publisher.parsers.parser import _ABSTRACT_HEADING, _ident, _is_cut_preview, _text_after, \
+    _trim_article_tail
 from parseland_lib.publisher.parsers.utils import name_position, raw_has, squash
 
 _OJS_RAW_MARKERS = ("/lib/pkp/", "pkp_structure", 'class="pkp_', "pkp_brand_footer")
@@ -129,3 +134,93 @@ def pick_ojs_corresponding(author_names, marks):
     if len(author_names) > 1 and len(picked) == len(author_names):
         return []
     return picked
+
+
+# The abstract an OJS theme prints (#2267). OJS 3's default theme and its children print it in `section.item.abstract`
+# under an `h2.label`; OJS 2 in `div#articleAbstract` under an h4; custom themes under an "Abstract" heading in the
+# article column (omniscient.sg: `h4.art_h4` in `div.Article_the`). The generic heading reader skips all of them:
+# OJS 3 wraps the article column in `pkp_structure_content has_sidebar`, which its chrome rule reads as a sidebar, and
+# some themes leave the site header open around the whole page. So on OJS pages the article column is found by OJS's
+# own container names, and only real navigation, sidebars and footers inside it are chrome.
+_OJS_ABSTRACT_BLOCK = ".item.abstract, #articleAbstract"
+_OJS_MAIN = re.compile(r"(?:^|\s)(?:pkp_structure_main|pkp_content_main|content|main)(?:$|\s)", re.I)
+_OJS_CHROME = re.compile(r"(?:^|\s)(?:pkp_structure_sidebar|pkp_structure_footer|pkp_navigation_\w+|pkp_site_nav_\w+|"
+                         r"sidebar|sidebar_\w+|navbar\w*|nav-tabs|tabs?|tablist|block_\w+)(?:$|\s)", re.I)
+_CHROME_TAGS = ("nav", "footer", "aside", "menu", "select", "option", "a", "button", "label", "title", "script", "style")
+_CJK = re.compile(r"[\u3400-\u9fff\uac00-\ud7af\u3040-\u30ff]")
+_ENGLISH_HEADING = re.compile(r"^\s*abstracts?\s*[:.]?\s*$", re.I)
+
+
+def _in_article_column(el):
+    """True when `el` sits in the page's article column (OJS 3 pkp_structure_main, OJS 2 #content / #main) and in no
+    navigation, tab strip, sidebar block or footer on the way up to it."""
+    node = el
+    while node is not None and node.name not in ("body", "html", "[document]"):
+        if node.name in _CHROME_TAGS or node.get("role") in ("navigation", "tablist", "tab", "menu", "menubar"):
+            return False
+        ident = _ident(node)
+        if _OJS_CHROME.search(ident):
+            return False
+        if _OJS_MAIN.search(ident) or node.get("role") == "main":
+            return True
+        node = node.parent
+    return False
+
+
+def _long_enough(text):
+    return len(text) <= 10_000 and (len(text) >= 100 or len(_CJK.findall(text)) >= 50)
+
+
+def _clean(text, whole=False):
+    """`text` as an abstract, or None. `whole`: it must also end like a sentence (text under a custom theme's heading,
+    where a rights box or a tab's label can follow "Abstract"); OJS's own abstract blocks need not."""
+    text = _trim_article_tail(squash(text or ""))
+    if not _long_enough(text) or text.endswith(("...", "…")) or is_not_abstract(text):
+        return None
+    return None if whole and _is_cut_preview(text) else text
+
+
+def _is_list(el):
+    """The abstract's first element is a list: a congress's titles or a table of contents, not an abstract."""
+    return el is not None and el.name in ("ul", "ol")
+
+
+def _block_body(block):
+    """A heading-less abstract block's first element, past a label in another word ("Synopsis")."""
+    first = block.find(True)
+    if first is not None and first.name in ("h2", "h3", "h4") and "label" in (first.get("class") or []):
+        first = first.find_next_sibling()
+    return first
+
+
+def _headings(root):
+    """Elements whose whole text is an abstract label ("Abstract", "Resumen", "摘要" ...)."""
+    return [n.parent for n in root.find_all(string=_ABSTRACT_HEADING)]
+
+
+def ojs_abstract(soup, lp_content=b""):
+    """The abstract an Open Journal Systems article page prints in its own block, or None. Run on OJS pages only, before
+    the parsers edit the soup. Several language versions: the one headed "Abstract", else the first (gold rubric).
+    Not on Open Monograph Press pages (also PKP software): a book's or chapter's synopsis is often the series' note."""
+    if not raw_has(lp_content, "bstract") or _raw_search(r"open monograph press|obj_monograph_full", lp_content):
+        return None
+    found = []  # (headed "Abstract", text) in page order
+    blocks = soup.select(_OJS_ABSTRACT_BLOCK)
+    custom = not blocks  # no OJS abstract block: a custom theme's heading in the article column
+    headings = _headings(soup) if custom else []
+    for block in blocks:
+        if own := _headings(block):
+            headings += own
+        elif not _is_list(_block_body(block)) and (text := _clean(block.get_text(" "))):
+            found.append((False, text))  # a block with no heading of its own: all of it is the abstract
+    for heading in headings:
+        if heading.name in _CHROME_TAGS or len(heading.get_text(" ", strip=True)) > 40:
+            continue
+        if (custom and not _in_article_column(heading)) or _is_list(heading.find_next_sibling()):
+            continue
+        text = _text_after(heading)
+        if text is None:  # the heading sits alone in a label wrapper: the value follows the wrapper
+            text = _text_after(heading.parent)
+        if text := _clean(text, whole=custom):
+            found.append((bool(_ENGLISH_HEADING.match(heading.get_text(" ", strip=True))), text))
+    return max(found, key=lambda f: f[0], default=(None, None))[1]  # max keeps the first of equals
