@@ -28,14 +28,31 @@ class ELifeReviewedPreprint(PublisherParser):
     # the byline's correspondence lines beat the citation tags' unflagged names
     prefer_publisher_authors_over_generic = True
 
+    def _citation_publisher_is_elife(self):
+        # Cheap marker first (#2239: every parser's claim runs on every page): read citation_publisher from <head>
+        # only, never the whole tree. On every stored page whose head has one, it is the document's first one, the
+        # one substr_in_citation_publisher reads; a page with no <head> still gets the whole-document search.
+        scope = self.soup.head or self.soup
+        if tag := scope.select_one('meta[name="citation_publisher"]'):
+            return "elife" in tag.get("content").lower()
+        return False
+
     def is_publisher_specific_parser(self):
-        if not self.substr_in_citation_publisher("eLife"):
-            return False
-        data = self.soup.find("script", id="__NEXT_DATA__")
-        return bool(data and data.string and _RP_ROUTE in data.string)
+        # cached: the dispatcher calls authors_found() and then this on the same instance
+        claim = self.__dict__.get("_claim")
+        if claim is None:
+            claim = False
+            if self._citation_publisher_is_elife():
+                data = self.soup.find("script", id="__NEXT_DATA__")
+                claim = bool(data and data.string and _RP_ROUTE in data.string)
+            self._claim = claim
+        return claim
 
     def _byline(self):
-        return self.soup.select("ol.author-list > li.author-list__author")
+        byline = self.__dict__.get("_byline_items")
+        if byline is None:
+            byline = self._byline_items = self.soup.select("ol.author-list > li.author-list__author")
+        return byline
 
     def authors_found(self):
         return self.is_publisher_specific_parser() and bool(self._byline())
