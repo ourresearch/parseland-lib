@@ -141,10 +141,18 @@ class BMJ(PublisherParser):
         if not names_raw:
             return []
 
+        # On a page that credits no one, hwContributors names the publisher ("BMJ Publishing Group Ltd", "British
+        # Medical Journal Publishing Group"), as the page's publisher tags do: not an author (#2239).
+        publishers = {
+            (tag.get("content") or "").strip().lower()
+            for tag in self.soup.find_all("meta", attrs={"name": re.compile(r"^(?:DC\.Publisher|citation_publisher)$", re.I)})
+        }
         names = []
         for name in re.split(r"\s*,\s*", names_raw):
             name = name.strip()
             if not name or name.lower() == corpus_code:
+                continue
+            if name.lower() in publishers or re.search(r"\bpublishing group\b", name, re.I):
                 continue
             if not re.search(r"[A-Za-z]", name):
                 continue

@@ -9,7 +9,7 @@ ABSTRACT = ("The electron-transfer flavoprotein dehydrogenase links fatty acid o
 
 
 def test_eprints_creators_become_authors_on_record_pages():
-    html = """<html><head><meta name="eprints.creators_name" content="Şimşek, Sevda"/>
+    html = """<html><head><meta name="eprints.title" content="A record"/><meta name="eprints.creators_name" content="Şimşek, Sevda"/>
     <meta name="eprints.creators_name" content="Çelik, Süleyman"/><meta name="DC.creator" content="Şimşek, Sevda"/>
     </head><body><p>record</p></body></html>"""
     out = parse_page(html.encode(), "pmh", "https://research.sabanciuniv.edu/id/eprint/44178/")

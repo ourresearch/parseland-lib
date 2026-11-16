@@ -28,6 +28,7 @@ from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_sciel
 from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
     silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
 from parseland_lib.publisher.parsers.utils import _letters_key, raw_has as _has, same_opening_text, same_person
+from parseland_lib.publisher.parsers.utils import _name_tokens
 from parseland_lib.utils import normalize_doi
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 
@@ -86,31 +87,225 @@ def _page_titles(soup, named_metas):
     return titles
 
 
+def _unmangled(text):
+    """UTF-8 that was read as Latin-1 and stored that way (the two characters 'Ã©' for 'é'), put right (#2239); any
+    other text as it is. Only a text that is such bytes from end to end changes. For reading a value, not for what
+    we return: a page stored that way is labelled as it reads (Figshare names keep their 'Ã©')."""
+    if not re.search("[\u00c2-\u00f4][\u0080-\u00bf]", text):
+        return text
+    for codec in ("latin-1", "cp1252"):
+        try:
+            return text.encode(codec).decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            continue
+    return text
+
+
+# The tags a record page gives its item's title in. A page with creator tags and none of these describes itself.
+_ITEM_TITLE_TAG = re.compile(r"^(?:(?:dc|dcterms|eprints|datacite)\.title|citation_title)$")
+# "Pendurti, S (reprint author), Florida Int Univ, Dept Engn Mech, ... Miami, FL 33199 USA.": Web of Science's
+# reprint address, which the Chinese Academy of Sciences repositories list as one more DC.creator
+_ADDRESS_ENTRY = re.compile(r"\((?:reprint|corresponding) author\)", re.I)
+_OUTSIDE_PARENTHESES_SEMICOLON = re.compile(r"[;；](?![^()]*\))")
+
+
+def _creator_names(values, repeats=False):
+    """One name per person from creator tag values, in page order (#2239).
+
+    A tag may hold several people: 'WANG, I-JONG;CHEN, PEI-JER' (NTU's repository) and Bioline's
+    'Rao, C. B.; Nadiger, R. K. & Guttal, S. S.', whose '&' joins two "Family, Given" names (never split without a
+    comma on both sides: "Johnson & Johnson"). A ';' inside parentheses belongs to one name (the French National
+    Library's 'Roux, Antoine (19..-.... ; pédagogue)'). `repeats` keeps a name that comes twice (two people who
+    share initials: 'Wang Y').
+    """
+    names = []
+    for value in values:
+        for part in _OUTSIDE_PARENTHESES_SEMICOLON.split(value):
+            pieces = re.split(r"\s+&\s+", part)
+            if not all("," in piece for piece in pieces):
+                pieces = [part]
+            for piece in pieces:
+                name = piece.strip()
+                # ', ' (EPrints prints an empty creator row that way) holds no letter: not a name
+                if re.search(r"[^\W\d_]", name) and (repeats or name not in names):
+                    names.append(name)
+    return names
+
+
+def _comma_list(value, always=False):
+    """The names of a citation_authors value that lists people with commas: 'A. Coccoli, A. Bondavalli, L. Simoncini'
+    (#2239). `always`: the site writes its lists that way (CiteSeerX). Anywhere else only a value that can't be one
+    "Family, Given" name: no ';', three or more parts, each of two or more words."""
+    parts = [part for part in value.split(",") if part.strip()]
+    if ";" in value or "；" in value or "(" in value or len(parts) < 2:
+        return [value]
+    if always or (len(parts) >= 3 and all(len(part.split()) >= 2 for part in parts)):
+        return parts
+    return [value]
+
+
 def dublin_core_authors(soup, keys=("eprints.creators_name", "dc.creator", "dcterms.creator", "dc.creator.personalname")):
     """Creators from Dublin Core / EPrints tags, in page order (#2239). Creators only: dc.contributor holds advisors
     and editors. The first tag family a page uses wins, so a page that lists its creators twice (DC and EPrints)
-    keeps one list."""
+    keeps one list.
+
+    Phase 2 (the first fill was wrong on 37 of 404 sampled pages): the tags must describe the item, and each value
+    must be one person.
+    """
+    tags = {}  # tag name, lower case -> its values in page order (one scan of the page)
+    for meta in soup.find_all("meta", attrs={"name": True}):
+        if value := (meta.get("content") or "").strip():
+            tags.setdefault(meta["name"].lower(), []).append(value)
+    # Creator tags with no title tag describe the site, not an item (the German National Library's URN resolver
+    # credits its developer on every page). So do a LibGuides page's (the plural DC.Publishers is Springshare's own
+    # tag): its DC.Creator is the librarian who keeps the guide a retired repository now redirects to.
+    if not any(_ITEM_TITLE_TAG.match(name) for name in tags) or "dc.publishers" in tags:
+        return []
     names = []
     for key in keys:
-        for meta in soup.find_all("meta", attrs={"name": re.compile(f"^{re.escape(key)}$", re.I)}):
-            if (name := (meta.get("content") or "").strip()) and name not in names:
-                names.append(name)
-        if names:
+        if names := _creator_names(tags.get(key, [])):
             break
-    if not names:
-        for meta in soup.find_all("meta", attrs={"name": re.compile(r"^citation_authors$", re.I)}):
-            names += [n.strip() for n in re.split(r"[;；]", meta.get("content") or "") if n.strip()]
+    citeseerx = (soup.title.get_text() if soup.title else "").lstrip().startswith("CiteSeerX")
+    listed = _creator_names([name for value in tags.get("citation_authors", [])
+                             for name in _comma_list(value, always=citeseerx)], repeats=True)
+    # citation_authors is the page's one list for Google Scholar. When the creator tags hold all of it and more, the
+    # rest is the same people again in another script ('Fouskas, Vasilios' beside 'Φούσκας, Βασίλειος'; four names
+    # in Chinese, then the four in English), and the page prints the citation_authors ones.
+    if not names or (listed and len(listed) < len(names) and len(names) % len(listed) == 0
+                     and all(n in names for n in listed)):
+        names = listed
+    # A creator that repeats a title tag is the site naming itself (the Chinese Academy of Sciences repositories:
+    # DCTERMS.creator = DCTERMS.title = the repository's name, on log-in walls too).
+    titles = {_letters_key(v) for name, values in tags.items() if name.endswith("title") for v in values}
     # Digitised-heritage portals (Biblioteca Digital de Andalucía, Hispana) put the holding or publishing body in
     # DC.creator ("Junta de Andalucía", "Ministerio de Cultura"); the page credits no author. People only here.
-    names = [n for n in names if not _INSTITUTION_WORD.search(n)]
+    names = [n for n in names if _letters_key(n) not in titles and not _INSTITUTION_WORD.search(_unmangled(n))
+             and not _ADDRESS_ENTRY.search(n)]
+    # One Latin word alone is the platform's name ("Artstor" on every Artstor record), not a person's.
+    if len(names) == 1 and re.fullmatch(r"[A-Za-z]+", names[0]):
+        return []
+    return _as_authors(names)
+
+
+def _as_authors(names):
     return [{"name": n, "affiliations": [], "is_corresponding": None} for n in names]
 
 
 _INSTITUTION_WORD = re.compile(
-    r"\b(?:junta|ministerio|ministry|minist[eè]re|gobierno|government|biblioteca|library|biblioth[eè]que|bibliothek|"
-    r"archivo|archives?|museo|museum|universi(?:ty|dad|dade|té|tät|tà)|institut[eo]?|instituto|department|"
-    r"departamento|council|consejo|ayuntamiento|diputaci[oó]n|academ(?:y|ia)|society|sociedad|centro|cent(?:er|re))\b",
+    r"\b(?:junta|ministerio|ministry|minist[eè]re|gobierno|government|gouvernement|biblioteca|library|"
+    r"biblioth[eè]que|bibliothek|archivo|archives?|museo|museum|universi(?:ty|dad|dade|té|tät|tà)|institut[eo]?|"
+    r"instituto|department|departamento|council|conseil|consejo|consejer[ií]a|ayuntamiento|diputaci[oó]n|"
+    r"academ(?:y|ia)|society|sociedad|centro|cent(?:er|re)|lexi[ck]on)\b",
     re.I)
+
+
+def pubmed_byline(soup):
+    """PubMed's printed byline: full names, and a group author as its last entry (#2239). The page's
+    citation_authors tag has surnames with initials and leaves the group out."""
+    block = soup.select_one("div.inline-authors div.authors-list")
+    if not block:
+        return []
+    return [name for a in block.select("span.authors-list-item a.full-name")
+            if (name := re.sub(r"\s+", " ", a.get_text(" ", strip=True)).strip())]
+
+
+def lexicon_signature(soup):
+    """The signature that ends an entry of the Österreichisches Biographisches Lexikon: '(H. P. Hye)' in
+    <div id="autor"> (#2239). Its DC.Creator is the lexicon's editorial body on every entry."""
+    tag = soup.select_one("div#autor.autor")
+    text = re.sub(r"\s+", " ", _unmangled(tag.get_text())).strip() if tag else ""
+    if not (signed := re.fullmatch(r"\((.+)\)", text)):
+        return []
+    return [name for part in re.split(r"\s+[–-]\s+|/|;", signed.group(1)) if (name := part.strip())]
+
+
+def microdata_authors(soup):
+    """The schema.org Person items a record page marks as its item's authors (#2239): the NRC Publications Archive,
+    whose only creator tag names the Government of Canada, and RWTH Publications. All under one item: a listing
+    marks the authors of each of its works, and those are not one byline."""
+    people = soup.select('[itemprop="author"][itemscope][itemtype*="schema.org/Person"]')
+    if len({id(person.find_parent(attrs={"itemscope": True})) for person in people}) != 1:
+        return []
+    names = []
+    for person in people:
+        tag = person.select_one('[itemprop="name"]') or person
+        name = re.sub(r"\s+", " ", tag.get("content") or tag.get_text(" ", strip=True)).strip()
+        if name and name not in names and not _INSTITUTION_WORD.search(name):
+            names.append(name)
+    return names
+
+
+def record_page_authors(soup, lp_content):
+    """Authors for a record page no parser found any on (#2239): the site's own byline where its tags can't give
+    it, else the page's Dublin Core / EPrints creators (EPrints' eprints.creators_name, DSpace's DC.creator in any
+    case, citation_authors lists), else its schema.org author items."""
+    if _has(lp_content, "pubmed.ncbi.nlm.nih.gov") and (names := pubmed_byline(soup)):
+        return _as_authors(names)
+    if _has(lp_content, "Biographisches Lexikon") and soup.find("meta", attrs={
+            "name": re.compile(r"^dc\.creator$", re.I), "content": re.compile("Biographisches Lexikon")}):
+        return _as_authors(lexicon_signature(soup))
+    authors = dublin_core_authors(soup)
+    # Figshare (and the institutional portals built on it) lists an item's creators as DataCite.contributor
+    if not authors and _has(lp_content, "figshare"):
+        authors = dublin_core_authors(soup, keys=("datacite.creator", "datacite.contributor"))
+    if not authors and _has(lp_content, 'itemprop="author"'):
+        authors = _as_authors(microdata_authors(soup))
+    return authors
+
+
+def _same_byline_name(parsed, tag):
+    """A parsed byline name and a citation_author tag for one person: same_person, or the tag's name with a degree
+    after it ('Ronald R. Grunstein FRACP, PhD' for 'Grunstein, Ronald R.')."""
+    if same_person(parsed, tag):
+        return True
+    tag_tokens = _name_tokens(tag)
+    return len(tag_tokens) >= 2 and set(tag_tokens) <= set(_name_tokens(parsed))
+
+
+def _in_tag_order(authors, tag_names):
+    """The parsed authors in the order of the page's citation_author tags, when the tags name the same people, each
+    once (#2239). For a byline read from Springer Nature's "Authors and Affiliations" list, which groups the
+    authors by affiliation (Springer, Nature, BMC: 73 of 2,199 sampled publisher pages, every one in the tags'
+    order by the gold). Not a rule for every site: Juniper Publishers' tags are in another order than its byline."""
+    if len(tag_names) != len(authors):
+        return authors
+    free = {}  # a tag's name tokens -> the places of the tags still unmatched, in page order
+    for place, tag in enumerate(tag_names):
+        free.setdefault(tuple(_name_tokens(tag)), []).append(place)
+    # The same name first ('Wei Li' is not 'Wei Min Li'): one dict look-up each, so a 3,000-author byline costs little.
+    places = []
+    for author in authors:
+        same = free.get(tuple(_name_tokens(author["name"])))
+        places.append(same.pop(0) if same else None)
+    left = sorted(place for unmatched in free.values() for place in unmatched)
+    if len(left) > 100:  # shortcut: the looser match below compares every pair; past 100 leftovers, keep the order
+        return authors
+    for n, author in enumerate(authors):
+        if places[n] is None:
+            places[n] = next((place for place in left if _same_byline_name(author["name"], tag_names[place])), None)
+            if places[n] is None:
+                return authors
+            left.remove(places[n])
+    if places == sorted(places):
+        return authors
+    return [author for _, author in sorted(zip(places, authors), key=lambda pair: pair[0])]
+
+
+def _add_byline_groups(authors, soup, tag_names):
+    """Silverchair prints a group author in the byline with no info card (<span class="al-author-by">WARCEF
+    Investigators</span>), so a parser that reads the cards leaves it out (#2239). Added at its place among the
+    page's citation_author tags; only a name the byline itself prints."""
+    for span in soup.select(".al-authors-list span.al-author-by"):
+        printed = _letters_key(span.get_text(" ", strip=True))
+        for i, tag in enumerate(tag_names):
+            if len(key := _letters_key(tag)) < 6 or key not in printed:
+                continue
+            if any(same_person(a["name"], tag) or _letters_key(a["name"]) == key for a in authors):
+                continue
+            place = sum(1 for earlier in tag_names[:i] if any(same_person(a["name"], earlier) for a in authors))
+            marked = any(a["is_corresponding"] is not None for a in authors)
+            authors.insert(place, {"name": tag, "affiliations": [], "is_corresponding": False if marked else None})
+    return authors
 
 
 def _is_doi_router_url(url):
@@ -401,10 +596,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:
     # on publisher pages the creator tags would change which publisher parser wins.
     if namespace == "pmh" and not authors_and_abstract.get('authors'):
-        authors_and_abstract['authors'] = dublin_core_authors(soup)
-    # Figshare (and the institutional portals built on it) lists an item's creators as DataCite.contributor
-    if namespace == "pmh" and not authors_and_abstract.get('authors') and _has(lp_content, "figshare"):
-        authors_and_abstract['authors'] = dublin_core_authors(soup, keys=("datacite.creator", "datacite.contributor"))
+        authors_and_abstract['authors'] = record_page_authors(soup, lp_content)
 
     # A text the publisher marks on its page as the work's opening is body text, not its abstract, whichever parser
     # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it
@@ -432,6 +624,17 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "affiliations": affiliations,
                 "is_corresponding": is_corresponding,
             })
+        # Two bylines the page's citation_author tags put right (#2239): Springer Nature's affiliation list gives
+        # the authors grouped by affiliation, and Silverchair prints a group author no info card holds.
+        grouped = len(authors) > 1 and _has(lp_content, "c-article-author-affiliation__list")
+        byline_group = _has(lp_content, "al-author-by")
+        if namespace == "doi" and (grouped or byline_group) and _has(lp_content, "citation_author"):
+            tag_names = [name for meta in soup.find_all("meta", attrs={"name": "citation_author"})
+                         if (name := (meta.get("content") or "").strip())]
+            if byline_group:
+                authors = _add_byline_groups(authors, soup, tag_names)
+            if grouped:
+                authors = _in_tag_order(authors, tag_names)
         authors_and_abstract['authors'] = authors
         # Copernicus pages mark the corresponding authors themselves (#2218): those marks replace any the winning
         # parser guessed (the meta-tag parser marks only the authors its e-mail tags pair with, often one of two)

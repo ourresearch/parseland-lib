@@ -2,7 +2,8 @@
 from parseland_lib.parse import parse_page
 
 HEAD = """<meta property="og:site_name" content="figshare"/><meta name="DataCite.contributor" content="Yu, Shi"/>
-<meta name="DataCite.contributor" content="Zheng, Xu"/><meta name="DC.type" content="figure"/>"""
+<meta name="DataCite.contributor" content="Zheng, Xu"/><meta name="DC.type" content="figure"/>
+<meta name="DataCite.title" content="A figure"/>"""
 
 
 def page(mime):
