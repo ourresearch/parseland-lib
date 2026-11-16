@@ -9,6 +9,7 @@ from parseland_lib.elements import AuthorAffiliations, Author
 from parseland_lib.legacy_parse_utils.fulltext import \
     parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
+from parseland_lib.abstract_language import foreign_share, is_english, is_other_language
 from parseland_lib.not_abstract import is_not_abstract
 from parseland_lib.publisher.parsers.utils import remove_parents, strip_seq, \
     strip_prefix, \
@@ -27,6 +28,33 @@ _BODY_CONTAINER = re.compile(
 _ABSTRACT_HEADING = re.compile(
     r"^\s*(?:abstracts?|résumé|resumen|resumo|riassunto|zusammenfassung|abstrakt|streszczenie|samenvatting|"
     r"sammanfattning|tiivistelmä|аннотация|анотація|özet|摘要|要旨|抄録|초록|요약)\s*[:.]?\s*$", re.I)
+# The English heading: on a page that prints "Resumen" and "Abstract", the text under this one is the English version.
+_ENGLISH_HEADING = re.compile(r"^\s*abstracts?\s*[:.]?\s*$", re.I)
+# A cut teaser's end: "...", "…", and MDPI's "[...]" after an editorial's first sentence.
+_CUT_ENDS = ("...", "…", "[...]", "[…]")
+_LEADING_LABEL = re.compile(r"^abstract[:.]?\s*", re.I)
+# Tag names that hold an abstract's language versions (never the page-level description tags).
+_ABSTRACT_VERSION_TAGS = ("citation_abstract", "dcterms.abstract", "dc.description.abstract", "dc.description",
+                          "eprints.abstract")
+# Another section's label where the abstract's text should start: the "Abstract" value was empty and the block
+# after it is the reference list or the keyword line (OJS "Resumo" with no text, then "Referências Batty, M. ...").
+# Not "References to the classical authors are ...": the label is followed by a colon or a capital.
+_OTHER_SECTION_START = re.compile(
+    r"(?i:references?|refer[êe]ncias|bibliograf[íi]a|key ?words?|palavras[- ]chave|palabras clave|mots[- ]cl[ée]s)"
+    r"\s*(?::|\s(?=[A-Z0-9\[(]))")
+
+
+_HEADING_TAG = re.compile(r"^h[1-6]$")
+_LAY_SUMMARY_HEADING = re.compile(
+    r"^\s*(?:(?:simple|lay|plain[- ]language|plain english|author) summary|graphical abstract|highlights)\s*[:.]?\s*$",
+    re.I)
+_INLINE_RUN = frozenset("a abbr b cite em i mark q small span strong sub sup u".split())
+
+
+def _tag_language(tag):
+    return (tag.get("xml:lang") or tag.get("lang") or "").lower()
+
+
 _SECTION_STOP = {"h1", "h2", "h3", "h4", "h5", "h6", "dt", "th", "header", "footer", "nav", "aside", "form", "button"}
 # Site chrome, not content: a tab strip's labels, menus, footers. Not "tab-pane" / "article-header": abstracts live
 # inside those (Zenodo prints its abstract in an HTML5 <header>).
@@ -99,18 +127,34 @@ def _text_after(anchor):
     the paragraphs that continue it. None when `anchor` has no following element (look one level up); '' when the
     value it labels is empty (a label/value row with no value: never read on into the next field)."""
     parts, first = [], None
+    # the heading's own container says "abstract": every <section> beside the heading is part of it (#2239)
+    structured = anchor.parent is not None and "abstract" in _ident(anchor.parent).lower()
+    # the value is bare text with inline markup in it ("<strong>Abstract:</strong> ... 5/0 Vicryl<sup>®</sup> sutures
+    # ..."): it runs on through the text and inline elements that follow, to the next block (#2239: Dove Press)
+    inline_run = skipped = False
     for sib in anchor.next_siblings:
         name = getattr(sib, "name", None)
         if name is None:
             if isinstance(sib, Comment):
                 continue  # not printed: PubMan's "<!-- Iterator for abstracts -->" opened every MPG abstract (#2239)
             t = str(sib).strip()
-            if t and first is None:
+            if t and (first is None or inline_run):
                 parts.append(t)
             continue
         if name in _SECTION_STOP or name in ("script", "style", "noscript", "template"):
             break
         t = sib.get_text(" ", strip=True)
+        if name == "section" and structured and t:
+            # a part of the abstract's container with its own heading: a lay summary is not the abstract (the
+            # rubric leaves plain-language summaries out; PMC prints MDPI's "Simple Summary" first), and the
+            # part headed "Abstract" is, without that label (#2239)
+            part_heading = sib.find(_HEADING_TAG)
+            label = part_heading.get_text(" ", strip=True) if part_heading is not None else ""
+            if _LAY_SUMMARY_HEADING.match(label):
+                skipped = True
+                continue
+            if _ABSTRACT_HEADING.match(label) and t.startswith(label):
+                t = t[len(label):].strip()
         if first is None:
             if not t:
                 if name in ("td", "dd") or "value" in " ".join(sib.get("class") or []):
@@ -121,17 +165,31 @@ def _text_after(anchor):
             # a list of links (tabs, downloads, related items) is not an abstract; a short link line between the
             # heading and the text ("Read online" on DOAJ records) is skipped
             if sum(len(a.get_text(strip=True)) for a in sib.find_all("a")) > 0.5 * len(t):
+                if "abstract" in _ident(sib).lower():
+                    return ""  # the abstract's own block holds a link and nothing else (RSNA: "Supplemental material
+                    # is available for this article."): it is empty, and the text after its wrapper is the body
                 if len(t) <= 40:
                     continue
                 break
+            # ... once real prose has started: after a bare ":" the first inline element is the whole value
+            inline_run = sum(map(len, parts)) >= 40 and name in _INLINE_RUN
             first = name
             parts.append(t)
+        elif inline_run and (name in _INLINE_RUN or name == "br"):
+            if t:
+                parts.append(t)
         elif name == "p" and first == "p" and t:
             parts.append(t)  # a multi-paragraph abstract
+        elif name == "section" and first == "section" and t and structured:
+            # a structured abstract, one <section> per part (PMC: Introduction / Case Report / Conclusion); its
+            # keyword group is the last of them
+            if "kwd" in _ident(sib).lower() or re.match(r"key ?words?\b", t, re.I):
+                break
+            parts.append(t)
         else:
             break
     if first is None and not parts:
-        return None
+        return "" if skipped else None  # only a lay summary: the abstract is empty, never the text after its container
     return re.sub(r"\s+", " ", " ".join(parts)).strip()
 
 
@@ -449,7 +507,9 @@ class PublisherParser(Parser, ABC):
         # the default; the generic parser opts out.
         # DSpace and EPrints repositories hold the record's abstract in dcterms.abstract / dc.description.abstract,
         # with dc.description often a note ("Thesis (M.A.)...") (#2239)
-        meta_tag_names = ["citation_abstract", "dcterms.abstract", "dc.description.abstract", "dc.description"]
+        # eprints.abstract last: EPrints repeats it in DC.description; cyberleninka.ru has no other abstract tag
+        meta_tag_names = ["citation_abstract", "dcterms.abstract", "dc.description.abstract", "dc.description",
+                          "eprints.abstract"]
         if include_seo_tags:
             meta_tag_names = [
                 "citation_abstract",
@@ -459,9 +519,11 @@ class PublisherParser(Parser, ABC):
             ]
         meta_property_names = ["property", "name"]
 
-        # The first matching tag decides, as before, with one exception (oxjob #1800): a page can carry a
-        # journal blurb in its first DC.Description and the article's abstract in the next one, so a
-        # candidate that is not an abstract hands over to the next tag of the same name.
+        # The first matching tag decides, as before, with two exceptions. A page can carry a journal blurb in its
+        # first DC.Description and the article's abstract in the next one, so a candidate that is not an abstract
+        # hands over to the next tag of the same name (oxjob #1800). And when the first is in another language,
+        # an English version in a later tag wins (#2239: the rubric gives the English version; see _english_tag).
+        first = None  # (the first abstract found, its tag, its tag name)
         for meta_tag_name in meta_tag_names:
             for meta_property_name in meta_property_names:
                 for meta_tag in self.soup.find_all(
@@ -472,19 +534,50 @@ class PublisherParser(Parser, ABC):
                     description = meta_tag.get("content", '').strip()
                     if not (
                             len(description) > 200
-                            and not description.endswith("...")
-                            and not description.endswith("…")
+                            and not description.endswith(_CUT_ENDS)
                             and not description.startswith("http")
                     ):
-                        break
+                        if first is None:
+                            break
+                        continue  # looking for an English version: a note in an earlier DC.description is skipped
                     if is_not_abstract(description):
                         continue
-                    return re.sub(
-                        r"^abstract[:.]?\s*", "", description,
-                        flags=re.I
-                    )
+                    if first is None:
+                        if not is_other_language(description):
+                            return _LEADING_LABEL.sub("", description)
+                        first = (description, meta_tag, meta_tag_name)
+                    elif self._english_tag(description, meta_tag, meta_tag_name, *first):
+                        return _LEADING_LABEL.sub("", description)
 
-        return None
+        return _LEADING_LABEL.sub("", first[0]) if first else None
+
+    @staticmethod
+    def _english_tag(text, tag, name, first_text, first_tag, first_name):
+        """True when `text`, from a later abstract tag, is the English version of `first_text` (#2239).
+
+        Repositories give each language version its own tag: two DCTERMS.abstract tags (DSpace, the USP thesis
+        library), DCTERMS.abstract beside DC.description, two eprints.abstract tags. The page's own language
+        attributes decide when they differ ('pt-br' / 'en'); DSpace mostly stamps one xml:lang on every tag (UnB:
+        "en" on the Portuguese text), so otherwise the text must read as English. A tag of another name counts only
+        from the article-level names (a description or og:description tag may be the site's English blurb), and
+        any tag only at a translation's length: DC.description also holds notes and journal blurbs.
+
+        A version that is only in the tags counts as shown (Open Journal Systems and Cairn print one language and
+        list the others in DC.Description / citation_abstract): on the dev pages of that kind the gold gives the
+        English tag 11 times (9 with a note saying the page prints only the other version) and the printed version
+        twice, a split left to the loop's owner.
+        """
+        if name != first_name and name not in _ABSTRACT_VERSION_TAGS:
+            return False
+        # Chinese and Japanese abstracts are a third of their English version's length
+        lo, hi = (0.5, 6) if foreign_share(first_text) >= 0.5 else (0.4, 2.5)
+        if not lo <= len(text) / len(first_text) <= hi:
+            return False
+        if is_english(text):
+            return True
+        lang, first_lang = (_tag_language(t) for t in (tag, first_tag))
+        return lang.startswith("en") and not first_lang.startswith("en") and bool(first_lang) and not \
+            is_other_language(text)
 
     def parse_printed_seo_description(self):
         """og:description / description / twitter:description, kept only when the page also prints that text.
@@ -604,7 +697,8 @@ class PublisherParser(Parser, ABC):
         navigation, menus, footers and links (tabs); the abstract is the text that follows it, up to the next
         heading, from its siblings, or from its parent's siblings when the heading sits in a label wrapper.
         """
-        found = None
+        found = other = None  # under an English "Abstract" heading / under another language's heading
+        title = None
         for node in self.soup.find_all(string=_ABSTRACT_HEADING):
             heading = node.parent
             if heading is None or heading.name in ("a", "button", "option", "title", "script", "style", "label"):
@@ -622,6 +716,22 @@ class PublisherParser(Parser, ABC):
                     continue
             if not 100 <= len(text) <= 10_000 or is_not_abstract(text):
                 continue
+            # not a link or another section's text (the value under "Abstract" was empty), nor the item's own
+            # title printed again, alone or with its author (Digital Commons, IRIS "Titolo: ...")
+            if text.startswith("http") or _OTHER_SECTION_START.match(text):
+                continue
+            if title is None:
+                title = _alnum(self._item_title())
+            if len(title) >= 20 and title in (key := _alnum(text)) and len(title) >= 0.6 * len(key):
+                continue
+            # "If several language versions are shown, give the English one, else the first": the text under an
+            # English "Abstract" heading wins over one under "Resumen" / "Résumé" / "Аннотация" (#2239)
+            if not _ENGLISH_HEADING.match(str(node)):
+                if other is None:
+                    other = text
+                elif main_article and text != other:
+                    other = ""  # two different texts in other languages: as below, no telling
+                continue
             if not main_article:
                 return text
             # publisher pages: one abstract only. Two different texts under "Abstract" headings mean the page also
@@ -629,7 +739,7 @@ class PublisherParser(Parser, ABC):
             if found is not None and text != found:
                 return None
             found = text
-        return found
+        return found or other or None
 
     @staticmethod
     def format_name(name):
