@@ -16,6 +16,7 @@ from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.highwire import highwire_corresponding_marks, is_highwire_page, \
     pick_highwire_corresponding
+from parseland_lib.publisher.parsers.jci import jci_affiliations
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
     pick_literatum_corresponding
@@ -287,6 +288,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # that author only (#2252); used only when the winning parser marked no one
     highwire_marks = highwire_corresponding_marks(soup, lp_content) if namespace == "doi" and is_highwire_page(
         lp_content) else None
+    # jci.org shows each author's affiliations in a byline pop-up and writes no institution tags (#2252); read before
+    # the parsers run (the JCI parser removes the byline's <sup> labels), used only when no author got an affiliation
+    jci_pairs = jci_affiliations(soup) if namespace == "doi" and _has(
+        lp_content, 'data-dropdown="author-affiliation-') and _has(lp_content, "jci.org") else []
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
@@ -440,6 +445,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
+        if jci_pairs and not any(a["affiliations"] for a in authors):
+            for name, affs in jci_pairs:
+                matches = [a for a in authors if same_person(a["name"], name)]
+                if len(matches) == 1 and not matches[0]["affiliations"]:
+                    matches[0]["affiliations"] = [{"name": aff} for aff in affs]
         # Copernicus pages mark the corresponding authors themselves (#2218): those marks replace any the winning
         # parser guessed (the meta-tag parser marks only the authors its e-mail tags pair with, often one of two)
         if cop_names and any(same_person(a["name"], n) for a in authors for n in cop_names):
