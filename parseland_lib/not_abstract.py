@@ -120,6 +120,12 @@ _TEMPLATE_RES = [
     # Frontiers article header saved as the abstract: 'EDITORIAL article Front. Neurol., 30 August 2023Sec. Epilepsy
     # Volume 14 - 2023 | https://doi.org/10.3389/fneur.2023.1270702' (16.6K works on 26 Oct, legacy backfill; #1857)
     re.compile(r"[a-z][a-z -]{2,40} article front\. [^,]{2,60}, \d{1,2} [a-z]+ \d{4}.{0,200}?https?://doi\.org/10\.3389/\S+$"),
+    # Authorea's stand-in for a document with no abstract: 'A document by Carlos Zetina Rosales. Click on the document
+    # to view its contents.' (#2239 phase 2)
+    re.compile(r"a document by .{1,200}\. click on the document to view its contents\.?$"),
+    # Thieme's history and copyright block, read where a page has no abstract: 'Publication History Article published
+    # online: 23 September 2025 © 2025. Thieme. All rights reserved. ...' (#2239 phase 2)
+    re.compile(r"publication history\b.{0,300}(?:©|\(c\)|all rights reserved)"),
 ]
 
 # Platform page furniture anywhere in a short text: Silverchair's author card and toolbar ("Search for other works by
@@ -142,6 +148,12 @@ _CONTENTS_LIST_RE = re.compile(r"this (?:chapter|article|section|entry) contains
 _SITE_BLURB_STARTS = (
     "the virtual library of historical newspapers bvph managed by the subdirectorate general for library coordination",
     "a biblioteca dixital de galicia forma parte de galiciana",
+    # Dresden State Art Collections' object pages and Andalusia's performing-arts archive (#2239 phase 2 round 2)
+    "die online collection der staatlichen kunstsammlungen dresden ist das",
+    # Spain's bibliographic-heritage library, the newspaper library's sibling, in Spanish and in English
+    "la biblioteca virtual del patrimonio bibliográfico gestionada por la subdirección general de coordinación",
+    "the virtual library of bibliographic heritage bvpb managed by the subdirectorate general for library",
+    "elektra es el archivo digital de las artes esc",
 )
 
 
@@ -207,10 +219,30 @@ _GLUED_END_RE = re.compile(
     r"(?:(?:\bKeywords\b[^.]{0,600})?These keywords were added by machine and not by the authors\.\s*This process "
     r"is experimental and the keywords may be updated as the learning algorithm improves\.?"
     # IGI Global: the paywall's notice inside the abstract's element
-    r"|Request access from your librarian to read this (?:chapter|article|book|title)['’]s full text\.?)\s*$")
+    r"|Request access from your librarian to read this (?:chapter|article|book|title)['’]s full text\.?"
+    # SPIE Digital Library: the eBook access notice after a chapter's abstract
+    r"|Online access to SPIE eBooks is limited to subscribing institutions\.?)\s*$")
 # _GLUED_END_RE can start anywhere, so it scans the whole text: it runs only on a text that ends like one of its
 # notices.
-_GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text")
+_GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text", "institutions.", "institutions")
+
+
+# A whole title page where the abstract should be (Dove Medical Press records on DOAJ): the byline, the numbered
+# affiliations and "Correspondence: ... Email ...", then "Abstract:" and the text, then "Keywords: ...". The label is
+# what marks the text's start; where the page's e-mail protection swallowed it, "[email protected] :" does.
+_TITLE_PAGE_RE = re.compile(
+    r"^.{20,4000}?Correspondence:\s.{0,1500}?(?:Abstract\s*:|\[email\s+protected\]\s*:)\s*(?=\S)", re.S)
+_KEYWORDS_TAIL_RE = re.compile(r"\s*\bKeywords\s*:[^\n]{0,600}$")
+
+
+def _without_title_page(text: str) -> str:
+    """The abstract out of a title page glued around it; `text` itself when it is not that shape."""
+    if "Correspondence:" not in text[:4000]:
+        return text
+    m = _TITLE_PAGE_RE.match(text)
+    if not m or len(text) - m.end() < 200:
+        return text
+    return _KEYWORDS_TAIL_RE.sub("", text[m.end():])
 
 
 def _strip_tags(text: str) -> str:
@@ -252,7 +284,7 @@ def clean_abstract(text):
         return None
     if not text or not isinstance(text, str):
         return text
-    cleaned = _GLUED_START_RE.sub("", _markup_to_text(text))
+    cleaned = _without_title_page(_GLUED_START_RE.sub("", _markup_to_text(text)))
     if cleaned.rstrip().endswith(_GLUED_END_TAILS):
         cleaned = _GLUED_END_RE.sub("", cleaned)
     if cleaned == text:

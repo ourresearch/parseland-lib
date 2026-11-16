@@ -1,3 +1,4 @@
+import copy
 import re
 from urllib.parse import urlparse
 
@@ -8,12 +9,14 @@ from parseland_lib.back_matter import _YEAR, _numbering_whole, headed_back_matte
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
+from parseland_lib.abstract_language import english_part, is_english, is_other_language
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
 from parseland_lib.publisher.parsers.copernicus import copernicus_corresponding_names
 from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
+from parseland_lib.publisher.parsers.ieee import IEEE
 from parseland_lib.publisher.parsers.highwire import highwire_corresponding_marks, is_highwire_page, \
     pick_highwire_corresponding
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
@@ -25,12 +28,15 @@ from parseland_lib.publisher.parsers.springer import springer_corresponding_name
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
 from parseland_lib.publisher.parsers.scielo import is_scielo_br_page, pick_scielo_corresponding, \
     scielo_corresponding_marks
-from parseland_lib.publisher.parsers.parser import frontmatter_abstract, silverchair_abstract, \
-    silverchair_corresponding_names, world_scientific_abstract, world_scientific_corresponding_names
+from parseland_lib.publisher.parsers.parser import _ABSTRACT_HEADING, _CUT_ENDS, _in_other_works_block, \
+    frontmatter_abstract, silverchair_abstract, silverchair_corresponding_names, world_scientific_abstract, \
+    world_scientific_corresponding_names
 from parseland_lib.publisher.parsers.utils import _letters_key, raw_has as _has, same_opening_text, same_person
 from parseland_lib.publisher.parsers.utils import _name_tokens
 from parseland_lib.utils import normalize_doi
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
+
+_BLOCK_LABELS = ("h1", "h2", "h3", "h4", "h5", "h6", "a")
 
 # Namespaces whose pages get the generic abstract reader when the winning parser left them without one (#2239).
 _GENERIC_ABSTRACT_FILL = ("pmh",)
@@ -39,8 +45,12 @@ _GENERIC_ABSTRACT_FILL = ("pmh",)
 # A peer-review report's own DOI or page: PLOS '10.1371/journal.pgph.0000105.r005' and '/peerReview?id=...', eLife's
 # decision letters and author responses '10.7554/eLife.12345.sa1'. Its page carries the reviewed article's meta tags.
 # Not "peer-reviewed" (repository paths: ".../peer-reviewed-articles/...").
+# Also a report's own anchor on the reviewed work's page (eLife ".../articles/81573#sa2", SciPost
+# ".../submissions/2106.05354v1/#report_2", NB Publish "...?id=79459#review_35150") and Publons' report pages
+# ("publons.com/publon/51945721/": the "Abstract" they print is the reviewed article's) (#2239 phase 2).
 _REVIEW_REPORT_URL = re.compile(
-    r"peer-?review(?![a-z])|10\.1371/journal\.[a-z]+\.\d+\.r\d{3}\b|10\.7554/elife\.\d+\.sa\d\b", re.I)
+    r"peer-?review(?![a-z])|10\.1371/journal\.[a-z]+\.\d+\.r\d{3}\b|10\.7554/elife\.\d+\.sa\d\b"
+    r"|#(?:sa\d+|(?:report|review)_\d+)$|//(?:www\.)?publons\.com/publon/\d", re.I)
 
 
 def _is_review_report_url(*urls):
@@ -68,13 +78,15 @@ def short_named_abstract(soup):
             if not name.search(tag["name"]):
                 continue
             text = re.sub(r"^abstract[:.]?\s*", "", (tag.get("content") or "").strip(), flags=re.I)
-            if not 40 <= len(text) <= 200 or text.endswith(("...", "…")) or text.startswith("http"):
+            if not 40 <= len(text) <= 200 or text.endswith(_CUT_ENDS) or text.startswith("http"):
                 continue
             if len(text.split()) < 6 or is_not_abstract(text):
                 continue
             if titles is None:
                 titles = _page_titles(soup, metas)
-            if _letters_key(text) not in titles:
+            # ... nor the title with a label or the author's name around it ("Titolo: <title>", IRIS)
+            key = _letters_key(text)
+            if not any(len(t) >= 20 and t in key and len(t) >= 0.6 * len(key) for t in titles):
                 return text
     return None
 
@@ -507,6 +519,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if namespace == "doi" and _has(lp_content, "cambridge.org") and (
             _has(lp_content, 'data-abstract-type="extract"') or _has(lp_content, "Extract</h2>")):
         openings.extend(cambridge_marked_openings(soup))
+    # Oxford Academic prints the opening of a work that has no abstract (a book review, a poem) under "Extract"
+    # (#2239 phase 2: 2 of 2 such pages, gold none); its meta description repeats it
+    if namespace == "doi" and _has(lp_content, "at-Extract-Title"):
+        openings.extend(tag.get_text(" ", strip=True) for tag in soup.select("section.abstract.extract"))
     openings = [o for o in openings if o]
 
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
@@ -547,6 +563,13 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if not authors_and_abstract.get('abstract') or is_not_abstract(authors_and_abstract['abstract']):
         if aps_abs and not is_not_abstract(aps_abs):
             authors_and_abstract['abstract'] = aps_abs
+
+    # IEEE Xplore's abstract (its og:description, when the page's own record says it has one) fills a page whose
+    # record lists no authors, so that the IEEE parser never ran: proceedings volumes, discussions (#2239 phase 2).
+    if not authors_and_abstract.get('abstract') and namespace == "doi" and _has(
+            lp_content, "xplGlobal.document.metadata") and _has(lp_content, '"sections":{"abstract":"true"'):
+        if (ieee := IEEE(soup).get_abstract()) and not is_not_abstract(ieee):
+            authors_and_abstract['abstract'] = ieee
 
     # Fills after every site's own reader (#2239), each only while the page still has no abstract. Never on a
     # peer-review report's page (it carries the reviewed article's tags and abstract) nor on World Scientific pages,
@@ -593,6 +616,22 @@ def parse_page(lp_content, namespace, resolved_url=None):
         # abstract with JavaScript (DSpace 7, Redalyc, Cureus, IEEE Xplore) hold it nowhere else (#2215).
         if not other_reader_decides and needs_abstract() and (titled := generic.parse_titled_seo_description()):
             authors_and_abstract['abstract'] = titled
+
+    # "If several language versions are shown, give the English one": when the abstract chosen so far is in another
+    # language and the page marks an abstract block as English (HAL: <div class="abstract-content en" lang="en">
+    # beside its lang="fr" twin; the meta tags hold the French one only), that block is the abstract (#2239 phase 2).
+    if (chosen := authors_and_abstract.get('abstract')) and _has(lp_content, 'lang="en"') and is_other_language(chosen):
+        for block in soup.select('[class*="abstract"][lang^="en"]'):
+            if _in_other_works_block(block):
+                continue
+            block = copy.copy(block)  # never edit the page: the block's own "Abstract" heading and its language
+            for tag in block.find_all(_BLOCK_LABELS):  # switch ("en") are labels, not abstract text
+                if _ABSTRACT_HEADING.match(tag.get_text()) or (tag.name == "a" and tag.get("hreflang")):
+                    tag.decompose()
+            text = " ".join(block.get_text(" ", strip=True).split())
+            if len(text) > 200 and is_english(text):
+                authors_and_abstract['abstract'] = text
+                break
 
     # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:
@@ -715,7 +754,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         "license": response.get("license"),
         "version": response.get("version"),
         # one check for every parser: placeholders, site blurbs and SEO templates are not abstracts (#1800)
-        "abstract": clean_abstract(response.get("abstract")),
+        # ... and of several language versions run together, the English one (#2239 phase 2)
+        "abstract": clean_abstract(english_part(response.get("abstract"))),
         # acknowledgments, funding statement and reference list from the same winning parse (#2215)
         "acknowledgments": _section_text(response.get("acknowledgments")),
         "funding_statement": _section_text(response.get("funding_statement")),

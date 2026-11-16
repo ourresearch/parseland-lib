@@ -1135,6 +1135,11 @@ class Springer(PublisherParser):
             if keywords := abs_section.find('h3', string=re.compile(r'^\s*Keywords\s*$')):
                 after = {id(p) for p in keywords.find_next_siblings('p')}
                 ps = [p for p in ps if id(p) not in after]
+            # Pediatric Research prints an "Impact" / "Impact Statement" list of bullet points after the abstract,
+            # in its section: highlights, not abstract text (#2239 phase 2)
+            if impact := abs_section.find('h3', string=re.compile(r'^\s*Impact(?: Statement)?\s*$')):
+                after = {id(p) for p in impact.find_all_next('p')}
+                ps = [p for p in ps if id(p) not in after]
             if ps:
                 chunks = [p.get_text(" ", strip=True) for p in ps]
                 chunks = [c for c in chunks if c]
