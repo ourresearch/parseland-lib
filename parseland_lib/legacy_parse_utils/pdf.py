@@ -130,7 +130,16 @@ UNTRUSTED_LICENSE_HOSTS = (
 SITE_LICENSE_HOSTS = (
     'ijisrt.com',             # <footer>: "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 ..."
     'juniperpublishers.com',  # "Open Access by Juniper Publishers is licensed under a Creative Commons Attribution 4.0 ..."
+    # #2239, round 3: the same rule, each host checked against its labelled pages (all agree) and the stored licences
+    'doi.nilu.no',            # EBAS datasets: "EBAS data is licensed under CC BY 4.0" (the site: "All rights reserved")
+    'clausiuspress.com',      # "All published work is licensed under a Creative Commons Attribution 4.0 International License."
+    # OEBL biographies: "Text: Creative Commons BY-NC-SA 3.0 AT". Harvested from hw.oeaw.ac.at / epub.oeaw.ac.at with
+    # no stored URL: the host then comes from the page's <meta name="DC.Identifier" content="https://www.biographien.ac.at">,
+    # the first http-valued meta tag, which is the last resort of the callers' get_base_url_from_soup().
+    'biographien.ac.at',
 )
+# One more whole-site host is not on the list because its footer names a licence per year of publication:
+# aclanthology.org, read by acl_anthology_license_text() (version_and_license.py).
 
 
 def _url_host(url):
