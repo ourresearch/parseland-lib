@@ -48,8 +48,15 @@ class DergiPark(PublisherParser):
         return [p for p in self.soup.select("table.record_properties p[id]") if _AUTHOR_ID.match(p.get("id", ""))]
 
     def is_publisher_specific_parser(self):
-        generator = self.soup.find("meta", attrs={"name": "generator"})
-        return bool(generator and squash(generator.get("content") or "").lower() == "uds" and self._entries())
+        # Every page is offered to this parser, so the cheap marker goes first: the generator tag is looked for in the
+        # small <head> only, and a page without it is turned down before anything walks the whole tree (#2239's
+        # per-page CPU rule). The answer is kept, since authors_found() and the caller both ask (oxjob #2268).
+        if not hasattr(self, "_claimed"):
+            head = self.soup.head
+            generator = head.find("meta", attrs={"name": "generator"}) if head is not None else None
+            self._claimed = bool(
+                generator and squash(generator.get("content") or "").lower() == "uds" and self._entries())
+        return self._claimed
 
     def _generic(self):
         if not hasattr(self, "_generic_result"):
