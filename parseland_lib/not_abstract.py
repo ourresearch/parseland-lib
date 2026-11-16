@@ -126,6 +126,13 @@ _TEMPLATE_RES = [
     # Thieme's history and copyright block, read where a page has no abstract: 'Publication History Article published
     # online: 23 September 2025 © 2025. Thieme. All rights reserved. ...' (#2239 phase 2)
     re.compile(r"publication history\b.{0,300}(?:©|\(c\)|all rights reserved)"),
+    # Springer's description tag for a chapter or reference-work entry that has no abstract: "'Probenquittierung'
+    # published in 'Lexikon der Medizinischen Laboratoriumsdiagnostik'" (#2239 phase 2, round 3: 17 of 33,557
+    # sampled pages)
+    re.compile(r"'.{1,500}' published in '.{1,500}'\.?$"),
+    # Jukuri (Natural Resources Institute Finland): a research note's "abstract" is the citation of the article it
+    # reports on, "Seloste artikkelista: Jalkanen, R. ... 2007. ... Silva Fennica 41(4): 755–762." (round 3)
+    re.compile(r"seloste artikkelista: .{1,400}$", re.S),
 ]
 
 # Platform page furniture anywhere in a short text: Silverchair's author card and toolbar ("Search for other works by
@@ -134,7 +141,11 @@ _TEMPLATE_RES = [
 # GSA 20K; all from the legacy abstracts_backfill; #1857 / #1800). Short only, like the templates: a judge read 200 of
 # 200 dumps under 1,500 characters as boilerplate, but 80 of 200 longer ones hold the work's own abstract among the
 # furniture (7 of 79 already at 1,500-2,000 characters).
-_FURNITURE_RE = re.compile(r"search for other works by this author on|\b(?:cite|share|views) icon (?:cite|share|views)\b")
+_FURNITURE_RE = re.compile(
+    r"search for other works by this author on|\b(?:cite|share|views) icon (?:cite|share|views)\b"
+    # Wiley's notice under an article's "Supporting Information" section, read where a page has no abstract with the
+    # captions and statements before it ("Figure S1. ...", a data-availability statement) (#2239 phase 2, round 3)
+    r"|the publisher is not responsible for the content or functionality of any supporting information supplied by")
 
 
 # A chapter's list of section headings printed where its abstract would be (Wiley book chapters: "This chapter
@@ -154,6 +165,8 @@ _SITE_BLURB_STARTS = (
     "la biblioteca virtual del patrimonio bibliográfico gestionada por la subdirección general de coordinación",
     "the virtual library of bibliographic heritage bvpb managed by the subdirectorate general for library",
     "elektra es el archivo digital de las artes esc",
+    # Galiciana's blurb as its English pages give it (round 3)
+    "the digital library of galicia forms part of galiciana",
 )
 
 
@@ -221,10 +234,17 @@ _GLUED_END_RE = re.compile(
     # IGI Global: the paywall's notice inside the abstract's element
     r"|Request access from your librarian to read this (?:chapter|article|book|title)['’]s full text\.?"
     # SPIE Digital Library: the eBook access notice after a chapter's abstract
-    r"|Online access to SPIE eBooks is limited to subscribing institutions\.?)\s*$")
+    r"|Online access to SPIE eBooks is limited to subscribing institutions\.?"
+    # the publisher's copyright line after the abstract (#2239 phase 2, round 3). APS, as LaTeX: "\textcopyright{}
+    # 1996 The American Physical Society."; Wiley's accepted articles, also on repository copies
+    r"|\\textcopyright\s*(?:\{\})?\s*(?:1[89]|20)\d{2} [^.\\]{3,80}\.?"
+    r"|This article is protected by copyright\. All rights reserved\.?"
+    # Thieme: the history, copyright or licence lines and the publisher's address, read from the abstract's block
+    r"|(?:\bPublication History\b[^©]{0,200})?©\s?\d{4}\.[^©]{0,700}?\bGeorg Thieme Verlag KG\b[^©]{0,100})\s*$")
 # _GLUED_END_RE can start anywhere, so it scans the whole text: it runs only on a text that ends like one of its
 # notices.
-_GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text", "institutions.", "institutions")
+_GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text", "institutions.", "institutions",
+                    "All rights reserved.", "All rights reserved", "Stuttgart, Germany", "Stuttgart, Germany.")
 
 
 # A whole title page where the abstract should be (Dove Medical Press records on DOAJ): the byline, the numbered
@@ -235,14 +255,23 @@ _TITLE_PAGE_RE = re.compile(
 _KEYWORDS_TAIL_RE = re.compile(r"\s*\bKeywords\s*:[^\n]{0,600}$")
 
 
+# The same title page with no "Abstract:" label (round 3): the text opens with the byline and its affiliation numbers
+# ("Ming Guan,1,2 Yangmengfan Chen,1 ..."), and a structured abstract's first label stands glued to the address or
+# e-mail before it ("... People's Republic of ChinaBackground: ...", "...@gmail.comPurpose: ...").
+_BYLINE_START_RE = re.compile(r"[^\d:.]{3,60},\d")
+_GLUED_PART_LABEL_RE = re.compile(
+    r"(?<=[a-z])(?=(?:Background|Purpose|Objectives?|Introduction|Aims?|Context|Importance|Rationale)\s*:\s)")
+_GLUED_KEYWORDS_TAIL_RE = re.compile(r"(?<=[a-z.)\]])Keywords\s*:[^\n]{0,600}$")
+
+
 def _without_title_page(text: str) -> str:
     """The abstract out of a title page glued around it; `text` itself when it is not that shape."""
-    if "Correspondence:" not in text[:4000]:
-        return text
-    m = _TITLE_PAGE_RE.match(text)
+    m = _TITLE_PAGE_RE.match(text) if "Correspondence:" in text[:4000] else None
+    if m is None and _BYLINE_START_RE.match(text):
+        m = _GLUED_PART_LABEL_RE.search(text, 100, 4000)
     if not m or len(text) - m.end() < 200:
         return text
-    return _KEYWORDS_TAIL_RE.sub("", text[m.end():])
+    return _GLUED_KEYWORDS_TAIL_RE.sub("", _KEYWORDS_TAIL_RE.sub("", text[m.end():]))
 
 
 def _strip_tags(text: str) -> str:
@@ -285,7 +314,7 @@ def clean_abstract(text):
     if not text or not isinstance(text, str):
         return text
     cleaned = _without_title_page(_GLUED_START_RE.sub("", _markup_to_text(text)))
-    if cleaned.rstrip().endswith(_GLUED_END_TAILS):
+    if cleaned.rstrip().endswith(_GLUED_END_TAILS) or "\\textcopyright" in cleaned[-160:]:
         cleaned = _GLUED_END_RE.sub("", cleaned)
     if cleaned == text:
         return text

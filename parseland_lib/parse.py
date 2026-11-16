@@ -58,6 +58,42 @@ def _is_review_report_url(*urls):
     return any(url and _REVIEW_REPORT_URL.search(url) for url in urls)
 
 
+# A part's own page (#2239 phase 2, round 3). A figure's, table's or supplement's DOI resolves to a view of that part
+# (PLOS ".../article/figure?id=10.1371/journal.pone.0264292.g001", Pensoft ".../article/15061/element/2/120/") or to
+# the article scrolled to it (PeerJ ".../articles/1234/#fig-1"): the page's meta tags and abstract are the whole
+# article's, and a part has no abstract (78 of 33,557 sampled pages; the gold: none on both labelled ones).
+_PART_PAGE_URL = re.compile(
+    r"/article/figure\?id=|10\.1371/journal\.[a-z]+\.\d+\.[gts]\d{3}\b"
+    r"|//[a-z0-9.-]+/article/\d+/element/\d+/\d+"
+    r"|//peerj\.com/articles/(?:cs-)?\d+/?#(?:fig|table|supp)-\d+$", re.I)
+# A PLOS figure or table view prints the part's own DOI under it, beside the article's in citation_doi.
+_PLOS_PART_DOI = re.compile(
+    r'class="article-id">\s*doi:\s*<a\s+href="https?://doi\.org/10\.1371/journal\.[a-z]+\.\d+\.[gts]\d{3}"', re.I)
+
+
+def _has_no_abstract_of_its_own(soup, lp_content, *urls):
+    """True when the page presents something that has no abstract, while its tags or text carry another item's: a
+    review report (the reviewed article's), a part of an article (the article's), a person's profile (DSpace-CRIS
+    researcher pages put the biography in citation_abstract and say og:type "profile")."""
+    if any(url and (_REPORT_PAGE.search(url) or _PART_PAGE_URL.search(url)) for url in urls):
+        return True
+    if _has(lp_content, 'class="article-id"') and _has(lp_content, "10.1371/journal.") and _PLOS_PART_DOI.search(
+            lp_content if isinstance(lp_content, str) else lp_content.decode("utf-8", "replace")):
+        return True
+    if _has(lp_content, "og:type"):
+        kind = soup.find("meta", attrs={"property": "og:type"})
+        return kind is not None and (kind.get("content") or "").strip().lower() == "profile"
+    return False
+
+
+_STRUCTURED_PARTS = re.compile(r"\b(Methods?|Results?|Conclusions?)\s*:")
+
+
+def _is_structured_abstract(text):
+    """True when a text has a structured abstract's parts: two of "Methods:", "Results:", "Conclusions:"."""
+    return len({p.lower()[:5] for p in _STRUCTURED_PARTS.findall(text)}) >= 2
+
+
 _SHORT_ABSTRACT_TAGS = [re.compile(rf"^{re.escape(n)}$", re.I)
                         for n in ("citation_abstract", "dcterms.abstract", "dc.description.abstract")]
 _TITLE_TAG = re.compile(r"^(?:citation_title|dc\.title|og:title)$", re.I)
@@ -549,8 +585,13 @@ def parse_page(lp_content, namespace, resolved_url=None):
         openings.extend(cambridge_marked_openings(soup))
     # Oxford Academic prints the opening of a work that has no abstract (a book review, a poem) under "Extract"
     # (#2239 phase 2: 2 of 2 such pages, gold none); its meta description repeats it
+    # ... unless it is a structured abstract: a meeting abstract is printed under "Extract" too ("Introduction: ...
+    # Methods: ... Results: ..."; European Heart Journal's congress supplements). Not the opening rule's wider
+    # "says what the work does" exception: a book review's opening says what the reviewed book does (round 3: of 11
+    # labelled "Extract" pages the gold has an abstract on this one kind only).
     if namespace == "doi" and _has(lp_content, "at-Extract-Title"):
-        openings.extend(tag.get_text(" ", strip=True) for tag in soup.select("section.abstract.extract"))
+        openings.extend(text for tag in soup.select("section.abstract.extract")
+                        if not _is_structured_abstract(text := tag.get_text(" ", strip=True)))
     openings = [o for o in openings if o]
 
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
@@ -650,11 +691,23 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if ojs_abs and needs_abstract() and not _is_review_report_url(given_url, resolved_url):
         authors_and_abstract['abstract'] = ojs_abs
 
+    # A meta tag may hold one part of the abstract the page prints whole in its abstract block (PubMed's description:
+    # the last part of a structured abstract; RAND's citation_abstract: two sentences of three) (#2239 phase 2, round 3)
+    reader = None
+    chosen = authors_and_abstract.get('abstract')
+    not_its_own = bool(chosen) and _has_no_abstract_of_its_own(soup, lp_content, given_url, resolved_url)
+    if chosen and isinstance(chosen, str) and not not_its_own:
+        reader = GenericPublisherParser(soup)
+        if whole := reader.whole_printed_abstract(chosen):
+            authors_and_abstract['abstract'] = whole
+
     # "If several language versions are shown, give the English one": when the abstract chosen so far is in another
     # language and the page marks an abstract block as English (HAL: <div class="abstract-content en" lang="en">
     # beside its lang="fr" twin; the meta tags hold the French one only), that block is the abstract (#2239 phase 2).
-    if (chosen := authors_and_abstract.get('abstract')) and _has(lp_content, 'lang="en"') and is_other_language(chosen):
-        for block in soup.select('[class*="abstract"][lang^="en"]'):
+    # Springer's German journals mark it <section data-title="Abstract" lang="en"> after the "Zusammenfassung".
+    other_language = bool(chosen := authors_and_abstract.get('abstract')) and is_other_language(chosen)
+    if other_language and _has(lp_content, 'lang="en"'):
+        for block in soup.select('[class*="abstract"][lang^="en"], section[data-title="Abstract"][lang^="en"]'):
             if _in_other_works_block(block):
                 continue
             block = copy.copy(block)  # never edit the page: the block's own "Abstract" heading and its language
@@ -664,7 +717,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
             text = " ".join(block.get_text(" ", strip=True).split())
             if len(text) > 200 and is_english(text):
                 authors_and_abstract['abstract'] = text
+                other_language = False
                 break
+    # ... or prints the versions as values of one field, each in its own element (DSpace 7: the tags hold the first)
+    if other_language and reader is not None and (twin := reader.english_sibling_version(chosen)):
+        authors_and_abstract['abstract'] = twin
 
     # A record page no parser found authors on gets its Dublin Core / EPrints creators (EPrints'
     # eprints.creators_name, DSpace's DC.creator in any case, citation_authors lists) (#2239). Record pages only:
@@ -676,6 +733,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # won the page: the generic parser reads the same opening from the meta tags (#2162). T&F books mark it
     # "first-paragraph" in their product data, Cambridge Core as an "extract".
     if (chosen := authors_and_abstract.get('abstract')) and any(same_opening_text(chosen, o) for o in openings):
+        authors_and_abstract['abstract'] = None
+    # Nor is another item's abstract this page's, whichever reader found it: a review report's page carries the
+    # reviewed article's, a figure's or table's page the whole article's, a person's profile a biography (round 3).
+    if not_its_own:
         authors_and_abstract['abstract'] = None
 
     if authors_and_abstract and authors_and_abstract.get('authors'):
