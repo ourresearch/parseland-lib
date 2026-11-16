@@ -50,9 +50,12 @@ def _corr_block(aid, name):
             'Some University, ul. Długa 1, 00-001 Warszawa, Polska</div>')
 
 
-def _page(names, byline, details, back=""):
+def _page(names, byline, details, back="", assets=True):
     metas = "".join(f'<meta name="citation_author" content="{n}"/>' for n in names)
-    return (f'<html><head><meta property="og:url" content="{URL}"/><meta name="citation_title" content="A title"/>'
+    # every site of the template loads its scripts from journalssystem.com (the parser's cheap first test)
+    script = ('<script type="text/javascript" src="https://www.journalssystem.com/_static/js/scripts.js?v=v2.12">'
+              '</script>' if assets else "")
+    return (f'<html><head>{script}<meta property="og:url" content="{URL}"/><meta name="citation_title" content="A title"/>'
             f'<meta name="citation_doi" content="10.12740/PP/82194"/>{metas}<meta name="description" content="{ABSTRACT}"/>'
             f'</head><body><div class="articleTitle">A title</div><div class="magAbstractAuthors">{byline}'
             '<div class="clearAll">&nbsp;</div></div>'
@@ -202,7 +205,9 @@ def test_other_bentus_layout_and_look_alike_pages_are_not_claimed():
              '<span id="author_1">Ann Smith<sup>1</sup></span><a href="mailto:a@b.org">mail</a></div>'
              '<div class="affiliations"><table><tr><td class="affIndex">1</td><td class="affName">Univ X</td></tr>'
              '</table></div></body></html>')
-    for html in (portal, other):
+    # the template's byline and details on a page that loads none of the template's assets
+    no_assets = _page(NAMES, _three_authors(), _aff_table([(1, UNIV)]), assets=False)
+    for html in (portal, other, no_assets):
         parser = EditorialSystem(BeautifulSoup(html, "lxml"))
         assert not parser.is_publisher_specific_parser()
         assert not parser.authors_found()

@@ -39,6 +39,21 @@ _MORE = re.compile(r"\b(?:show|load|view|see) (?:all|more)\b", re.I)
 _ACK_LABEL = re.compile(r"^(?:acknowledge?ments?|podzi[eę]kowania|благодарност[иь])$", re.I)
 _FUNDING_LABEL = re.compile(r"^(?:funding|financial support|sources? of funding|finansowanie|źródła finansowania|"
                             r"финансирование)$", re.I)
+# the template's own assets, linked from <head> on every site (favicon, jQuery and scripts.js from journalssystem.com,
+# the site's stylesheets under /es-static/); scripts.js defines the byline's highlightAffs()
+_ASSETS = ("journalssystem.com", "/es-static/")
+
+
+def _has_template_assets(soup):
+    """A link or script in <head> from the template's assets: the cheap first test of the claim. Every parser's claim
+    runs on every page (#2239: under 0.5 ms a page it does not claim), so <head> is reached through direct children
+    only and searched alone; nothing walks the whole tree until this passes."""
+    html = soup.find("html", recursive=False)
+    head = (html or soup).find("head", recursive=False)
+    if head is None:
+        return False
+    return any(any(asset in (tag.get("href") or tag.get("src") or "") for asset in _ASSETS)
+               for tag in head.find_all(("link", "script")))
 
 
 def _numbers(text):
@@ -89,7 +104,10 @@ class EditorialSystem(PublisherParser):
         return [tag for tag in box.select('div[id^="author_"], span[id^="author_"]') if _is_author(tag)]
 
     def is_publisher_specific_parser(self):
-        return bool(self._byline()) and self.soup.select_one("div#articleDetailsId") is not None
+        if (claim := getattr(self, "_claim", None)) is None:  # computed once: authors_found() asks too
+            claim = self._claim = _has_template_assets(self.soup) and bool(self._byline()) \
+                and self.soup.select_one("div#articleDetailsId") is not None
+        return claim
 
     def authors_found(self):
         return self.is_publisher_specific_parser()
