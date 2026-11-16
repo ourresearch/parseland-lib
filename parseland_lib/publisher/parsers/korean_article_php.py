@@ -14,7 +14,10 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 # Titles after a name ("Kyunhee Cho, PT, Prof., PhD") are dropped like degrees; a mailto link inside the marker <sup>
 # counts as the author's mail icon; a Korean affiliation line marked 교신저자 (corresponding author) marks the author
 # holding its marker; and when the byline has no affiliation, the note "Corresponding Author : Kim, Minjun, <title>
-# <address> Tel : ..." gives that author's.
+# <address> Tel : ..." gives that author's, only when it names an institution and carries no phone, e-mail or URL.
+# An affiliation line that is only a romanized name ("Lee, Sujoung") is dropped, and a phone number glued to the end
+# of one ("Daejeon 34103, Korea042-866-3649") is cut. A mail icon marks its author only when the corresponding note
+# gives no e-mail address or gives that author's.
 _MARK = re.compile(r"[0-9]+|[A-Za-z]|\*+|†+|‡+|§+|¶+|#+")
 _SYMBOLS = re.compile(r"[*†‡§¶#]+")
 _DEGREE = re.compile(r"^(PT|OT|RN|MD|PhD|Ph\.?\s?D\.?|M\.?D\.?|MS|MSc|M\.?S\.?|BS|BSc|MA|MPH|DDS|DMD|DVM|PharmD|"
@@ -29,6 +32,13 @@ _ROLE = re.compile(r"^(?:(?:Associate|Assistant|Senior|Chief|Principal|Research|
                    r"Post-?doctoral|Graduate|Doctoral|Ph\.?\s?D\.?|Master'?s?)\s+)*(?:Professor|Fellow|Researcher|"
                    r"Lecturer|Scientist|Engineer|Student|Candidate|Director|Manager|Instructor|Scholar|Investigator)\b"
                    r"[\s,]*", re.I)
+_NAME_LIKE = re.compile(r"^[A-Z][a-z]+,\s*[A-Z][a-z]+(?:-[A-Za-z][a-z]+)?$")  # "Lee, Sujoung": a name, not a place
+_PHONE_TAIL = re.compile(r"\s*(?:\+\d{1,3}[-.\s]?)?\(?\d{2,4}\)?[-.\s]\d{3,4}[-.]\d{4}\s*$")
+_CONTACT_JUNK = re.compile(r"@|https?://|www\.|\+\s?\d|\d{2,4}[-.)]\s?\d{3,4}[-.]\d{4}", re.I)
+_INSTITUTION = re.compile(r"univ|institut|college|hospital|depart|dept|school|cent(?:er|re)|laborator|research|"
+                          r"agency|ministry|academy|corporation|company|foundation|faculty|clinic|division|office|"
+                          r"council|association|bureau|대학|연구|병원|센터|기술원|공사", re.I)
+_MAIL_ADDR = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _DOI = re.compile(r"doi\.org/(10\.\S+)", re.I)
 _MAIL, _OPEN, _CLOSE = "\x03", "\x01", "\x02"
 
@@ -57,6 +67,12 @@ def _lines(tag):
 
 def _line_text(nodes):
     return _clean("".join(n.get_text() if isinstance(n, Tag) else str(n) for n in nodes))
+
+
+def _clean_affiliation(text):
+    """An affiliation line without its e-mail and a phone number glued to its end; None when it is only a name."""
+    text = _PHONE_TAIL.sub("", _EMAIL_IN_PARENS.sub("", _EMAIL.sub("", text))).strip(" ,;")
+    return None if not text or _NAME_LIKE.match(text) else text
 
 
 class KoreanArticlePhp(PublisherParser):
@@ -90,16 +106,18 @@ class KoreanArticlePhp(PublisherParser):
     def _parse_byline(self, author_tag):
         # the first line that names anyone: a second line repeats the byline in Korean (adj.or.kr)
         for nodes in _lines(author_tag):
-            flat = ""
+            flat, addrs = "", []  # a mail icon is _MAIL<index into addrs>_MAIL
             for node in nodes:
                 if isinstance(node, NavigableString):
                     flat += str(node)
                 elif node.name == "sup":
                     flat += _OPEN + node.get_text().replace(",", " ") + _CLOSE
-                    if node.select_one('a[href^="mailto:" i]'):  # "Auezhan Amanov<sup>2,</sup><sup>*<a mailto></sup>"
-                        flat += _MAIL
+                    if a := node.select_one('a[href^="mailto:" i]'):  # "Amanov<sup>2,</sup><sup>*<a mailto></sup>"
+                        addrs.append(a.get("href", "")[7:].strip().lower())
+                        flat += f"{_MAIL}{len(addrs) - 1}{_MAIL}"
                 elif node.name == "a" and (node.get("href") or "").lower().startswith("mailto:"):
-                    flat += _MAIL
+                    addrs.append(node["href"][7:].strip().lower())
+                    flat += f"{_MAIL}{len(addrs) - 1}{_MAIL}"
                 elif node.name == "a" and "orcid.org" in (node.get("href") or ""):
                     continue
                 else:
@@ -110,17 +128,17 @@ class KoreanArticlePhp(PublisherParser):
                 for sup in re.findall(_OPEN + "(.*?)" + _CLOSE, piece):
                     marks |= _marks(sup)
                 text = re.sub(_OPEN + ".*?" + _CLOSE, "", piece)
-                mail = _MAIL in text
-                text = text.replace(_MAIL, "")
+                mails = {addrs[int(i)] for i in re.findall(_MAIL + r"(\d+)" + _MAIL, text)}  # "" for an empty href
+                text = re.sub(_MAIL + r"\d+" + _MAIL, "", text)
                 marks |= set(_SYMBOLS.findall(text))
                 name = _clean(_SYMBOLS.sub("", text))
                 name = re.sub(r"^and\s+", "", name).strip(" .;")
                 if not name or _DEGREE.match(name):
                     if authors:  # "Hojin Jeong, PT, PhD<sup>a</sup>": the markers after a degree are the author's
                         authors[-1]["marks"] |= marks
-                        authors[-1]["mail"] |= mail
+                        authors[-1]["mails"] |= mails
                     continue
-                authors.append({"name": name, "marks": marks, "mail": mail})
+                authors.append({"name": name, "marks": marks, "mails": mails})
             if authors:
                 return authors
         return []
@@ -143,30 +161,43 @@ class KoreanArticlePhp(PublisherParser):
                 rows[-1] = (rows[-1][0], rows[-1][1] + " " + text)
             else:
                 rows.append((marks, text))
-        out = []
-        for marks, text in rows:
-            text = _EMAIL_IN_PARENS.sub("", _EMAIL.sub("", text)).strip(" ,;")
-            if text:
-                out.append((marks, text))
-        return out
+        return [(marks, text) for marks, text in ((m, _clean_affiliation(t)) for m, t in rows) if text]
 
-    def _corresponding_notes(self, block):
-        """(markers, lines) of the note lines that say 'corresponding' (or 'reprint', 교신)."""
+    @staticmethod
+    def _author_block_affiliation(author_tag, byline):
+        """An empty div.ft-author-aff, and the names' own block carries the shared affiliation on the line after them:
+        "Dong-Chun Cheong*, Jin-Jae Lee<br/>Jeollabuk-do Agricultural Research and Extension Services, Iksan 54591,
+        Korea<br/><br/>정 동춘*, 이 진재<br/>전라북도농업기술원". Only a line that names an institution and has no
+        marker or link: a line of names (the byline again in Korean, adj.or.kr: "Cho Eunji*<br/>조 은지*") is not one."""
+        lines = [nodes for nodes in _lines(author_tag) if _line_text(nodes)]
+        if len(lines) < 2 or not byline or byline[0]["name"] not in _line_text(lines[0]):
+            return []
+        nodes, text = lines[1], _line_text(lines[1])
+        if (any(isinstance(n, Tag) and (n.name in ("sup", "a") or n.find(["sup", "a"])) for n in nodes)
+                or _SYMBOLS.search(text) or not _INSTITUTION.search(text)):
+            return []
+        text = _clean_affiliation(text)
+        return [(set(), text)] if text else []
+
+    def _note_lines(self, block):
+        """(nodes, text) of every non-empty line of the author notes (div.ft-author-cor, div.ft-author-note)."""
         wrap = self._wrap()
         notes = block.select("div.ft-author-cor, div.ft-author-note") or wrap.select(
             "div.ft-author-cor, div.ft-author-note")
+        return [(nodes, text) for note in notes for nodes in _lines(note) if (text := _line_text(nodes))]
+
+    def _corresponding_notes(self, block):
+        """(markers, lines) of the note lines that say 'corresponding' (or 'reprint', 교신)."""
         marks, lines = set(), []
-        for note in notes:
-            for nodes in _lines(note):
-                text = _line_text(nodes)
-                if not _CORRESPONDING.search(text):
-                    continue
-                lines.append(text)
-                for node in nodes:
-                    if isinstance(node, Tag) and node.name == "sup":
-                        marks |= _marks(node.get_text())
-                if lead := re.match(r"\s*([*†‡§¶#]+)", text):
-                    marks.add(lead.group(1))
+        for nodes, text in self._note_lines(block):
+            if not _CORRESPONDING.search(text):
+                continue
+            lines.append(text)
+            for node in nodes:
+                if isinstance(node, Tag) and node.name == "sup":
+                    marks |= _marks(node.get_text())
+            if lead := re.match(r"\s*([*†‡§¶#]+)", text):
+                marks.add(lead.group(1))
         return marks, lines
 
     @staticmethod
@@ -206,7 +237,8 @@ class KoreanArticlePhp(PublisherParser):
     @staticmethod
     def _note_affiliation(name, lines):
         """The address after the author's name in a note 'Corresponding Author : Kim, Minjun, <title> <address>
-        Tel : ...', without the title, the contact details and any e-mail."""
+        Tel : ...', without the title, the contact details and any e-mail. Only an address that names an institution
+        and holds no phone number, e-mail or URL ("Cheong Dong Chun +82-63-290-6077>solano@korea.kr" gives none)."""
         parts = re.findall(r"\w+", name)
         if len(parts) < 2:
             return None
@@ -220,24 +252,30 @@ class KoreanArticlePhp(PublisherParser):
                 if m:
                     text = _CONTACT.sub("", rest[m.end():])
                     text = _EMAIL_IN_PARENS.sub("", _EMAIL.sub("", _ROLE.sub("", text))).strip(" ,;")
-                    return text or None
+                    return text if _INSTITUTION.search(text) and not _CONTACT_JUNK.search(text) else None
         return None
 
     def parse_authors(self):
         block = self._byline_block()
         if block is None:
             return []
-        byline = self._parse_byline(block.select_one("div.ft-author"))
+        author_tag = block.select_one("div.ft-author")
+        byline = self._parse_byline(author_tag)
         aff_tag = block.select_one("div.ft-author-aff")
-        affs = self._parse_affiliations(aff_tag) if aff_tag else []
+        affs = (self._parse_affiliations(aff_tag) if aff_tag else []) or self._author_block_affiliation(
+            author_tag, byline)
         marked = [(m, t) for m, t in affs if m]
         unmarked = [t for m, t in affs if not m]
         aff_marks = set().union(*[m for m, _ in marked]) if marked else set()
 
         cor_marks, cor_lines = self._corresponding_notes(block)
         cor_marks -= aff_marks  # a marker that also links an affiliation can't tell us who corresponds
-        every_mail = all(a["mail"] for a in byline)
+        every_mail = all(a["mails"] for a in byline)
+        note_mails = set(_MAIL_ADDR.findall(" ".join(cor_lines).lower()))
         kor_cor = self._korean_marked_corresponding(len(byline))
+        # a symbol no note line explains: with a mail icon on a sole author it marks the corresponding author
+        # ("Emiru Birhane Hizikias<sup>*<a mailto></sup>"), never when a note leads with it ("* 이 논문은 ...")
+        explained = {m.group(1) for _, t in self._note_lines(block) if (m := re.match(r"\s*([*†‡§¶#]+)", t))}
 
         authors = []
         for i, a in enumerate(byline):
@@ -249,7 +287,13 @@ class KoreanArticlePhp(PublisherParser):
                 mine = list(unmarked)  # one shared affiliation, or a list the page does not link to anyone
             corresponding = bool(cor_lines) and (bool(a["marks"] & cor_marks) or self._named_in(a["name"], cor_lines)
                                                  or len(byline) == 1)
-            if a["mail"] and not every_mail:  # a mail icon on this author only
+            # a mail icon on some authors only, when the note gives no e-mail or gives this author's (icons on two of
+            # three authors, the note names one address: only that one)
+            if a["mails"] and not every_mail and (not note_mails or any(
+                    n in m or m in n for m in a["mails"] if m for n in note_mails)):
+                corresponding = True
+            if (len(byline) == 1 and a["mails"] and not cor_lines
+                    and {m for m in a["marks"] if _SYMBOLS.fullmatch(m)} - aff_marks - explained):
                 corresponding = True
             if i in kor_cor:
                 corresponding = True

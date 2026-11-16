@@ -225,6 +225,64 @@ def test_mail_link_inside_the_marker_sup_marks_that_author():
     assert [a["is_corresponding"] for a in authors] == [False, False, True]
 
 
+def test_romanized_name_in_the_affiliation_block_is_not_an_affiliation():
+    # a Korean-only byline whose English affiliation block holds the author's romanized name
+    html = _page("이수정", "<br/>Lee, Sujoung")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["이수정"]
+    assert authors[0]["affiliations"] == []
+
+
+def test_affiliation_on_the_line_after_the_names_when_the_affiliation_block_is_empty():
+    # the names' own block carries the shared affiliation, then the byline again in Korean; the note's text after the
+    # name is a phone number and an e-mail, never an affiliation
+    html = _page("Dong-Chun Cheong*<a href=\"mailto:s@korea.kr\"></a>" + ORCID + ", Jin-Jae Lee, Jeong-Man Kim<br/>"
+                 "Jeollabuk-do Agricultural Research and Extension Services, Iksan 54591, Korea<br/><br/>"
+                 "정 동춘*<a href=\"mailto:s@korea.kr\"></a>, 이 진재, 김 정만<br/>전라북도농업기술원", "",
+                 cor="Corresponding author: Cheong Dong Chun +82-63-290-6077&gt;<a href=\"mailto:s@korea.kr\">"
+                     "s@korea.kr</a><br/>")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Dong-Chun Cheong", "Jin-Jae Lee", "Jeong-Man Kim"]
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [
+        ["Jeollabuk-do Agricultural Research and Extension Services, Iksan 54591, Korea"]] * 3
+    assert [a["is_corresponding"] for a in authors] == [True, False, False]
+    # without that line, the note-address fallback gives nothing for the phone-and-e-mail note
+    html = _page("Dong-Chun Cheong*<a href=\"mailto:s@korea.kr\"></a>, Jin-Jae Lee", "",
+                 cor="Corresponding author: Cheong Dong Chun +82-63-290-6077&gt;<a href=\"mailto:s@korea.kr\">"
+                     "s@korea.kr</a><br/>")
+    assert [a["affiliations"] for a in _parse(html)["authors"]] == [[], []]
+
+
+def test_mail_icon_on_an_author_the_note_does_not_name_is_not_a_mark():
+    # icons on two of three authors; the note gives only the second one's address. A phone glued to an affiliation goes.
+    html = _page("Hye-Jin Kim<sup>*</sup><a href=\"mailto:hjk@kriso.re.kr\"></a>, Jaeyong Oh<sup>**</sup>&#x2020;"
+                 "<a href=\"mailto:ojyong@kriso.re.kr\"></a>, Sekil Park<sup>**</sup>",
+                 "<sup>*</sup>Korea Research Institute of Ships and Ocean Engineering, Daejeon 34103, Korea042-866-3649"
+                 "<a href=\"mailto:hjk@kriso.re.kr\"></a><br/>"
+                 "<sup>**</sup>Korea Research Institute of Ships and Ocean Engineering, Daejeon 34103, Korea",
+                 note="<p>* 이 논문은 2016년 춘계학술발표회에 발표되었음.</p>",
+                 cor="Corresponding Author : <a href=\"mailto:ojyong@kriso.re.kr\">ojyong@kriso.re.kr</a>, "
+                     "042-866-3648<br/>")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Hye-Jin Kim", "Jaeyong Oh", "Sekil Park"]
+    assert [a["is_corresponding"] for a in authors] == [False, True, False]
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [
+        ["Korea Research Institute of Ships and Ocean Engineering, Daejeon 34103, Korea"]] * 3
+
+
+def test_sole_author_with_mail_in_the_star_marker_is_corresponding():
+    aff = "Dept. of Land Resources Management, Mekelle Univ., Mekelle, Ethiopia"
+    html = _page("Emiru Birhane Hizikias<sup>*<a href=\"mailto:e@gmail.com\"></a></sup>", aff,
+                 note="<br/> <p>Publisher's Note: JHJA stays neutral with regard to jurisdictional claims.</p><br/>")
+    assert [a["is_corresponding"] for a in _parse(html)["authors"]] == [True]
+    # a mail icon alone, or a star a note explains otherwise, is no mark
+    assert [a["is_corresponding"] for a in _parse(_page("Cheolhee Lee <a href=\"mailto:c@x.ac.kr\"></a>", aff))[
+        "authors"]] == [False]
+    html = _page("Emiru Birhane Hizikias<sup>*<a href=\"mailto:e@gmail.com\"></a></sup>", aff,
+                 note="<p>* This paper is based on the author's master's thesis.</p>")
+    assert [a["is_corresponding"] for a in _parse(html)["authors"]] == [False]
+
+
 BACK = """<div class="ft-content"><div id="article-body" class="body"><p>Body text.</p>
 <div class="ack"><a id="ID0EYCAE"></a><h2 class="main-title">감사의 글</h2>
 <p>이 연구는 한국연구재단의 지원을 받아 수행되었습니다.</p></div></div>
