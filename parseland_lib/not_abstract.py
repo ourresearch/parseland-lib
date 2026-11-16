@@ -82,6 +82,12 @@ _KEY_PATTERNS = [
     r"摘要|要旨|抄録|はじめに|中图分类号|zusammenfassung|resumen|resumo|résumé|аннотация|\d{1,3}",
     # a meeting abstract's disclosure checkbox standing alone (GIE / DDW, 978 works on 26 Oct; oxjob #1794)
     r"(?:disclosure compliance )?i understand",
+    # IEEE Xplore's whole "abstract" for an advertisement page, the item's kind standing alone like the labels above:
+    # "Advertisement.", "Advertisement, IEEE." (#2239 round 6: 3 of 33,557 sampled pages; gold none on both labelled
+    # ones). An advertisement given with its text stays. So do IEEE's sentences for other front matter ("Presents the
+    # table of contents of the proceedings."): the gate's gold keeps one as the item's own abstract field, the loop's
+    # labels keep 11 of 12, and the 30 wordings in KNOWN are dropped; that split is the loop owner's to settle.
+    r"advertisement(?: ieee)?",
 ]
 _KEY_RE = re.compile("|".join(f"(?:{p})" for p in _KEY_PATTERNS))
 
@@ -273,6 +279,34 @@ _GLUED_ABSTRACT_LABELS = ("Abstract", "Summary", "Özet", "Resumen", "Resumo", "
 _GLUED_ABSTRACT_LABEL_RE = re.compile(r"(?<=[^\W\d_])(?:" + "|".join(_GLUED_ABSTRACT_LABELS) + r")[ \t\r]*\n")
 
 
+# The keyword line printed after the abstract in the same field or paragraph, with whatever the page put after it (a
+# DOI, the history dates): "... are presented. Keywords: analytical microsystem-on-chip, ..." (DOAJ), "...\nKata Kunci:
+# Sistem Pendukung Keputusan, ..." (OJS). The rubric leaves keywords out. The heading readers stop at a paragraph that
+# opens with the label; this covers the label inside the text, whichever reader found it (#2239 round 6: 205 of
+# 18,463 sampled abstracts; on the 50 labelled ones 5 become right and none wrong). The label must open a sentence or
+# a line ("searched with the keywords: asthma, ..." is a sentence) and stand in the text's last 600 characters, after
+# its first 100: a "Keyword:" row in a thesis's front block, before the abstract, is not a tail.
+# shortcut: the last label only. "Keywords: ...\nKata kunci: ..." keeps the first line; cutting at the first label
+# would also cut a short second-language abstract printed between two keyword lines.
+_KEYWORD_TAIL_MAX = 600
+_KEYWORD_TAIL_RE = re.compile(
+    r"(?:(?<=[.!?。)\]”\"’'])[ \t\xa0]*|\s*\n\s*|[ \t\xa0]{2,})"
+    r"(?:key[ -]?words?|index terms|palavras?[- ]chaves?|palabras?[- ]claves?|mots?[- ]cl[ée]s?|schl[üu]sselw[öo]rter"
+    r"|parole chiave|ключевые слова|ключові слова|anahtar (?:kelimeler|sözcükler)|kata kunci|słowa kluczowe)"
+    r"[ \t\xa0]*[:：]", re.I)
+
+
+def _without_keyword_tail(text: str) -> str:
+    """`text` up to the keyword line that closes it; `text` itself when it has none."""
+    start = max(len(text) - _KEYWORD_TAIL_MAX, 100)
+    if ":" not in text[start:] and "：" not in text[start:]:
+        return text
+    last = None
+    for last in _KEYWORD_TAIL_RE.finditer(text, start):
+        pass
+    return text[:last.start()].rstrip() if last else text
+
+
 def _without_title_page(text: str) -> str:
     """The abstract out of a title page glued around it; `text` itself when it is not that shape."""
     m = _TITLE_PAGE_RE.match(text) if "Correspondence:" in text[:4000] else None
@@ -329,6 +363,7 @@ def clean_abstract(text):
     cleaned = _without_title_page(_GLUED_START_RE.sub("", _markup_to_text(text)))
     if cleaned.rstrip().endswith(_GLUED_END_TAILS) or "\\textcopyright" in cleaned[-160:]:
         cleaned = _GLUED_END_RE.sub("", cleaned)
+    cleaned = _without_keyword_tail(cleaned)
     if cleaned == text:
         return text
     cleaned = _LABEL_RE.sub("", cleaned.strip()).strip()

@@ -199,16 +199,24 @@ def _is_label_wrapper(node, heading):
     return seen == label
 
 
+_LABEL_WRAPPERS = 4  # how many elements around a label are climbed, the label's own parent included
+
+
 def _text_under_label(heading, block=None):
     """The text `heading` labels: what follows it, or, when it sits alone in a label wrapper, what follows the wrapper;
-    the wrapper may sit in one more that holds the label and nothing else ("<p><strong><em>Abstract</em></strong></p>").
+    the wrapper may sit in more that hold the label and nothing else ("<p><strong><em>Abstract</em></strong></p>").
+    Old SciELO pages print <p><font><b><i>ABSTRACT</i></b></font></p> beside <p><font><b>RESUMO</b></font></p>: with
+    one such wrapper climbed the Portuguese version was read and the English one was not (#2239 round 6).
     Never from outside `block`, the abstract's own container when the caller knows it: what follows that is another
     section (#2239 round 4). None and '' as _text_after gives them."""
     text, wrapper = _text_after(heading), heading.parent
     if text is None and wrapper is not block:
         text = _text_after(wrapper)
-        if text is None and wrapper.parent is not block and _is_label_wrapper(wrapper.parent, heading):
-            text = _text_after(wrapper.parent)
+        for _ in range(_LABEL_WRAPPERS - 1):
+            wrapper = wrapper.parent
+            if text is not None or wrapper is None or wrapper is block or not _is_label_wrapper(wrapper, heading):
+                break
+            text = _text_after(wrapper)
     return text
 
 
@@ -901,7 +909,13 @@ class PublisherParser(Parser, ABC):
         one <div class="article-abstract data-section"> per language tab. The twin is an element with the same tag
         name and classes as the one that holds `chosen`: a sibling of it, or, when the classes say "abstract", any
         such block of the page. It counts when it is as long as a translation would be and reads as English.
+
+        Or the versions are values of one field in the page's tags only: Open Journal Systems prints one version
+        and lists each in a DC.Description tag of its own. parse_abstract_meta_tags picks the English tag among
+        versions over 200 characters; a one- or two-sentence abstract never reaches it (#2239 round 6).
         """
+        if tagged := self._english_version_tag(chosen):
+            return tagged
         el, key = self._printed_at(chosen), _alnum(chosen)
         for _ in range(4):  # up to the element that holds the whole value (a value may have paragraphs in it)
             if el is None or el.name in ("body", "html", "[document]"):
@@ -929,6 +943,23 @@ class PublisherParser(Parser, ABC):
                 text = text[len(heading):].strip()
             if len(text) > 100 and _translation_length(text, chosen) and is_english(text):
                 return text
+        return None
+
+    def _english_version_tag(self, chosen):
+        """The English version of `chosen` from an abstract tag, when `chosen` is itself the whole content of one
+        (so the tags list this abstract's versions) and another passes _english_tag; else None. The other tag must
+        read as English: at this length its language attribute alone would also pass a citation note stamped "en"."""
+        key = _alnum(chosen)
+        versions = [(tag, name, text) for tag in self.soup.find_all("meta")
+                    if (name := (tag.get("name") or tag.get("property") or "").lower()) in _ABSTRACT_VERSION_TAGS
+                    and (text := (tag.get("content") or "").strip())]
+        first = next(((tag, name) for tag, name, text in versions if _alnum(text) == key), None)
+        if first is None:
+            return None
+        for tag, name, text in versions:
+            if len(text) >= 100 and _alnum(text) != key and is_english(text) and not is_not_abstract(
+                    text) and self._english_tag(text, tag, name, chosen, *first):
+                return _LEADING_LABEL.sub("", text)
         return None
 
     def _item_title(self):
