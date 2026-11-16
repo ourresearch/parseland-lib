@@ -35,6 +35,17 @@ def _js_string(value):
     return squash(text) or None
 
 
+def _preloads_nuxt_state(soup):
+    """Cheap test (no tree walk) that a page may preload a Nuxt state: Nuxt 2's server render marks <html
+    data-n-head-ssr> (every Founder page seen) and writes the window.__NUXT__ script straight into <body>."""
+    html = soup.html
+    if html is not None and html.has_attr("data-n-head-ssr"):
+        return True
+    body = soup.body
+    return body is not None and any(child.name == "script" and (child.string or "").lstrip().startswith("window.__NUXT__")
+                                    for child in body.children)
+
+
 class Founder(PublisherParser):
     parser_name = "founder_journal_cloud"
 
@@ -42,6 +53,10 @@ class Founder(PublisherParser):
         """The page's preloaded Nuxt state, or None when this is not a Founder article page."""
         if not hasattr(self, "_nuxt"):
             self._nuxt = None
+            # Every parser's claim runs on every page, so a cheap marker comes first and other pages are rejected
+            # before anything walks the tree.
+            if not _preloads_nuxt_state(self.soup):
+                return None
             if self.soup.select_one('a[href*="/rc-pub/front/front-article/"]'):
                 for script in self.soup.find_all("script"):
                     text = script.string or ""
