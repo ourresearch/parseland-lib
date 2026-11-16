@@ -1,3 +1,4 @@
+import copy
 import re
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
@@ -35,7 +36,12 @@ class IGIGlobal(PublisherParser):
 
     def parse_abstract(self):
         if abs_tag := self.soup.select_one('span[id*=lblAbstract]'):
-            return strip_prefix('abstract', abs_tag.text, flags=re.IGNORECASE)
+            # the paywall's block sits inside the abstract's element: "Request access from your librarian to read
+            # this chapter's full text." ended every abstract (#2239 phase 2)
+            abs_tag = copy.copy(abs_tag)  # never edit the page other readers use
+            for sample in abs_tag.select('div#sample, .preview-footer'):
+                sample.decompose()
+            return strip_prefix('abstract', abs_tag.text, flags=re.IGNORECASE).strip()
         return None
 
     def parse(self):

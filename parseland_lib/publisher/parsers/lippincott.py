@@ -175,6 +175,9 @@ class Lippincott(PublisherParser):
         abstract = None
         if abs_wrap := self.soup.select_one(
                 'section#abstractWrap'):
+            # The tabbed template holds two panels, "Abstract" and a machine-written "Plain Language Summary" ("Text
+            # is machine generated and may contain inaccuracies."): only the first is the abstract (#2239 phase 2).
+            abs_wrap = abs_wrap.select_one('.ejp-article-text-abstract') or abs_wrap
             if len(abs_wrap.text) > 100:
                 abstract = abs_wrap.text.strip()
         elif abstract_tag := self.soup.select_one('section#ArticleBody'):

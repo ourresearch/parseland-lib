@@ -3,6 +3,8 @@ import copy
 import re
 from abc import ABC, abstractmethod
 
+from bs4 import Comment
+
 from parseland_lib.elements import AuthorAffiliations, Author
 from parseland_lib.legacy_parse_utils.fulltext import \
     parse_publisher_fulltext_location
@@ -100,6 +102,8 @@ def _text_after(anchor):
     for sib in anchor.next_siblings:
         name = getattr(sib, "name", None)
         if name is None:
+            if isinstance(sib, Comment):
+                continue  # not printed: PubMan's "<!-- Iterator for abstracts -->" opened every MPG abstract (#2239)
             t = str(sib).strip()
             if t and first is None:
                 parts.append(t)

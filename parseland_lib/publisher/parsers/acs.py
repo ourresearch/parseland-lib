@@ -1,3 +1,4 @@
+import copy
 import re
 import unicodedata
 
@@ -125,6 +126,12 @@ class ACS(PublisherParser):
             node = self.soup.select_one(selector)
             if not node:
                 continue
+            if node.find("figure"):
+                # the graphical abstract's figure brings its toolbar: "High Resolution Image Download MS PowerPoint
+                # Slide" opened the abstract (#2239 phase 2)
+                node = copy.copy(node)  # never edit the page other readers use
+                for figure in node.find_all("figure"):
+                    figure.decompose()
             text = self._clean_abstract(node.get_text(" ", strip=True))
             if text:
                 return text

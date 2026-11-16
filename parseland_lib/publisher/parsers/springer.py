@@ -1127,6 +1127,12 @@ class Springer(PublisherParser):
             ps = abs_section.select('div[class*=c-article-section] p')
             if not ps:
                 ps = abs_section.find_all('p')
+            # Old book chapters print machine-chosen keywords and their disclaimer ("These keywords were added by
+            # machine and not by the authors ...") in the same section, under an <h3>Keywords</h3>: the abstract
+            # ends there (#2239 phase 2: 142 of 33,557 sampled pages).
+            if keywords := abs_section.find('h3', string=re.compile(r'^\s*Keywords\s*$')):
+                after = {id(p) for p in keywords.find_next_siblings('p')}
+                ps = [p for p in ps if id(p) not in after]
             if ps:
                 chunks = [p.get_text(" ", strip=True) for p in ps]
                 chunks = [c for c in chunks if c]

@@ -131,6 +131,20 @@ _TEMPLATE_RES = [
 _FURNITURE_RE = re.compile(r"search for other works by this author on|\b(?:cite|share|views) icon (?:cite|share|views)\b")
 
 
+# A chapter's list of section headings printed where its abstract would be (Wiley book chapters: "This chapter
+# contains sections titled: Introduction ... References"): a table of contents, whatever its length (#2239 phase 2).
+_CONTENTS_LIST_RE = re.compile(r"this (?:chapter|article|section|entry) contains sections titled\b")
+
+# Site descriptions the frozen list misses because the site has reworded or translated its blurb since: matched on
+# the key's opening, so the next rewording is caught too (#2239 phase 2: Spain's historical-newspaper library in
+# English, Galiciana's two added sentences; both are in the list in their 24 Oct wording).
+# shortcut: two openings kept by hand. The upgrade is the frequency rule named at the top of this module.
+_SITE_BLURB_STARTS = (
+    "the virtual library of historical newspapers bvph managed by the subdirectorate general for library coordination",
+    "a biblioteca dixital de galicia forma parte de galiciana",
+)
+
+
 @cache
 def _known() -> frozenset:
     with open(_DATA, encoding="utf-8") as f:  # count, side, text; '#' lines are comments
@@ -145,18 +159,103 @@ def is_not_abstract(text) -> bool:
     k = _key_of(plain)
     if not k:
         return True  # punctuation or symbols only ('.', '-', '■')
-    if k in _known():
+    if k in _known() or k.startswith(_SITE_BLURB_STARTS):
         return True
     # Digital Commons (bepress) record pages that have no abstract describe the item with its opening paragraph and
     # say so: "(First paragraph) Plucking chickens the kosher way ..." An opening the page marks as such is body
     # text, not the abstract (oxjob #2162's rule; seen by #2239 on repository pages).
-    if plain.startswith("(first paragraph)"):
+    if plain.startswith("(first paragraph)") or _CONTENTS_LIST_RE.match(plain):
         return True
     if len(k) <= 200 and _KEY_RE.fullmatch(k):
         return True
     return len(plain) <= 1500 and (bool(_FURNITURE_RE.search(plain)) or any(r.match(plain) for r in _TEMPLATE_RES))
 
 
+# --- Markup and page text glued onto an abstract (oxjob #2239, phase 2) ---------------------------------------------
+# Meta tags often hold the abstract as HTML or JATS ("<p><strong>Abstract.</strong> ...</p>", "<h3>Background</h3>",
+# "CO<sub>2</sub>", "&nbsp;"), and a reader that takes a page block takes the page's own text with it. On a random
+# 33,557 stored pages: 261 abstracts with raw tags, 142 ending in Springer's machine-keywords disclaimer, 28 in IGI
+# Global's access notice, 16 starting with ACS's figure toolbar. An abstract is plain text.
+
+# A tag as markup writes it: a bare name, a closing tag, or a name with quoted attributes. "<Frankfurt, Main>",
+# "<https://github.com/...>", "<Delta z = 0.3>" and "a<b and c>d" are not that shape.
+_TAG_NAME = r"[a-zA-Z][\w:.-]*"
+_MARKUP_RE = re.compile(rf"""<(/?)({_TAG_NAME})(\s+[\w:.-]+\s*=\s*["'][^<>]*|\s*/?)>""")
+_CLOSER_RE = re.compile(rf"<(?:/({_TAG_NAME})\s*|({_TAG_NAME})\s*/)>")  # </i>, and HAL's <i/>
+# An entity with its ';': the "&copy=2&region=eu" of a URL is not one.
+_ENTITY_RE = re.compile(r"&(?:#\d{1,7}|#[xX][0-9a-fA-F]{1,6}|[a-zA-Z][a-zA-Z0-9]{1,31});")
+_VOID_TAGS = frozenset("br hr img wbr".split())  # never closed
+_BREAK = "\x00"  # where a block tag stood, until the lines are built
+# Elements that start a new line (HTML, and JATS's sec / title / list-item); other markup closes up, as
+# CO<sub>2</sub> must.
+_BLOCK_TAGS = frozenset(
+    "abstract address article aside blockquote br dd div dl dt figcaption figure footer h1 h2 h3 h4 h5 h6 header hr "
+    "li list list-item ol p pre sec section table td th title tr ul".split())
+# The label a tag or a glued prefix set apart from the text: "<p>Abstract</p>", "<strong>Abstract.</strong>". Only
+# with its own punctuation or line: "Abstract interpretation is ..." is a sentence.
+_LABEL_RE = re.compile(r"^abstract\s*(?:[:.]\s*|\n)", re.I)
+
+# Page text glued to the abstract's start or end, exact wordings only. Each site's own reader leaves its notice
+# out too; these cover the generic readers, which take the same block or tag.
+# shortcut: one phrase per site, added as a sample shows it. Fine for a handful; past that, drop link-only and
+# figure blocks in the generic block reader instead.
+_GLUED_START_RE = re.compile(
+    r"^\s*(?:High Resolution Image\s+Download MS PowerPoint Slide\s+"  # ACS: the graphical abstract's toolbar
+    r"|CiteSeerX - Document Details \([^()]{1,300}\):\s*)")  # CiteSeerX's description tag
+_GLUED_END_RE = re.compile(
+    # Springer: machine-chosen keywords and their disclaimer, printed inside the abstract's section
+    r"(?:(?:\bKeywords\b[^.]{0,600})?These keywords were added by machine and not by the authors\.\s*This process "
+    r"is experimental and the keywords may be updated as the learning algorithm improves\.?"
+    # IGI Global: the paywall's notice inside the abstract's element
+    r"|Request access from your librarian to read this (?:chapter|article|book|title)['’]s full text\.?)\s*$")
+# _GLUED_END_RE can start anywhere, so it scans the whole text: it runs only on a text that ends like one of its
+# notices.
+_GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text")
+
+
+def _strip_tags(text: str) -> str:
+    """Block tags become line breaks, other tags close up. A bare "<name>" counts as a tag when the text also closes
+    it, when it is a void element, or when it opens the text (a wrapper whose end was cut off): "the mean <p>",
+    "X_<steam>" and "an <EOS> token" are text."""
+    closed = {(a or b).lower() for a, b in _CLOSER_RE.findall(text)}
+    opening = len(text) - len(text.lstrip())  # where the text itself starts
+
+    def swap(m):
+        closing, name, rest = m.group(1), m.group(2).lower(), m.group(3).strip()
+        local = name.rsplit(":", 1)[-1]  # jats:p, mml:mi
+        if not (closing or rest or local in _VOID_TAGS or name in closed or m.start() == opening):
+            return m.group(0)
+        return _BREAK if local in _BLOCK_TAGS else ""
+
+    return _MARKUP_RE.sub(swap, text)
+
+
+def _markup_to_text(text: str) -> str:
+    """`text` as a browser shows it: tags read (see _strip_tags), entities decoded, spaces collapsed, one line per
+    block (the source's own line breaks are spaces then). A text with neither tags nor entities comes back
+    untouched."""
+    original = text
+    for _ in range(3):  # markup escaped again inside the tag ("&lt;p&gt;", "&amp;lt;SUB&amp;gt;") comes out too
+        stripped = _strip_tags(text) if "<" in text else text
+        text = _ENTITY_RE.sub(lambda m: html.unescape(m.group(0)), stripped) if "&" in stripped else stripped
+        if text == stripped:
+            break
+    if text == original:
+        return original
+    lines = (" ".join(line.split()) for line in text.split(_BREAK if _BREAK in text else "\n"))
+    return "\n".join(line for line in lines if line)
+
+
 def clean_abstract(text):
-    """The abstract, or None when it is not one."""
-    return None if is_not_abstract(text) else text
+    """The abstract as plain text, without page text glued to it; None when it is not an abstract."""
+    if is_not_abstract(text):
+        return None
+    if not text or not isinstance(text, str):
+        return text
+    cleaned = _GLUED_START_RE.sub("", _markup_to_text(text))
+    if cleaned.rstrip().endswith(_GLUED_END_TAILS):
+        cleaned = _GLUED_END_RE.sub("", cleaned)
+    if cleaned == text:
+        return text
+    cleaned = _LABEL_RE.sub("", cleaned.strip()).strip()
+    return cleaned if cleaned and not is_not_abstract(cleaned) else None

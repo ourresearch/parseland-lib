@@ -16,9 +16,10 @@ def test_bmj_uses_short_citation_abstract() -> None:
 
     parsed = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1136/bmj.q1056")
 
+    # the tag's <p> markup is read, not returned: an abstract is plain text (#2239 phase 2)
     assert parsed["abstract"] == (
-        "<p>Allocating placeholder roles to incoming foundation doctors "
-        "undermines their value to the NHS, writes Éabha Lynn</p>"
+        "Allocating placeholder roles to incoming foundation doctors "
+        "undermines their value to the NHS, writes Éabha Lynn"
     )
 
 
