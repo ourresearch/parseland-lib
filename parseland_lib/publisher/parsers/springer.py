@@ -220,7 +220,8 @@ class Springer(PublisherParser):
         except Exception:
             return ''
 
-    def _repair_authors_from_short_list(self, authors):
+    def _repair_authors_from_short_list(self, authors, dropped=()):
+        """`dropped`: the authors the book-editor filter has just removed from `authors`."""
         short_authors = self._parse_short_author_list()
         if not short_authors:
             return authors
@@ -273,19 +274,18 @@ class Springer(PublisherParser):
         if not should_replace:
             return authors
 
-        unique_current_affiliations = []
-        seen_affiliations = set()
-        for author in authors:
-            affs = tuple(self._author_affiliations(author))
-            if not affs or affs in seen_affiliations:
-                continue
-            seen_affiliations.add(affs)
-            unique_current_affiliations.append(affs)
-        shared_affiliations = (
-            list(unique_current_affiliations[0])
-            if current_set < short_set and len(unique_current_affiliations) == 1
-            else []
-        )
+        # A byline author the list lacks gets the affiliations the page gives that author, and no one else's
+        # (oxjob #2239). Two cases. A chapter author who also edits the book was removed by the editor filter:
+        # their own affiliations are in `dropped` (978-3-031-67099-2_7: Debbie Jones and Mark Jones came out with
+        # the third author's affiliation, or with none when the page had several). An author the affiliation
+        # block doesn't list has none on the page (BF02109507: the block ties its one affiliation to Imai, and
+        # Sakanoue got it too). Before, such an author got the others' affiliation whenever they all shared one:
+        # wrong on 5 of the 8 dev pages it touched, and their own affiliations are right on all 8.
+        dropped_by_key = {}
+        for author in dropped:
+            key = self._author_match_key(self._author_name(author))
+            if key:
+                dropped_by_key.setdefault(key, author)
 
         repaired = []
         for short_author in short_authors:
@@ -293,9 +293,8 @@ class Springer(PublisherParser):
             current = current_by_key.get(key)
             repaired.append({
                 'name': short_author['name'],
-                'affiliations': (
-                    self._author_affiliations(current)
-                    if current else shared_affiliations
+                'affiliations': self._author_affiliations(
+                    current or dropped_by_key.get(key) or {}
                 ),
                 'is_corresponding': (
                     self._author_is_corresponding(current)
@@ -511,11 +510,14 @@ class Springer(PublisherParser):
         # filter below drops any parsed author whose normalized name appears
         # in that block's text, leaving journal articles (no editor section)
         # untouched.
+        before_editor_filter = authors_affiliations
         authors_affiliations = self._drop_book_editors_from_authors(
             authors_affiliations
         )
+        kept = {id(a) for a in authors_affiliations or []}
         authors_affiliations = self._repair_authors_from_short_list(
-            authors_affiliations
+            authors_affiliations,
+            dropped=[a for a in before_editor_filter or [] if id(a) not in kept],
         )
         authors_affiliations = self._apply_correspondence_author_whitelist(
             authors_affiliations

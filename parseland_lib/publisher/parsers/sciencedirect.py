@@ -117,6 +117,26 @@ class ScienceDirect(PublisherParser):
         if not (science_direct_json := self.extract_json()):
             return {"authors": [], "abstract": None}
 
+        all_authors = self.page_state_authors(science_direct_json)
+        # first try parsing abstract text through html
+        abstract = None
+        if abstract_tags := self.soup.select('div.abstract.author p'):
+            abstract = '\n'.join([tag.text for tag in abstract_tags])
+        if not abstract:
+            # try parsing through json
+            abstracts_content = science_direct_json.get("abstracts", {}).get(
+                "content", [])
+            if abstracts_content:
+                abstract = self.abstract_text(abstracts_content)
+                abstract = re.sub(r" +", " ", abstract).strip()
+
+        return {"authors": all_authors, "abstract": abstract}
+
+    @classmethod
+    def page_state_authors(cls, science_direct_json):
+        """Authors of the page-state JSON in order, each with the affiliations its author group links to it.
+
+        Its own method so the Elsevier BV parser reads who has which affiliation the same way (#2239)."""
         all_authors = []
 
         authors_content = science_direct_json.get("authors", {}).get("content",
@@ -142,15 +162,15 @@ class ScienceDirect(PublisherParser):
                 if
                 x.get("#name") == "affiliation" or x.get("#name") == "footnote"
             ]
-            footnote_dicts = self._group_footnotes(author_group)
+            footnote_dicts = cls._group_footnotes(author_group)
 
-            corresponding_ids = self._get_corresponding_ids(author_group)
+            corresponding_ids = cls._get_corresponding_ids(author_group)
 
             for affiliation in affiliation_dicts:
                 affiliation_label = affiliation.get("$", {}).get("id")
                 for affiliation_property in affiliation.get("$$", []):
                     if affiliation_property.get("#name") == "textfn":
-                        text = self.affiliation_text(affiliation_property)
+                        text = cls.affiliation_text(affiliation_property)
                         if affiliation_label and text:
                             group_affiliation_labels[affiliation_label] = text
 
@@ -158,7 +178,7 @@ class ScienceDirect(PublisherParser):
                 footnote_label = footnote.get("$", {}).get("id")
                 for footnote_property in footnote.get("$$", []):
                     if footnote_property.get("#name") == "note-para":
-                        text = self.affiliation_text(footnote_property)  # plain {"_": ...} or nested {"$$": [...]}
+                        text = cls.affiliation_text(footnote_property)  # plain {"_": ...} or nested {"$$": [...]}
                         if footnote_label and text:
                             group_footnote_labels[footnote_label] = text
 
@@ -236,19 +256,7 @@ class ScienceDirect(PublisherParser):
                             "is_corresponding": author["is_corresponding"],
                         }
                     )
-        # first try parsing abstract text through html
-        abstract = None
-        if abstract_tags := self.soup.select('div.abstract.author p'):
-            abstract = '\n'.join([tag.text for tag in abstract_tags])
-        if not abstract:
-            # try parsing through json
-            abstracts_content = science_direct_json.get("abstracts", {}).get(
-                "content", [])
-            if abstracts_content:
-                abstract = self.abstract_text(abstracts_content)
-                abstract = re.sub(r" +", " ", abstract).strip()
-
-        return {"authors": all_authors, "abstract": abstract}
+        return all_authors
 
     # Nodes nested in an affiliation's textfn that are not its text: footnote markers and footnote bodies,
     # page references, phone/fax set as math, e-mail. Oxjob #1794 (live sample: these made up most of the noise).
