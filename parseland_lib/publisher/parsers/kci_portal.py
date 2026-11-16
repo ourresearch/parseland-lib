@@ -12,6 +12,10 @@ _REF_HEADING = re.compile(r"^\s*(?:참고문헌|references)\s*\(\s*(\d+)\s*\)\s*
 _DOI = re.compile(r"doi\.org/(10\.\d{4,9}/\S+)$", re.I)
 
 
+def _is_landing_asset(href):
+    return href is not None and "/kciportal/resources/landing/" in href
+
+
 def _text(node):
     return " ".join(node.get_text(" ", strip=True).split())
 
@@ -22,7 +26,18 @@ class KCIPortal(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def is_publisher_specific_parser(self):
-        return bool(self.soup.select_one(_LANDING_ASSETS))
+        # Every parser's claim runs on every DOI page (oxjob #2239's per-page CPU rule), so look only in the small
+        # <head>, where the landing stylesheets sit, and keep the answer. A page with no <head> is searched whole,
+        # as before.
+        claim = self.__dict__.get("_kci_claim")
+        if claim is None:
+            head = self.soup.head
+            if head is None:
+                claim = bool(self.soup.select_one(_LANDING_ASSETS))
+            else:
+                claim = head.find("link", href=_is_landing_asset) is not None
+            self._kci_claim = claim
+        return claim
 
     def authors_found(self):
         return self.is_publisher_specific_parser() and bool(self._byline())
