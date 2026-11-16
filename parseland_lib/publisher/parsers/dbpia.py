@@ -30,6 +30,7 @@ DBPIA_LIST = "section.thesisDetail__author ul.authorList > li.authorList__item"
 DBPIA_WRAP = ".thesisDetail__authorList #authorWrap > span.author"
 DBPIA_LINKS = "div.thesisInfoArea div.author-wrap > p.author"
 DBPIA_DIALOG = "dialog#authorLayer ul.authorList > li.authorList__item"
+_UNSET = object()
 
 
 def _clean(text):
@@ -61,6 +62,26 @@ def _split_outside_parens(text):
     return [p.strip() for p in parts if p.strip()]
 
 
+def _head_points_elsewhere(soup, word):
+    """True when the page's <head> links to absolute URLs (canonical, og:url, scripts, stylesheets) and no tag in it
+    names `word`. The cheap claim test, run before any whole-page search: every PublisherParser is asked
+    authors_found() on every DOI page, so a whole-page search on pages a parser does not claim is paid on every page
+    (oxjob #2239's per-page CPU budget). DBpia and earticle name themselves in the head (canonical link, og:url,
+    og:site_name, asset paths); a page with no head, or a head with no absolute URL, still gets the full test."""
+    head = soup.head
+    if head is None:
+        return False
+    elsewhere = False
+    for tag in head.find_all(True):
+        for key, value in tag.attrs.items():
+            value = (" ".join(value) if isinstance(value, list) else value).lower()
+            if word in value:
+                return False
+            if not elsewhere and key in ("href", "src", "content"):
+                elsewhere = value.startswith(("http://", "https://", "//"))
+    return elsewhere
+
+
 def _author(name, aff=None, corresponding=None):
     return {"name": name, "affiliations": [aff] if aff else [], "is_corresponding": corresponding}
 
@@ -85,7 +106,10 @@ class DBpia(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def is_publisher_specific_parser(self):
-        return bool(self.soup.select_one(f"{DBPIA_LIST}, {DBPIA_WRAP}, {DBPIA_LINKS}"))
+        if getattr(self, "_claimed", None) is None:
+            self._claimed = (not _head_points_elsewhere(self.soup, "dbpia")
+                             and bool(self.soup.select_one(f"{DBPIA_LIST}, {DBPIA_WRAP}, {DBPIA_LINKS}")))
+        return self._claimed
 
     def authors_found(self):
         return self.is_publisher_specific_parser() and bool(self._authors())
@@ -135,6 +159,11 @@ class Earticle(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def _author_section(self):
+        if getattr(self, "_section", _UNSET) is _UNSET:
+            self._section = None if _head_points_elsewhere(self.soup, "earticle") else self._find_author_section()
+        return self._section
+
+    def _find_author_section(self):
         for section in self.soup.select("div.art-detail div.otherInfo div.detail-info div.section"):
             heading = section.find("h4")
             if heading and _clean(heading.get_text()) == "저자" and section.select_one("ul.authors"):
