@@ -20,6 +20,58 @@ SITE_CHROME_FINDERS = [
     " or @id='footer' or starts-with(@id, 'footer') or contains(@id, '-footer') or contains(@id, '_footer')]",
 ]
 
+# Where the page's own content is (#2239): HTML allows one <main> (or role="main") per page and never inside a
+# <footer> or <nav>, so an element that holds it is not site chrome, whatever its tag or name says.
+_MAIN_CONTENT = etree.XPath("//main | //*[@role='main'][not(self::nav or self::footer)]")
+
+
+def _clear_all_but_main(element, mains, holders):
+    """Clear what a <nav> or <footer> holds beside the page's main content; True when anything went."""
+    cleared = False
+    for child in element.iterchildren(tag=etree.Element):
+        if child in mains:
+            continue
+        if child in holders:
+            cleared |= _clear_all_but_main(child, mains, holders)
+        else:
+            child.clear()
+            cleared = True
+    return cleared
+
+
+def _clear_site_chrome(tree):
+    """Clear the page's site chrome (SITE_CHROME_FINDERS), except chrome that holds the page; True when anything went.
+
+    Site chrome that holds the page is not chrome (#2239, phase 2). The finders also match elements that wrap the
+    WHOLE page, and the article's own licence went with them: arXiv's abstract pages sit in
+    <div class="flex-wrap-footer"> (a sticky-footer layout), WordPress themes put footer options in the <body> class,
+    and DSpace JSPUI leaves a <div> open in its header <nav>, so the parser ignores </nav> and the nav swallows <main>
+    and all that follows (36 of 875 sampled pages whose stored licence the re-parse dropped; arXiv 32). So <html>,
+    <body> and any element that holds the page's <main> are never cleared whole:
+    - a wrapper that only has a footer-like name stays, and the real <footer>, <nav> and footer-named elements inside
+      it still go, because the same finders match them on their own;
+    - a real <nav>, <footer> or role=contentinfo that swallowed <main> loses everything but <main>: its own menu
+      items are still chrome.
+    Only structure counts. The share of the page's text an element holds, an <h1> or an <article> in it are not
+    evidence of content: on short and paywalled pages the site footer is most of the text (sampled pages: an OJS
+    footer with 70% of the page's visible text, another repository's with 85%, DOAJ's with 40%, OpenGrey's with
+    40-60% once its inline scripts count), and site navs and footers carry <h1> logos and <article> teasers (PLOS,
+    APS, Frontiers, Erudit). Sparing those would bring back the site-footer licences this rule exists to keep out.
+    """
+    mains = set(_MAIN_CONTENT(tree))
+    holders = {ancestor for main in mains for ancestor in main.iterancestors()}
+    cleared = False
+    for section_finder in SITE_CHROME_FINDERS:
+        for section in tree.xpath(section_finder):
+            if section in mains or section.tag in ('html', 'body'):
+                continue  # <main class="has-footer">, <body class="ast-footer-overlay">: the content itself
+            if section not in holders:
+                section.clear()
+                cleared = True
+            elif section.tag in ('nav', 'footer') or section.get('role') == 'contentinfo':
+                cleared |= _clear_all_but_main(section, mains, holders)
+    return cleared
+
 
 def page_potential_license_text(page, keep_site_chrome=False):
     tree = get_tree(page)
@@ -27,9 +79,9 @@ def page_potential_license_text(page, keep_site_chrome=False):
     if tree is None:
         return page
 
-    section_removed = False
+    section_removed = False if keep_site_chrome else _clear_site_chrome(tree)
 
-    bad_section_finders = ([] if keep_site_chrome else SITE_CHROME_FINDERS) + [
+    bad_section_finders = [
         "//div[contains(@class, 'view-pnas-featured')]",  # https://www.pnas.org/content/114/38/10035
         "//meta[contains(@name, 'citation_reference')]",  # https://www.thieme-connect.de/products/ebooks/lookinside/10.1055/sos-SD-226-00098
         # Page-template code that looks for a CC badge is not a licence statement: SAGE's older template ships
