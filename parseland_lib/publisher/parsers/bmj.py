@@ -100,7 +100,9 @@ class BMJ(PublisherParser):
             direct_corr_name_match = name_in_text(name, corr_name)
             correspondence_match = self.name_matches_correspondence(name, corr_name)
             email_match = self.name_matches_correspondence(name, email_text)
-            if correspondence_match or email_match or len(author_soup) == 1:
+            # A sole author is corresponding only when the page has a correspondence note: being the only author
+            # is not a mark (obituaries, news, meeting abstracts: the gold marks no one on 4 of 4) (#2239)
+            if correspondence_match or email_match or (len(author_soup) == 1 and corr_str.strip()):
                 is_corresponding = True
                 if corr_aff and direct_corr_name_match and not aff_ids:
                     author = AuthorAffiliations(name=name,

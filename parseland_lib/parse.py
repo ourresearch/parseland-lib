@@ -461,9 +461,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # Copernicus marks it "CORRESPONDING AUTHOR" in the author's pop-up, or in a "Correspondence:" statement (#2218);
     # the current template's pages go to the meta-tag parser, which marks no one. A referee or author comment's DOI
     # resolves to the discussed preprint's page (".../egusphere-2025-3710/#AC1"): those marks are the preprint's.
+    copernicus_comment = bool(namespace == "doi" and resolved_url and re.search(
+        r"#(AC|RC|CC|EC|CEC)\d+$", resolved_url) and _has(lp_content, "copernicus.org"))
     cop_names = copernicus_corresponding_names(soup) if namespace == "doi" and _has(lp_content, "copernicus.org") and (
         _has(lp_content, "CORRESPONDING AUTHOR") or _has(lp_content, "correspondence-statement")) and not (
-        resolved_url and re.search(r"#(AC|RC|CC|EC|CEC)\d+$", resolved_url)) else []
+        copernicus_comment) else []
     # Open Journal Systems sites mark the primary contact, a lone e-mail, a starred byline or "Author for correspondence"
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_page = is_ojs_page(soup, lp_content)
@@ -669,6 +671,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
             elif highwire_marks:
                 _mark_corresponding_by_name(
                     authors, pick_highwire_corresponding([a["name"] for a in authors], highwire_marks))
+        # On a Copernicus comment's page every mark is the discussed preprint's, whichever reader found it: the
+        # meta-tag parser reads the same pop-up as the Copernicus reader that is switched off above (#2239)
+        if copernicus_comment and any(a["is_corresponding"] for a in authors):
+            for a in authors:
+                a["is_corresponding"] = None
 
     # Merge into a single response
     response = authors_and_abstract

@@ -35,7 +35,11 @@ def test_email_tag_on_every_author_marks_no_one():
 
 
 def test_email_tag_on_the_one_author():
-    html = _page([("Debbie Fraser", "dfraser@example.ca")])
+    # with the address printed in the author's pop-up (ccjm.org); the tag alone on a sole author is not a mark
+    # (#2239, tests/test_corresponding_r2.py)
+    popup = ('<li class="author-corresp-email-link last"><span>For correspondence: '
+             '<a href="mailto:dfraser@example.ca">dfraser@example.ca</a></span></li>')
+    html = _page([("Debbie Fraser", "dfraser@example.ca")], popup)
     assert _corr(html) == ["Debbie Fraser"]
 
 

@@ -2,7 +2,7 @@ import re
 from functools import cached_property
 
 from parseland_lib.publisher.parsers.oxford import Oxford
-from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.parser import PublisherParser, silverchair_corresponding_cards
 from parseland_lib.publisher.parsers.utils import squash
 
 # Name suffixes that belong to the name, and bare initials ("J.", "J.R."): a "Family, Given" name, never credentials
@@ -110,12 +110,14 @@ class SilverchairBooks(PublisherParser):
         if self._byline is None:
             return []
         authors = []
-        for tag in self._byline.select(".al-author-name"):
+        cards = self._byline.select(".al-author-name")
+        corresponding_cards = {id(card) for card in silverchair_corresponding_cards(cards)}
+        for tag in cards:
             name_tag = tag.select_one(".info-card-name") or tag.select_one("a.linked-name")
             name = self._name(name_tag.get_text(" ", strip=True)) if name_tag is not None else ""
             if not name:
                 continue
-            corresponding = tag.select_one("a.xref-corresp, .info-author-correspondence") is not None
+            corresponding = id(tag) in corresponding_cards
             authors.append({"name": name, "affiliations": self._affiliations(tag), "is_corresponding": corresponding})
         if not any(a["is_corresponding"] for a in authors):
             for a in authors:

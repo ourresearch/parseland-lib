@@ -164,7 +164,8 @@ def test_structured_affiliation_block_keeps_non_university_affiliation() -> None
                 "EFA Sciences LLC, 1420 Providence Highway, Suite 266, "
                 "Norwood, MA 02062"
             ],
-            is_corresponding=True,
+            # a sole author's card with nothing but an address is not a corresponding mark (#2239)
+            is_corresponding=False,
         )
     ]
 
