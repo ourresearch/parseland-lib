@@ -28,6 +28,8 @@ _HEADER = "ИНФОРМАЦИЯ О ПУБЛИКАЦИИ"  # the item page's head
 _FUNDING_LABEL = "ИНФОРМАЦИЯ О ФИНАНСОВОЙ ПОДДЕРЖКЕ"
 _NAME_COLOR = "#00008f"
 _CORRESPONDENCE = "переписк"  # "Автор, отвечающий за переписку": the asterisk's own tooltip
+_SITE_SCRIPT = re.compile(r"(?:^|/)elibrary\.js(?:$|\?)")
+_SHARE_IMAGE = re.compile(r"elibrary\.ru/images/elibrary_", re.I)
 
 
 def _clean(text):
@@ -53,6 +55,21 @@ class ELibraryRu(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def is_publisher_specific_parser(self):
+        if getattr(self, "_claimed", None) is None:
+            self._claimed = self._claim()
+        return self._claimed
+
+    def _in_head(self):
+        """Every item page's <head> loads the site's own script (/elibrary.js) and names its share image
+        (og:image .../elibrary_fb.png). Checked first, so other templates' pages cost a <head> scan, not a whole-tree walk."""
+        head = self.soup.head
+        return head is not None and bool(
+            head.find("script", src=_SITE_SCRIPT)
+            or head.find("meta", attrs={"property": "og:image", "content": _SHARE_IMAGE}))
+
+    def _claim(self):
+        if not self._in_head():
+            return False
         logo = self.soup.find("img", id="elibrary_logo")
         if logo is None or "elibrary_logo" not in (logo.get("src") or ""):
             return False
