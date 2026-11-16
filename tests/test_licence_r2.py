@@ -195,12 +195,17 @@ def test_other_footer_statements_are_still_site_chrome(statement):
 
 
 def test_kept_footer_statement_does_not_bring_the_rest_of_the_footer():
-    footer = ('<footer><p>This is an open access article distributed under the terms of the Creative Commons '
-              'Attribution-NonCommercial-NoDerivatives License.</p>'
-              f'<p>Website design: Example Studio, {CC_BY_LINK}</p></footer>')
+    statement = ('<p>This is an open access article distributed under the terms of the Creative Commons '
+                 'Attribution-NonCommercial-NoDerivatives License.</p>')
+    footer = f'<footer>{statement}<p>Website design: Example Studio, under the Elsevier user license</p></footer>'
     text = page_potential_license_text(page_of("<main><p>Text.</p></main>" + footer))
-    assert "open access article" in text and "Example Studio" not in text and "creativecommons.org" not in text
+    assert "open access article" in text and "Example Studio" not in text and "Elsevier" not in text
     assert find_normalized_license(text) == "cc-by-nc-nd"
+    # until round 5 a second Creative Commons licence in another block of the footer was dropped with the rest of
+    # it; chrome that names two different licences now licenses nothing (charter § 6, 16 Nov 2026)
+    footer = f'<footer>{statement}<p>Website design: Example Studio, {CC_BY_LINK}</p></footer>'
+    text = page_potential_license_text(page_of("<main><p>Text.</p></main>" + footer))
+    assert "open access article" not in text and find_normalized_license(text) is None
 
 
 # --- not statements about the work

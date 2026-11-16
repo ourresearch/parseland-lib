@@ -34,7 +34,7 @@ _MAIN_CONTENT = etree.XPath("//main | //*[@role='main'][not(self::nav or self::f
 #   work" is the site): 26 dev pages whose label is no licence against 1 with one;
 # - "All published work is licensed under ...", "<Journal> is licensed under ...", "content of this site ...": the
 #   labels go both ways on the same wording (clausiuspress.com with a licence, an iMedPub journal without), so that
-#   is a decision, not a rule.
+#   is a decision, not a rule. Decided for Open Journal Systems pages on 16 Nov 2026: _OJS_SUBJECT below.
 # The licence must be named in the same sentence, so "Share this article" beside a site badge keeps nothing, and a
 # condition ("if this article is published under ...") is not a statement.
 _ARTICLE_STATEMENT = re.compile(
@@ -54,43 +54,24 @@ _EXACT_LICENSE_MENTION = re.compile(
 _INLINE_TAGS = frozenset(('a', 'span', 'b', 'strong', 'i', 'em', 'u', 'small', 'font', 'sup', 'sub'))
 
 
+# a Creative Commons badge names its licence in the picture's address: .../l/by-nc-sa/4.0/88x31.png
+_LICENSE_BADGE = re.compile(r"(?:i\.creativecommons\.org|licensebuttons\.net)/l/(by(?:-[a-z]{2})*)/", re.IGNORECASE)
+
+
 def _licenses_named(element):
-    """The licences the element names exactly, in its text and its links together (find_normalized_license alone gives
-    only the first by rank)."""
+    """The licences the element names exactly, in its text, its links and its licence badges together
+    (find_normalized_license alone gives only the first by rank)."""
     named = " ".join([" ".join(element.itertext())] + [link.get('href') or '' for link in element.iter('a')])
-    return {find_normalized_license(mention.group(0)) for mention in _EXACT_LICENSE_MENTION.finditer(named)} - {None}
-
-
-def _names_several_licenses(element):
-    """True when the element names more than one licence exactly."""
-    return len(_licenses_named(element)) > 1
-
-
-def _statement_block(section, statement):
-    """The block of a site-chrome element that an article statement stands in: the element whose own text the
-    statement starts in, or its nearest ancestor that is not inline markup. The whole element when the start of the
-    statement is split over several elements."""
-    start = statement[:30]
-    for element in section.iter(tag=etree.Element):
-        own_texts = [element.text] + [child.tail for child in element]
-        if any(text and start in re.sub(r"\s+", " ", text) for text in own_texts):
-            while element is not section and element.tag in _INLINE_TAGS:
-                element = element.getparent()
-            return element
-    return section
+    licenses = {find_normalized_license(mention.group(0)) for mention in _EXACT_LICENSE_MENTION.finditer(named)}
+    for image in element.iter('img'):
+        if badge := _LICENSE_BADGE.search(image.get('src') or ''):
+            licenses.add(find_normalized_license("cc-" + badge.group(1)))
+    return licenses - {None}
 
 
 def _article_statements(section):
-    """The sentences in a site-chrome element that license the page's article itself (_ARTICLE_STATEMENT).
-
-    Not a statement whose block names several different licences: such a statement names none (#2239, round 3). An OJS
-    theme's footer boilerplate reads "(c) <journal>, ALL RIGHTS RESERVED ... This is an open-access article distributed
-    under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Licensed
-    under <CC BY-SA badge> ... a <CC BY link>Creative Commons Attribution 4.0 International License", all in one
-    <div class="copy-right">, on every page of every journal that uses the theme, whatever the journal's licence: 5
-    dev pages with no licence read as cc-by-nc-sa, and on 2 more the sentence outranked the article's own License
-    panel (cc-by, cc-by-sa). The block, not the whole footer: a statement in one block of a footer and another
-    licence in another block are two statements, and the article's one stands (as the gate labels such a page).
+    """The sentences in a site-chrome element that license the page's article itself (_ARTICLE_STATEMENT). Whether
+    they stand is decided for the page's chrome as a whole (_clear_site_chrome): not when it names several licences.
     """
     text = " ".join(section.itertext())
     if 'rticle' not in text and 'RTICLE' not in text:
@@ -98,15 +79,14 @@ def _article_statements(section):
     text = re.sub(r"\s+", " ", text)
     return [m.group(0) for m in _ARTICLE_STATEMENT.finditer(text)
             if find_normalized_license(m.group(0))
-            and not _CONDITION_BEFORE.search(text, max(0, m.start() - 12), m.start())
-            and not _names_several_licenses(_statement_block(section, m.group(0)))]
+            and not _CONDITION_BEFORE.search(text, max(0, m.start() - 12), m.start())]
 
 
-# An Open Journal Systems journal states its licence once, in the footer of every page (#2239, round 5; a PROPOSAL,
-# held until the policy is ruled on: until then the charter line of 13 Nov 2026 stands, "an OJS journal's site-footer
-# licence is not read as the article's licence"). #2267 read all 17,118 OJS pages whose licence a re-parse dropped:
-# 94% carry a journal-wide Creative Commons statement in the footer, the journals' own copyright pages say the same,
-# and most article PDFs state no licence, so the footer is the only statement there is.
+# An Open Journal Systems journal states its licence once, in the footer of every page (#2239, round 5; charter § 6,
+# 16 Nov 2026 09:30: on OJS pages a footer statement that licenses the journal or its articles is the article's
+# licence; it replaces the line of 13 Nov). #2267 read all 17,118 OJS pages whose licence a re-parse dropped: 94%
+# carry a journal-wide Creative Commons statement in the footer, the journals' own copyright pages say the same, and
+# most article PDFs state no licence, so the footer is the only statement there is.
 # On an OJS page a statement in site chrome counts for the article when the statement itself names
 # - the work ("This work is licensed under ...", the Creative Commons chooser's sentence and its translations:
 #   "Ciptaan disebarluaskan di bawah Lisensi ...", "Esta obra está bajo una Licencia ..."),
@@ -120,10 +100,9 @@ def _article_statements(section):
 #   Tabarru' site and its metadata are licensed under CC BY-SA", "The content of this site is licensed ...", "Sabine's
 #   Gull by A. Reago is licensed under CC BY";
 # - a licence that covers only some of the journal's articles (_ONLY_SOME_ARTICLES): "after June 2018", an embargo;
-# - a block that names several different licences (_names_several_licenses, round 3). Stricter here than for an
-#   article's statement: the page's cleared chrome as a whole must name one licence. A journal statement in one block
-#   and another licence's badge in the next ("<Journal> is licensed under ... ShareAlike" under a by-nc badge) do not
-#   say which is the journal's (_journal_statement).
+# - chrome that names several different licences, in whichever blocks (_clear_site_chrome): a journal statement and
+#   another licence's badge beside it ("<Journal> is licensed under ... ShareAlike" under a by-nc badge) do not say
+#   which is the journal's.
 # The article's own statement wins: the footer's is read only when the rest of the page names no licence and its
 # text does not speak of Creative Commons at all (page_potential_license_text).
 _OJS_SUBJECT = re.compile(
@@ -231,13 +210,12 @@ def _flow_text(element):
     return "".join(parts)
 
 
-def _journal_footer(section, names):
-    """What a site-chrome element of an OJS page says about the journal's licence: (the sentences that license the
-    work, the journal or its articles (_OJS_SUBJECT, or one of the journal's own `names`), each with its licence
-    link's address; every licence the element names exactly). None when it names no licence at all."""
+def _journal_statements(section, names):
+    """The sentences in a site-chrome element of an OJS page that license the work, the journal or its articles
+    (_OJS_SUBJECT, or one of the journal's own `names`), each with its licence link's address."""
     if not _LICENSE_HINT.search(" ".join(section.itertext())) and not any(
             'creativecommons.org/licenses/' in (link.get('href') or '') for link in section.iter('a')):
-        return None  # nearly every nav and footer
+        return []  # nearly every nav and footer
     statements = []
     for element in section.iter(tag=etree.Element):
         if (element.tag in _FLOW_TAGS and element is not section) or element.tag in ('script', 'style'):
@@ -248,7 +226,6 @@ def _journal_footer(section, names):
         text = re.sub(r"\s+", " ", text)
         subjects = [(subject, False) for subject in _OJS_SUBJECT.finditer(text)] + [
             (subject, True) for subject in (names.finditer(text) if names else ())]
-        several = None  # asked once per block, and only for a block with a statement
         for subject, is_name in subjects:
             # the subject, and the rest of its sentence (a name may hold a full stop: "Rilce. Revista de ...")
             statement = subject.group(0) + _SENTENCE_FROM.match(text, subject.end()).group(0)
@@ -267,11 +244,8 @@ def _journal_footer(section, names):
                     or _CONDITION_BEFORE.search(text, max(0, subject.start() - 12), subject.start()) \
                     or _OF_THE_SUBJECT.search(text, max(0, subject.start() - 30), subject.start()):
                 continue
-            if several is None:
-                several = _names_several_licenses(element)
-            if not several:
-                statements.append(statement)
-    return statements, _licenses_named(section)
+            statements.append(statement)
+    return statements
 
 
 def _speaks_of_creative_commons(tree):
@@ -283,15 +257,6 @@ def _speaks_of_creative_commons(tree):
         if element.tail:
             visible.append(element.tail)
     return re.search(r"creative\s*commons", " ".join(visible), re.IGNORECASE) is not None
-
-
-def _journal_statement(journal_footers):
-    """The journal's licence statement, from what the page's cleared chrome says (_journal_footer of each element):
-    its first statement, or None when it has none or the chrome does not name one licence throughout."""
-    statements = [statement for found, _ in journal_footers for statement in found]
-    licenses = {find_normalized_license(statement) for statement in statements}.union(
-        *(named for _, named in journal_footers))
-    return statements[0] if statements and len(licenses) == 1 else None
 
 
 def _clear_all_but_main(element, mains, holders):
@@ -312,10 +277,10 @@ def _clear_all_but_main(element, mains, holders):
 _ARTICLE_OWN_FOOTER = re.compile(r"(?:^|\s)article[\w\-]*footer", re.IGNORECASE)
 
 
-def _clear_site_chrome(tree, journal_footers=None):
+def _clear_site_chrome(tree, journal_statements=None):
     """Clear the page's site chrome (SITE_CHROME_FINDERS), except chrome that holds the page; True when anything went.
-    `journal_footers`: on an Open Journal Systems page, a list that takes what each cleared element says about the
-    journal's licence (_journal_footer); nothing of it is left in the tree.
+    `journal_statements`: on an Open Journal Systems page, a list that takes the journal's own licence statements
+    found in the cleared chrome (_journal_statements); they are not left in the tree.
 
     Site chrome that holds the page is not chrome (#2239, phase 2). The finders also match elements that wrap the
     WHOLE page, and the article's own licence went with them: arXiv's abstract pages sit in
@@ -344,9 +309,10 @@ def _clear_site_chrome(tree, journal_footers=None):
     mains = set(_MAIN_CONTENT(tree))
     holders = {ancestor for main in mains for ancestor in main.iterancestors()}
     cleared = False
-    names = _journal_names(tree) if journal_footers is not None else None
+    names = _journal_names(tree) if journal_statements is not None else None
     if names is False:
-        journal_footers = None
+        journal_statements = None
+    named, kept = set(), []  # the licences the cleared chrome names; the article statements left in it
     for section_finder in SITE_CHROME_FINDERS:
         for section in tree.xpath(section_finder):
             if section in mains or section.tag in ('html', 'body'):
@@ -358,14 +324,29 @@ def _clear_site_chrome(tree, journal_footers=None):
                 if section.getroottree().getroot() is not tree:
                     continue  # already gone with an enclosing element cleared earlier in this pass
                 statements = _article_statements(section)
-                if journal_footers is not None and (journal_footer := _journal_footer(section, names)):
-                    journal_footers.append(journal_footer)
+                if journal_statements is not None:
+                    journal_statements.extend(_journal_statements(section, names))
+                named |= _licenses_named(section)
                 section.clear()
                 for statement in statements:
-                    etree.SubElement(section, 'p').text = statement
+                    kept.append(etree.SubElement(section, 'p'))
+                    kept[-1].text = statement
                 cleared = True
             elif section.tag in ('nav', 'footer') or section.get('role') == 'contentinfo':
                 cleared |= _clear_all_but_main(section, mains, holders)
+    # Chrome that names different licences does not say which one is the article's: nothing in it counts, whether or
+    # not each mention has a subject and whichever block each sits in (charter § 6, 16 Nov 2026). An OJS theme prints
+    # "This is an open-access article distributed under ... Attribution-NonCommercial-ShareAlike ... Licensed under
+    # <CC BY badge> a Creative Commons Attribution 4.0 International License" on every page of every journal that
+    # uses it, whatever the journal's licence; learning-gate.com prints the two in two blocks (gold v1.4: none).
+    if len(named) > 1:
+        for statement in kept:
+            if statement.getparent() is not None:
+                statement.getparent().remove(statement)
+    # ... and the journal's statements must agree with it and with each other (a statement may name its licence
+    # loosely: "Creative Commons Attribution License" beside a by-nc badge)
+    if journal_statements and len(named | set(map(find_normalized_license, journal_statements))) != 1:
+        del journal_statements[:]
     return cleared
 
 
@@ -479,8 +460,8 @@ def page_potential_license_text(page, keep_site_chrome=False, ojs_page=False):
     if tree is None:
         return _drop_non_statements(page)
 
-    journal_footers = [] if ojs_page else None  # what an OJS journal's footer says of its licence (#2239, round 5)
-    section_removed = False if keep_site_chrome else _clear_site_chrome(tree, journal_footers)
+    journal_statements = [] if ojs_page else None  # an OJS journal's own footer statements (#2239, round 5)
+    section_removed = False if keep_site_chrome else _clear_site_chrome(tree, journal_statements)
     if 'rightslink' in page:
         section_removed |= _keep_own_rightslink_licence(tree)
     section_removed |= _drop_code_comments_naming_a_license(tree)
@@ -526,9 +507,8 @@ def page_potential_license_text(page, keep_site_chrome=False, ojs_page=False):
     # statement wins, whatever its rank. Also when it is one this reader cannot read: an article's copyright block
     # that says "Licencia Creative Commons Atribución-NoComercial-CompartirIgual" over a dead link, above a footer
     # that says Attribution-ShareAlike (revistascientificas.filo.uba.ar, labelled by-nc-sa), gets no licence.
-    if journal_footers and (statement := _journal_statement(journal_footers)) \
-            and find_normalized_license(text) is None and not _speaks_of_creative_commons(tree):
-        text = f"{text}\n{statement}"
+    if journal_statements and find_normalized_license(text) is None and not _speaks_of_creative_commons(tree):
+        text = f"{text}\n{journal_statements[0]}"
     return text
 
 

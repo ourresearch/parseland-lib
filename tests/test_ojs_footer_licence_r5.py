@@ -1,15 +1,17 @@
 """
 An Open Journal Systems journal's own licence statement in its site footer (oxjob #2239, phase 2, round 5).
 
-HELD: this is a proposal, not policy. The charter line of 13 Nov 2026 says "an OJS journal's site-footer licence is not
-read as the article's licence"; #2267 then read all 17,118 OJS pages whose licence a re-parse dropped and found a
-journal-wide Creative Commons statement in the footer of 94% of them, the only statement those articles have.
+Charter § 6, 16 Nov 2026 09:30 (it replaces the line of 13 Nov, "an OJS journal's site-footer licence is not read as
+the article's licence"): on OJS pages a footer statement that licenses the journal or its articles is the article's
+licence. #2267 read all 17,118 OJS pages whose licence a re-parse dropped and found a journal-wide Creative Commons
+statement in the footer of 94% of them, the only statement those articles have. Gold v1.4 labels it so.
 
 The rule, on OJS pages only (is_ojs_page), in both namespaces: a statement in the cleared site chrome counts as the
 article's licence when the statement itself names the work, the journal (in words, or by the title, short title or
 address in the page's meta tags) or its articles, and the rest of the page names no licence. It does not count when it
-is about the site, its pages or its metadata, credits an image, covers only some articles, sits in a footer that names
-several different licences, or is a bare "Licensed under ..." or a badge.
+is about the site, its pages or its metadata, credits an image, covers only some articles, sits in chrome that names
+several different licences (statements or badges, in whichever blocks), or is a bare "Licensed under ..." or a badge.
+An issue's table of contents takes the footer's licence like an article page.
 
 Fragments mirror stored pages; no network.
 """
@@ -341,12 +343,13 @@ def test_creative_commons_in_an_address_or_an_alt_text_does_not_keep_the_footer_
         "cc-by-sa", "cc-by-sa")
 
 
-def test_a_footer_statement_about_the_article_is_read_not_the_one_about_the_journal():
+def test_a_statement_about_the_article_and_one_about_the_journal_must_agree():
     # round 2's rule and this one in two footers of one page
-    page = page_of(f'<p>This work is licensed under a {BY_SA_NAME}.</p>').replace(
-        "</body>", '<div id="footer-info"><p>This is an open access article distributed under the terms of the '
-                   f'<a href="{BY_NC}">Creative Commons Attribution-NonCommercial 4.0 License</a>.</p></div></body>')
-    assert licenses(page) == ("cc-by-nc", "cc-by-nc")
+    article = ('<div id="footer-info"><p>This is an open access article distributed under the terms of the <a href="{}">'
+               'Creative Commons Attribution-{} 4.0 License</a>.</p></div></body>')
+    page = page_of(f'<p>This work is licensed under a {BY_SA_NAME}.</p>')
+    assert licenses(page.replace("</body>", article.format(BY_SA, "ShareAlike"))) == ("cc-by-sa", "cc-by-sa")
+    assert licenses(page.replace("</body>", article.format(BY_NC, "NonCommercial"))) == (None, None)
 
 
 def test_the_statement_is_kept_without_the_rest_of_the_footer():
@@ -357,3 +360,68 @@ def test_the_statement_is_kept_without_the_rest_of_the_footer():
     assert "This work is licensed under a" in text and "Example Press" not in text
     assert find_normalized_license(text) == "cc-by-sa"
     assert "This work is licensed" not in license_search_text(page, URL)
+
+
+# --- chrome that names different licences, in whichever blocks, with or without a subject (gold v1.4)
+
+LEARNING_GATE_FOOTER = """<div class="col-3"><div class="item-contact"><br /><span style="font-size: 0.875rem;">This is an
+open-access article distributed under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+International License</span></div></div><div class="copyright-wrapper"><div class="copy-right">Licensed under <a
+href="https://creativecommons.org/licenses/by/4.0/" rel="license"><img
+src="https://licensebuttons.net/l/by/4.0/80x15.png" alt="Creative Commons License" /></a> a <a
+href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+</div></div>"""
+
+
+@pytest.mark.parametrize("footer", [
+    LEARNING_GATE_FOOTER,  # gate dev page cd5537c2
+    # a statement, and a badge whose picture is another licence's (no link, no words)
+    f'<p>This work is licensed under a {BY_SA_NAME}.</p><p><img src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" '
+    'alt="Creative Commons License" /></p>',
+    # a statement in the footer, another licence in the site's menu
+    f'<p>This work is licensed under a {BY_SA_NAME}.</p></div></footer><nav><ul><li><a href="{BY_NC}">Licence</a></li>'
+    '</ul></nav><footer><div>',
+])
+def test_chrome_that_names_different_licences_licenses_nothing(footer):
+    wrapper = '<div class="pkp_structure_footer_wrapper" role="contentinfo">{}</div>'
+    assert licenses(page_of(footer)) == (None, None)
+    assert licenses(page_of(footer, wrapper=wrapper)) == (None, None)
+
+
+def test_the_articles_own_statement_still_wins_over_chrome_that_names_different_licences():
+    assert licenses(page_of(LEARNING_GATE_FOOTER, panel=PANEL)) == ("cc-by", "cc-by")
+
+
+# --- an issue's table of contents (gold v1.4: gate dev pages 3b730d31, 7aaaa83e, ead7c4cd)
+
+ISSUE = ('<div role="main"><h1>Vol. 19 No. 24 (2023)</h1><ul class="cmp_article_list articles">'
+         '<li><a id="article-101" href="/index.php/eje/article/view/101">A first article</a>{extra}</li>'
+         '<li><a id="article-102" href="/index.php/eje/article/view/102">A second article</a></li></ul></div>')
+
+
+def issue_page(footer, extra=""):
+    return (f"<html><head><title>Vol. 19 No. 24 (2023) | Economic Journal of Emerging Markets</title>{OJS}</head><body>"
+            f"{ISSUE.format(extra=extra)}<footer><div>{footer}</div></footer></body></html>")
+
+
+@pytest.mark.parametrize("footer, expected", [
+    (f'<p>Este obra está bajo una <a href="{BY}">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</p>',
+     "cc-by"),
+    (f'<p>All the published articles are licensed under a <a href="{BY}">Creative Commons Attribution 4.0 International '
+     'License</a></p>', "cc-by"),
+    (f'<p>Economic Journal of Emerging Markets is licensed under a {BY_SA_NAME}.</p>', "cc-by-sa"),
+])
+def test_an_issue_page_takes_the_journals_footer_licence_and_nothing_else(footer, expected):
+    out = parse_page(issue_page(footer), "doi", URL.replace("article/view/12", "issue/view/5"))
+    assert out["license"] == expected
+    assert out["version"] is None and out["urls"] == []
+
+
+def test_an_issue_page_takes_no_licence_from_its_list_of_articles():
+    # one listed article's own licence link is not the issue's, with or without a footer statement (as before)
+    extra = f' <a href="{BY_NC}">CC BY-NC</a>'
+    url = URL.replace("article/view/12", "issue/view/5")
+    assert parse_page(issue_page("<p>Example University Press</p>", extra), "doi", url)["license"] is None
+    assert parse_page(issue_page(f'<p>This work is licensed under a {BY_SA_NAME}.</p>', extra), "doi", url)[
+        "license"] is None
+    assert parse_page(issue_page("<p>Example University Press</p>"), "doi", url)["license"] is None
