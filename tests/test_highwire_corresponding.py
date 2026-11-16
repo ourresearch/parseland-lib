@@ -91,5 +91,5 @@ def test_not_a_highwire_page_is_left_alone():
 
 
 def test_pick_skips_a_mark_on_every_author():
-    marks = {"byline": [], "heads": [], "emails": [], "meta": [("A Smith", True), ("B Jones", True)]}
+    marks = {"byline": [], "heads": [], "emails": [], "emailed": ["A Smith", "B Jones"]}
     assert pick_highwire_corresponding(["A Smith", "B Jones"], marks) == []

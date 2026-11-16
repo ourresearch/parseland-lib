@@ -283,7 +283,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         lp_content, "data-corresp-id") else []
     # HighWire marks it by a byline link to a correspondence footnote, a "Correspondence to" note, or an e-mail tag on
     # that author only (#2252); used only when the winning parser marked no one
-    highwire_marks = highwire_corresponding_marks(soup) if namespace == "doi" and is_highwire_page(lp_content) else None
+    highwire_marks = highwire_corresponding_marks(soup, lp_content) if namespace == "doi" and is_highwire_page(
+        lp_content) else None
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
