@@ -14,6 +14,8 @@ from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_
 from parseland_lib.publisher.parsers.copernicus import copernicus_corresponding_names
 from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
+from parseland_lib.publisher.parsers.highwire import highwire_corresponding_marks, is_highwire_page, \
+    pick_highwire_corresponding
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
     pick_literatum_corresponding
@@ -279,6 +281,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # Springer Link marks it on the byline link (data-corresp-id) (#2247); used only when the winning parser marked no one
     springer_names = springer_corresponding_names(soup) if namespace == "doi" and _has(
         lp_content, "data-corresp-id") else []
+    # HighWire marks it by a byline link to a correspondence footnote, a "Correspondence to" note, or an e-mail tag on
+    # that author only (#2252); used only when the winning parser marked no one
+    highwire_marks = highwire_corresponding_marks(soup) if namespace == "doi" and is_highwire_page(lp_content) else None
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
@@ -457,6 +462,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 _mark_corresponding_by_name(authors, springer_names)
             elif ojs_marks:
                 _mark_corresponding_by_name(authors, pick_ojs_corresponding([a["name"] for a in authors], ojs_marks))
+            elif highwire_marks:
+                _mark_corresponding_by_name(
+                    authors, pick_highwire_corresponding([a["name"] for a in authors], highwire_marks))
 
     # Merge into a single response
     response = authors_and_abstract
