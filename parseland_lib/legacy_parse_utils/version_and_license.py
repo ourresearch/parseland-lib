@@ -1,4 +1,5 @@
 import re
+import unicodedata
 from urllib.parse import unquote
 
 from lxml import etree
@@ -49,7 +50,7 @@ _CONDITION_BEFORE = re.compile(r"\b(?:if|when|where|whether|unless)\s+$", re.IGN
 _EXACT_LICENSE_MENTION = re.compile(
     r"creativecommons\.org/licenses/[a-z\-]+"
     r"|creative\s+commons\s+attribution"
-    r"(?:(?:[\s\-]+(?:non[\s\-]*commercial|share[\s\-]*alike|no[\s\-]*deriv\w*))+|\s+\d\.\d)"
+    r"(?:(?:[\s\-]+(?:non[\s\-]*commercial|share[\s\-]*alike|non?[\s\-]*deriv\w*))+|\s+\d\.\d)"
     r"|" + _CC_SHORTHAND_RE.pattern, re.IGNORECASE)
 _INLINE_TAGS = frozenset(('a', 'span', 'b', 'strong', 'i', 'em', 'u', 'small', 'font', 'sup', 'sub'))
 
@@ -104,7 +105,13 @@ def _article_statements(section):
 #   another licence's badge beside it ("<Journal> is licensed under ... ShareAlike" under a by-nc badge) do not say
 #   which is the journal's.
 # The article's own statement wins: the footer's is read only when the rest of the page names no licence and its
-# text does not speak of Creative Commons at all (page_potential_license_text).
+# text does not speak of Creative Commons at all, or says the footer's own licence in words (_says_in_words;
+# page_potential_license_text).
+# Round 6 (same charter line; the loop's dev pages whose stored licence round 5 still dropped): the content of the
+# journals of a site of several journals ("El contenido de las Revistas de este sitio ..."); the journal's name
+# without its accents, and from the journal's feed links where the page has no tags (an OJS 2 issue page);
+# "NonDerivative" for "NoDerivatives". Still out, waiting for a decision: statements with no subject at all
+# ("Utgiven av <publisher> | Open Access enligt CC-BY 4.0", "Excepto donde se indique ... se publica bajo ...").
 _OJS_SUBJECT = re.compile(
     r"\b(?:this|the)\s+(?:work|journal|publication)\b|\bwork\s+is\s+(?:licen[sc]ed|distributed)\b"
     r"|\b(?:all|the|these|our|published)\s+(?:of\s+)?(?:the\s+)?(?:published\s+)?"
@@ -117,8 +124,12 @@ _OJS_SUBJECT = re.compile(
     r"|\b(?:semua|seluruh)\s+artikel\b|\bartikel\s+(?:dalam|pada|di)\s+jurnal\b"
     # Spanish and Portuguese
     r"|\best[ae]\s+(?:obra|trabajo|trabalho|revista|publicaci[oó]n|peri[oó]dico)\b"
+    # "el contenido de la revista", and of every journal of the site: "el contenido de las revistas de este sitio"
+    # (round 6: a site of several journals licenses the content of its journals, which is not the site's own content;
+    # "el contenido de este sitio" names no journal). Before "los contenidos", which would end the subject too early.
+    r"|\b(?:(?:el|los|o|os)\s+)?conte(?:ni|[uú])dos?\s+d(?:[eoa]s?|el|est[ea]s?|ess[ea]s?)\s+(?:(?:la|esta)s?\s+)?"
+    r"(?:revistas?|peri[oó]dicos?)\b(?:\s+de\s+este\s+(?:sitio|portal)\b|\s+deste\s+(?:site|s[ií]tio|portal)\b)?"
     r"|\b(?:los|os)\s+(?:art[ií]culos|artigos|trabajos|trabalhos|contenidos|conte[uú]dos)\b"
-    r"|\bconte(?:ni|[uú])do\s+d(?:[eoa]|el|est[ea]|ess[ea])\s+(?:la\s+|esta\s+)?(?:revista|peri[oó]dico)\b"
     # French, Italian, German, Turkish
     r"|\bce(?:tte|\(tte\))?\s+(?:œuvre|oeuvre|revue|travail)\b|\bles\s+articles\b|\bquest['’]\s?opera\b"
     r"|\bquesta\s+(?:opera|rivista)\b|\bdieses\s+werk\b|\bdiese\s+zeitschrift\b"
@@ -155,17 +166,44 @@ _NO_NAME = frozenset(('journal', 'journals', 'jurnal', 'revista', 'home', 'index
 _OTHER_PKP_SOFTWARE = re.compile(r"open\s+(?:monograph\s+press|preprint\s+systems)", re.IGNORECASE)
 
 
+def _fold(text):
+    """The text without its Latin accents, character for character, so positions in it are positions in `text`: a
+    footer in English names "Agronomía Mesoamericana" as "Agronomia Mesoamericana" (#2239, round 6)."""
+    if text.isascii():
+        return text
+    return "".join(base if ord(c) > 127 and (base := unicodedata.normalize('NFD', c)[0]).isascii() else c
+                   for c in text)
+
+
+# the feeds OJS's web feed plugin lists in the head of every page of a journal:
+#   <link rel="alternate" type="application/atom+xml" title="<journal> (atom+xml)"
+#         href="<the journal's address>/gateway/plugin/WebFeedGatewayPlugin/atom">
+_OJS_FEED = re.compile(r"^(https?://.+?)/gateway/plugin/WebFeedGatewayPlugin/", re.IGNORECASE)
+_FEED_KIND = re.compile(r"\s*\((?:atom|rss|rdf)\+xml\)\s*$", re.IGNORECASE)
+
+
 def _journal_names(tree):
-    """A pattern for the journal's own names on an OJS page, from the meta tags OJS writes and the page's title: its
-    title, its short title, the short name a title starts with ("KOVALEN: Jurnal Riset Kimia", "KONSTAN (Jurnal
-    Fisika ...)"), its address and the address's last part (".../index.php/JKKI"). None when the page gives none;
-    False when the page is not a journal's at all."""
+    """A pattern for the journal's own names on an OJS page, from the meta tags OJS writes, the page's title and the
+    journal's feed links: its title, its short title, the short name a title starts with ("KOVALEN: Jurnal Riset
+    Kimia", "KONSTAN (Jurnal Fisika ...)"), its address and the address's last part (".../index.php/JKKI"). The names
+    are without their accents, for a text read through _fold. None when the page gives none; False when the page is
+    not a journal's at all."""
     patterns = set()
 
     def add(name):
-        words = re.findall(r"\w+", name)
+        words = re.findall(r"\w+", _fold(name))
         if len("".join(words)) >= 3 and name.strip().lower() not in _NO_NAME:
             patterns.add(r"(?<!\w)" + r"[\W_]+".join(map(re.escape, words)) + r"(?!\w)")
+
+    def add_title(title):
+        add(title)
+        add(re.split(r":|\s\(|\s[-–—]\s", title, maxsplit=1)[0])
+
+    def add_address(url):
+        address = re.sub(r"^https?://(?:www\.)?|/(?:index)?/?$", "", url, flags=re.IGNORECASE)
+        if '/' in address:  # a journal's address on its site, never a bare host
+            patterns.add(re.escape(address))
+            add(address.rsplit('/', 1)[1])
 
     for meta in tree.iter('meta'):
         name, content = (meta.get('name') or '').lower(), (meta.get('content') or '').strip()
@@ -174,16 +212,20 @@ def _journal_names(tree):
         if name not in _JOURNAL_NAME_TAGS:
             continue
         if re.match(r"https?://", content, re.IGNORECASE):
-            address = re.sub(r"^https?://(?:www\.)?|/(?:index)?/?$", "", content, flags=re.IGNORECASE)
-            if '/' in address:  # a journal's address on its site, never a bare host
-                patterns.add(re.escape(address))
-                add(address.rsplit('/', 1)[1])
-            continue
-        add(content)
-        add(re.split(r":|\s\(|\s[-–—]\s", content, maxsplit=1)[0])
+            add_address(content)
+        else:
+            add_title(content)
     title = tree.findtext('.//title') or ''
     if '|' in title:  # OJS titles its pages "<article or issue> | <journal>"; an issue page has no other name
         add(title.rsplit('|', 1)[1])
+    # An OJS 2 issue page has neither the tags nor the journal in its title ("Vol 5, No 1 (2017)"): its head still
+    # lists the journal's own feeds (round 6). A site of several journals lists its own at .../index.php/index, which
+    # names no journal.
+    for link in tree.iter('link'):
+        feed = _OJS_FEED.match((link.get('href') or '').strip())
+        if feed and feed.group(1).rsplit('/', 1)[1].lower() not in _NO_NAME:
+            add_address(feed.group(1))
+            add_title(_FEED_KIND.sub('', link.get('title') or ''))
     return re.compile("|".join(sorted(patterns)), re.IGNORECASE) if patterns else None
 
 
@@ -225,10 +267,11 @@ def _journal_statements(section, names):
             continue
         text = re.sub(r"\s+", " ", text)
         subjects = [(subject, False) for subject in _OJS_SUBJECT.finditer(text)] + [
-            (subject, True) for subject in (names.finditer(text) if names else ())]
+            (subject, True) for subject in (names.finditer(_fold(text)) if names else ())]
         for subject, is_name in subjects:
             # the subject, and the rest of its sentence (a name may hold a full stop: "Rilce. Revista de ...")
-            statement = subject.group(0) + _SENTENCE_FROM.match(text, subject.end()).group(0)
+            # (cut from `text`: a name is found in the text without its accents, at the same place)
+            statement = text[subject.start():subject.end()] + _SENTENCE_FROM.match(text, subject.end()).group(0)
             subject_end = subject.end() - subject.start()
             license_start = _LICENSE_START.search(statement, subject_end)
             if not license_start or not (find_normalized_license(statement) or '').startswith('cc-by'):
@@ -240,12 +283,17 @@ def _journal_statements(section, names):
             if license_start.start() - subject_end > (120 if is_name else 200) or (
                     is_name and not _LICENSING_WORD.search(between) and _OTHER_WORD.search(between)):
                 continue
-            if _NOT_THE_JOURNAL.search(statement, 0, license_start.start()) or _ONLY_SOME_ARTICLES.search(statement) \
+            # (a subject in words is searched after its end: "las revistas de este sitio" are journals, not a site)
+            if _NOT_THE_JOURNAL.search(statement, 0 if is_name else subject_end, license_start.start()) \
+                    or _ONLY_SOME_ARTICLES.search(statement) \
                     or _CONDITION_BEFORE.search(text, max(0, subject.start() - 12), subject.start()) \
                     or _OF_THE_SUBJECT.search(text, max(0, subject.start() - 30), subject.start()):
                 continue
             statements.append(statement)
     return statements
+
+
+_CREATIVE_COMMONS = re.compile(r"creative\s*commons", re.IGNORECASE)
 
 
 def _speaks_of_creative_commons(tree):
@@ -256,7 +304,39 @@ def _speaks_of_creative_commons(tree):
             visible.append(element.text)
         if element.tail:
             visible.append(element.tail)
-    return re.search(r"creative\s*commons", " ".join(visible), re.IGNORECASE) is not None
+    return _CREATIVE_COMMONS.search(" ".join(visible)) is not None
+
+
+# A licence's terms in words, as an article's copyright block spells them where it names no licence this reader can
+# read (#2239, round 6): PKP's default notice in translation, "with the work registered under the attribution,
+# non-commercial and no-derivative license from Creative Commons" (revistas.ucr.ac.cr), "con el trabajo registrado
+# con la licencia de atribución de Creative Commons". English, Spanish and Portuguese.
+_TERMS_IN_WORDS = (
+    ('by', re.compile(r"attribution|atribuci[oó]n|reconocimiento|atribui[cç][aã]o", re.IGNORECASE)),
+    ('-nc', re.compile(r"non?[\s\-]*com+ercial|n[aã]o[\s\-]*comercial", re.IGNORECASE)),
+    ('-nd', re.compile(r"non?[\s\-]*deriv|sin[\s\-]*(?:obras?[\s\-]*)?deriva|sem[\s\-]*deriva", re.IGNORECASE)),
+    ('-sa', re.compile(r"share[\s\-]*alike|compartir[\s\-]*igual|compartilha[\s\-]*igual", re.IGNORECASE)),
+)
+
+
+def _says_in_words(tree, license):
+    """True when every sentence of the page that speaks of Creative Commons spells the terms of `license`, and no
+    others, in words. Such a sentence is never read as a licence on its own: it only lets the journal's footer
+    statement of the same licence stand (page_potential_license_text)."""
+    for element in tree.iter(tag=etree.Element):
+        if element.tag in _FLOW_TAGS or element.tag in ('script', 'style'):
+            continue  # inline markup is read with its block
+        text = _flow_text(element)
+        if not _CREATIVE_COMMONS.search(text):
+            continue
+        text = re.sub(r"\s+", " ", text)
+        for mention in _CREATIVE_COMMONS.finditer(text):
+            end = text.find('. ', mention.end())
+            sentence = text[text.rfind('. ', 0, mention.start()) + 1:len(text) if end < 0 else end]
+            terms = [term for term, words in _TERMS_IN_WORDS if words.search(sentence)]
+            if 'cc-' + "".join(terms) != license:  # also when it spells none, or both -nd and -sa
+                return False
+    return True
 
 
 def _clear_all_but_main(element, mains, holders):
@@ -506,8 +586,12 @@ def page_potential_license_text(page, keep_site_chrome=False, ojs_page=False):
     # The journal's footer statement is read only when the rest of the page names no licence: the article's own
     # statement wins, whatever its rank. Also when it is one this reader cannot read: an article's copyright block
     # that says "Licencia Creative Commons Atribución-NoComercial-CompartirIgual" over a dead link, above a footer
-    # that says Attribution-ShareAlike (revistascientificas.filo.uba.ar, labelled by-nc-sa), gets no licence.
-    if journal_statements and find_normalized_license(text) is None and not _speaks_of_creative_commons(tree):
+    # that says Attribution-ShareAlike (revistascientificas.filo.uba.ar, labelled by-nc-sa), gets no licence. Unless
+    # what the rest of the page says of Creative Commons is the footer's own licence, term for term, in words
+    # (round 6: revistas.ucr.ac.cr, labelled by-nc-nd from the article's block; the footer says the same).
+    if journal_statements and find_normalized_license(text) is None and (
+            not _speaks_of_creative_commons(tree)
+            or _says_in_words(tree, find_normalized_license(journal_statements[0]))):
         text = f"{text}\n{journal_statements[0]}"
     return text
 

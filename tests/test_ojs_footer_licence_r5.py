@@ -203,7 +203,10 @@ def test_a_presss_or_a_preprint_servers_footer_is_not_a_journals(generator):
     'Attribution 4.0 International License</a>.</p>',
     f'<p>This webpage is published under the terms of the <a href="{BY}">Creative Commons Attribution 4.0 '
     'International (CC BY 4.0) license</a></p>',
-    f'<p>El contenido de las Revistas de este sitio, están bajo una <a href="{BY_NC}">Licencia de Creative Commons '
+    # ("El contenido de las Revistas de este sitio, están bajo una Licencia ..." stood here until round 6: it licenses
+    # the content of the site's journals, so it counts; tests/test_licence_footer_r6.py, with the site's own content
+    # as its look-alike)
+    f'<p>El contenido de este sitio está bajo una <a href="{BY_NC}">Licencia de Creative Commons '
     'Reconocimiento-NoComercial 4.0 Internacional</a>.</p>',
     f'<p>The website of this journal and all its pages are licensed under a {BY_SA_NAME}.</p>',
     # "all content": the site's or the journal's, the statement does not say

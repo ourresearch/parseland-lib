@@ -241,7 +241,9 @@ def find_normalized_license(text, is_dataset=False):
     if not text:
         return None
 
-    normalized_text = text.replace(" ", "").replace("-", "").lower()
+    # "NonDerivative(s)" is "NoDerivatives": "Creative Commons Attribution-NonCommercial-NonDerivative 4.0" read as
+    # cc-by-nc, the name cut short (#2239, round 6: an OJS journal's footer, revistas.ucr.ac.cr)
+    normalized_text = text.replace(" ", "").replace("-", "").lower().replace("nonderiv", "noderiv")
 
     # the lookup order matters
     # assumes no spaces, no dashes, and all lowercase
