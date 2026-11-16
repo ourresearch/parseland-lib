@@ -41,6 +41,10 @@ _INSTITUTION = re.compile(r"univ|institut|college|hospital|depart|dept|school|ce
 _MAIL_ADDR = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _DOI = re.compile(r"doi\.org/(10\.\S+)", re.I)
 _MAIL, _OPEN, _CLOSE = "\x03", "\x01", "\x02"
+# The template's assets in <head>: the vendor's /_script/ and /_style/ folders (42 of the 43 sites in the samples),
+# and adj.or.kr's skin (/js/common.js, /js/simpletab.min.js). Every page of the 1,892 stored ones that carries
+# div.fulltext-wrap has one, so the whole-tree claim runs only behind it (#2239: under 0.5 ms a page it does not claim).
+_HEAD_ASSET = re.compile(r"/_(?:script|style)/|/js/(?:common|simpletab)\b", re.I)
 
 
 def _marks(text):
@@ -80,6 +84,16 @@ class KoreanArticlePhp(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def _wrap(self):
+        """div.fulltext-wrap holding the byline, found once per parser; the cheap <head> asset test comes first."""
+        if "_wrap_found" not in self.__dict__:
+            self._wrap_found = self._find_wrap()
+        return self._wrap_found
+
+    def _find_wrap(self):
+        head = self.soup.head
+        if head is not None and not any(_HEAD_ASSET.search(t.get("href") or t.get("src") or "")
+                                        for t in head.find_all(["link", "script"])):
+            return None  # no template asset in <head>: not this template (a page with no <head> gets the full test)
         wrap = self.soup.select_one("div.fulltext-wrap")
         if wrap and wrap.select_one("div.ft-author") and wrap.select_one("div.ft-author-aff"):
             return wrap
