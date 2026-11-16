@@ -16,6 +16,9 @@ from parseland_lib.publisher.parsers.utils import squash
 # Elle a publié ..."). Only affiliations count (label rubric label-v1: employers, departments, institutes and their
 # addresses, never biographies), so a note's sentences are kept up to the first that reads as a biography, and
 # e-mail addresses, links and identifier lines (IdRef, ORCID) are dropped.
+# A page with no author section (a chapter of a monograph, a whole book, a journal book review) names its authors only
+# in DC.creator meta tags, "Family, Given" (a review's reviewed author is DC.contributor); the gate's dev gold gives the
+# book's author on such chapter pages (oxjob #2268).
 
 ROLE_SKIP = re.compile(r"(?i)tradu|transl|übersetz")
 EMAIL = re.compile(r"\(?\s*(?:courriel|e-?mail|mail|correo(?: electrónico)?)?\s*:?\s*"
@@ -97,10 +100,21 @@ class OpenEdition(PublisherParser):
         # of them; off OpenEdition, read only where main's claim did (a Lodel ".section.authors" block: none of the
         # gate's 2,018 dev pages off OpenEdition has one)
         if not self.soup.find(id=['authors', 'anchor-persons']):
-            return False
+            # no author section: the item's DC.creator tags, on OpenEdition only (oxjob #2268)
+            return bool(self.is_publisher_specific_parser() and self.parse_authors())
         if not (self.is_publisher_specific_parser() or self.soup.select_one('.section.authors')):
             return False
         return bool(self.parse_authors())
+
+    def _creators(self):
+        """The authors the page's DC.creator tags name, "Family, Given" turned round, for a page with no author section."""
+        out = []
+        for meta in self.soup.find_all('meta', attrs={'name': 'DC.creator'}):
+            family, comma, given = squash(meta.get('content')).partition(',')
+            name = squash(f"{given} {family}" if comma else family)
+            if re.search(r"\w", name) and name not in (a['name'] for a in out):
+                out.append({'name': name, 'affiliations': [], 'is_corresponding': None})
+        return out
 
     def _notes(self):
         """[(name, [note elements])] for every author in the page's author section(s)."""
@@ -139,6 +153,9 @@ class OpenEdition(PublisherParser):
         if hasattr(self, '_authors'):
             return self._authors
         self._authors = []
+        if not self.soup.find(id=['authors', 'anchor-persons']):
+            self._authors = self._creators()
+            return self._authors
         for name, notes in self._notes():
             low = name.lower()
             surname = next((p for p in reversed(low.split()) if len(p) > 2), None)
@@ -152,6 +169,21 @@ class OpenEdition(PublisherParser):
             self._authors.append({'name': name, 'affiliations': affs, 'is_corresponding': None})
         return self._authors
 
+    def _references(self):
+        """The bibliography section's entries in page order (one p.bibliographie each; the h1.bibliographie sub-headings
+        and p.separateur lines between them are not entries), or None. Lodel prints neither numbers nor a count, so the
+        page never shows that the list is whole: references_complete stays False (playbook v1.5 step 4, oxjob #2268)."""
+        # imported here: back_matter imports this package's utils, whose package imports every parser
+        from parseland_lib.back_matter import _printed_doi
+        refs = []
+        for entry in self.soup.select('#bibliography p.bibliographie'):
+            raw = squash(entry.get_text())  # inline markup joins as printed: "<em>Norois</em>, n°181"
+            if raw:
+                refs.append({'position': len(refs) + 1, 'raw': raw, 'doi': _printed_doi(raw)})
+        return refs or None
+
     def parse(self):
         return {'authors': self.parse_authors(),
-                'abstract': self.parse_abstract_meta_tags()}
+                'abstract': self.parse_abstract_meta_tags(),
+                'references': self._references(),
+                'references_complete': False}
