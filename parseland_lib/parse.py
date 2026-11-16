@@ -151,6 +151,21 @@ def _sniff_publisher_url(soup):
     return None
 
 
+def _fill_affiliations_by_name(authors, pairs):
+    """Give each (byline name, affiliations) pair to the one parsed author with that name, when the winning parser gave
+    no author an affiliation (jci.org's byline pop-ups, #2252). A name spelled the same matches by lookup, the rest by
+    same_person (N x N, but only for names spelled differently)."""
+    if not pairs or any(a["affiliations"] for a in authors):
+        return
+    by_key = {}
+    for a in authors:
+        by_key.setdefault(_letters_key(a["name"]), []).append(a)
+    for name, affs in pairs:
+        matches = by_key.get(_letters_key(name)) or [a for a in authors if same_person(a["name"], name)]
+        if name and len(matches) == 1 and not matches[0]["affiliations"]:
+            matches[0]["affiliations"] = [{"name": aff} for aff in affs]
+
+
 def _mark_corresponding_by_name(authors, names):
     """Fill the corresponding flag from a byline's marks when the winning parser marked no one (#1805).
 
@@ -445,11 +460,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 "is_corresponding": is_corresponding,
             })
         authors_and_abstract['authors'] = authors
-        if jci_pairs and not any(a["affiliations"] for a in authors):
-            for name, affs in jci_pairs:
-                matches = [a for a in authors if same_person(a["name"], name)]
-                if len(matches) == 1 and not matches[0]["affiliations"]:
-                    matches[0]["affiliations"] = [{"name": aff} for aff in affs]
+        _fill_affiliations_by_name(authors, jci_pairs)
         # Copernicus pages mark the corresponding authors themselves (#2218): those marks replace any the winning
         # parser guessed (the meta-tag parser marks only the authors its e-mail tags pair with, often one of two)
         if cop_names and any(same_person(a["name"], n) for a in authors for n in cop_names):

@@ -84,12 +84,8 @@ def test_empty_popups_give_no_affiliation():
 
 
 def test_institution_tags_win_over_the_popups():
-    metas = ('<meta name="citation_author" content="Ann Lee"/>'
-             '<meta name="citation_author_institution" content="Tag University"/>')
-    html = _page([], "").replace("</head>", metas + "</head>")
-    html = html.replace('<h4 class="author-list"></h4>', '<h4 class="author-list"><a class="author-affiliation" '
-                        'data-dropdown="author-affiliation-0"> Ann Lee </a></h4><div id="author-affiliation-0">'
-                        '<p class="affiliations">Pop-up University</p></div>')
+    html = _page([("Ann Lee", "")], "Pop-up University",
+                 metas='<meta name="citation_author_institution" content="Tag University"/>')
     assert _affs(html) == {"Ann Lee": ["Tag University"]}
 
 

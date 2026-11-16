@@ -20,6 +20,8 @@ from parseland_lib.publisher.parsers.utils import squash
 _LABEL = re.compile(r"[0-9]{1,3}|[a-z]|[*†‡§¶#]{1,3}")
 _SUP = re.compile(r"<sup\b[^>]*>(.*?)</sup>", re.S | re.I)
 _TAG = re.compile(r"<[^>]+>")
+# the "and" joining the last two names, or the last two affiliations of a numbered list
+_AND = re.compile(r"[\s,;]+and$")
 
 
 def _text(fragment):
@@ -31,19 +33,18 @@ def _labelled(block_html):
     parts = _SUP.split(block_html)
     affs, label = {}, None
     for i, part in enumerate(parts):
-        if i % 2 and _LABEL.fullmatch(_text(part)):
-            label = _text(part)
+        text = _text(part)
+        if i % 2 and _LABEL.fullmatch(text):
+            label = text
             affs.setdefault(label, "")
         elif label is not None:
-            affs[label] = squash(f"{affs[label]} {_text(part)}")
+            affs[label] = squash(f"{affs[label]} {text}")
     # "<sup>4</sup>Genetics Branch, NCI, and <sup>5</sup>NIDDK, NIH, Bethesda": the joining "and" is not part of it
-    return {k: re.sub(r"[\s,;]+and$", "", v) for k, v in affs.items() if v}
+    return {k: _AND.sub("", v) for k, v in affs.items() if v}
 
 
 def _byline_name(link):
-    words = [s for s in link.find_all(string=True) if not s.find_parent("sup")]
-    name = squash(" ".join(words)).strip(" ,")
-    return squash(re.sub(r"(?:,|\s)\s*and$", "", name)).strip(" ,")
+    return _AND.sub("", _text(_SUP.sub(" ", str(link)))).strip(" ,")
 
 
 def jci_affiliations(soup):
@@ -55,21 +56,23 @@ def jci_affiliations(soup):
     pairs = []
     links = soup.select("a.author-affiliation[data-dropdown]")
     boxes = {div["id"]: div for div in soup.select('div[id^="author-affiliation-"]')}
+    read = {}  # every pop-up holds the same list: read each distinct one once
     for link in links:
         box = boxes.get(link["data-dropdown"])
         blocks = box.select("p.affiliations") if box is not None else []
         if not blocks:
             continue
         labels = [lbl.strip() for sup in link.find_all("sup") for lbl in sup.get_text().split(",") if lbl.strip()]
-        numbered = _labelled(" ".join(str(b) for b in blocks))
+        block_html = " ".join(str(b) for b in blocks)
+        if block_html not in read:
+            read[block_html] = (_labelled(block_html), [t for t in (_text(str(b)) for b in blocks) if t])
+        numbered, plain = read[block_html]
         if numbered:
             affs = [numbered[lbl] for lbl in labels if lbl in numbered]
             if not labels and len(numbered) == 1:
                 affs = list(numbered.values())
         else:
-            affs = [t for t in (_text(str(b)) for b in blocks) if t]
-            if len(affs) > 1 and len(links) > 1:
-                affs = []
+            affs = plain if len(plain) == 1 or len(links) == 1 else []
         if affs:
             pairs.append((_byline_name(link), affs))
     return pairs
