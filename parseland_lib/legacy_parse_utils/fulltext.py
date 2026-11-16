@@ -1,12 +1,12 @@
 import html
 import re
-from urllib.parse import urlparse, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlparse, urlsplit, urlunsplit
 
 from parseland_lib.legacy_parse_utils.resolved_url import get_base_url_from_soup
 from parseland_lib.legacy_parse_utils.pdf import trust_publisher_license, \
     find_normalized_license, DuckLink, get_link_target, clean_pdf_url, \
     find_repo_version, find_pdf_link, discard_pdf_url, find_doc_download_link, \
-    try_pdf_link_as_doc, find_bhl_view_link
+    try_pdf_link_as_doc, find_bhl_view_link, has_bad_href_word
 from parseland_lib.legacy_parse_utils.version_and_license import \
     detect_sd_author_manuscript, detect_bronze, detect_hybrid, license_search_text
 from parseland_lib.legacy_parse_utils.strings import cleanup_soup
@@ -217,6 +217,69 @@ def is_openedition_own_pdf(href, resolved_host, page_markup):
     return bool(page_host) and link_host == page_host
 
 
+# JSTOR's page for a book lists one "Download" per chapter (/stable/pdf/<book>.<n>.pdf), and it is the page JSTOR
+# serves for every chapter of the book ("/stable/<book>?turn_away=true"): the HTML is the same whichever chapter it
+# was stored for. The finder took the first "Download", the book's front matter, so a page stored for chapter 25
+# gave chapter 1's PDF (#2239: 63 of 88 sampled book pages, right once). A page that offers several items' PDFs
+# doesn't say which is this work's: it has no PDF link. A journal item's page lists no such link, or its own one.
+_JSTOR_ITEM_PDF_RE = re.compile(r'/stable/pdf/[^\s"\'<>?#]+\.pdf', re.I)
+
+
+def is_jstor_contents_pdf(href, page_markup):
+    """True when the link is one of several items' PDFs that a JSTOR page lists (a book's table of contents)."""
+    if not href or '/stable/pdf/' not in href:
+        return False
+    try:
+        parts = urlsplit(href)
+    except ValueError:
+        return False
+    # relative, or on JSTOR's host (a library proxy's "www.jstor.org.<proxy>" included)
+    if (parts.netloc and 'jstor.org' not in parts.netloc.lower()) or not parts.path.startswith('/stable/pdf/'):
+        return False
+    return len(set(_JSTOR_ITEM_PDF_RE.findall(page_markup or ''))) > 1
+
+
+# DOAJ article records (doaj.org/article/<id>) print the record's full-text links as "Read online" buttons, and
+# nothing on the page says which of them is a PDF: only the address does. The finder knows no "Read online" link,
+# so a record whose button goes straight to the publisher's PDF had no PDF link (#2239: 68 of 508 labelled DOAJ
+# pages; the other 440 go to a landing page, and have none).
+_DOAJ_RECORD_RE = re.compile(r'^https?://(?:www\.)?doaj\.org/article/', re.I)
+# Routes that serve an article's file and never say "pdf" (4 of the 68): Hrčak's /file/<n>, DergiPark's
+# /download/article-file/<n>, Open Journal Systems' /article/viewFile/<article>/<galley>.
+_ARTICLE_FILE_ROUTE_RE = re.compile(
+    r'^(?:hrcak\.srce\.hr/file/\d+|dergipark\.org\.tr/(?:[a-z]{2}/)?download/article-file/\d+|'
+    r'[^/]+/(?:.*/)?article/viewFile/\d+/\d+)/?$', re.I)
+
+
+def address_names_pdf(href):
+    """True when a link's address itself says it serves a PDF: the path ends in .pdf or has a part named "pdf"
+    (/download/pdf/, /article/view/477/pdf, J-STAGE's /_pdf/), the query asks for one (Europe PMC's ?pdf=render),
+    or it is a known article-file route. A word that only contains "pdf" or "file" doesn't count."""
+    try:
+        parts = urlsplit(href or '')
+    except ValueError:
+        return False
+    path = parts.path.lower()
+    if path.endswith('.pdf') or any(part in ('pdf', '_pdf') for part in path.split('/')):
+        return True
+    if any('pdf' in (key.lower(), value.lower()) for key, value in parse_qsl(parts.query, keep_blank_values=True)):
+        return True
+    return bool(_ARTICLE_FILE_ROUTE_RE.match(parts.netloc.lower().removeprefix('www.') + parts.path))
+
+
+def find_doaj_pdf_link(soup, resolved_url):
+    """The first "Read online" button of a DOAJ article record whose address names a PDF, or None."""
+    og_url = soup.find('meta', {'property': 'og:url', 'content': True})
+    if not any(_DOAJ_RECORD_RE.match(url or '') for url in (resolved_url, og_url['content'] if og_url else None)):
+        return None
+    for button in soup.select('a.button[href]'):
+        href = button['href'].strip()
+        if button.get_text(strip=True).lower() == 'read online' and address_names_pdf(href) \
+                and not has_bad_href_word(href):
+            return href
+    return None
+
+
 def parse_publisher_fulltext_location(soup, resolved_url):
     # cleanup_soup() extracts <script> in place, so anything read from `soup` after it has
     # no JSON payloads. The licence search needs them: Next.js pages (eLife reviewed
@@ -265,6 +328,10 @@ def parse_publisher_fulltext_location(soup, resolved_url):
             and not is_openedition_own_pdf(pdf_link.href, resolved_host, soup_str):
         pdf_link = None
 
+    # a JSTOR book page's "Download" links are its chapters', none of them this page's own (#2239)
+    if pdf_link is not None and is_jstor_contents_pdf(pdf_link.href, soup_str):
+        pdf_link = None
+
     if pdf_link is None:
         if resolved_host.endswith('ieeexplore.ieee.org') and (
         ieee_pdf := re.search(r'"pdfPath":\s*"(/ielx?7/[\d/]*\.pdf)"',
@@ -299,7 +366,11 @@ def parse_publisher_fulltext_location(soup, resolved_url):
     else:
         pdf_url = None
     pdf_url, pdf_link = clean_pdf_url(pdf_url, pdf_link) if pdf_url else (None, None)
-    pdf_url = normalize_de_gruyter_pdf_url(pdf_url)
+    # A De Gruyter link the page prints (its "Download chapter (PDF)" link, its citation_pdf_url tag) is returned as
+    # printed (#2239). It used to be moved to the degruyterbrill host and lose its query here, so
+    # ".../pdf?licenseType=free" came back as ".../pdf" and a www.degruyter.com page's link on another host: 12 of
+    # the 16 labelled pages that print one. The link built above for a page that prints none is already in that
+    # form (find_de_gruyter_pdf_link) and is not touched: whether such a page should get one is parked (#1632).
 
     if bronze_ovs := detect_bronze(soup, resolved_url):
         open_version_source_string = bronze_ovs
@@ -342,6 +413,13 @@ def parse_repo_fulltext_location(soup, resolved_url):
     pdf_url = None
     doc_url = None
     pdf_download_link = find_pdf_link(resolved_url, soup, page_with_scripts=soup_str)
+    # a JSTOR book page's "Download" links are its chapters', none of them this page's own (#2239)
+    if pdf_download_link is not None and is_jstor_contents_pdf(getattr(pdf_download_link, 'href', None), soup_str):
+        pdf_download_link = None
+    # a DOAJ record's "Read online" button that goes straight to a PDF (#2239)
+    if pdf_download_link is None and 'doaj.org/article/' in soup_str and (
+            doaj_pdf := find_doaj_pdf_link(soup, resolved_url)):
+        pdf_download_link = DuckLink(doaj_pdf, 'Read online')
     if pdf_download_link is not None:
         pdf_url = get_link_target(pdf_download_link.href, resolved_url) if hasattr(pdf_download_link, 'href') else None
 
