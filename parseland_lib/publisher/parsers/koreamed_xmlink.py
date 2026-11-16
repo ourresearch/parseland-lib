@@ -23,6 +23,7 @@ _CORR_NOTE = re.compile(
     r"corresponding\s+(?:to|author)\s*:?|correspondence\s*(?:to\s*)?:", re.I)
 _NOTE_MAX = 800  # a note, not a paragraph of body text that happens to say "corresponding to"
 _REF_NUMBER = re.compile(r"^\s*(\d{1,4})\s*[.)]\s*")
+_CLAIM_TAGS = frozenset(("link", "a", "li"))  # the only tags the claim's marks can sit on
 
 
 def _doi(link):
@@ -37,14 +38,48 @@ def _text(node):
 
 class KoreaMedXMLink(PublisherParser):
     parser_name = "koreamed_xmlink"
+    # Claim results, worked out once per page (oxjob #2268): every DOI page asks every parser, so the claim must be
+    # cheap on the pages this one does not take. Nothing here edits the soup, so a cached answer stays right.
+    _marks = None
+    _synapse = None
+    _jats = None
+
+    def _page_marks(self):
+        """One plain pass over the page (the same ``descendants`` walk the CSS selectors make) for the tags the claim
+        needs: the viewer's ``ViewNLM_m`` stylesheet link (exactly the test ``link[href*="ViewNLM_m"]`` makes), a JATS
+        byline author link, a JATS reference item. A page with none of them can match no claim selector, so it is
+        turned away without running them (three CSS-selector walks cost about 2 ms a page; this pass about 0.2)."""
+        if self._marks is None:
+            viewer = author = ref = False
+            for el in self.soup.descendants:
+                name = el.name  # None on text and comments
+                if name not in _CLAIM_TAGS:
+                    continue
+                if name == "link":
+                    if not viewer and "ViewNLM_m" in (el.get("href") or ""):
+                        viewer = True
+                elif name == "a":
+                    if not author and "search_result.php?term=author&" in (el.get("href") or ""):
+                        author = True
+                elif not ref and el.get("name") == "jats-ref-pub":
+                    ref = True
+                if viewer and author and ref:
+                    break
+            self._marks = (viewer, author, ref)
+        return self._marks
 
     def _synapse_viewer(self):
-        return bool(self.soup.select_one('link[href*="ViewNLM_m"]')) and bool(
-            self.soup.select_one("div.abody span.capture-id"))
+        if self._synapse is None:
+            self._synapse = self._page_marks()[0] and bool(self.soup.select_one("div.abody span.capture-id"))
+        return self._synapse
 
     def _jats_view(self):
-        return bool(self.soup.select_one(
-            'div.author_layer a[href*="search_result.php?term=author&"], ul.reference li.ref_layer[name="jats-ref-pub"]'))
+        if self._jats is None:
+            marks = self._page_marks()
+            self._jats = (marks[1] or marks[2]) and bool(self.soup.select_one(
+                'div.author_layer a[href*="search_result.php?term=author&"], '
+                'ul.reference li.ref_layer[name="jats-ref-pub"]'))
+        return self._jats
 
     def is_publisher_specific_parser(self):
         return self._synapse_viewer() or self._jats_view()
