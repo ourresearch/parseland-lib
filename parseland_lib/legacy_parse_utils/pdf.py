@@ -1,4 +1,5 @@
 import re
+import unicodedata
 from urllib.parse import urlparse, urljoin
 
 
@@ -199,27 +200,35 @@ def find_repo_version(page):
     return "submittedVersion"
 
 
+# bepress / Digital Commons pages name the PDF meta bepress_citation_pdf_url and often carry no plain citation_pdf_url
+# (= https://pharesst.irsst.qc.ca/rapports-scientifique/175/, oxjob #937). The plain name wins when a page has both;
+# either way the link's anchor is "<meta citation_pdf_url>", so the known-bad meta rules in is_known_bad_link apply.
+_PDF_META_NAMES = ("citation_pdf_url", "bepress_citation_pdf_url")
+
+
 def get_pdf_in_meta(page):
     if "citation_pdf_url" in page:
 
         tree = get_tree(page)
         if tree is not None:
             metas = tree.xpath("//meta")
-            for meta in metas:
-                meta_name = meta.attrib.get('name', None)
-                meta_property = meta.attrib.get('property', None)
+            for wanted in _PDF_META_NAMES:
+                for meta in metas:
+                    meta_name = meta.attrib.get('name', None)
+                    meta_property = meta.attrib.get('property', None)
 
-                if meta_name == "citation_pdf_url" or meta_property == "citation_pdf_url":
-                    if "content" in meta.attrib:
-                        link = DuckLink(href=meta.attrib["content"], anchor="<meta citation_pdf_url>")
-                        return _transform_meta_pdf(link, page)
+                    if meta_name == wanted or meta_property == wanted:
+                        if "content" in meta.attrib:
+                            link = DuckLink(href=meta.attrib["content"], anchor="<meta citation_pdf_url>")
+                            return _transform_meta_pdf(link, page)
         else:
             # backup if tree fails
-            regex = r'<meta name="citation_pdf_url" content="(.*?)">'
-            matches = re.findall(regex, page)
-            if matches:
-                link = DuckLink(href=matches[0], anchor="<meta citation_pdf_url>")
-                return _transform_meta_pdf(link, page)
+            for wanted in _PDF_META_NAMES:
+                regex = r'<meta name="{}" content="(.*?)">'.format(wanted)
+                matches = re.findall(regex, page)
+                if matches:
+                    link = DuckLink(href=matches[0], anchor="<meta citation_pdf_url>")
+                    return _transform_meta_pdf(link, page)
     return None
 
 
@@ -410,7 +419,9 @@ def get_useful_links(page):
     link_elements = tree.xpath("//a")
 
     for link in link_elements:
-        link_text = link.text_content().strip().lower()
+        # NFC: a page may spell accents decomposed (e + U+0301, PhareSST's "Te&#769;le&#769;charger"), which never
+        # equals the precomposed literals the anchor checks use ("télécharger"); oxjob #937
+        link_text = unicodedata.normalize('NFC', link.text_content()).strip().lower()
         if link_text:
             link.anchor = link_text
             if "href" in link.attrib:
