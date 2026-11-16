@@ -41,6 +41,10 @@ _LEADING_LABEL = re.compile(r"^\s*([0-9]{1,2}|[a-z])\s*[.\u3001)\uff09]\s*(?=\S)
 _NOT_AFFILIATION = re.compile(r"^\s*(?:(?:academic|handling|guest)?\s*editors?\s*[:\uff1a]|these authors contributed|"
                               r"contributed equally|equal(?:ly)? contribut)", re.I)
 _INNER_LABEL = re.compile(r"[(\uff08](\d{1,2})[)\uff09]")  # old Acta Physica Sinica: "(1)X; (2)Y" in one item
+# "1 X; 2 Y; 3 Z" in one item (Nuclear Physics Review): a bare number opening the item or following a semicolon
+_LISTED_LABEL = re.compile(r"(?:^|[;\uff1b])\s*(\d{1,2})\s*[.\u3001]?\s+(?=[^\W\d_])")
+_BARE_LABEL = re.compile(r"^\s*(\d{1,2})\s+(?=[^\W\d_])")  # "1 School of ...": a number and a space, no stop
+_ET_AL = re.compile(r"^(?:et\.?\s*al\.?|\u7b49)$", re.I)  # "et al." / "等" closing a shortened byline: not an author
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 _DOI = re.compile(r"\b(10\.\d{4,9}/\S+)")
 _STATED_COUNT = re.compile(r"(?:参考文献|references)\s*[(（]\s*(\d+)\s*[)）]", re.I)
@@ -51,6 +55,17 @@ _REF_BUTTON = re.compile(r"^\s*(?:cross\s?ref|google\s+scholar|pub\s?med|百度�
 
 def _text(tag):
     return " ".join(tag.get_text(" ", strip=True).split()) if tag is not None else ""
+
+
+def _split_numbered(text):
+    """[(label, text)] when one address item holds a numbered list ("(1)X; (2)Y", "1 X; 2 Y; 3 Z"), else None."""
+    marks = list(_INNER_LABEL.finditer(text))
+    if len(marks) < 2 or text[:marks[0].start()].strip(" ;\uff1b,\uff0c"):
+        marks = list(_LISTED_LABEL.finditer(text))  # bare numbers: only a list numbered 1, 2, 3 ... from the start
+        if len(marks) < 2 or marks[0].start() or [m.group(1) for m in marks] != [str(i) for i in range(1, len(marks) + 1)]:
+            return None
+    ends = [m.start() for m in marks[1:]] + [len(text)]
+    return [(m.group(1), text[m.end():end]) for m, end in zip(marks, ends)]
 
 
 class Rhhz(PublisherParser):
@@ -81,7 +96,7 @@ class Rhhz(PublisherParser):
 
     def _addresses(self, block):
         """[(label, text)] of the li.article-author-address items after this byline and before the next one."""
-        out = []
+        items = []
         for el in block.find_all_next(["ul", "li"]):
             classes = el.get("class") or []
             if el.name == "ul" and "article-author" in classes:
@@ -97,9 +112,17 @@ class Rhhz(PublisherParser):
                 text = _text(el)
                 if span is not None:
                     text = text.replace(_text(span), "", 1)
-            pieces = _INNER_LABEL.split(text)
-            if len(pieces) >= 5 and not pieces[0].strip(" ;；,，"):  # "(1)X; (2)Y": one item, several affiliations
-                pairs = list(zip(pieces[1::2], pieces[2::2]))
+            items.append((label, text))
+        lists = [_split_numbered(text) for _, text in items]
+        bare = [_BARE_LABEL.match(text) for _, text in items]
+        if (items and not any(lists) and not any(label for label, _ in items) and all(bare)
+                and [m.group(1) for m in bare] == [str(i) for i in range(1, len(items) + 1)]):
+            # "1 School of ...", "2 Bureau ...": every item opens with a bare number, 1, 2, 3 in order
+            items = [(m.group(1), text[m.end():]) for m, (_, text) in zip(bare, items)]
+        out = []
+        for (label, text), listed in zip(items, lists):
+            if listed:  # one item, several affiliations
+                pairs = listed
             else:
                 if not label and (m := _LEADING_LABEL.match(text)):
                     label, text = m.group(1), text[m.end():]
@@ -137,7 +160,7 @@ class Rhhz(PublisherParser):
         authors = []
         for li, tokens in zip(items, tags):
             name = " ".join(li.select_one("a.mainColor").get_text(" ", strip=True).split())
-            if not name:
+            if not name or _ET_AL.match(name):
                 continue
             if len(addresses) == 1:
                 affs = [addresses[0][1]]  # one affiliation: every author's, labelled or not
@@ -191,6 +214,13 @@ class Rhhz(PublisherParser):
                         low = text.lower()
                     if hit or any(e in low for e in self._emails(author["_li"])):
                         author["is_corresponding"] = True
+        # 3. no corresponding icon on the byline at all: an envelope (mailto icon) beside some authors, not every
+        # author, is the page's mark
+        if not any(a["is_corresponding"] for a in authors) and not any(a["_li"].select(".com-user") for a in authors):
+            mailed = [a for a in authors if a["_li"].select(".com-mail")]
+            if mailed and len(mailed) < len(authors):
+                for author in mailed:
+                    author["is_corresponding"] = True
         if any(a["is_corresponding"] for a in authors):
             for author in authors:
                 author["is_corresponding"] = bool(author["is_corresponding"])

@@ -200,3 +200,43 @@ def test_one_address_item_numbered_inside_is_split_and_notes_are_not_affiliation
             + _addr("3.", "These authors contributed equally", "p") + "</h6></ul>")
     assert [a[1] for a in _parse(_page(body, names=("王一", "李二"), insts=()))] == [
         ["某研究所，北京 100085"], ["某大学物理系，北京 100871"]]
+
+
+def test_bare_number_labels_printed_in_the_text_link_each_author():
+    # Chinese Birds (j-avianres.com): "1 School of ...;" with no stop after the number and an empty label span
+    body = ('<ul class="article-author">' + _li("Ann Lee", "1") + _li("Bo Chen", "2")
+            + '</ul><ul class="about-author addresswrap">'
+            + '<li class="article-author-address"><span class=""> </span><p> 1 School of Life Sciences, Example '
+              'University, Lanzhou 730000, China;</p></li>'
+            + '<li class="article-author-address"><span class=""> </span><p> 2 Bureau of Quality Monitoring, '
+              'Baise 533000, Guangxi, China</p></li></ul>')
+    assert [a[1] for a in _parse(_page(body))] == [
+        ["School of Life Sciences, Example University, Lanzhou 730000, China"],
+        ["Bureau of Quality Monitoring, Baise 533000, Guangxi, China"]]
+
+
+def test_one_item_holding_a_bare_numbered_list_is_split_and_et_al_is_not_an_author():
+    # Nuclear Physics Review (npr.ac.cn): "1 X; 2 Y; 3 Z;" in one address item, and a shortened byline ending "et al."
+    body = ('<ul class="article-author">' + _li("F. Miya", "1") + _li("M. Itoh", "2") + _li("et al.")
+            + '</ul><ul class="about-author"><li class="article-author-address"><span class=""> </span><p>'
+              '1 Laboratory of Nuclear Science, Example University Mikamine 121, Sendai 9820826, Japan; '
+              '2 Radioisotope Center, Example University, Sendai 9808578, Japan; 3 KEK, Tsukuba 3050801, Japan;'
+              '</p></li></ul>')
+    assert _parse(_page(body, names=("F. Miya", "M. Itoh"), insts=())) == [
+        ("F. Miya", ["Laboratory of Nuclear Science, Example University Mikamine 121, Sendai 9820826, Japan"], False),
+        ("M. Itoh", ["Radioisotope Center, Example University, Sendai 9808578, Japan"], False)]
+
+
+def _mail(email):
+    return f'<a href="mailto:{email}" class="com-mail" title="mailto:&nbsp;{email}"></a>'
+
+
+def test_envelope_beside_one_author_marks_them_when_the_byline_has_no_corresponding_icon():
+    # Quaternary Sciences (dsjyj.com.cn): no com-user icon and no "通讯作者" line, only the envelope on the first author
+    body = ('<ul class="article-author">' + _li("程一", "1", _mail("c@example.cn"), "c@example.cn") + _li("李二", "1")
+            + _li("张三", "1") + '</ul><ul class="about-author">' + _addr("1.", "某大学全球变化研究院, 西安 710054", "p")
+            + '</ul>')
+    assert [a[2] for a in _parse(_page(body, names=("程一", "李二", "张三"), insts=()))] == [True, False, False]
+    every = ('<ul class="article-author">' + _li("程一", "1", _mail("c@example.cn")) + _li("李二", "1", _mail("l@example.cn"))
+             + '</ul><ul class="about-author">' + _addr("1.", "某大学全球变化研究院, 西安 710054", "p") + '</ul>')
+    assert [a[2] for a in _parse(_page(every, names=("程一", "李二"), insts=()))] == [False, False]
