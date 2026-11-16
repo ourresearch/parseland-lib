@@ -151,28 +151,24 @@ class ScienceDirect(PublisherParser):
         collab_author_groups = [obj for d in collab_dicts for obj in d.get('$$', []) if obj.get('#name') == 'author-group']
         author_groups.extend(collab_author_groups)
 
+        # An author's marker can point at an affiliation stored in another author group (#2239). On
+        # 0550-3213(85)90091-4 each of three authors is a group of their own; the second author's affiliations
+        # d, e, f sit in the third author's group, whose own markers a, b, c point back into the first. Looked up
+        # in the author's own group only, the second author kept g alone and the third took d, e, f. So a marker
+        # the author's own group does not hold is looked up among every group's affiliations (ids are page-wide).
+        page_affiliation_labels = {}
+        for author_group in author_groups:
+            for label, text in cls._group_affiliations(author_group).items():
+                page_affiliation_labels.setdefault(label, text)
+
         for author_group in author_groups:
             group_authors = []
-            group_affiliation_labels = {}
+            group_affiliation_labels = cls._group_affiliations(author_group)
             group_footnote_labels = {}
 
-            affiliation_dicts = [
-                x
-                for x in author_group.get("$$", [])
-                if
-                x.get("#name") == "affiliation" or x.get("#name") == "footnote"
-            ]
             footnote_dicts = cls._group_footnotes(author_group)
 
             corresponding_ids = cls._get_corresponding_ids(author_group)
-
-            for affiliation in affiliation_dicts:
-                affiliation_label = affiliation.get("$", {}).get("id")
-                for affiliation_property in affiliation.get("$$", []):
-                    if affiliation_property.get("#name") == "textfn":
-                        text = cls.affiliation_text(affiliation_property)
-                        if affiliation_label and text:
-                            group_affiliation_labels[affiliation_label] = text
 
             for footnote in footnote_dicts:
                 footnote_label = footnote.get("$", {}).get("id")
@@ -212,6 +208,9 @@ class ScienceDirect(PublisherParser):
                                 or affiliation_label in corresponding_ids
                         ):
                             is_corresponding = True
+                        elif affiliation_label in page_affiliation_labels:
+                            # stored in another author group (#2239)
+                            affiliation_labels.append(affiliation_label)
                     elif (
                         # if corresponding ids not found, use email link as indicator of correspondence
                             not corresponding_ids and
@@ -230,33 +229,45 @@ class ScienceDirect(PublisherParser):
                         }
                     )
 
-            if any(author.get("affiliation_labels") for author in
-                   group_authors):
-                # assign affiliations by label
-                for author in group_authors:
+            # The group links by marker when one of its authors points at one of its own affiliations. An
+            # author whose markers point into another group has those affiliations either way (#2239); the
+            # unmarked authors beside them are read as before.
+            group_links_by_label = any(
+                label in group_affiliation_labels
+                for author in group_authors for label in author["affiliation_labels"])
+            for author in group_authors:
+                if group_links_by_label or author["affiliation_labels"]:
+                    # assign affiliations by label
                     affiliations = [
-                        group_affiliation_labels[label]
+                        group_affiliation_labels.get(label) or page_affiliation_labels[label]
                         for label in author["affiliation_labels"]
                     ]
-                    all_authors.append(
-                        {
-                            "name": author["name"],
-                            "affiliations": affiliations,
-                            "is_corresponding": author["is_corresponding"],
-                        }
-                    )
-            else:
-                # assign all affiliations to all authors
-                for author in group_authors:
-                    all_authors.append(
-                        {
-                            "name": author["name"],
-                            "affiliations": list(
-                                group_affiliation_labels.values()),
-                            "is_corresponding": author["is_corresponding"],
-                        }
-                    )
+                else:
+                    # assign all affiliations to all authors
+                    affiliations = list(group_affiliation_labels.values())
+                all_authors.append(
+                    {
+                        "name": author["name"],
+                        "affiliations": affiliations,
+                        "is_corresponding": author["is_corresponding"],
+                    }
+                )
         return all_authors
+
+    @classmethod
+    def _group_affiliations(cls, author_group):
+        """{affiliation id: text} of the affiliations an author group of the page state holds."""
+        labels = {}
+        for affiliation in author_group.get("$$", []):
+            if affiliation.get("#name") not in ("affiliation", "footnote"):
+                continue
+            affiliation_label = affiliation.get("$", {}).get("id")
+            for affiliation_property in affiliation.get("$$", []):
+                if affiliation_property.get("#name") == "textfn":
+                    text = cls.affiliation_text(affiliation_property)
+                    if affiliation_label and text:
+                        labels[affiliation_label] = text
+        return labels
 
     # Nodes nested in an affiliation's textfn that are not its text: footnote markers and footnote bodies,
     # page references, phone/fax set as math, e-mail. Oxjob #1794 (live sample: these made up most of the noise).

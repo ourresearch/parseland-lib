@@ -220,6 +220,34 @@ class Springer(PublisherParser):
         except Exception:
             return ''
 
+    # The label the template puts before a present-address note, and the note's own marker and label after it
+    # (nature.com: "Present address: 7Current address: Division of ...").
+    _PRESENT_ADDRESS_LABEL = re.compile(r'^(?:\W*\d{0,2}\s*(?:present|current)\s+address\s*:?)+[\s,;]*', re.I)
+
+    def _present_addresses(self):
+        """{author match key: [address, ...]} from the page's "Present address" author notes (oxjob #2239).
+
+        Older articles tie some authors to an address this way only: the byline marker points at a note
+        (<li id="nAff1"> of ol.c-article-author-information__list) that names the author(s) and holds
+        <p class="js-present-address">Present address: ...</p>, while the "Authors and Affiliations" list names
+        the co-authors alone. The other notes of that list ("These authors contributed equally") have no such <p>.
+        """
+        addresses = {}
+        for note in self.soup.select('ol.c-article-author-information__list > li'):
+            names_tag = note.select_one('p[class*=authors-list]')
+            if not names_tag:
+                continue
+            for address_tag in note.select('p.js-present-address'):
+                text = re.sub(r'\s+', ' ', address_tag.get_text(' ', strip=True))
+                address = self._PRESENT_ADDRESS_LABEL.sub('', text).strip(' ,;')
+                if not address:
+                    continue
+                for name in self._listed_names(names_tag.text):
+                    key = self._author_match_key(name)
+                    if key and address not in addresses.setdefault(key, []):
+                        addresses[key].append(address)
+        return addresses
+
     def _repair_authors_from_short_list(self, authors, dropped=()):
         """`dropped`: the authors the book-editor filter has just removed from `authors`."""
         short_authors = self._parse_short_author_list()
@@ -275,17 +303,20 @@ class Springer(PublisherParser):
             return authors
 
         # A byline author the list lacks gets the affiliations the page gives that author, and no one else's
-        # (oxjob #2239). Two cases. A chapter author who also edits the book was removed by the editor filter:
+        # (oxjob #2239). Three cases. A chapter author who also edits the book was removed by the editor filter:
         # their own affiliations are in `dropped` (978-3-031-67099-2_7: Debbie Jones and Mark Jones came out with
         # the third author's affiliation, or with none when the page had several). An author the affiliation
-        # block doesn't list has none on the page (BF02109507: the block ties its one affiliation to Imai, and
-        # Sakanoue got it too). Before, such an author got the others' affiliation whenever they all shared one:
-        # wrong on 5 of the 8 dev pages it touched, and their own affiliations are right on all 8.
+        # block doesn't list, whom an author note gives a present address, has that address (BF02018622: the
+        # block names Dhillon and Peters, Gordon's marker points at the note; without it he had none). Any other
+        # author the block doesn't list has none on the page (BF02109507: the block ties its one affiliation to
+        # Imai, and Sakanoue got it too). Before, such an author got the others' affiliation whenever they all
+        # shared one: wrong on 5 of the 8 dev pages it touched, and their own affiliations are right on all 8.
         dropped_by_key = {}
         for author in dropped:
             key = self._author_match_key(self._author_name(author))
             if key:
                 dropped_by_key.setdefault(key, author)
+        present_addresses = self._present_addresses()
 
         repaired = []
         for short_author in short_authors:
@@ -295,7 +326,7 @@ class Springer(PublisherParser):
                 'name': short_author['name'],
                 'affiliations': self._author_affiliations(
                     current or dropped_by_key.get(key) or {}
-                ),
+                ) or list(present_addresses.get(key, ())),
                 'is_corresponding': (
                     self._author_is_corresponding(current)
                     if current else None
@@ -337,6 +368,20 @@ class Springer(PublisherParser):
                 return True
         return False
 
+    @classmethod
+    def _listed_names(cls, text):
+        """The names in the "A, B & C" line of an affiliation-list item or an author note."""
+        # A role or a name in another script in parentheses ("Hong-ying Sun (Doctor Candidate, Engineer)",
+        # "Lian-wen Deng (邓联文)") is not part of the name. Cut it before splitting on commas: its own comma
+        # made "Engineer)" an author and dropped the person (oxjob #2247).
+        names_text = cls._strip_parenthesised(text)
+        author_names = [
+            name.strip(' ,')
+            for name in cls._split(names_text.replace('&', ',').strip())
+            if '(' not in name and name.strip(' ,')
+        ]
+        return cls._merge_author_suffix_tokens(author_names)
+
     def parse_authors_method_2(self):
         # The editor block uses the same affiliation-list markup as the author block (its items are
         # <li id="Aff1">), so without this filter a reference entry that names no author got the book's
@@ -354,17 +399,7 @@ class Springer(PublisherParser):
                 continue
 
             aff_text = aff_tag.text.strip().split('E-mail')[0].strip()
-            # A role or a name in another script in parentheses ("Hong-ying Sun (Doctor Candidate, Engineer)",
-            # "Lian-wen Deng (邓联文)") is not part of the name. Cut it before splitting on commas: its own comma
-            # made "Engineer)" an author and dropped the person (oxjob #2247).
-            names_text = self._strip_parenthesised(authors_tag.text)
-            author_names = [
-                name.strip(' ,')
-                for name in self._split(names_text.replace('&', ',').strip())
-                if '(' not in name and name.strip(' ,')
-            ]
-            author_names = self._merge_author_suffix_tokens(author_names)
-            for name in author_names:
+            for name in self._listed_names(authors_tag.text):
                 key = name.replace('\xa0', ' ').strip().lower()
                 if key not in authors_by_key:
                     authors_by_key[key] = {
