@@ -4,7 +4,7 @@ from urllib.parse import unquote
 from lxml import etree
 
 from parseland_lib.legacy_parse_utils.pdf import get_pdf_in_meta, \
-    trust_publisher_license, find_normalized_license, site_license_covers_articles
+    trust_publisher_license, find_normalized_license, site_license_covers_articles, _host_in, _CC_SHORTHAND_RE
 from parseland_lib.legacy_parse_utils.strings import normalized_strings_equal, \
     get_tree
 
@@ -42,17 +42,60 @@ _ARTICLE_STATEMENT = re.compile(
     r"(?:(?:is\s+)?(?:licen[sc]ed|distributed|published|(?:made\s+)?available)\s+)?under"
     r"\b(?:[^.]|\.(?=\S)){0,300}", re.IGNORECASE)
 _CONDITION_BEFORE = re.compile(r"\b(?:if|when|where|whether|unless)\s+$", re.IGNORECASE)
+# One exact mention of a Creative Commons licence: its link, its full name (with its conditions or its version number)
+# or its short name. The bare family name does not count: pages write "Creative Commons Attribution License (CC-By-NC)"
+# over a by-nc link, and that names one licence, not two. Nor does a public-domain dedication: beside an article's
+# licence it is about something else (the metadata).
+_EXACT_LICENSE_MENTION = re.compile(
+    r"creativecommons\.org/licenses/[a-z\-]+"
+    r"|creative\s+commons\s+attribution"
+    r"(?:(?:[\s\-]+(?:non[\s\-]*commercial|share[\s\-]*alike|no[\s\-]*deriv\w*))+|\s+\d\.\d)"
+    r"|" + _CC_SHORTHAND_RE.pattern, re.IGNORECASE)
+_INLINE_TAGS = frozenset(('a', 'span', 'b', 'strong', 'i', 'em', 'u', 'small', 'font', 'sup', 'sub'))
+
+
+def _names_several_licenses(element):
+    """True when the element names more than one licence exactly, in its text and its links together
+    (find_normalized_license alone gives only the first by rank)."""
+    named = " ".join([" ".join(element.itertext())] + [link.get('href') or '' for link in element.iter('a')])
+    licenses = {find_normalized_license(mention.group(0)) for mention in _EXACT_LICENSE_MENTION.finditer(named)}
+    return len(licenses - {None}) > 1
+
+
+def _statement_block(section, statement):
+    """The block of a site-chrome element that an article statement stands in: the element whose own text the
+    statement starts in, or its nearest ancestor that is not inline markup. The whole element when the start of the
+    statement is split over several elements."""
+    start = statement[:30]
+    for element in section.iter(tag=etree.Element):
+        own_texts = [element.text] + [child.tail for child in element]
+        if any(text and start in re.sub(r"\s+", " ", text) for text in own_texts):
+            while element is not section and element.tag in _INLINE_TAGS:
+                element = element.getparent()
+            return element
+    return section
 
 
 def _article_statements(section):
-    """The sentences in a site-chrome element that license the page's article itself (_ARTICLE_STATEMENT)."""
+    """The sentences in a site-chrome element that license the page's article itself (_ARTICLE_STATEMENT).
+
+    Not a statement whose block names several different licences: such a statement names none (#2239, round 3). An OJS
+    theme's footer boilerplate reads "(c) <journal>, ALL RIGHTS RESERVED ... This is an open-access article distributed
+    under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Licensed
+    under <CC BY-SA badge> ... a <CC BY link>Creative Commons Attribution 4.0 International License", all in one
+    <div class="copy-right">, on every page of every journal that uses the theme, whatever the journal's licence: 5
+    dev pages with no licence read as cc-by-nc-sa, and on 2 more the sentence outranked the article's own License
+    panel (cc-by, cc-by-sa). The block, not the whole footer: a statement in one block of a footer and another
+    licence in another block are two statements, and the article's one stands (as the gate labels such a page).
+    """
     text = " ".join(section.itertext())
     if 'rticle' not in text and 'RTICLE' not in text:
         return []  # nearly every nav and footer: skip the whitespace pass
     text = re.sub(r"\s+", " ", text)
     return [m.group(0) for m in _ARTICLE_STATEMENT.finditer(text)
             if find_normalized_license(m.group(0))
-            and not _CONDITION_BEFORE.search(text, max(0, m.start() - 12), m.start())]
+            and not _CONDITION_BEFORE.search(text, max(0, m.start() - 12), m.start())
+            and not _names_several_licenses(_statement_block(section, m.group(0)))]
 
 
 def _clear_all_but_main(element, mains, holders):
@@ -174,7 +217,17 @@ def _keep_own_rightslink_licence(tree):
 #   and is not one when it reaches a word for the work itself before its licence.
 # A map attribution or image credit runs over text and its own <a> links only (raw or escaped, as in a script once the
 # tree is serialised), so on a one-line page it cannot swallow a statement in the next element.
+# - a promise to license ANOTHER version (#2239, round 3): "The author will make the Author Accepted Manuscript (AAM)
+#   version available under a CC BY public copyright license." Science prints this rights-retention line on articles it
+#   distributes under its own "Science Journals Default License", most of them paywalled, and each read as cc-by (12 of
+#   12 stored pages). Only the promise goes ("will make ... available under"): "this accepted manuscript version is
+#   made available under ..." on a repository record is a statement about the item on the page and stays.
 _LICENSE_OPTIONS = re.compile(r'"enum"\s*:\s*\[[^\[\]]*\]')
+_ACCEPTED_MANUSCRIPT_PROMISE = re.compile(
+    r"\bwill\s+make\s+the\s+(?:author\s+)?accepted\s+manuscript(?:\s*\(AAM\))?(?:\s+version)?\s+available\s+under"
+    r"(?:[^.<>\"]|</?a\b[^>]*>){0,120}", re.IGNORECASE)
+# its gate: case-sensitive with a literal start, so the scan is fast ("accepted" alone is on a third of all pages)
+_ACCEPTED_MANUSCRIPT_HINT = re.compile(r"ccepted\s+[Mm]anuscript")
 _MAP_ATTRIBUTION = re.compile(
     r"OpenStreetMap(?:\s*(?:</a>|&lt;/a&gt;))?\s*contributors"
     r"(?:</?a\b[^>]*>|&lt;/?a\b(?:(?!&gt;)[^\n])*&gt;|[^\"<>\n]){0,200}")
@@ -206,11 +259,14 @@ def _drop_code_comments_naming_a_license(tree):
 
 
 def _drop_non_statements(text):
-    """The search text without option lists, map attributions and image credits; the same object when it has none."""
+    """The search text without option lists, map attributions, image credits and promises about another version; the
+    same object when it has none."""
     text = _LICENSE_OPTIONS.sub('', text)
     text = _MAP_ATTRIBUTION.sub('', text)
     if any(hint in text for hint in _IMAGE_CREDIT_HINTS):
         text = _IMAGE_CREDIT.sub('', text)
+    if _ACCEPTED_MANUSCRIPT_HINT.search(text):
+        text = _ACCEPTED_MANUSCRIPT_PROMISE.sub('', text)
     return text
 
 
@@ -244,6 +300,12 @@ def page_potential_license_text(page, keep_site_chrome=False):
         "[contains(normalize-space(.), 'subscription basis')]"
         "[contains(., 'Accepted Manuscript')][contains(., 'embargo')]",
     ]
+    if 'component-table-of-contents' in page:
+        # PubFactory book pages (Brill) print the book's table of contents on every chapter page, each chapter with
+        # its own access badge and licence link, so the open chapters' CC BY links licensed every chapter of the book
+        # (#2239, round 3: Intersections 97, 4 chapters open and 12 sold, all 16 read as cc-by). The item's own
+        # licence link is in its header, outside this component.
+        bad_section_finders.append("//div[contains(@class, 'component-table-of-contents')]")
 
     for section_finder in bad_section_finders:
         for bad_section in tree.xpath(section_finder):
@@ -290,8 +352,9 @@ def license_search_text(page, resolved_url=None):
     """The text the licence regexes run over, on both the publisher and the repository path.
 
     A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
-    deposits often resolve to the ScienceDirect page, so the repository path needs the same rule); any other
-    page is searched whole, minus site chrome (kept on hosts whose footer licenses every article).
+    deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), a Taylor & Francis
+    book page its product's, an ACL Anthology page the footer sentence for the paper's year; any other page is
+    searched whole, minus site chrome (kept on hosts whose footer licenses every article).
     """
     sd_license_text = sciencedirect_article_license_text(page)
     if sd_license_text is not None:
@@ -299,7 +362,52 @@ def license_search_text(page, resolved_url=None):
     tf_license_text = taylorfrancis_product_license_text(page)
     if tf_license_text is not None:
         return tf_license_text
+    acl_license_text = acl_anthology_license_text(page, resolved_url)
+    if acl_license_text is not None:
+        return acl_license_text
     return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url))
+
+
+# The ACL Anthology (aclanthology.org) states its licence once, in the site footer, by year of publication:
+#   "Materials prior to 2016 here are licensed under the <a ...>Creative Commons Attribution-NonCommercial-ShareAlike
+#   3.0 International License</a>. Permission is granted to make copies for the purposes of teaching and research.
+#   Materials published in or after 2016 are licensed on a <a ...>Creative Commons Attribution 4.0 International
+#   License</a>."
+# It is a whole-site statement like those of SITE_LICENSE_HOSTS (pdf.py), but keeping the footer whole cannot work: it
+# names both licences on every page. So the paper's own year (citation_publication_date) picks the sentence, and only
+# that sentence is read (#2239, round 3: every labelled page is cc-by, all from 2016 on). Nothing else on the page
+# licenses the paper: an abstract that says "we release the corpus under CC BY-SA" is about the corpus.
+_ACL_YEAR_SENTENCE = re.compile(
+    r"\bmaterials\s+(?:prior\s+to|published\s+(in\s+or\s+after))\s+((?:19|20)\d\d)\b(?:[^.]|\.(?=\S)){0,300}",
+    re.IGNORECASE)
+_LEADING_YEAR = re.compile(r"\s*((?:19|20)\d\d)(?!\d)")
+
+
+def acl_anthology_license_text(page, resolved_url):
+    """The ACL Anthology footer sentence that licenses the paper's year of publication; '' when the page gives no
+    year or its footer has no sentence for that year.
+
+    None when the page is not on aclanthology.org, so other pages keep the whole-page search.
+    """
+    if not resolved_url or not _host_in(resolved_url, ('aclanthology.org',)):
+        return None
+    tree = get_tree(page)
+    if tree is None:
+        return None
+    year = None
+    for meta in tree.iter('meta'):
+        if (meta.get('name') or '').lower() == 'citation_publication_date':
+            leading_year = _LEADING_YEAR.match(meta.get('content') or '')
+            if leading_year:
+                year = int(leading_year.group(1))
+                break
+    if year is None:
+        return ''
+    for footer in tree.iter('footer'):
+        for sentence in _ACL_YEAR_SENTENCE.finditer(re.sub(r"\s+", " ", " ".join(footer.itertext()))):
+            if (year >= int(sentence.group(2))) == bool(sentence.group(1)):  # group 1: "in or after"
+                return sentence.group(0)
+    return ''
 
 
 # Taylor & Francis book pages (taylorfrancis.com) keep the product in Angular TransferState JSON, `"` escaped as `&q;`,
