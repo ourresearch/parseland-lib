@@ -11,6 +11,9 @@ corresponding author in one of three ways:
   ptalbert{at}fredhutch.org"), tied to the author whose surname the address holds;
 - e-mail tag: HighWire writes ``citation_author_email`` after the ``citation_author`` it belongs to, only for the
   authors the article gives an address for (what gold v1.3 labels corresponding on bioRxiv, medRxiv and ERS pages).
+  On a sole author it counts only when the page also prints that address ("For correspondence: ..." in the author's
+  pop-up, a note): a tag on every author singles no one out, and Springer Publishing's paywalled pages hold the
+  address in the tag alone (#2239).
 
 A mark on every one of two or more authors marks no one. parse_page reads the marks before the parsers run and fills
 the flag only when the winning parser marked no one.
@@ -35,7 +38,8 @@ def is_highwire_page(content):
 def highwire_corresponding_marks(soup, raw):
     """What a HighWire page says about its corresponding author, or None: {"byline": names whose byline item links
     to a correspondence footnote, "heads": what follows each correspondence note's label, "emails": local parts of
-    the notes' addresses, "emailed": names whose citation_author tag is followed by a citation_author_email tag}.
+    the notes' addresses, "emailed": names whose citation_author tag is followed by a citation_author_email tag,
+    "printed": those of them whose address the page also prints}.
     raw is the page's bytes: each scan of the tree runs only when its marker is on the page."""
     byline = []
     for item in soup.select("ol.contributor-list > li") if raw_has(raw, "xref-corresp") else []:
@@ -52,18 +56,29 @@ def highwire_corresponding_marks(soup, raw):
         for local in _EMAIL.findall(text):
             if local.lower() not in emails:
                 emails.append(local.lower())
-    emailed, current = [], None
+    emailed, printed, current = [], [], None
     metas = soup.find_all("meta", attrs={"name": ["citation_author", "citation_author_email"]}) if raw_has(
         raw, "citation_author_email") else []
+    tagged = [(tag.get("content") or "").strip() for tag in metas if tag.get("name") == "citation_author_email"]
     for tag in metas:
         content = (tag.get("content") or "").strip()
         if tag.get("name") == "citation_author":
             current = content
         elif current is not None and content:
             emailed.append(current)
+            if _printed(raw, content, tagged.count(content)):
+                printed.append(current)
     if not (byline or heads or emails or emailed):
         return None
-    return {"byline": byline, "heads": heads, "emails": emails, "emailed": emailed}
+    return {"byline": byline, "heads": heads, "emails": emails, "emailed": emailed, "printed": printed}
+
+
+def _printed(raw, address, in_tags):
+    """True when the page shows an e-mail address outside the in_tags citation_author_email tags that hold it: in a
+    mailto link, in text, or disguised ("name{at}host")."""
+    needle, disguised = (address.encode(), address.replace("@", "{at}").encode()) if isinstance(
+        raw, (bytes, bytearray)) else (address, address.replace("@", "{at}"))
+    return raw.count(needle) > in_tags or disguised in raw
 
 
 def _author_in_email(surnames, local):
@@ -86,8 +101,11 @@ def pick_highwire_corresponding(author_names, marks):
     surnames = {n: _surname_tokens(n) for n in author_names} if marks["emails"] else {}
     from_notes = [_author_in_head(author_names, h) for h in marks["heads"]] + [
         _author_in_email(surnames, e) for e in marks["emails"]]
-    picked = (_named(author_names, marks["byline"]) or list(dict.fromkeys(n for n in from_notes if n))
-              or _named(author_names, marks["emailed"]))
+    emailed = _named(author_names, marks["emailed"])
+    if len(author_names) == 1:
+        # the sole author's tag is a tag on every author: a mark only where the page prints the address too (#2239)
+        emailed = _named(author_names, marks.get("printed", ()))
+    picked = (_named(author_names, marks["byline"]) or list(dict.fromkeys(n for n in from_notes if n)) or emailed)
     if len(author_names) > 1 and len(picked) == len(author_names):
         return []
     return picked

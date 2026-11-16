@@ -1,8 +1,15 @@
+import functools
 import re
 
 from bs4 import BeautifulSoup
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
+
+
+# how a byline's legend opens after its star: "* Corresponding author", "* E-mail: ...", "* To whom correspondence ..."
+_LEGEND_OPENER = re.compile(
+    r"\s*(?:corresponding|correspondence|authors?\s+for\s+correspondence|to\s+whom|"
+    r"address\s+(?:all\s+)?correspondence|e-?mail|contact)\b", re.I)
 
 
 class GenericPublisherParser(PublisherParser):
@@ -96,14 +103,22 @@ class GenericPublisherParser(PublisherParser):
         return re.sub(r"\s+", " ", " ".join(parts)).strip()
 
     @staticmethod
+    @functools.lru_cache(maxsize=2048)  # asked for each author at every candidate block of a page
     def _person_keys(name):
-        tokens = re.findall(r"[a-z0-9]+", (name or "").lower())
-        if not tokens:
-            return set()
-        keys = {"".join(tokens)}
-        if len(tokens) >= 2:
-            keys.add("".join(reversed(tokens)))
-        return keys
+        """The name as letters-and-digits keys in the two orders a page prints it: as the tag has it, and with the
+        family name at the other end ("Aziz, Hamidi Abdul" -> "Hamidi Abdul Aziz"; "Olivier J.J. Ronsin" ->
+        "Ronsin, Olivier J.J."). Not every word reversed: for a name of three words or more that order ("Abdul
+        Hamidi Aziz") is no page's, so the named author went unmatched and a block naming every author looked like
+        it named one other, who got the mark (#2239: Springer chapters and Pure portals read as record pages)."""
+        name = name or ""
+        if "," in name:
+            first, _, rest = name.partition(",")
+        else:
+            words = name.split()
+            first, rest = (words[-1], " ".join(words[:-1])) if words else ("", "")
+        parts = [re.sub(r"[^a-z0-9]+", "", part.lower()) for part in (first, rest)]
+        parts = [part for part in parts if part]
+        return frozenset(("".join(parts), "".join(reversed(parts)))) if parts else frozenset()
 
     @classmethod
     def _text_has_person(cls, text, name):
@@ -228,7 +243,18 @@ class GenericPublisherParser(PublisherParser):
 
     @classmethod
     def _author_has_attached_star(cls, text, name):
-        return any(pattern.search(text or "") for pattern in cls._author_star_patterns(name))
+        text = text or ""
+        for pattern in cls._author_star_patterns(name):
+            for match in pattern.finditer(text):
+                star = match.end() - 1
+                # A star that opens the legend ("* Corresponding author for this work") is the legend's own key,
+                # not a mark on the name printed before it: Elsevier Pure portals print the legend right after
+                # the last author, who was marked along with the starred one (#2239). Only when an earlier star
+                # is there for the legend to explain: a lone star between a name and the label is that name's.
+                if _LEGEND_OPENER.match(text, star + 1) and re.search(r"[*∗]", text[:star]):
+                    continue
+                return True
+        return False
 
     def _has_nested_byline_star_candidate(self, node, authors):
         for child in node.find_all(True):

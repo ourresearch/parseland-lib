@@ -3,7 +3,7 @@ import re
 
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
-from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.parser import PublisherParser, silverchair_corresponding_cards
 from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name
 
 
@@ -69,6 +69,8 @@ class Oxford(PublisherParser):
         results = []
         if author_soup := self.soup.find("div", class_="at-ArticleAuthors"):
             authors = author_soup.findAll("div", class_="info-card-author")
+            # not every correspondence block is a mark: a "Present address" note, an e-mail on every author (#2239)
+            corresponding_cards = {id(card) for card in silverchair_corresponding_cards(authors)}
             source_by_author = []
 
             for author in authors:
@@ -77,11 +79,7 @@ class Oxford(PublisherParser):
                     continue
                 name = self._clean_author_name(name_tag.get_text(" ", strip=True))
 
-                is_corresponding = (
-                    True
-                    if author.find("div", class_="info-author-correspondence")
-                    else False
-                )
+                is_corresponding = id(author) in corresponding_cards
 
                 affiliations, sources = self._extract_article_card_affiliations(
                     author

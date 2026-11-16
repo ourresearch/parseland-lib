@@ -189,12 +189,21 @@ class ElsevierBV(PublisherParser):
         json_data = self._authors_data_from_preloaded_state()
         if json_data:
             by_surname = json_data.get("by_surname", {})
+            # A surname two authors share is not a key for the flag: by_surname holds the last of them, so
+            # "Sangyup Lee" took "Dongwook Lee"'s mark (10.1016/j.cej.2025.160537). Those authors match on their
+            # full name only, as in _author_json_corresponding_map (#2246, #2239).
+            shared_surnames = json_data.get("shared_surnames", ())
+            corresponding_names = json_data.get("corresponding_names", ())
             for r in results:
                 surname_tail = (r.name or "").rstrip().rsplit(" ", 1)[-1]
                 info = by_surname.get(surname_tail)
                 if not info:
                     continue
-                if info.get("is_corresponding") and not r.is_corresponding:
+                if surname_tail in shared_surnames:
+                    flagged = " ".join((r.name or "").split()).lower() in corresponding_names
+                else:
+                    flagged = info.get("is_corresponding")
+                if flagged and not r.is_corresponding:
                     r.is_corresponding = True
                 if not r.affiliations and info.get("affiliations"):
                     r.affiliations = list(info["affiliations"])
@@ -348,6 +357,8 @@ class ElsevierBV(PublisherParser):
                     aff_lookup[refid] = textfn
 
             by_surname = {}
+            surname_counts = {}
+            corresponding_names = set()  # "given surname", lower case, of the authors with a cor* cross-ref
             for author_group in content:
                 if not isinstance(author_group, dict):
                     continue
@@ -355,6 +366,7 @@ class ElsevierBV(PublisherParser):
                     if not isinstance(entry, dict) or entry.get("#name") != "author":
                         continue
                     surname = None
+                    given = ""
                     is_corresp = False
                     refids = []
                     for child in entry.get("$$") or []:
@@ -363,6 +375,8 @@ class ElsevierBV(PublisherParser):
                         name = child.get("#name")
                         if name == "surname":
                             surname = (child.get("_") or "").strip()
+                        elif name == "given-name":
+                            given = (child.get("_") or "").strip()
                         elif name == "cross-ref":
                             refid = (child.get("$") or {}).get("refid", "")
                             # Some pages (e.g. 0021-9673(93)80418-8) emit
@@ -387,7 +401,12 @@ class ElsevierBV(PublisherParser):
                         "is_corresponding": is_corresp,
                         "affiliations": affs,
                     }
-            return {"by_surname": by_surname}
+                    surname_counts[surname] = surname_counts.get(surname, 0) + 1
+                    if is_corresp:
+                        corresponding_names.add(" ".join(f"{given} {surname}".split()).lower())
+            return {"by_surname": by_surname,
+                    "shared_surnames": {s for s, n in surname_counts.items() if n > 1},
+                    "corresponding_names": corresponding_names}
         except Exception:
             return None
 
@@ -605,6 +624,7 @@ class ElsevierBV(PublisherParser):
 
     def parse(self):
         author_results = []
+        labelled = []  # per author: the card says "Correspondence" or carries the person icon
         author_soup = self.soup.findAll("li", class_="author")
         for author in author_soup:
             name_soup = author.find("a", class_="loa__item__name")
@@ -619,7 +639,8 @@ class ElsevierBV(PublisherParser):
                     is_corresponding = True
             if author.select_one('.icon-gizmo-person'):
                 is_corresponding = True
-            elif author.select_one('.article-header__info__email'):
+            labelled.append(is_corresponding)
+            if not is_corresponding and author.select_one('.article-header__info__email'):
                 is_corresponding = True
 
             affiliations = []
@@ -656,6 +677,13 @@ class ElsevierBV(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+
+        # The portal's "Contact" link sits in the card of every author who gave an address. Where the page labels
+        # its corresponding author, a link alone is not a mark (#2239: 10.1016/j.fsigen.2016.11.007 marked all six
+        # authors for the one labelled "Correspondence").
+        if any(labelled):
+            for result, has_label in zip(author_results, labelled):
+                result.is_corresponding = has_label
 
         # If the legacy <li class="author"> path found nothing, try the modern
         # <div class="author-group"> layout. This catches the React-based
@@ -846,12 +874,19 @@ class ElsevierBV(PublisherParser):
                     self._json_author_entry_has_cor_ref(entry)
                     for entry in author_entries
                 )
+                # An address on every author of the group (a sole author's too) singles no one out: the gold
+                # marks no one on such pages (#2239: 10.1016/j.infsof.2011.01.010, an editorial's two authors).
+                emails_single_out = not all(
+                    self._json_author_entry_has_email(entry)
+                    for entry in author_entries
+                )
                 for entry in author_entries:
                     if not (
                         self._json_author_entry_has_cor_ref(entry)
                         or (
                             self._json_author_entry_has_email(entry)
                             and not group_has_cor_ref
+                            and emails_single_out
                         )
                     ):
                         continue
@@ -977,6 +1012,12 @@ class ElsevierBV(PublisherParser):
                     is_corresponding=current_corresponding,
                 )
             )
+        # An e-mail tag on every one of two or more authors singles no one out (Springer writes one per author:
+        # 10.1007/s11356-020-09679-z marked all 14 for the one the byline marks). The page's own marks decide
+        # after this: the author JSON below, parse_page's byline readers (#2239).
+        if len(results) > 1 and all(r.is_corresponding for r in results):
+            for r in results:
+                r.is_corresponding = False
         return results
 
     def _citation_author_email_map(self):

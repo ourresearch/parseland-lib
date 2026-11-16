@@ -1,4 +1,4 @@
-from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.parser import PublisherParser, silverchair_corresponding_cards
 from parseland_lib.publisher.parsers.utils import names_match
 
 
@@ -16,9 +16,10 @@ class PermagonPress(PublisherParser):
     def parse_authors(self):
         authors = self.parse_author_meta_tags()
         author_tags = self.soup.select('.al-author-name')
+        corresponding_tags = {id(tag) for tag in silverchair_corresponding_cards(author_tags)}
         for author_tag in author_tags:
             name = author_tag.select_one('.info-card-name').text.strip('\r\n *')
-            is_corresponding = bool(author_tag.select('.info-author-correspondence'))
+            is_corresponding = id(author_tag) in corresponding_tags
             for author in authors:
                 if names_match(author['name'], name):
                     author['is_corresponding'] = is_corresponding

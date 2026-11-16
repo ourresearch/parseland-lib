@@ -308,6 +308,39 @@ def world_scientific_corresponding_names(soup):
     return names
 
 
+# What a Silverchair author card's correspondence block holds when it is not a correspondence note (#2239)
+_SILVERCHAIR_ADDRESS_NOTE = re.compile(r"\W*(?:present|current)\s+(?:address|affiliation)\b", re.I)
+_SILVERCHAIR_EMAIL_ONLY = re.compile(
+    r"\W*(?:e-?mail\W*)?(?:\[email\s*protected\]|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)\W*", re.I)
+
+
+def silverchair_corresponding_cards(cards):
+    """The cards among a Silverchair byline's author cards (one ``.al-author-name`` or ``.info-card-author`` per
+    author) that mark their author as corresponding.
+
+    A card marks its author with the "Corresponding author note" link (``a.xref-corresp``) or an
+    ``.info-author-correspondence`` block. Silverchair prints an author's other notes in the same block, so (#2239):
+    a block that opens "Present address" is not a mark (Brain, 10.1093/brain/awaa011); and a block that holds only
+    an e-mail address is a mark while it singles its author out. When every author of the byline has a block or
+    link, an e-mail alone marks no one: ASME prints each author's address there (10.1115/1.4070429) and OUP a sole
+    author's, and an address shown for every author is not a mark.
+    """
+    kinds = []
+    for card in cards:
+        notes = [re.sub(r"\s+", " ", block.get_text(" ", strip=True))
+                 for block in card.select(".info-author-correspondence")]
+        notes = [n for n in notes if not (_SILVERCHAIR_ADDRESS_NOTE.match(n) and "@" not in n
+                                          and not re.search(r"correspond|email\s*protected", n, re.I))]
+        if card.select_one("a.xref-corresp"):
+            kinds.append("link")
+        elif not notes:
+            kinds.append(None)
+        else:
+            kinds.append("email" if all(_SILVERCHAIR_EMAIL_ONLY.fullmatch(n) for n in notes) else "note")
+    singled_out = not all(kinds)
+    return [card for card, kind in zip(cards, kinds) if kind in ("link", "note") or (kind == "email" and singled_out)]
+
+
 def silverchair_corresponding_names(soup):
     """Names of the authors a Silverchair article page marks as corresponding, in byline order ([] if none).
 
@@ -317,9 +350,7 @@ def silverchair_corresponding_names(soup):
     winning parser reads meta tags and marked no one (oxjob #1805).
     """
     names = []
-    for tag in soup.select(".al-author-name"):
-        if not (tag.select_one("a.xref-corresp") or tag.select_one(".info-author-correspondence")):
-            continue
+    for tag in silverchair_corresponding_cards(soup.select(".al-author-name")):
         name_tag = tag.select_one(".info-card-name") or tag.select_one("a.linked-name")
         if name_tag is not None:
             # the card name may carry a footnote label ("Nien-Hui Ge a)" on AIP) or a trailing '*'
