@@ -7,6 +7,7 @@ found: {"references": [...], "references_complete": bool, "acknowledgments": str
 """
 import copy
 import re
+from itertools import islice
 from urllib.parse import unquote
 
 from bs4 import Comment
@@ -14,13 +15,71 @@ from bs4 import Comment
 from parseland_lib.publisher.parsers.utils import raw_has, squash
 
 _DOI = re.compile(r"\b(10\.\d{4,9}/\S+)")
+# Where a DOI read from a text or a link stops (#2239): markup printed into the text ("...115117</li"), an encoded line
+# break before the next link ("...06.005%0Ahttps://..."), a quote. Not a bare "<": old SICI DOIs carry "<0061:APG>".
+_DOI_STOP = re.compile(r"</?[A-Za-z]|&lt;|%0[aAdD]|%09|[\"“”]")
+_ENCODED_SPACE_END = re.compile(r"(?:%20)+$")
+# a page of the cited work, not part of its DOI: ".../10.1111/j.x/abs/", ".../10.1515/9783110311075-026/html",
+# "...3_17#Sec4" (a "#" alone ends SICI DOIs)
+_DOI_PAGE = re.compile(r"/(?:full|abstract|abs|pdf|epdf|html)/?$|#[A-Za-z][\w.-]*$")
+_GLUED_NAME = re.compile(r"(?<=\d)[A-Z][a-zà-ÿ]{2,}$")  # "...2012.11001Brini": the next reference, printed without a space
+_CLOSERS = {")": "(", "]": "[", ">": "<"}
 
 
-def _clean_doi(value):
-    """The first DOI in a text or link, without what a printed reference wraps it in ("<...doi/10.x/y/full>.")."""
+def _clean_doi(value, printed=False):
+    """The first DOI in a text or link, without what a printed reference wraps it in ("<...doi/10.x/y/full>."), or
+    None when what is left is a DOI cut short ("10.6008/cbpc2179-"). `printed`: the value is running text, where the
+    next reference's first name can be glued to the DOI's end."""
     if not (m := _DOI.search(value or "")):
         return None
-    return re.sub(r"/(?:full|abstract|pdf|epdf)$", "", m.group(1).rstrip(".,;>)]\"'"))
+    found = _ENCODED_SPACE_END.sub("", m.group(1))
+    if "%20" in found:
+        return None  # "...um041v10i1p1%20-%2013": a DOI typed with spaces, and half of one is no DOI
+    doi = _DOI_STOP.split(found, maxsplit=1)[0]
+    if "%" in doi:
+        doi = unquote(doi)  # a link printed as text: "10.1023/A%3A1009456825063"
+    if doi.count("(") > doi.count(")"):
+        doi = doi[:doi.rfind("(")]  # a note printed against the link: "...2020.1791506(open in a new window)"
+    while doi and (doi[-1] in ".,;\"'" or (doi[-1] in _CLOSERS and doi.count(doi[-1]) > doi.count(_CLOSERS[doi[-1]]))):
+        doi = doi[:-1]  # a closing bracket only when the DOI doesn't open it: "10.1061/(asce)0733-9429(1988)114:8(877)"
+    doi = _DOI_PAGE.sub("", doi)
+    if printed:
+        doi = _GLUED_NAME.sub("", doi)
+    return doi if "/" in doi and not doi.endswith(("/", "-", "_", "(")) else None
+
+
+_DOI_REST = re.compile(r"(?=\S*\d)[A-Za-z0-9][\w.\-/()]*")  # "907601.", "2014.906716.", "devigilancia.2023.2"
+_YEAR_ONLY = re.compile(r"(?:1[5-9]|20)\d{2}[a-z]?[.,;]?")
+
+
+def _printed_doi(text):
+    """The DOI a reference prints in its text, or None when the print breaks it in two ("doi.org/10.1080/13604813.
+    2014.906716.", "doi:10.1177/1049909120 907601."): the rest can't be told from a following word, and half a DOI
+    is another work's or nobody's (#2239). A DOI closed by a comma, or followed by the year, is whole
+    (Copernicus: "https://doi.org/10.1002/qj.2297, 2014.")."""
+    if not (m := _DOI.search(text or "")):
+        return None
+    rest = text[m.end():].strip()
+    if rest and not m.group(1).endswith((",", ";")) and _DOI_REST.fullmatch(rest) and not _YEAR_ONLY.fullmatch(rest):
+        return None  # one more piece and nothing after it
+    return _clean_doi(m.group(1), printed=True)
+
+
+def _pick_doi(*candidates):
+    """The first DOI the entry gives, in the order passed: the ones on its links before the one it prints (#2239).
+    The print is the weaker reading: pages glue the next label to it ("...008706pmid", "...1804.(2023)"), drop a
+    SICI's "<", or print an erratum's DOI after the entry's own. But a DOI that goes on from the chosen one with a
+    hyphen, or by one last digit, is the same DOI uncut: Springer's button data stops at a bracketed DOI's hyphen
+    ("10.1061/(asce)0733"), and a link can end a digit early (<a href=".../1501741080246970">...</a>0.). Letters
+    after it are the page's ("...915692Fg.")."""
+    doi = next((c for c in candidates if c), None)
+    for other in candidates:
+        if doi and other and other.lower().startswith(doi.lower()) and _UNCUT_REST.match(other[len(doi):]):
+            doi = other
+    return doi
+
+
+_UNCUT_REST = re.compile(r"-|\d$")
 
 
 def _paragraphs(block):
@@ -54,7 +113,38 @@ def _key_for(title):
 # Springer Nature's article template (link.springer.com, nature.com, BioMed Central, SpringerOpen): one
 # <li class="c-article-references__item"> per entry, the entry's text in <p class="c-article-references__text">, its
 # DOI on the "Article" button (data-doi) or as a doi.org link in the text; sections labelled by data-title.
-def springer_nature_back_matter(soup):
+_DOI_LINK = re.compile(r"doi\.org/10\.")
+
+
+def _springer_entry_doi(item, text, raw):
+    """The DOI on the entry's "Article" button, else its doi.org link's, else the one it prints as plain text."""
+    link = text.find("a", href=_DOI_LINK)
+    button = item.find("a", attrs={"data-doi": True})
+    return _pick_doi(_clean_doi(button["data-doi"]) if button is not None else None,
+                     _clean_doi(unquote(link["href"])) if link is not None else None, _printed_doi(raw))
+
+
+_SUB_HEADINGS = ["h3", "h4", "h5"]
+
+
+def _section_parts(content):
+    """(the section's own text, {key: text of a sub-section headed "Funding" or "Acknowledgements"}) (#2239). BMC and
+    Adis pages print "Funding", "Author contributions", "Availability of data" ... as sub-headings inside the
+    "Acknowledgements" section: the section's own text ends at the first of them."""
+    if content.find(_SUB_HEADINGS) is None:
+        return _paragraphs(content), {}
+    own, parts, key = [], {}, "own"
+    for child in content.find_all(True, recursive=False):
+        if child.name in _SUB_HEADINGS:
+            key = _key_for(child.get_text())  # None: a sub-section that is neither (its text is dropped)
+        elif child.find(_SUB_HEADINGS) is not None:
+            key = None  # a sub-heading wrapped in a block: whatever it heads is not the text read so far
+        elif key and (text := _paragraphs(child)):
+            (own if key == "own" else parts.setdefault(key, [])).append(text)
+    return "\n".join(own) or None, {k: "\n".join(v) for k, v in parts.items()}
+
+
+def springer_nature_back_matter(soup, lp_content=None):
     found = {}
     items = soup.select("li.c-article-references__item")
     refs = []
@@ -63,23 +153,26 @@ def springer_nature_back_matter(soup):
         raw = squash(text.get_text()) if text else ""
         if not raw:
             continue
-        doi = None
-        if (button := item.find("a", attrs={"data-doi": True})) is not None:
-            doi = button["data-doi"]
-        elif (link := text.find("a", href=re.compile(r"doi\.org/10\."))) is not None:
-            doi = _clean_doi(unquote(link["href"]))
-        refs.append({"raw": raw, "doi": doi})
+        refs.append({"raw": raw, "doi": _springer_entry_doi(item, text, raw)})
     if refs:
         found["references"] = refs
         # Every entry kept and, where the list numbers its entries, numbered 1..n: endnote lists ("Notes",
         # "Literatur") print only the notes that cite something, numbered with gaps.
         counters = [item.get("data-counter") for item in items]
         found["references_complete"] = len(refs) == len(items) and _numbering_whole(counters)
+        # The text cites "[53]" and the list ends at 52: entries are missing from the page's list (#2239).
+        if lp_content is not None and all(_LIST_NUMBER.match((c or "").strip()) for c in counters) \
+                and raw_has(lp_content, f"[{len(items) + 1}]"):
+            found["references_complete"] = False
     for section in soup.select("section[data-title]"):
         key = _key_for(section["data-title"])
         content = section.select_one("div.c-article-section__content")
-        if key and key not in found and content is not None and (text := _paragraphs(content)):
-            found[key] = text
+        if key is None or content is None:
+            continue
+        own, parts = _section_parts(content)
+        for part_key, text in [(key, own), *parts.items()]:
+            if text and part_key not in found:
+                found[part_key] = text
     return found
 
 
@@ -99,8 +192,13 @@ _REF_DOI_PARAM = re.compile(r"[?&](?:refDoi|doiOfLink)=(10\.\d{4,9}/[^&\s]+)")
 
 
 def _entry_doi(entry, text):
-    """The cited work's DOI: the entry's own DOI data (data-doi, Wiley's hidden DOI span, T&F's getFTR target), a
-    link parameter naming it (refDoi=, doiOfLink=, a Crossref linkout's key=), a doi.org link, or the DOI it prints.
+    """The cited work's DOI: the one the entry's links carry, else the one it prints."""
+    return _pick_doi(_linked_doi(entry), _printed_doi(text))
+
+
+def _linked_doi(entry):
+    """The cited work's DOI from the entry's own DOI data (data-doi, Wiley's hidden DOI span, T&F's getFTR target), a
+    link parameter naming it (refDoi=, doiOfLink=, a Crossref linkout's key=) or a doi.org link.
     Never a link's bare doi= parameter: linkouts and Google Scholar wrappers put the CITING article's DOI there."""
     for tag in entry.select("[data-doi], span.data-doi, ul.getFTR[data-target]"):
         if doi := _clean_doi(tag.get("data-doi") or tag.get("data-target") or tag.get_text()):
@@ -114,7 +212,7 @@ def _entry_doi(entry, text):
                 return match.group(1).rstrip(".,;")
         elif "doi.org/10." in href and "scholar" not in href:
             return _clean_doi(href)
-    return _clean_doi(text)
+    return None
 
 
 def _entry_text(entry):
@@ -133,8 +231,34 @@ def plain_citation_tags(soup):
     texts = [squash(m.get("content")) for m in soup.find_all("meta", attrs={"name": "citation_reference"})]
     if not texts or any(not t or "citation_" in t for t in texts):
         return {}
-    refs = [{"raw": t, "doi": _clean_doi(t)} for t in texts]
-    return {"references": refs, "references_complete": True}
+    texts, numbered = _without_list_numbers(texts)
+    refs = [{"raw": t, "doi": _printed_doi(t)} for t in texts]
+    return {"references": refs, "references_complete": numbered and not _has_broken_entry(texts)}
+
+
+_PART_END = "␞"  # stands for a link block while a compound entry's text is read
+_SUB_LABEL = re.compile(r"^[a-z]\)\s*")
+_NEXT_SUB_LABEL = re.compile(r"\s[b-z]\)\s")
+
+
+def _compound_entries(entry):
+    """Wiley's chemistry and physics journals print several references under one number, lettered ("1 a) A. Kojima
+    ...; b) A. K. Jena ..."), each followed by its own link block with its DOI: one entry per reference, in order
+    (#2239). None when the entry is one reference, or an unlettered run of citations ("O. Kratky, Naturwiss. 42, 237
+    (1955); Angew. Chem. 72, 467 (1960)": the later ones name no author, and stay one entry)."""
+    if len(entry.select("div.extra-links")) < 2:
+        return None
+    entry, dois = copy.copy(entry), []  # a copy: the parsers still read this soup
+    for block in entry.select("div.extra-links"):
+        dois.append(_linked_doi(block))
+        block.replace_with(_PART_END)
+    texts = [squash(t) for t in _entry_text(entry).split(_PART_END)]
+    if not _SUB_LABEL.match(texts[0]):
+        return None
+    parts = [{"raw": _SUB_LABEL.sub("", t), "doi": _pick_doi(doi, _printed_doi(t))} for t, doi in zip(texts, dois) if t]
+    if texts[-1]:  # a last reference with no link block
+        parts.append({"raw": _SUB_LABEL.sub("", texts[-1]), "doi": _printed_doi(texts[-1])})
+    return parts
 
 
 def literatum_back_matter(soup, lp_content):
@@ -143,22 +267,60 @@ def literatum_back_matter(soup, lp_content):
             break
     else:
         return plain_citation_tags(soup) if raw_has(lp_content, "citation_reference") else {}
-    refs, labels = [], []
+    refs, labels, whole = [], [], True
     for entry in entries:
         label = entry.select_one(".label, .bullet")
         labels.append(label.get_text(strip=True) if label else None)
-        if raw := _entry_text(entry):
-            refs.append({"raw": raw, "doi": _entry_doi(entry, raw)})
+        parts = _compound_entries(entry) if marker == "article-section__references" else None
+        if parts is None:
+            parts = [{"raw": raw, "doi": _entry_doi(entry, raw)}] if (raw := _entry_text(entry)) else []
+        # an entry with no text, or a lettered one that still holds a second reference ("a) ...; b) ..." with no link
+        # block to split it at): not a list of one entry per reference
+        lettered = len(parts) > 1 or bool(parts and _SUB_LABEL.match(parts[0]["raw"]))
+        whole = whole and bool(parts) and not (lettered and any(_NEXT_SUB_LABEL.search(p["raw"]) for p in parts))
+        refs += parts
     if not refs:
         return {}
     # whole when every entry has text and, where the list numbers its entries, they run 1..n
-    return {"references": refs, "references_complete": len(refs) == len(entries) and _numbering_whole(labels)}
+    return {"references": refs, "references_complete": whole and _numbering_whole(labels)}
 
 
 # Open Journal Systems: the article page's "References" item prints the journal's reference text one entry per <p>,
 # <li> or line break, and the same entries go to citation_reference tags (plain text).
 _LINE_BREAK = "\u2028"  # a <br> in the references text, before splitting it into entries
 _YEAR = re.compile(r"\b(1[5-9]|20)\d{2}\b|\b[nN]\.\s?d\.")
+
+
+_TYPED_NUMBER = re.compile(r"^[\[(]?(\d{1,3})[.)\]][\s.–-]*(?=\S)")  # a number the author typed: "12. ", "[12] ",
+# "12) ", "15.-Tavares"
+_URL_END = re.compile(r"(?:https?:|www\.|doi)\S*$|\S*[/@]\S*$", re.I)
+_LETTER = re.compile(r"[^\W\d_]")
+
+
+def _without_list_numbers(texts):
+    """(the entries without the numbers their author typed, False when the numbering shows a break) (#2239).
+    The contract's entry is the reference without its number. In a list typed "1. ... 36. ...", an entry with no
+    number is the rest of the entry before it, and numbers that don't run 1..n are a list with a hole."""
+    numbers = [m.group(1) if (m := _TYPED_NUMBER.match(t)) else None for t in texts]
+    if sum(n is not None for n in numbers) < 0.8 * len(texts) or len(texts) < 3:
+        return texts, True  # not a numbered list (a few entries that open with a year or a count)
+    if None in numbers or not _numbering_whole(numbers):
+        return texts, False
+    return [_TYPED_NUMBER.sub("", t, count=1) for t in texts], True
+
+
+def _has_broken_entry(texts):
+    """True when a list its author typed as plain text, in alphabetical order, shows an entry broken in two by a
+    line break (#2239): the first half stops on a bare word and the line after it falls out of the order
+    ("Safitri, D. (2015) ... in Nbc News Online Mass" / "Media of Michael Brown's Case ..." / "Memon, N. ...").
+    A list in citation order gives no such sign (its numbers do: _without_list_numbers)."""
+    if len(texts) < 5:
+        return False
+    first = [m.group(0).casefold() if (m := _LETTER.search(t)) else "" for t in texts]
+    pairs = list(zip(first, first[1:]))
+    if sum(a <= b for a, b in pairs) < 0.85 * len(pairs):
+        return False  # not an alphabetical list
+    return any(b < a and text[-1].isalpha() and not _URL_END.search(text) for text, (a, b) in zip(texts, pairs))
 
 
 def _lines(value):
@@ -177,11 +339,13 @@ def ojs_back_matter(soup):
     lines = [line for line in _lines(value) if line] if value else []
     if not lines:
         return plain_citation_tags(soup)
-    refs = [{"raw": line, "doi": _clean_doi(line)} for line in lines]
+    lines, numbered = _without_list_numbers(lines)
+    refs = [{"raw": line, "doi": _printed_doi(line)} for line in lines]
     # A journal whose source text broke references across lines prints fragments ("Silica from Spent Hydrafluoric
     # Acid – How"): a list where many entries carry no year is not one we can call whole.
     undated = sum(not _YEAR.search(line) for line in lines)
-    return {"references": refs, "references_complete": undated <= 0.2 * len(lines)}
+    return {"references": refs, "references_complete": undated <= 0.2 * len(lines) and numbered
+            and not _has_broken_entry(lines)}
 
 
 # Any template: a section headed "Acknowledgments" or "Funding" (ScienceDirect's server-rendered body, Atypon's
@@ -211,6 +375,10 @@ def _block_text(block):
     if block.name in ("script", "style", "button", "form") or block.find("button") or block.get("data-type") == \
             "financial-disclosure" or any("copy" in c for c in block.get("class") or []):
         return []
+    # A funder widget is metadata, not a statement (#2239): a table of funders and grant numbers after the text (Pure
+    # portals), a label/value list of awards (Zenodo, ORA: "Funding agency for: ... Grant: ...").
+    if block.name in ("table", "dl") or (block.find(["dt", "dd"]) is not None and block.find("p") is None):
+        return []
     paragraphs = [] if block.name == "p" else block.find_all("p")
     texts = [squash(p.get_text()) for p in paragraphs] or [squash(block.get_text())]
     # a list of links (a funder widget: "+ Simons Foundation More from this funder") is not a statement
@@ -218,15 +386,50 @@ def _block_text(block):
     return [] if link_chars > 0.5 * sum(len(t) for t in texts) else texts
 
 
-def _section_after(heading):
-    siblings = heading.find_next_siblings()
+# A paragraph that opens with another section's label, printed run-in instead of as a heading (#2239). Under
+# "Funding" it ends the statement (OUP: "<em>Conflict of interest statement.</em> None declared." after the funding
+# paragraph). Under "Acknowledgments" such paragraphs are part of the section as printed ("Author contributions: ...",
+# "Conflict of interest: ..."), except what AAS journals list after them: "Facilities: ...", "Software: ...".
+_RUN_IN_LABEL = {
+    "funding_statement": re.compile(
+        r"^(?:conflicts? of interests?(?: statement)?|competing (?:financial )?interests?(?: statement)?|"
+        r"declaration of (?:competing )?interests?|disclosures?(?: statement)?|"
+        r"authors?['’]?s?['’]? contributions?(?: statement)?|credit author(?:ship)? (?:contribution )?statement|"
+        r"data (?:and (?:code|materials?) )?availability(?: statement)?|availability of data(?: and materials?)?|"
+        r"ethic(?:s|al) (?:approval|statement))\s*[.:]", re.I),
+    "acknowledgments": re.compile(r"^(?:facilit(?:y|ies)|software)\s*[.:]", re.I),
+}
+
+
+def _section_header(heading):
+    """The block that holds a heading and its section tools, when the template wraps them together (ACS:
+    div.article_content-header > ... > h2 beside an "ARTICLE SECTIONS / Jump To" menu): the section's text follows
+    that block, not the heading (#2239). The heading itself when it stands alone."""
+    block, limit = heading, len(squash(heading.get_text())) + 40
+    if any(sibling.get_text(strip=True) for sibling in heading.find_next_siblings()):
+        return heading  # its text follows it directly
+    for parent in islice(heading.parents, 3):
+        if len(squash(parent.get_text())) > limit:
+            break
+        if any("header" in token.lower() for token in parent.get("class") or []) or parent.name == "header":
+            block = parent
+    return block
+
+
+def _section_after(heading, key):
+    header = _section_header(heading)
+    siblings = header.find_next_siblings()
     if not siblings and not squash(heading.parent.get_text()).replace(squash(heading.get_text()), "").strip():
         siblings = heading.parent.find_next_siblings()  # a heading wrapped alone in its own block
     paragraphs = []
     for sibling in siblings:
         if sibling.name in _HEADINGS or any(d.name in _HEADINGS for d in sibling.descendants):
             break
-        paragraphs += _block_text(sibling)
+        texts = _block_text(sibling)
+        for i, text in enumerate(texts):
+            if _RUN_IN_LABEL[key].match(text) and (paragraphs or i):
+                return "\n".join(p for p in paragraphs + texts[:i] if p) or None
+        paragraphs += texts
     return "\n".join(p for p in paragraphs if p) or None
 
 
@@ -239,7 +442,7 @@ def headed_back_matter(soup, lp_content):
         key = _key_for(heading.get_text())
         if key is None or key in found or _in_navigation(heading):
             continue
-        if (text := _section_after(heading)) and len(text) >= 20:
+        if (text := _section_after(heading, key)) and len(text) >= 20:
             found[key] = text
     return found
 
@@ -283,7 +486,7 @@ def scielo_back_matter(soup, lp_content):
             number = _LEADING_NUMBER.match(text)
             labels.append(number.group(1) if number else None)
             texts.append(squash(text[number.end():] if number else text))
-    refs = [{"raw": text, "doi": _clean_doi(text)} for text in texts if text]
+    refs = [{"raw": text, "doi": _printed_doi(text)} for text in texts if text]
     if not refs:
         return {}
     return {"references": refs, "references_complete": sure and len(refs) == len(texts) and _numbering_whole(labels)}

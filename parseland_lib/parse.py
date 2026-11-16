@@ -178,6 +178,14 @@ MAX_SECTION_CHARS = 65535  # longer than any real acknowledgments or funding sec
 MAX_REFERENCES = 5000  # the most citations a work serves; a longer list is kept to this length and never called whole
 
 
+# A review report's page: eLife's "#sa2" (author response) and ".sa2" DOIs, Copernicus's "#RC1" / "#AC2" and its
+# "-discussion.html" page of comments, PLOS's "/peerReview?id=" and ".r001" DOIs. Narrower than _REVIEW_REPORT_URL
+# (any "peer-review" in the address): this one takes values away from site parsers too.
+_REPORT_PAGE = re.compile(r"#(?:sa\d+|(?:AC|RC|CC|EC|CEC)\d+)$|-discussion\.html(?:[?#]|$)|/peerReview\?id=|"
+                          r"10\.1371/journal\.[a-z]+\.\d+\.r\d{3}\b|10\.7554/elife\.\d+\.sa\d\b", re.I)
+_TEMPLATE_SLOT = re.compile(r"\{\{[^{}]*\}\}")  # "{{article.fundingStatement}}": a page template nobody filled in
+
+
 def _section_text(value):
     """A section's text as the parser read it, or None when there is none or it can't be one."""
     if not isinstance(value, str):
@@ -186,6 +194,12 @@ def _section_text(value):
     if not text or len(text) > MAX_SECTION_CHARS:
         return None
     return text
+
+
+def _statement(value):
+    """An acknowledgments or funding text, or None: a template slot nobody filled in is not one (#2239)."""
+    text = _section_text(value)
+    return None if text and _TEMPLATE_SLOT.search(text) else text
 
 
 def _references(parsed):
@@ -211,11 +225,15 @@ def _references(parsed):
 
 # Entries a whole list doesn't have, whichever parser read it (oxjob #2215, 15 Nov: 7 of 223 lists called whole on
 # #2239's gold were broken in these ways; downstream uses a list only when it is whole).
-_FRAGMENT_START = re.compile(r"^(?:[,;%)\]}]|[-–—]\s?\d)")  # "-197, 2016. Disponível em: ...", ",n.1,2023."
+_FRAGMENT_START = re.compile(r"^(?:[,;%)\]}]|[-–—]\s?\d|\.{2}|…)")  # "-197, 2016. Disponível em: ...", ",n.1,2023.",
+# "....citação referencia 1....." (a template's placeholder; one leading dot is a list number's, and fine)
 _CONTINUATION = re.compile(r"^(?:dispon[íi]vel|available (?:at|from|online)|retrieved (?:from|on)|acess(?:o|ado) em|"
                            r"accessed|https?:|www\.|doi:)", re.I)
 # "...Gdynia.2. Cwilewicz, R., ...": a numbered entry starting inside another (not "Vol.42. No.253. P. 349")
 _MERGED_ENTRY = re.compile(r"[^\d\s]\.\s?\d{1,3}\.\s+[A-ZÀ-ÖØ-Þ][\w'’-]+,\s")
+_HAS_DIGIT_OR_STOP = re.compile(r"[\d.,;:()]")
+_LIST_HEADING = re.compile(r"referen|bibliogr|literatur|sources?\b|fuentes|kaynak|pustaka|литератур|источник", re.I)
+_GLUED_ENTRY = re.compile(r"10\.\d{4,9}/\S*\d[A-ZÀ-ÖØ-Þ][a-zà-ÿ]{2,},\s")
 _LEADING_NUMBER = re.compile(r"^[\[(]?(\d{1,3})[.)\]]?\s+\S")  # "1 Whitehead ...", "[12] Smith ..."
 _MARKUP = re.compile(r"<[a-z][a-z0-9]*[\s>/]", re.I)  # "<strong>2024</strong>, <em>13</em>(7), 921;": a page's own
 # citation in a tag, not a reference
@@ -232,6 +250,14 @@ def _entries_look_whole(texts):
             return False  # a sub-heading inside the list ("Jurnal :", "Artikel in Press :")
         if len(_MERGED_ENTRY.findall(text)) >= 2 or _MARKUP.search(text):
             return False  # several numbered entries read as one, or markup that no printed reference carries
+        if _GLUED_ENTRY.search(text):
+            return False  # two entries on one line: "...https://doi.org/10.4236/ajcc.2012.11001Brini, R. (2021). ..."
+    # Sub-headings printed inside the list ("Список источников" ... "Список литературы"; "Fuentes" ... "Referencias
+    # bibliográficas") read as entries (#2239): two bare short lines, or one that names a list. One alone can be a
+    # reference ("Summa Theologiae"), and so is "Solidworks; n.d.".
+    bare = [text for text in texts if len(text) < 40 and not _HAS_DIGIT_OR_STOP.search(text)]
+    if len(bare) >= 2 or any(_LIST_HEADING.search(text) for text in bare):
+        return False
     numbers = [m.group(1) for text in texts if (m := _LEADING_NUMBER.match(text))]
     # every entry printed with its number: they must run 1..n (footnotes cited by a page carry gaps)
     return len(numbers) < len(texts) or _numbering_whole(numbers)
@@ -288,8 +314,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
-    back_matter = springer_nature_back_matter(soup) if _has(lp_content, "c-article-references__item") or _has(
-        lp_content, "c-article-section__content") else {}
+    back_matter = springer_nature_back_matter(soup, lp_content) if _has(lp_content, "c-article-references__item") \
+        or _has(lp_content, "c-article-section__content") else {}
     if not back_matter and literatum:
         back_matter = literatum_back_matter(soup, lp_content)
     if not back_matter and ojs_page:
@@ -488,6 +514,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
     if response.get("resolved_url"):
         urls.append({"url": response["resolved_url"], "content_type": "html"})
 
+    # A peer-review report's own page (an eLife author response, a Copernicus referee comment, a PLOS review) prints
+    # the reviewed article's reference list, acknowledgments and funding, not the report's: none of them is the
+    # report's, whichever reader found them (#2239).
+    if any(url and _REPORT_PAGE.search(url) for url in (given_url, resolved_url)):
+        back_matter = {}
+        response.update(acknowledgments=None, funding_statement=None, references=None, references_complete=False)
     # the page template's back matter fills each key the winning parser left empty (#2239 round 6)
     for key in ("acknowledgments", "funding_statement"):
         if not response.get(key) and back_matter.get(key):
@@ -507,8 +539,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         # one check for every parser: placeholders, site blurbs and SEO templates are not abstracts (#1800)
         "abstract": clean_abstract(response.get("abstract")),
         # acknowledgments, funding statement and reference list from the same winning parse (#2215)
-        "acknowledgments": _section_text(response.get("acknowledgments")),
-        "funding_statement": _section_text(response.get("funding_statement")),
+        "acknowledgments": _statement(response.get("acknowledgments")),
+        "funding_statement": _statement(response.get("funding_statement")),
         "references": references,
         "references_complete": references_complete,
     }
