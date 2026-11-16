@@ -433,3 +433,8 @@ def cambridge_marked_openings(soup):
     """Openings a Cambridge Core page marks as its extract (oxjob #2162); [] elsewhere."""
     return CUP(soup).marked_openings()
 
+
+def is_cambridge_core_page(soup):
+    """A Cambridge Core page (og:url or canonical link on cambridge.org) (oxjob #2222)."""
+    return CUP(soup).is_publisher_specific_parser()
+
