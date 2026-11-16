@@ -155,7 +155,8 @@ _CONTENTS_LIST_RE = re.compile(r"this (?:chapter|article|section|entry) contains
 # Site descriptions the frozen list misses because the site has reworded or translated its blurb since: matched on
 # the key's opening, so the next rewording is caught too (#2239 phase 2: Spain's historical-newspaper library in
 # English, Galiciana's two added sentences; both are in the list in their 24 Oct wording).
-# shortcut: two openings kept by hand. The upgrade is the frequency rule named at the top of this module.
+# shortcut: a handful of openings kept by hand (eight by round 4, three of them Galiciana's). Past about ten, build
+# the frequency rule named at the top of this module instead.
 _SITE_BLURB_STARTS = (
     "the virtual library of historical newspapers bvph managed by the subdirectorate general for library coordination",
     "a biblioteca dixital de galicia forma parte de galiciana",
@@ -167,6 +168,8 @@ _SITE_BLURB_STARTS = (
     "elektra es el archivo digital de las artes esc",
     # Galiciana's blurb as its English pages give it (round 3)
     "the digital library of galicia forms part of galiciana",
+    # ... and in Spanish: every record page holds the three wordings, one DC.description tag each (round 4)
+    "la biblioteca digital de galicia forma parte de galiciana",
 )
 
 
@@ -252,7 +255,8 @@ _GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text", "institu
 # what marks the text's start; where the page's e-mail protection swallowed it, "[email protected] :" does.
 _TITLE_PAGE_RE = re.compile(
     r"^.{20,4000}?Correspondence:\s.{0,1500}?(?:Abstract\s*:|\[email\s+protected\]\s*:)\s*(?=\S)", re.S)
-_KEYWORDS_TAIL_RE = re.compile(r"\s*\bKeywords\s*:[^\n]{0,600}$")
+_KEYWORDS_TAIL_RE = re.compile(  # in the languages such pages were pasted in (round 4: Turkish)
+    r"\s*\b(?:Keywords|Anahtar [Kk]elimeler|Palabras clave|Palavras-chave|Mots[- ]clés)\s*:[^\n]{0,600}$")
 
 
 # The same title page with no "Abstract:" label (round 3): the text opens with the byline and its affiliation numbers
@@ -262,6 +266,11 @@ _BYLINE_START_RE = re.compile(r"[^\d:.]{3,60},\d")
 _GLUED_PART_LABEL_RE = re.compile(
     r"(?<=[a-z])(?=(?:Background|Purpose|Objectives?|Introduction|Aims?|Context|Importance|Rationale)\s*:\s)")
 _GLUED_KEYWORDS_TAIL_RE = re.compile(r"(?<=[a-z.)\]])Keywords\s*:[^\n]{0,600}$")
+# A pasted page (round 4, AVESIS: a congress's name, dates and address, the title, the byline and the affiliation,
+# then the abstract): the abstract's own label stands glued to the last word before it, alone at its line's end
+# ("... İç Hastalıkları Ana Bilim DalıÖzet\n"), and the keyword line closes the text after a blank line.
+_GLUED_ABSTRACT_LABELS = ("Abstract", "Summary", "Özet", "Resumen", "Resumo", "Résumé", "Zusammenfassung")
+_GLUED_ABSTRACT_LABEL_RE = re.compile(r"(?<=[^\W\d_])(?:" + "|".join(_GLUED_ABSTRACT_LABELS) + r")[ \t\r]*\n")
 
 
 def _without_title_page(text: str) -> str:
@@ -269,6 +278,10 @@ def _without_title_page(text: str) -> str:
     m = _TITLE_PAGE_RE.match(text) if "Correspondence:" in text[:4000] else None
     if m is None and _BYLINE_START_RE.match(text):
         m = _GLUED_PART_LABEL_RE.search(text, 100, 4000)
+    # (the plain word test first: the pattern opens with a lookbehind, so a search tries every position)
+    if m is None and "\n" in text and any(label in text for label in _GLUED_ABSTRACT_LABELS) and (
+            glued := _GLUED_ABSTRACT_LABEL_RE.search(text, 20, 4000)) and text[glued.start() - 1].islower():
+        m = glued  # glued to a lower-case word only: "... of DNAAbstract" ends an acronym
     if not m or len(text) - m.end() < 200:
         return text
     return _GLUED_KEYWORDS_TAIL_RE.sub("", _KEYWORDS_TAIL_RE.sub("", text[m.end():]))

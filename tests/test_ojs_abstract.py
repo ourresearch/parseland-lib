@@ -3,9 +3,13 @@
 Markup is cut down from stored OJS pages (15 Nov 2026, #2267 EXPLORE § 1). When an OJS page's meta tags hold no
 abstract, the page still prints one in the theme's own block: OJS 3 `section.item.abstract`, OJS 2
 `div#articleAbstract`, or a custom theme's "Abstract" heading in the article column (omniscient.sg). The generic heading
-reader skipped them, because OJS 3 wraps the article column in `pkp_structure_content has_sidebar`.
+reader leaves the theme's block to the OJS reader (until #2239 round 4 it skipped it by accident: OJS 3 wraps the
+article column in `pkp_structure_content has_sidebar`, which read as a sidebar).
 """
+from bs4 import BeautifulSoup
+
 from parseland_lib.parse import parse_page
+from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_abstract
 
 URL = "https://journals.example.org/index.php/j/article/view/134515"
 GENERATOR = '<meta name="generator" content="Open Journal Systems 3.3.0.16"/>'
@@ -82,8 +86,13 @@ def test_open_monograph_press_synopsis_is_left_alone():
 
 def test_not_an_ojs_page_is_not_claimed():
     main = f'<section class="item abstract"><h2 class="label">Abstract</h2><p>{TEXT}</p></section>'
-    html = _page(main, generator="").replace("pkp_", "site_")
-    assert _abstract(html) is None
+    ojs = _page(main, generator="")
+    html = ojs.replace("pkp_", "site_")
+    # (#2239 round 4) the claim itself: until `has_sidebar` stopped reading as chrome this page came out with no
+    # abstract at all; now the generic heading reader reads the abstract it prints, as on any other site
+    assert not is_ojs_page(BeautifulSoup(html, "lxml"), html.encode())
+    assert ojs_abstract(BeautifulSoup(ojs, "lxml"), ojs.encode()) == TEXT
+    assert _abstract(html) == TEXT
 
 
 def test_book_review_reference_and_citation_line_are_not_abstracts():

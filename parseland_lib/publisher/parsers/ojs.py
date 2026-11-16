@@ -22,7 +22,7 @@ ojs_abstract reads the abstract an OJS theme prints in its own block, for pages 
 import re
 
 from parseland_lib.not_abstract import is_not_abstract
-from parseland_lib.publisher.parsers.parser import _ABSTRACT_HEADING, _ident, _is_cut_preview, _text_after, \
+from parseland_lib.publisher.parsers.parser import _ABSTRACT_HEADING, _ident, _is_cut_preview, _text_under_label, \
     _trim_article_tail
 from parseland_lib.publisher.parsers.utils import name_position, raw_has, squash
 
@@ -138,10 +138,11 @@ def pick_ojs_corresponding(author_names, marks):
 
 # The abstract an OJS theme prints (#2267). OJS 3's default theme and its children print it in `section.item.abstract`
 # under an `h2.label`; OJS 2 in `div#articleAbstract` under an h4; custom themes under an "Abstract" heading in the
-# article column (omniscient.sg: `h4.art_h4` in `div.Article_the`). The generic heading reader skips all of them:
-# OJS 3 wraps the article column in `pkp_structure_content has_sidebar`, which its chrome rule reads as a sidebar, and
-# some themes leave the site header open around the whole page. So on OJS pages the article column is found by OJS's
-# own container names, and only real navigation, sidebars and footers inside it are chrome.
+# article column (omniscient.sg: `h4.art_h4` in `div.Article_the`). The generic heading reader leaves the theme's
+# block to this reader (parse_page; until #2239 round 4 it skipped it by accident: OJS 3 wraps the article column in
+# `pkp_structure_content has_sidebar`, which its chrome rule read as a sidebar), and it misses custom themes that
+# leave the site header open around the whole page. So on OJS pages the article column is found by OJS's own
+# container names, and only real navigation, sidebars and footers inside it are chrome.
 _OJS_ABSTRACT_BLOCK = ".item.abstract, #articleAbstract"
 _OJS_MAIN = re.compile(r"(?:^|\s)(?:pkp_structure_main|pkp_content_main|content|main)(?:$|\s)", re.I)
 _OJS_CHROME = re.compile(r"(?:^|\s)(?:pkp_structure_sidebar|pkp_structure_footer|pkp_navigation_\w+|pkp_site_nav_\w+|"
@@ -207,29 +208,37 @@ def _headings(root):
     return [n.parent for n in root.find_all(string=_ABSTRACT_HEADING)]
 
 
-def ojs_abstract(soup, lp_content=b""):
+def ojs_abstract_blocks(soup, lp_content):
+    """The theme's own abstract blocks on an OJS page. Where a page has one, this module's reader alone decides what is
+    printed in it: parse_page keeps the generic heading reader off the page (#2239 round 4)."""
+    return soup.select(_OJS_ABSTRACT_BLOCK) if raw_has(lp_content, "bstract") else []
+
+
+def ojs_abstract(soup, lp_content=b"", blocks=None):
     """The abstract an Open Journal Systems article page prints in its own block, or None. Run on OJS pages only, before
     the parsers edit the soup. Several language versions: the one headed "Abstract", else the first (gold rubric).
-    Not on Open Monograph Press pages (also PKP software): a book's or chapter's synopsis is often the series' note."""
+    Not on Open Monograph Press pages (also PKP software): a book's or chapter's synopsis is often the series' note.
+    `blocks`: ojs_abstract_blocks' result, when the caller has it already."""
     if not raw_has(lp_content, "bstract") or _raw_search(r"open monograph press|obj_monograph_full", lp_content):
         return None
     found = []  # (headed "Abstract", text) in page order
-    blocks = soup.select(_OJS_ABSTRACT_BLOCK)
+    if blocks is None:
+        blocks = soup.select(_OJS_ABSTRACT_BLOCK)
     custom = not blocks  # no OJS abstract block: a custom theme's heading in the article column
-    headings = _headings(soup) if custom else []
+    headings = [(heading, None) for heading in _headings(soup)] if custom else []  # (heading, its abstract block)
     for block in blocks:
         if own := _headings(block):
-            headings += own
+            headings += [(heading, block) for heading in own]
         elif not _is_list(_block_body(block)) and (text := _clean(block.get_text(" "))):
             found.append((False, text))  # a block with no heading of its own: all of it is the abstract
-    for heading in headings:
+    for heading, block in headings:
         if heading.name in _CHROME_TAGS or len(heading.get_text(" ", strip=True)) > 40:
             continue
         if (custom and not _in_article_column(heading)) or _is_list(heading.find_next_sibling()):
             continue
-        text = _text_after(heading)
-        if text is None:  # the heading sits alone in a label wrapper: the value follows the wrapper
-            text = _text_after(heading.parent)
-        if text := _clean(text, whole=custom):
+        # Never from past the abstract block itself: what follows that is another section (#2239 round 4:
+        # revistas.pucsp.br printed "Resumo" twice, as the block's label and as the text's own first line, and the
+        # authors' biographies after the block came back as the abstract; an empty block gave the reference list).
+        if text := _clean(_text_under_label(heading, block), whole=custom):
             found.append((bool(_ENGLISH_HEADING.match(heading.get_text(" ", strip=True))), text))
     return max(found, key=lambda f: f[0], default=(None, None))[1]  # max keeps the first of equals
