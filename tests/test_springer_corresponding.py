@@ -85,3 +85,41 @@ def test_other_hosts_are_left_alone():
     people = [("Anna Berg", "Berg, Anna", True), ("Carl Dahl", "Dahl, Carl", False)]
     html = _page(people).replace(URL, "https://www.example.org/article/1")
     assert not any(c for _, c in _authors(html))
+
+
+def _emailed(people, emails):
+    """Meta tags as Springer writes them: citation_author_email right after its author's citation_author."""
+    return "".join(f'<meta name="citation_author" content="{s}"/>'
+                   + (f'<meta name="citation_author_email" content="{emails[s]}"/>' if s in emails else "")
+                   for _, s, _ in people)
+
+
+def test_note_name_across_a_line_break_clears_emailed_coauthors():
+    """10.1007/s11595-011-0350-x: both first authors have an e-mail meta; the byline and the note name An Cheng only,
+    and the note's name spans a line break before its Chinese form."""
+    people = [("Weiting Lin\xa0\n ( 林威廷 )", "Lin, Weiting", False), ("An Cheng\xa0\n ( 鄭安 )", "Cheng, An", True),
+              ("Ran Huang", "Huang, Ran", False)]
+    note = ('<p id="corresponding-author-list">Correspondence to\n                <a id="corresp-c1" '
+            'href="mailto:ancheng@niu.edu.tw">An Cheng\xa0\n            (<span>鄭安</span>)</a>.</p>')
+    html = _page(people, aff_names="Weiting Lin (林威廷), An Cheng (鄭安) & Ran Huang", extra=note)
+    metas = _emailed(people, {"Lin, Weiting": "wtlin@iner.gov.tw", "Cheng, An": "ancheng@niu.edu.tw"})
+    html = html.replace('<meta name="citation_author" content="Lin, Weiting"/><meta name="citation_author" '
+                        'content="Cheng, An"/><meta name="citation_author" content="Huang, Ran"/>', metas)
+    assert _authors(html) == [("Weiting Lin", False), ("An Cheng", True), ("Ran Huang", False)]
+
+
+def test_note_with_two_names_across_line_breaks():
+    """10.1007/s11595-026-3313-y: three authors carry e-mail metas; the note names Wenbing Li or Wenxin Xiang."""
+    people = [("Lin Chen\xa0\n ( 陈林 )", "Chen, Lin", False), ("Zujie Wu\xa0\n ( 吴祖杰 )", "Wu, Zujie", False),
+              ("Wenbing Li\xa0\n ( 李文兵 )", "Li, Wenbing", True), ("Jiaxuan Li", "Li, Jiaxuan", False),
+              ("Wenxin Xiang\xa0\n ( 项文信 )", "Xiang, Wenxin", True)]
+    note = ('<p id="corresponding-author-list">Correspondence to\n <a id="corresp-c1" href="mailto:liwenbing@wust.edu.cn">'
+            'Wenbing Li\xa0\n (<span lang="zh">李文兵</span>)</a> or <a id="corresp-c2" href="mailto:enyaz9@163.com">'
+            'Wenxin Xiang\xa0\n (<span lang="zh">项文信</span>)</a>.</p>')
+    html = _page(people, aff_names="Lin Chen (陈林), Zujie Wu (吴祖杰), Wenbing Li (李文兵), Jiaxuan Li & Wenxin Xiang (项文信)",
+                 extra=note)
+    metas = _emailed(people, {"Chen, Lin": "1239107464@qq.com", "Wu, Zujie": "6871464@qq.com",
+                              "Li, Wenbing": "liwenbing@wust.edu.cn"})
+    old = "".join(f'<meta name="citation_author" content="{s}"/>' for _, s, _ in people)
+    html = html.replace(old, metas)
+    assert [c for _, c in _authors(html)] == [False, False, True, False, True]
