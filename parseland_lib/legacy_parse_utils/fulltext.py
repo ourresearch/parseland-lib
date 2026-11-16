@@ -309,6 +309,11 @@ def parse_publisher_fulltext_location(soup, resolved_url, ojs_page=False):
             return len(main_article_elements) > 1
 
     if is_ojs_full_index(cleaned_soup):
+        # An issue's table of contents has no PDF and no version of its own, but the journal's footer licence covers
+        # it like every page of the journal (gold v1.4; #2239, round 5). Only that statement is read: nothing else
+        # on a listing page is its licence, as before.
+        if license and ojs_page and find_normalized_license(license_search_text(license_page, resolved_url)) is None:
+            return {'license': license}
         return None
 
     pdf_link = None

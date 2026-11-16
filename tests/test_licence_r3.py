@@ -337,9 +337,11 @@ def test_a_footer_statement_that_names_one_licence_still_licenses_the_article(fo
     assert parse_page(page, "doi", OTHER_URL)["license"] == "cc-by-nc"
 
 
-def test_a_statement_in_one_block_and_another_licence_in_another_block_are_two_statements():
-    # the look-alike the gate labels with the statement's licence (learning-gate.com, gate dev page cd5537c2): the
-    # article statement stands alone in the contact block, the site's "Licensed under" badge in the copyright block
+def test_a_statement_in_one_block_and_another_licence_in_another_block_license_nothing():
+    # learning-gate.com, gate dev page cd5537c2: the article statement stands alone in the contact block, the site's
+    # "Licensed under" badge in the copyright block. Gold v1.3 gave the statement's licence and round 3 judged a
+    # statement by its own block; gold v1.4 says none (charter § 6, 16 Nov 2026: chrome that names different licences
+    # licenses nothing, whichever block each sits in), and round 5 judges the page's chrome as a whole.
     footer = """<div class="pkp_structure_footer_wrapper" role="contentinfo"><div class="col-3"><div
     class="item-contact"><br /><span style="font-size: 0.875rem;">This is an open-access article distributed under the
     terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</span></div></div>
@@ -349,10 +351,15 @@ def test_a_statement_in_one_block_and_another_licence_in_another_block_are_two_s
     href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
     </div></div></div>"""
     page = page_of(ARTICLE.format(panel="") + footer)
-    assert parse_page(page, "doi", OTHER_URL)["license"] == "cc-by-nc-sa"
+    assert parse_page(page, "doi", OTHER_URL)["license"] is None
+    assert parse_page(page, "pmh", OTHER_URL)["license"] is None
+    # the look-alike: the second block names the statement's own licence again
+    same = footer.replace("licenses/by/4.0", "licenses/by-nc-sa/4.0").replace("/l/by/4.0", "/l/by-nc-sa/4.0").replace(
+        "Creative Commons Attribution 4.0 International", "Creative Commons Attribution-NonCommercial-ShareAlike 4.0")
+    assert parse_page(page_of(ARTICLE.format(panel="") + same), "doi", OTHER_URL)["license"] == "cc-by-nc-sa"
 
 
-def test_a_statement_whose_start_is_split_over_elements_is_judged_by_the_whole_footer():
+def test_a_statement_and_another_licence_in_the_next_paragraph_license_nothing():
     footer = ('<footer><p>This is an <b>open-access</b> article distributed under the terms of the Creative Commons '
               'Attribution-NonCommercial-ShareAlike 4.0 International License.</p><p>Licensed under a <a '
               'href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> licence.</p></footer>')
