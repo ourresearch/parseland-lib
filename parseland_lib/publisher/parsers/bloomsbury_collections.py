@@ -27,7 +27,12 @@ class BloomsburyCollections(PublisherParser):
     prefer_publisher_authors_over_generic = True
 
     def is_publisher_specific_parser(self):
-        return bool(self.soup.find("link", href=THEME_ASSETS) or self.soup.find("script", src=THEME_ASSETS))
+        # Every parser's claim runs on every DOI page (#2239's 5% CPU rule): look for the theme's assets in the small
+        # <head> only (the stylesheet link is there on every claimed page), and only once per instance.
+        if not hasattr(self, "_claim"):
+            scope = self.soup.head or self.soup  # a page with no <head>: the whole document, as before
+            self._claim = bool(scope.find("link", href=THEME_ASSETS) or scope.find("script", src=THEME_ASSETS))
+        return self._claim
 
     def authors_found(self):
         return self.is_publisher_specific_parser() and bool(self._names())
