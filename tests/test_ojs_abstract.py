@@ -84,3 +84,14 @@ def test_not_an_ojs_page_is_not_claimed():
     main = f'<section class="item abstract"><h2 class="label">Abstract</h2><p>{TEXT}</p></section>'
     html = _page(main, generator="").replace("pkp_", "site_")
     assert _abstract(html) is None
+
+
+def test_book_review_reference_and_citation_line_are_not_abstracts():
+    for text in ("Reseña de: Ernst-Wolfgang Böckenförde, El surgimiento del Estado como proceso de secularización. Edición "
+                 "de Carlos Pérez Crespo. Madrid: Trotta, 2024. Un libro breve y muy claro sobre el Estado moderno.",
+                 "Citation: Kittler H. From the editor [editorial]. Dermatol Pract Concept. 2011;1(1):2. Copyright: 2011 "
+                 "Kittler. This is an open-access article distributed under the terms of the Creative Commons licence.",
+                 "Hans Jürgen Rieckenberg: Matthias Grünewald. Name und Leben neu betrachtet. (Jahrbuch der Staatlichen "
+                 "Kunstsammlungen in Baden-Württemberg 11, 1974, S. 47-120)."):
+        main = f'<section class="item abstract"><h2 class="label">Resumen</h2><p>{text}</p></section>'
+        assert _abstract(_page(main)) is None, text[:30]

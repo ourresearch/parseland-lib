@@ -149,6 +149,13 @@ _OJS_CHROME = re.compile(r"(?:^|\s)(?:pkp_structure_sidebar|pkp_structure_footer
 _CHROME_TAGS = ("nav", "footer", "aside", "menu", "select", "option", "a", "button", "label", "title", "script", "style")
 _CJK = re.compile(r"[\u3400-\u9fff\uac00-\ud7af\u3040-\u30ff]")
 _ENGLISH_HEADING = re.compile(r"^\s*abstracts?\s*[:.]?\s*$", re.I)
+# What OJS journals put in the abstract field that is not an abstract: a book review's reference to the book it reviews
+# ("Reseña de: ...", "Resenha da seguinte obra: SILVA, ..."), an editorial's citation line ("Citation: Kittler H. ...").
+_NOT_ABSTRACT_LEAD = re.compile(r"^(?:(?:book\s+)?review(?:\s+of)?|rese[ñn]a(?:\s+(?:de|a|of))?|resenha(?:\s+d[aeo])?"
+                                r"(?:\s+seguinte\s+obra)?|recensione|rezension|citation|how\s+to\s+cite)\s*:", re.I)
+# ... or the reviewed book's bare reference: a short text with page numbers, an ISBN or a closing year
+_REFERENCE_ONLY = re.compile(r"\b(?:pp?|S|págs?|pages?)\.?\s*\d+\s*[-–]\s*\d+|\d+\s*(?:págs?|pp|pages|S)\.|\bISBN\b|"
+                             r"\b(?:1[5-9]|20)\d\d\)?\.?$", re.I)
 
 
 def _in_article_column(el):
@@ -176,6 +183,8 @@ def _clean(text, whole=False):
     where a rights box or a tab's label can follow "Abstract"); OJS's own abstract blocks need not."""
     text = _trim_article_tail(squash(text or ""))
     if not _long_enough(text) or text.endswith(("...", "…")) or is_not_abstract(text):
+        return None
+    if _NOT_ABSTRACT_LEAD.match(text) or (len(text) < 300 and _REFERENCE_ONLY.search(text)):
         return None
     return None if whole and _is_cut_preview(text) else text
 
