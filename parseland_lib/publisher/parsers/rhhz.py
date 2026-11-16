@@ -51,6 +51,26 @@ _STATED_COUNT = re.compile(r"(?:参考文献|references)\s*[(（]\s*(\d+)\s*[)�
 _MORE = re.compile(r"show more|load more|view all|更多", re.I)
 # the link buttons each reference row ends with ("CrossRef", "Google Scholar"): site widgets, not the reference
 _REF_BUTTON = re.compile(r"^\s*(?:cross\s?ref|google\s+scholar|pub\s?med|百度学术|cnki)\s*$", re.I)
+# the platform's stylesheets and scripts (style/web/css/public/base/base.css, style/web/js/public/rhhz.js ...)
+_ASSETS = "style/web/"
+
+
+def _template_head(soup):
+    """The claim's cheap first test: does <head> carry the platform's marks, a citation_state meta tag or a link or
+    script from its assets? Each is on all 170 claimed pages of 1,892 stored ones (46 sites). Every parser's claim runs
+    on every page (#2239: under 0.5 ms a page it does not claim), so <head> is reached through direct children only
+    and searched alone. None when there is no <head>: such a page is searched whole, as before."""
+    html = soup.find("html", recursive=False)
+    head = (html or soup).find("head", recursive=False)
+    if head is None:
+        return None
+    for tag in head.find_all(("meta", "link", "script")):
+        if tag.name == "meta":
+            if (tag.get("name") or "").lower() == "citation_state":
+                return True
+        elif _ASSETS in (tag.get("href") or tag.get("src") or ""):
+            return True
+    return False
 
 
 def _text(tag):
@@ -87,10 +107,12 @@ class Rhhz(PublisherParser):
         return self._byline_found
 
     def is_publisher_specific_parser(self):
-        return self._byline()[0] is not None
+        if not hasattr(self, "_claim"):  # authors_found asks too: the head test runs once per page
+            self._claim = _template_head(self.soup) is not False and self._byline()[0] is not None
+        return self._claim
 
     def authors_found(self):
-        return bool(self._byline()[1])
+        return self.is_publisher_specific_parser()  # a byline is found only with its items
 
     # ---- authors and affiliations ----
 

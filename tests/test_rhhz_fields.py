@@ -13,8 +13,10 @@ from parseland_lib.publisher.parsers.rhhz import Rhhz
 URL = "https://doi.org/10.3934/math.2023999"
 
 
-def _page(body, names=("Ann Lee", "Bo Chen"), insts=("Inst A", "Inst B")):
-    metas = "".join(f'<meta name="citation_author" content="{n}"/>' for n in names)
+def _page(body, names=("Ann Lee", "Bo Chen"), insts=("Inst A", "Inst B"), assets=True):
+    # every site of the platform links its stylesheets from style/web/ (the claim's cheap first test)
+    metas = '<link rel="stylesheet" href="/style/web/css/public/base/base.css"/>' if assets else ""
+    metas += "".join(f'<meta name="citation_author" content="{n}"/>' for n in names)
     metas += "".join(f'<meta name="citation_author_institution" content="{i}"/>' for i in insts)
     metas += "".join(f'<meta name="citation_author" content="{n}"/>' for n in names)  # AIMS repeats them
     return (f'<html><head><meta name="citation_title" content="A title"/>{metas}'
@@ -192,6 +194,13 @@ def test_other_templates_with_article_author_classes_are_not_claimed():
                 '</body></html>')  # the client-rendered variant: no authorTag, nothing more to read than the meta tags
     for html in (springer, rendered):
         assert not Rhhz(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
+
+
+def test_byline_is_claimed_only_on_a_page_with_the_platforms_head_marks():
+    assert Rhhz(BeautifulSoup(_page(AIMS_BYLINE), "lxml")).authors_found()
+    assert not Rhhz(BeautifulSoup(_page(AIMS_BYLINE, assets=False), "lxml")).authors_found()
+    state = _page(AIMS_BYLINE, assets=False).replace("<head>", '<head><meta name="citation_state" content=""/>')
+    assert Rhhz(BeautifulSoup(state, "lxml")).is_publisher_specific_parser()
 
 
 def test_one_address_item_numbered_inside_is_split_and_notes_are_not_affiliations():
