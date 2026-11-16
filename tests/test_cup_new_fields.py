@@ -83,6 +83,21 @@ def test_footnotes_are_not_references():
     assert _parse(old_notes)["references"] is None
 
 
+def test_citation_reference_tags_never_fill_a_cambridge_list():
+    # Cambridge prints its footnotes (or only the entries it resolved) as plain citation_reference tags; the generic
+    # tag fill must not turn them into a whole reference list (10.1017/s0340045x00012910: 51 notes, "Id.")
+    tags = "".join(f'<meta name="citation_reference" content="{t}">' for t in (
+        "The regulations can be found in title 26 of the Code of Federal Regulations.", "Id."))
+    notes = _refs(_ref("fn1", "1", "<p>The regulations can be found in title 26.</p>"), _ref("fn2", "2", "<p>Id.</p>"))
+    out = parse_page(f"<html><head>{CAMBRIDGE_OG}{tags}</head><body>{AUTHOR}{notes}</body></html>".encode(), "doi",
+                     CAMBRIDGE_URL)
+    assert not out["references"] and out["references_complete"] is False
+    # the same tags on another site still give its list
+    other = parse_page(f"<html><head>{OTHER_OG}{tags}</head><body>{AUTHOR}</body></html>".encode(), "doi",
+                       "https://journals.example.org/article/y")
+    assert [r["raw"] for r in other["references"]][-1] == "Id."
+
+
 def test_a_footnote_among_references_makes_the_list_incomplete():
     out = _parse(_refs(_ref("ref1", "1", "One."), _ref("fn1", "2", "<p>A note.</p>"), _ref("ref2", "3", "Three.")))
     assert [r["raw"] for r in out["references"]] == ["One.", "Three."]

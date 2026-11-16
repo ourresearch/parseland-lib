@@ -14,7 +14,7 @@ from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
 from parseland_lib.publisher.parsers.copernicus import copernicus_corresponding_names
-from parseland_lib.publisher.parsers.cup import cambridge_marked_openings
+from parseland_lib.publisher.parsers.cup import cambridge_marked_openings, is_cambridge_core_page
 from parseland_lib.publisher.parsers.frontiers import frontiers_corresponding_names
 from parseland_lib.publisher.parsers.ieee import IEEE
 from parseland_lib.publisher.parsers.highwire import highwire_corresponding_marks, is_highwire_page, \
@@ -572,8 +572,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
         back_matter = ojs_back_matter(soup)
     if not back_matter and _has(lp_content, "scielo"):
         back_matter = scielo_back_matter(soup, lp_content)
-    # any other page whose citation_reference tags print each reference's text (plain, not Highwire key=value)
-    if "references" not in back_matter and _has(lp_content, "citation_reference"):
+    # any other page whose citation_reference tags print each reference's text (plain, not Highwire key=value);
+    # never Cambridge Core's: its tags hold the article's footnotes, or only the entries the site resolved, never the
+    # whole list, and cup.py reads the page's own list (#2222)
+    if "references" not in back_matter and _has(lp_content, "citation_reference") and not (
+            _has(lp_content, "cambridge.org") and is_cambridge_core_page(soup)):
         back_matter = {**plain_citation_tags(soup), **back_matter}
     # then any page's own "Acknowledgments" / "Funding" sections, for the keys still empty
     if not ("acknowledgments" in back_matter and "funding_statement" in back_matter):
