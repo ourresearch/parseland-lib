@@ -30,14 +30,24 @@ class DigitalCommons(PublisherParser):
     def __init__(self, soup):
         super().__init__(soup)
         self._parsed = None
+        self._claimed = None
 
     def is_publisher_specific_parser(self):
-        if not self.soup.find("meta", attrs={"name": _BEPRESS_TAG}):
-            return False
-        return bool(self.soup.select_one("div#alpha div.element[id]")
-                    or self.soup.select_one('a[href*="network.bepress.com"]'))
+        # Every DOI page asks every parser (oxjob #2268, #2239's CPU rule), so the claim is computed once and starts
+        # with the cheapest test: a scan of the page's <meta> tags (bs4's name-only fast path), anywhere in the page,
+        # so a bepress tag that lxml moved out of <head> still counts. Only a page with one goes on to the frame.
+        if self._claimed is None:
+            self._claimed = (any(_BEPRESS_TAG.match(meta.get("name") or "") for meta in self.soup.find_all("meta"))
+                             and bool(self.soup.select_one("div#alpha div.element[id]")
+                                      or self.soup.select_one('a[href*="network.bepress.com"]')))
+        return self._claimed
 
     def authors_found(self):
+        # A page this parser does not claim: the generic parser, which every page runs and which sits before this one
+        # in PublisherParser.__subclasses__(), returns the same authors and abstract, so answering False there changes
+        # no output and skips a whole generic parse per page.
+        if not self.is_publisher_specific_parser():
+            return False
         parsed = self.parse()
         return bool(parsed.get("authors") or parsed.get("abstract") or parsed.get("references"))
 
