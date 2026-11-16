@@ -54,12 +54,16 @@ _EXACT_LICENSE_MENTION = re.compile(
 _INLINE_TAGS = frozenset(('a', 'span', 'b', 'strong', 'i', 'em', 'u', 'small', 'font', 'sup', 'sub'))
 
 
-def _names_several_licenses(element):
-    """True when the element names more than one licence exactly, in its text and its links together
-    (find_normalized_license alone gives only the first by rank)."""
+def _licenses_named(element):
+    """The licences the element names exactly, in its text and its links together (find_normalized_license alone gives
+    only the first by rank)."""
     named = " ".join([" ".join(element.itertext())] + [link.get('href') or '' for link in element.iter('a')])
-    licenses = {find_normalized_license(mention.group(0)) for mention in _EXACT_LICENSE_MENTION.finditer(named)}
-    return len(licenses - {None}) > 1
+    return {find_normalized_license(mention.group(0)) for mention in _EXACT_LICENSE_MENTION.finditer(named)} - {None}
+
+
+def _names_several_licenses(element):
+    """True when the element names more than one licence exactly."""
+    return len(_licenses_named(element)) > 1
 
 
 def _statement_block(section, statement):
@@ -98,6 +102,198 @@ def _article_statements(section):
             and not _names_several_licenses(_statement_block(section, m.group(0)))]
 
 
+# An Open Journal Systems journal states its licence once, in the footer of every page (#2239, round 5; a PROPOSAL,
+# held until the policy is ruled on: until then the charter line of 13 Nov 2026 stands, "an OJS journal's site-footer
+# licence is not read as the article's licence"). #2267 read all 17,118 OJS pages whose licence a re-parse dropped:
+# 94% carry a journal-wide Creative Commons statement in the footer, the journals' own copyright pages say the same,
+# and most article PDFs state no licence, so the footer is the only statement there is.
+# On an OJS page a statement in site chrome counts for the article when the statement itself names
+# - the work ("This work is licensed under ...", the Creative Commons chooser's sentence and its translations:
+#   "Ciptaan disebarluaskan di bawah Lisensi ...", "Esta obra está bajo una Licencia ..."),
+# - the journal ("This journal is licensed ...", "Jurnal ini ...", or the journal's own title, short title or address
+#   as the page's meta tags give them: "KONSTAN (Jurnal Fisika ...) is licensed under ..."), or
+# - its articles ("All articles published in this journal are licensed ...", "Dergimizde yayımlanan makaleler ...").
+# The licence must be named in the same sentence, after the subject. What does not count:
+# - a bare "Licensed under ..." or a badge alone: it names nothing;
+# - a statement about the site, its pages or its metadata, or a credit for an image, a theme or an icon set
+#   (_NOT_THE_JOURNAL between the subject and the licence, or "the website of" before the subject): "The Jurnal
+#   Tabarru' site and its metadata are licensed under CC BY-SA", "The content of this site is licensed ...", "Sabine's
+#   Gull by A. Reago is licensed under CC BY";
+# - a licence that covers only some of the journal's articles (_ONLY_SOME_ARTICLES): "after June 2018", an embargo;
+# - a block that names several different licences (_names_several_licenses, round 3). Stricter here than for an
+#   article's statement: the page's cleared chrome as a whole must name one licence. A journal statement in one block
+#   and another licence's badge in the next ("<Journal> is licensed under ... ShareAlike" under a by-nc badge) do not
+#   say which is the journal's (_journal_statement).
+# The article's own statement wins: the footer's is read only when the rest of the page names no licence and its
+# text does not speak of Creative Commons at all (page_potential_license_text).
+_OJS_SUBJECT = re.compile(
+    r"\b(?:this|the)\s+(?:work|journal|publication)\b|\bwork\s+is\s+(?:licen[sc]ed|distributed)\b"
+    r"|\b(?:all|the|these|our|published)\s+(?:of\s+)?(?:the\s+)?(?:published\s+)?"
+    r"(?:articles|papers|manuscripts|works?)\b"
+    r"|\barticles\s+(?:published|in)\b|\bjournal\s+(?:content|papers|articles)\b|\bopen[\s\-]?access\s+journal\b"
+    r"|\bcontents?\s+of\s+(?:this|the)\s+journal\b"
+    # Indonesian and Malay
+    r"|\b(?:jurnal|karya|ciptaan|artikel|tulisan|naskah)\s+ini\b"
+    r"|\b(?:ciptaan|jurnal|karya)\s+(?:ini\s+)?di(?:sebarluaskan|lisensikan)\b"
+    r"|\b(?:semua|seluruh)\s+artikel\b|\bartikel\s+(?:dalam|pada|di)\s+jurnal\b"
+    # Spanish and Portuguese
+    r"|\best[ae]\s+(?:obra|trabajo|trabalho|revista|publicaci[oó]n|peri[oó]dico)\b"
+    r"|\b(?:los|os)\s+(?:art[ií]culos|artigos|trabajos|trabalhos|contenidos|conte[uú]dos)\b"
+    r"|\bconte(?:ni|[uú])do\s+d(?:[eoa]|el|est[ea]|ess[ea])\s+(?:la\s+|esta\s+)?(?:revista|peri[oó]dico)\b"
+    # French, Italian, German, Turkish
+    r"|\bce(?:tte|\(tte\))?\s+(?:œuvre|oeuvre|revue|travail)\b|\bles\s+articles\b|\bquest['’]\s?opera\b"
+    r"|\bquesta\s+(?:opera|rivista)\b|\bdieses\s+werk\b|\bdiese\s+zeitschrift\b"
+    r"|\bbu\s+(?:eser|çalışma|dergi)\b|\byay[ıi][mn]lanan\s+makaleler\b"
+    # Arabic, Russian, Ukrainian: "this work", "this journal"
+    r"|هذا\s+(?:العمل|المصنف)|هذه\s+المجلة|\bэто\s+произведение\b|\bц[яей]\s+(?:робота|твір|журнал)\b",
+    re.IGNORECASE)
+_NOT_THE_JOURNAL_WORDS = (
+    r"\b(?:web|websites?|webpages?|sites?|sitios?|sítios?|situs|laman|portal|platform|plataforma|pages?|p[aá]ginas?"
+    r"|metadat\w*|metadad\w*|themes?|templates?|plugins?|software|logos?|images?|imagen|imagem|photos?|fotos?"
+    r"|pictures?|gambar|icons?|fonts?|cover|banner|design|map)\b")
+_NOT_THE_JOURNAL = re.compile(_NOT_THE_JOURNAL_WORDS, re.IGNORECASE)
+# ... or just before the subject: "The website of this journal is licensed under ..."
+_OF_THE_SUBJECT = re.compile(
+    _NOT_THE_JOURNAL_WORDS + r"\s+(?:of|for|on|de|del|da|do|dari)\s+(?:the\s+)?$", re.IGNORECASE)
+_ONLY_SOME_ARTICLES = re.compile(
+    r"\bembargo|\b(?:after|since|from|until|before|prior\s+to|starting|beginning|as\s+of|between|desde|a\s+partir\s+de"
+    r"|hasta|antes\s+de|ap[oó]s|at[eé]|sejak|mulai|sebelum|setelah)\b[^.]{0,30}?\b(?:19|20)\d\d\b", re.IGNORECASE)
+# where a statement's licence starts: the family name, a licence link or a short name
+_LICENSE_START = re.compile(r"creative\s*commons|" + _CC_SHORTHAND_RE.pattern, re.IGNORECASE)
+_LICENSE_HINT = re.compile(r"ommons|(?<![A-Za-z0-9])CC[\s\-]*BY", re.IGNORECASE)
+_LICENSING_WORD = re.compile(
+    r"licen[sc]|lisensi|lisans|licença|lizenz|distribu|disebarluaskan|publi|under|bajo|\bsob\b|bawah|below|operates"
+    r"|adopt|adot|terms|رخص", re.IGNORECASE)
+_OTHER_WORD = re.compile(r"[^\W\d_]{3,}")
+_FLOW_TAGS = _INLINE_TAGS | {'br', 'img'}
+_SENTENCE_FROM = re.compile(r"(?:[^.]|\.(?=\S)){0,300}")
+_JOURNAL_NAME_TAGS = ('citation_journal_title', 'citation_journal_abbrev', 'dc.source', 'dc.source.uri')
+# what an address ends with, or a title starts with, that names no journal
+_NO_NAME = frozenset(('journal', 'journals', 'jurnal', 'revista', 'home', 'index', 'index.php', 'ojs', 'main',
+                      'article', 'articles', 'issue', 'about'))
+# PKP's software for books and preprints shares OJS's templates (is_ojs_page is true for both); a press's or a
+# preprint server's footer is not a journal's
+_OTHER_PKP_SOFTWARE = re.compile(r"open\s+(?:monograph\s+press|preprint\s+systems)", re.IGNORECASE)
+
+
+def _journal_names(tree):
+    """A pattern for the journal's own names on an OJS page, from the meta tags OJS writes and the page's title: its
+    title, its short title, the short name a title starts with ("KOVALEN: Jurnal Riset Kimia", "KONSTAN (Jurnal
+    Fisika ...)"), its address and the address's last part (".../index.php/JKKI"). None when the page gives none;
+    False when the page is not a journal's at all."""
+    patterns = set()
+
+    def add(name):
+        words = re.findall(r"\w+", name)
+        if len("".join(words)) >= 3 and name.strip().lower() not in _NO_NAME:
+            patterns.add(r"(?<!\w)" + r"[\W_]+".join(map(re.escape, words)) + r"(?!\w)")
+
+    for meta in tree.iter('meta'):
+        name, content = (meta.get('name') or '').lower(), (meta.get('content') or '').strip()
+        if name == 'generator' and _OTHER_PKP_SOFTWARE.match(content):
+            return False
+        if name not in _JOURNAL_NAME_TAGS:
+            continue
+        if re.match(r"https?://", content, re.IGNORECASE):
+            address = re.sub(r"^https?://(?:www\.)?|/(?:index)?/?$", "", content, flags=re.IGNORECASE)
+            if '/' in address:  # a journal's address on its site, never a bare host
+                patterns.add(re.escape(address))
+                add(address.rsplit('/', 1)[1])
+            continue
+        add(content)
+        add(re.split(r":|\s\(|\s[-–—]\s", content, maxsplit=1)[0])
+    title = tree.findtext('.//title') or ''
+    if '|' in title:  # OJS titles its pages "<article or issue> | <journal>"; an issue page has no other name
+        add(title.rsplit('|', 1)[1])
+    return re.compile("|".join(sorted(patterns)), re.IGNORECASE) if patterns else None
+
+
+def _flow_text(element):
+    """An element's own running text: its text and that of its inline markup, with the address of each Creative Commons
+    licence link on both sides of the link's text (the text may end the sentence, or start the statement). A
+    block-level child ends the sentence; its text is its own."""
+    parts = []
+
+    def walk(node):
+        parts.append(node.text or '')
+        for child in node:
+            if isinstance(child.tag, str) and child.tag in _FLOW_TAGS:
+                href = child.get('href') if child.tag == 'a' else None
+                href = f" {href.strip()} " if href and 'creativecommons.org/licenses/' in href else ''
+                parts.append(href or (' ' if child.tag == 'br' else ''))  # a line break parts two words
+                walk(child)
+                parts.append(href)
+            elif isinstance(child.tag, str):
+                parts.append(' . ')
+            parts.append(child.tail or '')
+
+    walk(element)
+    return "".join(parts)
+
+
+def _journal_footer(section, names):
+    """What a site-chrome element of an OJS page says about the journal's licence: (the sentences that license the
+    work, the journal or its articles (_OJS_SUBJECT, or one of the journal's own `names`), each with its licence
+    link's address; every licence the element names exactly). None when it names no licence at all."""
+    if not _LICENSE_HINT.search(" ".join(section.itertext())) and not any(
+            'creativecommons.org/licenses/' in (link.get('href') or '') for link in section.iter('a')):
+        return None  # nearly every nav and footer
+    statements = []
+    for element in section.iter(tag=etree.Element):
+        if (element.tag in _FLOW_TAGS and element is not section) or element.tag in ('script', 'style'):
+            continue  # inline markup is read with its block
+        text = _flow_text(element)
+        if not _LICENSE_HINT.search(text):
+            continue
+        text = re.sub(r"\s+", " ", text)
+        subjects = [(subject, False) for subject in _OJS_SUBJECT.finditer(text)] + [
+            (subject, True) for subject in (names.finditer(text) if names else ())]
+        several = None  # asked once per block, and only for a block with a statement
+        for subject, is_name in subjects:
+            # the subject, and the rest of its sentence (a name may hold a full stop: "Rilce. Revista de ...")
+            statement = subject.group(0) + _SENTENCE_FROM.match(text, subject.end()).group(0)
+            subject_end = subject.end() - subject.start()
+            license_start = _LICENSE_START.search(statement, subject_end)
+            if not license_start or not (find_normalized_license(statement) or '').startswith('cc-by'):
+                continue
+            # The journal's name is followed by the statement at once ("<Journal> (e-ISSN ...) by <publisher> is
+            # licensed under", "<Journal>: <badge>"), never by an address and some other statement, nor by other
+            # words and a badge ("View <Journal> Stats <badge>").
+            between = re.sub(r"https?://\S*", " ", statement[subject_end:license_start.start()])
+            if license_start.start() - subject_end > (120 if is_name else 200) or (
+                    is_name and not _LICENSING_WORD.search(between) and _OTHER_WORD.search(between)):
+                continue
+            if _NOT_THE_JOURNAL.search(statement, 0, license_start.start()) or _ONLY_SOME_ARTICLES.search(statement) \
+                    or _CONDITION_BEFORE.search(text, max(0, subject.start() - 12), subject.start()) \
+                    or _OF_THE_SUBJECT.search(text, max(0, subject.start() - 30), subject.start()):
+                continue
+            if several is None:
+                several = _names_several_licenses(element)
+            if not several:
+                statements.append(statement)
+    return statements, _licenses_named(section)
+
+
+def _speaks_of_creative_commons(tree):
+    """True when the page's visible text names Creative Commons (an address, an alt text or a script does not)."""
+    visible = []
+    for element in tree.iter():
+        if isinstance(element.tag, str) and element.tag not in ('script', 'style') and element.text:
+            visible.append(element.text)
+        if element.tail:
+            visible.append(element.tail)
+    return re.search(r"creative\s*commons", " ".join(visible), re.IGNORECASE) is not None
+
+
+def _journal_statement(journal_footers):
+    """The journal's licence statement, from what the page's cleared chrome says (_journal_footer of each element):
+    its first statement, or None when it has none or the chrome does not name one licence throughout."""
+    statements = [statement for found, _ in journal_footers for statement in found]
+    licenses = {find_normalized_license(statement) for statement in statements}.union(
+        *(named for _, named in journal_footers))
+    return statements[0] if statements and len(licenses) == 1 else None
+
+
 def _clear_all_but_main(element, mains, holders):
     """Clear what a <nav> or <footer> holds beside the page's main content; True when anything went."""
     cleared = False
@@ -116,8 +312,10 @@ def _clear_all_but_main(element, mains, holders):
 _ARTICLE_OWN_FOOTER = re.compile(r"(?:^|\s)article[\w\-]*footer", re.IGNORECASE)
 
 
-def _clear_site_chrome(tree):
+def _clear_site_chrome(tree, journal_footers=None):
     """Clear the page's site chrome (SITE_CHROME_FINDERS), except chrome that holds the page; True when anything went.
+    `journal_footers`: on an Open Journal Systems page, a list that takes what each cleared element says about the
+    journal's licence (_journal_footer); nothing of it is left in the tree.
 
     Site chrome that holds the page is not chrome (#2239, phase 2). The finders also match elements that wrap the
     WHOLE page, and the article's own licence went with them: arXiv's abstract pages sit in
@@ -146,6 +344,9 @@ def _clear_site_chrome(tree):
     mains = set(_MAIN_CONTENT(tree))
     holders = {ancestor for main in mains for ancestor in main.iterancestors()}
     cleared = False
+    names = _journal_names(tree) if journal_footers is not None else None
+    if names is False:
+        journal_footers = None
     for section_finder in SITE_CHROME_FINDERS:
         for section in tree.xpath(section_finder):
             if section in mains or section.tag in ('html', 'body'):
@@ -157,6 +358,8 @@ def _clear_site_chrome(tree):
                 if section.getroottree().getroot() is not tree:
                     continue  # already gone with an enclosing element cleared earlier in this pass
                 statements = _article_statements(section)
+                if journal_footers is not None and (journal_footer := _journal_footer(section, names)):
+                    journal_footers.append(journal_footer)
                 section.clear()
                 for statement in statements:
                     etree.SubElement(section, 'p').text = statement
@@ -270,13 +473,14 @@ def _drop_non_statements(text):
     return text
 
 
-def page_potential_license_text(page, keep_site_chrome=False):
+def page_potential_license_text(page, keep_site_chrome=False, ojs_page=False):
     tree = get_tree(page)
 
     if tree is None:
         return _drop_non_statements(page)
 
-    section_removed = False if keep_site_chrome else _clear_site_chrome(tree)
+    journal_footers = [] if ojs_page else None  # what an OJS journal's footer says of its licence (#2239, round 5)
+    section_removed = False if keep_site_chrome else _clear_site_chrome(tree, journal_footers)
     if 'rightslink' in page:
         section_removed |= _keep_own_rightslink_licence(tree)
     section_removed |= _drop_code_comments_naming_a_license(tree)
@@ -317,7 +521,15 @@ def page_potential_license_text(page, keep_site_chrome=False):
             page = etree.tostring(tree, encoding=str)
         except Exception:
             pass
-    return _drop_non_statements(page)
+    text = _drop_non_statements(page)
+    # The journal's footer statement is read only when the rest of the page names no licence: the article's own
+    # statement wins, whatever its rank. Also when it is one this reader cannot read: an article's copyright block
+    # that says "Licencia Creative Commons Atribución-NoComercial-CompartirIgual" over a dead link, above a footer
+    # that says Attribution-ShareAlike (revistascientificas.filo.uba.ar, labelled by-nc-sa), gets no licence.
+    if journal_footers and (statement := _journal_statement(journal_footers)) \
+            and find_normalized_license(text) is None and not _speaks_of_creative_commons(tree):
+        text = f"{text}\n{statement}"
+    return text
 
 
 # ScienceDirect states the article's own licence in its page state, once per page:
@@ -348,13 +560,14 @@ def sciencedirect_article_license_text(page):
     return license_url.group(1) if license_url else ''
 
 
-def license_search_text(page, resolved_url=None):
+def license_search_text(page, resolved_url=None, ojs_page=False):
     """The text the licence regexes run over, on both the publisher and the repository path.
 
     A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
     deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), a Taylor & Francis
     book page its product's, an ACL Anthology page the footer sentence for the paper's year; any other page is
-    searched whole, minus site chrome (kept on hosts whose footer licenses every article).
+    searched whole, minus site chrome (kept on hosts whose footer licenses every article). `ojs_page`: the page is an
+    Open Journal Systems page (is_ojs_page), whose footer may state the journal's own licence.
     """
     sd_license_text = sciencedirect_article_license_text(page)
     if sd_license_text is not None:
@@ -365,7 +578,8 @@ def license_search_text(page, resolved_url=None):
     acl_license_text = acl_anthology_license_text(page, resolved_url)
     if acl_license_text is not None:
         return acl_license_text
-    return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url))
+    return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url),
+                                       ojs_page=ojs_page)
 
 
 # The ACL Anthology (aclanthology.org) states its licence once, in the site footer, by year of publication:

@@ -598,10 +598,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     openings = [o for o in openings if o]
 
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
+    # ojs_page: an OJS journal's footer may state the journal's own licence (#2239, round 5)
     if namespace == "doi":
-        fulltext_location = parse_publisher_fulltext_location(soup, resolved_url)
+        fulltext_location = parse_publisher_fulltext_location(soup, resolved_url, ojs_page)
     elif namespace == "pmh":
-        fulltext_location = parse_repo_fulltext_location(soup, resolved_url)
+        fulltext_location = parse_repo_fulltext_location(soup, resolved_url, ojs_page)
     else:
         fulltext_location = None
 
