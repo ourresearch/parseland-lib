@@ -171,6 +171,60 @@ def test_korean_byline_when_english_is_empty():
     assert authors[0]["is_corresponding"]
 
 
+
+def test_professor_title_after_a_name_is_not_an_author():
+    # jiaptr.org-style byline: "Prof." sits among the degrees after a name
+    html = _page("Kyungsu Jeon, PT, MS<sup>a</sup>, Kyunhee Cho, PT, Prof., PhD<sup>c</sup>",
+                 "<sup>a</sup>Department of Physical Therapy, Bundang Jesaeng Hospital, Seongnam, Republic of Korea <br/>"
+                 "<sup>c</sup>Department of Physical Therapy, Suwon Women's University, Hwaseong, Republic of Korea")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Kyungsu Jeon", "Kyunhee Cho"]
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [
+        ["Department of Physical Therapy, Bundang Jesaeng Hospital, Seongnam, Republic of Korea"],
+        ["Department of Physical Therapy, Suwon Women's University, Hwaseong, Republic of Korea"]]
+
+
+def test_corresponding_note_gives_the_address_when_the_byline_has_no_affiliation():
+    # KRIHS journal: empty English affiliation; the note carries the corresponding author's title and address
+    html = _page("Minjun Kim", "",
+                 cor="Corresponding Author : Kim, Minjun, Associate Research Fellow Korea Research Institute of Human "
+                     "Settlements, 5, Gukchaegyeonguwon-ro, Sejong-si, 30147, Korea Tel : +82.44.960.0302 Fax : "
+                     "+82.44.211.4770 E-mail : <a href=\"mailto:m@krihs.re.kr\">m@krihs.re.kr</a><br/>",
+                 kor_author="김 민 준", kor_aff="정회원 · 국토연구원 국토인프라연구본부 부연구위원 · 교신저자")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Minjun Kim"]
+    assert [x["name"] for x in authors[0]["affiliations"]] == [
+        "Korea Research Institute of Human Settlements, 5, Gukchaegyeonguwon-ro, Sejong-si, 30147, Korea"]
+    assert authors[0]["is_corresponding"]
+
+
+def test_korean_affiliation_line_marked_corresponding_marks_that_author():
+    # the English note gives only a phone and e-mail; the Korean affiliation for "**" says 교신저자
+    html = _page("Hyeon-Gu Kim<sup>*</sup>, Jung-Han Yoo<sup>**</sup>",
+                 "<sup>*</sup>Department of Architecture, Seoul National University of Science and Technology<br/>"
+                 "<sup>**</sup>School of Architecture, Seoul National University of Science and Technology",
+                 cor="Tel: 02-970-9015 Fax: 02-974-1480 E-mail: <a href=\"mailto:h@seoultech.ac.kr\">h@seoultech.ac.kr</a>",
+                 kor_author="김 현 구<sup>*</sup>, 유 정 한<sup>**</sup>",
+                 kor_aff="<sup>*</sup>학생회원, 서울과학기술대학교 건축과, 석사과정<br/>"
+                         "<sup>**</sup>교신저자, 정회원, 서울과학기술대학교 건축학부 교수, 공학박사")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Hyeon-Gu Kim", "Jung-Han Yoo"]
+    assert [a["is_corresponding"] for a in authors] == [False, True]
+
+
+def test_mail_link_inside_the_marker_sup_marks_that_author():
+    html = _page("Junhyong Kim<sup>1</sup>, Inho Cho<sup>1</sup>, "
+                 "Auezhan Amanov<sup>2,</sup><sup>*<a href=\"mailto:a@tuni.fi\"></a></sup>",
+                 "<sup>1</sup>DesignMecha Co., Ltd, Asan 31460, Korea<br/>"
+                 "<sup>2</sup>Faculty of Engineering and Natural Sciences, Tampere University, Tampere, Finland",
+                 note="<br/> <p>Publisher's Note: the journal stays neutral with regard to jurisdictional claims.</p><br/>")
+    authors = _parse(html)["authors"]
+    assert [a["name"] for a in authors] == ["Junhyong Kim", "Inho Cho", "Auezhan Amanov"]
+    assert [[x["name"] for x in a["affiliations"]] for a in authors][2] == [
+        "Faculty of Engineering and Natural Sciences, Tampere University, Tampere, Finland"]
+    assert [a["is_corresponding"] for a in authors] == [False, False, True]
+
+
 BACK = """<div class="ft-content"><div id="article-body" class="body"><p>Body text.</p>
 <div class="ack"><a id="ID0EYCAE"></a><h2 class="main-title">감사의 글</h2>
 <p>이 연구는 한국연구재단의 지원을 받아 수행되었습니다.</p></div></div>

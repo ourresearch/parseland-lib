@@ -11,13 +11,24 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 # superscript markers, a dagger or star, an empty mailto link, an ORCID link), div.ft-author-aff (one affiliation per
 # <br>, led by a <sup> marker when there are several) and div.ft-author-cor / div.ft-author-note (the corresponding
 # author note). The reference list is div.ft-reference > ol > li; acknowledgments are the JATS div.ack section.
+# Titles after a name ("Kyunhee Cho, PT, Prof., PhD") are dropped like degrees; a mailto link inside the marker <sup>
+# counts as the author's mail icon; a Korean affiliation line marked 교신저자 (corresponding author) marks the author
+# holding its marker; and when the byline has no affiliation, the note "Corresponding Author : Kim, Minjun, <title>
+# <address> Tel : ..." gives that author's.
 _MARK = re.compile(r"[0-9]+|[A-Za-z]|\*+|†+|‡+|§+|¶+|#+")
 _SYMBOLS = re.compile(r"[*†‡§¶#]+")
 _DEGREE = re.compile(r"^(PT|OT|RN|MD|PhD|Ph\.?\s?D\.?|M\.?D\.?|MS|MSc|M\.?S\.?|BS|BSc|MA|MPH|DDS|DMD|DVM|PharmD|"
-                     r"RPh|DrPH|MBA|CNS|APRN|NP)$", re.I)
+                     r"RPh|DrPH|MBA|CNS|APRN|NP|(?:Assoc(?:iate)?\.?\s*|Assist(?:ant)?\.?\s*|Asst\.?\s*)?"
+                     r"Prof(?:essor)?\.?|Dr\.?)$", re.I)
 _CORRESPONDING = re.compile(r"correspond|reprint|교신", re.I)
 _EMAIL = re.compile(r"\s*[;,]?\s*(?:e-?mail|email)\s*[:：.]?\s*\S+@\S+", re.I)
 _EMAIL_IN_PARENS = re.compile(r"\s*[(（][^()（）]*@[^()（）]*[)）]")
+_COR_LEAD = re.compile(r"correspond\w*(?:\s+author)?\s*[:：]?\s*", re.I)
+_CONTACT = re.compile(r"\s*[,;]?\s*\b(?:Tel|Phone|Fax|E-?\s?mail)\b\s*[:：.].*$", re.I)
+_ROLE = re.compile(r"^(?:(?:Associate|Assistant|Senior|Chief|Principal|Research|Visiting|Adjunct|Emeritus|Clinical|"
+                   r"Post-?doctoral|Graduate|Doctoral|Ph\.?\s?D\.?|Master'?s?)\s+)*(?:Professor|Fellow|Researcher|"
+                   r"Lecturer|Scientist|Engineer|Student|Candidate|Director|Manager|Instructor|Scholar|Investigator)\b"
+                   r"[\s,]*", re.I)
 _DOI = re.compile(r"doi\.org/(10\.\S+)", re.I)
 _MAIL, _OPEN, _CLOSE = "\x03", "\x01", "\x02"
 
@@ -85,6 +96,8 @@ class KoreanArticlePhp(PublisherParser):
                     flat += str(node)
                 elif node.name == "sup":
                     flat += _OPEN + node.get_text().replace(",", " ") + _CLOSE
+                    if node.select_one('a[href^="mailto:" i]'):  # "Auezhan Amanov<sup>2,</sup><sup>*<a mailto></sup>"
+                        flat += _MAIL
                 elif node.name == "a" and (node.get("href") or "").lower().startswith("mailto:"):
                     flat += _MAIL
                 elif node.name == "a" and "orcid.org" in (node.get("href") or ""):
@@ -170,6 +183,46 @@ class KoreanArticlePhp(PublisherParser):
                     return True
         return False
 
+    def _korean_marked_corresponding(self, n_authors):
+        """Byline positions a 교신저자 (or 'corresponding') affiliation line marks, in either block: the line's marker
+        must belong to exactly one author of that block's byline, and that byline must be as long as ours."""
+        wrap = self._wrap()
+        found = set()
+        for block in [b for b in (wrap.select_one("#engInfo"), wrap.select_one("#korInfo")) if b is not None]:
+            author_tag, aff_tag = block.select_one("div.ft-author"), block.select_one("div.ft-author-aff")
+            if not (author_tag and aff_tag):
+                continue
+            byline = self._parse_byline(author_tag)
+            if len(byline) != n_authors:
+                continue
+            for marks, text in self._parse_affiliations(aff_tag):
+                if not (marks and _CORRESPONDING.search(text)):
+                    continue
+                holders = [i for i, a in enumerate(byline) if a["marks"] & marks]
+                if len(holders) == 1:
+                    found.add(holders[0])
+        return found
+
+    @staticmethod
+    def _note_affiliation(name, lines):
+        """The address after the author's name in a note 'Corresponding Author : Kim, Minjun, <title> <address>
+        Tel : ...', without the title, the contact details and any e-mail."""
+        parts = re.findall(r"\w+", name)
+        if len(parts) < 2:
+            return None
+        for line in lines:
+            lead = _COR_LEAD.search(line)
+            if not lead:
+                continue
+            rest = line[lead.end():]
+            for seq in (parts, parts[-1:] + parts[:-1]):
+                m = re.match(r"\W*" + r"[\s,\-]*".join(map(re.escape, seq)) + r"\b[\s,]*", rest, re.I)
+                if m:
+                    text = _CONTACT.sub("", rest[m.end():])
+                    text = _EMAIL_IN_PARENS.sub("", _EMAIL.sub("", _ROLE.sub("", text))).strip(" ,;")
+                    return text or None
+        return None
+
     def parse_authors(self):
         block = self._byline_block()
         if block is None:
@@ -184,6 +237,7 @@ class KoreanArticlePhp(PublisherParser):
         cor_marks, cor_lines = self._corresponding_notes(block)
         cor_marks -= aff_marks  # a marker that also links an affiliation can't tell us who corresponds
         every_mail = all(a["mail"] for a in byline)
+        kor_cor = self._korean_marked_corresponding(len(byline))
 
         authors = []
         for i, a in enumerate(byline):
@@ -197,6 +251,10 @@ class KoreanArticlePhp(PublisherParser):
                                                  or len(byline) == 1)
             if a["mail"] and not every_mail:  # a mail icon on this author only
                 corresponding = True
+            if i in kor_cor:
+                corresponding = True
+            if not affs and cor_lines and (addr := self._note_affiliation(a["name"], cor_lines)):
+                mine = [addr]
             authors.append({"name": a["name"], "affiliations": mine, "is_corresponding": corresponding})
         return authors
 
