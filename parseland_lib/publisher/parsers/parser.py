@@ -78,9 +78,39 @@ _PART_SOURCE_TAGS = re.compile(
 
 _SECTION_STOP = {"h1", "h2", "h3", "h4", "h5", "h6", "dt", "th", "header", "footer", "nav", "aside", "form", "button"}
 # Site chrome, not content: a tab strip's labels, menus, footers. Not "tab-pane" / "article-header": abstracts live
-# inside those (Zenodo prints its abstract in an HTML5 <header>).
+# inside those (Zenodo prints its abstract in an HTML5 <header>). Nor a class that only says the layout HAS a sidebar
+# ("has_sidebar", "with-sidebar", "no-sidebar"): that element is the page's content column, with the article in it
+# (OJS 3 wraps every article page in <div class="pkp_structure_content has_sidebar">) (#2239 phase 2, round 4).
+# shortcut: three words that may stand before "sidebar"; "has-left-sidebar" still reads as chrome. The upgrade is to
+# stop the climb in _in_page_chrome at the page's main column (<main>, role="main"): what is named like chrome above
+# that is layout. It changes every page whose main column sits in such a wrapper, so it needs its own measurement.
 _CHROME = re.compile(r"(?:^|[\s_-])(?:nav|navbar|menu|footer|site-header|page-header|masthead|breadcrumbs?|tabs|"
-                     r"tablist|nav-tabs|toolbar|sidebar|modal|dropdown)(?:$|[\s_])", re.I)
+                     r"tablist|nav-tabs|toolbar|(?<!has[_-])(?<!with[_-])(?<!no[_-])sidebar|modal|dropdown)"
+                     r"(?:$|[\s_])", re.I)
+# A heading that names the authors' biographies, in the wordings stored pages print it in (Open Journal Systems'
+# "Biografia do Autor" / "Author Biographies" / "Biografía del autor/a" ... block follows the abstract's; custom themes
+# say "About the Author(s)"). The block under it is never the abstract (#2239 phase 2, round 4).
+_AUTHOR_BIO_WORDS = (
+    r"(?:author(?:s|['’]s?)?\s+bio(?:graph(?:y|ies)|\(s\)|s)?|about\s+the\s+authors?(?:\(s\))?"
+    r"|biogra(?:f[ií]a|phie|fie|m|my)\s+(?:d[oae]s?\s+|del?\s+(?:l[ao]s?\s+|l['’]\s?)?)?"
+    r"(?:autor(?:a|es|[óo]w|/a|/es|\(a\)|\(es\))?|auteure?s?|auteur-e)"
+    r"|sobre\s+(?:[oa]s?|el|l[ao]s?)\s+autor(?:a|es|as|/a|\(es\))?|autor(?:/innen|en|innen)?-?biografien?"
+    r"|biographische\s+angaben|notes?\s+biographiques?|f[öo]rfatt[ae]rbiografi(?:er)?"
+    r"|біографі[яї]\s+автор(?:а|ів)|биографи[яи]\s+автор(?:а|ов)|сведения\s+об\s+автор(?:е|ах)|об\s+автор(?:е|ах)"
+    r"|szerz[őo]\s+életrajz(?:a|ok)?|információk\s+a\s+szerz[őo]k?r[őo]l|kirjoittajan\s+esittely"
+    r"|muallif\s+tarjimai\s+holi|السيرة\s+الشخصية\s+للمؤلف|ประวัติผู้แต่ง|作者简介|biograph(?:y|ies))")
+_AUTHOR_BIO_HEADING = re.compile(r"^\s*" + _AUTHOR_BIO_WORDS + r"\s*[:.]?\s*$", re.I)
+_AUTHOR_BIO_START = re.compile(r"\s*" + _AUTHOR_BIO_WORDS, re.I)
+_AUTHOR_BIO_CLASS = re.compile(r"author[_-]?bios?(?:$|[\s_-])|author[_-]?biograph", re.I)
+# An element named for the keyword list (Esploro's <mulo-keywords>, JATS-like "kwd-group", class="keywords"): printed
+# inside the abstract's block on some templates, never abstract text.
+_KEYWORDS_NAME = re.compile(r"keywords?(?:$|[\s_-])|kwd", re.I)
+_ABSTRACT_NAME = re.compile(r"abstract|description|summary|resum", re.I)
+# A paragraph that opens with the keyword label ends the abstract's paragraphs ("Palavras-chave: ...", "Keywords : ...").
+_KEYWORD_LINE = re.compile(
+    r"^\s*(?:key[ -]?words?|index terms|palavras?[- ]chaves?|palabras?[- ]claves?|mots?[- ]cl[ée]s?|schl[üu]sselw[öo]rter"
+    r"|parole chiave|ключевые слова|ключові слова|anahtar (?:kelimeler|sözcükler)|kata kunci|słowa kluczowe)\s*[:：]",
+    re.I)
 
 
 def _ident(node):
@@ -143,6 +173,66 @@ def _is_cut_preview(text):
     return text.endswith(("…", "….", "...")) or not text.endswith(_CLOSING)
 
 
+def _is_author_bio_block(block, text):
+    """True when `block` is the authors' biographies: its class says so (OJS: <section class="item author_bios">) or
+    it opens with a heading that does ("Biografia do Autor", "Author Biographies", "About the Author(s)")."""
+    if _AUTHOR_BIO_CLASS.search(_ident(block)):
+        return True
+    if not _AUTHOR_BIO_START.match(text):
+        return False  # both tests below need the text to open with such a wording: no search for a heading
+    if _AUTHOR_BIO_HEADING.match(text):
+        return True  # the block is that heading alone ("<p><strong>Author Biography</strong></p>")
+    head = block.find(_HEADING_TAG)
+    label = head.get_text(" ", strip=True) if head is not None else ""
+    return len(label) <= 60 and text.startswith(label) and bool(_AUTHOR_BIO_HEADING.match(label))
+
+
+def _is_label_wrapper(node, heading):
+    """True when `node` holds the label `heading` and nothing else printed (a wrapper around a wrapper)."""
+    if node.name in ("body", "html", "[document]"):
+        return False
+    label, seen = heading.get_text(" ", strip=True), ""
+    for string in node.stripped_strings:  # stops at the first text past the label: `node` may be the whole page
+        seen = f"{seen} {string}".strip()
+        if len(seen) > len(label):
+            return False
+    return seen == label
+
+
+def _text_under_label(heading, block=None):
+    """The text `heading` labels: what follows it, or, when it sits alone in a label wrapper, what follows the wrapper;
+    the wrapper may sit in one more that holds the label and nothing else ("<p><strong><em>Abstract</em></strong></p>").
+    Never from outside `block`, the abstract's own container when the caller knows it: what follows that is another
+    section (#2239 round 4). None and '' as _text_after gives them."""
+    text, wrapper = _text_after(heading), heading.parent
+    if text is None and wrapper is not block:
+        text = _text_after(wrapper)
+        if text is None and wrapper.parent is not block and _is_label_wrapper(wrapper.parent, heading):
+            text = _text_after(wrapper.parent)
+    return text
+
+
+def _is_keyword_list(el):
+    """True for a block element named for the keyword list and not for the abstract too ("abstract-and-keywords")."""
+    names = f"{el.name} {_ident(el)}"
+    return el.name not in _INLINE_RUN and bool(_KEYWORDS_NAME.search(names)) and not _ABSTRACT_NAME.search(names)
+
+
+def _text_without_keywords(block):
+    """`block`'s text without the keyword list printed inside it, when one of its children is named for one (Esploro:
+    <esp-description-and-keywords><mulo-keywords>...</mulo-keywords><mulo-expandable class="abstract">...), else all
+    of its text."""
+    # shortcut: direct children that are blocks only (a <span class="keyword"> inside a sentence is a highlighted
+    # word, and stays); a keyword list nested deeper in the block, or in a <span>, is still read.
+    if not any(_is_keyword_list(el) for el in block.find_all(True, recursive=False)):
+        return block.get_text(" ", strip=True)
+    block = copy.copy(block)  # never edit the page other readers use
+    for el in block.find_all(True, recursive=False):
+        if _is_keyword_list(el):
+            el.decompose()
+    return block.get_text(" ", strip=True)
+
+
 def _text_after(anchor):
     """The block that follows `anchor`: its first non-empty sibling (bare text runs until the next element), plus
     the paragraphs that continue it. None when `anchor` has no following element (look one level up); '' when the
@@ -165,7 +255,8 @@ def _text_after(anchor):
             continue
         if name in _SECTION_STOP or name in ("script", "style", "noscript", "template"):
             break
-        t = sib.get_text(" ", strip=True)
+        # the block the text starts in may print the keyword list too: never abstract text (#2239 round 4)
+        t = _text_without_keywords(sib) if first is None else sib.get_text(" ", strip=True)
         if name == "tr" and sib.find("th") is not None and sib.find("td") is not None:
             # a label / value row (WEKO repositories: <th>Description</th><td>the abstract</td> in the row after
             # the one that types it "Abstract"): the value cells are the text, not the row's own label (#2239)
@@ -192,6 +283,11 @@ def _text_after(anchor):
                 continue
             if _ABSTRACT_HEADING.match(t):
                 break
+            if _is_author_bio_block(sib, t):
+                # the authors' biographies, where the abstract's value was empty or its heading stood in a wrapper
+                # of its own (OJS: <section class="item abstract"> then <section class="item author_bios">): never
+                # the abstract, and nothing after it is (#2239 round 4)
+                return ""
             # a list of links (tabs, downloads, related items) is not an abstract; a short link line between the
             # heading and the text ("Read online" on DOAJ records) is skipped
             if sum(len(a.get_text(strip=True)) for a in sib.find_all("a")) > 0.5 * len(t):
@@ -215,6 +311,8 @@ def _text_after(anchor):
         elif name == "p" and first == "p" and t:
             if _ABSTRACT_HEADING.match(t) or _SUMMARY_HEADING.match(t):
                 break  # a paragraph that is the next version's heading ("<p><b>RESUMEN</b></p>")
+            if _KEYWORD_LINE.match(t) or _AUTHOR_BIO_HEADING.match(t):
+                break  # the keyword line ("<p><strong>Palavras-chave</strong>: ...</p>") or the next section's heading
             parts.append(t)  # a multi-paragraph abstract
         elif div_parts and name == "div" and t and sib.attrs == first_attrs and sib.find(_HEADING_TAG) is None:
             parts.append(t)
@@ -779,7 +877,15 @@ class PublisherParser(Parser, ABC):
                 return None
             parts.append(text)
         whole = _LEADING_LABEL.sub("", " ".join(parts))
-        if not 1.2 * len(chosen) <= len(whole) <= 10_000 or key not in _alnum(whole) or is_not_abstract(whole):
+        whole_key = _alnum(whole)
+        if not 1.2 * len(chosen) <= len(whole) <= 10_000 or key not in whole_key or is_not_abstract(whole):
+            return None
+        # What the block adds must be new text. Behind a "Show more" toggle it prints the abstract twice, a cut copy
+        # and then the whole one (Leiden's repository: <span>cut copy...<a class="toggler">Show more</a></span><span>
+        # the whole text<a>Show less</a></span>): the tag already holds it all (#2239 round 4; round 3 doubled these)
+        rest = whole_key.replace(key, "", 1)
+        middle = len(rest) // 2
+        if rest[max(middle - 30, 0):middle + 30] in key:
             return None
         if is_english(chosen) and not is_english(whole):
             return None
@@ -872,7 +978,8 @@ class PublisherParser(Parser, ABC):
         print the abstract under a heading or label ("Abstract", "Resumen", "Özet" ...) while their meta tags hold
         a cut snippet or nothing. The heading is a short element whose whole text is such a word, outside
         navigation, menus, footers and links (tabs); the abstract is the text that follows it, up to the next
-        heading, from its siblings, or from its parent's siblings when the heading sits in a label wrapper.
+        heading, from its siblings, or from its wrapper's siblings when the heading sits alone in a label wrapper
+        (or in two: see _text_under_label).
         """
         # under an English "Abstract" heading / under another language's heading / under "Abstract", in another language
         found = other = foreign = None
@@ -921,9 +1028,7 @@ class PublisherParser(Parser, ABC):
             return None
         if main_article and _in_other_works_block(heading):
             return None
-        text = _text_after(heading)
-        if text is None:  # the heading sits alone in a label wrapper: the value follows the wrapper
-            text = _text_after(heading.parent) or ""
+        text = _text_under_label(heading) or ""
         if main_article:  # publisher pages: history, keyword and download tails off; no cut previews
             text = _trim_article_tail(text)
             if _is_cut_preview(text):

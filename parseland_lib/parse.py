@@ -22,7 +22,8 @@ from parseland_lib.publisher.parsers.highwire import highwire_corresponding_mark
 from parseland_lib.publisher.parsers.lippincott import lww_corresponding_names
 from parseland_lib.publisher.parsers.literatum import is_literatum_page, literatum_corresponding_marks, \
     pick_literatum_corresponding
-from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_abstract, ojs_corresponding_marks, pick_ojs_corresponding
+from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_abstract, ojs_abstract_blocks, \
+    ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.springer import springer_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
@@ -544,8 +545,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # (#2166); read before the parsers run, used only when the winning parser marked no one
     ojs_page = is_ojs_page(soup, lp_content)
     ojs_marks = ojs_corresponding_marks(soup, lp_content, ojs_page) if namespace == "doi" else []
-    # and print the abstract in the theme's own block, which the generic heading reader skips (#2267)
-    ojs_abs = ojs_abstract(soup, lp_content) if namespace == "doi" and ojs_page else None
+    # and print the abstract in the theme's own block (#2267). On a page that has that block the OJS reader alone
+    # decides what is printed in it: the generic heading reader is kept off it below (#2239 round 4)
+    ojs_blocks = ojs_abstract_blocks(soup, lp_content) if namespace == "doi" and ojs_page else []
+    ojs_abs = ojs_abstract(soup, lp_content, ojs_blocks) if namespace == "doi" and ojs_page else None
     # Atypon Literatum sites name the corresponding author in a correspondence note or the author's own block (#2220);
     # read before the parsers run, used only when the winning parser marked no one
     literatum = namespace == "doi" and is_literatum_page(lp_content)
@@ -674,8 +677,12 @@ def parse_page(lp_content, namespace, resolved_url=None):
                     authors_and_abstract['abstract'] = filled
             # Then the "Abstract" heading, with a main-article guard: not inside a block of other works (related
             # articles, recommendations, listings, peer-review reports), not when the page shows two different
-            # abstracts.
-            if needs_abstract() and (headed := generic.parse_headed_abstract_section(main_article=True)):
+            # abstracts. Not on an OJS page that prints the theme's abstract block: the OJS reader below decides
+            # that block (it tells a book review's reference or a citation line in the abstract field from an
+            # abstract, and picks among language versions). Until round 4 the heading reader never saw these blocks:
+            # OJS 3's `has_sidebar` column read as chrome (#2239 phase 2).
+            if needs_abstract() and not ojs_blocks and (
+                    headed := generic.parse_headed_abstract_section(main_article=True)):
                 authors_and_abstract['abstract'] = headed
         # Last of all, a short abstract in a tag named for one (HAL, Figshare: one or two sentences): the meta-tag
         # readers keep only texts over 200 characters, so these were lost (14 of 1,000 sampled records).
@@ -687,7 +694,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
             authors_and_abstract['abstract'] = titled
 
     # Last of all, the abstract an Open Journal Systems theme prints in its own block, on pages where no reader above
-    # found one: the generic heading reader skips it (OJS 3's `has_sidebar` column reads as chrome) (#2267)
+    # found one: the generic heading reader leaves that block to this one (#2267)
     if ojs_abs and needs_abstract() and not _is_review_report_url(given_url, resolved_url):
         authors_and_abstract['abstract'] = ojs_abs
 
