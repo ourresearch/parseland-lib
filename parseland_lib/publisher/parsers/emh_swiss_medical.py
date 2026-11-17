@@ -175,10 +175,31 @@ class EMHSwissMedical(PublisherParser):
         if unmarked and not by_marker and not any(a["affiliations"] for a in authors):
             for author in authors:  # affiliations with no markers: every author gets the whole list (rubric "unlinked")
                 author["affiliations"] = list(unmarked)
+        authors = self._with_meta_only_authors(authors)
         self._mark_corresponding(authors)
         if len(with_email) == 1 and len(authors) > 1 and not any(a["is_corresponding"] for a in authors):
             with_email[0]["is_corresponding"] = True  # the one author whose e-mail the byline shows (gold v1.3, #2166)
         return authors
+
+    def _with_meta_only_authors(self, authors):
+        """citation_author can name an author the byline leaves out: a letter's reply, signed only at its end ("Yvonne
+        Gilli, présidente de la FMH" under the byline "Dr Jean-Pierre Grillet, Genève"). When the meta list is longer
+        and holds every byline author (by family name), its order wins; byline authors keep their affiliations."""
+        meta = self._meta_names()
+        if not authors or len(meta) <= len(authors):
+            return authors
+        merged, used = [], set()
+        for name in meta:
+            family, _, given = (squash(x) for x in name.partition(","))
+            fam = _plain(family)
+            hit = next((i for i, a in enumerate(authors) if i not in used and fam
+                        and re.search(rf"(?:^|[\s-]){re.escape(fam)}(?:$|[\s-])", _plain(a["name"]))), None)
+            if hit is not None:
+                used.add(hit)
+                merged.append(authors[hit])
+            elif given and any(c.isalpha() for c in family):  # a person; "Redaktion SÄZ / Rédaction BMS, " is not
+                merged.append({"name": f"{given} {family}", "affiliations": [], "is_corresponding": False})
+        return merged if len(used) == len(authors) else authors
 
     def _mark_corresponding(self, authors):
         section = self.soup.find("section", id="section-correspondence")

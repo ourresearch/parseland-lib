@@ -132,6 +132,26 @@ def test_email_glued_to_a_name_and_a_town_after_a_letter_writer():
     assert [a["name"] for a in _authors(_page(body, head))] == ["Peter Ryser-Düblin"]
 
 
+
+def test_a_reply_signed_at_the_letters_end_is_an_author():
+    # bullmed.ch letter "avec réplique": the byline names the letter writer only; the reply's author signs at its end
+    # and is the second citation_author
+    head = HEAD.replace('content=", "', 'content="Grillet, Jean-Pierre"') + \
+        '<meta name="citation_author" content="Gilli, Yvonne"/>'
+    body = ('<section id="section-authors"><p class="authors">Dr Jean-Pierre Grillet, Genève</p></section>'
+            '<section id="section-main"><p class="paragraph-normal">Un tout grand MERCI ...</p>'
+            '<p class="paragraph-normal"><em>Yvonne Gilli, présidente de la FMH</em></p></section>')
+    authors = _authors(_page(body, head))
+    assert [a["name"] for a in authors] == ["Jean-Pierre Grillet", "Yvonne Gilli"]
+    # an editorial-office meta entry is no person, and a meta list missing a byline author is not used
+    head = HEAD.replace('content=", "', 'content="Redaktion SÄZ / Rédaction BMS, "') + \
+        '<meta name="citation_author" content="Schneider, Martina"/>'
+    body = '<section id="section-authors"><p class="authors">Martina Schneider</p></section>'
+    assert [a["name"] for a in _authors(_page(body, head))] == ["Martina Schneider"]
+    head = HEAD.replace('content=", "', 'content="Muster, Margit"') + '<meta name="citation_author" content="Roth, Anna"/>'
+    body = '<section id="section-authors"><p class="authors">Dr. med. Adolf Jens Koemeda</p></section>'
+    assert [a["name"] for a in _authors(_page(body, head))] == ["Adolf Jens Koemeda"]
+
 def test_references_numbered_one_to_n_are_whole():
     parsed = _parse(SMW)
     refs = parsed["references"]
