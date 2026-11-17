@@ -2,9 +2,8 @@
 
 Markup is cut down from stored doiSerbia pages (17 Nov 2026). The page's citation_author meta tags carry no
 correspondence flag, so the generic parser marks no one. The visible byline prints each author on its own line as
-"<b>Family Given</b> (affiliation), e-mail", and shows an e-mail for the corresponding author only. Gold v1.3 marks the
-one author whose e-mail the author list shows (an e-mail printed for every author, or for a sole author, is not a
-mark: label-v1).
+"<b>Family Given</b> (affiliation), e-mail". One e-mail among several authors marks that author (gold v1.5); two or more
+e-mails among more authors, an e-mail printed for every author, or one for a sole author is not a mark.
 """
 from bs4 import BeautifulSoup
 
@@ -62,10 +61,21 @@ def test_byline_with_orcid_links():
     assert _corr(_page(META, BYLINE, {1: "ed@yildiz.edu.tr"}, orcid=True)) == ["Derun,  Emek Moroydor"]
 
 
-def test_two_of_several_emails_marks_both():
+def test_two_of_several_emails_mark_no_one():
+    # fresh page 3429a375 (Med Pregl 2023): e-mails on the first two of six authors; the live work names only one of
+    # them, so two e-mails are contact addresses, not a mark
+    names = ["Raković,  Nevena", "Perčić,  Ivanka", "Milošević,  Ivana", "Vlaisavljević,  Nada", "Tomić,  Velimir",
+             "Bjelogrlić,  Dunja"]
+    byline = ["Raković Nevena", "Perčić Ivanka", "Milošević Ivana", "Vlaisavljević Nada", "Tomić Velimir",
+              "Bjelogrlić Dunja"]
+    out = _out(_page(names, byline, {0: "nevena.djurdjevic@kcv.rs", 1: "ivanka.percic@mf.uns.ac.rs"}, orcid=True))
+    assert [a["is_corresponding"] for a in out["authors"]] == [None] * 6
+
+
+def test_two_of_four_emails_mark_no_one():
     names = META + ["Doymaz,  Ibrahim"]
     byline = BYLINE + ["Doymaz Ibrahim"]
-    assert _corr(_page(names, byline, {0: "a@x.tr", 3: "d@x.tr"})) == ["Kipcak,  Azmi Seyhun", "Doymaz,  Ibrahim"]
+    assert _corr(_page(names, byline, {0: "a@x.tr", 3: "d@x.tr"})) == []
 
 
 def test_every_author_with_an_email_marks_no_one():

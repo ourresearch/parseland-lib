@@ -2,9 +2,11 @@
 
 Its article pages carry citation_author / citation_abstract meta tags, which the generic parser already reads, but
 mark no corresponding author there. The visible byline prints one author a line ("<b>Family Given</b> (affiliation),
-e-mail") and shows an e-mail for the corresponding author only. Gold v1.3 marks the author(s) whose e-mail the author
-list shows when the others have none; an e-mail printed for every author, or for a sole author, is not a mark
-(label-v1). Everything else is the generic parser's output, unchanged.
+e-mail") and often shows an e-mail for one author only: that author is the corresponding one (gold v1.5's rule, an
+e-mail shown for some authors but not all; on stored doiSerbia pages whose live work names a corresponding author from
+another source, the lone e-mailed author is that author on 4 of 5). Two or more e-mails among more authors are not a
+mark: the live work names only one of the two on 2 of 2 such pages. An e-mail printed for every author, or for a sole
+author, is not a mark either (label-v1). Everything else is the generic parser's output, unchanged.
 """
 import re
 
@@ -52,19 +54,18 @@ class DOISerbia(PublisherParser):
     def mark_corresponding(self, authors):
         entries = self._byline_entries()
         emailed = [i for i, (_, text) in enumerate(entries) if _EMAIL.search(text)]
-        if len(entries) < 2 or not emailed or len(emailed) == len(entries):
+        if len(entries) < 2 or len(emailed) != 1:
             return authors
         keys = [_key(a.get("name")) for a in authors]
-        marked = set()
-        for i in emailed:
-            key = _key(entries[i][0])
-            if key in keys:
-                marked.add(keys.index(key))
-            elif len(entries) == len(authors):
-                marked.add(i)
-        if marked:
-            for i, author in enumerate(authors):
-                author["is_corresponding"] = i in marked
+        key = _key(entries[emailed[0]][0])
+        if key in keys:
+            marked = keys.index(key)
+        elif len(entries) == len(authors):
+            marked = emailed[0]
+        else:
+            return authors
+        for i, author in enumerate(authors):
+            author["is_corresponding"] = i == marked
         return authors
 
     def parse(self):
