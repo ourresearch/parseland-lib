@@ -90,7 +90,10 @@ class BenthamScience(PublisherParser):
                 affs_soup = BeautifulSoup(node.get('data-content') or '', 'lxml')
                 authors.append({
                     'name': name,
-                    'affiliations': [tag.text.strip() for tag in affs_soup.find_all('li')],
+                    # the site's pop-up for an author it has no affiliation for holds a ",0" placeholder; an entry
+                    # with no letter is never an affiliation (oxjob #2289)
+                    'affiliations': [aff for aff in (tag.text.strip() for tag in affs_soup.find_all('li'))
+                                     if _LETTER.search(aff)],
                     # Article bylines star an author with no note saying what the star means; read as corresponding
                     # since this parser was written, and left so (oxjob #2289). Chapter bylines are new: a star the page
                     # never explains is not a corresponding mark (label-v1), so it is not read there.

@@ -77,6 +77,18 @@ def test_popover_byline_keeps_affiliations_order_and_star():
     assert [a["is_corresponding"] for a in authors] == [False, False, True]
 
 
+def test_placeholder_popover_is_no_affiliation():
+    """3e82c6d8 and 25ae352e (fresh set): an author the site has no affiliation for gets a pop-up whose only entry is
+    ",0"; the parser returned ",0" as the affiliation."""
+    aff = "Department of Agriculture, Crop Production and Rural Environment, University of Thessaly, Volos, Greece.,Greece"
+    byline = (f"{_pop('Spyridon   A.   Petropoulos', [aff])}, \n    {_pop('Isabel   C.F.R.   Ferreira', [',0'])} and "
+              f"\n    {_pop('Lilian      Barros', [',0'])}")
+    for html in (_article(byline), _chapter(byline)):
+        authors = _authors(html)
+        assert [a["name"] for a in authors] == ["Spyridon A. Petropoulos", "Isabel C.F.R. Ferreira", "Lilian Barros"]
+        assert [[x["name"] for x in a["affiliations"]] for a in authors] == [[aff], [], []]
+
+
 def test_abstract_is_unchanged():
     out = parse_page(_article(" Kenji Okajima and Naoaki Harada ").encode(), "doi", URL)
     assert out["abstract"].startswith("Insulin-like growth factor-I (IGF-I)")
