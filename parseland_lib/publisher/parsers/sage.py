@@ -155,25 +155,77 @@ class Sage(PublisherParser):
 
         return affs_by_author
 
+    @staticmethod
+    def _emails_in(tag):
+        """Lower-cased addresses in a tag; Cloudflare-protected ones decoded (a key byte in hex, then the address
+        XORed with it). The link's fragment holds the whole address; the span only the part that looked like one
+        ("decc" + span "les@lsi.fsu.edu")."""
+        found = set()
+        coded = [cf['data-cfemail'] for cf in tag.select('[data-cfemail]')]
+        coded += [a['href'].split('#', 1)[1] for a in tag.select('a[href*="email-protection#"]')]
+        for value in coded:
+            try:
+                data = bytes.fromhex(value)
+                found.add(''.join(chr(b ^ data[0]) for b in data[1:]).lower())
+            except (ValueError, IndexError):
+                pass
+        found.update(m.lower() for m in re.findall(r'[\w.+-]+@[\w-]+(?:\.[\w-]+)+', tag.get_text(' ')))
+        return found
+
+    def _core_corresponding_flags(self, author_tags, names):
+        """Corresponding flags for the core template's author blocks (oxjob #2288).
+
+        An e-mail in an author's block is not a mark when every author shows one: many journals print each author's
+        e-mail in the affiliation, AMA journals give every author an "(e-mail: ...)" note, and the template copies
+        one author's note e-mail into every co-author's ``div.core-email``. The mark is the correspondence note in
+        ``section.core-authors-notes``: the authors it names, else the authors whose own e-mail it gives. Without
+        such a note, an e-mail on some authors still marks them. A note on every author marks everyone only when it
+        says so ("Corresponding author: ..."); otherwise no one is marked (#1791 label-v1).
+        """
+        emailed = [bool(tag.select_one('a[property=email]')) for tag in author_tags]
+        if len(author_tags) < 2:
+            return emailed
+        notes = [note for section in self.soup.select('section.core-authors-notes')
+                 for note in section.find_all(recursive=False)
+                 if note.name != 'h4' and (note.get('id', '').startswith('corresp')
+                                           or 'correspond' in note.get_text().lower()
+                                           or self._emails_in(note))]
+        notes_text = re.sub(r'\s+', ' ', ' '.join(note.get_text(' ') for note in notes)).lower()
+        # shortcut: the byline's full name as written; a note that shortens it ("G. Voulgaris") falls to the e-mails
+        names = [re.sub(r'\s+', ' ', name).strip().lower() for name in names]
+        named = [bool(name) and name in notes_text for name in names]
+        note_emails = set().union(*(self._emails_in(note) for note in notes))
+        by_email = [bool(note_emails & self._emails_in(tag)) for tag in author_tags]
+        core_email = [bool(tag.select_one('div.core-email')) for tag in author_tags]
+        for flags in (named, by_email, core_email, emailed):
+            if any(flags) and not all(flags):
+                return flags
+        if 'correspond' in notes_text and (all(named) or all(by_email)):
+            return [True] * len(author_tags)
+        return [False] * len(author_tags)
+
     def parse_authors_2(self):
         author_tags = self.soup.select(
             'section.core-authors div[typeof=Person]')
         authors = []
+        plain_names = []
         for author_tag in author_tags:
             given_name = author_tag.select_one(
                 'span[property=givenName]').text
             family_name = author_tag.select_one(
                 'span[property=familyName]').text
             name = f'{given_name} {family_name}'
+            plain_names.append(name)
             if hon_suffix_tag := author_tag.select_one(
                     'span[property=honorificSuffix]'):
                 hon_suffix = hon_suffix_tag.text
                 name += ', ' + hon_suffix
             aff_tags = author_tag.select('[property=affiliation]')
             affs = [aff_tag.text for aff_tag in aff_tags]
-            is_corresponding = bool(author_tag.select_one('a[property=email]'))
             authors.append({'name': name, 'affiliations': affs,
-                            'is_corresponding': is_corresponding})
+                            'is_corresponding': None})
+        for author, flag in zip(authors, self._core_corresponding_flags(author_tags, plain_names)):
+            author['is_corresponding'] = flag
 
         # If no affiliations found, try extracting from Notes section
         if authors and not any(a['affiliations'] for a in authors):
