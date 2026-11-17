@@ -171,7 +171,8 @@ class EDPSciences(PublisherParser):
                 {
                     "name": "Xin Xiao",
                     "affiliations": ["Foshan University, 528000, Foshan, China"],
-                    "is_corresponding": None,
+                    # the byline stars Xin Xiao and p.corresp reads "* Corresponding author: <e-mail>" (oxjob #2330)
+                    "is_corresponding": True,
                 },
             ],
         },
