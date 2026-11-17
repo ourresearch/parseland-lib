@@ -120,3 +120,39 @@ def test_equal_contribution_note_is_not_an_affiliation_and_middle_initial_still_
     authors = _authors(_page(body))
     assert [[x["name"] for x in a["affiliations"]] for a in authors] == [["Beta Institute, Oslo 0313, Norway."]] * 2
     assert [a["is_corresponding"] for a in authors] == [False, True]
+
+
+def test_affiliation_number_in_a_label_wrapper_links_by_number():
+    # 2024-2025 Nuxt pages (ir.2025.06, ces.2024.67): "<label><sup>1</sup></label><addr-line>...</addr-line>"
+    body = NEW_BODY.replace('<div><div><sup>1</sup>Department of Biology, Alpha University, Rome 00185, Italy.</div>',
+                            '<div><div><label><sup>1</sup></label><addr-line>Department of Biology, Alpha University, '
+                            'Rome 00185, Italy.</addr-line></div>').replace(
+        '<div><div><sup>2</sup>Beta Institute, Oslo 0313, Norway.</div>',
+        '<div><div><label><sup>2</sup></label><addr-line>Beta Institute, Oslo 0313, Norway.</addr-line></div>')
+    assert "<label><sup>2</sup></label>" in body
+    authors = _authors(_page(body))
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [
+        ["Department of Biology, Alpha University, Rome 00185, Italy."],
+        ["Department of Biology, Alpha University, Rome 00185, Italy.", "Beta Institute, Oslo 0313, Norway."],
+        ["Beta Institute, Oslo 0313, Norway."]]
+
+
+def test_correspondence_note_names_authors_by_initials():
+    # "Correspondence to: Chambers MR, DVM, MD, ..." (jtgg.2021.31), "Dr. Kenneth KW To, ...; Dr. William CS Cho, ..."
+    # (cdr.2022.38), "Dr. V Nithya, ..." (ces.2024.67)
+    body = ('<div id="authorString"><em>M. R. Chambers<sup>1</sup></em>, <em>Kenneth K. W. To<sup>1</sup></em>, '
+            '<em>Venkatesan Nithya<sup>1</sup></em>, <em>Ann Lee<sup>1</sup></em></div>'
+            '<div class="Affs_con"><p><sup>1</sup>Beta Institute, Oslo 0313, Norway.</p></div>'
+            '<div class="CorrsAdd"><p>Correspondence to: Chambers MR, DVM, MD, Beta Institute. E-mail: m@x.org; '
+            'Dr. Kenneth KW To, Beta Institute. E-mail: k@x.org; Dr. V Nithya, Beta Institute. E-mail: v@x.org</p>'
+            '</div>')
+    assert [a["is_corresponding"] for a in _authors(_page(body))] == [True, True, True, False]
+
+
+def test_initials_inside_another_authors_name_do_not_mark_that_author():
+    # "Correspondence Address: Luiz A. Auersvald, ..." names Luiz, not André Auersvald ("A. Auersvald")
+    body = ('<div id="authorString"><em>Luiz A. Auersvald<sup></sup></em>, <em>André Auersvald<sup></sup></em></div>'
+            '<div class="Affs_con"><p>Department of Plastic Surgery, Clínica Auersvald, Curitiba 80430-000, Brazil.</p>'
+            '</div><div class="CorrsAdd"><p>Correspondence Address: Luiz A. Auersvald, Department of Plastic Surgery, '
+            'Clínica Auersvald, Curitiba 80430-000, Brazil. E-mail: l@x.org</p></div>')
+    assert [a["is_corresponding"] for a in _authors(_page(body))] == [True, False]

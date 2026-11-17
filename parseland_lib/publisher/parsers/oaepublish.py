@@ -11,7 +11,8 @@ pages put in their one citation_author_institution tag):
   in `div.author_box` (or `div.Aff_current > p` on 2023-2024 pages); `span#cirrsMail` reads "*Correspondence to:
   Prof. Name, Dr. Name, ...".
 An author is corresponding when the byline marks them "*" (which the correspondence note explains) or the
-correspondence note names them. Both templates print a DECLARATIONS block whose "Acknowledgments" and "Financial
+correspondence note names them, in full or by initials ("Chambers MR", "Dr. V Nithya"), unless that form only sits
+inside another author's longer name. Some 2024-2025 pages wrap each affiliation's number in a <label>. Both templates print a DECLARATIONS block whose "Acknowledgments" and "Financial
 support and sponsorship" parts are returned (a "None." part is no statement). The abstract is the generic parser's.
 The claim reads only the <head>'s own meta tags: the publisher tag, or a 10.20517 DOI tag.
 """
@@ -46,6 +47,42 @@ def _key(text):
     text = unicodedata.normalize("NFKD", text or "")
     text = "".join(c for c in text if not unicodedata.combining(c)).lower()
     return " ".join(re.findall(r"[a-z0-9]+", text))
+
+
+def _join_initials(tokens):
+    """['kenneth', 'k', 'w', 'to'] -> 'kenneth kw to': a run of one-letter tokens written as one."""
+    out, run = [], False
+    for t in tokens:
+        if len(t) == 1 and run:
+            out[-1] += t
+        else:
+            out.append(t)
+        run = len(t) == 1
+    return " ".join(out)
+
+
+def _name_forms(name):
+    """The ways a correspondence note writes a byline name, as _key strings."""
+    tokens = _key(name).split()
+    if not tokens:
+        return set()
+    forms = {" ".join(tokens), " ".join(reversed(tokens))}
+    if len(tokens) > 2:  # "Frances E. Carr" is "Dr. Frances Carr" in the note
+        forms.add(f"{tokens[0]} {tokens[-1]}")
+    if len(tokens) > 1:  # the note's initials: "Dr. V Nithya", "Chambers MR", "Dr. Kenneth KW To"
+        initials = "".join(t[0] for t in tokens[:-1])
+        forms |= {f"{initials} {tokens[-1]}", f"{tokens[-1]} {initials}", _join_initials(tokens)}
+    return forms
+
+
+def _spans(padded, form):
+    """[(start, end)] of every whole-word occurrence of form in the space-padded text."""
+    needle, out = f" {form} ", []
+    at = padded.find(needle)
+    while at != -1:
+        out.append((at, at + len(needle)))
+        at = padded.find(needle, at + 1)
+    return out
 
 
 def _marks(sup_text):
@@ -138,7 +175,10 @@ class OAEPublish(PublisherParser):
             sup = el.find("sup")
             number = None
             first = next((c for c in el.children if not (isinstance(c, str) and not c.strip())), None)
-            if sup is not None and first is sup:
+            # the number leads the line, bare or in a wrapper that holds nothing else ("<label><sup>1</sup></label>
+            # <addr-line>...</addr-line>", on some 2024-2025 pages)
+            if sup is not None and (first is sup or (getattr(first, "name", None) and first.find("sup") is sup
+                                                     and _squash(first.get_text()) == _squash(sup.get_text()))):
                 number = _squash(sup.get_text())
                 if not AFF_NUMBER.match(number):
                     continue  # "<sup>#</sup>Authors contributed equally.": a note, not an affiliation
@@ -167,13 +207,14 @@ class OAEPublish(PublisherParser):
     def _mark_corresponding(self, authors):
         note = _key(self._correspondence_text())
         padded = f" {note} "
-        for a in authors:
+        forms = [_name_forms(a["name"]) for a in authors]
+        spans = {f: _spans(padded, f) for fs in forms for f in fs}
+        for i, a in enumerate(authors):
             starred = "*" in a["marks"] and bool(note)
-            tokens = _key(a["name"]).split()
-            forms = {" ".join(tokens), " ".join(reversed(tokens))}
-            if len(tokens) > 2:  # "Frances E. Carr" is "Dr. Frances Carr" in the note
-                forms.add(f"{tokens[0]} {tokens[-1]}")
-            named = bool(tokens) and any(f" {form} " in padded for form in forms)
+            # a form counts where no other author's longer form covers it: "A. Auersvald" is inside "Luiz A. Auersvald"
+            named = any(not any(s2 <= s1 and e1 <= e2 for j, fs in enumerate(forms) if j != i
+                                for f2 in fs if len(f2) > len(form) for s2, e2 in spans[f2])
+                        for form in forms[i] for s1, e1 in spans[form])
             a["is_corresponding"] = starred or named
         if not any(a["is_corresponding"] for a in authors):
             for a in authors:
