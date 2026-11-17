@@ -13,7 +13,8 @@ def _squash(text):
 class RoyalCollegeOfNursing(PublisherParser):
     """RCNi's journals (journals.rcni.com): one template for every year, 1987 to 2026 (oxjob #2330).
 
-    The byline block follows the <h1> (news items credit no one and have none); then one or two <abstract> elements.
+    The byline block follows the <h1> (news items credit no one and have none); then one or two <abstract> elements,
+    read together: a standfirst and the opening paragraph, both shown as the abstract.
     Research articles add <strong>-headed notes after the citation line (Correspondence, Acknowledgements).
     """
     parser_name = "royal_college_of_nursing"
@@ -62,11 +63,11 @@ class RoyalCollegeOfNursing(PublisherParser):
         blocks = []
         for tag in self.soup.find_all('abstract'):
             paras = [_squash(p.get_text()) for p in tag.find_all('p')] or [_squash(tag.get_text())]
-            if text := "\n".join(p for p in paras if p):
+            if (text := "\n".join(p for p in paras if p)) and text not in blocks:
                 blocks.append(text)
-        # Of two blocks the first is the standfirst written for the contents page ("Lynne Wallis looks at ..."),
-        # the second the abstract.
-        return "\n".join(blocks[1:] if len(blocks) > 1 else blocks) or None
+        # Two blocks are a standfirst ("Simon Rippon and Malcolm Rae outline ...") and the opening paragraph; the page
+        # shows both as the abstract and both blind labellers read both (#2330 fresh set: 5 of 6 such pages), so keep both.
+        return "\n".join(blocks) or None
 
     def parse_acknowledgments(self):
         for label in self.soup.find_all('strong', string=_ACKNOWLEDGMENTS):
