@@ -6,7 +6,10 @@ or "*"); an advisor is named "Orientador(a): Prof. Dr. ...". The footnotes are r
 post's last separator, one marker each (or "1,2,3,4" for several authors), often with a role, a degree and an e-mail
 around the institution. The page has no citation_author tags, so Parseland read no authors before this parser.
 Kept: the footnote text without e-mails, ORCID iDs, Lattes links and an "Instituição:" label, and only when it names
-an organisation (a bare degree such as "Mestre." or a student number is not an affiliation). A footnote with no
+an organisation or ends in an address (a bare degree such as "Mestre." or a student number is not an affiliation).
+Biographies are not affiliations (the rubric): a footnote that lists three or more degrees (a CV) or narrates the
+author ("Fulano é formado em ...") gives none, and degree sentences or clauses after a role at an organisation
+("Docente da UEPB. Mestre em ...", "..., advogada Mestra em Direito pela UFBA") are cut off. A footnote with no
 marker, under a byline with no markers, goes to every author (the rubric's unlinked case). The one explicit
 "Autor correspondente" note in the sample is left alone (under the swarm's 1,000-works floor), so nobody is marked.
 """
@@ -22,12 +25,13 @@ _HOST = re.compile(r"^https?://(www\.)?revistaft\.com\.br/", re.I)
 _SUPERSCRIPTS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
 _MARK = re.compile(r"\x01([^\x02]*)\x02")
 _SUP_MARK = re.compile(r"\s*([\d\s,*∗]*?[\d*∗][\d\s,*∗]*?)\s*([;.,]?)\s*")
-_ROLE = re.compile(r"^\s*(?:(?:professora?|prof\.?ª?)\s+)?(?:co-?)?orientador(?:a|\s*\(a\))?\s*:?\s*"
+_ROLE = re.compile(r"^\s*(?:(?:professora?|prof\.?ª?)[\s-]+)?(?:co-?)?orientador(?:a|\s*\(a\))?\s*:?\s*"
                    r"|^\s*(?:alun[oa]|professora?|autora?|discente|docente)\s*:\s*", re.I)
 _HONORIFIC = re.compile(r"^\s*(?:prof(?:a|ª)?\.?|dr(?:a|ª)?\.?|me\.|ma\.|msc\.?|esp\.|ph\.?\s?d\.?)(?:\s*\(a\)\.?)?\s+", re.I)
-_ORG = re.compile(r"\b(?:universi\w*|faculdade\w*|facultad\w*|faculty|institut\w*|institui\w*|centro|cent(?:er|re)|"
+_ORG = re.compile(r"\b(?:universi(?:dade?|ty|t[àäé])\w*|faculdade\w*|facultad\w*|faculty|institut\w*|institui\w*|centro|cent(?:er|re)|"
                   r"funda[cç][aã]o|escola|school|hospita\w*|minist[eé]rio|secretaria|prefeitura|departamento|department|"
-                  r"col[eé]gio|college|laborat[oó]rio|academia|liga|tribunal|promotoria|programa)\b", re.I)
+                  r"col[eé]gio|college|laborat[oó]rio|academia|liga|tribunal|promotoria|programa|muse(?:u|um|o)|associa[cç][aã]o|"
+                  r"sociedade|c[âa]mara|pol[íi]cia|empresa|ag[êe]ncia|n[úu]cleo|escrit[óo]rio)\b", re.I)
 _ACRONYM = re.compile(r"\b[A-Z][A-Za-z]*[A-Z]{2,}[A-Za-z]*\b|\b[A-Z]{3,}\b")
 _NOT_ORG_ACRONYMS = {"ORCID", "DOI", "CPF", "RG", "RA", "URL", "HTTP", "HTTPS", "PHD", "MBA", "MSC"}
 _REF_HEADING = re.compile(r"^(?:\d+\s*[.:–-]?\s*)?(?:REFER[ÊE]NCIAS?(?:\s+BIBLIOGR[ÁA]FICAS?)?|REFERENCES|BIBLIOGRAFIA)"
@@ -36,6 +40,19 @@ _AFTER_REFS = re.compile(r"^(?:ANEXOS?|AP[ÊE]NDICES?)\b", re.I)
 _UNI_NAME = re.compile(r"\bUni[a-zà-ÿ]{3,}")  # one-word institution names: Unicarioca, Unifacisa, Unicamp
 _INVISIBLE = re.compile(r"[\u200b-\u200f\u2060\ufeff]")
 _DOI = re.compile(r"\b(10\.\d{4,9}/[^\s\"<>]+)")
+_ADDRESS_END = re.compile(r",\s*(?:Brasil|Brazil)\.?$")
+# Degrees held (not current study: "Graduando", "Mestranda", "Doutorando" are left out by the \b after the stem).
+_CREDENTIAL = (r"(?:graduad[oa]|bacharel|formad[oa]|p[óo]s[- ]?graduad[oa]|p[óo]s[- ]?gradua[çc][ãa]o|mba|mestre|mestra|"
+               r"mestrado|doutora?|doutorado|licenciad[oa]|licenciatura|especialista|especializa[çc][ãa]o)")
+_CREDENTIAL_WORD = re.compile(rf"\b{_CREDENTIAL}\b", re.I)
+# A sentence that is a degree: "Mestre em ...", "Graduada em Direito pela ...", "Pedagoga pela UESPI."
+_CREDENTIAL_SENTENCE = re.compile(rf"^(?:e\s+)?(?:(?i:{_CREDENTIAL})\b|[A-ZÀ-Ý](?![a-zà-ÿ]*nd[oa]s?\s)[a-zà-ÿ]+\s+pel[ao]\b)")
+# A degree clause after a role: "Docente da UNEB e da Fainor, advogada Mestra em Direito pela UFBA"
+_CREDENTIAL_CLAUSE = re.compile(rf",\s*(?:[a-zà-ÿ]+\s+)?(?i:{_CREDENTIAL})\s+(?:em|pel[ao])\b.*$")
+_NAME_WORD = r"[A-ZÀ-Ý][a-zà-ÿ'’-]+"
+_BIO_PROSE = re.compile(rf"^{_NAME_WORD}(?:\s+(?:d[aeo]s?\s+)?{_NAME_WORD})+\s+(?:é|possui|atua|foi)\s"
+                        r"|\b(?:é|possui)\s+(?:formad|graduad|gradua[çc]|bacharel|mestr|doutor|licenciad|especialista|p[óo]s)")
+_FAMILY_FIRST = re.compile(r"^[A-ZÀ-Ý][A-ZÀ-Ý' -]+,\s*(?:[A-ZÀ-Ý][a-zà-ÿ]|[A-ZÀ-Ý]\.)")
 
 
 def _flatten(tag):
@@ -50,19 +67,24 @@ def _flatten(tag):
         text = sup.get_text()
         m = _SUP_MARK.fullmatch(text)
         sup.replace_with(f"\x01{m.group(1)}\x02{m.group(2)}" if m else text)
+    for bold in tag.find_all(["strong", "b"]):  # a bold number as the marker: "<strong>2 </strong>Docente ..."
+        if m := re.fullmatch(r"\s*(\d{1,2})\s*", bold.get_text()):
+            bold.replace_with(f"\x01{m.group(1)}\x02 ")
     text = tag.get_text().replace("\xa0", " ")
     text = re.sub(r"\[(\d{1,2})\]", "\x01\\1\x02", text)
     return re.sub(r"[⁰¹²³⁴⁵⁶⁷⁸⁹]+(?:,[⁰¹²³⁴⁵⁶⁷⁸⁹]+)*", lambda m: f"\x01{m.group(0).translate(_SUPERSCRIPTS)}\x02", text)
 
 
 def _keys(marker_text):
-    return [k.replace("∗", "*") for k in re.findall(r"\d+|[*∗]", marker_text)]
+    """Marker keys; a run of stars is one key, so "*" and "**" mark different notes."""
+    return re.findall(r"\d+|\*+", marker_text.replace("∗", "*"))
 
 
 def _clean_name(raw):
     name = " ".join(_INVISIBLE.sub("", raw).split()).strip(" .,;:")
     stars = re.search(r"[*∗]+$", name)
     name = name[:stars.start()].strip(" .,;:") if stars else name
+    stars = stars.group(0).replace("∗", "*") if stars else ""
     for _ in range(4):
         before = name
         name = _HONORIFIC.sub("", _ROLE.sub("", name)).strip(" .,;:")
@@ -73,13 +95,15 @@ def _clean_name(raw):
     words = name.split()
     if not 2 <= len(words) <= 12 or len(name) > 100 or re.search(r"[\d@:()]", name):
         return None
-    return name, bool(stars)
+    return name, stars
 
 
 def _byline_entries(text):
     """[(name, [marker keys])] in byline order."""
     plain = _MARK.sub("", text)
-    sep = r"[;\n]" if ";" in plain else r"[;\n,]"
+    lines = [line.strip(" .") for line in re.split(r"[;\n]", plain) if line.strip(" .")]
+    family_first = bool(lines) and all(_FAMILY_FIRST.match(line) for line in lines)  # "JESUS, Moisés de"
+    sep = r"[;\n]" if ";" in plain or family_first else r"[;\n,]"
     entries, name, keys = [], "", []
     for piece in re.split(r"(\x01[^\x02]*\x02)", text):
         if piece.startswith("\x01"):
@@ -94,12 +118,13 @@ def _byline_entries(text):
     out = []
     for raw, keys in entries:
         if cleaned := _clean_name(raw):
-            name, starred = cleaned
-            out.append((name, keys + (["*"] if starred else [])))
+            name, stars = cleaned
+            out.append((name, keys + ([stars] if stars else [])))
     return out
 
 
 def _clean_note(text):
+    text = _MARK.sub(" ", text)
     lines = [" ".join(line.split()) for line in text.split("\n")]
     labelled = [line for line in lines if re.match(r"^institui[çc][ãa]o\s*:", line, re.I)]
     text = re.sub(r"^institui[çc][ãa]o\s*:\s*", "", labelled[0], flags=re.I) if labelled else " ".join(lines)
@@ -108,16 +133,35 @@ def _clean_note(text):
     text = re.sub(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b\.?", " ", text)
     text = re.sub(r"\b(?:link\s+)?(?:do\s+)?(?:curr[ií]culo\s+)?lattes\s*:?", " ", text, flags=re.I)
     text = re.sub(r"\be-?mail(?:\s+para\s+contato)?\s*:?", " ", text, flags=re.I)
-    text = re.sub(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+[.,;]?", " ", text)
+    text = re.sub(r"[\w.+-]+@[\w-]+(?:\s?\.[\w-]+)+[.,;]?", " ", text)  # also "x@gmail .com"
     text = re.sub(r"(?:\s*[–/|,;:-]\s*){2,}", " – ", " ".join(text.split()))
     text = re.sub(r"\s+([.,;])", r"\1", text)
+    text = re.sub(r"(?:[\s,;–-]+e)+$", "", text.strip(" –/|,;:-"))  # "e-mail: a@x.com e b@y.com"
     return text.strip(" –/|,;:-")
 
 
 def _names_org(text):
-    if _ORG.search(text) or _UNI_NAME.search(text):
+    if _ORG.search(text) or _UNI_NAME.search(text) or _ADDRESS_END.search(text):
         return True
     return any(m.group(0).upper() not in _NOT_ORG_ACRONYMS for m in _ACRONYM.finditer(text))
+
+
+def _affiliation(note):
+    """The affiliation a cleaned footnote gives, or None (a biography, or no organisation named)."""
+    if len(_CREDENTIAL_WORD.findall(note)) >= 3 or _BIO_PROSE.search(note):
+        return None  # a CV or a narrated biography: the rubric's "never biographies"
+    sentences = [s for s in re.split(r"(?<=[.;])\s+", note) if s]
+    roles = []
+    for sentence in sentences:
+        if _CREDENTIAL_SENTENCE.match(sentence):
+            continue
+        head = _CREDENTIAL_CLAUSE.sub("", sentence).strip(" ,;")
+        if head != sentence.strip(" ,;") and _names_org(head):
+            sentence = head + sentence[-1] if sentence[-1] in ".;" else head
+        roles.append(sentence)
+    if any(_names_org(r) for r in roles):
+        note = " ".join(roles).strip(" –/|,;:-")
+    return note if _names_org(note) else None
 
 
 def _is_heading(tag):
@@ -184,7 +228,7 @@ class RevistaFT(PublisherParser):
                 line = line.strip()
                 if not line:
                     continue
-                m = re.match(r"^(?:\x01([^\x02]*)\x02|([*∗]))\s*", line)
+                m = re.match(r"^(?:\x01([^\x02]*)\x02|([*∗]+))\s*", line)
                 if m:
                     current = {"keys": _keys(m.group(1) or m.group(2)), "lines": [line[m.end():]]}
                     for key in current["keys"]:
@@ -194,7 +238,7 @@ class RevistaFT(PublisherParser):
                 else:
                     current = {"keys": [], "lines": [line]}
                     unmarked.append(current)
-        texts = lambda notes: [t for n in notes if (t := _clean_note("\n".join(n["lines"]))) and _names_org(t)]  # noqa: E731
+        texts = lambda notes: [t for n in notes if (t := _affiliation(_clean_note("\n".join(n["lines"]))))]  # noqa: E731
         return {k: texts(v) for k, v in keyed.items()}, texts(unmarked)
 
     def _authors(self):

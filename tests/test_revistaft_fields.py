@@ -160,3 +160,51 @@ def test_lookalike_wordpress_page_is_not_claimed():
     # the journal title alone, on another host, is not enough
     copy_ = HEAD.replace("https://revistaft.com.br/", "https://mirror.example.org/")
     assert not RevistaFT(BeautifulSoup(_page('Breno Saldanha', head=copy_), "lxml")).is_publisher_specific_parser()
+
+
+def test_biographies_are_not_affiliations_and_degrees_after_a_role_are_cut():
+    # A role at an organisation keeps; the degrees after it (a sentence or a clause) are biography and go.
+    html = _page('Anna Lara Chaves Oliveira Cruz<strong><sup>1</sup></strong><br>'
+                 'Prof. Orientadora: Bianca Silva Oliveira<strong><sup>2</sup></strong><br>'
+                 'Anna Kellssya Leite Filgueira<sup>3</sup>',
+                 '<p class="has-text-align-right"><strong>1</strong> Alunas do Curso de Direito da Faculdade Independente '
+                 'do Nordeste- FAINOR, e-mail: annalaracruz@gmail .com e brendamirandas123@gamail.com</p>'
+                 '<p class="has-text-align-right"><strong>2 </strong>Docente do Curso de graduação em Direito da UNEB e '
+                 'da Fainor, advogada Mestra em Direito pela Universidade Federal da Bahia (UFBA). Graduada em Direito '
+                 'pela Universidade Estadual do Sudoeste da Bahia (UESB).</p>'
+                 '<p class="has-text-align-right"><sup>3</sup> Docente do Curso Superior de Fisioterapia da Universidade '
+                 'Estadual da Paraíba (UEPB) Campus I. Mestre em Ciências da Tecnologia em Saúde (UEPB/NUTES) e '
+                 'doutoranda em Fisioterapia pela UFRN.</p>')
+    assert _authors(html) == [
+        ("Anna Lara Chaves Oliveira Cruz", ["Alunas do Curso de Direito da Faculdade Independente do Nordeste- FAINOR"]),
+        ("Bianca Silva Oliveira", ["Docente do Curso de graduação em Direito da UNEB e da Fainor."]),
+        ("Anna Kellssya Leite Filgueira", ["Docente do Curso Superior de Fisioterapia da Universidade Estadual da Paraíba "
+                                          "(UEPB) Campus I."])]
+    # A CV (three or more degrees) and a narrated biography give no affiliation; a lone degree note still does.
+    cv = _page('Gustavo Araújo Vilas Boas<sup>1</sup><br>Mestre Único da Silva<sup>2</sup>',
+               '<p class="has-text-align-right"><sup>1</sup> Graduado em Direito pela Universidade Ceuma. Pós-graduado em '
+               'Direito Constitucional Aplicado pela Universidade Ceuma. Pós-graduado em Criminologia pela Faculdade de '
+               'Tecnologia de Alagoas. Sócio do Escritório Moreira Gomes Vilas Boas Advogados Associados.</p>'
+               '<p class="has-text-align-right"><sup>2</sup> Mestre em Gestão, Universidade Federal de Roraima</p>')
+    assert _authors(cv) == [("Gustavo Araújo Vilas Boas", []),
+                            ("Mestre Único da Silva", ["Mestre em Gestão, Universidade Federal de Roraima"])]
+    narrated = _page('JESUS, Moisés de<sup>1</sup>',
+                     '<p class="has-text-align-right"><sup>1</sup> Moisés de Jesus é formado em Administração pela '
+                     'Universidade Federal de Mato Grosso (UFMT) e mestre pelo Programa de Pós-Graduação PROFNIT(UFMT)</p>')
+    assert _authors(narrated) == [("Moisés de JESUS", [])]  # "FAMILY, Given" with no ";" is one name, not two
+
+
+def test_star_runs_are_different_markers_and_address_notes_keep():
+    html = _page('Sidinei Benedito*<br>Professora-Orientadora Ma. Josiane Luiz**',
+                 '<p class="has-text-align-right">*Estudante do curso de Bacharelado em Administração da Faculdade Cristo '
+                 'Rei de Cornélio Procópio. E-mail: s@example.com<br>** Docente do curso de Administração da Faculdade '
+                 'Cristo Rei de Cornélio Procópio. E-mail: j@example.br</p>')
+    assert _authors(html) == [
+        ("Sidinei Benedito", ["Estudante do curso de Bacharelado em Administração da Faculdade Cristo Rei de Cornélio Procópio."]),
+        ("Josiane Luiz", ["Docente do curso de Administração da Faculdade Cristo Rei de Cornélio Procópio."])]
+    museum = _page('Marcos Pereira Magalhães<sup>1</sup><br>Lucila Nara Rambo<sup>2</sup>',
+                   '<p class="has-text-align-right"><sup>1</sup>Museu Paraense Emílio Goeldi, Belém, PA, Brasil. '
+                   'm@example.br<br><a href="https://orcid.org/0000-0003-1711-8235">https://orcid.org/0000-0003-1711-8235</a>'
+                   '<br><sup>2</sup> Colaborating specialist in Biomagnetism, Curitiba, Paraná, Brazil</p>')
+    assert _authors(museum) == [("Marcos Pereira Magalhães", ["Museu Paraense Emílio Goeldi, Belém, PA, Brasil."]),
+                                ("Lucila Nara Rambo", ["Colaborating specialist in Biomagnetism, Curitiba, Paraná, Brazil"])]
