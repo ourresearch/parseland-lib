@@ -210,3 +210,62 @@ def test_same_markup_on_another_site_is_not_claimed():
     assert not Auctores(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
     assert not Auctores(BeautifulSoup(html, "lxml")).authors_found()
     assert parse_page(html.encode(), "doi", "https://otherpress.example.org/article/a-title")["authors"] == []
+
+
+# ---- auctoresonline.org (oxjob #2339): the same template, moved to .org; older pages list affiliations in div.dpt-list
+ORG_URL = "https://www.auctoresonline.org/article/a-title"
+ORG_HEAD = ('<meta property="og:site_name" content="Auctores" />'
+            f'<meta property="og:url" content="{ORG_URL}" />'
+            f'<link rel="canonical" href="{ORG_URL}" />')
+
+
+def _dpt(*items):
+    return '<div class="dpt-list"><ul>' + "".join(
+        f'<li id="#author{n}"><sup>{n}</sup> {text}</li>' for n, text in items) + "</ul></div>"
+
+
+def _dpt_page(byline, items, head=ORG_HEAD):
+    """An older page: the affiliations sit in div.dpt-list, a sibling of div.u-list, not in its <p> children."""
+    return _page(byline, "", head=head).replace("</ul></div>", "</ul></div>" + _dpt(*items), 1)
+
+
+def test_org_page_is_claimed_and_read():
+    html = _page(BYLINE, "".join(NUMBERED), head=ORG_HEAD)
+    assert Auctores(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
+    authors = parse_page(html.encode(), "doi", ORG_URL)["authors"]
+    assert [a["name"] for a in authors] == ["Ann Lee", "Bo Chen", "Cy Diaz"]
+    assert [a["is_corresponding"] for a in authors] == [True, False, False]
+    assert _affs(authors[1]) == ["Department of Botany, Cairo University, Egypt.",
+                                 "Department of Food Chemistry, National Nutrition Institute, Cairo, Egypt."]
+
+
+def test_org_page_with_only_a_home_page_canonical_is_claimed():
+    head = '<meta property="og:url" content="" /><link rel="canonical" href="https://www.auctoresonline.org/" />'
+    html = _page(BYLINE, "".join(NUMBERED), head=head)
+    assert Auctores(BeautifulSoup(html, "lxml")).authors_found()
+
+
+def test_dpt_list_affiliations_are_linked_by_number():
+    byline = [_li("Ann Lee", "1*"), _li("Bo Chen", "2"), _li("Cy Diaz", "1")]
+    items = [("1*", "Department of Dermatology, University Hospital Hassan II, Fes, Morocco."),
+             ("2", "MS, Department of Microbiology, Qom branch, Islamic Azad University, Qom, Iran.")]
+    authors = _parse(_dpt_page(byline, items))["authors"]
+    assert [_affs(a) for a in authors] == [
+        ["Department of Dermatology, University Hospital Hassan II, Fes, Morocco."],
+        ["MS, Department of Microbiology, Qom branch, Islamic Azad University, Qom, Iran."],
+        ["Department of Dermatology, University Hospital Hassan II, Fes, Morocco."]]
+    assert [a["is_corresponding"] for a in authors] == [True, False, False]
+
+
+def test_dpt_list_item_too_short_to_name_a_place_is_dropped():
+    byline = [_li("Ann Lee", "1*"), _li("Bo Chen", "1")]
+    authors = _parse(_dpt_page(byline, [("1*", "SE")]))["authors"]
+    assert [a["name"] for a in authors] == ["Ann Lee", "Bo Chen"]
+    assert all(_affs(a) == [] for a in authors)
+
+
+def test_auctores_named_only_in_another_sites_url_is_not_claimed():
+    head = '<meta property="og:url" content="https://otherpress.example.org/share?from=auctoresonline.org" />'
+    html = _page(BYLINE, "".join(NUMBERED), head=head)
+    assert not Auctores(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
+    assert parse_page(html.encode(), "doi", "https://otherpress.example.org/a")["authors"] == []
