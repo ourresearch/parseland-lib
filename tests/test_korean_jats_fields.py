@@ -259,3 +259,44 @@ def test_bracketed_numbers_are_whole():
     bracketed = PREVIEW_REFS.replace('<span class="generated">1</span></span>. ', '<span class="generated">[1]</span></span>. ') \
         .replace('<span class="generated">2</span></span>. ', '<span class="generated">[2]</span></span>. ')
     assert KoreanJatsPreview(BeautifulSoup(bracketed, "lxml")).parse()["references_complete"] is True
+
+
+# e-lca.org (2005): the English byline drops one of the Korean byline's six authors, so the Korean one is kept, with the
+# Korean affiliation lines under its numbers.
+PREVIEW_UNEVEN_BYLINES = PREVIEW_HEAD + """
+<div class="article_wrapper"><div id="article-front" class="front">
+<div class="contrib-group"><span class="citation_author">김영희</span><sup>1</sup>, <span class="citation_author">홍기정</span><sup>1</sup>, <span class="citation_author">이지용</span><sup>1</sup>, <span class="citation_author">허탁</span><sup>1</sup>, <span class="citation_author">이지원</span><sup>2</sup>, <span class="citation_author">문영준</span><sup>2</sup></div>
+<div class="contrib-group"><span class="citation_author">Young Hee Kim</span><sup>1</sup>, <span class="citation_author">Ki-Jeong Hong</span><sup>1</sup>, <span class="citation_author">Tak Hur</span><sup>1</sup>, <span class="citation_author">Ji-Won Lee</span><sup>1</sup>, <span class="citation_author">Young-June Moon</span><sup>2</sup>, </div>
+<div class="author-aff">
+<div class="affiliation"><a id="i1"></a><sup>1</sup>건국대학교 화학생물공학부</div>
+<div class="affiliation"><a id="i2"></a><sup>2</sup>(주)삼성전자</div>
+<div class="affiliation"><a id="A1"></a><sup>1</sup>Dept. of Materials Chemistry &amp; Engineering</div>
+<div class="affiliation"><a id="A2"></a><sup>2</sup>Konkuk University, Samsung Electronics</div>
+</div></div></div></body></html>"""
+
+
+def test_preview_keeps_the_byline_that_names_every_author():
+    authors = _authors(PREVIEW_UNEVEN_BYLINES)
+    assert [a["name"] for a in authors] == ["김영희", "홍기정", "이지용", "허탁", "이지원", "문영준"]
+    assert _affs(authors[0]) == ["건국대학교 화학생물공학부"] and _affs(authors[5]) == ["(주)삼성전자"]
+
+
+# jmis.org: each affiliation line ends with the author's e-mail link; ITMMA's with "E-mail : ..."; another site's with a
+# phone number and a bare e-mail.
+PREVIEW_CONTACT_ON_AFFILIATION = PREVIEW_HEAD + """
+<div class="article_wrapper"><div id="article-front" class="front">
+<div class="contrib-group"><span class="citation_author">Puja Das</span><sup>1</sup><sup>,</sup><sup>*</sup>, <span class="citation_author">Moutushi Singh</span><sup>2</sup>, <span class="citation_author">Du-Nan</span><sup>3</sup></div>
+<div class="author-aff">
+<div class="affiliation"><a id="A1"><!-- named anchor --></a><sup>1</sup>Department of CSE, Baba Farid College of Engineering Technology, India, <a href="mailto:p@gmail.com">p@gmail.com</a></div>
+<div class="affiliation"><a id="A2"><!-- named anchor --></a><sup>2</sup>ITMMA – University of Antwerp, Keizerstraat 64, 2000 Antwerp, Belgium, E-mail : c@ua.ac.be</div>
+<div class="affiliation"><a id="A3"><!-- named anchor --></a><sup>3</sup>Graduate School of Storytelling, Dong-eui University, Bus-an, Republic of Korea, +82-010-9583-1966, d@naver.com .</div>
+<div class="corresponding-author"><sup>*</sup>Corresponding Author: Puja Das, +91-23952815, <a href="mailto:p@gmail.com">p@gmail.com</a></div>
+</div></div></div></body></html>"""
+
+
+def test_preview_affiliation_lines_lose_their_contact_details():
+    authors = _authors(PREVIEW_CONTACT_ON_AFFILIATION)
+    assert _affs(authors[0]) == ["Department of CSE, Baba Farid College of Engineering Technology, India"]
+    assert _affs(authors[1]) == ["ITMMA – University of Antwerp, Keizerstraat 64, 2000 Antwerp, Belgium"]
+    assert _affs(authors[2]) == ["Graduate School of Storytelling, Dong-eui University, Bus-an, Republic of Korea"]
+    assert [a["is_corresponding"] for a in authors] == [True, False, False]

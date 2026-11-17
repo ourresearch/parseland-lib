@@ -6,8 +6,9 @@ citation_author tags name the authors but carry no affiliation, so the generic p
 div#article-front with div.contrib-group (span.citation_author, each followed by its markers: <sup>1</sup>, a bare
 "1," or "*"), then div.author-aff: div.affiliation lines (led by a <sup> number, or by none: then every author's) and
 div.corresponding-author notes (led by the marker of the author each is for). Bilingual pages print a Korean and an
-English contrib-group and both languages' affiliation lines under the same numbers: the English byline is kept, and
-under a number the line in the byline's script. A note that says 제1저자 / 주저자 / first author is not a
+English contrib-group and both languages' affiliation lines under the same numbers: the English byline is kept (unless
+the other names more authors), and under a number the line in the byline's script; e-mails and phone numbers printed
+on an affiliation line are left off. A note that says 제1저자 / 주저자 / first author is not a
 corresponding author's. Everything else (abstract, licence, PDF) stays the generic parser's reading.
 
 NurimediaXmlViewer, Nurimedia's JATS viewer (the "/_common/do.php?a=full" sites: kpaj.or.kr, jkros.org, ksae.org,
@@ -38,6 +39,10 @@ _REF_HEADING = re.compile(r"^(?:references?|참고\s*문헌|bibliography)$", re.
 _ACK_HEADING = re.compile(r"^(?:acknowledge?ments?|사사|감사의\s*글)$", re.I)
 _FUNDING_HEADING = re.compile(r"^(?:funding(?:\s+information)?|financial\s+support)$", re.I)
 _CONTACT_TAIL = re.compile(r"\s*[,;]?\s*\b(?:Tel|Phone|Fax|E-?\s?mail)\b\s*[:：.].*$", re.I)  # "..., Tel: +82-51-..."
+# "..., India, a@b.com" / "..., Korea, +82-010-9583-1966, a@b.com .": bare e-mails and "+" phone numbers at a line's end
+# (and the ", ." an e-mail link leaves behind)
+_BARE_CONTACT_TAIL = re.compile(r"(?:(?:[\s,;]*(?:[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\+\d[\d\s()-]{6,}\d))+[\s.,;]*"
+                                r"|[\s,;]*[,;]\s*\.\s*)$")
 
 
 def _clean(text):
@@ -60,6 +65,22 @@ def _head_urls(soup):
     if head is None:
         return []
     return [t.get("href") or t.get("src") or "" for t in head.find_all(("link", "script"))]
+
+
+def _contact_free(tag):
+    """An affiliation line's text without its e-mail links and the contact details printed after the address."""
+    line = copy.copy(tag)
+    for mail in line.find_all("a", href=re.compile(r"^mailto:", re.I)):
+        mail.extract()
+    return _BARE_CONTACT_TAIL.sub("", _CONTACT_TAIL.sub("", _clean(line.get_text()))).strip(" ,;")
+
+
+def _fullest(bylines):
+    """bylines: [(item, names)], one per language. The English byline, unless another names more authors: a
+    language's byline can drop one (e-lca.org, 2005: the English byline lists 5 of the Korean byline's 6 names)."""
+    most = max(len(names) for _, names in bylines)
+    full = [b for b in bylines if len(b[1]) == most]
+    return next((b for b in full if _is_latin(" ".join(b[1]))), full[0])
 
 
 def _tokens(name):
@@ -144,8 +165,9 @@ class KoreanJatsPreview(PublisherParser):
         return self._front() is not None
 
     def _byline(self, front):
-        groups = [g for g in front.select("div.contrib-group") if g.find("span", class_="citation_author")]
-        group = next((g for g in groups if _is_latin(g.get_text())), groups[0])
+        groups = [(g, [n for s in g.find_all("span", class_="citation_author") if (n := _clean(s.get_text()))])
+                  for g in front.select("div.contrib-group") if g.find("span", class_="citation_author")]
+        group, names = _fullest(groups)
         authors = []
         for span in group.find_all("span", class_="citation_author"):
             after = []
@@ -160,7 +182,7 @@ class KoreanJatsPreview(PublisherParser):
                     after.append(str(sib))
             authors.append({"name": _clean(span.get_text()), "marks": _marks(" ".join(after)),
                             "affiliations": [], "is_corresponding": False})
-        return [a for a in authors if a["name"]], _is_latin(group.get_text())
+        return [a for a in authors if a["name"]], _is_latin(" ".join(names))
 
     @staticmethod
     def _lead_mark(div):
@@ -189,7 +211,7 @@ class KoreanJatsPreview(PublisherParser):
             line = copy.copy(div)
             if sup is not None:
                 line.find("sup").extract()
-            text = _clean(line.get_text()).strip(" ,;")
+            text = _contact_free(line)
             if sup is None and mark:
                 text = text[len(mark):].strip()
             if text:
@@ -293,9 +315,7 @@ class NurimediaXmlViewer(PublisherParser):
             mark = _clean(label.get_text()) if label else ""
             if label is not None:
                 label.extract()
-            for mail in line.find_all("a", href=re.compile(r"^mailto:", re.I)):
-                mail.extract()
-            text = _CONTACT_TAIL.sub("", _clean(line.get_text())).strip(" ,;")
+            text = _contact_free(line)
             if text:
                 affs.append((_marks(mark), text))
         return affs
@@ -309,7 +329,8 @@ class NurimediaXmlViewer(PublisherParser):
                 blocks.append((block, authors))
         if not blocks:
             return []
-        block, authors = next(((b, a) for b, a in blocks if _is_latin(" ".join(x["name"] for x in a))), blocks[0])
+        block, _ = _fullest([(b, [x["name"] for x in a]) for b, a in blocks])
+        authors = next(a for b, a in blocks if b is block)
         others = [a for b, a in blocks if b is not block]
         other = others[0] if others and len(others[0]) == len(authors) else None
         affs = self._block_affiliations(block)
