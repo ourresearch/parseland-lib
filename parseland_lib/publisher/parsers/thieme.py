@@ -1,32 +1,73 @@
 import copy
 import re
 import unicodedata
+from urllib.parse import unquote
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 from parseland_lib.elements import Author, AuthorAffiliations, Affiliation
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import squash
+
+_DOI_LINK = re.compile(r"doi\.org/10\.")
+_LEADING_NUMBER = re.compile(r"^(\d+)(?:\s+|$)")  # "1 Buckwold V E, ..." (an older list prints its number as text)
+_MORE = re.compile(r"\b(?:show|load|view|see) (?:more|all)\b", re.I)
+
+
+def _has_thieme_mark(soup):
+    """The claim (oxjob #2289), from the four marks it always used: the platform's description ("Thieme E-Books &
+    E-Journals", on every stored Thieme Connect page), an og:url on thieme-connect, a canonical link on a thieme host,
+    a citation_publisher naming Thieme. Every parser's claim runs on every DOI page (#2239: under 0.5 ms a page it does
+    not claim), so only <head>'s direct children are read; a page with no <head> has its <meta> and <link> tags
+    scanned by name, never a CSS select over the whole tree."""
+    html = soup.find("html", recursive=False)
+    head = (html or soup).find("head", recursive=False)
+    tags = head.find_all(("meta", "link"), recursive=False) if head is not None else soup.find_all(("meta", "link"))
+    for tag in tags:
+        if tag.name == "link":
+            if "canonical" in (tag.get("rel") or []) and "thieme" in (tag.get("href") or ""):
+                return True
+            continue
+        name, content = tag.get("name") or tag.get("property"), tag.get("content") or ""
+        if (name == "description" and content.startswith("Thieme")) or (
+                name == "og:url" and "thieme-connect" in content) or (
+                name == "citation_publisher" and "thieme" in content.lower()):
+            return True
+    return False
+
+
+def _has_byline_mark(soup):
+    """An element of class "authors" or a citation_author meta tag anywhere in the page (the old CSS selects
+    '.authors' and 'meta[name="citation_author"]'), in one walk that ends at the first one."""
+    for tag in soup.descendants:
+        attrs = getattr(tag, "attrs", None)
+        if attrs and ("authors" in (attrs.get("class") or ()) or (
+                tag.name == "meta" and attrs.get("name") == "citation_author")):
+            return True
+    return False
 
 
 class Thieme(PublisherParser):
     parser_name = "thieme"
 
+    def __init__(self, soup):
+        super().__init__(soup)
+        self._claimed = None
+
     def is_publisher_specific_parser(self):
-        has_thieme_description = False
-        if desc_tag := self.soup.select_one('meta[name=description]'):
-            has_thieme_description = desc_tag.get('content', '').startswith('Thieme')
-        return (
-            has_thieme_description
-            or self.domain_in_meta_og_url('thieme-connect')
-            or self.domain_in_canonical_link('thieme')
-            or self.substr_in_citation_publisher('thieme')
-        )
+        if self._claimed is None:
+            self._claimed = _has_thieme_mark(self.soup)
+        return self._claimed
 
     def authors_found(self):
+        # True on any page with an .authors element or a citation_author tag, as it always was: on pages of other
+        # platforms this parser is a fallback that some of them depend on (Actavia's <dt class="authors"> byline and
+        # <dd class="affiliation"> list are read here). Every DOI page asks this (#2239: under 0.5 ms a page it does
+        # not claim), so the two tests are one walk that stops at the first match, not two CSS selects (#2289:
+        # 0.3 ms a page on 300 other templates' pages, was 2.2 ms).
         return bool(
-            self.soup.select_one('.authors')
-            or self.soup.select_one('meta[name="citation_author"]')
-            or (self.is_publisher_specific_parser() and self.soup.select_one('#abstract'))
+            _has_byline_mark(self.soup)
+            or (self.is_publisher_specific_parser() and self.soup.find(id='abstract'))
         )
 
     def parse_affiliations(self):
@@ -308,7 +349,54 @@ class Thieme(PublisherParser):
             authors = self.merge_authors_affiliations(authors, affs)
         authors = self._mark_corresponding_from_email_meta(authors)
         abstract = self.parse_abstract()
+        # only on Thieme Connect's own pages: on other platforms' pages this parser is a fallback (authors_found)
+        references, references_complete = self.parse_references() if self.is_publisher_specific_parser() \
+            else (None, False)
         return {
             'authors': authors,
-            'abstract': abstract
+            'abstract': abstract,
+            'references': references,
+            'references_complete': references_complete,
         }
+
+    def parse_references(self):
+        """(references, references_complete) from the list the abstract page prints under its References tab
+        (<section id="references"><ul class="literaturliste">, oxjob #2289). Each item is one entry, numbered in a
+        <strong> (newer pages) or as its first text (older ones); an item holding the <h3> is the list's heading, an
+        empty item is the placeholder of a page with no list. Whole only when every entry is numbered and the numbers
+        run 1..n, there is one list, no placeholder and nothing saying there are more."""
+        # imported here: back_matter imports the parsers package, which imports this module
+        from parseland_lib.back_matter import _clean_doi, _pick_doi, _printed_doi
+
+        section = self.soup.find("section", id="references")
+        lists = section.find_all("ul", class_="literaturliste") if section is not None else []
+        refs, numbers, placeholder = [], [], False
+        for item in (li for ul in lists for li in ul.find_all("li", recursive=False)):
+            if item.find("h3") is not None:
+                continue
+            item = copy.copy(item)  # the other parsers still read this soup
+            links = item.find("div", class_="referenceLinks")  # the Crossref / PubMed / Google Scholar buttons
+            doi_link = links.find("a", href=_DOI_LINK) if links is not None else None
+            linked_doi = _clean_doi(unquote(doi_link["href"])) if doi_link is not None else None
+            for block in item.find_all("div", class_="referenceLinks"):
+                block.decompose()
+            number = None
+            first = next((c for c in item.children if not (isinstance(c, NavigableString) and not c.strip())
+                          and not (isinstance(c, Tag) and c.name == "a" and not c.get_text(strip=True))), None)
+            if isinstance(first, Tag) and first.name == "strong" and first.get_text(strip=True).isdecimal():
+                number = int(first.get_text(strip=True))
+                first.decompose()
+            raw = squash(item.get_text())
+            if number is None and (found := _LEADING_NUMBER.match(raw)):
+                number, raw = int(found.group(1)), raw[found.end():]
+            if not raw:
+                placeholder = True
+                continue
+            doi = _pick_doi(linked_doi, _printed_doi(raw))
+            numbers.append(number)
+            refs.append({"position": len(refs) + 1, "raw": raw, "doi": doi})
+        if not refs:
+            return None, False
+        whole = (len(lists) == 1 and not placeholder and numbers == list(range(1, len(refs) + 1))
+                 and not _MORE.search(section.get_text(" ")))
+        return refs, whole
