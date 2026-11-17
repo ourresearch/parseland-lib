@@ -87,6 +87,21 @@ def test_empty_english_abstract_falls_back_to_the_portuguese_one():
     assert _parser(_chapter(abstract="")).parse()["abstract"] == PT
 
 
+def test_chapter_opening_in_the_abstract_slot_is_not_an_abstract():
+    # cut down from a stored chapter page: both copies are the chapter's numbered first section
+    pt_body = "1.INTRODUÇÃO<br>A saúde pública brasileira passou por um longo processo histórico de transformações."
+    en_body = ("1. INTRODUCTION<br>Brazilian public health underwent a long historical process of transformations until "
+               "the formulation and consolidation of the Unified Health System (SUS).")
+    html = _chapter(abstract=en_body).replace(PT, pt_body)
+    assert _parser(html).parse()["abstract"] is None
+    assert _parse(html)["abstract"] is None
+
+
+def test_structured_abstract_opening_with_a_label_is_kept():
+    text = "INTRODUCTION: Accidents involving venomous animals are considered a serious public health problem in Brazil."
+    assert _parser(_chapter(abstract=text)).parse()["abstract"] == text
+
+
 def test_page_shows_no_new_fields():
     out = _parser(_chapter()).parse()
     assert not out.get("acknowledgments") and not out.get("funding_statement") and not out.get("references")

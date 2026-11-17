@@ -13,6 +13,9 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 
 PUBLISHER = "Editora Omnis Scientia"
 ABSTRACT_LABEL = re.compile(r"^\s*abstract\s*:?\s*$", re.I)
+# A numbered section heading in capitals ("1. INTRODUCTION", "1.INTRODUÇÃO", "2.1 MÉTODOS") opening the text marks
+# the chapter's first section pasted into the ABSTRACT slot (and its Portuguese copy under the title): body, not abstract.
+BODY_START = re.compile(r"^\d{1,2}\.(?:\d{1,2}\.?)*\s*[A-ZÀ-Ý]{4,}")
 
 
 def _text(tag):
@@ -51,6 +54,10 @@ class EditoraOmnisScientia(PublisherParser):
         return authors
 
     def parse_abstract(self):
+        text = self._abstract_text()
+        return None if text and BODY_START.match(text) else text
+
+    def _abstract_text(self):
         for strong in self.soup.select("div.tab__content p > strong"):
             if ABSTRACT_LABEL.match(strong.get_text()):
                 para = strong.parent
