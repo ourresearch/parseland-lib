@@ -102,9 +102,8 @@ def test_oebl_footer_without_the_sites_identifier_licenses_nothing():
     'Eltin by http://e-journal.stkipsiliwangi.ac.id/index.php/eltin is licensed under a <a rel="license" '
     'href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution - Share Alike 4.0 '
     'Internasional License</a>.',
-    'The work of the Journal is licensed under open access policy found via <a '
-    'href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike '
-    '4.0 International License</a>',
+    # ("The work of the Journal is licensed under ..." stood here until round 7: a footer sentence that names the
+    # journal counts, charter § 6, 17 Nov 2026 08:20; tests/test_licence_footer_r7.py)
     'WALS Online edited by Dryer, Matthew S. &amp; Haspelmath, Martin is licensed under a <a rel="license" '
     'href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.',
 ])

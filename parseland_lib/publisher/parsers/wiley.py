@@ -5,7 +5,102 @@ from bs4 import NavigableString
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import is_h_tag, strip_prefix, strip_suffix
+from parseland_lib.publisher.parsers.utils import (
+    NAME_PARTICLES,
+    NAME_SUFFIXES,
+    _fold_name,
+    is_h_tag,
+    name_position,
+    strip_prefix,
+    strip_suffix,
+)
+
+# Reading which author a correspondence note names (oxjob #2288). Older Wiley/Blackwell pages repeat one shared note
+# (or give each author an e-mail) in every author's block, so "has an e-mail" or "has a note" is true of everyone.
+# #1791 gold label-v1: an e-mail shown for every author marks no one; a note naming one author marks that author.
+_CA_CUE = re.compile(
+    r"correspond\w*|direct\s+(?:all\s+)?(?:inquiries|inquires|enquiries|queries|correspondence|requests)"
+    r"|reprint\s+requests?|requests?\s+for\s+reprints|addressed\s+to",
+    re.IGNORECASE,
+)
+_EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\[\s*email\s+protected\s*\]", re.IGNORECASE)
+_NAME_END = re.compile(r"@|\be-?mails?\b|\btel\b|\bfax\b|\bphone\b|[();\d]", re.IGNORECASE)
+_CREDENTIALS = NAME_SUFFIXES | {
+    "md", "phd", "mph", "dvm", "msc", "bsc", "ma", "ms", "mba", "rn", "dds", "dmd", "mbbs", "faap", "frcp", "frcs",
+    "facs", "dphil", "pharmd", "sr", "ii", "iii", "iv",
+}
+
+
+def _name_tokens(name):
+    """The words of an author's name without trailing degrees ('William J. Elliott MD, PhD' -> William J. Elliott)."""
+    tokens = (name or "").split(",")[0].split()
+    while len(tokens) > 1 and _fold_name(tokens[-1]).replace(" ", "") in _CREDENTIALS:
+        tokens.pop()
+    return tokens
+
+
+def _surname(name):
+    """The author's surname, folded ('Qi Lu MD, PhD' -> 'lu', 'Paseiro-Cerrato' -> 'paseiro cerrato')."""
+    tokens = _name_tokens(name)
+    surname = _fold_name(tokens[-1]) if tokens else ""
+    return surname if len(surname) >= 2 else None
+
+
+def _surname_hits(text, names):
+    """{author index: where the author's surname is last mentioned in text}. Authors sharing a surname count only
+    when their given name or initials come with it (name_position), unless none of them does."""
+    folded = _fold_name(text)
+    hits, by_surname = {}, {}
+    for i, name in enumerate(names):
+        surname = _surname(name)
+        if not surname:
+            continue
+        found = list(re.finditer(r"\b" + re.escape(surname) + r"\b", folded))
+        if found:
+            hits[i] = found[-1].start()
+            by_surname.setdefault(surname, []).append(i)
+    for same in by_surname.values():
+        if len(same) > 1:
+            named = [i for i in same if name_position(names[i], text) is not None]
+            for i in same:
+                if named and i not in named:
+                    del hits[i]
+    return hits
+
+
+def _named_by_cue(text, names):
+    """Authors a correspondence cue names: the name after it ('Direct inquiries to author Getty', 'Correspondence to:
+    A ... or B'), or the name just before a parenthesised one ('Dr M. Hirata (corresponding author; e-mail ...)').
+    A cue followed only by addresses names their owners ('Correspondence: giancarlo.tamanza@...; sara.molgora@...')."""
+    named, plain = set(), _EMAIL.sub(" @ ", text)  # an address's local part is not a name, except as a last resort
+    for cue in _CA_CUE.finditer(plain):
+        before = plain[max(0, cue.start() - 200):cue.start()]
+        if re.search(r"\(\s*(?:to\s+whom\s+)?$", before):  # "Author Singh (to whom correspondence should be sent)"
+            hits = _surname_hits(before, names)
+            if hits:
+                named.add(max(hits, key=hits.get))
+            continue
+        after = plain[cue.end():cue.end() + 300]
+        named |= set(_surname_hits(_NAME_END.split(after, 1)[0][:150], names))
+        for alt in re.finditer(r"\bor\s+", after):
+            named |= set(_surname_hits(_NAME_END.split(after[alt.end():], 1)[0][:80], names))
+    if not named:
+        for cue in _CA_CUE.finditer(text):
+            for email in _EMAIL.finditer(text[cue.end():cue.end() + 300]):
+                named |= set(_surname_hits(email.group().split("@")[0], names))
+    return named
+
+
+def _tied_to_email(text, names):
+    """Authors an e-mail address in text belongs to: the author named last in the 150 characters before it
+    ('J. Hay ( jenny.hay@agilent.com ) and P. Agee are ...' -> Hay)."""
+    tied, prev = set(), 0
+    for email in _EMAIL.finditer(text):
+        hits = _surname_hits(text[max(prev, email.start() - 150):email.start()], names)
+        if hits:
+            tied.add(max(hits, key=hits.get))
+        prev = email.end()
+    return tied
 
 
 class Wiley(PublisherParser):
@@ -57,6 +152,7 @@ class Wiley(PublisherParser):
             and author_type_ca_count == len(authors)
             and not author_soup.select_one('a[href*=mailto]')
         )
+
         for author in authors:
             affiliations = []
             name = author.a.text
@@ -158,8 +254,64 @@ class Wiley(PublisherParser):
             )
         if page_has_broadcast_author_type_ca and results:
             results[0].is_corresponding = True
+        if not page_has_structured_ca:
+            self._marks_when_every_author_has_email(authors, results)
+        elif author_type_ca_count < len(authors):
+            self._unmark_untagged_without_own_note(authors, results, _has_author_type_ca)
         self._mark_corresponding_from_header_block(results)
         return results
+
+    @staticmethod
+    def _notes(author):
+        """An author block's notes: its plain paragraphs, plus any bare text ("Additional corresponding author: ...")."""
+        notes = [p.get_text(" ", strip=True) for p in author.findAll("p", class_=None)]
+        if info := author.find("div", class_="author-info"):
+            if bare := " ".join(s.strip() for s in info.find_all(string=True, recursive=False) if s.strip()):
+                notes.append(bare)
+        return notes
+
+    @classmethod
+    def _unmark_untagged_without_own_note(cls, authors, results, is_tagged):
+        """(oxjob #2288) When the author-type tag marks some authors only, an untagged author stays marked only by a
+        correspondence note of its own ("Additional corresponding author: Dr. Ho Kyoung Kim", 10.1002/jssc.201400802).
+        Its "E-mail:" line, or a "*Corresponding author" footnote repeated in every block, is no mark
+        (10.1111/j.1654-1103.2009.01086.x, 10.1046/j.1468-3083.2003.00697.x flagged every author)."""
+        notes = [cls._notes(a) for a in authors]
+        shared = {t for t in notes[0] if all(t in ns for ns in notes)}
+        for a, ns, r in zip(authors, notes, results):
+            if r.is_corresponding and not is_tagged(a):
+                r.is_corresponding = any(_CA_CUE.search(t) for t in ns if t not in shared)
+
+    @classmethod
+    def _marks_when_every_author_has_email(cls, authors, results):
+        """(oxjob #2288) Without author-type tags, the mailto / "e-mail" / "correspondence" rules above flag every
+        author of older pages: each author has an e-mail (10.1002/tax.513002, 10.1111/1468-036x.00065), or one note
+        is repeated in every block (10.1111/j.1365-2044.2005.04391.x). By #1791 gold label-v1 those pages mark no
+        one, unless a note names authors: "Direct inquiries to author Getty", "Dr M. Hirata (corresponding author",
+        a "Corresponding author:" line in some blocks only, or a shared note tying its e-mail to one name
+        ("J. Hay ( jenny.hay@agilent.com ) and P. Agee are ..."). A note naming every author keeps every flag."""
+        n = len(results)
+        if n < 2 or not all(r.is_corresponding for r in results):
+            return
+        # shortcut: every distinct note is read against every name, O(n^2) in authors; fine for bylines this old.
+        names = [r.name for r in results]
+        paras = [cls._notes(a) for a in authors]  # bare text too: "Zunshui Cheng (corresponding author, email: ...)"
+        marked = set()
+        for text in dict.fromkeys(t for ps in paras for t in ps):
+            holders = {i for i, ps in enumerate(paras) if text in ps}
+            named = _named_by_cue(text, names)
+            if named:
+                marked |= named
+            elif len(holders) < n and _CA_CUE.search(text):
+                marked |= holders  # "Corresponding author: Department of ..." in this author's block only
+        shared = [t for t in paras[0] if all(t in ps for ps in paras)]
+        if not marked and sum(len(_EMAIL.findall(t)) for t in shared) < n:  # a note listing n e-mails ties no one
+            for text in shared:
+                marked |= _tied_to_email(text, names)
+            if len(marked) == n:  # every author's own e-mail: no one is marked
+                marked = set()
+        for i, r in enumerate(results):
+            r.is_corresponding = i in marked
 
     @staticmethod
     def _correspondence_address_affiliation(aff, author_name):
@@ -200,25 +352,49 @@ class Wiley(PublisherParser):
         block = self.soup.find("div", class_="article-header__correspondence-to")
         if not block:
             return
-        block_text = block.get_text(separator=" ").lower()
+        # (oxjob #2288) A cue in the block ("Correspondence to: Sven Fischer", "Corresponding author : Juan J.
+        # Morrone") names the corresponding authors; the rest of the block often lists every author's address.
+        raw_text = block.get_text(separator=" ")
+        if named := _named_by_cue(raw_text, [r.name for r in results]):
+            for i in named:
+                results[i].is_corresponding = True
+            return
+        block_text = raw_text.lower()
 
         def _norm(tok: str) -> str:
             # Strip trailing punctuation that appears on initials/abbreviations.
             return tok.lower().strip(".,;:")
 
+        matched = []
         for r in results:
             if r.is_corresponding:
                 continue
-            name = (r.name or "").strip()
-            tokens = name.split()
+            tokens = _name_tokens(r.name)  # (oxjob #2288) 'William J. Elliott MD, PhD' ends in Elliott, not PhD
+            if not tokens:
+                continue
             first = _norm(tokens[0])
             last = _norm(tokens[-1])
             if len(tokens) == 1:
                 if len(first) >= 4 and first in block_text:
-                    r.is_corresponding = True
+                    matched.append(r)
+                continue
+            if len(first) == 1:
+                # (oxjob #2288) an initial is any letter of the block: it must start the word before the surname
+                # ('Jean Addington' names J. Addington, not D. Addington; 'R. Müller' not I. Müller).
+                particles = "|".join(sorted(NAME_PARTICLES))
+                pattern = (rf"\b{re.escape(first)}\w*\.?\s+(?:\w(?:\.\s*|\s+)|(?:{particles})\s+)*"
+                           rf"{re.escape(last)}\b")
+                if re.search(pattern, block_text):
+                    matched.append(r)
                 continue
             if first and last and first in block_text and last in block_text:
-                r.is_corresponding = True
+                matched.append(r)
+        # (oxjob #2288) With no cue, a block giving every author's address and e-mail marks no one, unless it offers
+        # them as alternatives ('Megumi Inoue or Richard Culleton, Department of Protozoology ...').
+        if len(results) >= 2 and len(matched) == len(results) and not re.search(r"\bor\b", block_text):
+            return
+        for r in matched:
+            r.is_corresponding = True
 
     def get_abstract(self):
         # Primary: h2/h3 "Abstract" or "Summary" heading -> next sibling text.

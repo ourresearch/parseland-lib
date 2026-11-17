@@ -327,6 +327,32 @@ class CUP(PublisherParser):
             "references_complete": references_complete,
         }
 
+    # Cambridge Core stars every author whose record points to a note, and lists the notes in a "*" row under the
+    # authors, one per author in byline order. Many journals use that note for something else: the Applied Probability
+    # journals print each author's postal address there, others each author's e-mail. So when every author is
+    # starred, only the notes mark anyone (oxjob #2288; #1791 gold label-v1): a note that says "corresponding" or
+    # "correspondence" marks its author, else an e-mail under some authors marks them; an e-mail under every author,
+    # or addresses only, mark no one.
+    _CORRESPONDENCE_NOTE = re.compile(r"correspond|reprint", re.I)
+    _EMAIL = re.compile(r"[\w.%+-]+@[\w-]+(?:\.[\w-]+)+")
+
+    def _marked_when_every_author_starred(self, details, n):
+        """Byline indexes (of n authors) the notes in `details` mark, or None when they can't be tied to authors."""
+        notes = [note.get_text(" ", strip=True) for note in details.select("div.corresp")
+                 if not note.find_parent("div", class_="author")]
+        labelled = {i for i, note in enumerate(notes) if self._CORRESPONDENCE_NOTE.search(note)}
+        emailed = {i for i, note in enumerate(notes) if self._EMAIL.search(note)}
+        if len(notes) == n:  # one note per author
+            if labelled:
+                return labelled
+            return emailed if len(emailed) < n else set()
+        # notes shared or missing (one address for all, none at all): no one, unless a note says "correspondence" or
+        # holds e-mails for only some authors, which can't be tied to them here
+        emails = {m.group(0).lower() for note in notes for m in self._EMAIL.finditer(note)}
+        if labelled or 0 < len(emails) < n:
+            return None
+        return set()
+
     def parse(self):
         result_authors = self._chapter_contributor_authors()
         if not result_authors:
@@ -357,6 +383,15 @@ class CUP(PublisherParser):
                         is_corresponding=is_corresponding,
                     )
                 )
+            # every author starred: the notes decide (oxjob #2288); a lone author's note is left as it was
+            if (len(result_authors) > 1 and all(a.is_corresponding for a in result_authors)
+                    and self.is_publisher_specific_parser()):
+                details = next(a for a in authors if a.find("dt")).parent
+                n = len([a for a in details.find_all("div", class_="author", recursive=False) if a.find("dt")])
+                marked = self._marked_when_every_author_starred(details, n) if n == len(result_authors) else None
+                if marked is not None:
+                    for index, author in enumerate(result_authors):
+                        author.is_corresponding = index in marked
         # Older CUP journal pages and Cambridge eBook (cbo*) chapters use a
         # different template with no div.author — authors live in
         # citation_author meta tags (affiliations in citation_author_institution).

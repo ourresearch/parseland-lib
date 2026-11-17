@@ -14,7 +14,6 @@
   "10.1063/5.0002598": "Author mismatch for 10.1063/5.0002598: Author 0 affiliation 0 mismatch: expected 'Department of Chemical Engineering, Faculty of Eng...', got 'Department of Che",
   "10.1063/5.0028171": "Author mismatch for 10.1063/5.0028171: Author 0 affiliation 0 mismatch: expected 'Department of Mechanical Engineering and Material ...', got 'Department of Mec",
   "10.1063/5.0051325": "Author mismatch for 10.1063/5.0051325: Author 0 affiliation 0 mismatch: expected 'Department of Civil, Chemical and Environmental En...', got 'Department of Civ",
-  "10.1097/LBR.0000000000000778": "Author mismatch for 10.1097/LBR.0000000000000778: Author 0 is_corresponding mismatch: expected False, got True",
   "10.1101/2021.03.04.433953": "Author mismatch for 10.1101/2021.03.04.433953: Author 0 affiliation 0 mismatch: expected 'Department of Neuroscience, University of Pittsbur...', got 'Departmen",
   "10.1103/physrevb.103.235137": "Author mismatch for 10.1103/physrevb.103.235137: Author count mismatch: expected 4, got 6",
   "10.1103/physrevd.103.029901": "Author mismatch for 10.1103/physrevd.103.029901: Author count mismatch: expected 3, got 4",
