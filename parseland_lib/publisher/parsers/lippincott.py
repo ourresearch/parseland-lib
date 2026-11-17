@@ -20,12 +20,20 @@ _LWW_CORR_LABEL = re.compile(
     r"(?:^|(?<=[.;]\s))\*?\s*(?:"
     r"(?:e-?mail\s+(?:address\s+)?for\s+)?correspond(?:ing|ence)\s+authors?"
     r"|(?:send\s+|address\s+(?:all\s+)?)?(?:correspond[ae]nce|reprint\s+requests?|requests?\s+for\s+reprints)"
-    r"(?:\s+and\s+(?:reprint\s+)?requests?(?:\s+for\s+reprints)?|\s+and\s+reprints?)?(?:\s+address)?"
+    r"(?:\s+and\s+(?:reprint\s+)?requests?(?:\s+for\s+reprints)?|\s+and\s+reprints?(?:\s+requests?)?"
+    r"|\s+and\s+correspond[ae]nce)?(?:\s+address)?"
     r"|address\s+for\s+(?:correspond[ae]nce|reprints?)(?:\s+and\s+reprints?)?"
-    r"|reprints?"
-    r")\s*(?:to)?\s*[:\-\u2013]?\s*(?:to\s*:?\s*)?",
+    r"|reprints?(?:\s+requests?)?"
+    # "to" as a word: "Reprints: Toshitaka Yoshii" lost its "To" (oxjob #2288)
+    r")\s*(?:to\b)?\s*[:\-\u2013]?\s*(?:to\b\s*:?\s*)?",
     re.I)
 _TITLES = re.compile(r"^(?:(?:Dr|Drs|Prof|Professor|Mr|Mrs|Ms|Miss|Sir)\.?\s+)+", re.I)
+# A star in the author-info notes that opens a corresponding note ("*Corresponding author", "* Authors to whom
+# correspondence should be addressed"), and one that keys anything else ("From the *Department of Surgery") (#2288).
+_STAR = r"(?<![*∗])[*∗]+(?![*∗])"
+_STAR_ON_CORR_NOTE = r"\s*(?:[^\W\d_]+\s+){0,4}?(?:correspond|reprint)"
+_STAR_CORR = re.compile(_STAR + r"(?=" + _STAR_ON_CORR_NOTE + ")", re.I)
+_STAR_KEY = re.compile(_STAR + r"(?!" + _STAR_ON_CORR_NOTE + ")", re.I)
 
 
 def _fold(text):
@@ -116,7 +124,8 @@ def lww_corresponding_names(soup):
         found = _LWW_CORR_LABEL.search(body)
         if not found:
             continue
-        rest = body[found.end():].strip()
+        # "*Corresponding author. Address: Komal F. Satti, ..." (Pediatric Quality & Safety) (oxjob #2288)
+        rest = re.sub(r"^[.\s]*address\s*:\s*", "", body[found.end():].strip(), flags=re.I)
         if not rest and i + 1 < len(paras):  # "Address reprint requests to:" with the name in the next paragraph
             rest = re.sub(r"\s+", " ", paras[i + 1].get_text(" ", strip=True))
         name = _statement_name(rest)
@@ -126,7 +135,12 @@ def lww_corresponding_names(soup):
             marked = [n for n, marks in entries if mark in marks]
             if len(marked) == 1:
                 return marked
-    return []
+    # PRS Global Open prints the corresponding author's address with no label ("Disclosure statements are at the end
+    # of this article, following the correspondence information."): "Pedro C. Cavadas, MD, PhD, ..., E-mail: ...".
+    # One such paragraph only: an e-mail for every author marks no one (oxjob #2288).
+    blocks = [hit for para in paras if re.search(r"e-?mail", text := para.get_text(" ", strip=True), re.I)
+              and (name := _statement_name(text)) and (hit := _match_byline(name, entries))]
+    return blocks if len(blocks) == 1 else []
 
 
 class Lippincott(PublisherParser):
@@ -286,18 +300,52 @@ class Lippincott(PublisherParser):
                     continue
                 authors.append(Author(name=name, aff_ids=[]))
 
+        starred = [author for author in authors if author.is_corresponding]
+        if starred and self._star_is_not_a_mark(on_everyone=len(starred) == len(authors)):
+            for author in starred:
+                author.is_corresponding = None
+
         if not [author for author in authors if author.is_corresponding]:
-            if corresponding_text_tag := self.soup.find(
-                    lambda tag: tag.name == 'p' and 'correspondence' in tag.text.lower()):
-                for author in authors:
-                    if ',' in author.name:
-                        last_name = author.name.split(',')[0]
-                        if last_name in corresponding_text_tag.text:
-                            author.is_corresponding = True
-                    else:
-                        if author.name in corresponding_text_tag.text:
-                            author.is_corresponding = True
+            for author in self._named_in_correspondence_note(authors):
+                author.is_corresponding = True
         return authors
+
+    def _star_is_not_a_mark(self, on_everyone):
+        """True when the byline's stars are footnote keys, not corresponding marks (oxjob #2288).
+
+        LWW keys affiliations with *, †, ‡ ("From the *Department of Surgery ...", "<sup>*</sup>Department of ..."), so
+        a star often sits on every author: ~160 stored LWW pages flagged every author from it. The star is a mark
+        only when the author-info notes use it for a corresponding note ("*Corresponding author: ..."), or, with no
+        star in the notes at all, when it sits on some authors only (#2128 kept that case).
+        """
+        holder = self.soup.select_one("div.ejp-article-authors-info-holder")
+        text = holder.get_text(" ", strip=True) if holder is not None else ""
+        if _STAR_KEY.search(text):
+            return True
+        return not _STAR_CORR.search(text) and on_everyone
+
+    def _named_in_correspondence_note(self, authors):
+        """The authors the page's first correspondence note names (oxjob #2288).
+
+        The note is read from "correspond..." on, never the affiliation text before it in the same paragraph; a
+        surname counts as a whole word ("Li" is not in "Little Rock") held by one author only; two authors sharing it
+        are told apart by the note's first-named person ("Correspondence to Carol L. Shields"). A note naming several
+        authors ("... to Ashlea A. Lem ..., or Misty Schwartz") marks each.
+        """
+        tag = self.soup.find(lambda t: t.name == 'p' and 'correspondence' in t.text.lower())
+        if tag is None:
+            return []
+        text = re.sub(r"\s+", " ", tag.get_text(" ", strip=True))
+        if (start := text.lower().find("correspond")) < 0:  # the word split across tags
+            return []
+        note = text[start:]
+        surnames = [author.name.split(",")[0].strip() for author in authors]
+        named = [author for author, surname in zip(authors, surnames) if surname and surnames.count(surname) == 1
+                 and re.search(r"(?<![\w-])" + re.escape(surname) + r"(?![\w-])", note)]
+        if (found := _LWW_CORR_LABEL.search(note)) and (name := _statement_name(note[found.end():])):
+            hit = _match_byline(name, [(author.name, []) for author in authors])
+            named += [author for author in authors if author.name == hit and author not in named]
+        return named
 
     @staticmethod
     def parse_aff_ids(aff_text, first=True):
