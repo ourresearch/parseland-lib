@@ -174,8 +174,9 @@ def test_the_footer_of_the_default_theme_is_read_like_any_other():
 
 @pytest.mark.parametrize("footer", [
     f'<p>{BY_SA_BADGE}<br />This work is licensed under a {BY_SA_NAME}.</p>',
-    f'<p>Economic Journal of Emerging Markets is licensed under a {BY_SA_NAME}.</p>',
-    f'<p>All articles published in this journal are licensed under a {BY_SA_NAME}</p>',
+    # ("<Journal> is licensed under ..." and "All articles published in this journal ..." stood here until round 7: off
+    # OJS a footer sentence that names the journal or its articles counts too, charter § 6, 17 Nov 2026 08:20, rule 2;
+    # tests/test_licence_footer_r7.py)
     f'<p>Ciptaan disebarluaskan di bawah <a href="{BY}">Lisensi Creative Commons Atribusi 4.0 Internasional</a>.</p>',
 ])
 def test_the_same_footer_on_a_page_that_is_not_an_ojs_page_licenses_nothing(footer):
@@ -239,15 +240,13 @@ def test_a_statement_about_something_else_licenses_nothing(footer):
 
 
 @pytest.mark.parametrize("footer", [
-    f'<p>Licensed under a {BY_SA_NAME}.</p>',
-    f'<p>Distributed under a {BY_SA_NAME}.</p>',
+    # ("Licensed under ...", "Distributed under ...", "Published by <publisher> under the terms of ..." and a licence line
+    # in the block after the journal's name stood here until round 7: on OJS a licence line with no subject counts,
+    # charter § 6, 17 Nov 2026 08:20, rule 1; tests/test_licence_footer_r7.py)
     f'<p>{BY_SA_BADGE}</p>',
     f'<p><a href="{BY_SA}">Creative Commons 4.0 International License</a>.</p>',
     f'<p>Creative Commons «Attribution» 4.0 <a href="{BY}">WorldWide</a>.</p>',
-    f'<p>Published by the Example Scientific Publication under the terms of the <a href="{BY}">Creative Commons CC-BY '
-    '4.0</a> license.</p>',
-    # the subject and the licence are in different blocks, or different sentences
-    f'<p>Economic Journal of Emerging Markets</p><p>is licensed under <a href="{BY_SA}">CC BY-SA 4.0</a></p>',
+    # the subject and the badge are different sentences
     f'<p>Contact the editors of this journal. {BY_SA_BADGE}</p>',
 ])
 def test_a_bare_statement_or_a_badge_names_nothing(footer):

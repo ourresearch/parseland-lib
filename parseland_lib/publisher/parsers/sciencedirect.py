@@ -161,6 +161,20 @@ class ScienceDirect(PublisherParser):
             for label, text in cls._group_affiliations(author_group).items():
                 page_affiliation_labels.setdefault(label, text)
 
+        # A correspondence note is page-wide too (#2288): on a page that puts each author in a group of their own, the
+        # note sits in one group and the e-mailed co-author in another was taken as corresponding by the e-mail
+        # fallback below. Its ids are looked up in every group, and the fallback runs only on a page with no note.
+        page_corresponding_ids = set()
+        for author_group in author_groups:
+            page_corresponding_ids |= cls._get_corresponding_ids(author_group)
+            for footnote in cls._group_footnotes(author_group):
+                note = " ".join(cls.affiliation_text(p) or "" for p in footnote.get("$$", [])
+                                if p.get("#name") == "note-para")
+                if footnote.get("$", {}).get("id") and "correspond" in note.lower():
+                    page_corresponding_ids.add(footnote["$"]["id"])
+        page_corresponding_ids.discard(None)
+        emailed = []
+
         for author_group in author_groups:
             group_authors = []
             group_affiliation_labels = cls._group_affiliations(author_group)
@@ -187,6 +201,7 @@ class ScienceDirect(PublisherParser):
                 given = None
                 family = None
                 is_corresponding = False
+                email_mark = False
                 affiliation_labels = []
                 for author_property in author.get("$$", []):
                     if author_property.get("#name") == "given-name":
@@ -206,19 +221,21 @@ class ScienceDirect(PublisherParser):
                                     affiliation_label).lower()
                                 )
                                 or affiliation_label in corresponding_ids
+                                or affiliation_label in page_corresponding_ids  # note in another group (#2288)
                         ):
                             is_corresponding = True
                         elif affiliation_label in page_affiliation_labels:
                             # stored in another author group (#2239)
                             affiliation_labels.append(affiliation_label)
                     elif (
-                        # if corresponding ids not found, use email link as indicator of correspondence
-                            not corresponding_ids and
+                        # if the page has no correspondence note, use email link as indicator of correspondence
+                            not corresponding_ids and not page_corresponding_ids and
                             (author_property.get("#name") == "e-address"
                              or author_property.get(
                                         "#name") == "encoded-e-address"
                             )):
                         is_corresponding = True
+                        email_mark = True
 
                 if given or family:
                     group_authors.append(
@@ -228,6 +245,7 @@ class ScienceDirect(PublisherParser):
                             "is_corresponding": is_corresponding,
                         }
                     )
+                    emailed.append(email_mark and is_corresponding)
 
             # The group links by marker when one of its authors points at one of its own affiliations. An
             # author whose markers point into another group has those affiliations either way (#2239); the
@@ -252,6 +270,12 @@ class ScienceDirect(PublisherParser):
                         "is_corresponding": author["is_corresponding"],
                     }
                 )
+        # An e-mail on every one of two or more authors singles no one out (#1791's gold, label-v1): ScienceDirect draws
+        # an envelope for each author whose e-mail it holds, and on old volumes and IFAC proceedings that is every
+        # author (#2288: ~89K works showed every author as corresponding). An e-mail on some authors still marks them.
+        if len(all_authors) >= 2 and len(emailed) == len(all_authors) and all(emailed):
+            for author in all_authors:
+                author["is_corresponding"] = False
         return all_authors
 
     @classmethod

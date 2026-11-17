@@ -294,7 +294,7 @@ def parse_publisher_fulltext_location(soup, resolved_url, ojs_page=False):
     soup_str = str(soup)
     # ScienceDirect: only the article's own licence statement counts, never the self-archiving or
     # open-research licences in the same page state (oxjob #1794).
-    license_search_substr = license_search_text(license_page, resolved_url, ojs_page)
+    license_search_substr = license_search_text(license_page, resolved_url, ojs_page, journal_footer=True)
     version = 'publishedVersion'
     open_version_source_string, oa_status = None, None
     # untrusted host -> None, never False: a False licence leaks downstream as the string 'False'
@@ -404,7 +404,7 @@ def parse_repo_fulltext_location(soup, resolved_url, ojs_page=False):
         resolved_url = get_base_url_from_soup(soup)
 
     # license (a repository record can resolve to a ScienceDirect page: same rule as the publisher path, #1794)
-    license_search_substr = license_search_text(soup_str, resolved_url, ojs_page)
+    license_search_substr = license_search_text(soup_str, resolved_url, ojs_page, journal_footer=True)
     license = find_normalized_license(license_search_substr) if trust_publisher_license(resolved_url) else None
 
     # version

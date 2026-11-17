@@ -15,8 +15,8 @@ rule. Here, from the loop's dev pages:
 - the article's own copyright block may say the same licence in words ("the attribution, non-commercial and
   no-derivative license from Creative Commons"): then the footer's statement stands.
 
-Statements that name no journal, work or articles stay out and are pinned here as they are on the pages, so nobody
-reads them by accident: they wait for a decision. Fragments mirror stored pages; no network.
+Statements that name no journal, work or articles were pinned here as none until the charter's ruling of 17 Nov 2026
+08:20; round 7 reads them (tests/test_licence_footer_r7.py). Fragments mirror stored pages; no network.
 """
 import pytest
 
@@ -89,9 +89,11 @@ def test_the_content_of_the_site_itself_still_licenses_nothing(footer):
     assert licenses(page_of(footer)) == (None, None)
 
 
-def test_the_same_sentence_on_a_page_that_is_not_an_ojs_page_licenses_nothing():
+def test_the_same_sentence_on_a_page_that_is_not_an_ojs_page_counts_too():
+    # round 7 (charter § 6, 17 Nov 2026 08:20, rule 2): off OJS a footer sentence that names the journals' content
+    # counts; it licensed nothing here until then
     page = page_of(SITE_JOURNALS, JOURNAL.replace(OJS, ""), wrapper="<footer>{}</footer>")
-    assert licenses(page) == (None, None)
+    assert licenses(page) == ("cc-by-nc-sa", "cc-by-nc-sa")
 
 
 # --- an OJS 2 issue page names its journal in its feed links only (e-journal.stkipsiliwangi.ac.id, Eltin)
@@ -220,7 +222,8 @@ def test_the_words_alone_license_nothing():
     assert licenses(page_of("<p>Universidad de Costa Rica</p>", panel=IN_WORDS)) == (None, None)
 
 
-# --- statements that name no journal, work or articles: out, until someone decides (RESULT.json, needs_decision)
+# --- statements that name no journal, work or articles: out until round 7, which reads them under the charter's
+# ruling of 17 Nov 2026 08:20 (rule 1 on OJS, rule 2 off it; tests/test_licence_footer_r7.py)
 
 KP = (OJS + '<meta name="citation_journal_title" content="Kulturella Perspektiv – Svensk etnologisk tidskrift">'
       '<meta name="citation_journal_abbrev" content="KP">'
@@ -230,31 +233,32 @@ SMT = (OJS + '<meta name="citation_journal_title" content="Socialmedicinsk tidsk
        '<meta name="DC.Source.URI" content="https://publicera.example.se/smt">')
 
 
-@pytest.mark.parametrize("footer, head", [
+@pytest.mark.parametrize("footer, head, expected", [
     # publicera.kb.se: "Published by <the publisher> | Open Access according to CC-BY 4.0". The publisher's name holds
-    # the journal's, and it is still the publisher that is named
+    # the journal's; on OJS a licence line counts with no subject (rule 1)
     (f'<p>Utgiven av Föreningen Kulturella Perspektiv (org. nr. 894002-7843) | Open Access enligt <a href="{BY}" '
-     'target="_blank" rel="noopener">Creative Commons CC-BY 4.0</a> </p>', KP),
+     'target="_blank" rel="noopener">Creative Commons CC-BY 4.0</a> </p>', KP, "cc-by"),
     (f'<p>Utgiven av Stiftelsen Socialmedicinskt tidskrift | Open Access enligt <a href="{BY}" target="_blank" '
-     'rel="noopener">Creative Commons CC-BY 4.0</a> </p>', SMT),
+     'rel="noopener">Creative Commons CC-BY 4.0</a> </p>', SMT, "cc-by"),
     # bibliotecavirtual.unl.edu.ar: "Except where explicitly indicated, published under the following licence"
     ('<div style="clear: both;"><small>Excepto donde se indique explícitamente se publica bajo la siguiente licencia '
      f'<a title="Creative Commons " href="{BY_NC_SA}" target="_blank" rel="noopener">Attribution-NonCommercial-'
-     'ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> </small></div>', JOURNAL),
+     'ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> </small></div>', JOURNAL, "cc-by-nc-sa"),
 ])
-def test_a_statement_with_no_subject_still_names_nothing(footer, head):
-    assert licenses(page_of(footer, head)) == (None, None)
+def test_a_statement_with_no_subject_is_the_journals_licence_on_ojs(footer, head, expected):
+    assert licenses(page_of(footer, head)) == (expected, expected)
 
 
-@pytest.mark.parametrize("footer", [
+@pytest.mark.parametrize("footer, expected", [
     # journals.unite.edu.mk, pjph.eu, natural-sciences.ru: the journal named in the footer of a site that is not OJS
-    f'<p>This is an open access journal, is following <a href="{BY}">CC-BY license</a> .</p>',
-    '<div id="footer">© 2013 Uniwersytet Medyczny w Lublinie. <br/>Czasopismo jest udostępnione w systemie Open Access '
-    'na podstawie licencji otwartej Creative Commons (CC-BY-NC-ND).<br/>ISSN: 0044-2011</div>',
-    f'<div>Материалы журнала доступны по <a rel="license" href="{BY}">лицензии Creative Commons «Attribution» '
-    '(«Атрибуция») 4.0 Всемирная</a>.</div>',
-    UCR,
+    (f'<p>This is an open access journal, is following <a href="{BY}">CC-BY license</a> .</p>', "cc-by"),
+    ('<div id="footer">© 2013 Uniwersytet Medyczny w Lublinie. <br/>Czasopismo jest udostępnione w systemie Open Access '
+     'na podstawie licencji otwartej Creative Commons (CC-BY-NC-ND).<br/>ISSN: 0044-2011</div>', "cc-by-nc-nd"),
+    (f'<div>Материалы журнала доступны по <a rel="license" href="{BY}">лицензии Creative Commons «Attribution» '
+     '(«Атрибуция») 4.0 Всемирная</a>.</div>', "cc-by"),
+    (UCR, "cc-by-nc-nd"),
 ])
-def test_a_site_footer_that_is_not_an_ojs_journals_still_licenses_nothing(footer):
+def test_a_site_footer_that_is_not_an_ojs_journals_counts_when_it_names_the_journal(footer, expected):
+    # round 7 (rule 2): these licensed nothing until then
     page = page_of(footer, JOURNAL.replace(OJS, ""), wrapper="<footer>{}</footer>")
-    assert licenses(page) == (None, None)
+    assert licenses(page) == (expected, expected)

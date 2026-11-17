@@ -1,46 +1,46 @@
 {
 "cells": {
 "*|abstract": {
-"cand_present": 1163,
+"cand_present": 1161,
 "gold_present": 1194,
 "n": 1972,
-"right": 1719,
-"true_pos": 1008
+"right": 1774,
+"true_pos": 1052
 },
 "*|affiliations": {
-"cand_present": 925,
+"cand_present": 933,
 "gold_present": 1046,
 "n": 1972,
-"right": 1763,
-"true_pos": 846
+"right": 1775,
+"true_pos": 858
 },
 "*|authors": {
-"cand_present": 1412,
+"cand_present": 1424,
 "gold_present": 1573,
 "n": 1972,
-"right": 1739,
-"true_pos": 1341
+"right": 1772,
+"true_pos": 1374
 },
 "*|corresponding": {
-"cand_present": 477,
+"cand_present": 475,
 "gold_present": 518,
 "n": 1972,
-"right": 1871,
-"true_pos": 441
+"right": 1884,
+"true_pos": 448
 },
 "*|license": {
-"cand_present": 551,
+"cand_present": 567,
 "gold_present": 719,
 "n": 1972,
-"right": 1762,
-"true_pos": 525
+"right": 1777,
+"true_pos": 540
 },
 "*|pdf_url": {
-"cand_present": 1454,
+"cand_present": 1437,
 "gold_present": 1355,
 "n": 1972,
-"right": 1691,
-"true_pos": 1226
+"right": 1702,
+"true_pos": 1237
 },
 "acm.org|abstract": {
 "cand_present": 13,
@@ -281,11 +281,11 @@
 "true_pos": 0
 },
 "arxiv.org|license": {
-"cand_present": 0,
+"cand_present": 4,
 "gold_present": 8,
 "n": 14,
-"right": 6,
-"true_pos": 0
+"right": 10,
+"true_pos": 4
 },
 "arxiv.org|pdf_url": {
 "cand_present": 8,
@@ -312,8 +312,8 @@
 "cand_present": 15,
 "gold_present": 15,
 "n": 15,
-"right": 6,
-"true_pos": 6
+"right": 15,
+"true_pos": 15
 },
 "biomedcentral.com|corresponding": {
 "cand_present": 15,
@@ -400,10 +400,10 @@
 "true_pos": 23
 },
 "bmj.com|corresponding": {
-"cand_present": 11,
+"cand_present": 10,
 "gold_present": 8,
 "n": 26,
-"right": 23,
+"right": 24,
 "true_pos": 8
 },
 "bmj.com|license": {
@@ -463,11 +463,11 @@
 "true_pos": 13
 },
 "cairn.info|abstract": {
-"cand_present": 3,
+"cand_present": 4,
 "gold_present": 5,
 "n": 18,
-"right": 14,
-"true_pos": 1
+"right": 16,
+"true_pos": 3
 },
 "cairn.info|affiliations": {
 "cand_present": 3,
@@ -547,10 +547,10 @@
 "true_pos": 24
 },
 "copernicus.org|abstract": {
-"cand_present": 8,
+"cand_present": 6,
 "gold_present": 10,
 "n": 16,
-"right": 8,
+"right": 10,
 "true_pos": 5
 },
 "copernicus.org|affiliations": {
@@ -568,10 +568,10 @@
 "true_pos": 12
 },
 "copernicus.org|corresponding": {
-"cand_present": 7,
+"cand_present": 5,
 "gold_present": 4,
 "n": 16,
-"right": 13,
+"right": 15,
 "true_pos": 4
 },
 "copernicus.org|license": {
@@ -589,11 +589,11 @@
 "true_pos": 6
 },
 "degruyterbrill.com|abstract": {
-"cand_present": 4,
+"cand_present": 5,
 "gold_present": 5,
 "n": 31,
-"right": 30,
-"true_pos": 4
+"right": 31,
+"true_pos": 5
 },
 "degruyterbrill.com|affiliations": {
 "cand_present": 4,
@@ -627,15 +627,15 @@
 "cand_present": 30,
 "gold_present": 9,
 "n": 31,
-"right": 2,
-"true_pos": 1
+"right": 10,
+"true_pos": 9
 },
 "ekb.eg|abstract": {
 "cand_present": 11,
 "gold_present": 11,
 "n": 15,
-"right": 14,
-"true_pos": 10
+"right": 15,
+"true_pos": 11
 },
 "ekb.eg|affiliations": {
 "cand_present": 12,
@@ -760,8 +760,8 @@
 "cand_present": 1,
 "gold_present": 2,
 "n": 11,
-"right": 9,
-"true_pos": 0
+"right": 10,
+"true_pos": 1
 },
 "failure:cairn_no_aff|affiliations": {
 "cand_present": 0,
@@ -837,8 +837,8 @@
 "cand_present": 20,
 "gold_present": 7,
 "n": 23,
-"right": 7,
-"true_pos": 4
+"right": 10,
+"true_pos": 7
 },
 "failure:jstor_any|abstract": {
 "cand_present": 2,
@@ -855,11 +855,11 @@
 "true_pos": 1
 },
 "failure:jstor_any|authors": {
-"cand_present": 3,
+"cand_present": 4,
 "gold_present": 5,
 "n": 12,
-"right": 9,
-"true_pos": 2
+"right": 10,
+"true_pos": 3
 },
 "failure:jstor_any|corresponding": {
 "cand_present": 0,
@@ -876,7 +876,7 @@
 "true_pos": 0
 },
 "failure:jstor_any|pdf_url": {
-"cand_present": 9,
+"cand_present": 3,
 "gold_present": 9,
 "n": 12,
 "right": 6,
@@ -1019,22 +1019,22 @@
 "cand_present": 13,
 "gold_present": 12,
 "n": 15,
-"right": 13,
-"true_pos": 11
+"right": 14,
+"true_pos": 12
 },
 "failure:springer_no_corresp|authors": {
 "cand_present": 14,
 "gold_present": 14,
 "n": 15,
-"right": 13,
-"true_pos": 12
+"right": 15,
+"true_pos": 14
 },
 "failure:springer_no_corresp|corresponding": {
 "cand_present": 5,
 "gold_present": 5,
 "n": 15,
-"right": 14,
-"true_pos": 4
+"right": 15,
+"true_pos": 5
 },
 "failure:springer_no_corresp|license": {
 "cand_present": 0,
@@ -1485,11 +1485,11 @@
 "true_pos": 0
 },
 "jstor.org|authors": {
-"cand_present": 0,
+"cand_present": 3,
 "gold_present": 7,
 "n": 21,
-"right": 14,
-"true_pos": 0
+"right": 17,
+"true_pos": 3
 },
 "jstor.org|corresponding": {
 "cand_present": 0,
@@ -1506,11 +1506,11 @@
 "true_pos": 1
 },
 "jstor.org|pdf_url": {
-"cand_present": 11,
+"cand_present": 0,
 "gold_present": 11,
 "n": 21,
-"right": 11,
-"true_pos": 1
+"right": 10,
+"true_pos": 0
 },
 "karger.com|abstract": {
 "cand_present": 10,
@@ -1555,11 +1555,11 @@
 "true_pos": 13
 },
 "lww.com|abstract": {
-"cand_present": 15,
+"cand_present": 14,
 "gold_present": 14,
 "n": 22,
-"right": 18,
-"true_pos": 11
+"right": 21,
+"true_pos": 13
 },
 "lww.com|affiliations": {
 "cand_present": 17,
@@ -1656,8 +1656,8 @@
 "cand_present": 16,
 "gold_present": 18,
 "n": 19,
-"right": 13,
-"true_pos": 12
+"right": 17,
+"true_pos": 16
 },
 "nature.com|corresponding": {
 "cand_present": 9,
@@ -1684,8 +1684,8 @@
 "cand_present": 9,
 "gold_present": 4,
 "n": 15,
-"right": 6,
-"true_pos": 0
+"right": 9,
+"true_pos": 3
 },
 "openedition.org|affiliations": {
 "cand_present": 6,
@@ -1765,10 +1765,10 @@
 "true_pos": 11
 },
 "oup.com|abstract": {
-"cand_present": 15,
+"cand_present": 12,
 "gold_present": 11,
 "n": 28,
-"right": 22,
+"right": 25,
 "true_pos": 9
 },
 "oup.com|affiliations": {
@@ -1786,11 +1786,11 @@
 "true_pos": 19
 },
 "oup.com|corresponding": {
-"cand_present": 5,
+"cand_present": 4,
 "gold_present": 5,
 "n": 28,
-"right": 28,
-"true_pos": 5
+"right": 27,
+"true_pos": 4
 },
 "oup.com|license": {
 "cand_present": 4,
@@ -1807,10 +1807,10 @@
 "true_pos": 18
 },
 "plos.org|abstract": {
-"cand_present": 17,
+"cand_present": 10,
 "gold_present": 10,
 "n": 19,
-"right": 12,
+"right": 19,
 "true_pos": 10
 },
 "plos.org|affiliations": {
@@ -1849,11 +1849,11 @@
 "true_pos": 12
 },
 "repository|abstract": {
-"cand_present": 51,
+"cand_present": 52,
 "gold_present": 52,
 "n": 106,
-"right": 97,
-"true_pos": 44
+"right": 103,
+"true_pos": 50
 },
 "repository|affiliations": {
 "cand_present": 25,
@@ -1863,25 +1863,25 @@
 "true_pos": 21
 },
 "repository|authors": {
-"cand_present": 71,
+"cand_present": 73,
 "gold_present": 79,
 "n": 106,
-"right": 94,
-"true_pos": 68
+"right": 96,
+"true_pos": 70
 },
 "repository|corresponding": {
-"cand_present": 4,
+"cand_present": 5,
 "gold_present": 5,
 "n": 106,
-"right": 105,
-"true_pos": 4
+"right": 106,
+"true_pos": 5
 },
 "repository|license": {
-"cand_present": 30,
+"cand_present": 31,
 "gold_present": 39,
 "n": 106,
-"right": 88,
-"true_pos": 23
+"right": 89,
+"true_pos": 24
 },
 "repository|pdf_url": {
 "cand_present": 57,
@@ -1891,11 +1891,11 @@
 "true_pos": 54
 },
 "researchsquare.com|abstract": {
-"cand_present": 0,
+"cand_present": 3,
 "gold_present": 12,
 "n": 14,
-"right": 2,
-"true_pos": 0
+"right": 3,
+"true_pos": 2
 },
 "researchsquare.com|affiliations": {
 "cand_present": 1,
@@ -2104,15 +2104,15 @@
 "cand_present": 18,
 "gold_present": 18,
 "n": 29,
-"right": 27,
-"true_pos": 16
+"right": 28,
+"true_pos": 17
 },
 "sciencedirect.com|affiliations": {
 "cand_present": 22,
 "gold_present": 22,
 "n": 29,
-"right": 26,
-"true_pos": 19
+"right": 29,
+"true_pos": 22
 },
 "sciencedirect.com|authors": {
 "cand_present": 24,
@@ -2122,11 +2122,11 @@
 "true_pos": 24
 },
 "sciencedirect.com|corresponding": {
-"cand_present": 14,
+"cand_present": 13,
 "gold_present": 13,
 "n": 29,
-"right": 26,
-"true_pos": 11
+"right": 29,
+"true_pos": 13
 },
 "sciencedirect.com|license": {
 "cand_present": 3,
@@ -2244,8 +2244,8 @@
 "cand_present": 16,
 "gold_present": 16,
 "n": 17,
-"right": 11,
-"true_pos": 10
+"right": 17,
+"true_pos": 16
 },
 "springer.com|corresponding": {
 "cand_present": 14,
@@ -2311,53 +2311,53 @@
 "true_pos": 21
 },
 "tail|abstract": {
-"cand_present": 396,
+"cand_present": 399,
 "gold_present": 428,
 "n": 604,
-"right": 526,
-"true_pos": 356
+"right": 546,
+"true_pos": 377
 },
 "tail|affiliations": {
-"cand_present": 263,
+"cand_present": 270,
 "gold_present": 338,
 "n": 604,
-"right": 502,
-"true_pos": 237
+"right": 509,
+"true_pos": 244
 },
 "tail|authors": {
-"cand_present": 431,
+"cand_present": 436,
 "gold_present": 515,
 "n": 604,
-"right": 495,
-"true_pos": 406
+"right": 500,
+"true_pos": 411
 },
 "tail|corresponding": {
-"cand_present": 65,
+"cand_present": 67,
 "gold_present": 85,
 "n": 604,
-"right": 570,
-"true_pos": 58
+"right": 576,
+"true_pos": 62
 },
 "tail|license": {
-"cand_present": 243,
+"cand_present": 254,
 "gold_present": 284,
 "n": 604,
-"right": 542,
-"true_pos": 230
+"right": 552,
+"true_pos": 240
 },
 "tail|pdf_url": {
 "cand_present": 469,
 "gold_present": 454,
 "n": 604,
-"right": 556,
-"true_pos": 430
+"right": 557,
+"true_pos": 431
 },
 "tandfonline.com|abstract": {
 "cand_present": 17,
 "gold_present": 13,
 "n": 24,
-"right": 19,
-"true_pos": 12
+"right": 20,
+"true_pos": 13
 },
 "tandfonline.com|affiliations": {
 "cand_present": 16,
@@ -2647,11 +2647,11 @@
 "true_pos": 13
 },
 "unresolved|abstract": {
-"cand_present": 19,
+"cand_present": 20,
 "gold_present": 21,
 "n": 41,
-"right": 37,
-"true_pos": 17
+"right": 39,
+"true_pos": 19
 },
 "unresolved|affiliations": {
 "cand_present": 14,
@@ -2689,25 +2689,25 @@
 "true_pos": 18
 },
 "wall|abstract": {
-"cand_present": 0,
+"cand_present": 1,
 "gold_present": 1,
 "n": 44,
-"right": 43,
-"true_pos": 0
+"right": 44,
+"true_pos": 1
 },
 "wall|affiliations": {
-"cand_present": 0,
+"cand_present": 1,
 "gold_present": 1,
 "n": 44,
-"right": 43,
-"true_pos": 0
+"right": 44,
+"true_pos": 1
 },
 "wall|authors": {
-"cand_present": 0,
+"cand_present": 1,
 "gold_present": 3,
 "n": 44,
-"right": 41,
-"true_pos": 0
+"right": 42,
+"true_pos": 1
 },
 "wall|corresponding": {
 "cand_present": 0,
@@ -2857,13 +2857,13 @@
 "true_pos": 5
 }
 },
-"commit": "3711b15",
-"computed_at": "2026-11-16T17:55:57+00:00",
-"corpus": "v1.5",
+"commit": "f109c65",
+"computed_at": "2026-11-17T15:26:19+00:00",
+"corpus": "v1.6",
 "other_paper": {
 "crash": 0,
 "emits": {
-"abstract": 6,
+"abstract": 8,
 "affiliations": 8,
 "authors": 16,
 "corresponding": 6,

@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup, NavigableString
 
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import fill_affiliations_by_name, states_what_the_work_does
+from parseland_lib.publisher.parsers.utils import _fold_name, fill_affiliations_by_name, states_what_the_work_does
 
 
 class Taylor(PublisherParser):
@@ -76,6 +76,13 @@ class Taylor(PublisherParser):
                     is_corresponding=is_corresponding,
                 )
             )
+        # T&F prints "Correspondence <e-mail>" under each author whose e-mail its record holds. Under every one of two or
+        # more authors that is an e-mail for every author, which marks no one (#1791 label-v1); one address repeated
+        # under all of them is a note about its owner (oxjob #2288).
+        if len(results) > 1 and all(a.is_corresponding for a in results):
+            owner = self._shared_correspondence_owner(authors, [a.name for a in results])
+            for i, a in enumerate(results):
+                a.is_corresponding = i == owner
         if not results:
             results = self._parse_taylorfrancis_chapter_authors()
             self._fill_taylorfrancis_contributor_affiliations(results)
@@ -109,6 +116,25 @@ class Taylor(PublisherParser):
             if not abstract:
                 abstract = self._parse_tandfonline_dc_description()
         return {"authors": results, "abstract": abstract}
+
+    def _shared_correspondence_owner(self, author_tags, names):
+        """Index of the one author whose surname is in the single address every author block repeats
+        ("gsnettleton@gmail.com" -> "G. S. Nettleton"), or None (oxjob #2288)."""
+        addresses = {
+            tuple(a.get("href", "")[len("mailto:"):].strip().lower() for a in tag.select('a[href^="mailto:"]'))
+            for tag in author_tags
+        }
+        if len(addresses) != 1:
+            return None
+        (address,) = addresses
+        if len(address) != 1 or address[0].count("@") != 1:
+            return None
+        local = re.sub(r"[^a-z]", "", address[0].split("@")[0])
+        owners = [
+            i for i, name in enumerate(names)
+            if name.split() and any(len(t) >= 3 and t in local for t in _fold_name(name.split()[-1]).split())
+        ]
+        return owners[0] if len(owners) == 1 else None
 
     def _taylorfrancis_jsonld_chapter(self):
         for script in self.soup.find_all("script", type="application/ld+json"):

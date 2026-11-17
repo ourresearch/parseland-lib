@@ -218,12 +218,10 @@ CONTAINER_CORRESPONDING_LABEL = """
 """
 
 
-# Multi-CA paper, older template: NO author has the author-type tag (the
-# page lacks structured CA metadata entirely), but every author carries a
-# mailto. In this case mailto IS the only CA signal and the parser must
-# flag all mailto-bearing authors. Distinguishes from the courtesy-pattern
-# case where at least one author has an author-type tag (which switches
-# off the mailto fallback).
+# Older template: NO author has the author-type tag, and every author
+# carries a mailto. Under #1791 gold label-v1 an e-mail shown for every
+# author is not a corresponding mark, so no one is flagged (oxjob #2288;
+# this fixture used to pin "flag every mailto bearer").
 MULTI_CA_NO_AUTHOR_TYPE = """
 <html>
   <head>
@@ -313,19 +311,15 @@ def test_courtesy_mailto_pattern_does_not_overmark():
     )
 
 
-def test_multi_ca_no_author_type_flags_all_mailto_bearers():
-    """Regression: older Wiley/Blackwell templates omit the author-type tag
-    entirely; in that case mailto IS the only CA signal and every mailto-
-    bearing author must be flagged. Bundled iter-1's earlier count-threshold
-    rule incorrectly killed this case (best.201200045, 9783527670383.ch16
-    regressed from F1 1.0 / 0.8 to 0.0). The refined "page_has_structured_ca"
-    rule recovers it."""
+def test_mailto_on_every_author_without_author_type_marks_no_one():
+    """oxjob #2288: older Wiley/Blackwell pages without author-type tags give
+    every author a mailto; #1791 gold label-v1 reads an e-mail shown for every
+    author as no mark. (Was test_multi_ca_no_author_type_flags_all_mailto_bearers,
+    which pinned the flag-everyone behaviour from the older #122 goldie labels.)"""
     soup = BeautifulSoup(MULTI_CA_NO_AUTHOR_TYPE, "lxml")
     result = Wiley(soup).parse()
     ca_names = _ca_names(result)
-    assert sorted(ca_names) == ["Alice First", "Bob Second"], (
-        f"expected both authors as CA via no-author-type fallback but got {ca_names!r}"
-    )
+    assert ca_names == [], f"expected no CA when every author has a mailto but got {ca_names!r}"
 
 
 def test_sole_mailto_still_marks_ca():
