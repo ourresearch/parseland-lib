@@ -127,3 +127,18 @@ def test_other_template_page_is_not_claimed():
     parser = PensoftArpha(BeautifulSoup(html, "lxml"))
     assert not parser.is_publisher_specific_parser()
     assert not parser.authors_found()
+
+
+def test_bilingual_byline_tag_and_a_local_language_note():
+    # Cut from a Bulgarian Cardiology page (journal.bgcardio.org, 10.3897/bgcardio.28.e81005): the tags split
+    # "<Bulgarian names>, <English names>" on its commas, so the second tag joins the second author's Bulgarian name
+    # to the first author's English one; the cards print the note in Bulgarian.
+    byline = ["Зорница Василева", "Анна Кънева Zornitsa Vassileva", "Anna Kaneva"]
+    hospital = "Национална кардиологична болница, София, България"
+    cards = [_card("Зорница  Василева", [hospital], corresponding=True).replace(
+                 "- Corresponding author", "- Кореспондиращ автор"),
+             _card("Анна  Кънева", [hospital])]
+    out = _parse(_page(cards, byline=byline))
+    assert [a["name"] for a in out["authors"]] == byline
+    assert [[x["name"] for x in a["affiliations"]] for a in out["authors"]] == [[hospital], [hospital], []]
+    assert [a["is_corresponding"] for a in out["authors"]] == [True, False, False]

@@ -24,10 +24,15 @@ _JOURNAL_CSS = "/lib/css/journals/journal_"
 
 def _same_author(byline_name, card_name):
     """The card's fuller name is the byline's: same_person, or the same first and last word ("Márcia Castro" /
-    "Márcia Salustiano de Castro", which same_person reads as surname "de Castro")."""
+    "Márcia Salustiano de Castro", which same_person reads as surname "de Castro"), or a byline tag that starts with
+    the card's whole name. Bilingual ARPHA journals (journal.bgcardio.org) split "<local names>, <English names>" on
+    its commas, so one tag joins an author's local-script name to the next author's English name ("Анна Кънева
+    Zornitsa Vassileva")."""
     if same_person(byline_name, card_name):
         return True
     a, b = _fold_name(byline_name).split(), _fold_name(card_name).split()
+    if len(b) >= 2 and a[:len(b)] == b:
+        return True
     return bool(a and b) and a[0] == b[0] and a[-1] == b[-1]
 
 
@@ -70,7 +75,9 @@ class PensoftArpha(PublisherParser):
             affs = [t for d in aff_box.find_all("div", recursive=False) if (t := " ".join(d.get_text(" ").split()))]
             if not affs and (t := " ".join(aff_box.get_text(" ").split())):
                 affs = [t]
-        corresponding = corr is not None and "corresponding" in corr.get_text().lower()
+        # The note is printed only on a corresponding author's card, in the journal's language ("- Corresponding
+        # author", "- Кореспондиращ автор"); every other card has the span empty.
+        corresponding = corr is not None and bool(corr.get_text(" ", strip=True).strip(" -–—"))
         return " ".join(name.split()), affs, corresponding
 
     def parse(self):
