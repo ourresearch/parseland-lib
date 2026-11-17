@@ -82,6 +82,28 @@ def test_surname_and_initials_split_over_two_entries_are_joined():
     assert [a["name"] for a in out["authors"]] == ["Stephanie Bauduin", "Giltay, E.", "van Noorden, M.B."]
 
 
+def test_two_names_in_one_co_author_entry_are_split():
+    # 10.26226/morressier.5ac39997d462b8028d89a2e4: the uploader typed the last two co-authors as one entry
+    doc = {"title": "Repurposing auranofin and ebselen", "paper_abstract": ABSTRACT,
+           "authors": [_user("a1", "Ashok Kumar Chaturvedi", "The University of Texas at San Antonio", "Biology")],
+           "_co_authors": ["Gina Wall", "Floyd L Wormley Jr. and Jose L Lopez-Ribot."]}
+    out = _parse(_page(_current(doc)))
+    assert [a["name"] for a in out["authors"]] == ["Ashok Kumar Chaturvedi", "Gina Wall", "Floyd L Wormley Jr.",
+                                                  "Jose L Lopez-Ribot"]
+
+
+def test_a_job_title_or_punctuation_in_the_department_is_not_the_affiliation():
+    # 10.26226/morressier.5af985f5101067001b3aab07: "department": "Chief Technology Officer "
+    doc = {"title": "Catheter securement", "paper_abstract": ABSTRACT,
+           "authors": [_user("a1", "Spencer Jones", "Lineus Medical", "Chief Technology Officer "),
+                       _user("a2", "Bartosz Bednarczyk", "TU Dresden & University of Wrocław", "."),
+                       _user("a3", "Kate Brennan", "Imperial College London", "School of Public Health")]}
+    out = _parse(_page(_current(doc)))
+    assert [a["affiliations"] for a in out["authors"]] == [
+        [{"name": "Lineus Medical"}], [{"name": "TU Dresden & University of Wrocław"}],
+        [{"name": "School of Public Health, Imperial College London"}]]
+
+
 def test_reference_list_inside_the_abstract_field_is_cut():
     doc = {"title": "Vitamin D", "authors": [_user("a1", "Ana Lopez", "University of London", "")],
            "paper_abstract": ABSTRACT + "\nReferences\nHart PH, Gorman S (2011) Nat Rev Immunol 11, 584-596"}

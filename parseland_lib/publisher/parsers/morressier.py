@@ -12,7 +12,8 @@ conference header). Those pages are not read here.
 
 Each registered author has one affiliation on the page, printed as two fields; it is returned as one string,
 "department, organization". A department with no organization is a city or a lab on the stored pages ("Warsaw"),
-not an affiliation, so it is left out. The JSON's e-mail addresses are never shown on the page: no author is marked
+not an affiliation, so it is left out; so is a department that is the user's job title ("Chief Technology Officer")
+or only punctuation ("."). The JSON's e-mail addresses are never shown on the page: no author is marked
 corresponding. The poster's abstract is `paper_abstract`; a trailing "References" block printed inside it is cut.
 """
 import json
@@ -27,6 +28,11 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 _INITIALS_ONLY = re.compile(r"^(?:[A-Z][a-z]?\.?[\s-]*)+$")
 # A reference list printed at the end of the abstract field ("References:1) Solomon C ...", "\nReferences\n...").
 _REFERENCES_START = re.compile(r"\n\s*(?:references?|bibliography)\b\s*:?", re.I)
+# The profile's free-text "department" sometimes holds the user's job title, not a unit: "Chief Technology Officer".
+_ROLE = re.compile(r"\b(?:chief|officer|director|manager|president|founder|owner|ceo|cto|cfo|coo|consultant|professor|"
+                   r"lecturer|student|researcher|scientist|engineer|developer|analyst|intern)s?\b|^head\b", re.I)
+# One `_co_authors` entry holding two names: "Floyd L Wormley Jr. and Jose L Lopez-Ribot."
+_JOINED = re.compile(r"\s+(?:and|&)\s+")
 
 
 def _fold(name):
@@ -47,7 +53,9 @@ def _same_initialed(a, b):
 
 
 def _co_author_names(entries):
-    names = [e.strip() for e in entries or [] if isinstance(e, str) and e.strip()]
+    names = [n.strip() for e in entries or [] if isinstance(e, str) for n in _JOINED.split(e) if n.strip()]
+    # a sentence-final full stop after a surname ("Lopez-Ribot."), not an initial's or "Jr."'s
+    names = [re.sub(r"(?<=[^\W\d_]{3})\.$", "", n) for n in names]
     # "Bauduin", "S.", "Giltay", "E.", ...: one name in two entries, surname then initials
     if len(names) >= 2 and len(names) % 2 == 0 and all(_INITIALS_ONLY.match(n) for n in names[1::2]) and not any(
             _INITIALS_ONLY.match(n) for n in names[::2]):
@@ -60,7 +68,7 @@ def _affiliation(user):
     dept = (user.get("department") or "").strip()
     if not org:
         return []
-    if not dept or dept.lower() in org.lower():
+    if not dept or dept.lower() in org.lower() or _ROLE.search(dept) or not re.search(r"[^\W\d_]", dept):
         return [org]
     return [f"{dept}, {org}"]
 
