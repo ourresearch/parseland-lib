@@ -154,3 +154,56 @@ def test_article_page_is_not_claimed():
                + _card("Shu-Jen Kung", ["National Yang-Ming University, Taipei City, Taiwan"], instance="ArticleTopInfo")
                + '</div></div><section class="abstract"><p>Humans are able to find and tap to the beat.</p></section></div>')
     assert not SilverchairBooks(BeautifulSoup(_page(article), "lxml")).is_publisher_specific_parser()
+
+
+# GeoScienceWorld's book chapters (AAPG, SEPM ... on pubs.geoscienceworld.org; oxjob #2338) print each affiliation as a
+# bare JATS <aff> element in the info card, with <institution>, <addr-line> and a <label> marker, and no div.aff.
+GSW_URL = "https://pubs.geoscienceworld.org/aapg/books/edited-volume/1392/chapter/107143580/Stress-dependent-Flow"
+
+
+def _gsw_card(name, affs):
+    return (f'<div class="al-author-name"><a class="linked-name js-linked-name" href="javascript:;">{name}</a>'
+            '<div class="al-author-info-wrap arrow-up"><div class="info-card-author authorInfo_ChapterTopInfo">'
+            f'<div class="name-role-wrap"><div class="info-card-name">{name}</div></div>'
+            f'<div class="info-card-affilitation">{"".join(affs)}</div>'
+            '<div class="info-card-search-label">Search for other works by this author on:</div></div></div>'
+            '<span class="al-author-delim">; </span></div>')
+
+
+def _gsw_chapter(cards):
+    return _page('<div class="widget widget-ChapterTopInfo widget-instance-ChapterTopInfo"><div class="chapterTopInfo">'
+                 '<h1 class="chapter-title">A Chapter</h1><div class="wi-authors"><div class="al-authors-list">'
+                 '<div class="chapter-authors-prefix">Author(s)</div>' + "".join(cards) + "</div></div></div></div>",
+                 og_url=GSW_URL)
+
+
+def test_gsw_chapter_reads_bare_jats_aff_elements():
+    bgs = ('<aff id="ch17aff1"><institution>British Geological Survey</institution>'
+           '<addr-line>Keyworth, Nottingham, U.K.</addr-line></aff>')
+    html = _gsw_chapter([_gsw_card("S. F. Rogers", [bgs]), _gsw_card("C. J. Evans", [bgs])])
+    assert _authors(html) == [("S. F. Rogers", ["British Geological Survey Keyworth, Nottingham, U.K."]),
+                              ("C. J. Evans", ["British Geological Survey Keyworth, Nottingham, U.K."])]
+
+
+def test_gsw_chapter_keeps_each_aff_and_drops_the_label_marker():
+    html = _gsw_chapter([_gsw_card("Rebecca R. Harrington", [
+        '<aff id="ch02aff1">Bureau of Economic Geology, The University of Texas at Austin, Austin, Texas, U.S.A.</aff>',
+        '<aff id="ch02aff3"><label>1</label>Present address: XTO Energy, Fort Worth, Texas, U.S.A.</aff>'])])
+    assert _authors(html) == [("Rebecca R. Harrington", [
+        "Bureau of Economic Geology, The University of Texas at Austin, Austin, Texas, U.S.A.",
+        "Present address: XTO Energy, Fort Worth, Texas, U.S.A."])]
+
+
+def test_div_aff_cards_are_read_as_before_when_they_also_hold_an_aff_element():
+    # a press that wraps a JATS <aff> in div.aff: one affiliation, read from div.aff, never twice
+    aff = '<div class="aff"><span class="label title-label">a</span><aff>University of Dayton, USA</aff></div>'
+    html = _gsw_chapter([_gsw_card("Thomas C. Hunt", [aff])])
+    assert _authors(html) == [("Thomas C. Hunt", ["University of Dayton, USA"])]
+
+
+def test_gsw_journal_article_with_aff_elements_is_not_claimed():
+    # GeoScienceWorld's journal articles share the card markup; they are not book pages
+    article = ('<div class="widget widget-ArticleTopInfo"><div class="wi-authors"><div class="al-authors-list">'
+               + _gsw_card("John D. Jeffers", ['<aff>Rice University, Houston, Texas, U.S.A.</aff>'])
+               + '</div></div></div>')
+    assert not SilverchairBooks(BeautifulSoup(_page(article, og_url=GSW_URL), "lxml")).is_publisher_specific_parser()

@@ -29,7 +29,8 @@ class SilverchairBooks(PublisherParser):
       the chapter's authors);
     - on a book's own page, ``div.widget-BookToc`` with the book's byline at the top.
 
-    Each name has an info card; ``.info-card-affilitation .aff`` (Silverchair's spelling) holds its affiliations.
+    Each name has an info card; ``.info-card-affilitation .aff`` (Silverchair's spelling) holds its affiliations, or
+    on GeoScienceWorld's chapters bare JATS ``<aff>`` elements (#2338).
     Cards on monographs often hold a biography instead (``.info-card-note``): not an affiliation (label-v1).
     No parser read these bylines, so on gold v1.3's dev pages Parseland read authors on 6 of 11 Silverchair chapter
     pages and affiliations on 0 of 6. The chapter's abstract is ``section.abstract`` in the chapter's text widget;
@@ -98,8 +99,11 @@ class SilverchairBooks(PublisherParser):
 
     def _affiliations(self, card):
         affs = []
-        for aff in card.select(".info-card-affilitation .aff"):
-            for junk in aff.select("span.label, a[href*='email-protection'], a[href^='mailto:'], .__cf_email__"):
+        # GeoScienceWorld's chapters (AAPG, SEPM ...; #2338) print bare JATS <aff> elements, with <institution>,
+        # <addr-line> and a <label> marker, and no div.aff: read those only when the card has no div.aff
+        nodes = card.select(".info-card-affilitation .aff") or card.select(".info-card-affilitation aff")
+        for aff in nodes:
+            for junk in aff.select("span.label, label, a[href*='email-protection'], a[href^='mailto:'], .__cf_email__"):
                 junk.decompose()
             text = re.sub(r"\s+,", ",", self._clean(aff.get_text(" ")))
             if text and text not in affs:
