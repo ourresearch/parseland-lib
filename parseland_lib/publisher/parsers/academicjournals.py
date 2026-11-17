@@ -14,7 +14,8 @@ template prints the star with no note (1 of 20 such sample pages); the generic p
 
 Names come from the byline, not the citation_author tags: the tags drop accented letters on the current template
 ("J&essica", "Sp&inola-Filho") and on the older one they strip or break them ("Neziha", "TUNCcedil;") and split names
-at "and" ("Luis Fern", "o Paredes-Fernandez"). An older byline with a one-word part that does not split into as many
+at "and" ("Luis Fern", "o Paredes-Fernandez"). An inverted older byline ("Manji, P. L.*, Antai, S. P.") is
+joined into whole names, and one affiliation line can carry two numbers ("2,4Department ..."). An older byline with a one-word part that does not split into as many
 names as the page has citation_author tags is left to the generic parser.
 """
 import re
@@ -27,7 +28,10 @@ _STARS = "*∗"
 # a byline part: the name, then the markers glued to it ("Mashaly1", "Bellifa1*", "Bairu*"); a part that is all
 # markers ("2*" in "Mashaly1, 2*") belongs to the name before it
 _PART = re.compile(r"^(.*?)\s*([\d\s*∗]*)$")
-_NUMBERED = re.compile(r"^(\d+)\s*(\S.*)$")
+# an affiliation line's number(s): "1Department ...", or one line shared by two numbers ("2,4Department ...")
+_NUMBERED = re.compile(r"^(\d+(?:\s*,\s*\d+)*)\s*(\S.*)$")
+# a byline part that is only initials ("P. L.", "S.P."): the given half of an inverted name ("Manji, P. L.")
+_INITIALS = re.compile(r"^(?:[A-Z]\.?[\s-]*){1,4}$")
 
 
 def _clean(text):
@@ -100,6 +104,12 @@ class AcademicJournals(PublisherParser):
                 parts.append([name, markers])
             elif markers.strip() and parts:
                 parts[-1][1] += "," + markers
+        # An inverted byline, "Family, Initials" ("Manji, P. L.*, Antai, S. P. and Jacob, I. O."): every second part is
+        # initials only, and the star sits on the initials. Join each pair as "P. L. Manji" (the site's tags split
+        # them into six "authors").
+        if len(parts) % 2 == 0 and all(bool(_INITIALS.match(name)) == (i % 2 == 1) for i, (name, _) in enumerate(parts)):
+            parts = [[f"{given} {family}", family_markers + "," + given_markers]
+                     for (family, family_markers), (given, given_markers) in zip(parts[::2], parts[1::2])]
         # A one-word part is half of an inverted name ("Lima, Ana"): then the byline must split into as many names as
         # the page has citation_author tags. Not otherwise: the site's tags split names at "and" ("Luis Fern",
         # "o Paredes-Fernandez").
@@ -117,13 +127,13 @@ class AcademicJournals(PublisherParser):
             legend = block.find_next("span", class_="black", string=re.compile(r"^\s*e-?mail\s*$", re.I)) is not None
         numbers = [re.findall(r"\d+", markers) for _, markers in parts]
         if any(numbers):
-            numbered, current = {}, None
+            numbered, current = {}, []
             for line in lines:
                 if m := _NUMBERED.match(line):
-                    current = m.group(1)
-                    numbered[current] = m.group(2)
-                elif current is not None:  # an affiliation wrapped onto a second line
-                    numbered[current] += " " + line
+                    current = re.findall(r"\d+", m.group(1))
+                    numbered.update((n, m.group(2)) for n in current)
+                else:  # an affiliation wrapped onto a second line
+                    numbered.update((n, numbered[n] + " " + line) for n in current)
             affiliations = [[numbered[n] for n in nums if n in numbered] for nums in numbers]
         else:  # no markers: the listed affiliations are everyone's
             affiliations = [list(lines) for _ in parts]

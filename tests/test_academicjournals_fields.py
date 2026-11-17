@@ -144,3 +144,30 @@ def test_older_byline_wins_over_tags_split_at_and():
     assert [a["name"] for a in authors] == ["Emilio Exaire-Murad", "Luis Fernando Paredes-Fernández",
                                             "Noemí Santos-Caballero"]
     assert [a["is_corresponding"] for a in authors] == [False, False, True]
+
+
+def test_older_template_inverted_byline_pairs_family_and_initials():
+    # "Family, Initials" byline; the site's citation_author tags split each name in two (fresh page 6d6d8006)
+    names = ["Manji", "P. L.", "Antai", "S. P.", "Jacob", "I. O."]
+    aff = "Department of Microbiology, Faculty of Science, University of Calabar, P. M. B. 1115, Calabar, Nigeria."
+    byline = _older("Manji, P. L.*, Antai, S. P. and Jacob, I. O.", aff)
+    authors = _parse(_page(names, byline))
+    assert [a["name"] for a in authors] == ["P. L. Manji", "S. P. Antai", "I. O. Jacob"]
+    assert [a["affiliations"] for a in authors] == [[{"name": aff}]] * 3
+    assert [a["is_corresponding"] for a in authors] == [True, False, False]
+
+
+def test_older_template_one_affiliation_line_numbered_for_two():
+    # "2,4Department ..." is the affiliation of both authors 2 and 4 (fresh page 8a22eedd)
+    names = ["Arezo Davoudi", "Nouraddin Shayesteh", "Davood Shirdel", "Abbas Hosseinzadeh"]
+    byline = _older("Arezo Davoudi1*, Nouraddin Shayesteh2, Davood Shirdel3, Abbas Hosseinzadeh4",
+                    "1Department of Crop Protection, Islamic Azad University, Tabriz, Iran            \n"
+                    "2,4Department of Plant medicine, Islamic Azad University, Mahabad, Iran.\n"
+                    "3Plant Pests and Disease Research Department, Khosrowshahr, Iran.")
+    authors = _parse(_page(names, byline))
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [
+        ["Department of Crop Protection, Islamic Azad University, Tabriz, Iran"],
+        ["Department of Plant medicine, Islamic Azad University, Mahabad, Iran."],
+        ["Plant Pests and Disease Research Department, Khosrowshahr, Iran."],
+        ["Department of Plant medicine, Islamic Azad University, Mahabad, Iran."]]
+    assert [a["is_corresponding"] for a in authors] == [True, False, False, False]
