@@ -121,3 +121,40 @@ def test_ojs_page_with_the_same_markup_is_not_claimed():
     parser = OpenMonographPress(BeautifulSoup(html, "lxml"))
     assert not parser.is_publisher_specific_parser()
     assert not parser.authors_found()
+
+
+def _bios(entries, cls='class="item author_bios"'):
+    """The "about the authors" block: each biography headed "Name, <span class="affiliation">...</span>"."""
+    items = "".join(f'<div class="sub_item"><div class="label">{n}, <span class="affiliation">{a}</span></div>'
+                    f'<div class="value"><p>{bio}</p></div></div>' for n, a, bio in entries)
+    return f'<div {cls}><h2 class="label">Sobre los autores</h2>{items}</div>'
+
+
+def test_biography_headings_give_the_chapter_authors_of_an_edited_volume_theirs():
+    # cut from a chapter DOI that lands on its edited volume's page (ulsaoaxaca.edu.mx, 17 Nov 2026 fresh set): the block
+    # names the editors, the tags every chapter's authors, the biographies' headings each one's affiliation
+    names = ["Lorena Broca Domínguez", "Otoniel García Martínez", "Alethia Gutiérrez Valdez", "Iván Sandoval Ortiz"]
+    block = _sub_items([("Lorena Broca Domínguez (ed)", "Universidad La Salle Oaxaca")])
+    bios = _bios([("Otoniel García Martínez", "Universidad La Salle Oaxaca", "Doctor en Educación por la UNAM."),
+                  ("Alethia Gutiérrez Valdez", "Instituto Tecnológico de Oaxaca", "Profesora en la Universidad de Chile."),
+                  ("Lorena Broca Domínguez", "Facultad de Humanidades", "Editora del volumen.")])
+    assert _parsed(_page(names, block + bios)) == [
+        ("Lorena Broca Domínguez", ["Universidad La Salle Oaxaca"]),  # the block's comes first
+        ("Otoniel García Martínez", ["Universidad La Salle Oaxaca"]),
+        ("Alethia Gutiérrez Valdez", ["Instituto Tecnológico de Oaxaca"]),  # never the biography's text
+        ("Iván Sandoval Ortiz", [])]
+
+
+def test_another_parsers_affiliations_and_abstract_stand():
+    # cut from esdeglibros.edu.co (17 Nov 2026 fresh set): a theme whose biographies sit in div.item#author_bios; the
+    # Thieme parser reads their one span.affiliation for every tagged author, and its answer (byline, affiliations,
+    # abstract) wins the page without this parser, so this parser stays off and the page reads as before
+    names = ["Aldemar Serrano Cuervo", "David Barrero Barrero", "Maria Corcione Nieto"]
+    aff = "Escuela Superior de Guerra General Rafael Reyes Prieto"
+    block = _sub_items([("Aldemar Serrano Cuervo (ed)", aff)])
+    bios = _bios([(n, aff, "Oficial e investigador.") for n in names], cls='class="item" id="author_bios"')
+    html = _page(names, block + bios)
+    assert not OpenMonographPress(BeautifulSoup(html, "lxml")).authors_found()
+    without = html.replace(GENERATOR, "")
+    assert parse_page(html.encode(), "doi", URL) == parse_page(without.encode(), "doi", URL)
+    assert _parsed(html) == [(n, [aff]) for n in names]
