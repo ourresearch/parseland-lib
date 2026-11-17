@@ -1,8 +1,8 @@
 """OSTI.GOV record pages (www.osti.gov/biblio/<id>), the landing pages of DOE technical reports (oxjob #2210).
 
 Markup is cut down from stored pages of the swarm pilot's osti.gov sample (13 Nov 2026). Before this parser the generic
-one read these pages from the citation_* meta tags; it skips an abstract of 200 characters or less, and it reads
-nothing of the record's funding rows ("Sponsoring Organization", "DOE Contract Number"), which name the work's funder.
+one read these pages from the citation_* meta tags; it skips an abstract of 200 characters or less. The record's funding
+rows ("Sponsoring Organization", "DOE Contract Number") are its metadata, not a funding statement (#2239 round 7).
 """
 from bs4 import BeautifulSoup
 
@@ -100,23 +100,24 @@ def test_record_without_byline_keeps_its_abstract():
     assert out["authors"] == [] and out["abstract"] == LONG_ABSTRACT
 
 
-def test_funding_statement_from_the_funding_rows():
+def test_funding_rows_are_record_metadata_not_a_funding_statement():
+    # "Sponsoring Organization" and "DOE Contract Number" are the record's field labels, not a statement the work
+    # prints (#2239 round 7: the gold says none on every labelled osti.gov page)
     out = _parse(_page())
-    assert out["funding_statement"] == ("Sponsoring Organization: USDOE Office of Environmental Management (EM)\n"
-                                        "DOE Contract Number: AC27-01RV14136")
+    assert out["funding_statement"] is None
     assert out["acknowledgments"] is None
     assert out["references"] is None and out["references_complete"] is False
 
 
-def test_funding_statement_on_the_older_full_record_tab():
+def test_no_funding_statement_from_the_older_full_record_tab():
     older = """<section id="biblio-full" class="tab-content active"><dl>
 <dt>Authors: <span class="infotip-show-hidden d-none"></span></dt><dd>Solis-Lemus, Claudia</dd>
 <dt>Research Org.: <span class="infotip-show-hidden d-none"></span></dt><dd>Univ. of Wisconsin, Madison, WI</dd>
 <dt>Sponsoring Org.: <span class="infotip-show-hidden d-none"></span></dt><dd>USDOE Office of Science (SC)</dd>
 <dt>DOE Contract Number: &nbsp;<span class="infotip-show-hidden d-none"></span></dt><dd>SC0021016</dd>
 </dl></section>"""
-    assert _parse(_page(metadata=older))["funding_statement"] == (
-        "Sponsoring Org.: USDOE Office of Science (SC)\nDOE Contract Number: SC0021016")
+    assert _parse(_page(metadata=older))["funding_statement"] is None
+    assert _parse_page(_page(metadata=older))["funding_statement"] is None
 
 
 def test_record_without_funding_rows_has_no_funding_statement():
