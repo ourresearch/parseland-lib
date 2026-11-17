@@ -27,25 +27,30 @@ NOTE = (f'<p id="{CTL}_pCorrespondence"><span>* Correspondence:</span> Ms. Lien 
         f'Belgium, l.naert@example.org<br/></p>')
 
 
-def _conf_page(byline=BYLINE, note=NOTE, site="Frontiers"):
+ABSTRACT = """Objective
+
+After a unilateral stroke the processing of contralesional hemispace can be affected by a number of factors.
+
+Conclusion
+The divided-attention procedure we adopted here has a number of methodological strengths. """
+TITLE = "Dividing attention across space and tasks: a study in acute stroke patients"
+
+
+def _conf_page(byline=BYLINE, note=NOTE, site="Frontiers", abstract=ABSTRACT, title=TITLE):
     return f"""<html><head><title>Frontiers | Dividing attention across space and tasks</title>
 <meta content="Frontiers | " id="ctl00_ctl00_MetaTitle" name="Title" property="og:title"/>
 <meta content="{EVENTS_BLURB}" name="Description" property="og:description"/>
 <meta id="ctl00_ctl00_MetaImageUrl" name="url" property="og:url"/>
 <meta content="{site}" name="site_name" property="og:site_name"/>
 </head><body><div class="print"><div id="divFontAdjAreaLevel4" class="JournalAbstract">
-<h1>Dividing attention across space and tasks: a study in acute stroke patients</h1>
+<h1>
+            {title}</h1>
 <div class="authors">{byline}</div>
 <ul class="notes">
 <li id="{CTL}_rptAffiliation_ctl00_liAffilliation"><span><sup>\n 1</sup></span>\n Ghent University, Belgium\n</li>
 <li id="{CTL}_rptAffiliation_ctl01_liAffilliation"><span><sup>\n 2</sup></span>\n University of Padova, Italy\n</li>
 </ul>
-<p class="pb15"><span id="{CTL}_litAbstract" class="cont16 white-space-wrap">Objective
-
-After a unilateral stroke the processing of contralesional hemispace can be affected by a number of factors.
-
-Conclusion
-The divided-attention procedure we adopted here has a number of methodological strengths. </span></p>
+<p class="pb15"><span id="{CTL}_litAbstract" class="cont16 white-space-wrap">{abstract}</span></p>
 </div>
 <div class="References"><p class="ReferencesCopy1">Bonato, M. (2010). Neuropsychologia, 48, 3934-3940.</p></div>
 <div class="AbstractSummary"><p id="{CTL}_pCitation"><span>Citation:</span> Naert L, Fias W and Bonato M (2019).
@@ -77,6 +82,37 @@ def test_conference_abstract_text_not_the_events_blurb():
     assert abstract.endswith("has a number of methodological strengths.")
     assert "Frontiers Events" not in abstract
 
+
+
+# Cut down from 10.3389/conf.fninf.2011.08.00112 (the title typed again on top, the reference list typed below) and
+# 10.3389/conf.fbioe.2016.01.01854 (a run-on "References:[1] ..." line)
+OPENWORM_TITLE = ("Managing Complexity in Multi-Algorithm, Multi-Scale Biological Simulations: An Integrated Software "
+                  "Engineering and Neuroinformatics Approach.")
+OPENWORM = f"""{OPENWORM_TITLE}
+Computational biology is asserting itself as an important approach to understanding complex biological systems.
+In order to be able to effectively manage the complexity, it is important for computational biology to fully embrace software engineering methodologies.
+References
+Blackwell, K. T. (2005). A new era in computational neuroscience. Neuroinformatics, 3(2), 163–166.
+Boyle, J. H. (2009). C . elegans locomotion : an integrated approach. Retrieved from http://j.mp/fqKPEw."""
+
+
+def test_conference_abstract_drops_repeated_title_and_reference_list():
+    abstract = _parse(_conf_page(abstract=OPENWORM, title=OPENWORM_TITLE))["abstract"]
+    assert abstract.startswith("Computational biology is asserting itself")
+    assert abstract.endswith("fully embrace software engineering methodologies.")
+    assert "Blackwell" not in abstract and "Managing Complexity" not in abstract
+
+
+def test_conference_abstract_stops_at_run_on_references_line():
+    text = ("<p><strong>Result and Discussion:</strong> Bead-embedded striped patterns were prepared.</p>\n"
+            "<p><strong>References:</strong><BR>[1] Kidoaki S and Matsuda T., J. Biotechnol. 133:225-230, 2008.</p>")
+    abstract = _parse(_conf_page(abstract=text))["abstract"]
+    assert abstract == "Result and Discussion: Bead-embedded striped patterns were prepared."
+
+
+def test_conference_abstract_keeps_a_sentence_opening_with_reference():
+    text = "Reference values for gait were collected in 40 adults.\nThey differ by age."
+    assert _parse(_conf_page(abstract=text))["abstract"] == text
 
 def test_conference_byline_with_an_unlinked_name_is_not_claimed():
     byline = BYLINE.replace(" and \n", ", Ann Plain<sup>2</sup> and \n")

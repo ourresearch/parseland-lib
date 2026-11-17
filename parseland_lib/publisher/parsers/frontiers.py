@@ -78,6 +78,14 @@ def _correspondence_note_names(soup):
 _CONF_AUTHOR_ID = "ucAbstractDetails_rptAuthors"
 # What may stand between two byline names besides their <sup> marks: separators, an "and", a '*'.
 _BYLINE_GLUE = re.compile(r"(?:\band\b|[\s,;*†‡§])*")
+# A line that starts the reference list some authors paste under a conference abstract: the heading alone, or the
+# heading with a colon or the first numbered entry run on ("References:[1] Kidoaki S ...").
+_REFS_HEADING = re.compile(r"(?:references?|bibliography|literature cited)\s*(?::|$|\[\d|\d+\.\s)", re.I)
+
+
+def _fold(text):
+    """Words only, lower case: a title and its repeat in the abstract box differ in spacing and end punctuation."""
+    return re.sub(r"\W+", " ", text).strip().lower()
 
 
 class Frontiers(PublisherParser):
@@ -183,12 +191,25 @@ class Frontiers(PublisherParser):
 
     @staticmethod
     def get_conference_abstract(box):
-        """The abstract's text under the byline, one line per printed line (its section labels stay)."""
+        """The abstract's text under the byline, one line per printed line (its section labels stay).
+
+        Authors fill the abstract box themselves: some open it with the title again and some close it with their
+        reference list, neither of which is abstract. A first line repeating the page's h1 is dropped, and the text
+        stops at a line opening with a references heading ("References", "References:[1] ...") (oxjob #2289).
+        """
         span = box.find("span", id=re.compile("_litAbstract$"))
         if span is None:
             return None
         lines = [re.sub(r"\s+", " ", line).strip() for line in span.get_text().splitlines()]
-        return "\n".join(line for line in lines if line) or None
+        lines = [line for line in lines if line]
+        for i, line in enumerate(lines):
+            if _REFS_HEADING.match(line):
+                lines = lines[:i]
+                break
+        h1 = box.find("h1")
+        if lines and h1 is not None and _fold(lines[0]) == _fold(h1.get_text()):
+            lines = lines[1:]
+        return "\n".join(lines) or None
 
     def get_authors(self):
         authors = []
