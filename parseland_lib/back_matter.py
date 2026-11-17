@@ -160,13 +160,20 @@ def _section_parts(content):
     return "\n".join(own) or None, {k: "\n".join(v) for k, v in parts.items()}
 
 
+# BioMed Central prints its "Pre-publication history" link in the reference list's markup, after the last entry
+# (#2239 round 7): a notice, not a cited work, and not an entry the list lacks.
+_PREPUB_NOTICE = re.compile(r"^The pre-publication history for this paper can be accessed here", re.I)
+
+
 def springer_nature_back_matter(soup, lp_content=None):
     found = {}
-    items = soup.select("li.c-article-references__item")
-    refs = []
-    for item in items:
+    items, refs = [], []
+    for item in soup.select("li.c-article-references__item"):
         text = item.select_one("p.c-article-references__text")
         raw = squash(text.get_text()) if text else ""
+        if _PREPUB_NOTICE.match(raw):
+            continue
+        items.append(item)
         if not raw:
             continue
         refs.append({"raw": raw, "doi": _springer_entry_doi(item, text, raw)})
@@ -436,6 +443,22 @@ _RUN_IN_LABEL = {
 }
 
 
+# A paragraph that is only a bold label naming another section (_bold_label: "<p><strong>Declaration of conflicting
+# interests</strong></p>", "Patient consent", "Provenance and peer review") heads that section: under "Funding" it ends
+# the statement (#2239 round 7: a journal printing BMJ's back-matter labels inside its "Funding" block). A bold funder
+# name or funding label is not one.
+_OTHER_SECTION = re.compile(
+    r"^(?:declarations?\b|conflicts? of interests?|competing (?:financial )?interests?|(?:patient |informed )?consent|"
+    r"ethic(?:s|al)\b|provenance\b|authors?['’]?s?['’]? contributions?|"
+    r"(?:data|code|materials?) (?:and \w+ )?availability|availability of\b|disclosures?\b|acknowledge?ments?\b)", re.I)
+
+
+def _other_section_labels(block):
+    """The texts of the block's paragraphs that are a bold label alone naming another section."""
+    paragraphs = [block] if block.name == "p" else block.find_all("p")
+    return {label for p in paragraphs if (label := _bold_label(p)) and _OTHER_SECTION.match(label)}
+
+
 def _section_header(heading):
     """The block that holds a heading and its section tools, when the template wraps them together (ACS:
     div.article_content-header > ... > h2 beside an "ARTICLE SECTIONS / Jump To" menu): the section's text follows
@@ -461,8 +484,9 @@ def _section_after(heading, key):
         if sibling.name in _HEADINGS or any(d.name in _HEADINGS for d in sibling.descendants):
             break
         texts = _block_text(sibling)
+        labels = _other_section_labels(sibling) if key == "funding_statement" and texts else ()
         for i, text in enumerate(texts):
-            if _RUN_IN_LABEL[key].match(text) and (paragraphs or i):
+            if (_RUN_IN_LABEL[key].match(text) or text in labels) and (paragraphs or i):
                 return "\n".join(p for p in paragraphs + texts[:i] if p) or None
         paragraphs += texts
     return "\n".join(p for p in paragraphs if p) or None
