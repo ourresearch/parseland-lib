@@ -541,11 +541,6 @@
 "2c7c0aef-9616-4713-a22c-879247c72d69": [
 "corresponding"
 ],
-"2cd617a6-1db7-4cb7-adb0-752556f55d23": [
-"affiliations",
-"authors",
-"corresponding"
-],
 "2d0d1ab7-53eb-4e78-94a4-ef8389ee3dec": [
 "abstract",
 "affiliations",
@@ -1130,9 +1125,6 @@
 "abstract",
 "authors"
 ],
-"66a820b5-dfdf-4418-a3f1-8c7b8be006f6": [
-"abstract"
-],
 "66cdeaaa-be6d-4a5a-9db7-57813f5ab0ea": [
 "license"
 ],
@@ -1631,9 +1623,6 @@
 "8ed4d94b-9b61-48d4-a284-2bbe1df1e244": [
 "corresponding"
 ],
-"8ef47ef4-ced1-44e0-b540-5d7763fcba8a": [
-"authors"
-],
 "8f23614c-6f8f-49ad-a177-d73b09ca51bb": [
 "authors",
 "license"
@@ -1661,8 +1650,6 @@
 "pdf_url"
 ],
 "9239e73b-38d3-4cad-a388-4f8f36a11489": [
-"affiliations",
-"authors",
 "license"
 ],
 "9242e340-cc22-4ce7-89f8-84b3db8d7566": [
@@ -2379,9 +2366,6 @@
 "db05435e-44d3-4ef0-a113-dc8dd85d208c": [
 "pdf_url"
 ],
-"db447c89-8105-4d49-92f7-434eefebf1a2": [
-"corresponding"
-],
 "dba4bad3-3a07-40e5-9d14-22ac8c08f179": [
 "abstract"
 ],
@@ -2445,9 +2429,6 @@
 ],
 "e2df0e9f-7f90-4ddb-91c6-777372724929": [
 "affiliations",
-"authors"
-],
-"e35e9595-0dfd-443b-be0b-537d2a487ce3": [
 "authors"
 ],
 "e37d57a6-7252-4166-97dc-a466c6f4a69f": [
@@ -2637,7 +2618,6 @@
 "license"
 ],
 "f2d4a178-847a-44c2-a32c-f9f0a57d7dac": [
-"corresponding",
 "license"
 ],
 "f3dd2dbc-1b0c-48cb-a8c0-5adcbd3d33ff": [
@@ -2667,9 +2647,6 @@
 ],
 "f581f9f9-cf26-49b3-99d4-0e156582346b": [
 "pdf_url"
-],
-"f60c07f5-b156-4654-a915-22d8ce8f221b": [
-"corresponding"
 ],
 "f63fe6fe-7c9f-4fa6-92d7-987957247fa0": [
 "abstract"
