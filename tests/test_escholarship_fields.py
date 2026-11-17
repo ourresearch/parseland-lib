@@ -89,6 +89,15 @@ def test_sidebar_authors_are_never_the_pages():
     assert _authors(_page(NAMES[:1], state)) == [(NAMES[0], [], None)]
 
 
+def test_placeholder_institution_is_no_affiliation():
+    # cut down from 10.5070/D481000826 (Dermatology Online Journal): the state's institution is the deposit form's "none"
+    state = _state([{"name": "Chong, Jing", "email": "c.j@example.com", "fname": "Jing", "lname": "Chong",
+                     "institution": "none"}, {"name": NAMES[1], "institution": "N/A"},
+                    {"name": NAMES[2], "institution": "Nonesuch Institute"}])
+    got = _authors(_page(["Chong, Jing", NAMES[1], NAMES[2]], state))
+    assert [(n, a) for n, a, _ in got] == [("Chong, Jing", []), (NAMES[1], []), (NAMES[2], ["Nonesuch Institute"])]
+
+
 def test_names_that_do_not_line_up_are_matched_by_name():
     state = _state([{"name": NAMES[1], "institution": "Rice University"}, {"name": "Someone, Else", "institution": "X U"}])
     got = _authors(_page(NAMES[:2], state))

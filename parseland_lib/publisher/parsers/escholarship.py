@@ -13,6 +13,7 @@ abstract) and adds each author's institution.
 - The state's "sidebar" lists related items with their own authors and institutions: only the top-level "authors".
 - An institution may hold several affiliations: one per paragraph, per ";" or per line, and a line that names no
   organisation (a street address, "Sacramento, CA 95814 USA") belongs to the line before it.
+- An institution that is the deposit form's placeholder ("none", "N/A") is no affiliation.
 
 The claim is the canonical link to /uc/item/, read among <head>'s own children; newer pages print their head tags
 inside <div class="react-head-temp"> in <head>, which lxml moves to the start of <body>, so that block's own children
@@ -38,6 +39,9 @@ _ORG_WORD = re.compile(
     r"office|unit\b|station|company|corporation|\binc\b|\bltd\b|\bllc\b|group|system|authority|commission|"
     r"\buc\s|\bcal\s|world|organi[sz]ation|consult|research|health|medical|campus|polytechnic|escuela|universid",
     re.I)
+# The deposit form's placeholders for an author with no institution ("none", "N/A"): never an affiliation.
+_NO_INSTITUTION = re.compile(
+    r"^(?:none|n/?a|nil|null|unknown|not applicable|no affiliation|unaffiliated|[-.?\s]+)\.?$", re.I)
 
 
 def _key(name):
@@ -59,7 +63,7 @@ def _split_institution(text):
             current.append(line)
         if current:
             affs.append(", ".join(current))
-    return affs
+    return [a for a in affs if not _NO_INSTITUTION.match(a)]
 
 
 class EScholarship(PublisherParser):
