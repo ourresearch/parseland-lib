@@ -1,10 +1,132 @@
 import re
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, NavigableString, Tag
 
+from parseland_lib.abstract_language import is_english
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser, frontmatter_abstract
 from parseland_lib.publisher.parsers.utils import _letters_key, cross_ref_footnotes, is_h_tag
+
+
+# EM-Consulte, Elsevier Masson's French platform (oxjob #2339). Its article pages carry Elsevier meta values (an
+# "Elsevier Masson" author tag, the Elsevier TDM policy), so this parser claims them, but none of the ScienceDirect
+# readers below finds their byline. The byline is div#article_auteurs: "Name <sup><a href=#AFF0005>a</a></sup>
+# <a href=#COR0005>*</a> : <span>role</span>, Name ...", then each affiliation as <a name=AFF0005></a><div><sup>a</sup>
+# text</div>, then the note <a name=COR0005></a><div>... Auteur correspondant.</div>.
+_EMC_NOTE_IS_CORRESPONDING = re.compile(r"correspond", re.I)
+
+
+def _emc_squash(text):
+    return " ".join((text or "").replace("\xa0", " ").split())
+
+
+def _emc_div_after(anchor):
+    """The <div> an <a name=...> anchor stands before (an affiliation or a note), else None."""
+    div = anchor.find_next_sibling()
+    return div if isinstance(div, Tag) and div.name == "div" else None
+
+
+def _emc_affiliation(div):
+    """An affiliation's text without its leading <sup> label ("a", or empty); a later <sup> is text ("1<sup>er</sup>
+    étage")."""
+    parts, leading = [], True
+    for child in div.children:
+        if leading and isinstance(child, Tag) and child.name == "sup":
+            leading = False
+            continue
+        text = child.get_text() if isinstance(child, Tag) else str(child)
+        leading = leading and not text.strip()
+        parts.append(text)
+    return _emc_squash("".join(parts))
+
+
+def emc_read_byline(byline):
+    """Authors from div#article_auteurs: [{"name", "affiliations": [str], "is_corresponding"}]."""
+    names_block = byline.select_one("div.textenormalSmallLeft > b > div.textenormalSmallLeft > b") or \
+        byline.select_one("div > b")
+    if names_block is None:
+        return []
+    affiliations = {}  # AFF anchor name -> text, in page order
+    for anchor in names_block.find_all("a", attrs={"name": re.compile(r"^AFF")}):
+        if (div := _emc_div_after(anchor)) is not None and (text := _emc_affiliation(div)):
+            affiliations[anchor["name"]] = text
+    corresponding_notes = {anchor["name"] for anchor in byline.find_all("a", attrs={"name": re.compile(r"^COR")})
+                           if (div := _emc_div_after(anchor)) is not None
+                           and _EMC_NOTE_IS_CORRESPONDING.search(div.get_text())}
+
+    entries = []  # per author: name parts, AFF links, COR links, mail icon
+    current = None
+    in_role = False  # after "Name :" comes the role label, up to the next comma
+
+    def marks():
+        # a mark after a comma but before the next name (", <sup>b</sup>") is the previous author's
+        return current if current is not None and current["name"] else (entries[-1] if entries else None)
+
+    for child in names_block.children:
+        if isinstance(child, Tag):
+            if child.name in ("br", "div") or (child.name == "a" and child.get("name")):
+                break
+            if child.name == "span":
+                continue  # the role label
+            if child.name == "sup":
+                if (owner := marks()) is not None:
+                    owner["affs"] += [a["href"][1:] for a in child.find_all("a", href=re.compile(r"^#AFF"))]
+                continue
+            if child.name == "a":
+                href = child.get("href") or ""
+                if (owner := marks()) is not None:
+                    if href.startswith("#COR"):
+                        owner["cor"].append(href[1:])
+                    elif href.startswith("mailto:"):
+                        owner["mail"] = True
+                continue
+            text = child.get_text()
+        elif isinstance(child, NavigableString):
+            text = str(child)
+        else:
+            continue
+        for i, piece in enumerate(text.split(",")):
+            if i > 0:
+                if current is not None and current["name"]:
+                    entries.append(current)
+                current, in_role = None, False
+            if in_role:
+                continue
+            if ":" in piece:
+                piece, in_role = piece.split(":", 1)[0], True
+            if _emc_squash(piece):
+                if current is None:
+                    current = {"name": "", "affs": [], "cor": [], "mail": False}
+                current["name"] = _emc_squash(current["name"] + " " + piece)
+    if current is not None and current["name"]:
+        entries.append(current)
+
+    linked = any(e["affs"] for e in entries)
+    starred = any(set(e["cor"]) & corresponding_notes for e in entries)
+    mailed = [e for e in entries if e["mail"]]
+    authors = []
+    for e in entries:
+        if linked:
+            affs = [affiliations[a] for a in dict.fromkeys(e["affs"]) if a in affiliations]
+        else:  # no linking labels: the page lists the affiliations for the whole byline
+            affs = list(affiliations.values())
+        if starred:
+            corresponding = bool(set(e["cor"]) & corresponding_notes)
+        else:  # no explained star: a mail icon on one author only is that author's mark
+            corresponding = len(mailed) == 1 and e is mailed[0]
+        authors.append({"name": e["name"], "affiliations": affs, "is_corresponding": corresponding})
+    return authors
+
+
+def emc_abstract(pane):
+    """The abstract pane's versions are its <span class="textenormal"> children, French first, then the English
+    one under the English title; give the English one (label-v1), else the first."""
+    versions = []
+    for span in pane.find_all("span", class_="textenormal", recursive=False):
+        paragraphs = [_emc_squash(p.get_text(" ")) for p in span.find_all("p")] or [_emc_squash(span.get_text(" "))]
+        if text := "\n".join(p for p in paragraphs if p):
+            versions.append(text)
+    return next((v for v in versions if is_english(v)), versions[0] if versions else None)
 
 
 class ElsevierBV(PublisherParser):
@@ -58,7 +180,28 @@ class ElsevierBV(PublisherParser):
 
         return False
 
+    def _em_consulte_byline(self):
+        """div#article_auteurs on an EM-Consulte page, else None (oxjob #2339). Every parser's authors_found() runs on
+        every DOI page (#2239: under 0.5 ms a page it does not claim), so the cheap test comes first: og:site_name in
+        <head>, reached through direct children; nothing walks the whole tree until it says EM-Consulte."""
+        if "_emc_byline" not in self.__dict__:
+            self._emc_byline = None
+            html = self.soup.find("html", recursive=False)
+            head = (html or self.soup).find("head", recursive=False)
+            site = head.find("meta", attrs={"property": "og:site_name"}) if head is not None else None
+            if site is not None and _emc_squash(site.get("content")).lower() == "em-consulte":
+                self._emc_byline = self.soup.find("div", id="article_auteurs")
+        return self._emc_byline
+
+    def _em_consulte_authors(self):
+        if "_emc_authors" not in self.__dict__:
+            byline = self._em_consulte_byline()
+            self._emc_authors = emc_read_byline(byline) if byline is not None else []
+        return self._emc_authors
+
     def authors_found(self):
+        if self._em_consulte_authors():
+            return True
         # Legacy ScienceDirect template uses <li class="author">.
         # Modern React-based ScienceDirect (post-2019 redesign) uses
         # <div class="author-group">. Older / supplement / legacy pages
@@ -667,6 +810,9 @@ class ElsevierBV(PublisherParser):
         return None
 
     def parse(self):
+        if authors := self._em_consulte_authors():
+            pane = self.soup.find("div", id="pane_resume")
+            return {"authors": authors, "abstract": emc_abstract(pane) if pane is not None else None}
         author_results = []
         labelled = []  # per author: the card says "Correspondence" or carries the person icon
         author_soup = self.soup.findAll("li", class_="author")
