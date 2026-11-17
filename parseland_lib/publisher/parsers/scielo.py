@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import name_position, same_person, squash as _squash
-from bs4.element import NavigableString
+from bs4.element import NavigableString, Tag
 import unidecode
 
 # A note that says an author is the corresponding one, in SciELO's three languages (oxjob #2149).
@@ -226,6 +226,85 @@ def _listed_once(authors):
     return authors
 
 
+# The tail of a byline affiliation that is the author's contact, not the institution: "Correo electrónico: x@y",
+# "(correo-e: x@y)", "Email: x", "Correspondencia: x@y" (the e-mail itself is usually a Cloudflare-hidden link)
+_AFF_CONTACT_RE = re.compile(
+    r"[\s(\[.;,]*\b(?:correo(?:\s+electr\S*nico|-e)|e-?mail|correspond\S*ncia)\s*:.*$", re.I | re.S)
+
+
+def _byline_aff_texts(soup):
+    """The XML-built page's affiliations by anchor: <p class="aff"><a name="aff1"></a><sup>1</sup> text</p> -> {"aff1":
+    text}, with the leading label and a trailing contact (e-mail) left off."""
+    out = {}
+    for para in soup.select("p.aff"):
+        anchor = para.find("a", attrs={"name": True})
+        if anchor is None or anchor["name"] in out:
+            continue
+        para = copy.copy(para)
+        for tag in para.select('a.__cf_email__, a[href^="mailto:"]'):
+            tag.decompose()
+        for child in list(para.children):  # the label: the anchor and the "1" / "*" superscript before any text
+            if isinstance(child, NavigableString):
+                if child.strip():
+                    break
+            elif child.name == "a" and child.get("name") or child.name == "sup" and len(child.get_text(strip=True)) <= 4:
+                child.extract()
+            else:
+                break
+        text = _AFF_CONTACT_RE.sub("", re.sub(r"\s+", " ", para.get_text(" ")))
+        text = re.sub(r"\[email\s*protected\]", "", text).strip(" .,;:-–(")
+        if text:
+            out[anchor["name"]] = text
+    return out
+
+
+def _byline_names(soup):
+    """The XML-built page's byline as [(name, ["aff1", ...])]: one <p class="author"> per author, or (older pages) the
+    names inline in <div class="autores">, separated by commas, each followed by its <sup><a href="#aff1">."""
+    box = next((div for div in soup.select("div.autores") if div.get_text(strip=True)), None)
+    if box is None:
+        return []
+    paras = box.select("p.author")
+    if paras:
+        return [((para.select_one("span.author-name") or para).get_text(" "),
+                 [a["href"][1:] for a in para.select('a[href^="#aff"]')]) for para in paras]
+    out, name, ids, closed = [], "", [], False
+    for child in box.children:
+        if isinstance(child, Tag) and child.name == "sup":
+            ids += [a["href"][1:] for a in child.select('a[href^="#aff"]')]
+            closed = True
+            continue
+        for i, part in enumerate((child.get_text(" ") if isinstance(child, Tag) else str(child)).split(",")):
+            closed = closed or i > 0
+            if not part.strip():
+                continue
+            if closed and name.strip():
+                out.append((name, ids))
+                name, ids = "", []
+            name, closed = name + part, False
+    return out + ([(name, ids)] if name.strip() else [])
+
+
+def byline_affiliations(soup, names):
+    """Each author's affiliations as the XML-built page prints them under the byline, or None when the byline does not
+    list exactly these authors in this order. The citation_author_institution tags hold only a short form of each
+    ("Comisión de Investigaciones Científicas de la Provincia de Buenos Aires, Buenos Aires, Argentina" for "Instituto
+    Superior Experimental de Tecnología Alimentaria - Comisión de Investigaciones Científicas de la Provincia de Buenos
+    Aires (ISETA-CIC). Buenos Aires, Argentina."); an author the byline links to no affiliation gets []."""
+    byline = _byline_names(soup)
+    if not byline or len(byline) != len(names):
+        return None
+    texts = _byline_aff_texts(soup)
+    if not texts:
+        return None
+    for name, (printed, _) in zip(names, byline):
+        printed = _unmangle(printed.replace("\u00c2\u00a0", " ")).replace("\xa0", " ")
+        printed = re.sub(r"^\s*(?:and|y|e|&)\s+", "", printed).strip()
+        if not same_person(_unmangle(name), printed):
+            return None
+    return [list(dict.fromkeys(texts[i] for i in ids if i in texts)) for _, ids in byline]
+
+
 def classic_corresponding_names(soup, names):
     """The names among `names` a classic page's correspondence note names (pick_scielo_corresponding's note form), read
     with the page's mojibake put right, plus the Spanish "Autor correspondiente:" label."""
@@ -240,8 +319,9 @@ def classic_corresponding_names(soup, names):
 
 class SciELOClassic(PublisherParser):
     """Classic SciELO article and abstract pages on sites other than scielo.br (oxjob #2289). The meta-tag reading
-    stays (names, institutions and abstract as the generic parser reads them), with the repeated list read once and
-    the corresponding author the page's note names marked."""
+    stays (names, institutions and abstract as the generic parser reads them), with the repeated list read once, the
+    affiliations of XML-built pages as their byline prints them, and the corresponding author the page's note names
+    marked."""
     parser_name = "scielo_classic"
 
     def is_publisher_specific_parser(self):
@@ -259,6 +339,10 @@ class SciELOClassic(PublisherParser):
         if not hasattr(self, "_parsed"):
             parsed = GenericPublisherParser(self.soup).parse()
             authors = _listed_once(copy.deepcopy(parsed["authors"]))
+            printed = byline_affiliations(self.soup, [a["name"] for a in authors]) if authors else None
+            for author, affiliations in zip(authors, printed or []):
+                if affiliations:  # the byline's own text; an author it links to none keeps the meta tags' reading
+                    author["affiliations"] = affiliations
             if authors and not any(a["is_corresponding"] for a in authors):
                 marked = classic_corresponding_names(self.soup, [a["name"] for a in authors])
                 for author in authors if marked else []:

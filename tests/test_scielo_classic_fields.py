@@ -109,7 +109,56 @@ def test_whole_author_list_printed_twice_is_read_once():
             '</div>')
     authors = _authors(_page([one, one], body))
     assert [(a["name"], a["affiliations"]) for a in authors] == [
-        ("Alvarado Burbano, Maria Ximena", [{"name": "Universidad del Valle, Colombia"}])]
+        ("Alvarado Burbano, Maria Ximena", [{"name": "Escuela de Música de la Universidad del Valle, Colombia"}])]
+
+
+# scielo.cl, 10.4067/s0718-34292021000300043 (stored as mojibake): the institution tags hold a short form of each
+# affiliation; the byline under the title prints it whole, linked to each author by "#aff1"
+XML_AUTHORS = [("Pieroni, Victoria", "ComisiÃ³n de Investigaciones CientÃ­ficas de la Provincia de Buenos Aires, Buenos "
+                "Aires, Argentina", "Consejo Nacional de Investigaciones CientÃ­ficas y TÃ©cnicas, Buenos Aires, Argentina"),
+               ("Andres, Silvina", "UNLP, La Plata, Argentina")]
+XML_AFFS = (
+    '<p class="aff"><a name="aff1"></a><sup><sup>1</sup></sup> Instituto Superior Experimental de TecnologÃ­a '
+    'Alimentaria - ComisiÃ³n de Investigaciones CientÃ­ficas de la Provincia de Buenos Aires (ISETA-CIC). Buenos Aires, '
+    'Argentina.</p><p class="aff"><a name="aff2"></a><sup><sup>2</sup></sup> Consejo Nacional de Investigaciones '
+    'CientÃ­ficas y TÃ©cnicas (CONICET).Buenos Aires, Argentina. Correo electrÃ³nico: <a class="__cf_email__" '
+    'href="/cdn-cgi/l/email-protection">[email&#160;protected]</a></p><p class="aff"><a name="aff5"></a><sup><sup>5'
+    '</sup></sup> Centro de InvestigaciÃ³n y Desarrollo en CriotecnologÃ­a de Alimentos (CIDCA), CONICET-CICPBA- Fac. '
+    'Cs. Exactas UNLP. La Plata, Argentina.</p>')
+XML_PRINTED = [["Instituto Superior Experimental de TecnologÃ­a Alimentaria - ComisiÃ³n de Investigaciones CientÃ­ficas "
+                "de la Provincia de Buenos Aires (ISETA-CIC). Buenos Aires, Argentina",
+                "Consejo Nacional de Investigaciones CientÃ­ficas y TÃ©cnicas (CONICET).Buenos Aires, Argentina"],
+               ["Centro de InvestigaciÃ³n y Desarrollo en CriotecnologÃ­a de Alimentos (CIDCA), CONICET-CICPBA- Fac. "
+                "Cs. Exactas UNLP. La Plata, Argentina"]]
+
+
+def _xml_page(byline, authors=XML_AUTHORS):
+    body = (f'<!--version=xml-file--><div class="front" id="article-front"><div class="autores">{byline}</div>'
+            f'<div class="autores"></div>{XML_AFFS}</div>')
+    return _page(authors + authors, body)
+
+
+def test_xml_built_page_affiliations_are_the_bylines():
+    byline = ('<p class="author"><span class="author-name">VictoriaÂ\xa0Pieroni</span><sup><a href="#aff1">1</a>Â\xa0'
+              '</sup><sup><a href="#aff2">2</a>Â\xa0</sup></p><p class="author"><span class="author-name">SilvinaÂ\xa0'
+              'Andres</span><sup><a href="#aff5">5</a>Â\xa0</sup></p>')
+    authors = _authors(_xml_page(byline))
+    assert [a["name"] for a in authors] == ["Pieroni, Victoria", "Andres, Silvina"]
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == XML_PRINTED
+
+
+def test_xml_built_page_with_the_names_inline():
+    # scielo.isciii.es, 10.4321/s0376-78922021000200006: older XML-built pages print the names in one line
+    byline = ('VictoriaÂ\xa0Pieroni<sup><a href="#aff1">1</a></sup><sup><a href="#aff2">2</a></sup><sup><a href="#fn1">'
+              '</a></sup>, SilvinaÂ\xa0Andres<sup><a href="#aff5">5</a></sup>')
+    assert [[x["name"] for x in a["affiliations"]] for a in _authors(_xml_page(byline))] == XML_PRINTED
+
+
+def test_xml_built_byline_that_lists_other_authors_keeps_the_meta_tags():
+    byline = ('<p class="author"><span class="author-name">Ana Lima</span><sup><a href="#aff1">1</a></sup></p>'
+              '<p class="author"><span class="author-name">Silvina Andres</span><sup><a href="#aff5">5</a></sup></p>')
+    authors = _authors(_xml_page(byline))
+    assert [[x["name"] for x in a["affiliations"]] for a in authors] == [list(a[1:]) for a in XML_AUTHORS]
 
 
 def test_two_different_authors_are_never_folded():
