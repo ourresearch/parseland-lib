@@ -81,6 +81,9 @@ _BYLINE_GLUE = re.compile(r"(?:\band\b|[\s,;*†‡§])*")
 # A line that starts the reference list some authors paste under a conference abstract: the heading alone, or the
 # heading with a colon or the first numbered entry run on ("References:[1] Kidoaki S ...").
 _REFS_HEADING = re.compile(r"(?:references?|bibliography|literature cited)\s*(?::|$|\[\d|\d+\.\s)", re.I)
+# A keywords line ("Key words: Callinectes sapidus, ...") and the author's own "Abstract" heading over the text (#2239).
+_KEYWORDS_LINE = re.compile(r"key\s*-?\s*words?\s*:", re.I)
+_ABSTRACT_HEADING = re.compile(r"abstract\s*:?", re.I)
 
 
 def _fold(text):
@@ -209,6 +212,14 @@ class Frontiers(PublisherParser):
         h1 = box.find("h1")
         if lines and h1 is not None and _fold(lines[0]) == _fold(h1.get_text()):
             lines = lines[1:]
+        # Some paste a whole short paper: "Abstract", its paragraph, "Key words: ...", "Introducción", the methods ...
+        # The heading is no abstract and the abstract ends at the keywords line (10.3389/conf.fmars.2019.08.00117).
+        if lines and _ABSTRACT_HEADING.fullmatch(lines[0]):
+            lines = lines[1:]
+        for i, line in enumerate(lines[1:], start=1):
+            if _KEYWORDS_LINE.match(line):
+                lines = lines[:i]
+                break
         return "\n".join(lines) or None
 
     def get_authors(self):

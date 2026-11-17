@@ -256,7 +256,21 @@ def plain_citation_tags(soup):
         return {}
     texts, numbered = _without_list_numbers(texts)
     refs = [{"raw": t, "doi": _printed_doi(t)} for t in texts]
+    # One or two tags show no numbering to prove the list whole; on a page that prints its list on another page (EDP
+    # Sciences' "References" tab, /ref/...) they are no proof either (10.1051/epjconf/201715308011: 2 tags) (#2239).
+    if len(texts) < 3 and _references_on_another_page(soup):
+        numbered = False
     return {"references": refs, "references_complete": numbered and not _has_broken_entry(texts)}
+
+
+def _references_on_another_page(soup):
+    """True when a link named "References" leads to another page, not to a section of this one."""
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip().lower()
+        if href and not href.startswith(("#", "javascript")) and (
+                squash(a.get_text()).lower() == "references" or squash(a.get("title")).lower() == "references"):
+            return True
+    return False
 
 
 _PART_END = "␞"  # stands for a link block while a compound entry's text is read
