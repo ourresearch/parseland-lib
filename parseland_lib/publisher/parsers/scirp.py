@@ -21,6 +21,9 @@ _AUTHOR_LINK = re.compile(r"searchfield=authors")
 _ACKNOWLEDGMENTS = re.compile(r"^\s*acknowledge?ments?\b", re.I)
 # a note that explains a byline mark as the corresponding author's: "#Corresponding author." "* Corresponding author"
 _CORRESPONDING_NOTE = re.compile(r"^\s*([*#†‡§¶]+)\s*(?:corresponding\s+author|correspondence)\b", re.I)
+# a note that explains the byline's star as something else: "*Joint first author.", "*These authors contributed
+# equally.", "*Present address: ..." (#2239)
+_OTHER_STAR_NOTE = re.compile(r"author|contribut|equal|first|address", re.I)
 
 
 def _clean(text):
@@ -133,16 +136,23 @@ class SciRP(PublisherParser):
         return []
 
     def _mark_corresponding(self, authors, author_marks):
-        """Only a mark the page explains as the corresponding author's (a note in the full text's NOTES); a bare star
-        the page never explains is no mark (rubric label-v1), and SciRP also uses the star for joint first authors."""
+        """A mark the page explains as the corresponding author's (a note in the full text's NOTES). With no such note,
+        a star on some authors only is the conventional corresponding mark (gold label-v1: "Aiqun Liu*, Peiyuan Zhu,
+        ..." marks Liu, #2239), unless a note explains the star as something else ("*Joint first author."); a star on
+        every author marks no one."""
         box = self.soup.find(id="htmlContent")
-        marks = set()
+        marks, other_stars = set(), False
         for p in box.find_all("p") if box is not None else []:
             text = _clean(p.get_text())
             if len(text) <= 200 and (m := _CORRESPONDING_NOTE.match(text)):
                 marks.update(m.group(1))
+            elif len(text) <= 200 and re.match(r"\*\s*[^\W\d_]", text) and _OTHER_STAR_NOTE.search(text):
+                other_stars = True  # a table's "*Synthetic pesticides." explains no byline mark
         if not any(m & marks for m in author_marks):
-            return
+            starred = ["*" in m for m in author_marks]
+            if marks or other_stars or not any(starred) or all(starred):
+                return
+            marks = {"*"}
         for a, m in zip(authors, author_marks):
             a["is_corresponding"] = bool(m & marks)
 

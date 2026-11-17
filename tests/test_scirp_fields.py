@@ -130,11 +130,12 @@ def test_a_star_the_notes_call_corresponding_marks_that_author():
     assert [a["is_corresponding"] for a in _parsed(html)["authors"]] == [True, False]
 
 
-def test_a_bare_star_the_page_never_explains_is_not_a_corresponding_mark():
+def test_a_bare_star_on_one_author_is_the_conventional_corresponding_mark():
+    # gold label-v1 (#2239 round 7, 10.4236/nr.2016.710047): a star on some authors only, with no note, marks them
     html = _page([("Ana Example", "1,2*"), ("Ben Sample", "1")],
                  [_aff("Faculty of Medicine, Bamako, Mali", 1), _aff("Kati University Hospital, Kati, Mali", 2)],
                  full_text='<p class="E-Title1">5. Conclusion</p><p>Text.</p>')
-    assert _corr(html) == []
+    assert _corr(html) == ["Ana Example"]
 
 
 def test_abstract_is_the_citation_abstract():

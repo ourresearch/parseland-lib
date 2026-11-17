@@ -301,16 +301,19 @@ class Lippincott(PublisherParser):
                 authors.append(Author(name=name, aff_ids=[]))
 
         starred = [author for author in authors if author.is_corresponding]
-        if starred and self._star_is_not_a_mark(on_everyone=len(starred) == len(authors)):
+        if starred and self._star_is_not_a_mark(on_everyone=len(starred) == len(authors), starred=starred):
             for author in starred:
                 author.is_corresponding = None
+        elif starred and (named := getattr(self, "_address_author", None)):
+            for author in starred:  # the star leads to one author's own address: his mark alone (#2239)
+                author.is_corresponding = True if author.name == named else None
 
         if not [author for author in authors if author.is_corresponding]:
             for author in self._named_in_correspondence_note(authors):
                 author.is_corresponding = True
         return authors
 
-    def _star_is_not_a_mark(self, on_everyone):
+    def _star_is_not_a_mark(self, on_everyone, starred=()):
         """True when the byline's stars are footnote keys, not corresponding marks (oxjob #2288).
 
         LWW keys affiliations with *, †, ‡ ("From the *Department of Surgery ...", "<sup>*</sup>Department of ..."), so
@@ -320,9 +323,31 @@ class Lippincott(PublisherParser):
         """
         holder = self.soup.select_one("div.ejp-article-authors-info-holder")
         text = holder.get_text(" ", strip=True) if holder is not None else ""
+        address_star, self._address_author = self._star_keys_an_address(holder, starred)
+        if address_star:
+            text = text.replace(address_star, " ", 1)
         if _STAR_KEY.search(text):
             return True
-        return not _STAR_CORR.search(text) and on_everyone
+        return not address_star and not _STAR_CORR.search(text) and on_everyone
+
+    @staticmethod
+    def _star_keys_an_address(holder, starred):
+        """(note text, byline name) when a star keys a starred author's own address with an e-mail, else (None, None)
+        (#2239).
+
+        "<sup>*</sup>Michael L. Volk, MD, MSc, Division of ..., Ann Arbor, MI 48109. E-mail: ..." (10.1002/cld.420)
+        is a correspondence footnote with no label: the star is the corresponding mark, not an affiliation key
+        ("<sup>*</sup>Department of Surgery, ..."), which names no author.
+        """
+        if holder is None or not starred:
+            return None, None
+        for para in holder.find_all("p"):
+            note = para.get_text(" ", strip=True)
+            star = re.match(r"\s*" + _STAR + r"\s*", note)
+            if star and re.search(r"e-?mail", note, re.I) and (name := _statement_name(note[star.end():])) and (
+                    hit := _match_byline(name, [(author.name, []) for author in starred])):
+                return note, hit
+        return None, None
 
     def _named_in_correspondence_note(self, authors):
         """The authors the page's first correspondence note names (oxjob #2288).

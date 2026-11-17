@@ -4,6 +4,8 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import email_matches_name, strip_suffix
 
 _ACKNOWLEDGMENTS = re.compile(r"^\s*acknowledge?ments?\s*:?\s*$", re.I)
+# the page's section (meta dcterms:subject) for a piece of opinion writing, which has no abstract (#2239)
+_OPINION = re.compile(r"^(?:opinion|comment|commentary|viewpoint|editorial)s?$", re.I)
 
 
 def _squash(text):
@@ -67,7 +69,15 @@ class RoyalCollegeOfNursing(PublisherParser):
                 blocks.append(text)
         # Two blocks are a standfirst ("Simon Rippon and Malcolm Rae outline ...") and the opening paragraph; the page
         # shows both as the abstract and both blind labellers read both (#2330 fresh set: 5 of 6 such pages), so keep both.
+        # An opinion piece has no abstract: its second block is the body's first paragraph cut off by the paywall
+        # ("THE PEOPLE HAVE SPOKEN ... (Table 1)."), so only the standfirst is read (10.7748/nm.10.3.10.s10, #2239).
+        if len(blocks) > 1 and self._is_opinion():
+            blocks = blocks[:1]
         return "\n".join(blocks) or None
+
+    def _is_opinion(self):
+        tag = self.soup.find('meta', attrs={'name': 'dcterms:subject'})
+        return tag is not None and _OPINION.match(_squash(tag.get('content') or '')) is not None
 
     def parse_acknowledgments(self):
         for label in self.soup.find_all('strong', string=_ACKNOWLEDGMENTS):

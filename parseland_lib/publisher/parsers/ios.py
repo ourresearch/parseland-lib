@@ -155,7 +155,7 @@ class IOSPress(PublisherParser):
     def parse_abstract(self):
         row = self._row('abstract')
         if row is None:
-            return None
+            return self._full_text_abstract()
         # the text is cut into a shown part and a "below-fold" part, often mid-word: join them as printed
         text = _clean(''.join(span.get_text() for span in row.find_all('span', recursive=False)
                               if 'generated' not in (span.get('class') or [])))
@@ -163,6 +163,27 @@ class IOSPress(PublisherParser):
         if article_type is not None and 'book review' in article_type.get_text().lower() and _ISBN.search(text):
             return None  # a book review's "Abstract" row cites the book reviewed
         return text or None
+
+    def _full_text_abstract(self):
+        """The abstract the full text's front matter prints under its "Abstract" callout, for pages whose front-matter
+        block has no Abstract row (10.3233/adr-230088): every section, "Background: ..." to "Conclusions: ...", one per
+        line. The generic heading reader kept only the first section (#2239)."""
+        front = self.soup.select_one('section.nlm-article div.front')
+        title = front.find('h4', class_='callout-title', recursive=False) if front is not None else None
+        if title is None or _clean(title.get_text(' ')).lower() != 'abstract':
+            return None
+        parts = []
+        for node in title.find_next_siblings():
+            if node.name == 'h4':  # the next callout ("Keywords")
+                break
+            if node.name == 'p':
+                parts.append(_clean(node.get_text()))
+            elif node.name == 'div' and 'section' in (node.get('class') or []):
+                heading = node.find(class_='section-title')
+                paras = [_clean(p.get_text()) for p in node.find_all('p')]
+                text = '\n'.join(p for p in paras if p)
+                parts.append(_clean(heading.get_text(' ')) + ' ' + text if heading is not None and text else text)
+        return '\n'.join(p for p in parts if p) or None
 
     def parse(self):
         return {'authors': self.parse_authors(),

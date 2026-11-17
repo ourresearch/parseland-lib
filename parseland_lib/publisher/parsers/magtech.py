@@ -59,6 +59,8 @@ _ABSTRACT_LABEL = re.compile(r"^\s*(abstract|摘\s*要)\s*[:：]?\s*$", re.I)
 # the labels that end the abstract's text: keywords, classification numbers, the "link to this article" line
 _ABSTRACT_STOP = re.compile(r"^\s*(?:关键词|key\s*words?|中图分类号|clc|链接本文|url|trendmd|摘\s*要|abstract)\b", re.I)
 _REF_NUMBER = re.compile(r"^\s*\[?\s*(\d{1,4})\s*\]?\s*\.?\s*$")
+# an unnumbered row that is the next item of a multi-part reference: "(b) Sharp, M. J. ...", "(c) ..." (#2239)
+_SUB_ENTRY = re.compile(r"\(\s*[a-z]\s*\)\s")
 _DOI = re.compile(r"\b(10\.\d{4,9}/[^\s\"<>]+)")
 
 
@@ -430,6 +432,11 @@ class Magtech(PublisherParser):
             link = tds[1].find("a", href=_DOI)
             doi = _DOI.search(link["href"]).group(1) if link is not None else None
             m = _REF_NUMBER.match(_text(tds[0]))
+            if m is None and refs and _SUB_ENTRY.match(raw):
+                # "(b) Sharp, M. J. ...": the next item of a multi-part reference, printed in its own row with its own
+                # DOI; the labels read one item per printed row (10.6023/cjoc202212033: 12 numbers, 28 rows) (#2239)
+                refs.append({"position": len(refs) + 1, "raw": raw, "doi": doi})
+                continue
             if m is None and refs:  # a second part or a translation of the reference above
                 refs[-1]["raw"] = f'{refs[-1]["raw"]} {raw}'.strip()
                 refs[-1]["doi"] = refs[-1]["doi"] or doi
@@ -441,7 +448,7 @@ class Magtech(PublisherParser):
         badge = box.find_previous(class_="badge")
         stated = re.sub(r"\D", "", badge.get_text()) if badge is not None and box.find_previous(
             id="reference") is not None and badge.find_parent(id="reference") is not None else ""
-        complete = bool(refs) and numbers == list(range(1, len(refs) + 1)) and stated == str(len(refs)) and all(
+        complete = bool(refs) and numbers == list(range(1, len(numbers) + 1)) and stated == str(len(numbers)) and all(
             len(r["raw"]) > 10 for r in refs)
         return refs, complete
 
