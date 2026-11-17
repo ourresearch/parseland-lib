@@ -1,8 +1,10 @@
+import copy
 import re
 from urllib.parse import urlparse
 
+from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import name_position, squash as _squash
+from parseland_lib.publisher.parsers.utils import name_position, same_person, squash as _squash
 from bs4.element import NavigableString
 import unidecode
 
@@ -167,3 +169,99 @@ class SciELO(PublisherParser):
     def parse(self):
         return {'authors': self.parse_authors(),
                 'abstract': self.parse_abstract_meta_tags()}
+
+
+# ---- Classic SciELO sites other than scielo.br (oxjob #2289, template scielo-intl) ----
+# scielo.cl, scielo.isciii.es, scielo.org.za, scielo.pt, pepsic.bvsalud.org and ~30 more sites still run SciELO's classic
+# platform: article pages at /scielo.php?script=sci_arttext&pid=... (sci_abstract for the abstract page). No parser
+# claimed them, so the citation_author tags won and marked no corresponding author, though the page names one in a
+# note ("Correspondencia: Dr. X", "Dirección para correspondencia: X", "Correspondence : X"). Pages built from the
+# article's XML (<!--version=xml-file-->) also print the whole citation_author list twice, each institution twice.
+_CLASSIC_URL_TAGS = ("citation_fulltext_html_url", "citation_abstract_html_url")
+# "Autor correspondiente: Dr. X" (Spanish): SCIELO_NOTE_LABEL_RE has the Portuguese "correspondente" only, and is
+# left as it is so scielo.br pages read exactly as before
+_SPANISH_CORR_LABEL_RE = re.compile(r"autora?\s+correspondiente\s*:\s*(?:(?:dr|dra|prof|profa)\.?\s+)*", re.I)
+
+
+def classic_scielo_urls(soup):
+    """The page's own addresses on SciELO's classic platform (".../scielo.php?script=sci_arttext&pid=..."), from the
+    head's canonical link and citation_*_html_url tags. Reads only the head's own children: production asks every
+    parser on every page, so this must stay cheap (#2239)."""
+    root = soup.html
+    head = root.find("head", recursive=False) if root is not None else None
+    if head is None:
+        return []
+    urls = []
+    for tag in head.find_all(("link", "meta"), recursive=False):
+        if tag.name == "link":
+            url = tag.get("href") if "canonical" in (tag.get("rel") or []) else None
+        else:
+            url = tag.get("content") if tag.get("name") in _CLASSIC_URL_TAGS else None
+        if url and "/scielo.php" in url and "script=sci_" in url:
+            urls.append(url)
+    return urls
+
+
+_MANGLED = re.compile("[\u00c2-\u00f4][\u0080-\u00bf]")
+
+
+def _unmangle(text):
+    """UTF-8 stored as Latin-1 ('DirecciÃ³n' for 'Dirección') put right word by word, with parse.py's reader: a page
+    stored that way still prints some characters right ('600 μm'), so the whole text never decodes at once."""
+    if not _MANGLED.search(text):
+        return text
+    from parseland_lib.parse import _unmangled  # here, not at the top: parse.py imports this module
+    return re.sub(r"\S+", lambda m: _unmangled(m.group()), text)
+
+
+def _listed_once(authors):
+    """The author list as the page prints it: a list that is one list twice over (same names in the same order, the
+    XML-built pages) is kept once, and each author's affiliations once each. A name that comes twice in a list that
+    is not repeated whole stays (two people may share a name)."""
+    half = len(authors) // 2
+    if half and len(authors) == 2 * half and [a["name"] for a in authors[:half]] == [a["name"] for a in authors[half:]]:
+        authors = authors[:half]
+    for author in authors:
+        author["affiliations"] = list(dict.fromkeys(author["affiliations"]))
+    return authors
+
+
+def classic_corresponding_names(soup, names):
+    """The names among `names` a classic page's correspondence note names (pick_scielo_corresponding's note form), read
+    with the page's mojibake put right, plus the Spanish "Autor correspondiente:" label."""
+    marks = {key: [_unmangle(text) for text in values] for key, values in scielo_corresponding_marks(soup).items()}
+    if "texts" in marks:
+        spanish = [text[m.end():m.end() + 110] for text in marks["texts"] for m in _SPANISH_CORR_LABEL_RE.finditer(text)]
+        marks["lead_heads"] = spanish + marks["lead_heads"]
+    fixed = [_unmangle(name) for name in names]
+    picked = pick_scielo_corresponding(fixed, marks)
+    return [name for name, readable in zip(names, fixed) if any(same_person(readable, p) for p in picked)]
+
+
+class SciELOClassic(PublisherParser):
+    """Classic SciELO article and abstract pages on sites other than scielo.br (oxjob #2289). The meta-tag reading
+    stays (names, institutions and abstract as the generic parser reads them), with the repeated list read once and
+    the corresponding author the page's note names marked."""
+    parser_name = "scielo_classic"
+
+    def is_publisher_specific_parser(self):
+        if not hasattr(self, "_claim"):  # authors_found asks too: the head is read once per page
+            urls = classic_scielo_urls(self.soup)
+            hosts = [urlparse(url.strip()).netloc.lower() for url in urls]
+            # scielo.br is #2149's (SciELO above): its classic pages keep the generic reading
+            self._claim = bool(urls) and not any(h == "scielo.br" or h.endswith(".scielo.br") for h in hosts)
+        return self._claim
+
+    def authors_found(self):
+        return self.is_publisher_specific_parser() and bool(self.parse()["authors"])
+
+    def parse(self):
+        if not hasattr(self, "_parsed"):
+            parsed = GenericPublisherParser(self.soup).parse()
+            authors = _listed_once(copy.deepcopy(parsed["authors"]))
+            if authors and not any(a["is_corresponding"] for a in authors):
+                marked = classic_corresponding_names(self.soup, [a["name"] for a in authors])
+                for author in authors if marked else []:
+                    author["is_corresponding"] = author["name"] in marked
+            self._parsed = {**parsed, "authors": authors}
+        return self._parsed
