@@ -2,8 +2,9 @@
 
 Markup is cut down from stored rcni.com pages (17 Nov 2026, #2330 sample). One template serves every year from 1987
 to 2026: a byline block right after the <h1> (absent on news items, which credit no one), then one or two <abstract>
-elements. Of two, the first is a standfirst written for the contents page ("Lynne Wallis says ..."), the second the
-abstract. Research articles add <strong>-headed back-matter notes (Correspondence, Acknowledgements).
+elements. Of two, the first is a standfirst ("Simon Rippon and Malcolm Rae outline ..."), the second the opening
+paragraph; the page shows both as its abstract, so both are read. Research articles add <strong>-headed back-matter
+notes (Correspondence, Acknowledgements).
 """
 from bs4 import BeautifulSoup
 
@@ -41,15 +42,26 @@ def test_news_item_without_byline_gets_its_abstract():
     assert out["abstract"] == "A mental health nurse defended his membership of a party last week."
 
 
-def test_standfirst_before_the_abstract_is_left_out():
-    html = _page(byline=_byline(("Lynne Wallis", "Freelance journalist")), creator="Lynne Wallis ",
-                 abstracts=["<p>Reducing your carbon footprint can save you money, says Lynne Wallis</p>",
-                            "<p>If you are looking for ways to cut costs during the recession, then going green could "
-                            "bring benefits.</p>"])
+def test_standfirst_and_opening_paragraph_are_both_read():
+    # cut down from a stored Nursing Older People news page (10.7748/nop.23.2.5.s5), #2330 fresh set
+    p = '<p xmlns:mml="http://www.w3.org/1998/Math/MathML">{}</p>'
+    html = _page(byline=_byline(("Sophie Blakemore", "")), creator="Sophie Blakemore ",
+                 abstracts=["<p>Ombudsman investigations into complaints show that the health service is failing to "
+                            "meet basic standards of care for older people in hospital</p>",
+                            p.format("THE NHS is failing to treat older people with care, compassion, dignity and "
+                                     "respect, a report from the health service ombudsman concludes.")])
     out = _parse(html)
-    assert [a["name"] for a in out["authors"]] == ["Lynne Wallis"]
-    assert out["abstract"] == ("If you are looking for ways to cut costs during the recession, then going green could "
-                               "bring benefits.")
+    assert [a["name"] for a in out["authors"]] == ["Sophie Blakemore"]
+    assert out["abstract"] == ("Ombudsman investigations into complaints show that the health service is failing to "
+                               "meet basic standards of care for older people in hospital\n"
+                               "THE NHS is failing to treat older people with care, compassion, dignity and respect, "
+                               "a report from the health service ombudsman concludes.")
+
+
+def test_repeated_block_is_read_once():
+    text = "<p>A mental health nurse defended his membership of a party last week.</p>"
+    assert _parse(_page(abstracts=[text, text]))["abstract"] == (
+        "A mental health nurse defended his membership of a party last week.")
 
 
 def test_structured_abstract_keeps_its_paragraphs():
