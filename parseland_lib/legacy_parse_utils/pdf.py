@@ -138,6 +138,9 @@ SITE_LICENSE_HOSTS = (
     # no stored URL: the host then comes from the page's <meta name="DC.Identifier" content="https://www.biographien.ac.at">,
     # the first http-valued meta tag, which is the last resort of the callers' get_base_url_from_soup().
     'biographien.ac.at',
+    # #2239, round 7 (charter § 6, 17 Nov 2026 08:20, rule 4): each host checked on its own
+    'eve.gd',                 # a one-author blog (Rogue Scholar DOIs): "all material on this site is licensed under CC BY 4.0"
+    'wals.info',              # "WALS Online ... is licensed under CC BY 4.0": the dataset, each record a page of it
 )
 # One more whole-site host is not on the list because its footer names a licence per year of publication:
 # aclanthology.org, read by acl_anthology_license_text() (version_and_license.py).
@@ -152,9 +155,16 @@ def _host_in(url, hosts):
     return any(hostname == host or hostname.endswith('.' + host) for host in hosts)
 
 
+# Parts of a whole-site host whose items are not the site's own work (#2239, round 7): wals.info's reference database
+# (/refdb/record/<ref>, OAI set oai:refdb.wals.info) describes other authors' publications ("Redden et al. 1963"), which
+# WALS's footer does not license; the charter's test (ee51803) is that the work is one of the items the footer licenses.
+_SITE_LICENSE_EXCEPT = (('wals.info', '/refdb/'),)
+
+
 def site_license_covers_articles(url):
     """True when the page's host licenses every article in its site footer (SITE_LICENSE_HOSTS)."""
-    return bool(url) and _host_in(url, SITE_LICENSE_HOSTS)
+    return bool(url) and _host_in(url, SITE_LICENSE_HOSTS) and not any(
+        _host_in(url, (host,)) and part in (urlparse(url).path or '') for host, part in _SITE_LICENSE_EXCEPT)
 
 
 def trust_publisher_license(url):
