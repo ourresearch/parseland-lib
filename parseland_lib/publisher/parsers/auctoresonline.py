@@ -1,11 +1,13 @@
-"""Auctores (auctoresonline.com), a medical open-access publisher on its own PHP template (oxjob #2210).
+"""Auctores (auctoresonline.com, now auctoresonline.org), a medical open-access publisher on its own PHP template
+(oxjob #2210; the .org pages, the same template, oxjob #2339).
 
 The pages print no citation_* meta tags and a meta description cut to ~120 characters, so before this parser
 Parseland read nothing from them. Everything is in the markup:
 
 - byline: ``div.article-details div.u-list > ul > li``, the name followed by ``<sup><a>1,2*</a></sup>``;
 - affiliations: ``<p>`` children of ``div.u-list`` (``1 Department ...``), sometimes one ``<p>`` split by ``<br>``;
-  unnumbered paragraphs are not tied to anyone, so every author gets them all;
+  unnumbered paragraphs are not tied to anyone, so every author gets them all. Older pages (2018-2021) list them in
+  ``div.dpt-list`` beside it instead, one ``<li><sup>2</sup> Department ...</li>`` each;
 - corresponding author: the byline ``*``, explained by the ``*Corresponding Author: <name>, ...`` note in
   ``div.copyrights``; with no star in the byline, the note's name is matched to a byline name;
 - abstract: ``div.parent-cls[data-for="abstract"]``;
@@ -15,13 +17,14 @@ Parseland read nothing from them. Everything is in the markup:
 """
 import copy
 import re
+from urllib.parse import urlsplit
 
 from bs4 import NavigableString, Tag
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import same_person, squash
 
-DOMAIN = "auctoresonline.com"
+DOMAINS = ("auctoresonline.com", "auctoresonline.org")
 _CORR_NOTE = re.compile(r"^\W*corresponding\s+author\s*:?\s*", re.I)
 _AFF_NUMBER = re.compile(r"^(\d{1,2}(?:\s*,\s*\d{1,2})*)\s*(\S.*)$")  # "1 Dept ...", "5,6,7 Dept ..."
 _DOI = re.compile(r"\b(10\.\d{4,9}/[^\s\"<>]+)")
@@ -45,11 +48,43 @@ def _clean(text):
     return squash((text or "").replace("\xa0", " "))
 
 
+def _head_urls(soup):
+    """og:url and the canonical link, read from <head>'s direct children only. Every parser's claim runs on every DOI
+    page (#2239: under 0.5 ms a page it does not claim), so nothing here walks the whole tree."""
+    html = soup.find("html", recursive=False)
+    head = (html or soup).find("head", recursive=False)
+    if head is None:
+        return []
+    urls = []
+    for tag in head.find_all(("meta", "link"), recursive=False):
+        if tag.name == "meta" and "og:url" in (tag.get("property"), tag.get("name")):
+            urls.append(tag.get("content") or "")
+        elif tag.name == "link" and "canonical" in (tag.get("rel") or []):
+            urls.append(tag.get("href") or "")
+    return urls
+
+
+def _on_site(url):
+    try:
+        host = (urlsplit(url.strip()).hostname or "").lower()
+    except ValueError:
+        return False
+    return any(host == d or host.endswith("." + d) for d in DOMAINS)
+
+
 class Auctores(PublisherParser):
     parser_name = "auctores"
 
+    def __init__(self, soup):
+        super().__init__(soup)
+        self._claimed = None
+
     def is_publisher_specific_parser(self):
-        return bool(self.domain_in_meta_og_url(DOMAIN) or self.domain_in_canonical_link(DOMAIN))
+        # Claimed by the host of og:url or the canonical link. Some article pages point both at the home page
+        # ("https://www.auctoresonline.org/"); the host still holds, and authors_found() then needs the byline.
+        if self._claimed is None:
+            self._claimed = any(_on_site(url) for url in _head_urls(self.soup))
+        return self._claimed
 
     def _byline(self):
         return self.soup.select("div.article-details div.u-list > ul > li")
@@ -80,6 +115,13 @@ class Auctores(PublisherParser):
                 elif isinstance(node, NavigableString):
                     line.append(str(node))
             lines.append(_clean("".join(line)))
+        for li in self.soup.select("div.article-details div.dpt-list > ul > li"):
+            sup = li.find("sup")
+            number = ",".join(re.findall(r"\d+", sup.get_text())) if sup else ""
+            text = _clean(" ".join(s for s in li.find_all(string=True) if s.find_parent("sup") is None))
+            if len(re.sub(r"[\W\d_]", "", text)) < 4:  # "SE": too short to name a place
+                continue
+            lines.append(f"{number} {text}".strip())
         return [line for line in lines if line]
 
     def _corresponding_name(self):
