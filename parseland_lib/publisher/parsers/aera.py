@@ -4,12 +4,15 @@ The repository viewer is a DNN page with no citation_* meta tags. Each paper's r
 "label:" / value rows: "Author(s):" reads "Name, Affiliation; Name, Affiliation" (an affiliation may hold commas, so
 only the first comma splits), "Abstract:" holds the abstract. The "Owner Email:" row is the uploader's contact, not a
 corresponding-author mark, so no one is marked. The record shows no acknowledgments, funding or references.
+
+The 2019 papers' viewer (oxjob #2338) holds the same rows in an "rgMetaData" grid (label cell classed
+"metadataCaption", no Owner rows); both grids are read the same way.
 """
 import re
 
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
-_GRID_ID = re.compile(r"ViewRepository.*_rgDetails_ctl00$")
+_GRID_ID = re.compile(r"ViewRepository.*_rg(?:Details|MetaData)_ctl00$")
 
 
 def _clean(text):
