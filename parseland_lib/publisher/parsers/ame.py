@@ -24,6 +24,7 @@ _NAME_SUFFIX = re.compile(r"^(?:Jr|Sr|II|III|IV)\.?$")
 _ACK_TITLE = re.compile(r"^acknowledge?ments?$", re.I)
 _FUNDING_LABEL = re.compile(r"^Funding(?: sources?| information)?\s*:\s*")
 _NOTHING = re.compile(r"^(?:none|n/?a|not applicable)\.?$", re.I)  # "Acknowledgments: None." acknowledges no one
+_ADDRESS = ["addr-line", "country"]  # an <aff> segment that names these is a whole affiliation
 _LINK_LABELS = {"crossref", "pubmed", "pmc", "google scholar", "full text"}  # a reference's [Crossref] [PubMed] buttons
 
 
@@ -75,13 +76,7 @@ class AMEPublishing(PublisherParser):
         affs = []
         for aff in self.soup.select("p.affiliation aff"):
             if aff.find("target") is not None:
-                parts = []
-                for node in aff.children:
-                    if isinstance(node, Tag) and node.name == "target":
-                        parts.append(["".join(re.findall(r"\d+", node.get_text())) or None, ""])
-                    elif parts and not isinstance(node, Comment):
-                        parts[-1][1] += node.get_text() if isinstance(node, Tag) else str(node)
-                affs += [Affiliation(text, aff_id) for aff_id, text in parts]
+                affs += self._target_affs(aff)
                 continue
             aff = copy.copy(aff)  # other parsers read this soup after this one
             aff_id = None
@@ -91,6 +86,37 @@ class AMEPublishing(PublisherParser):
             affs.append(Affiliation(aff.get_text(), aff_id))
         cleaned = [(squash(a.organization).strip(" ;,"), a.aff_id) for a in affs]
         return [Affiliation(text, aff_id) for text, aff_id in cleaned if text]
+
+    @staticmethod
+    def _target_affs(aff):
+        """One <aff> holding several affiliations, each opened by a <target> mark. A segment that ends in a comma and
+        names no address (<addr-line>, <country>) shares the institution and address of the segment that closes its
+        group: "1Department of Geriatrics, 2Department of Cardiology, <institution>The First Affiliated
+        Hospital</institution>, Nanjing, China" is two departments of that hospital. A ';' closes a group."""
+        parts = []  # [number, text, its text from its first <institution> on or None, it names an address]
+        for node in aff.children:
+            if isinstance(node, Tag) and node.name == "target":
+                parts.append(["".join(re.findall(r"\d+", node.get_text())) or None, "", None, False])
+                continue
+            if not parts or isinstance(node, Comment):
+                continue
+            part, text = parts[-1], node.get_text() if isinstance(node, Tag) else str(node)
+            if isinstance(node, Tag):
+                if part[2] is None and node.name == "institution" and node.get("content-type") != "dept":
+                    part[2] = ""
+                part[3] = part[3] or node.name in _ADDRESS or node.find(_ADDRESS) is not None
+            part[1] += text
+            if part[2] is not None:
+                part[2] += text
+        shares = [not address and text.strip().endswith(",") for _, text, _, address in parts]
+        out = []
+        for i, (aff_id, text, _, _) in enumerate(parts):
+            if shares[i]:
+                closing = next((parts[j] for j in range(i + 1, len(parts)) if not shares[j]), None)
+                if closing is not None and closing[2]:
+                    text = text.rstrip() + " " + closing[2]
+            out.append(Affiliation(text, aff_id))
+        return out
 
     def parse_authors(self):
         authors = [Author(name=name, aff_ids=ids) for name, ids in self._byline()]

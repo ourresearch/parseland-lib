@@ -78,6 +78,38 @@ def test_one_aff_tag_with_target_marks_is_split_into_its_affiliations():
                        "Ye Jiang": ["Department of Pathology, Chongqing, China"]}
 
 
+def test_departments_before_a_shared_institution_get_its_institution_and_address():
+    # cut down from jtd 10.21037/jtd.2018.01.101 (fresh set, 17 Nov): two departments of one hospital, and a ';'
+    # closing a group whose segments each name their own place
+    html = _page('Lijun Qian<sup>1</sup>, Jing Yao<sup>2</sup>, Di Xu<sup>1,3</sup>',
+                 '<aff><target id="aff1" target-type="aff"><sup>1</sup></target>Department of Geriatrics, '
+                 '<target id="aff2" target-type="aff"><sup>2</sup></target>Department of Cardiology, '
+                 '<institution>The First Affiliated Hospital of Nanjing Medical University</institution>, '
+                 '<addr-line>Nanjing 210029</addr-line>, <country>China</country>; '
+                 '<target id="aff3" target-type="aff"><sup>3</sup></target>Division of Radiology, '
+                 '<country>China</country>;</aff>', _corr("Di Xu"))
+    authors = {a["name"]: [x["name"] for x in a["affiliations"]] for a in _parse(html)["authors"]}
+    hospital = "The First Affiliated Hospital of Nanjing Medical University, Nanjing 210029, China"
+    assert authors == {"Lijun Qian": [f"Department of Geriatrics, {hospital}"],
+                       "Jing Yao": [f"Department of Cardiology, {hospital}"],
+                       "Di Xu": [f"Department of Geriatrics, {hospital}", "Division of Radiology, China"]}
+
+
+def test_a_department_tagged_as_an_institution_still_shares_its_groups_address():
+    # cut down from a stored amegroups.org page: the first department sits in an <institution> tag of its own
+    html = _page('Wei Li<sup>1</sup>, Min Wang<sup>2</sup>',
+                 '<aff><target id="aff1" target-type="aff"><sup>1</sup></target><institution>Department of Thoracic '
+                 'Surgery</institution>, <target id="aff2" target-type="aff"><sup>2</sup></target><institution '
+                 'content-type="dept">Department of Nephrology, The First Affiliated Hospital</institution>, '
+                 '<institution>Zhengzhou University</institution>, <addr-line>Zhengzhou 450052</addr-line>, '
+                 '<country country="cn">China</country>; </aff>', _corr("Min Wang"))
+    authors = {a["name"]: [x["name"] for x in a["affiliations"]] for a in _parse(html)["authors"]}
+    assert authors == {
+        "Wei Li": ["Department of Thoracic Surgery, Zhengzhou University, Zhengzhou 450052, China"],
+        "Min Wang": ["Department of Nephrology, The First Affiliated Hospital, Zhengzhou University, Zhengzhou 450052, "
+                     "China"]}
+
+
 def test_correspondence_name_must_be_a_whole_name():
     html = _page('Li Li<sup>1</sup>, Beili Lin<sup>1</sup>', '<aff id="aff1"><sup>1</sup>Fudan University</aff>',
                  _corr("Beili Lin"))
