@@ -138,3 +138,44 @@ def test_rhhz_page_with_the_same_script_is_not_claimed():
 def test_page_without_the_platform_marks_is_not_claimed():
     html = _page(_byline("divPanel", "王翠玲, 刘建利", ["西北大学"]), head="").replace("modelDialog1.js", "dialog.js")
     assert not Magtech(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
+
+
+# fresh-set fixes (oxjob #2289, 17 Nov 2026): markup cut down from Fa Yi Xue Za Zhi (10.12116), Advanced Ultrasound in
+# Diagnosis and Therapy (journaladvancedultrasound.com), Wuyi Science Journal (1997) and Aero Weaponry (aeroweaponry.avic.com)
+
+
+def test_plain_text_byline_labels_are_not_authors():
+    names = "皮之云1， 邢豫明1，2， 程宝文1，3"
+    addr = "1. 昆明医科大学法医学院，云南 昆明 650500； 2. 云南省公安厅刑侦总队，云南 昆明 650100； 3. 云南警官学院，云南 昆明 650223"
+    got = _parse(_page(_byline("divPanel", names, [addr], _info("通讯作者:", "程宝文，男，博士，主任法医师；E-mail：ggcbw@vip.sina.com"))))
+    assert got == [("皮之云", ["昆明医科大学法医学院，云南 昆明 650500"], False),
+                   ("邢豫明", ["昆明医科大学法医学院，云南 昆明 650500", "云南省公安厅刑侦总队，云南 昆明 650100"], False),
+                   ("程宝文", ["昆明医科大学法医学院，云南 昆明 650500", "云南警官学院，云南 昆明 650223"], True)]
+
+
+def test_degree_after_a_comma_is_not_an_author():
+    names = (f"Tianxiang Li, BS<sup>a</sup>, Fei Ji, BS<sup>a</sup>, Meng Yang, MD<sup>a</sup><sup>,</sup><sup>*</sup>"
+             f"{MAIL}")
+    addr = "<sup>a</sup> Department of Ultrasound, Peking Union Medical College Hospital, Beijing, China"
+    got = _parse(_page(_byline("divPanelEn", names, [addr], _info("Contact:", "Meng Yang, MD, E-mail:y@126.com")), lang="en"))
+    aff = ["Department of Ultrasound, Peking Union Medical College Hospital, Beijing, China"]
+    assert got == [("Tianxiang Li", aff, False), ("Fei Ji", aff, False), ("Meng Yang", aff, True)]
+
+
+def test_parenthesis_labels_and_a_label_glued_to_a_postcode():
+    names = "Zhu Jinmao<sup>1)</sup>, Jiang Zhilin<sup>2)</sup>, Jiang Wei<sup>3)</sup>"
+    addr = ("1) Fujian Normal University , Fuzhou 　350007　2) Nanjing Forestry University , Nanjing 　2100373) "
+            "Forestry Committee of Jian'ou City , Jian'ou 　353100")
+    got = _parse(_page(_byline("divPanelEn", names, [addr]), lang="en"))
+    assert [a for _, a, _ in got] == [["Fujian Normal University , Fuzhou 350007"],
+                                      ["Nanjing Forestry University , Nanjing 210037"],
+                                      ["Forestry Committee of Jian'ou City , Jian'ou 353100"]]
+
+
+def test_label_before_a_units_number():
+    names = f"付翔<sup>1,</sup><sup>2,</sup><sup>*</sup>{MAIL},申罕骥<sup>3</sup>,王建叶<sup>2</sup>"
+    addr = "1.93236部队, 北京 100085<br/>2.93216部队, 北京 100085<br/>3.中国科学院计算机网络信息中心, 北京 100190"
+    got = _parse(_page(_byline("divPanel", names, [addr], _info("通讯作者:", "付翔"))))
+    assert got == [("付翔", ["93236部队, 北京 100085", "93216部队, 北京 100085"], True),
+                   ("申罕骥", ["中国科学院计算机网络信息中心, 北京 100190"], False),
+                   ("王建叶", ["93216部队, 北京 100085"], False)]

@@ -42,6 +42,13 @@ _SEPARATOR = re.compile(r"\s*(?:[,，;；、]|\band\b)\s*")
 # what marks an author in the byline besides the affiliation labels
 _SYMBOLS = "*∗△▲※"
 _SYMBOL = re.compile(r"[*∗△▲※]")
+# a byline's affiliation labels printed as plain text: "皮之云1， 邢豫明1，2" (a name's trailing digits, or digits alone
+# after a separator, label the name before)
+_TEXT_LABEL = re.compile(r"(?<=[^\W\d_])\s*(\d{1,2})\s*$")
+_ONLY_LABEL = re.compile(r"^\s*\d{1,2}\s*$")
+# a degree after a comma is not an author: "Tianxiang Li, BS<sup>a</sup>, Meng Yang, MD<sup>a</sup>"
+_DEGREE = re.compile(r"^(?:M\.?D|Ph\.?\s?D|B\.?S(?:c|N)?|M\.?S(?:c|N)?|M\.?A|B\.?A|MBBS|MBChB|MPH|MBA|MMed|MM|MPhil|"
+                     r"DPhil|MEng|BEng|BMed|PharmD|DDS|DMD|DVM|DrPH|ScD|RN|FRC[PS]|FACS)\.?$")
 _CONTACT = re.compile(r"^\s*(?:通[信讯]作者|联系人|contact|corresponding\s+authors?)\s*[:：]?\s*", re.I)
 _FUNDING = re.compile(r"^\s*(?:基金资助|基金项目|资助项目|supported\s+by|funds?|fund\s+projects?)\s*[:：]\s*", re.I)
 _EQUAL = re.compile(r"contributed equally|equal(?:ly)? contribut|共同第一作者|并列第一作者", re.I)
@@ -143,12 +150,23 @@ class Magtech(PublisherParser):
         def add_text(text):
             parts = _SEPARATOR.split(text)
             for i, part in enumerate(parts):
-                if i and entries[-1]["name"].strip():
-                    entries.append({"name": "", "labels": [], "symbols": "", "mail": False})
                 symbols = "".join(_SYMBOL.findall(part))
                 part = _SYMBOL.sub("", part).replace("(", " ").replace(")", " ").replace("（", " ").replace("）", " ")
+                if _ONLY_LABEL.match(part) or _DEGREE.match(part.strip()):  # a label or degree: the name before's
+                    if _ONLY_LABEL.match(part):
+                        last()["labels"].append(part.strip())
+                    if symbols:
+                        last()["symbols"] += symbols
+                    continue
+                if i and entries[-1]["name"].strip():
+                    entries.append({"name": "", "labels": [], "symbols": "", "mail": False})
+                label = _TEXT_LABEL.search(part)
+                if label:
+                    part = part[:label.start()]
                 if part.strip():
                     entries[-1]["name"] += " " + part.strip()
+                if label:
+                    last()["labels"].append(label.group(1))
                 if symbols:
                     last()["symbols"] += symbols
 
@@ -164,7 +182,7 @@ class Magtech(PublisherParser):
                         mark = child.get_text()
                         target = last()
                         target["symbols"] += "".join(_SYMBOL.findall(mark))
-                        target["labels"] += [t for t in re.split(r"[\s,，、]+", _SYMBOL.sub("", mark)) if t]
+                        target["labels"] += [t for t in re.split(r"[\s,，、()（）.．]+", _SYMBOL.sub("", mark)) if t]
                     elif child.name == "a":
                         if (child.get("href") or "").lower().startswith("mailto:"):
                             last()["mail"] = True
@@ -228,7 +246,8 @@ class Magtech(PublisherParser):
         """"1. X; 2. Y" / "a X b Y" / "(1. X；2. Y)" -> [(label, text)], labels in sequence; [] when the text opens
         with no label."""
         text = text.strip().lstrip("(（").strip()
-        m = re.match(r"([0-9]{1,2}|[a-z])\s*[.．、]?\s*(?=[^\W\d_])", text)
+        m = re.match(r"([0-9]{1,2}|[a-z])\s*[.．、)）]?\s*(?=[^\W\d_])", text) or re.match(
+            r"([0-9]{1,2})\s*[.．、)）]\s*(?=\d)", text)  # "1.93236部队, 北京": a unit's number after the label
         if not m:
             return []
         first = m.group(1)
@@ -236,8 +255,9 @@ class Magtech(PublisherParser):
         starts = [(first, 0, m.end())]
         pos = m.end()
         for label in seq[1:]:
-            nxt = re.compile(r"(?:(?<=[\s;；,，。.(（])|(?<=))" + re.escape(label) +
-                             r"\s*[.．、]?\s*(?=[^\W\d_])")
+            # a ")" label can be glued to the postcode before it: "Jian'ou 3531004) Administrative Office"
+            nxt = re.compile(r"(?:(?:(?<=[\s;；,，。.(（])|(?<=))" + re.escape(label) +
+                             r"\s*[.．、)）]?|(?<=\d)" + re.escape(label) + r"[)）])\s*(?=[^\W\d_])")
             hit = nxt.search(text, pos)
             if not hit:
                 break
