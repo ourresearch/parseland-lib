@@ -1,20 +1,94 @@
 import re
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 from parseland_lib.elements import Author, Affiliation
 from parseland_lib.publisher.parsers.parser import PublisherParser
+from parseland_lib.publisher.parsers.utils import squash
+
+# Back-matter labels Medknow prints in bold (oxjob #2289): "<b><i>Acknowledgements</i></b>", "<b>Financial support and
+# sponsorship</b>", and the header's "<b>Source of Support:</b> None, <b>Conflict of Interest:</b> None".
+_ACK_LABEL = re.compile(r"^acknowledge?ments?\s*:?$", re.I)
+_FUNDING_LABEL = re.compile(r"^(?:financial support(?: and sponsorship)?|sources? of (?:funding|support)|"
+                            r"funding(?: information| sources?| statement)?)\s*:?$", re.I)
+_BLOCKS = {"table", "div", "p", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "section"}
+_BOLD = ("b", "strong")
+
+
+def _label_key(text):
+    text = squash(text)
+    return "acknowledgments" if _ACK_LABEL.match(text) else (
+        "funding_statement" if _FUNDING_LABEL.match(text) else None)
+
+
+def _next_nonblank(node):
+    """The next sibling that is a tag or holds text other than whitespace and &nbsp;."""
+    node = node.next_sibling
+    while node is not None and isinstance(node, NavigableString) and not squash(str(node)):
+        node = node.next_sibling
+    return node
+
+
+def _heads_paragraph(bold):
+    """A bold label on a line of its own ("<b>Acknowledgment</b><br>"), not one run into its text."""
+    nxt = _next_nonblank(bold)
+    return isinstance(nxt, Tag) and nxt.name == "br"
+
+
+def _text_after(start):
+    """The text after a label (or a section bar), one line per <br>-separated paragraph, up to the next block (the
+    References bar) or the next bold label on a line of its own ("<b>Conflicts of interest</b><br>")."""
+    lines, line = [], []
+    for node in start.next_siblings:
+        if isinstance(node, Tag):
+            if node.name in _BLOCKS:
+                break
+            if node.name == "br":
+                lines.append(squash("".join(line)))
+                line = []
+                continue
+            if node.name in _BOLD and not squash("".join(line)) and _heads_paragraph(node):
+                break
+            line.append(node.get_text())
+        elif isinstance(node, NavigableString):
+            line.append(str(node))
+    lines.append(squash("".join(line)))
+    return "\n".join(text for text in lines if text) or None
+
+
+def _run_in_text(bold):
+    """The text a run-in label leads ("<b>Source of Support:</b> None, <b>Conflict of Interest:</b> ..."), up to the
+    next bold label or line break, without the comma before it."""
+    parts = []
+    for node in bold.next_siblings:
+        if isinstance(node, Tag) and (node.name in _BOLD or node.name == "br" or node.name in _BLOCKS):
+            break
+        parts.append(node.get_text() if isinstance(node, Tag) else str(node))
+    return squash("".join(parts)).rstrip(",;").strip() or None
 
 
 class MedKnow(PublisherParser):
     parser_name = "medknow"
 
+    def _medknow_head(self):
+        """Medknow's Dublin Core schema link (<link rel="SCHEMA.dc">) in the page's <head> (oxjob #2289).
+
+        Every parser's authors_found() runs on every DOI page (#2239's per-page CPU rule), so this looks only at the
+        small <head>, found without searching the document, before anything walks the whole tree. Every stored page
+        the old checks read carries it (56 of 56 in #2289's sample and pool) and no other template's page does (0 of
+        2,250, Yektaweb's DC.* meta tags included). Worked out once: authors_found() and the dispatcher both ask."""
+        if not hasattr(self, "_head_mark"):
+            html = self.soup.find("html", recursive=False)
+            head = html.find("head", recursive=False) if html is not None else None
+            self._head_mark = head is not None and head.find("link", rel="SCHEMA.dc") is not None
+        return self._head_mark
+
     def is_publisher_specific_parser(self):
         script_url = "https://www.medknow.com/ss/ftr.js"
-        return script_url in str(self.soup)
+        return self._medknow_head() and script_url in str(self.soup)
 
     def authors_found(self):
-        return self.soup.find("font", class_="articleAuthor")
+        return self._medknow_head() and self.soup.find("font", class_="articleAuthor")
 
     def parse(self):
         authors = self.get_authors()
@@ -36,7 +110,33 @@ class MedKnow(PublisherParser):
         except Exception:
             pass
 
-        return {"authors": authors_affiliations, "abstract": abstract}
+        return {"authors": authors_affiliations, "abstract": abstract, **self.back_matter()}
+
+    def back_matter(self):
+        """Acknowledgments and funding statement (#2215's contract), verbatim without their labels (oxjob #2289).
+
+        The article body heads each with a bold label on a line of its own; older pages give "Acknowledgment" its own
+        section bar (td.pageSub, like References). The header's run-in "Source of Support: ..." is the funding
+        statement only on pages whose body prints no funding section. "Nil." is a statement (label-v2 gold keeps it).
+        The reference list is left to the other readers (its works were under #2289's floor)."""
+        found, run_in = {}, {}
+        for bold in self.soup.find_all(_BOLD):
+            key = _label_key(bold.get_text())
+            if key is None:
+                continue
+            if _heads_paragraph(bold):
+                if key not in found and (text := _text_after(bold)):
+                    found[key] = text
+            elif key not in run_in and (text := _run_in_text(bold)):
+                run_in[key] = text
+        if "acknowledgments" not in found:
+            for anchor in self.soup.select("td.pageSub a[name]"):
+                bar = anchor.find_parent("table")
+                if _ACK_LABEL.match(anchor["name"]) and bar is not None and (text := _text_after(bar)):
+                    found["acknowledgments"] = text
+                    break
+        return {"acknowledgments": found.get("acknowledgments") or run_in.get("acknowledgments"),
+                "funding_statement": found.get("funding_statement") or run_in.get("funding_statement")}
 
     def get_authors(self):
         results = []
