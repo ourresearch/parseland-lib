@@ -31,6 +31,12 @@ class ElsevierBV(PublisherParser):
             )
         )
 
+    @staticmethod
+    def _is_reference_tag(tag):
+        """A tag describing a work the page cites, not the page: citation_reference, dc.relation, dcterms.references."""
+        name = (tag.get("name") or tag.get("property") or "").lower()
+        return "reference" in name or name.startswith(("dc.relation", "dcterms.relation"))
+
     def _has_elsevier_signal(self):
         if self.domain_in_canonical_link("sciencedirect.com"):
             return True
@@ -51,9 +57,13 @@ class ElsevierBV(PublisherParser):
                     return True
 
         # Some Elsevier Health / EM-Consulte migrated pages expose no canonical
-        # or publisher meta, but do carry Elsevier-specific app metadata.
+        # or publisher meta, but do carry Elsevier-specific app metadata. Only
+        # on such pages, and never from a reference tag: a Springer, ACS or IOP
+        # page citing an Elsevier work went to this parser (oxjob #2352).
+        if self.soup.find("link", rel="canonical") or self.soup.find("meta", property="og:url"):
+            return False
         for tag in self.soup.find_all("meta"):
-            if self._is_elsevier_value(tag.get("content")):
+            if not self._is_reference_tag(tag) and self._is_elsevier_value(tag.get("content")):
                 return True
 
         return False
