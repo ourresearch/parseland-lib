@@ -74,26 +74,142 @@ def _correspondence_note_names(soup):
     return []
 
 
+# The ASP.NET repeater that prints a Frontiers conference abstract's byline: every author is one of its links.
+_CONF_AUTHOR_ID = "ucAbstractDetails_rptAuthors"
+# What may stand between two byline names besides their <sup> marks: separators, an "and", a '*'.
+_BYLINE_GLUE = re.compile(r"(?:\band\b|[\s,;*†‡§])*")
+# A line that starts the reference list some authors paste under a conference abstract: the heading alone, or the
+# heading with a colon or the first numbered entry run on ("References:[1] Kidoaki S ...").
+_REFS_HEADING = re.compile(r"(?:references?|bibliography|literature cited)\s*(?::|$|\[\d|\d+\.\s)", re.I)
+
+
+def _fold(text):
+    """Words only, lower case: a title and its repeat in the abstract box differ in spacing and end punctuation."""
+    return re.sub(r"\W+", " ", text).strip().lower()
+
+
 class Frontiers(PublisherParser):
     parser_name = "frontiers"
 
+    def _head_meta(self):
+        """og:url and og:site_name contents from <head> only, cached (oxjob #2289).
+
+        Every parser's claim runs on every DOI page (#2239). The old claim searched the whole tree for div.authors
+        and every h1 on all of them: 2.95 ms a page on 300 other templates' pages, up to 107 ms on big ones. <head>
+        holds a few dozen tags. The first og:url there is the one domain_in_meta_og_url read on every stored
+        Frontiers page; a page with no <head> is not a Frontiers page.
+        """
+        meta = self.__dict__.get("_meta")
+        if meta is None:
+            head, url, site = self.soup.head, None, None
+            if head is not None:
+                tag = head.find("meta", property="og:url") or head.find("meta", attrs={"name": "og:url"})
+                url = tag.get("content") if tag is not None else None
+                tag = head.find("meta", property="og:site_name")
+                site = tag.get("content") if tag is not None else None
+            meta = self._meta = (url or "", (site or "").strip())
+        return meta
+
+    def _platform_page(self):
+        """A page of the Frontiers article platform: og:url on frontiersin.org, or a partner's holding a 10.3389 DOI
+        (ssph-journal.org, frontierspartnerships.org), whose pages this parser reads without claiming them."""
+        url = self._head_meta()[0]
+        return "frontiersin.org" in url or "10.3389/" in url
+
     def is_publisher_specific_parser(self):
-        return self.domain_in_meta_og_url("frontiersin.org")
+        return "frontiersin.org" in self._head_meta()[0] or self._conference_byline() is not None
 
     def authors_found(self):
-        return self._old_template() or self._v4_people_list()
+        if self._platform_page():
+            return bool(self._old_template() or self._v4_people_list())
+        return self._conference_byline() is not None
 
     def parse(self):
-        if self._old_template():
-            authors = self.get_authors()
-            affiliations = self.get_affiliations()
+        conf = None if self._platform_page() else self._conference_byline()
+        if conf is not None:
+            box = conf.parent
+            authors = self.get_conference_authors(conf)
+            affiliations = self.get_affiliations(box)
+            abstract = self.get_conference_abstract(box)
         else:
-            authors, affiliations = self.get_v4()
+            if self._old_template():
+                authors = self.get_authors()
+                affiliations = self.get_affiliations()
+            else:
+                authors, affiliations = self.get_v4()
+            abstract = self.parse_abstract_meta_tags()
         authors_affiliations = self.merge_authors_affiliations(authors, affiliations)
         return {
             "authors": authors_affiliations,
-            "abstract": self.parse_abstract_meta_tags(),
+            "abstract": abstract,
         }
+
+    def _conference_byline(self):
+        """The byline of a Frontiers conference abstract (10.3389/conf.*, the Frontiers Events pages), or None.
+
+        Those pages leave og:url empty, so the og:url claim never took them, and their linked names carry no profile
+        image, so get_authors read no one; no meta tags name the authors either. Nobody read their affiliations or
+        corresponding marks, and their only description tag is the Frontiers Events blurb (oxjob #2289). Only pages
+        whose og:site_name is "Frontiers" are searched, and only bylines made of the abstract repeater's links:
+        text names outside them would be dropped, so such a page is not claimed.
+        """
+        if "_conf" not in self.__dict__:
+            conf = None
+            url, site = self._head_meta()
+            if not url and site == "Frontiers":
+                box = self.soup.find("div", class_="JournalAbstract")
+                byline = box.find("div", class_="authors") if box is not None else None
+                if byline is not None and any(_CONF_AUTHOR_ID in (a.get("id") or "") for a in byline.find_all("a")):
+                    loose = "".join(t for t in byline.find_all(string=True) if t.find_parent(["a", "sup"]) is None)
+                    if _BYLINE_GLUE.fullmatch(loose):
+                        conf = byline
+            self._conf = conf
+        return self._conf
+
+    def get_conference_authors(self, byline):
+        """Each link of a conference abstract's byline, with the affiliation numbers and '*' after it.
+
+        The '*' counts only when the page explains it ("* Correspondence: ..."): a bare mark is no corresponding
+        author by the labelling rubric.
+        """
+        note = self.soup.find("p", id=re.compile("_pCorrespondence$"))  # in the article-info block below the abstract
+        explained = note is not None and "*" in note.get_text() and "orrespondence" in note.get_text()
+        authors = []
+        for a in byline.find_all("a"):
+            name = re.sub(r"\s+", " ", a.get_text(" ")).strip(" ,")
+            if not name:
+                continue
+            marks, node = [], a.next_sibling
+            while node is not None and getattr(node, "name", None) != "a":
+                marks.append(node)
+                node = node.next_sibling
+            sups = [m.get_text() for m in marks if getattr(m, "name", None) == "sup"]
+            starred = any("*" in (m.get_text() if hasattr(m, "get_text") else str(m)) for m in marks)
+            authors.append(Author(name=name, aff_ids=self.format_ids(",".join(sups)),
+                                  is_corresponding=explained and starred))
+        return authors
+
+    @staticmethod
+    def get_conference_abstract(box):
+        """The abstract's text under the byline, one line per printed line (its section labels stay).
+
+        Authors fill the abstract box themselves: some open it with the title again and some close it with their
+        reference list, neither of which is abstract. A first line repeating the page's h1 is dropped, and the text
+        stops at a line opening with a references heading ("References", "References:[1] ...") (oxjob #2289).
+        """
+        span = box.find("span", id=re.compile("_litAbstract$"))
+        if span is None:
+            return None
+        lines = [re.sub(r"\s+", " ", line).strip() for line in span.get_text().splitlines()]
+        lines = [line for line in lines if line]
+        for i, line in enumerate(lines):
+            if _REFS_HEADING.match(line):
+                lines = lines[:i]
+                break
+        h1 = box.find("h1")
+        if lines and h1 is not None and _fold(lines[0]) == _fold(h1.get_text()):
+            lines = lines[1:]
+        return "\n".join(lines) or None
 
     def get_authors(self):
         authors = []
@@ -174,8 +290,8 @@ class Frontiers(PublisherParser):
                 affiliations.append(Affiliation(aff_id=None, organization=text))
         return authors, affiliations
 
-    def get_affiliations(self):
-        aff_soup = self.soup.find("ul", class_="notes")
+    def get_affiliations(self, scope=None):
+        aff_soup = (scope or self.soup).find("ul", class_="notes")
 
         results = []
         if aff_soup:
