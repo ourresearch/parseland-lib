@@ -153,12 +153,103 @@ def test_utf8_bytes_under_a_windows_1252_declaration():
     assert authors[0]["name"] == "C Güsgen" and authors[0]["is_corresponding"]
 
 
-def test_a_name_missing_from_the_byline_does_not_join_the_address_before_it():
+def test_a_signatory_missing_from_the_byline_is_a_co_author_with_their_own_address():
+    # "In Reply" letters: the byline carries the first author; the address paragraphs name every signatory
+    body = ('<p class="Anschrift_der_Verfasser">On behalf of the authors</p>'
+            '<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. med. Hartmut H.-J. Schmidt</span></p>'
+            '<p class="Anschrift_der_Verfasser">Klinik für Transplantationsmedizin, Universitätsklinikum Münster</p>'
+            '<p class="Anschrift_der_Verfasser">hepar@example.de</p>'
+            '<p class="Anschrift_der_Verfasser">Prof. Dr. jur. Thomas Gutmann</p>'
+            '<p class="Anschrift_der_Verfasser">Lehrstuhl für Bürgerliches Recht, Rechtsphilosophie und Medizinrecht</p>'
+            '<p class="Anschrift_der_Verfasser">Westfälische Wilhelms-Universität Münster</p>')
+    assert _affs(_page(["Schmidt, H H"], body)) == {
+        "H H Schmidt": ["Klinik für Transplantationsmedizin, Universitätsklinikum Münster"],
+        "Thomas Gutmann": ["Lehrstuhl für Bürgerliches Recht, Rechtsphilosophie und Medizinrecht, "
+                           "Westfälische Wilhelms-Universität Münster"]}
+
+
+def test_a_family_name_alone_takes_its_given_name_from_the_article_replied_to():
     body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">PD Dr. med. Marc Regier</span></p>'
             '<p class="Anschrift_der_Verfasser">Universitätsklinikum Hamburg-Eppendorf</p>'
             '<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. med. Chun</span></p>'
             '<p class="Anschrift_der_Verfasser">Martini-Klinik am UKE</p>')
-    assert _affs(_page(["Regier, M"], body)) == {"M Regier": ["Universitätsklinikum Hamburg-Eppendorf"]}
+    html = _page(["Regier, M"], body).replace(
+        '<h4>', '<div class="bezug"><a href="/archiv/1">Thermal Ablation of Renal Tumors by PD Dr. med. Marc Regier, '
+        'Prof. Dr. med. Felix Chun in issue 24/2015</a></div><h4>', 1)
+    assert _affs(html) == {"M Regier": ["Universitätsklinikum Hamburg-Eppendorf"],
+                           "Felix Chun": ["Martini-Klinik am UKE"]}
+
+
+def test_no_co_author_from_the_address_when_a_byline_name_is_not_found_there():
+    # a byline name spelled otherwise in the address ("Loellgen") must not come back as a second author
+    body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. med. Dieter Leyk</span></p>'
+            '<p class="Anschrift_der_Verfasser">Deutsche Sporthochschule Köln</p>'
+            '<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. med. Herbert Loellgen</span></p>'
+            '<p class="Anschrift_der_Verfasser">Sana-Klinikum Remscheid</p>')
+    assert [a["name"] for a in _authors(_page(["Leyk, D", "Löllgen, H"], body))] == ["D Leyk", "H Löllgen"]
+
+
+def test_short_lines_under_the_institution_stay_in_the_affiliation():
+    body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Dr. med. Claas Ulrich</span></p>'
+            '<p class="Anschrift_der_Verfasser">Hauttumorcentrum der Charité</p>'
+            '<p class="Anschrift_der_Verfasser">Dermatologischer Konsiliarbereich</p>'
+            '<p class="Anschrift_der_Verfasser">und Nachsorgeambulanz für Immunsupprimierte</p>'
+            '<p class="Anschrift_der_Verfasser">Berlin</p>'
+            '<p class="Anschrift_der_Verfasser">Claas.Ulrich@example.de<br/></p>')
+    assert _affs(_page(["Ulrich, C"], body)) == {"C Ulrich": [
+        "Hauttumorcentrum der Charité, Dermatologischer Konsiliarbereich, und Nachsorgeambulanz für Immunsupprimierte, "
+        "Berlin"]}
+
+
+def test_a_postal_address_is_an_affiliation():
+    body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">PD Dr. med. Ernst Eising</span></p>'
+            '<p class="Anschrift_der_Verfasser">Elper Weg 66<br/>45657 Recklinghausen</p>')
+    assert _affs(_page(["Eising, E"], body)) == {"E Eising": ["Elper Weg 66, 45657 Recklinghausen"]}
+
+
+def test_plain_br_address_after_the_doi_line_on_2008_2010_letters():
+    citation = '<div class="citation">Dtsch Arztebl Int 2008; 105: 900. DOI: 10.3238/arztebl.2008.0900b</div>'
+    body = ('The authors are of the opinion that it is incumbent on insurers to act now.\tDOI: '
+            '10.3238/arztebl.2008.0900b<BR>\n<BR>\n<BR>\nProf. Dr. med. Dr. Sportwiss. Dieter Leyk<BR>\n'
+            'Institut für Physiologie und Anatomie<BR>\nDeutsche Sporthochschule Köln, Carl-Diem-Weg 6<BR>\n'
+            '50933 Köln, Germany<BR>\nleyk@example.de<BR>\n<BR>\nProf. Dr. med. Herbert Löllgen<BR>\n'
+            'Präsident der Deutschen Gesellschaft für Sportmedizin und Prävention<BR>\nBermesgasse 32b<BR>\n'
+            '42897 Remscheid, Germany<BR>\nloellgen@example.de or<BR>\nh.l@example.de<BR>\n<BR>\n'
+            'Conflict of interest statement<BR>\nThe authors declare that no conflict of interest exists.'
+            '<iframe id="civey" src="about:blank"></iframe><script>console.log("x");</script>')
+    html = _page(["Leyk, D", "Löllgen, H"], body).replace(
+        '<div class="citation">Dtsch Arztebl Int 2020; 117: 737-44. DOI: 10.3238/arztebl.2020.0737</div>', citation)
+    assert _affs(html) == {
+        "D Leyk": ["Institut für Physiologie und Anatomie, Deutsche Sporthochschule Köln, Carl-Diem-Weg 6, "
+                   "50933 Köln, Germany"],
+        "H Löllgen": ["Präsident der Deutschen Gesellschaft für Sportmedizin und Prävention, Bermesgasse 32b, "
+                      "42897 Remscheid, Germany"]}
+
+
+def test_supplement_author_paragraphs():
+    body = ('<p class="Grundschrift_ohne_Einzug"><span class="DOI">DOI: 10.3238/PersOnko.2022.12.02.03</span></p>'
+            '<p class="Autor_nach_Artikel">Prof. Dr. med. Dr. rer. nat. Rebekka Schneider-Kramann</p>'
+            '<p class="Autor_nach_Artikel_Taetigkeit">Institut für Zell- und Tumorbiologie<br/>Universitätsklinikum RWTH '
+            'Aachen</p><p class="Fussnote"><span class="fett">Interessenkonflikt:</span> keiner.</p>')
+    assert _affs(_page(["Schneider-Kramann, Rebekka"], body)) == {
+        "Rebekka Schneider-Kramann": ["Institut für Zell- und Tumorbiologie, Universitätsklinikum RWTH Aachen"]}
+
+
+def test_authors_sharing_a_family_name_are_told_apart_by_the_given_name():
+    body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. Ing. Dr. h. c. mult. Siegfried Hünig'
+            '</span></p><p class="Anschrift_der_Verfasser">Institut für Organische Chemie, Würzburg</p>'
+            '<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Dr. med. Georg Hünig</span></p>'
+            '<p class="Anschrift_der_Verfasser">Hefnersplatz 10, 90402 Nürnberg, Germany</p>')
+    assert _affs(_page(["Hünig, S", "Hünig, G"], body)) == {
+        "S Hünig": ["Institut für Organische Chemie, Würzburg"],
+        "G Hünig": ["Hefnersplatz 10, 90402 Nürnberg, Germany"]}
+
+
+def test_stray_windows_1252_dash_is_read_as_a_dash():
+    body = ('<p class="Anschrift_der_Verfasser"><span class="Autor_fett">Prof. Dr. med. Maike de Wit</span></p>'
+            '<p class="Anschrift_der_Verfasser">Klinik für Innere Medizin \x96 Hämatologie, Vivantes Klinikum Neukölln</p>')
+    assert _affs(_page(["de Wit, Maike"], body)) == {
+        "Maike de Wit": ["Klinik für Innere Medizin – Hämatologie, Vivantes Klinikum Neukölln"]}
 
 
 def test_representation_lines_are_not_affiliations():

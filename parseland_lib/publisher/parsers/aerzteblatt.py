@@ -2,13 +2,18 @@
 
 The archive's article layout (Deutsches Ärzteblatt International, the German edition's "Medizin" section and its
 "Perspektiven" supplements) has no citation_* meta tags. Its byline sits under the citation line as
-<h4><span class="author"><a>Family, Initial</a></span>; ...</h4>, and the page states affiliations in one of three
+<h4><span class="author"><a>Family, Initial</a></span>; ...</h4>, and the page states affiliations in one of these
 places, all read here:
   - reviews and original articles: <div id="autoren">, "Affiliation: Prof. Dr. med. Name, ...<br/>Affiliation: ...";
   - letters and research letters: <p class="Anschrift_der_Verfasser"> paragraphs, a bold name line followed by its
     address lines (research letters name each affiliation's authors in parentheses);
   - supplement articles: <span class="Autor_nach_Artikel"> name lines, each followed by
-    <span class="Autor_Taetigkeit"> affiliation lines.
+    <span class="Autor_Taetigkeit"> affiliation lines (later supplements: <p class="Autor_nach_Artikel"> and
+    <p class="Autor_nach_Artikel_Taetigkeit">);
+  - 2008-2010 letters, with no such classes: plain <BR> lines after the article's own "DOI: ..." line.
+Every line of an address belongs to it (the town under the institution too); a bare town alone is not an affiliation.
+The address paragraphs name every signatory: when each byline author is found there, a titled name the byline lacks
+("In Reply" letters often carry only the first) is added as a co-author with the address under it.
 The "Corresponding author" address block (bold label, or plain <BR> lines on 2008-2010 pages) marks that author.
 Names are matched to the byline by family name. The site's newer layout (aerzteblatt.de/archiv/<slug>-<uuid>) has no
 such byline and is not claimed.
@@ -35,13 +40,25 @@ _ORG = re.compile(r"universit|klinik|clinic|hospital|spital|krankenhaus|institut
 _TITLED = re.compile(r"^(?:univ\.-)?prof\.|^dr\.|^pd\b|^priv\.-doz", re.I)
 _OPEN_END = re.compile(r"(?:\b(?:für|fur|of|and|und|der|des|for|the|de)|[-,])$", re.I)
 _DEGREE_TOKENS = {"nat", "rer", "med", "dent", "phil", "dr", "prof", "pd", "habil"}
+# the end of the address lines: the statements and lists printed after them
+_STOP = re.compile(r"^(?:cite this as|zitierweise|conflicts? of interest|interessenkonflikt|literatur\b|references?$)",
+                   re.I)
+_CONTACT = re.compile(r"^(?:or|oder|and|und|e-?mail|mail|tel(?:efon)?|fax|phone)\.?$", re.I)  # left when an e-mail goes
+_INLINE = {"b", "strong", "i", "em", "span", "a", "font", "sup", "sub", "u"}
+_C1 = re.compile("[\x80-\x9f]")
+_POSTCODE = re.compile(r"\b\d{4,5}\s+[A-ZÄÖÜ]")
 
 
 def _utf8(text):
     """Undo UTF-8 read as windows-1252: the pages declare charset windows-1252, the stored bodies are UTF-8 ("GÃ¼sgen"
-    -> "Güsgen"). Text that is not such mojibake comes back unchanged."""
+    -> "Güsgen"). Text that is not such mojibake comes back unchanged, but for stray windows-1252 bytes that came through
+    as C1 control characters (U+0096 -> "–")."""
     if not text or text.isascii():
         return text
+    return _C1.sub(lambda m: m.group().encode("latin-1").decode("cp1252", "ignore"), _undo_mojibake(text))
+
+
+def _undo_mojibake(text):
     raw = bytearray()
     for ch in text:
         try:
@@ -65,6 +82,20 @@ def _clean(text):
     text = _EMAIL.sub(" ", text or "")
     text = re.sub(r"\(\s*\)", " ", text)
     return re.sub(r"\s+", " ", text).strip(" ,;:")
+
+
+def _author(name, family, given=""):
+    return {"name": name, "family": _fold(family), "initial": _fold(given)[:1], "affiliations": [],
+            "is_corresponding": False}
+
+
+def _person(text):
+    """'Prof. Dr. jur. Thomas Gutmann, MHBA' -> 'Thomas Gutmann': titles and degrees off; an initial ('J.') stays."""
+    tokens = text.split(",")[0].split()
+    while tokens and (tokens[0].casefold() in ("pd", "prof", "dr")
+                      or tokens[0].endswith(".") and not re.match(r"^[A-ZÄÖÜ]\.(?:-?[A-ZÄÖÜ]\.)*$", tokens[0])):
+        tokens.pop(0)
+    return " ".join(tokens)
 
 
 def _lines(el):
@@ -129,16 +160,31 @@ class Aerzteblatt(PublisherParser):
             given = " ".join(t for t in given.split() if t.casefold().strip(".") not in _DEGREE_TOKENS)
             name = f"{given} {family.strip()}".strip()
             if name:
-                authors.append({"name": name, "family": _fold(family.strip()), "affiliations": [],
-                                "is_corresponding": False})
+                authors.append(_author(name, family.strip(), given))
         return authors
 
     @staticmethod
     def _who(text, authors):
-        """Indices of the byline authors whose family name the text names."""
+        """Indices of the byline authors whose family name the text names. When several share that family name
+        ("Hünig, S" and "Hünig, G"), only those whose given initial starts the word before it."""
         folded = _fold(text)
-        return {i for i, a in enumerate(authors)
-                if a["family"] and re.search(r"(?<!\w)" + re.escape(a["family"]) + r"(?!\w)", folded)}
+        hits = {}
+        for i, a in enumerate(authors):
+            found = [m.start() for m in re.finditer(r"(?<!\w)" + re.escape(a["family"]) + r"(?!\w)", folded)] \
+                if a["family"] else []
+            if found:
+                hits[i] = found
+        who = set(hits)
+        for family in {authors[i]["family"] for i in hits}:
+            tied = {i for i in hits if authors[i]["family"] == family}
+            if len(tied) < 2:
+                continue
+            keep = {i for i in tied if authors[i]["initial"] and any(
+                (w := re.search(r"([\w.'-]+)\s+$", folded[:start])) and w.group(1).startswith(authors[i]["initial"])
+                and w.group(1).strip(".") not in _DEGREE_TOKENS for start in hits[i])}
+            if keep:
+                who -= tied - keep
+        return who
 
     @staticmethod
     def _add(author, aff):
@@ -187,9 +233,9 @@ class Aerzteblatt(PublisherParser):
         groups, current, last_was_name, skipping = [], None, False, False
         for text, bold in lines:
             text = _clean(text)
-            if not text or _CORR_LABEL.match(text):
+            if not text or _CORR_LABEL.match(text) or _CONTACT.match(text):
                 continue
-            if re.match(r"(?i)cite this as|zitierweise", text):
+            if _STOP.match(text):
                 break
             if text.startswith("*"):  # "*The authors share co-first authorship"
                 continue
@@ -201,9 +247,11 @@ class Aerzteblatt(PublisherParser):
             if (who and (bold or not org)) or ((bold or _TITLED.match(text)) and not org):
                 skipping = False
                 if current is None or not last_was_name:
-                    current = {"names": set(), "lines": [], "per": []}
+                    current = {"names": set(), "lines": [], "per": [], "others": []}
                     groups.append(current)
                 current["names"] |= who
+                if not who and _TITLED.match(text) and _person(text):
+                    current["others"].append(_person(text))  # a signatory the byline leaves out
                 last_was_name = True
                 continue
             last_was_name = False
@@ -221,18 +269,69 @@ class Aerzteblatt(PublisherParser):
                 rest = _clean(text[start:])
                 if rest:
                     current["lines"].append(rest)
-            elif len(text.split()) > 3 or _ORG.search(text):  # a bare town ("Hannover") is not an affiliation
-                current["lines"].append(text)
+            else:
+                current["lines"].append(text)  # short lines too: a department or the town under the institution
+        # The address paragraphs list every signatory. When each byline author is found there, a titled name the byline
+        # lacks ("In Reply" letters often carry only the first) is a co-author, with the address under it.
+        named = set().union(*(g["names"] for g in groups), *(n for g in groups for _, n in g["per"]))
+        add_others = len(named) == len(authors)
         for g in groups:
-            for aff, named in g["per"]:
-                for i in sorted(named):
+            for aff, who in g["per"]:
+                for i in sorted(who):
                     self._add(authors[i], aff)
-            if g["lines"] and not g["per"]:
-                joined = g["lines"][0]
-                for line in g["lines"][1:]:  # "Klinik für<br/>Gastroenterologie": one name broken over two lines
-                    joined += (" " if _OPEN_END.search(joined) else ", ") + line
-                for i in sorted(g["names"]):
-                    self._add(authors[i], joined)
+            if g["per"]:
+                continue
+            members = sorted(g["names"])
+            if add_others:
+                for name in map(self._full_name, g["others"]):
+                    authors.append(_author(name, name.split()[-1], name.split()[0] if " " in name else ""))
+                    members.append(len(authors) - 1)
+            if not g["lines"]:
+                continue
+            joined = g["lines"][0]
+            for line in g["lines"][1:]:  # "Klinik für<br/>Gastroenterologie": one name broken over two lines
+                joined += (" " if _OPEN_END.search(joined) else ", ") + line
+            if not any(len(l.split()) > 3 or _ORG.search(l) for l in g["lines"]) \
+                    and not (len(g["lines"]) > 1 and any(_POSTCODE.search(l) for l in g["lines"])):
+                continue  # a bare town ("Hannover", "Fellbach, Germany") is not an affiliation; a postal address is
+            for i in members:
+                self._add(authors[i], joined)
+
+    def _full_name(self, name):
+        """A family name alone ('Prof. Dr. med. Chun'): its given name from the line naming the article replied to
+        ('... by PD Dr. med. Marc Regier, Prof. Dr. med. Felix Chun in issue 24/2015')."""
+        if " " in name:
+            return name
+        bezug = self.soup.select_one("div.bezug")
+        text = _utf8(bezug.get_text(" ", strip=True)) if bezug is not None else ""
+        m = re.search(r"((?:[A-ZÄÖÜ][\w'-]*\.?\s+){1,3})" + re.escape(name) + r"(?!\w)", text)
+        given = _person(m.group(1)) if m else ""
+        return f"{given} {name}".strip()
+
+    def _plain_address(self, container):
+        """2008-2010 letters: no address classes; the address lines follow the article's own "DOI: ..." line as plain
+        <BR> lines, up to the conflict of interest statement or the end of the text."""
+        citation = self.soup.select_one("div.citation")
+        m = re.search(r"DOI:\s*(10\.3238/\S+)", citation.get_text(" ")) if citation is not None else None
+        if not m:
+            return []
+        own = re.compile(r"DOI:\s*" + re.escape(m.group(1).rstrip(".,;")) + r"\s*$", re.I)
+        nodes = container.find_all(string=own)
+        if not nodes:
+            return []
+        lines, buf = [], []
+        for node in nodes[-1].next_siblings:
+            if isinstance(node, Tag) and node.name == "br":
+                lines.append("".join(buf))
+                buf = []
+            elif isinstance(node, NavigableString) and not isinstance(node, Comment):
+                buf.append(str(node))
+            elif isinstance(node, Tag) and node.name in _INLINE:
+                buf.append(node.get_text())
+            else:
+                break
+        lines.append("".join(buf))
+        return [(t, False) for t in (_utf8(re.sub(r"\s+", " ", l).strip()) for l in lines) if t]
 
     # ---- corresponding author
 
@@ -257,10 +356,14 @@ class Aerzteblatt(PublisherParser):
         if autoren is not None:
             self._autoren(autoren, authors)
         else:
-            lines = []
-            for el in container.select("p.Anschrift_der_Verfasser, span.Autor_nach_Artikel, span.Autor_Taetigkeit"):
+            lines, seen = [], set()
+            for el in container.select(".Anschrift_der_Verfasser, .Autor_nach_Artikel, .Autor_Taetigkeit, "
+                                       ".Autor_nach_Artikel_Taetigkeit"):
+                if any(id(parent) in seen for parent in el.parents):
+                    continue  # already read with the element around it
+                seen.add(id(el))
                 lines.extend((t, b or "Autor_nach_Artikel" in (el.get("class") or [])) for t, b in _lines(el))
-            self._address_lines(lines, authors)
+            self._address_lines(lines or self._plain_address(container), authors)
         self._mark_corresponding(container, authors)
         return {"authors": [{"name": a["name"], "affiliations": a["affiliations"],
                              "is_corresponding": a["is_corresponding"]} for a in authors],
