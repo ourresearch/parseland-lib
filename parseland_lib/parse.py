@@ -5,7 +5,8 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 from parseland_lib.back_matter import _YEAR, _numbering_whole, headed_back_matter, literatum_back_matter, \
-    ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter, without_coi
+    ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter, without_coi, \
+    before_other_section, tex_letters
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
@@ -570,14 +571,17 @@ def _section_text(value):
     text = value.strip()
     if not text or len(text) > MAX_SECTION_CHARS:
         return None
-    return text
+    return tex_letters(text)  # LaTeX accents a page's MathJax source left in (#2239 round 8d)
 
 
-def _statement(value):
+def _statement(value, funding=False):
     """An acknowledgments or funding text, or None: a template slot nobody filled in is not one (#2239), and neither
-    is conflict-of-interest text, whichever parser read it (#2239 round 8)."""
+    is conflict-of-interest text, whichever parser read it (#2239 round 8). A funding text ends where another
+    declaration section's label line starts (#2239 round 8d)."""
     text = _section_text(value)
-    return None if text and _TEMPLATE_SLOT.search(text) else without_coi(text)
+    if text and _TEMPLATE_SLOT.search(text):
+        return None
+    return without_coi(before_other_section(text) if funding else text)
 
 
 def _references(parsed):
@@ -1040,7 +1044,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
         "abstract": clean_abstract(english_part(response.get("abstract"))),
         # acknowledgments, funding statement and reference list from the same winning parse (#2215)
         "acknowledgments": _statement(response.get("acknowledgments")),
-        "funding_statement": _statement(response.get("funding_statement")),
+        "funding_statement": _statement(response.get("funding_statement"), funding=True),
         "references": references,
         "references_complete": references_complete,
     }

@@ -351,8 +351,12 @@ _GLUED_START_RE = re.compile(
     r"|Normal\s+0\s+(?:[\d.]+\s*(?:pt)?\s+)?false\s+false\s+false\s+(?:(?:[A-Z]{2,3}(?:-[A-Z]{2,4}){0,2}|X-NONE"
     r"|MicrosoftInternetExplorer\d)\s+)*(?:/\*\s*Style Definitions\s*\*/\s*)?(?:[\w.#:-]+(?:\s*,\s*[\w.#:-]+)*\s*"
     r"\{[^{}]{0,3000}\}\s*)*"
-    # (Not Cochrane's "This is a protocol for a Cochrane Review (...). The objectives are as follows:": the page shows
-    # it as the protocol's abstract and label-v2 keeps it, #2239 round 8c.)
+    # Cochrane's template sentences before a protocol's objectives, any review type, and the older wording (#2239
+    # round 8d). Round 8c kept them because label-v2's gold does; the rubric ("an opening, blurb or notice line is not
+    # an abstract") and the fresh-draw tripwire's judge call them site text, on every protocol. The gold disagreement
+    # is registered as a gold question.
+    r"|This is a protocol for a Cochrane Review \([^()]{1,40}\)\. The objectives are as follows:\s*"
+    r"|This is the protocol for a review and there is no abstract\. The objectives are as follows:\s*"
     # JMIR Preprints' warning before the abstract
     r"|#Preprint #PeerReviewMe: Warning: This is a\s+unreviewed preprint\.[\s\S]{0,1000}?\(if you are the "
     r"author\)\.\s*"

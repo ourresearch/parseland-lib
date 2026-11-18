@@ -635,6 +635,66 @@ def _other_section_labels(block):
     return {label for p in paragraphs if (label := _bold_label(p)) and _OTHER_SECTION.match(label)}
 
 
+def before_other_section(text):
+    """A funding text up to its first line that is only another section's label ("Patient consent", "Provenance and
+    peer review", "Data availability"), whichever reader read it (#2239 round 8d): a site parser that takes a whole
+    "Funding" block, or a reader that misses a label's markup, runs the statement on into the declarations after it.
+    A label on the first line, a sentence and a funder's name are kept."""
+    if not text or "\n" not in text:
+        return text
+    lines = text.split("\n")
+    for i, line in enumerate(lines[1:], 1):
+        label = squash(line)
+        if label and len(label) <= 60 and label.count(" ") <= 5 and label[-1] not in ".!?" \
+                and _OTHER_SECTION.match(label):
+            return "\n".join(lines[:i]).strip() or None
+    return text
+
+
+# LaTeX accents a page's MathJax source leaves in back-matter text (#2239 round 8d: "Universit\(\acute {e}\) Libre de
+# Bruxelles"): the accented letter, when the accent and its letter compose to one character. Math-mode accents only
+# inside \( \) holding nothing else; a \( \) holding one plain letter ("\(k\)-means") loses its wrapper. Other math
+# ("\(t\bar{t}\rightarrow \)", "\(C^{*}\)") stays as printed.
+_MATH_ACCENT = {"acute": "\u0301", "grave": "\u0300", "ddot": "\u0308", "hat": "\u0302", "tilde": "\u0303",
+                "check": "\u030c", "breve": "\u0306", "mathring": "\u030a"}
+_TEXT_ACCENT = {"'": "\u0301", "`": "\u0300", '"': "\u0308", "^": "\u0302", "~": "\u0303", "c": "\u0327",
+                "v": "\u030c", "u": "\u0306", "H": "\u030b", "k": "\u0328", "r": "\u030a"}
+_ACCENTED = r"(?:\{\s*([A-Za-z])\s*\}|\s*([A-Za-z]))"  # the letter, braced or not
+_TEX_IN_MATH = re.compile(
+    r"\\\(\s*(?:\\(" + "|".join(_MATH_ACCENT) + r")(?![A-Za-z])\s*" + _ACCENTED
+    + r"|\\([" + re.escape("'`\"^~") + r"])\s*" + _ACCENTED + r"|([A-Za-z]))\s*\\\)")
+# Outside math only braced forms ("Cari\~{n}ena", "Bo\c{t}", "{\'e}"): an unbraced "\'" is far more often an escaped
+# apostrophe ("Spinoza\'s", "l\'effet") than an accent.
+_TEX_IN_TEXT = re.compile(
+    r"\{\\([" + re.escape("'`\"^~") + r"])([A-Za-z])\}"
+    r"|(\{)?\\([" + re.escape("'`\"^~") + r"cvuHkr])\s*\{\s*([A-Za-z])\s*\}(?(3)\})")
+
+
+def _composed(letter, mark, whole):
+    char = unicodedata.normalize("NFC", letter + mark)
+    return char if len(char) == 1 else whole
+
+
+def tex_letters(text):
+    """Back-matter text with LaTeX accents rendered to their letters (see _MATH_ACCENT)."""
+    if not text or "\\" not in text:
+        return text
+
+    def in_math(m):
+        macro, b1, l1, sym, b2, l2, plain = m.groups()
+        if plain:
+            return plain
+        if macro:
+            return _composed(b1 or l1, _MATH_ACCENT[macro], m.group(0))
+        return _composed(b2 or l2, _TEXT_ACCENT[sym], m.group(0))
+
+    def in_text(m):
+        sym1, l1, _, sym2, l2 = m.groups()
+        return _composed(l1 or l2, _TEXT_ACCENT[sym1 or sym2], m.group(0))
+
+    return _TEX_IN_TEXT.sub(in_text, _TEX_IN_MATH.sub(in_math, text))
+
+
 def _section_header(heading):
     """The block that holds a heading and its section tools, when the template wraps them together (ACS:
     div.article_content-header > ... > h2 beside an "ARTICLE SECTIONS / Jump To" menu): the section's text follows
