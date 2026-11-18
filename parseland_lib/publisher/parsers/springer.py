@@ -1,7 +1,7 @@
 import json
 import re
 from collections import defaultdict
-from unicodedata import normalize
+from unicodedata import combining, normalize
 
 from parseland_lib.elements import Author, Affiliation, AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
@@ -125,21 +125,15 @@ class Springer(PublisherParser):
             merged.append(name)
         return merged
 
+    HONORIFICS = {'dr', 'dipl', 'ing', 'prof', 'professor', 'sir', 'wirt'}
+
     @classmethod
     def _author_match_key(cls, name):
         if not name:
             return None
 
         name = name.replace('\xa0', ' ').strip()
-        honorifics = {
-            'dr',
-            'dipl',
-            'ing',
-            'prof',
-            'professor',
-            'sir',
-            'wirt',
-        }
+        honorifics = cls.HONORIFICS
 
         def _tokens(value):
             return re.findall(r'[^\W\d_]+', value, flags=re.UNICODE)
@@ -572,13 +566,18 @@ class Springer(PublisherParser):
         return {"authors": authors_affiliations,
                 "abstract": abstract or dom_abstract, }
 
+    def _correspondence_paragraph(self):
+        """The page's "Correspondence to" paragraph, or None (looked up once per page)."""
+        if not hasattr(self, '_corr_p'):
+            self._corr_p = self.soup.find(lambda tag: (
+                tag.name == 'p' and
+                'correspondence to' in tag.text.lower()[:30]
+            ))
+        return self._corr_p
+
     def _get_correspondence_name(self):
         """Extract corresponding author name from 'Correspondence to' section."""
-        # Look for "Correspondence to" paragraph
-        corr_p = self.soup.find(lambda tag: (
-            tag.name == 'p' and
-            'correspondence to' in tag.text.lower()[:30]
-        ))
+        corr_p = self._correspondence_paragraph()
         if corr_p:
             # Collapse whitespace first: a name with its other-script form in parentheses spans a line break
             # ("An Cheng\xa0\n ( 鄭安 )"), and `.` below stops at it, so the note went unread and every emailed
@@ -629,36 +628,47 @@ class Springer(PublisherParser):
         else:
             author['is_corresponding'] = value
 
+    # Titles and degrees around a name: never part of whose name it is (oxjob #2352)
+    NOTE_TITLE_TOKENS = HONORIFICS | {
+        'ph', 'drs', 'med', 'dent', 'vet', 'rer', 'nat', 'phil', 'habil', 'univ', 'priv', 'doz', 'hc', 'mr', 'mrs', 'ms',
+        'miss', 'dame', 'assoc', 'asst',
+        'bds', 'mds', 'mdcm', 'mb', 'bch', 'mbbch', 'bmbs', 'bmedsci', 'chb', 'dm', 'dpm', 'dvm', 'facs', 'facr', 'fcfp',
+        'fccp', 'frcpsych', 'franzcp', 'fracs', 'frcsed', 'fwacs', 'mrcs', 'msci', 'mrcp', 'frcog', 'frcr',
+    }
+
     @classmethod
-    def _correspondence_text_matches_author(cls, corr_text, author_name):
-        corr_text = (corr_text or '').replace('\xa0', ' ').strip()
-        author_name = (author_name or '').replace('\xa0', ' ').strip()
-        if not corr_text or not author_name:
-            return False
-
-        corr_norm = ' '.join(corr_text.casefold().split())
-        author_norm = ' '.join(author_name.casefold().split())
-        if corr_norm == author_norm or author_norm in corr_norm:
-            return True
-
-        def _meaningful_tokens(value):
-            tokens = set()
-            for token in re.findall(r'[^\W\d_]+', value, flags=re.UNICODE):
-                compact = normalize('NFKD', token).casefold()
-                if (
-                    len(compact) <= 1
-                    or compact == 'ph'
-                    or cls._is_author_suffix_token(token)
-                ):
-                    continue
+    def _note_name_tokens(cls, value):
+        """Accent-free lower-case tokens of a name, without initials, titles and degrees."""
+        tokens = set()
+        for token in re.findall(r'[^\W\d_]+', value or '', flags=re.UNICODE):
+            compact = ''.join(c for c in normalize('NFKD', token) if not combining(c)).casefold()
+            if len(compact) > 1 and compact not in cls.NOTE_TITLE_TOKENS and not cls._is_author_suffix_token(token):
                 tokens.add(compact)
-            return tokens
+        return tokens
 
-        corr_parts = _meaningful_tokens(corr_text)
-        author_parts = _meaningful_tokens(author_name)
+    def _note_targets(self):
+        """(casefolded name, its tokens) for each name the "Correspondence to" note lists, read once per page: its text
+        split at "or", "and", "&", commas and semicolons (a degree after a comma becomes a target that names no one).
+        Not the note's mailto links: a note can name an author without one ("A. Puri or <a>M. Bajpai</a>")."""
+        if not hasattr(self, '_note_targets_cache'):
+            names = re.split(r'\s*(?:,|;|&|\bor\b|\band\b)\s*', self._get_correspondence_name() or '')
+            self._note_targets_cache = [(' '.join(n.split()).casefold(), self._note_name_tokens(n))
+                                        for n in names if n.strip()]
+        return self._note_targets_cache
+
+    @classmethod
+    def _note_names_author(cls, targets, author_name):
+        """True when one of the note's names is this author's: both share 2+ tokens and one's tokens are all in the
+        other's (one-token names: the same text only). A degree split off as an "author" ("FRCSEd") is no one."""
+        author_parts = cls._note_name_tokens(author_name)
         if not author_parts:
             return False
-        return len(corr_parts & author_parts) >= 2
+        author_norm = ' '.join(author_name.split()).casefold()
+        for target_norm, target_parts in targets:
+            shared = author_parts & target_parts
+            if target_norm == author_norm or (len(shared) >= 2 and shared in (author_parts, target_parts)):
+                return True
+        return False
 
     def _apply_correspondence_author_whitelist(self, authors):
         """Use explicit visible correspondence text to constrain CA flags.
@@ -672,18 +682,9 @@ class Springer(PublisherParser):
         if not authors:
             return authors
 
-        corr_name = self._get_correspondence_name()
-        if not corr_name:
-            return authors
-
-        matching_indices = set()
-        for index, author in enumerate(authors):
-            author_name = (
-                author.name if hasattr(author, 'name') else author.get('name', '')
-            )
-            if self._correspondence_text_matches_author(corr_name, author_name):
-                matching_indices.add(index)
-
+        targets = self._note_targets()
+        matching_indices = {index for index, author in enumerate(authors)
+                            if self._note_names_author(targets, self._author_name(author))}
         if not matching_indices:
             return authors
 
@@ -1128,18 +1129,9 @@ class Springer(PublisherParser):
         if not authors:
             return authors
 
-        corr_name = self._get_correspondence_name()
-        if not corr_name:
-            return authors
-
+        targets = self._note_targets()
         for author in authors:
-            # Handle both dict and dataclass
-            if hasattr(author, 'name'):
-                author_name = author.name
-            else:
-                author_name = author.get('name', '')
-
-            if self._correspondence_text_matches_author(corr_name, author_name):
+            if self._note_names_author(targets, self._author_name(author)):
                 self._set_author_corresponding(author, True)
 
         return authors
