@@ -157,6 +157,13 @@ _ITEM_TITLE_TAG = re.compile(r"^(?:(?:dc|dcterms|eprints|datacite)\.title|citati
 # reprint address, which the Chinese Academy of Sciences repositories list as one more DC.creator
 _ADDRESS_ENTRY = re.compile(r"\((?:reprint|corresponding) author\)", re.I)
 _OUTSIDE_PARENTHESES_SEMICOLON = re.compile(r"[;；](?![^()]*\))")
+_PARTICLE = r"(?:van|von|de|da|das|del|della|der|den|di|do|dos|du|la|le|ten|ter)"
+_CAPITAL_WORD = r"[A-ZÀ-ÖØ-Þ][^\s,;()&\d]*"
+# "Spindler N" (round 8): a family name and one to four capitals with no dots, the Vancouver style
+_VANCOUVER_NAME = re.compile(rf"(?:{_PARTICLE}\s+)*{_CAPITAL_WORD}(?:\s+{_CAPITAL_WORD}){{0,2}}\s+[A-Z]{{1,4}}")
+# "Nicolau Maués Serra-Freire": two to five capitalised words, particles between them
+_GIVEN_FAMILY = re.compile(rf"{_CAPITAL_WORD}(?:\s+(?:{_PARTICLE}\s+)*{_CAPITAL_WORD}){{1,4}}")
+_ET_AL = re.compile(r"et\.?\s*al\.?[,;.]?", re.I)
 
 
 def _creator_names(values, repeats=False):
@@ -167,17 +174,32 @@ def _creator_names(values, repeats=False):
     comma on both sides: "Johnson & Johnson"). A ';' inside parentheses belongs to one name (the French National
     Library's 'Roux, Antoine (19..-.... ; pédagogue)'). `repeats` keeps a name that comes twice (two people who
     share initials: 'Wang Y').
+
+    Round 8 (check1: wrong on 6 record pages): a Vancouver list in one tag ('Spindler N, Kaatz F, Feja C', German
+    Medical Science's DC.Creator; Bioline's 'Nicol BM, Prasad SB') is one person per part; in a ';' list the '&'
+    before the last of two "Given Family" names joins two people ('Marinete Amorim & Nicolau Maués Serra-Freire', not
+    one creator alone: that may be a body); a Web of Science reprint address is dropped whole, before its own '&'
+    splits it ('Coll Chem & Chem Engn'); "et al." is not a name.
     """
     names = []
     for value in values:
-        for part in _OUTSIDE_PARENTHESES_SEMICOLON.split(value):
+        if _ADDRESS_ENTRY.search(value):
+            continue
+        parts = _OUTSIDE_PARENTHESES_SEMICOLON.split(value)
+        listed = len([part for part in parts if part.strip()]) > 1
+        for part in parts:
             pieces = re.split(r"\s+&\s+", part)
-            if not all("," in piece for piece in pieces):
+            if not (all("," in piece for piece in pieces) or (listed and all(
+                    _GIVEN_FAMILY.fullmatch(piece.strip()) and not _INSTITUTION_WORD.search(piece)
+                    for piece in pieces))):
                 pieces = [part]
+            if len(pieces) == 1 and len(vancouver := part.split(",")) > 1 and all(
+                    _VANCOUVER_NAME.fullmatch(piece.strip()) for piece in vancouver):
+                pieces = vancouver
             for piece in pieces:
                 name = piece.strip()
                 # ', ' (EPrints prints an empty creator row that way) holds no letter: not a name
-                if re.search(r"[^\W\d_]", name) and (repeats or name not in names):
+                if re.search(r"[^\W\d_]", name) and not _ET_AL.fullmatch(name) and (repeats or name not in names):
                     names.append(name)
     return names
 
@@ -187,7 +209,11 @@ def _comma_list(value, always=False):
     (#2239). `always`: the site writes its lists that way (CiteSeerX). Anywhere else only a value that can't be one
     "Family, Given" name: no ';', three or more parts, each of two or more words."""
     parts = [part for part in value.split(",") if part.strip()]
-    if ";" in value or "；" in value or "(" in value or len(parts) < 2:
+    if always and "(" in value:  # CiteSeerX glues an unclosed '(' into its list: only a closed pair holds a comma
+        parts = [part for part in re.split(r",(?![^()]*\))", value) if part.strip()]
+    elif "(" in value:
+        return [value]
+    if ";" in value or "；" in value or len(parts) < 2:
         return [value]
     if always or (len(parts) >= 3 and all(len(part.split()) >= 2 for part in parts)):
         return parts
@@ -211,8 +237,14 @@ def dublin_core_authors(soup, keys=("eprints.creators_name", "dc.creator", "dcte
     # tag): its DC.Creator is the librarian who keeps the guide a retired repository now redirects to.
     if not any(_ITEM_TITLE_TAG.match(name) for name in tags) or "dc.publishers" in tags:
         return []
+    # A Dublin Core block whose identifier is the site's home page describes the site (round 8: Galiciana and the other
+    # DIGIBIB portals print the portal's DC block, the government body behind it as DC.creator, on every record).
+    site_ids = [v for key in ("dc.identifier", "dcterms.identifier") for v in tags.get(key, []) if v.startswith("http")]
+    site_block = bool(site_ids) and all(urlparse(v).path in ("", "/") and not urlparse(v).query for v in site_ids)
     names = []
     for key in keys:
+        if site_block and key.startswith(("dc.", "dcterms.")):
+            continue
         if names := _creator_names(tags.get(key, [])):
             break
     citeseerx = (soup.title.get_text() if soup.title else "").lstrip().startswith("CiteSeerX")
@@ -272,17 +304,52 @@ def lexicon_signature(soup):
 def microdata_authors(soup):
     """The schema.org Person items a record page marks as its item's authors (#2239): the NRC Publications Archive,
     whose only creator tag names the Government of Canada, and RWTH Publications. All under one item: a listing
-    marks the authors of each of its works, and those are not one byline."""
-    people = soup.select('[itemprop="author"][itemscope][itemtype*="schema.org/Person"]')
+    marks the authors of each of its works, and those are not one byline.
+
+    Round 8: not the items of related posts (hypotheses.org's WordPress theme marks every post's byline, none under an
+    item), not a person the item labels with another role (RWTH: '(Thesis advisor)'), and a SLiMS catalogue's item
+    gives its linked names without the name-type label ('AFRENI - Nama Orang')."""
+    people = [person for person in soup.select('[itemprop="author"][itemscope][itemtype*="schema.org/Person"]')
+              if not _OTHER_ROLE.search(person.get_text(" ", strip=True))]
+    # (RWTH serves a record as a one-hit search result: when every item sits in such a block, the item check decides)
+    people = [person for person in people if not _in_other_works_block(person)] or people
     if len({id(person.find_parent(attrs={"itemscope": True})) for person in people}) != 1:
         return []
     names = []
     for person in people:
-        tag = person.select_one('[itemprop="name"]') or person
-        name = re.sub(r"\s+", " ", tag.get("content") or tag.get_text(" ", strip=True)).strip()
-        if name and name not in names and not _INSTITUTION_WORD.search(name):
-            names.append(name)
+        tag = person.select_one('[itemprop="name"]')
+        links = person.select('a[href*="author="]') if tag is None else []
+        for tag in links or [tag or person]:
+            name = re.sub(r"\s+", " ", tag.get("content") or tag.get_text(" ", strip=True)).strip()
+            if name and name not in names and not _INSTITUTION_WORD.search(name):
+                names.append(name)
     return names
+
+
+# A role label after a person's name that is not the author's (RWTH Publications: '(Thesis advisor)')
+_OTHER_ROLE = re.compile(r"\((?:[^()]*\W)?(?:advis[oe]r|supervisor|editor|referee|reviewer|translator|examiner|"
+                         r"contributor|betreuer|gutachter|herausgeber|hrsg)\b[^()]*\)", re.I)
+
+
+def gms_byline(soup):
+    """German Medical Science's byline (round 8): <ul class="metaListOfAuthors">, each full name in a <span>, its
+    affiliations after ' - ', a 'corresponding author' bullet image. Its DC.Creator gives the same people as one
+    'Spindler N, Kaatz F' string. The pages are UTF-8 declaring ISO-8859-1 and are labelled as UTF-8 ('Wolfram
+    Lamadé'), so the text reads through _unmangled."""
+    authors = []
+    for item in soup.select("ul.metaListOfAuthors > li"):
+        span = item.find("span")
+        name = re.sub(r"\s+", " ", _unmangled(span.get_text(" ", strip=True))).strip() if span else ""
+        if not name:
+            continue
+        affiliations = [re.sub(r"\s+", " ", _unmangled(text)).strip().lstrip("-").strip()
+                        for text in item.find_all(string=True, recursive=False)]
+        authors.append({"name": name, "affiliations": [a for a in affiliations if a],
+                        "is_corresponding": item.find("img", alt=re.compile("corresponding", re.I)) is not None})
+    if not any(a["is_corresponding"] for a in authors):
+        for a in authors:
+            a["is_corresponding"] = None
+    return authors
 
 
 def record_page_authors(soup, lp_content):
@@ -294,6 +361,8 @@ def record_page_authors(soup, lp_content):
     if _has(lp_content, "Biographisches Lexikon") and soup.find("meta", attrs={
             "name": re.compile(r"^dc\.creator$", re.I), "content": re.compile("Biographisches Lexikon")}):
         return _as_authors(lexicon_signature(soup))
+    if _has(lp_content, "metaListOfAuthors") and (authors := gms_byline(soup)):
+        return authors
     authors = dublin_core_authors(soup)
     # Figshare (and the institutional portals built on it) lists an item's creators as DataCite.contributor
     if not authors and _has(lp_content, "figshare"):
@@ -775,6 +844,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         for author in authors_and_abstract['authors']:
             # handle both dict and object formats
             name = author.get("name", "") if isinstance(author, dict) else getattr(author, "name", "")
+            if not re.search(r"[^\W\d_]", name or ""):  # a blank or tab-only name is no author (round 8)
+                continue
             affiliations = (
                 [{"name": aff} for aff in author.get("affiliations", [])]
                 if isinstance(author, dict)
