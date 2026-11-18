@@ -139,6 +139,44 @@ _TEMPLATE_RES = [
     # Jukuri (Natural Resources Institute Finland): a research note's "abstract" is the citation of the article it
     # reports on, "Seloste artikkelista: Jalkanen, R. ... 2007. ... Silva Fennica 41(4): 755–762." (round 3)
     re.compile(r"seloste artikkelista: .{1,400}$", re.S),
+    # (#2239 round 8, from check1's confirmed-worse pages) A source note where the abstract would be: "In: Abstracts of
+    # the annual meeting of the Southern African Society for Plant Pathology, Rob Ferreira, p. 27." (Pure portals)
+    re.compile(r"in: .{3,300}$", re.S),
+    # ... or the meeting's name with the abstract's number: "22 - 62nd Meeting of the Phycological Society of America"
+    re.compile(r"(?:\d{1,4} ?[-–] ?)?\d{1,3}(?:st|nd|rd|th) (?:annual |international )?(?:meeting|congress|conference|"
+               r"symposium|workshop)\b.{0,150}$"),
+    # A notice that the abstract is elsewhere or must be asked for: "L'abstract è presente nell'allegato / the abstract
+    # is in the attachment" (IRIS), "Jika membutuhkan abstrak atau isi jurnal silahkan menghubungi author melalui email
+    # ..." ("if you need the abstract or the article, contact the author", OJS)
+    re.compile(r".{0,120}\b(?:the )?abstract is (?:in|available in|included in|attached in|given in) the "
+               r"(?:attach|enclosed|full text|pdf)", re.S),
+    re.compile(r".{0,120}\bpresente nell'allegato\b", re.S),
+    re.compile(r".{0,80}\b(?:abstra(?:k|ct)|resumen|resumo)\b.{0,80}\b(?:menghubungi|hubungi|contact the authors?|"
+               r"contactar (?:al|con el) autor)\b.{0,200}$", re.S),
+    # A software notice where the abstract would be: "Для открытия архива необходима программа WinRAR версии 5.0 и
+    # выше." ("to open the archive you need WinRAR 5.0 or later", a DSpace repository)
+    re.compile(r"(?=.{0,200}(?:необходим|требуется|потрібн|required|needed|you need|must be installed))"
+               r".{0,100}\b(?:winrar|7-zip|adobe (?:acrobat )?reader)\b.{0,100}$", re.S),
+    # An epigraph alone (a quotation and its author): „Das Geheimnis des Glücks ist die Freiheit, ...“ Perikles
+    re.compile(r"[„“\"«][^„“\"«”»]{10,300}[“”\"»]\s*[-–—]?\s*[^\W\d_][\w.' -]{1,60}$"),
+    # A corrigendum's body: "The incorrect statement was “...” It was corrected to: ..." (PMC)
+    re.compile(r".{0,200}\bthe (?:incorrect|original|erroneous) (?:statement|sentence|text|wording) (?:was|read|reads)\b"
+               r".{0,1000}\b(?:corrected to|should (?:have )?read)\b", re.S),
+    # A correction notice that cites the corrected article: "Sun J-M, Chao Y, Kim S-B, et al. First-line ... In this
+    # Article, ... The file has been corrected as of Feb 2, 2026." (The Lancet)
+    re.compile(r"[^\W\d_][\w'’-]+ [a-z]{1,3}(?:-[a-z]{1,2})?, .{0,1300}\b(?:has|have) been corrected\b", re.S),
+    # A journal's or site's description of itself where the abstract would be (a journal or portal home page stored
+    # for an article): "Beytulhikme An International Journal of Philosophy is a peer-reviewed, hybrid open-access
+    # academic journal, ...", "E-Journal IAIN Pekalongan adalah Web Portal yang ..." (#2239 round 8). Not "This
+    # journal is ..." nor "In this ...", which an editorial may say of the journal it opens.
+    re.compile(r"(?=[^.]{0,300}?(?:journal|portal))(?![\s\S]*\b(?:this|the present|our|we) (?:study|paper|article|analysis|research|work|examine|analy[sz]e)"
+               r")(?!this |the present |in this |here )[^.]{0,150}? (?:is|adalah) (?:an? |the )?(?:(?:international|"
+               r"peer[- ]reviewed|open[- ]access|hybrid|refereed|scholarly|academic|online|double[- ]blind|scientific|"
+               r"bi-?annual|quarterly|multidisciplinary|interdisciplinary)[ ,]*(?:and )?)*(?:journal|web portal|"
+               r"portal web)\b"),
+    # IntechOpen's author card read under its empty "Abstract": "Author Information Show + Alcínia Zita Sampaio *
+    # Department of Civil Engineering, ... Address all correspondence to: ..."
+    re.compile(r"author information (?:show|hide)\b"),
 ]
 
 # Platform page furniture anywhere in a short text: Silverchair's author card and toolbar ("Search for other works by
@@ -176,7 +214,48 @@ _SITE_BLURB_STARTS = (
     "the digital library of galicia forms part of galiciana",
     # ... and in Spanish: every record page holds the three wordings, one DC.description tag each (round 4)
     "la biblioteca digital de galicia forma parte de galiciana",
+    # (#2239 round 8: check1's tripwire, 3 pages) the Valencian Digital Library's blurb on its record pages
+    "the valencian digital library bivaldi is a free access repository whose purpose is",
+    "la biblioteca valenciana digital bivaldi",  # ... in Spanish and Valencian, one DC.description tag each
+    # medwave.cl's note on its congress lectures, printed under "Resumen": "Este texto completo es la transcripción
+    # editada y revisada de la conferencia dictada en ..." (the lecture has no abstract)
+    "este texto completo es la transcripción editada y revisada de",
 )
+
+
+# A book-review item's "abstract" that lists the reviewed books: 'Karla Poewe, (ed.), Charismatic Christianity as a
+# Global Culture. Columbia, ..., 1994, 300 pp. $34.95, ISBN 0 87249 996 0.' one line per book (#2239 round 8, T&F)
+_ISBN_RE = re.compile(r"\bISBN(?:-1[03])?[\s:]*[0-9][0-9Xx -]{8,20}", re.I)
+
+
+def _is_book_list(text: str) -> bool:
+    """True when two or more lines of `text` cite a book by its ISBN and such lines are most of the text."""
+    if text.upper().count("ISBN") < 2:
+        return False
+    lines = [line.strip() for line in _plain_lines(text) if line.strip()]
+    cited = [line for line in lines if _ISBN_RE.search(line)]
+    return len(cited) >= 2 and sum(map(len, cited)) >= 0.6 * sum(map(len, lines))
+
+
+def _plain_lines(text: str):
+    return re.split(r"\s*(?:\n|<br\s*/?>|</p>\s*<p[^>]*>)\s*", text)
+
+
+# A list of people's names where the abstract would be (Thieme's eRef: a book's og:description is its contributors:
+# "Susanne Andreae, Peter Avelini, Melanie Berg, ...") (#2239 round 8)
+_PERSON_NAME_RE = re.compile(r"(?:[A-ZÀ-Ý][^\W\d_'’.-]*[.'’-]?\s?){1,2}(?:(?:von|van|de|der|den|da|di|du|le|la|zu) )?"
+                             r"[A-ZÀ-Ý][^\W\d_'’-]+(?:[-'’][A-ZÀ-Ý]?[^\W\d_]+)?")
+
+
+_PROSE_WORDS_RE = re.compile(r"\b(?:the|of|in|is|are|was|were|with|for|to)\b")
+
+
+def _is_name_list(text: str) -> bool:
+    """True when `text` is only people's names separated by commas (eight or more)."""
+    if text.count(",") < 7 or len(text) > 3000 or _PROSE_WORDS_RE.search(text):
+        return False
+    items = [item.strip() for item in re.split(r",|;|\bund\b|\band\b", text.strip().rstrip("."))]
+    return len(items) >= 8 and all(_PERSON_NAME_RE.fullmatch(item) for item in items)
 
 
 @cache
@@ -201,6 +280,8 @@ def is_not_abstract(text) -> bool:
     if plain.startswith("(first paragraph)") or _CONTENTS_LIST_RE.match(plain):
         return True
     if len(k) <= 200 and _KEY_RE.fullmatch(k):
+        return True
+    if _is_book_list(text) or _is_name_list(text):
         return True
     return len(plain) <= 1500 and (bool(_FURNITURE_RE.search(plain)) or any(r.match(plain) for r in _TEMPLATE_RES))
 
@@ -235,7 +316,25 @@ _LABEL_RE = re.compile(r"^abstract\s*(?:[:.]\s*|\n)", re.I)
 # figure blocks in the generic block reader instead.
 _GLUED_START_RE = re.compile(
     r"^\s*(?:High Resolution Image\s+Download MS PowerPoint Slide\s+"  # ACS: the graphical abstract's toolbar
-    r"|CiteSeerX - Document Details \([^()]{1,300}\):\s*)")  # CiteSeerX's description tag
+    r"|CiteSeerX - Document Details \([^()]{1,300}\):\s*"  # CiteSeerX's description tag
+    # (#2239 round 8, from check1's confirmed-worse pages and tripwire groups)
+    # MS Word's style sheet pasted with the abstract: "Normal 0 false false false BS-LATN-BA X-NONE X-NONE /* Style
+    # Definitions */ table.MsoNormalTable {mso-style-name:"Table Normal"; ...}" (OJS, DergiPark)
+    r"|Normal\s+0\s+(?:[\d.]+\s*(?:pt)?\s+)?false\s+false\s+false\s+(?:(?:[A-Z]{2,3}(?:-[A-Z]{2,4}){0,2}|X-NONE"
+    r"|MicrosoftInternetExplorer\d)\s+)*(?:/\*\s*Style Definitions\s*\*/\s*)?(?:[\w.#:-]+(?:\s*,\s*[\w.#:-]+)*\s*"
+    r"\{[^{}]{0,3000}\}\s*)*"
+    # JMIR Preprints' warning before the abstract
+    r"|#Preprint #PeerReviewMe: Warning: This is a\s+unreviewed preprint\.[\s\S]{0,1000}?\(if you are the "
+    r"author\)\.\s*"
+    # Cochrane's template line before a protocol's objectives
+    r"|This is a protocol for a Cochrane Review \([^()]{1,40}\)\. The objectives are as follows:\s*"
+    # an editor's correction note run onto the abstract: "Correction: On 16th February 2017, the author K. Peiris was
+    # removed from this paper. ... This error is regretted. - Editor" (DOAJ)
+    r"|(?:Correction|Corrigendum|Erratum)\s*:\s[^\n]{0,600}?\bThis error is regretted\.(?:\s*[-–—]\s*(?:The )?"
+    r"Editors?(?![a-z]))?\s*"
+    # a retraction notice in its own paragraph before the abstract (Emerald: "Retraction Notice: The publisher wishes
+    # to retract the chapter ... agree with the retraction.")
+    r"|Retraction (?:Notice|Note|Statement)\s*:\s[^\n]{20,3000}\n\s*(?=\S[^\n]{200}))")
 _GLUED_END_RE = re.compile(
     # Springer: machine-chosen keywords and their disclaimer, printed inside the abstract's section
     r"(?:(?:\bKeywords\b[^.]{0,600})?These keywords were added by machine and not by the authors\.\s*This process "
@@ -249,11 +348,18 @@ _GLUED_END_RE = re.compile(
     r"|\\textcopyright\s*(?:\{\})?\s*(?:1[89]|20)\d{2} [^.\\]{3,80}\.?"
     r"|This article is protected by copyright\. All rights reserved\.?"
     # Thieme: the history, copyright or licence lines and the publisher's address, read from the abstract's block
-    r"|(?:\bPublication History\b[^©]{0,200})?©\s?\d{4}\.[^©]{0,700}?\bGeorg Thieme Verlag KG\b[^©]{0,100})\s*$")
+    r"|(?:\bPublication History\b[^©]{0,200})?©\s?\d{4}\.[^©]{0,700}?\bGeorg Thieme Verlag(?: KG)?\b[^©]{0,100}"
+    # (#2239 round 8, check1's tripwire groups) The FASEB Journal's note under a meeting abstract; Monthly Review's
+    # archive notice
+    r"|This abstract is from the [^.]{3,120} Meeting\. There is no full text article associated with this abstract "
+    r"published in The FASEB Journal\.?"
+    r"|This article can also be found at the Monthly Review website, where most recent articles are published in "
+    r"full\.\s*Click here to purchase a PDF version of this article at the Monthly Review website\.?)\s*$")
 # _GLUED_END_RE can start anywhere, so it scans the whole text: it runs only on a text that ends like one of its
 # notices.
 _GLUED_END_TAILS = ("improves.", "improves", "full text.", "full text", "institutions.", "institutions",
-                    "All rights reserved.", "All rights reserved", "Stuttgart, Germany", "Stuttgart, Germany.")
+                    "All rights reserved.", "All rights reserved", "Stuttgart, Germany", "Stuttgart, Germany.",
+                    "The FASEB Journal.", "The FASEB Journal", "Monthly Review website.", "Monthly Review website")
 
 
 # A whole title page where the abstract should be (Dove Medical Press records on DOAJ): the byline, the numbered
@@ -268,7 +374,10 @@ _KEYWORDS_TAIL_RE = re.compile(  # in the languages such pages were pasted in (r
 # The same title page with no "Abstract:" label (round 3): the text opens with the byline and its affiliation numbers
 # ("Ming Guan,1,2 Yangmengfan Chen,1 ..."), and a structured abstract's first label stands glued to the address or
 # e-mail before it ("... People's Republic of ChinaBackground: ...", "...@gmail.comPurpose: ...").
-_BYLINE_START_RE = re.compile(r"[^\d:.]{3,60},\d")
+_BYLINE_START_RE = re.compile(r"[^\d:.]{3,60}(?:,\d|\d,)")  # "Ming Guan,1,2", and "Omary Mashiku Minzi1, Deus Buma2"
+# ... and the abstract's own label after the affiliations, unglued: "..., Henan 463000, China Abstract: The miR17-92
+# family ..." (Dove Medical Press records on DOAJ; #2239 round 8)
+_BYLINE_ABSTRACT_LABEL_RE = re.compile(r"(?<=\S)\s+Abstract\s*:\s+(?=\S)")
 _GLUED_PART_LABEL_RE = re.compile(
     r"(?<=[a-z])(?=(?:Background|Purpose|Objectives?|Introduction|Aims?|Context|Importance|Rationale)\s*:\s)")
 _GLUED_KEYWORDS_TAIL_RE = re.compile(r"(?<=[a-z.)\]])Keywords\s*:[^\n]{0,600}$")
@@ -296,6 +405,36 @@ _KEYWORD_TAIL_RE = re.compile(
     r"[ \t\xa0]*[:：]", re.I)
 
 
+# A section the page prints after the abstract in the same field or block, which the rubric leaves out: highlights,
+# a plain-language summary, key messages, a mathematics subject classification (#2239 round 8: DOAJ "HIGHLIGHTS ...",
+# Karger "Plain Language Summary. ...", SIAM "MSC codes 39A10 39A12 Keywords ..."). The label must open a sentence or
+# a line and stand after the abstract's first 100 characters, with its own punctuation or line, so "plain language
+# summaries" inside a sentence stays.
+_TRAILING_SECTION_RE = re.compile(
+    r"(?:(?<=[.!?。)\]”\"’'])[ \t\xa0]*|\s*\n\s*)"
+    r"(?:HIGHLIGHTS\b|Highlights[ \t]*(?::|\n)|(?:Plain[- ]Language|Plain English|Lay) Summary[ \t]*(?:[.:]|\n)"
+    r"|Key (?:messages|points)[ \t]*(?::|\n)"
+    r"|(?:MSC(?: \d{4})? codes?|AMS subject classifications?|Mathematics Subject Classifications?(?: \(\d{4}\))?)"
+    r"[ \t]*:?[ \t]*\d{2}[A-Z0-9-]\d)")
+_TRAILING_SECTION_WORDS = ("HIGHLIGHTS", "Highlights", " Summary", "Key messages", "Key points", "MSC", "AMS subject",
+                           "Mathematics Subject")
+# The FASEB Journal's citation line run onto the abstract's last sentence: "... remain unexplained.-Chatel, B.,
+# Bendahan, D., ... Messonnier, L. A. Role of MCT1 and CAII in skeletal muscle pH homeostasis ..." (repository copies)
+_CITATION_TAIL_RE = re.compile(
+    r"(?<=[.!?])\s?[-—–]\s?(?:[^\W\d_][\w'’ -]{1,40}, (?:[^\W\d_]{1,2}\.[ -]?){1,3}, ){2,}[^\n]{0,600}$")
+
+
+def _without_trailing_section(text: str) -> str:
+    """`text` up to a highlights, plain-language-summary, key-messages or subject-classification section, or a
+    citation line glued on; `text` itself when it has none."""
+    m = _TRAILING_SECTION_RE.search(text, 100) if any(w in text for w in _TRAILING_SECTION_WORDS) else None
+    if m and m.start() >= 100:
+        text = text[:m.start()].rstrip()
+    if "., " in text[-700:] and (m := _CITATION_TAIL_RE.search(text, max(len(text) - 700, 100))):
+        text = text[:m.start()].rstrip()
+    return text
+
+
 def _without_keyword_tail(text: str) -> str:
     """`text` up to the keyword line that closes it; `text` itself when it has none."""
     start = max(len(text) - _KEYWORD_TAIL_MAX, 100)
@@ -311,7 +450,7 @@ def _without_title_page(text: str) -> str:
     """The abstract out of a title page glued around it; `text` itself when it is not that shape."""
     m = _TITLE_PAGE_RE.match(text) if "Correspondence:" in text[:4000] else None
     if m is None and _BYLINE_START_RE.match(text):
-        m = _GLUED_PART_LABEL_RE.search(text, 100, 4000)
+        m = _GLUED_PART_LABEL_RE.search(text, 100, 4000) or _BYLINE_ABSTRACT_LABEL_RE.search(text, 100, 4000)
     # (the plain word test first: the pattern opens with a lookbehind, so a search tries every position)
     if m is None and "\n" in text and any(label in text for label in _GLUED_ABSTRACT_LABELS) and (
             glued := _GLUED_ABSTRACT_LABEL_RE.search(text, 20, 4000)) and text[glued.start() - 1].islower():
@@ -363,7 +502,7 @@ def clean_abstract(text):
     cleaned = _without_title_page(_GLUED_START_RE.sub("", _markup_to_text(text)))
     if cleaned.rstrip().endswith(_GLUED_END_TAILS) or "\\textcopyright" in cleaned[-160:]:
         cleaned = _GLUED_END_RE.sub("", cleaned)
-    cleaned = _without_keyword_tail(cleaned)
+    cleaned = _without_keyword_tail(_without_trailing_section(cleaned))
     if cleaned == text:
         return text
     cleaned = _LABEL_RE.sub("", cleaned.strip()).strip()

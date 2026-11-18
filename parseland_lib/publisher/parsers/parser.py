@@ -346,6 +346,35 @@ def _alnum(text):
     return re.sub(r"[\W_]+", "", re.sub(r"<[^<>]*>", " ", text or "")).lower()
 
 
+_PROSE_WORD = re.compile(r"(?<![^\W\d_])[a-zà-ÿ][^\W\d_]{3,}")  # a lower-case word of four letters or more
+_NOT_PROSE = frozenset(("edited", "with", "della", "dello", "eds"))
+
+
+def _prose_before(text, at):
+    """True when the part of `text` before its `at`-th letter or digit (where the item's title starts in it) holds a
+    sentence's words: an abstract that restates its title ("A taxonomic revision of the genus ...", "En este estudio
+    titulado la «...»", "Our new policy brief, “...”"), not a citation line, whose authors before the title are names
+    only ("Walbank, M. B., ", "Galgani, Luisa; Engel, Anja (2019): ") (#2239 round 8: 4 of 4 such losses on check1)."""
+    n = 0
+    for i, ch in enumerate(text):
+        if n >= at:
+            prefix = text[:i]
+            break
+        if ch.isalnum():
+            n += 1
+    else:
+        return False
+    return any(w not in _NOT_PROSE for w in _PROSE_WORD.findall(prefix))
+
+
+def _goes_on_after(key, at, title_key):
+    """True when an abstract's worth of text (250 letters and digits) follows the title that starts at `at` of `key`:
+    a record's description that names the record ("... Read the full record details for <title>", "We would like to
+    highlight the <title>, as selected by the editors.") ends at or soon after it."""
+    end = at + len(title_key) if key.startswith(title_key, at) else at + 40
+    return len(key) - end >= 250
+
+
 # Words too common in titles and abstracts to say two texts are about the same item.
 _COMMON_WORDS = frozenset(
     "this that with from into over under their which were have been between among about after before during within "
@@ -825,7 +854,9 @@ class PublisherParser(Parser, ABC):
                     # a citation line names the authors, then the title ("Walbank, Greek Inscriptions ..., Hesperia",
                     # "Galgani, Luisa; ... (2019): <title> [dataset]"); an abstract may use the title's words later
                     head = _alnum(text)[:150 + len(title_start)]
-                    if (len(title_start) >= 20 and title_start in head) or re.search(r"doi[:.]\s?(?:org/)?10\.", text[:400], re.I):
+                    cited = len(title_start) >= 20 and (at := head.find(title_start)) >= 0 and not (
+                        _prose_before(text, at) and _goes_on_after(_alnum(text), at, _alnum(title)))
+                    if cited or re.search(r"doi[:.]\s?(?:org/)?10\.", text[:400], re.I):
                         continue  # ... or a bibliographic line ("Review Article | doi:10.5530/...")
                     return re.sub(r"^abstract[:.]?\s*", "", text, flags=re.I)
         return None

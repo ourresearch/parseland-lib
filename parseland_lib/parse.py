@@ -52,7 +52,11 @@ _GENERIC_ABSTRACT_FILL = ("pmh",)
 # ("publons.com/publon/51945721/": the "Abstract" they print is the reviewed article's) (#2239 phase 2).
 _REVIEW_REPORT_URL = re.compile(
     r"peer-?review(?![a-z])|10\.1371/journal\.[a-z]+\.\d+\.r\d{3}\b|10\.7554/elife\.\d+\.sa\d\b"
-    r"|#(?:sa\d+|(?:report|review)_\d+)$|//(?:www\.)?publons\.com/publon/\d", re.I)
+    r"|#(?:sa\d+|(?:report|review)_\d+)$|//(?:www\.)?publons\.com/(?:wos-op/)?publon/\d", re.I)
+# Publons: a DOI that resolves there is a peer review or an editor's decision ("10.1111/odi.14200/v2/decision1"); the
+# abstract its page prints, and its description ("View 3 peer reviews of <title> on Publons"), are the reviewed
+# article's or the site's (#2239 round 8: 3 of 3 on check1, gold none)
+_PUBLONS_PAGE = re.compile(r"//(?:www\.)?publons\.com/(?:wos-op/)?publon/\d", re.I)
 
 
 def _is_review_report_url(*urls):
@@ -77,7 +81,8 @@ def _has_no_abstract_of_its_own(soup, lp_content, *urls):
     """True when the page presents something that has no abstract, while its tags or text carry another item's: a
     review report (the reviewed article's), a part of an article (the article's), a person's profile (DSpace-CRIS
     researcher pages put the biography in citation_abstract and say og:type "profile")."""
-    if any(url and (_REPORT_PAGE.search(url) or _PART_PAGE_URL.search(url)) for url in urls):
+    if any(url and (_REPORT_PAGE.search(url) or _PART_PAGE_URL.search(url) or _PUBLONS_PAGE.search(url))
+           for url in urls):
         return True
     if _has(lp_content, 'class="article-id"') and _has(lp_content, "10.1371/journal.") and _PLOS_PART_DOI.search(
             lp_content if isinstance(lp_content, str) else lp_content.decode("utf-8", "replace")):
@@ -89,11 +94,18 @@ def _has_no_abstract_of_its_own(soup, lp_content, *urls):
 
 
 _STRUCTURED_PARTS = re.compile(r"\b(Methods?|Results?|Conclusions?)\s*:")
+# A structured abstract's opening part, as the text's first word (#2239 round 8: a meeting abstract printed under
+# "Extract" is cut after "Background: ... Purpose: ... Methods: ...", before its Results)
+_STRUCTURED_OPENING = re.compile(r"(?:Background|Introduction|Purpose|Objectives?|Aims?|Rationale)\s*:\s")
+_STRUCTURED_LATER = re.compile(r"(?<=[.!?)])\s+(?:Purpose|Objectives?|Aims?|Methods?|Results?|Conclusions?)\s*:\s")
 
 
 def _is_structured_abstract(text):
-    """True when a text has a structured abstract's parts: two of "Methods:", "Results:", "Conclusions:"."""
-    return len({p.lower()[:5] for p in _STRUCTURED_PARTS.findall(text)}) >= 2
+    """True when a text has a structured abstract's parts: two of "Methods:", "Results:", "Conclusions:", or it opens
+    with a part's label ("Background:") and a later sentence opens another."""
+    if len({p.lower()[:5] for p in _STRUCTURED_PARTS.findall(text)}) >= 2:
+        return True
+    return bool(_STRUCTURED_OPENING.match(text) and _STRUCTURED_LATER.search(text))
 
 
 _SHORT_ABSTRACT_TAGS = [re.compile(rf"^{re.escape(n)}$", re.I)
@@ -712,7 +724,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # parser's own, equally complete text is a few characters shorter and must stay.
     if (front := frontmatter_abstract(soup)) and not is_not_abstract(front):
         chosen = authors_and_abstract.get('abstract')
-        if not chosen or is_not_abstract(chosen) or len(chosen) < 0.8 * len(front):
+        # ... but never another language's version over the English one ("If several language versions are shown,
+        # give the English one": SAGE prints a French "Résumé" in the block beside the English "Abstract") (round 8)
+        if chosen and is_english(chosen) and is_other_language(front):
+            pass
+        elif not chosen or is_not_abstract(chosen) or len(chosen) < 0.8 * len(front):
             authors_and_abstract['abstract'] = front
 
     # Silverchair's abstract section fills a page the winning parser left without one (pubs.aip.org) (#1800).

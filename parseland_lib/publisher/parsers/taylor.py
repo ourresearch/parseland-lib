@@ -512,7 +512,9 @@ class Taylor(PublisherParser):
             if (meta.get("name") or "").lower() != "dc.description":
                 continue
             content = str(meta.get("content") or "").strip()
-            if not content:
+            # On an article with no abstract the tag holds the first 200 characters of its text, cut with "...": a
+            # preview, not an abstract (#2239 round 8: 6 of 6 such labelled pages, gold none or another text)
+            if not content or content.endswith(("...", "…")):
                 continue
             cleaned = self._clean_taylorfrancis_abstract(content)
             if self._looks_like_tandfonline_citation_description(cleaned):
