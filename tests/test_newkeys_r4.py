@@ -142,7 +142,8 @@ def test_springer_bold_label_paragraph_inside_acknowledgments_heads_a_sub_sectio
     body = sn_section("Acknowledgments", f"<p>{THANKS}</p><p>\n <b>Sources of support</b>\n </p><p>{SUPPORT}</p>")
     out = parse(body, url=SPRINGER)
     assert out["acknowledgments"] == THANKS
-    assert out["funding_statement"] == SUPPORT
+    # its conflict-of-interest sentence is not funding text (#2239 round 8, #2215)
+    assert out["funding_statement"] == "This study was supported by the German Research Foundation (DFG, AL 1179/1-1)."
 
 
 def test_springer_bold_label_that_names_no_key_ends_the_acknowledgments():

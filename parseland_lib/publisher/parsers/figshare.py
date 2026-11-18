@@ -12,11 +12,14 @@ citation_author tags, and the item's description. This parser keeps those as the
 Items show no affiliations and no corresponding author. The "ARTICLE ABSTRACT" under Related Materials is the
 supplemented article's, never the item's (oxjob #1800).
 """
+import re
+
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import squash
 
 _CREATOR_TAGS = {"datacite.creator", "datacite.contributor"}
+_PLACEHOLDER = re.compile(r"^(?:n/?a|-+|\.)$", re.I)
 
 
 class Figshare(PublisherParser):
@@ -66,10 +69,14 @@ class Figshare(PublisherParser):
         return ", ".join(part for part in parts if part)
 
     def _funding(self):
+        from parseland_lib.back_matter import funder_list  # here: back_matter imports this package
         for heading in self.soup.find_all("h2"):
             if squash(heading.get_text()).lower() == "funding":
-                funders = [self._funder(block) for block in heading.find_next_siblings()]
-                return "\n".join(f for f in funders if f) or None
+                # "n/a" typed into a grant card is no funding statement; two or more cards that only name funders
+                # are the record's funder list, not a statement (#2239 round 8: 8 of 10 such labelled items)
+                funders = [f for block in heading.find_next_siblings()
+                           if (f := self._funder(block)) and not _PLACEHOLDER.match(f)]
+                return None if funder_list(funders) else "\n".join(funders) or None
         return None
 
     def parse(self):

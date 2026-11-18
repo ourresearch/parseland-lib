@@ -54,10 +54,18 @@ def _raw(html):
     return Figshare(BeautifulSoup(html, "lxml")).parse()
 
 
-def test_funding_section_lists_each_funder_on_its_own_line():
+def test_funding_section_that_only_names_funders_is_no_statement():
+    # #2239 round 8: two or more cards that only name funders are the record's funder list, not a funding statement
+    # (the rubric's "not a funder list shown only as metadata badges"; 8 of 10 such labelled AACR items)
     html = _page(_funding("Skin Diseases Research Center", "VA Merit Award", "NIH"))
-    assert _raw(html)["funding_statement"] == "Skin Diseases Research Center\nVA Merit Award\nNIH"
-    assert _parse(html)["funding_statement"] == "Skin Diseases Research Center\nVA Merit Award\nNIH"
+    assert _raw(html)["funding_statement"] is None
+    assert _parse(html)["funding_statement"] is None
+
+
+def test_funding_cards_that_state_the_funding_are_one_line_each():
+    html = _page(_funding("This work was supported by the Skin Diseases Research Center.", "VA Merit Award"))
+    assert _parse(html)["funding_statement"] == ("This work was supported by the Skin Diseases Research Center.\n"
+                                                 "VA Merit Award")
 
 
 def test_grant_block_keeps_its_funding_body_and_drops_the_link():
@@ -65,11 +73,11 @@ def test_grant_block_keeps_its_funding_body_and_drops_the_link():
              '(NINDS)</h3><p class="VMRyn" dir="ltr">United States Department of Health and Human Services</p>'
              '<a aria-label="Learn more about the name of the funding" class="lPlX1" '
              'href="https://app.dimensions.ai/details/grant/grant.7582160" target="_blank">Find out more...</a></div>')
-    html = _page(_funding("The Schnuck Family Fund").replace('<h2 class="EbFsx">Funding</h2>',
-                                                             '<h2 class="EbFsx">Funding</h2>' + grant))
+    html = _page(_funding("The Schnuck Family Fund was awarded to the lab.").replace(
+        '<h2 class="EbFsx">Funding</h2>', '<h2 class="EbFsx">Funding</h2>' + grant))
     assert _parse(html)["funding_statement"] == (
         "National Institute of Neurological Disorders and Stroke (NINDS), United States Department of Health and Human "
-        "Services\nThe Schnuck Family Fund")
+        "Services\nThe Schnuck Family Fund was awarded to the lab.")
 
 
 def test_one_short_funder_is_still_a_funding_statement():
@@ -89,9 +97,9 @@ def test_byline_from_datacite_tags_when_no_citation_author_tags():
 
 
 def test_citation_author_byline_kept_as_the_generic_reader_gives_it():
-    out = _parse(_page(_funding("NCI", "NIH"), citation_authors=True))
+    out = _parse(_page(_funding("NIH"), citation_authors=True))
     assert [a["name"] for a in out["authors"]] == NAMES
-    assert out["funding_statement"] == "NCI\nNIH"
+    assert out["funding_statement"] == "NIH"
 
 
 def test_parent_articles_abstract_is_never_the_items():
