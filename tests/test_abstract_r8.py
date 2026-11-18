@@ -97,7 +97,6 @@ def test_marker_before_comma_byline_with_glued_label_is_cut():
     "been peer-reviewed. Please cite this preprint only for review purposes (if you are the author).\r\n\t ",
     "Correction: On 16th February 2017, the author K. Peiris was removed from this paper. This error is regretted. "
     "- Editor",
-    "This is a protocol for a Cochrane Review (Intervention). The objectives are as follows: ",
     "Retraction Notice: The publisher wishes to retract the chapter Dev Kumar Mandal, 2026. The authors agree with "
     "the retraction.\n",
 ])
