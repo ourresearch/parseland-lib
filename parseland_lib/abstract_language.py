@@ -54,13 +54,13 @@ def foreign_share(text: str) -> float:
     return sum(map(_foreign_script, letters)) / len(letters) if letters else 0.0
 
 
-def is_english(text) -> bool:
+def is_english(text, min_words=20) -> bool:
     """Clearly English prose: Latin script, and at least 12% of its words are English function words (running
     English has ~20%) against few of any other language's."""
     if not text or foreign_share(text) > 0.05:
         return False
     en, other, n = _shares(text)
-    return n >= 20 and en >= 0.12 and other <= en / 3
+    return n >= min_words and en >= 0.12 and other <= en / 3
 
 
 def is_other_language(text) -> bool:
@@ -132,6 +132,25 @@ def _script_split(text: str):
     if len(english) < _MIN_PART or foreign_share(rest) < 0.5 or not is_english(english):
         return None
     return english.strip()
+
+
+# where one sentence ends and the next begins with a capital, in either script
+_SENTENCE_GAP = re.compile(r"[.!?。][\"”»’)]?\s+(?=[\"“«(]?[^\W\d_])")
+
+
+def _short_script_split(text: str):
+    """Two short versions in two scripts, each whole sentences of 60 characters or more ("Обґрунтування ...
+    кафе-кондитерської "Coockie". Substantiation of ... the "Coockie" confectionery cafe."): the English one, else
+    None. Cut only at a sentence end, so a Latin-script name inside the other version stays in it (#2239 round 8)."""
+    if text.isascii():
+        return None
+    for gap in _SENTENCE_GAP.finditer(text):
+        first, second = text[:gap.start() + 1].strip(), text[gap.end():].strip()
+        for english, rest in ((first, second), (second, first)):
+            if (min(len(english), len(rest)) >= 60 and english[:1].isupper() and foreign_share(rest) >= 0.9
+                    and is_english(english, 8) and english.endswith((".", "!", "?", '."', ".”"))):
+                return english
+    return None
 
 
 _TOKEN = re.compile(r"\S+")
@@ -238,8 +257,13 @@ def english_part(text):
         # Too short for the splits below to tell languages apart, but not for the page's own labels: one-sentence
         # versions under "UK: ... EN: ... RU: ..." (round 6). The labelled part must be in Latin script.
         part = _labelled_english(text) if text[:1].isupper() else None
-        return part if part and len(part) >= _MIN_LABELLED_PART and foreign_share(part) <= 0.05 else text
+        if part and len(part) >= _MIN_LABELLED_PART and foreign_share(part) <= 0.05:
+            return part
+        return _short_script_split(text) or text
     part = _labelled_english(text)
+    # a labelled version is one whatever its length: "UK: ... EN: The methodical materials ... RU: ..." (round 8)
+    if part is not None and _MIN_LABELLED_PART <= len(part) < _MIN_PART and foreign_share(part) <= 0.05:
+        return part
     if part is None or len(part) < _MIN_PART:
         part = _script_split(text) or _word_split(text) or _middle_english(text)
     if not part:
