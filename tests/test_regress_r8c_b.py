@@ -111,15 +111,16 @@ def test_json_ld_description_that_is_not_the_section_text_keeps_the_longer_rule(
     assert _abstract(_springer(f"<p>{BODY}</p>", description, after=SYNOPSIS_SECTION)) == description
 
 
-# --- Cochrane Library: a protocol's abstract keeps its opening line --------------------------------------------------
+# --- Cochrane Library: a protocol's opening line is the site's template (round 8d reverses round 8c's keep) --------
 
 OBJECTIVES = ("To evaluate the impact of the different GnRHa protocols as adjuncts to ovarian stimulation in women "
               "undergoing ART cycles.")
 
 
-def test_cochrane_protocol_line_is_kept():
+def test_cochrane_protocol_line_is_cut():
+    # the rubric and the fresh-draw tripwire's judge call it site text (tests/test_tripwire_r8d.py); the label keeps it
     text = f"This is a protocol for a Cochrane Review (Intervention). The objectives are as follows: {OBJECTIVES}"
-    assert clean_abstract(text) == text
+    assert clean_abstract(text) == OBJECTIVES
 
 
 def test_other_leading_notices_are_still_cut():
