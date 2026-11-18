@@ -69,13 +69,21 @@ def corresponding_names(soup):
             primary = primary or any(_label(s.get_text()) == "primary author" for s in entry.find_all("small")) or (
                 link is not None and _label(link.get("title")) == "primary author")
     else:
-        for entry in soup.select("div[id^=author]"):
-            link = entry.select_one('a[href*="/pub/@"]') if _AUTHOR_ID.match(entry.get("id", "")) else None
+        starred_primary, entries = [], [e for e in soup.select("div[id^=author]") if _AUTHOR_ID.match(e.get("id", ""))]
+        for entry in entries:
+            link = entry.select_one('a[href*="/pub/@"]')
             if link is None or not any(s.get_text(strip=True) == "*" for s in link.find_all("sup")):
                 continue
             if _label(link.get("title")) in _CORRESPONDING_LABELS:
                 names.append(_display_name(entry))
-            primary = primary or _label(link.get("title")) == "primary author"
+            elif _label(link.get("title")) == "primary author":
+                primary = True
+                starred_primary.append(_display_name(entry))
+        # The English interface's "Primary Author" link with its '*' is the "Sorumlu Yazar" mark translated: on a
+        # byline where it singles out some authors it marks them; on every author (a sole author) it marks no one
+        # (#2239 round 8c: label-v2 gold on both such labelled pages).
+        if not names and starred_primary and len(starred_primary) < len(entries):
+            names = starred_primary
     names = [n for n in names if n]
     return names or ([] if primary else None)
 
@@ -112,7 +120,9 @@ class DergiPark(PublisherParser):
         if small is not None and _label(small.get_text()) in _CORRESPONDING_LABELS:
             return True
         star = entry.select_one(".primary-author-icon")
-        link = star.find_parent("a") if star is not None else None
+        # the name is a link titled "Sorumlu Yazar", or, for an author with no DergiPark profile, a <span> with that
+        # title (#2239 round 8c: the second of two corresponding authors was missed)
+        link = star.find_parent(lambda tag: tag.name in ("a", "span") and tag.get("title")) if star else None
         return link is not None and _label(link.get("title")) in _CORRESPONDING_LABELS
 
     @staticmethod

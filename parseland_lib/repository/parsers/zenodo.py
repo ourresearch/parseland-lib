@@ -9,6 +9,13 @@ from parseland_lib.repository.parsers.parser import RepositoryParser
 _PLACEHOLDER = re.compile(r"\W*(?:&\w+;|n/?a|demselben|derselbe)?\W*", re.I)
 
 
+# A role label where the affiliation goes: "(Autor/in)" ("(author)", on records imported from German library
+# catalogues), "(Hrsg.)". A role is never an employer or institute (#2239 round 8c).
+_ROLE_LABEL = re.compile(
+    r"\(?\s*(?:autor|author|verfasser|herausgeber|hrsg|editor|bearbeiter|übersetzer|translator|contributor|creator)"
+    r"(?:/?in(?:nen)?|en|s)?\.?\s*\)?", re.I)
+
+
 def _as_list(value):
     return value if isinstance(value, list) else [value] if value else []
 
@@ -17,7 +24,7 @@ def _names(value):
     """Affiliation names from a JSON-LD value: a string, an Organization, or a list of either (InvenioRDM writes
     [{"@type": "Organization", "name": ...}])."""
     names = [item.get("name") if isinstance(item, dict) else item for item in _as_list(value)]
-    return [n.strip() for n in names if isinstance(n, str) and n.strip()]
+    return [n.strip() for n in names if isinstance(n, str) and n.strip() and not _ROLE_LABEL.fullmatch(n.strip())]
 
 
 def zenodo_affiliations(soup):

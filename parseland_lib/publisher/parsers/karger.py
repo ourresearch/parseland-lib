@@ -131,16 +131,22 @@ class Karger(PublisherParser):
         if contact is None or not authors:
             return
         lines = [squash(p.get_text(" ")) for p in contact.find_all('p')] or [squash(contact.get_text(" "))]
-        first = _TITLE.sub("", _CONTACT_LEAD.sub("", lines[0] if lines else "")).split(",")[0]
-        name = _plain(first)
-        matched = []
-        for author in authors:
-            parts = self._family_and_initial(author['name'])
-            if parts and name.startswith(parts[1]) and (name == parts[0] or name.endswith(" " + parts[0])):
-                matched.append(author)
+
+        def named(line):
+            name = _plain(_TITLE.sub("", _CONTACT_LEAD.sub("", line)).split(",")[0])
+            return [author for author in authors if (parts := self._family_and_initial(author['name'])) and
+                    name.startswith(parts[1]) and (name == parts[0] or name.endswith(" " + parts[0]))]
+
+        matched = named(lines[0] if lines else "")
         if len(matched) != 1:
             return
         marked = {id(matched[0])}
+        # Two contacts, one per line ("<p>Direkrit Chiewchengchol, e-mail</p><p>Asada Leelahavanichkul, e-mail</p>"):
+        # a later line naming exactly one other byline author marks that author too (#2239 round 8c); address lines
+        # name no one.
+        for line in lines[1:]:
+            if len(more := named(line)) == 1:
+                marked.add(id(more[0]))
         for sup in contact.find_all('sup'):
             note = sup.next_sibling
             if isinstance(note, NavigableString) and "corresponding" in note.lower():

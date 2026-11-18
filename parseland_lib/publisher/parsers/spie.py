@@ -1,3 +1,7 @@
+import re
+
+from bs4 import NavigableString
+
 from parseland_lib.elements import Author, Affiliation
 from parseland_lib.publisher.parsers.parser import PublisherParser
 
@@ -31,8 +35,21 @@ class SPIE(PublisherParser):
                 link.decompose()
 
         author_soup = author_soup.b.findAll("sup")
-        for author in author_soup:
-            name = str(author.previous_sibling).strip(' ,')
+        # the byline's citation_author tags, in the same order: a name the byline text does not give is read there
+        meta_names = [tag.get("content", "").strip()
+                      for tag in self.soup.find_all("meta", attrs={"name": "citation_author"})]
+        for i, author in enumerate(author_soup):
+            # An author with an ORCID iD prints "Name<a orcid/>,<sup>": with the link gone the text before the mark is
+            # two strings, and the one next to it is only ",". That author was read as "" and then dropped, which moved
+            # every later author onto the previous one's affiliations (#2239 round 8c).
+            texts = []
+            node = author.previous_sibling
+            while isinstance(node, NavigableString):
+                texts.insert(0, str(node))
+                node = node.previous_sibling
+            name = re.sub(r"\s+", " ", "".join(texts)).strip(' ,')
+            if not name and len(meta_names) == len(author_soup):
+                name = meta_names[i]
             aff_ids_raw = author.text
             aff_ids = []
             for aff_id_raw in aff_ids_raw:

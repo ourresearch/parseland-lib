@@ -30,7 +30,8 @@ _NAME_SPLIT = re.compile(r",(?!\s*\d)|\s+and\s+|\s+&\s+")
 _AFF_DIGIT = re.compile(r"(?<![^\s,;.)])(\d{1,2}(?:\s*[,\-\u2013]\s*\d{1,2})*)[.\s]?(?=[A-Z(])")
 _RANGE = re.compile(r"(\d{1,2})\s*[-\u2013]\s*(\d{1,2})")
 _AFF_STAR = re.compile(r"\*+(?:\s*,\s*\*+)*")
-_AFF_LETTER = re.compile(r"(?<![^\s,;.)])([a-z])(?=[A-Z])")
+# a letter, or a list of them ("b,dSenior Resident": the b author's too, #2239 round 8c)
+_AFF_LETTER = re.compile(r"(?<![^\s,;.)])([a-z](?:\s*,\s*[a-z])*)(?=[A-Z])")
 # What names an organisation or its part: an affiliation, not just a job title ("Professor and Head").
 _ORG = re.compile(r"depart|dept|college|univers|institut|hospital|school|cent(?:re|er)\b|faculty|division|clinic|"
                   r"laborator|\bacadem(?:y|ie|ia)\b|foundation|ministry|council|sansthan|vidyap|trust|aiims|pgimer|campus|"
@@ -153,7 +154,8 @@ class RedFlower(PublisherParser):
         elif kind == "star":
             marks = [(m.start(), m.end(), set(_STARS.findall(m.group(0)))) for m in _AFF_STAR.finditer(affs)]
         elif kind == "letter":
-            marks = [(m.start(), m.end(), {m.group(1)}) for m in _AFF_LETTER.finditer(affs) if m.group(1) in keys]
+            marks = [(m.start(), m.end(), k) for m in _AFF_LETTER.finditer(affs)
+                     if (k := set(re.findall(r"[a-z]", m.group(1)))) <= keys]
         else:
             marks = []
         segments = []
