@@ -40,6 +40,46 @@ def _label(text):
     return squash(text or "").strip(" ():").casefold()
 
 
+def _display_name(entry):
+    """An author entry's name: its first text once the label, the "Bu kişi benim" claim link and the marks are out."""
+    entry = copy.copy(entry)  # never edit the page
+    for tag in entry.select("small, sup, .primary-author-icon, a[class*=claim-authorship]"):
+        tag.decompose()
+    return next(iter(entry.stripped_strings), "").rstrip(">").strip()
+
+
+def corresponding_names(soup):
+    """The names a DergiPark page marks as corresponding, for whichever parser wins the page (#2239, round 8b): record
+    pages (OAI-PMH ids) go to the repository parser, which keeps no mark, and the 2025 template (no "uds" generator,
+    each author in a div#authorNNN) to the meta-tag parser, which reads its '*' on some pages only, and on English
+    pages also beside "Primary Author".
+    - details table (uds): the marks DergiPark._is_marked reads; a name link's title alone is no mark there (the table
+      titles every author with a DergiPark profile "Sorumlu Yazar").
+    - 2025 template: the name link titled "Sorumlu Yazar" (only the corresponding author's is) with its '*'.
+    Returns None when the page has no such list or marks no one; [] when it shows only English "Primary Author"
+    labels, which mark no one (see the module docstring)."""
+    names, primary = [], False
+    entries = [p for p in soup.select("table.record_properties p[id]") if _AUTHOR_ID.match(p.get("id", ""))]
+    if entries:
+        for entry in entries:
+            if DergiPark._is_marked(entry):
+                names.append(_display_name(entry))
+            star = entry.select_one(".primary-author-icon")
+            link = star.find_parent("a") if star is not None else None
+            primary = primary or any(_label(s.get_text()) == "primary author" for s in entry.find_all("small")) or (
+                link is not None and _label(link.get("title")) == "primary author")
+    else:
+        for entry in soup.select("div[id^=author]"):
+            link = entry.select_one('a[href*="/pub/@"]') if _AUTHOR_ID.match(entry.get("id", "")) else None
+            if link is None or not any(s.get_text(strip=True) == "*" for s in link.find_all("sup")):
+                continue
+            if _label(link.get("title")) in _CORRESPONDING_LABELS:
+                names.append(_display_name(entry))
+            primary = primary or _label(link.get("title")) == "primary author"
+    names = [n for n in names if n]
+    return names or ([] if primary else None)
+
+
 class DergiPark(PublisherParser):
     parser_name = "DergiPark"
     prefer_publisher_authors_over_generic = True

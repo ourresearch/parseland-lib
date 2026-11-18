@@ -5,7 +5,10 @@ import unicodedata
 from parseland_lib.exceptions import UnusualTrafficError
 from parseland_lib.elements import AuthorAffiliations
 from parseland_lib.publisher.parsers.parser import PublisherParser
-from parseland_lib.publisher.parsers.utils import EMAIL_RE
+from parseland_lib.publisher.parsers.utils import EMAIL_RE, same_person
+
+# what an ACS page's '*' footnote says when the asterisk marks the corresponding author (#2239, round 8b)
+_STAR_NOTE = re.compile(r"correspond|inquiries", re.I)
 
 
 class ACS(PublisherParser):
@@ -215,7 +218,45 @@ class ACS(PublisherParser):
                 )
             )
         self._mark_corresponding_from_emails(result_authors)
+        if not any(a.is_corresponding for a in result_authors):
+            names = self._corresponding_heading_names() or self._starred_creator_names()
+            for name in names:
+                matches = [a for a in result_authors if same_person(a.name, name)]
+                if len(matches) == 1:
+                    matches[0].is_corresponding = True
         return {"authors": result_authors, "abstract": self.get_abstract()}
+
+    def _corresponding_heading_names(self):
+        """The names listed under "Author Information" -> "Corresponding Author(s)", on pages whose byline marks no
+        one (an editorial's sole author) (#2239, round 8b)."""
+        names = []
+        for header in self.soup.select("span.author-information-subsection-header"):
+            if not header.get_text(" ", strip=True).lower().startswith("corresponding author"):
+                continue
+            block = header.find_next_sibling("ul")
+            for name in block.select(".hlFld-ContribAuthor") if block else []:
+                names.append(name.get_text(" ", strip=True))
+        return names
+
+    def _starred_creator_names(self):
+        """Older ("non-JATS") pages print no mark in the byline: the '*' is in the author's dc.Creator tag
+        ("K. N.  Houk*", "Donald J.  Darensbourg,*", "Shiro  Goto*,§"), explained by the page's '*' footnote ("the
+        asterisk indicates the name of the author to whom inquiries about the paper should be addressed"). Read only
+        when that footnote says so (#2239, round 8b)."""
+        explained = any(
+            item.select_one(".NLM_fn-symbol") is not None
+            and item.select_one(".NLM_fn-symbol").get_text(strip=True) == "*"
+            and _STAR_NOTE.search(item.get_text(" ", strip=True))
+            for item in self.soup.select("div.fnGroupItem"))
+        if not explained:
+            return []
+        names = []
+        for meta in self.soup.find_all("meta", attrs={"name": "dc.Creator"}):
+            value = meta.get("content") or ""
+            if "*" in value:
+                name = re.sub(r"\band\s*$", "", re.sub(r"[*†‡§¶‖#,]", " ", value).strip())
+                names.append(" ".join(name.split()))
+        return names
 
     test_cases = [
         {

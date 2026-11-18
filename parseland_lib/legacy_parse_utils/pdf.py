@@ -319,6 +319,11 @@ def find_normalized_license(text, is_dataset=False):
 
         ("arxiv.orgperpetual", "publisher-specific-oa"),
         ("arxiv.orgnonexclusive", "publisher-specific-oa"),
+        # ... and the same licence as arXiv's abstract pages link it (div.abs-license), which the two keys above never
+        # matched: "arxiv.org/licenses/nonexclusive-distrib/1.0/", or "assumed-1991-2003/" for 1991-2003 papers, the
+        # non-exclusive licence arXiv assumes for them (#2239, round 8b: none on every such page of two draws)
+        ("arxiv.org/licenses/nonexclusivedistrib", "publisher-specific-oa"),
+        ("arxiv.org/licenses/assumed19912003", "publisher-specific-oa"),
     ]
 
     if is_dataset:

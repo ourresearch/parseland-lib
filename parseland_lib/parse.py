@@ -26,6 +26,7 @@ from parseland_lib.publisher.parsers.literatum import is_literatum_page, literat
 from parseland_lib.publisher.parsers.ojs import is_ojs_page, ojs_abstract, ojs_abstract_blocks, \
     ojs_corresponding_marks, pick_ojs_corresponding
 from parseland_lib.publisher.parsers.pmc import pmc_corresponding_names
+from parseland_lib.publisher.parsers.dergipark import corresponding_names as dergipark_corresponding_names
 from parseland_lib.publisher.parsers.research_square import research_square_corresponding_names
 from parseland_lib.publisher.parsers.springer import springer_corresponding_names
 from parseland_lib.publisher.parsers.taylor import taylorfrancis_marked_opening
@@ -667,6 +668,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # PubMed Central marks the corresponding author by a byline symbol (✉, *) keyed to its correspondence footnote, or
     # names them in that footnote (#2239 round 8); the meta-tag parser that wins its pages read neither
     pmc_names = pmc_corresponding_names(soup) if _has(lp_content, 'name="ncbi_db"') else []
+    # DergiPark marks it in its own author list (#2239 round 8b): its record pages and its 2025 template go to parsers
+    # that keep no mark or guess one from a '*'. Read before the parsers run (the repository parser removes the labels)
+    dp_names = dergipark_corresponding_names(soup) if _has(lp_content, "/pub/@") and _has(
+        lp_content, "dergipark") else None
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
@@ -906,6 +911,11 @@ def parse_page(lp_content, namespace, resolved_url=None):
             for a in authors:
                 a["is_corresponding"] = None
             _mark_corresponding_by_name(authors, pmc_names)
+        # ... and DergiPark's (#2239 round 8b); [] = only English "Primary Author" labels, which mark no one (#2268)
+        if dp_names is not None and (not dp_names or any(same_person(a["name"], n) for a in authors for n in dp_names)):
+            for a in authors:
+                a["is_corresponding"] = None
+            _mark_corresponding_by_name(authors, dp_names)
         if authors and not any(a["is_corresponding"] for a in authors):
             if _has(lp_content, "al-author-name"):
                 _mark_corresponding_by_name(authors, silverchair_corresponding_names(soup))
