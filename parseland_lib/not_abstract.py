@@ -351,11 +351,11 @@ _GLUED_START_RE = re.compile(
     r"|Normal\s+0\s+(?:[\d.]+\s*(?:pt)?\s+)?false\s+false\s+false\s+(?:(?:[A-Z]{2,3}(?:-[A-Z]{2,4}){0,2}|X-NONE"
     r"|MicrosoftInternetExplorer\d)\s+)*(?:/\*\s*Style Definitions\s*\*/\s*)?(?:[\w.#:-]+(?:\s*,\s*[\w.#:-]+)*\s*"
     r"\{[^{}]{0,3000}\}\s*)*"
+    # (Not Cochrane's "This is a protocol for a Cochrane Review (...). The objectives are as follows:": the page shows
+    # it as the protocol's abstract and label-v2 keeps it, #2239 round 8c.)
     # JMIR Preprints' warning before the abstract
     r"|#Preprint #PeerReviewMe: Warning: This is a\s+unreviewed preprint\.[\s\S]{0,1000}?\(if you are the "
     r"author\)\.\s*"
-    # Cochrane's template line before a protocol's objectives
-    r"|This is a protocol for a Cochrane Review \([^()]{1,40}\)\. The objectives are as follows:\s*"
     # an editor's correction note run onto the abstract: "Correction: On 16th February 2017, the author K. Peiris was
     # removed from this paper. ... This error is regretted. - Editor" (DOAJ)
     r"|(?:Correction|Corrigendum|Erratum)\s*:\s[^\n]{0,600}?\bThis error is regretted\.(?:\s*[-–—]\s*(?:The )?"

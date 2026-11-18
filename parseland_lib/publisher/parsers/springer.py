@@ -558,7 +558,8 @@ class Springer(PublisherParser):
         # DOM section had every paragraph. When both exist, the longer of
         # the two wins (DOM nearly always is).
         dom_abstract = self.parse_abstract()
-        if dom_abstract and (not abstract or len(dom_abstract) > len(abstract)):
+        if dom_abstract and (not abstract or len(dom_abstract) > len(abstract)
+                             or self._description_runs_past_section(abstract, dom_abstract)):
             abstract = dom_abstract
         if not abstract:
             abstract = self._parse_missing_abstract_fallback()
@@ -1136,8 +1137,23 @@ class Springer(PublisherParser):
 
         return authors
 
+    @staticmethod
+    def _compact(text):
+        return re.sub(r'\s+', '', text or '')
+
+    def _description_runs_past_section(self, description, dom_abstract):
+        """True when the JSON-LD description is the Abstract section's text and then more that the section does not
+        hold: EMBO's description runs on into the Synopsis section after the abstract, so "the longer wins" took it
+        (#2239 round 8c). A description longer by text of the section itself (a list the <p> reader skips) stays."""
+        section = getattr(self, '_abstract_section_compact', None)
+        description, dom = self._compact(description), self._compact(dom_abstract)
+        if not section or not dom or len(description) <= len(dom) or not description.startswith(dom):
+            return False
+        return description[len(dom):][:80] not in section
+
     def parse_abstract(self):
         if abstract_soup := self.soup.find("section", class_="Abstract"):
+            self._abstract_section_compact = self._compact(abstract_soup.get_text())
             if abstract_heading := abstract_soup.find(
                     class_="Heading", string="Abstract"
             ):
@@ -1159,6 +1175,9 @@ class Springer(PublisherParser):
             ps = abs_section.select('div[class*=c-article-section] p')
             if not ps:
                 ps = abs_section.find_all('p')
+            # A graphical abstract's figure sits in the section with its caption in a (visually hidden) <p>: a figure
+            # caption, not abstract text (#2239 round 8c)
+            ps = [p for p in ps if p.find_parent('figure') is None]
             # Old book chapters print machine-chosen keywords and their disclaimer ("These keywords were added by
             # machine and not by the authors ...") in the same section, under an <h3>Keywords</h3>: the abstract
             # ends there (#2239 phase 2: 142 of 33,557 sampled pages).
@@ -1174,6 +1193,8 @@ class Springer(PublisherParser):
                 chunks = [p.get_text(" ", strip=True) for p in ps]
                 chunks = [c for c in chunks if c]
                 if chunks:
+                    self._abstract_section_compact = self._compact(''.join(
+                        t for t in abs_section.find_all(string=True) if t.find_parent('figure') is None))
                     return "\n".join(chunks)
 
         # Book-chapter fallback (modern SpringerLink template).
