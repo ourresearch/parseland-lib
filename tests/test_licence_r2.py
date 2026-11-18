@@ -173,7 +173,9 @@ def test_footer_statement_about_the_articles_is_kept(statement, expected, wrappe
     f'This work is licensed under a {CC_BY_LINK}.',
     f'Esta obra está bajo una {CC_BY_LINK}.',
     # journal-level and site-level statements: not decided here (gold labels them both ways)
-    f'Journal of Examples is licensed under a {CC_BY_LINK}.',
+    # ("Journal of Examples is licensed under ..." stood here until round 8: on a page with no journal meta tags a
+    # footer sentence that names the journal by its title counts, charter § 6, 17 Nov 2026 08:20;
+    # tests/test_licence_r8.py)
     f'All Published work is licensed under a {CC_BY_LINK} Copyright © 2023 All rights reserved',
     # ("Todos los artículos están licenciados bajo ..." stood here until round 7: a footer sentence that names the
     # journal's articles counts, charter § 6, 17 Nov 2026 08:20; tests/test_licence_footer_r7.py)
