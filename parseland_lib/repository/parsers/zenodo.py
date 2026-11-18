@@ -1,6 +1,12 @@
 import json
+import re
 
 from parseland_lib.repository.parsers.parser import RepositoryParser
+
+
+# A creator placeholder, not a person: "&Na;," (an "N/A" mangled on import, on Zenodo's bulk-imported 1880s records),
+# "n/a", "Demselben," ("by the same", the German journals' running credit) (#2239 round 8b)
+_PLACEHOLDER = re.compile(r"\W*(?:&\w+;|n/?a|demselben|derselbe)?\W*", re.I)
 
 
 def _as_list(value):
@@ -12,6 +18,18 @@ def _names(value):
     [{"@type": "Organization", "name": ...}])."""
     names = [item.get("name") if isinstance(item, dict) else item for item in _as_list(value)]
     return [n.strip() for n in names if isinstance(n, str) and n.strip()]
+
+
+def zenodo_affiliations(soup):
+    """(creator name, affiliations) per JSON-LD creator of a Zenodo record page that has any (#2239 round 8b)."""
+    parser = Zenodo(soup)
+    if not parser.is_correct_parser():
+        return []
+    try:
+        authors = parser.parse()["authors"]
+    except ValueError:  # a malformed JSON-LD block
+        return []
+    return [(a["name"], a["affiliations"]) for a in authors if a["affiliations"]]
 
 
 class Zenodo(RepositoryParser):
@@ -31,7 +49,8 @@ class Zenodo(RepositoryParser):
         for ld_json in self.soup.find_all("script", {"type": "application/ld+json"}):
             article_metadata = json.loads(ld_json.text)
             for creator in _as_list(article_metadata.get("creator")):
-                if isinstance(creator, dict) and creator.get("@type") == "Person" and creator.get("name"):
+                if isinstance(creator, dict) and creator.get("@type") == "Person" and creator.get("name") and (
+                        not _PLACEHOLDER.fullmatch(creator["name"])):
                     authors.append(
                         {
                             "name": creator["name"],

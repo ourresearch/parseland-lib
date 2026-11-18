@@ -1,6 +1,17 @@
+import re
+
 from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.repository.parsers.parser import RepositoryParser
+
+
+def _authors_of(parsed):
+    return parsed if isinstance(parsed, list) else parsed.get('authors')
+
+
+def _one_clean_name(author):
+    name = author.get('name') if isinstance(author, dict) else getattr(author, 'name', None)
+    return bool(name) and not re.search(r"[\d*]", name) and name.count(",") <= 1
 
 
 def get_authors_and_abstract(soup, namespace):
@@ -85,9 +96,21 @@ def get_authors_and_abstract(soup, namespace):
         if has_content(parsed):
             return parsed
 
+    # A record page's own repository parser that found authors but no affiliations (Zenodo's JSON-LD creators) was
+    # passed over above for the generic parser, and when that found no one the page lost its authors (#2239 round 8b)
+    # Only names that read as one person each: "V.Viswanath1*, T.Niranjan Reddy1" (marks, several people in one
+    # creator field) is no author list.
+    repository = next((parsed for _, parsed in authors_found_parsers if has_authors(parsed) and all(
+        _one_clean_name(author) for author in _authors_of(parsed))), None) if namespace == "pmh" else None
+
     generic_parser = GenericPublisherParser(soup)
     if generic_parser.authors_found():
         print(f"Authors found for generic parser")
-        return generic_parser.parse()
+        parsed = generic_parser.parse()
+        if repository is not None and not has_authors(parsed):
+            if isinstance(parsed, dict):
+                return {**parsed, "authors": _authors_of(repository)}
+            return repository
+        return parsed
 
-    return None
+    return repository

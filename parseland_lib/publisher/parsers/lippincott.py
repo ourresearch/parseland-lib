@@ -143,6 +143,38 @@ def lww_corresponding_names(soup):
     return blocks if len(blocks) == 1 else []
 
 
+# A statement that is not an affiliation: disclosures and conflict-of-interest lines (#2239).
+_DISCLOSURE = re.compile(r"\bdisclos(?:ed|es|ure)\b|\bconflicts? of interests?\b|\bcompeting interests?\b", re.I)
+_EMAIL_TEXT = re.compile(r"\be-?mail\b|@|\[email", re.I)
+
+
+def _mark_list(text):
+    """The marks of a byline <sup> when it is a plain list ("a,b,c,*", "12", "**"), else None (#2239). Letter lists
+    longer than five characters lost their letters ("a,b,c,*" read as "*" alone), "12" read as 1 and 2, and "**"
+    (a mark of its own) as "*" twice."""
+    tokens = [t for t in re.split(r"[\s,]+", text.strip()) if t]
+    if tokens and all(re.fullmatch(r"\d+|[a-zA-Z]|([^\w\s])\1*", t) for t in tokens):
+        return tokens
+    return None
+
+
+def _is_correspondence_note(para, entries):
+    """True when an author-info paragraph is a correspondence note (#2239): it opens with a correspondence or
+    reprints label ("Address for correspondence:", "Correspondence to", "*Address all correspondence to Dr ..."), or,
+    unlabelled, it carries an e-mail and opens with a byline author's name ("Denis Souto Valente, M.D., <street>,
+    [e-mail]"). An affiliation line with an e-mail that names no author stays."""
+    pid = para.get("id") or ""
+    if re.match(r"(?:cor\d*|c\d+)$", pid, re.I):
+        return True
+    text = re.sub(r"\s+", " ", para.get_text(" ", strip=True))
+    body = re.sub(r"^[\s*\u2217\u2020\u2021\u00a7\u00b6#]+", "", text)
+    if _LWW_CORR_LABEL.match(body):
+        return True
+    has_email = para.select_one('a[href*="mailto"], a[href*="email-protection"], .__cf_email__') is not None \
+        or _EMAIL_TEXT.search(text)
+    return bool(has_email and entries and (name := _statement_name(body)) and _match_byline(name, entries))
+
+
 class Lippincott(PublisherParser):
     parser_name = "lippincott"
 
@@ -263,18 +295,27 @@ class Lippincott(PublisherParser):
         author_soup = author_section.findAll("sup")
 
         # authors with ids
+        broke_at = None
         for author in author_soup:
             is_corresponding = None
             # set name
             name = self.clean_name(author.previous_element)
             if ";" in name:
-                break
+                # An unmarked author sits before this one ("Alchokhachi, Zahra; Ghanem, Ahmed<sup>a</sup>"): the mark
+                # is the last name's. Reading stopped here, so every later author lost their marks and took the
+                # page's unmarked lines instead; the list is put back in byline order below (#2239).
+                last = name.rsplit(";", 1)[-1].strip()
+                if not re.search(r",\s*[^\W\d_]", last):  # not a "Family, Given" name ("FACG,"): stop, as before
+                    break
+                broke_at = len(authors) if broke_at is None else broke_at
+                name = last
 
             if '∗' in author.text or '*' in author.text:
                 is_corresponding = True
 
             # set aff_ids
-            aff_ids = self.parse_aff_ids(author.text, first=False) if len(author.text) > 5 else list(author.text)
+            aff_ids = _mark_list(author.text) or (
+                self.parse_aff_ids(author.text, first=False) if len(author.text) > 5 else list(author.text))
 
             if not aff_ids and name.lower().startswith("editor"):
                 continue
@@ -294,11 +335,17 @@ class Lippincott(PublisherParser):
                 sup.decompose()
 
             parsed_author_names = author_names.text.split(";")
+            if broke_at is not None:
+                order = [name.replace("∗", "").strip() for name in parsed_author_names]
+                if not all(author.name in order for author in authors):
+                    authors = authors[:broke_at]  # cannot place them in the byline: read as before (#2239)
             for name in parsed_author_names:
                 name = name.replace("∗", "").strip()
                 if author_already_exists(name):
                     continue
                 authors.append(Author(name=name, aff_ids=[]))
+            if broke_at is not None and all(author.name in order for author in authors):
+                authors.sort(key=lambda author: order.index(author.name))
 
         starred = [author for author in authors if author.is_corresponding]
         if starred and self._star_is_not_a_mark(on_everyone=len(starred) == len(authors), starred=starred):
@@ -401,7 +448,8 @@ class Lippincott(PublisherParser):
             for substr in aff_blacklist_substr:
                 if substr in aff_text.lower():
                     return True
-            return False
+            # "The author has disclosed no conflicts of interest." stood as the affiliation (#2239)
+            return bool(_DISCLOSURE.search(aff_text))
 
         def cleanup_aff(aff_text):
             # aff.next_element.next_element is usually the NavigableString after
@@ -426,19 +474,28 @@ class Lippincott(PublisherParser):
             return []
 
         results = []
+        # The correspondence note is the corresponding author's postal address, not an affiliation: it was added to
+        # that author, often twice (once more by assign_affs_from_name), or to every unmarked author (#2239).
+        authors_section = self.soup.find(id="ejp-article-authors")
+        entries = _byline_entries(authors_section) if authors_section is not None else []
+        notes = [p for p in aff_soup.findAll("p") if _is_correspondence_note(p, entries)]
+
         # affiliations with ids
         affiliations = aff_soup.findAll("sup")
         for aff in affiliations:
-            if aff.parent.get("id", "").startswith("cor"):
+            if aff.parent.get("id", "").startswith("cor") or aff.find_parent("p") in notes:
                 continue
 
             aff_id = aff.text
             organization = cleanup_aff(aff.next_element.next_element)
+            # "Departments of <sup>1</sup>Nuclear Medicine, <sup>2</sup>Psychiatry and <sup>3</sup>Tracer ...": the
+            # text up to the next mark ends with the joining "and" (#2239)
+            organization = re.sub(r"[\s,;]+(?:and|&)$", "", organization)
             results.append(
                 Affiliation(aff_id=aff_id, organization=organization))
 
         # affiliation with no ids
-        affiliations = aff_soup.findAll("p")
+        affiliations = [p for p in aff_soup.findAll("p") if p not in notes]
         if affiliations and ';' in affiliations[0].text:
             aff_texts = [txt.strip() for txt in affiliations[0].text.split(';')]
             for aff_text in aff_texts:
