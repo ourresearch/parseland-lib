@@ -164,15 +164,65 @@ def _is_correspondence_note(para, entries):
     unlabelled, it carries an e-mail and opens with a byline author's name ("Denis Souto Valente, M.D., <street>,
     [e-mail]"). An affiliation line with an e-mail that names no author stays."""
     pid = para.get("id") or ""
-    if re.match(r"(?:cor\d*|c\d+)$", pid, re.I):
+    if re.match(r"cor\d*$", pid, re.I):
         return True
     text = re.sub(r"\s+", " ", para.get_text(" ", strip=True))
     body = re.sub(r"^[\s*\u2217\u2020\u2021\u00a7\u00b6#]+", "", text)
-    if _LWW_CORR_LABEL.match(body):
+    if _LWW_CORR_LABEL.match(body) or re.match(r"contact\s+author\b", body, re.I):
         return True
     has_email = para.select_one('a[href*="mailto"], a[href*="email-protection"], .__cf_email__') is not None \
         or _EMAIL_TEXT.search(text)
+    # "c1" is the correspondence note's id, but Anesthesiology gives its "From the Department of ..." paragraph the id
+    # "c001": an id like that is a note only when the paragraph carries an e-mail (#2239 round 8c)
+    if has_email and re.match(r"c\d+$", pid, re.I):
+        return True
     return bool(has_email and entries and (name := _statement_name(body)) and _match_byline(name, entries))
+
+
+# Author-info lines that are never an affiliation (#2239 round 8c): the journal's supplemental-content and history
+# notices, and a cross-reference to another paper.
+_NOT_AN_AFFILIATION = re.compile(
+    r"^(?:supplemental digital content\b|submitted for publication\b|revised\b|first published\b|published online\b|"
+    r"(?:created|completed) date\b|orcid\b|"
+    r"see (?:the )?(?:original|related|accompanying|companion) (?:paper|article)\b)",
+    re.I)
+# A sentence about a person: "<strong>Ethan Stonerook</strong> is assistant professor at ..." (a biography) or
+# "<strong>Brian T. Maurer, PA-C</strong>, department editor" (a column credit) (#2239 round 8c)
+_PERSON_NOTE_REST = re.compile(r"^\s*(?:(?:is|was|has been|serves as)\b|,\s*(?:[\w-]+\s+){0,2}editors?\b)", re.I)
+_BIO = re.compile(r"^(?P<name>[^\W\d_][^,;:()]{2,60}?)(?:,\s*[A-Z][\w.-]*)*,?\s+(?:is|was)\s")
+# The mark keying a line of the affiliation note: a run of one symbol ("**" is a mark of its own, not "*" twice)
+_SYMBOL_RUN = re.compile(r"([^a-zA-Z\d \':,/])\1*")
+# Footnote symbols inside a shared line ("the Departments of \u2020Pathology, \u2021Radiation Oncology, and
+# \u00a7Orthopedic Surgery and Rehabilitation, University of Florida")
+_FOOTNOTE_SYMBOL = re.compile(r"[*\u2217\u2020\u2021\u00a7\u00b6\u2016#]+")
+
+
+def _is_person_note(para, entries):
+    """True when an author-info paragraph is about a person, not an institution: a biography or an editor's credit
+    led by the person's name in bold, or a biography opening with a byline author's name (#2239 round 8c)."""
+    first = next((child for child in para.children
+                  if not (isinstance(child, NavigableString) and not child.strip())), None)
+    if getattr(first, "name", None) in ("strong", "b") and first.get_text(strip=True) and \
+            not first.get_text(strip=True).endswith(":"):
+        rest = re.sub(r"\s+", " ", " ".join(
+            s.get_text(" ") if hasattr(s, "get_text") else str(s) for s in first.next_siblings))
+        if _PERSON_NOTE_REST.match(rest):
+            return True
+    text = re.sub(r"\s+", " ", para.get_text(" ", strip=True))
+    return bool(entries and (m := _BIO.match(text)) and _match_byline(m.group("name").strip(), entries))
+
+
+def _line_mark(text):
+    """The mark that keys an unsuperscripted affiliation line, or None (#2239 round 8c). As parse_aff_ids(first=True)
+    reads it, with two differences: a symbol mark is the whole run ("**Center for ..." is keyed "**"), and a number
+    keys the line only when it opens it ("Unit 572 INSERM, ..." has no mark)."""
+    head = text[:15]
+    number = re.search(r"\d+", head)
+    symbol = _SYMBOL_RUN.search(head)
+    if number and (symbol is None or number.start() < symbol.start()):
+        # "and 2Player Development, ..." is still keyed "2"
+        return number.group(0) if re.fullmatch(r"\s*(?:(?:and|&|from|the)\s+)*", head[:number.start()], re.I) else None
+    return symbol.group(0) if symbol else None
 
 
 class Lippincott(PublisherParser):
@@ -293,6 +343,8 @@ class Lippincott(PublisherParser):
         if not author_section:
             return authors
         author_soup = author_section.findAll("sup")
+        # the byline's marks, read before the names' <sup>s are removed below (#2239 round 8c)
+        self._byline_marks = {mark for _, marks in _byline_entries(author_section) for mark in marks}
 
         # authors with ids
         broke_at = None
@@ -449,7 +501,7 @@ class Lippincott(PublisherParser):
                 if substr in aff_text.lower():
                     return True
             # "The author has disclosed no conflicts of interest." stood as the affiliation (#2239)
-            return bool(_DISCLOSURE.search(aff_text))
+            return bool(_DISCLOSURE.search(aff_text) or _NOT_AN_AFFILIATION.match(aff_text.strip()))
 
         def cleanup_aff(aff_text):
             # aff.next_element.next_element is usually the NavigableString after
@@ -478,7 +530,7 @@ class Lippincott(PublisherParser):
         # that author, often twice (once more by assign_affs_from_name), or to every unmarked author (#2239).
         authors_section = self.soup.find(id="ejp-article-authors")
         entries = _byline_entries(authors_section) if authors_section is not None else []
-        notes = [p for p in aff_soup.findAll("p") if _is_correspondence_note(p, entries)]
+        notes = [p for p in aff_soup.findAll("p") if _is_correspondence_note(p, entries) or _is_person_note(p, entries)]
 
         # affiliations with ids
         affiliations = aff_soup.findAll("sup")
@@ -499,9 +551,21 @@ class Lippincott(PublisherParser):
         if affiliations and ';' in affiliations[0].text:
             aff_texts = [txt.strip() for txt in affiliations[0].text.split(';')]
             for aff_text in aff_texts:
-                aff_id = self.parse_aff_ids(aff_text)
-                # parse_aff_ids returns None when no id matches; ''.split(None)
-                # is [] and [-1] would IndexError. Fall back to the raw segment.
+                aff_id = _line_mark(aff_text)
+                byline_marks = getattr(self, "_byline_marks", None) or {
+                    mark for _, entry_marks in entries for mark in entry_marks}
+                # (a paragraph whose marks are <sup>s was read by them above)
+                marks = [] if aff_id or affiliations[0].sup else [
+                    mark for mark in dict.fromkeys(_FOOTNOTE_SYMBOL.findall(aff_text)) if mark in byline_marks]
+                if marks:
+                    # "and the Departments of \u2020Pathology, \u2021Radiation Oncology, and \u00a7Orthopedic Surgery
+                    # and Rehabilitation, University of Florida, ...": one line shared by each mark's authors; with no
+                    # mark in its first characters it went to no one (#2239 round 8c)
+                    org = re.sub(r"^(?:from\s+)?(?:and\s+)?(?:the\s+)?", "", _FOOTNOTE_SYMBOL.sub("", aff_text),
+                                 flags=re.I).strip(" ,.")
+                    results.extend(Affiliation(aff_id=mark, organization=org) for mark in marks)
+                    continue
+                # no mark: the raw segment
                 org = aff_text.split(aff_id)[-1] if aff_id else aff_text
                 results.append(Affiliation(aff_id=aff_id, organization=org))
             return results
@@ -511,7 +575,7 @@ class Lippincott(PublisherParser):
                 continue
             organization = cleanup_aff(aff.text)
             aff_id = None
-            if aff_id := self.parse_aff_ids(aff.text.strip()):
+            if aff_id := _line_mark(aff.text.strip()):
                 organization = aff.text.strip().split(aff_id)[-1].strip()
             if 'financial disclosure' in organization.lower():
                 continue
