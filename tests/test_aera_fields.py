@@ -82,3 +82,56 @@ def test_other_dnn_site_with_same_grid_is_not_claimed():
     assert not parser.is_publisher_specific_parser()
     assert not parser.authors_found()
     # the page's printed abstract may still be read by the generic "Abstract" heading reader (#2239), not by AERA's
+
+
+# 2019 viewer (oxjob #2338): the same label/value rows sit in an "rgMetaData" RadGrid, with the label cell classed
+# "metadataCaption" and no Owner rows. About a quarter of the repository's stored pages (the AERA 2019 papers).
+def _row_2019(i, label, value):
+    cls = "rgRow" if i % 2 == 0 else "rgAltRow"
+    return (f'<tr class="{cls}" id="dnn_ctr49536_ViewRepository_ctl00_rgMetaData_ctl00__{i}">'
+            f'<td class="metadataCaption" align="left" valign="top" style="width:35%;">{label}</td>'
+            f'<td align="left" valign="top"><span id="dnn_ctr49536_ViewRepository_ctl00_rgMetaData_ctl00_ctl{i:02d}'
+            f'_lblMetaData" class="metadataLabel">{value}</span></td></tr>')
+
+
+def _page_2019(authors, abstract=ABSTRACT, title=TITLE):
+    rows = [("Paper Title:", "Neglected Validities: Critical Gaps in Early Childhood Assessments"),
+            ("Session Title:", "Early Childhood Assessments"),
+            ("Presentation Date:", "4/7/2019"),
+            ("Author(s):", authors),
+            ("Unit:", "SIG-Early Education and Child Development"),
+            ("Abstract:", abstract),
+            ("DOI:", "<a href='https://doi.org/10.3102/1442575' target='_blank'>https://doi.org/10.3102/1442575</a>")]
+    body = "".join(_row_2019(i, k, v) for i, (k, v) in enumerate(rows))
+    return (f"<html><head>{title}</head><body>"
+            f"<span class=\"viewerHead\">Paper Information</span>"
+            f"<div id=\"dnn_ctr49536_ViewRepository_ctl00_rgMetaData\" class=\"RadGrid RadGrid_NOAH\">"
+            f"<table class=\"rgMasterTable\" id=\"dnn_ctr49536_ViewRepository_ctl00_rgMetaData_ctl00\">"
+            f"<thead><tr style=\"display:none;\"><th>Information</th><th>Contents</th></tr></thead>"
+            f"<tbody>{body}</tbody></table></div></body></html>")
+
+
+def test_2019_metadata_grid_authors_and_affiliations():
+    html = _page_2019("Katie Barghaus, University of Pennsylvania; Dominic F Gullo, Drexel University; "
+                      "Amanda S Haber, Teachers College, Columbia University")
+    assert _authors(html) == [("Katie Barghaus", ["University of Pennsylvania"]),
+                              ("Dominic F Gullo", ["Drexel University"]),
+                              ("Amanda S Haber", ["Teachers College, Columbia University"])]
+    assert [a["is_corresponding"] for a in _parse(html)["authors"]] == [False, False, False]
+
+
+def test_2019_metadata_grid_abstract():
+    assert _parse(_page_2019("Katie Barghaus, University of Pennsylvania"))["abstract"] == ABSTRACT
+
+
+def test_2019_metadata_grid_is_claimed():
+    parser = AERA(BeautifulSoup(_page_2019("Katie Barghaus, University of Pennsylvania"), "lxml"))
+    assert parser.is_publisher_specific_parser()
+    assert parser.authors_found()
+
+
+def test_other_dnn_site_with_metadata_grid_is_not_claimed():
+    html = _page_2019("Katie Barghaus, University of Pennsylvania", title="<title>Conference Paper Viewer</title>")
+    parser = AERA(BeautifulSoup(html, "lxml"))
+    assert not parser.is_publisher_specific_parser()
+    assert not parser.authors_found()
