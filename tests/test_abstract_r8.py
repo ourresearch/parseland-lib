@@ -228,3 +228,36 @@ def test_clinical_english_front_matter_still_replaces_a_cut_tag():
             'data-extent="frontmatter"><section id="abstract"><h2>Abstract</h2><div role="paragraph">' + whole +
             '</div></section></div></body></html>')
     assert parse_page(html, "doi")["abstract"] == whole
+
+
+# --- stock descriptions of the item's kind (round 8 follow-up) -------------------------------------------------------
+
+@pytest.mark.parametrize("text", [
+    "Presents the table of contents/splash page of the proceedings record.",
+    "Presents the table of contents for this issue of the periodical.",
+    "Presents the front cover/table of contents for this issue of the periodical.",
+    "Presents the front cover, title page, or splash screen of the proceedings record.",
+    "Presents the cover from the proceedings of this conference.",
+    "The author index contains an entry for each author and coauthor included in the proceedings record.",
+    "Presents an index of the authors whose articles are published in the conference proceedings record.",
+    "Provides instructions and guidelines to prospective authors who wish to submit manuscripts.",
+    "Presents the copyright information for the conference. May include reprint permission information.",
+    "Provides a listing of current staff, committee members and society officers.",
+    "Ab-initio phonon calculation for BaNd2ZnO5 / I4/mcm (140)\nPhonon band structure, phonon DOS, thermal properties at "
+    "constant volume, and phonon raw data are presented.\nThe initial crystal structure used to perform phonon calculation "
+    "is obtained from the Materials Project using\npymatgen MPRester. The phonon band structure paths are determined "
+    "using SeeK-path.",
+])
+def test_stock_item_description_is_not_an_abstract(text):
+    assert is_not_abstract(text)
+
+
+@pytest.mark.parametrize("text", [
+    "Presents the table of contents for this issue of the periodical, and reviews the five papers on radar imaging in it.",
+    "We present an ab-initio phonon calculation for BaNd2ZnO5 and show that its thermal conductivity is low because "
+    "of strong anharmonic scattering of acoustic phonons.",
+    "Ab-initio phonon calculation for AlPO4 / P3_221 (154)\nPhonon band structure, phonon DOS, thermal properties at "
+    "constant volume, and phonon raw data are presented.\nWe find two soft modes that drive the alpha-beta transition.",
+])
+def test_stock_item_description_look_alike_stays(text):
+    assert not is_not_abstract(text)
