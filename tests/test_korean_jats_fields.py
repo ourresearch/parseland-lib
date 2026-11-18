@@ -242,8 +242,9 @@ def test_nurimedia_back_matter_and_funding_box():
     out = NurimediaXmlViewer(BeautifulSoup(NURI_BACK, "lxml")).parse()
     assert out["acknowledgments"] == ("This work was supported by the Agency for Defense Development.\n"
                                       "It is part of a master's thesis.")
-    assert out["funding_statement"] == "National Research Foundation of Korea NRF-2022S1A5C2A03093515\n" \
-                                       "Incheon National University"
+    # the "Funding Information" box only lists funders and grant numbers: the record's funder list, not a funding
+    # statement (#2239 round 8; the rubric's "not a funder list shown only as metadata badges")
+    assert out["funding_statement"] is None
     refs = out["references"]
     assert [r["position"] for r in refs] == [1, 2]
     assert refs[0]["doi"] == "10.1177/147078530304500302" and refs[0]["raw"].startswith("Ahmad, R. (2003).")

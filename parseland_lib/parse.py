@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 from parseland_lib.back_matter import _YEAR, _numbering_whole, headed_back_matter, literatum_back_matter, \
-    ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter
+    ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter, without_coi
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
@@ -526,9 +526,10 @@ def _section_text(value):
 
 
 def _statement(value):
-    """An acknowledgments or funding text, or None: a template slot nobody filled in is not one (#2239)."""
+    """An acknowledgments or funding text, or None: a template slot nobody filled in is not one (#2239), and neither
+    is conflict-of-interest text, whichever parser read it (#2239 round 8)."""
     text = _section_text(value)
-    return None if text and _TEMPLATE_SLOT.search(text) else text
+    return None if text and _TEMPLATE_SLOT.search(text) else without_coi(text)
 
 
 def _references(parsed):

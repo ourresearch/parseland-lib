@@ -381,11 +381,14 @@ class NurimediaXmlViewer(PublisherParser):
         return None
 
     def _funding_box(self):
-        """The front matter's "Funding Information" box: one line per funder (its name, then its grant numbers)."""
+        """The front matter's "Funding Information" box: one line per funder (its name, then its grant numbers).
+        A box that only lists funders and grant numbers is the record's funder list, not a statement (#2239 round 8)."""
+        from parseland_lib.back_matter import funder_list  # here: back_matter imports this package
         box = self._viewer().find("div", id="funding_info")
         lines = [_clean(" ".join(li.get_text(" ") for li in ul.find_all("li"))) for ul in box.find_all("ul")] \
             if box is not None else []
-        return "\n".join(line for line in lines if line) or None
+        lines = [line for line in lines if line]
+        return None if funder_list(lines, listed=True) else "\n".join(lines) or None
 
     def _references(self):
         """The table.bm after the "References" title: rows of a numbered td (id "..._B12") and the entry's td."""

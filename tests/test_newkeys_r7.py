@@ -63,11 +63,13 @@ def test_bold_sentence_in_the_funding_section_is_text_not_a_label():
 
 
 def test_acknowledgments_section_is_unchanged_by_the_funding_rule():
+    # the funding rule does not cut acknowledgments; their conflict-of-interest paragraphs are never acknowledgment
+    # text (#2239 round 8, #2215), while another paragraph after them stays
     paragraphs = ["<p>We thank the nurses of the unit for their help.</p>", "<p><b>Conflict of interest</b></p>",
-                  "<p>None declared.</p>"]
+                  "<p>None declared.</p>", "<p>Presented at the 2019 annual meeting.</p>"]
     out = parse(funding_section(paragraphs, heading="Acknowledgments"))
-    assert out["acknowledgments"] == ("We thank the nurses of the unit for their help.\nConflict of interest\n"
-                                      "None declared.")
+    assert out["acknowledgments"] == ("We thank the nurses of the unit for their help.\n"
+                                      "Presented at the 2019 annual meeting.")
 
 
 # ---------------------------------------------------------------- BioMed Central's pre-publication history notice

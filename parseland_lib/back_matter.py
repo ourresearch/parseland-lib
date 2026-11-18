@@ -18,7 +18,12 @@ from parseland_lib.publisher.parsers.utils import raw_has, squash
 _DOI = re.compile(r"\b(10\.\d{4,9}/\S+)")
 # Where a DOI read from a text or a link stops (#2239): markup printed into the text ("...115117</li"), an encoded line
 # break before the next link ("...06.005%0Ahttps://..."), a quote. Not a bare "<": old SICI DOIs carry "<0061:APG>".
-_DOI_STOP = re.compile(r"</?[A-Za-z]|&lt;|%0[aAdD]|%09|[\"“”]")
+# ... or a link's query ("...3760-0&casa_token=...", "...b17601&type=googlepdf", "...47733?scroll=top", #2239 round 8;
+# not "&4_10": "10.1207/s15327752jpa5503&4_10" is a DOI).
+_DOI_STOP = re.compile(r"</?[A-Za-z]|&lt;|%0[aAdD]|%09|[\"“”]|(?:&(?:amp;)?|\?)[A-Za-z_]\w*=")
+# A SICI DOI printed with its brackets escaped twice, so the text reads "&lt;0544:RSFATT&gt;" (AMS, IntechOpen
+# citation tags): the brackets belong to the DOI ("10.1175/1520-0450(1965)004<0544:RSFATT>2.0.CO;2") (#2239 round 8).
+_SICI_ESCAPED = re.compile(r"&lt;(\d+:[\w:.-]*)&gt;")
 _ENCODED_SPACE_END = re.compile(r"(?:%20)+$")
 # a page of the cited work, not part of its DOI: ".../10.1111/j.x/abs/", ".../10.1515/9783110311075-026/html",
 # "...3_17#Sec4" (a "#" alone ends SICI DOIs)
@@ -33,7 +38,7 @@ def _clean_doi(value, printed=False):
     next reference's first name can be glued to the DOI's end."""
     if not (m := _DOI.search(value or "")):
         return None
-    found = _ENCODED_SPACE_END.sub("", m.group(1))
+    found = _SICI_ESCAPED.sub(r"<\1>", _ENCODED_SPACE_END.sub("", m.group(1)))
     if "%20" in found:
         return None  # "...um041v10i1p1%20-%2013": a DOI typed with spaces, and half of one is no DOI
     doi = _DOI_STOP.split(found, maxsplit=1)[0]
@@ -77,6 +82,11 @@ def _pick_doi(*candidates):
     for other in candidates:
         if doi and other and other.lower().startswith(doi.lower()) and _UNCUT_REST.match(other[len(doi):]):
             doi = other
+        # a "?" where the other reading has a character: a hyphen the page's data lost ("10.1111/1477?8947.12496" in
+        # Wiley's hidden data-doi, "1477-8947" in the printed link) (#2239 round 8)
+        elif doi and other and "?" in doi and len(other) == len(doi) and "?" not in other and all(
+                x == y or x == "?" for x, y in zip(doi.lower(), other.lower())):
+            doi = other
     return doi
 
 
@@ -118,11 +128,24 @@ _DOI_LINK = re.compile(r"doi\.org/10\.")
 
 
 def _springer_entry_doi(item, text, raw):
-    """The DOI on the entry's "Article" button, else its doi.org link's, else the one it prints as plain text."""
+    """The DOI on the entry's "Article" button, else its doi.org link's, else the one it prints as plain text. When
+    the entry prints a doi.org link to another DOI than the button's, the link wins (#2239 round 8): the button is
+    Springer's own match of the reference ("10.3109/07388551.2013.811636" beside a printed ".../2015.1004519", the
+    cited year's), the link is the authors'. Not when the link is the button's DOI with marks lost ("...28703:tobtem>"
+    for "...28<703:TOBTEM>"), or one runs on from the other (a cut button, a link with "pmid" glued on): _pick_doi
+    decides those."""
     link = text.find("a", href=_DOI_LINK)
     button = item.find("a", attrs={"data-doi": True})
-    return _pick_doi(_clean_doi(button["data-doi"]) if button is not None else None,
-                     _clean_doi(unquote(link["href"])) if link is not None else None, _printed_doi(raw))
+    on_button = _clean_doi(button["data-doi"]) if button is not None else None
+    on_link = _clean_doi(unquote(link["href"])) if link is not None else None
+    if on_button and on_link and _doi_letters(on_button) != _doi_letters(on_link) \
+            and not on_button.lower().startswith(on_link.lower()) and not on_link.lower().startswith(on_button.lower()):
+        on_button = None
+    return _pick_doi(on_button, on_link, _printed_doi(raw))
+
+
+def _doi_letters(doi):
+    return re.sub(r"[^a-z0-9]", "", doi.lower())
 
 
 _SUB_HEADINGS = ["h3", "h4", "h5"]
@@ -216,7 +239,11 @@ _REF_DOI_PARAM = re.compile(r"[?&](?:refDoi|doiOfLink)=(10\.\d{4,9}/[^&\s]+)")
 
 def _entry_doi(entry, text):
     """The cited work's DOI: the one the entry's links carry, else the one it prints."""
-    return _pick_doi(_linked_doi(entry), _printed_doi(text))
+    linked = _linked_doi(entry)
+    if linked and "?" in linked:  # a hyphen Wiley's hidden data-doi lost: the entry's doi.org link has it (#2239 round 8)
+        link = entry.find("a", href=_DOI_LINK)
+        return _pick_doi(linked, _clean_doi(unquote(link["href"])) if link is not None else None, _printed_doi(text))
+    return _pick_doi(linked, _printed_doi(text))
 
 
 def _linked_doi(entry):
@@ -398,6 +425,113 @@ def ojs_back_matter(soup):
             and not _has_broken_entry(lines)}
 
 
+# Conflict-of-interest, competing-interest and financial-disclosure text is never acknowledgment or funding text, even
+# where the page prints it inside the acknowledgments paragraph or under a Funding heading (#2239 round 8, #2215): a
+# funder named in "X has received honoraria from Pfizer" did not fund the work, and funder rows built from it are wrong.
+_COI_LABEL = re.compile(  # a sentence that opens with a COI section's label
+    r"^(?:potential |statement of )?(?:conflicts? of interests?|competing (?:financial )?interests?|conflicting interests?|"
+    r"duality of interests?|declarations? of (?:competing |conflicting |personal )?interests?)\b|"
+    r"^disclosures?(?: statement| summary)?\s*:", re.I)
+_DECLARES = re.compile(  # a sentence that declares interests: it opens a run (the disclosures that follow are COI too)
+    r"conflicts? of interests?|competing (?:financial |non-?financial )?interests?|conflicting interests?|"
+    r"duality of interests?|\bno (?:known |potential |other |financial )*conflicts?\b|"
+    r"(?:financial|non-?financial|personal|commercial) (?:interests?|relationships?) (?:to (?:disclose|declare|report)|"
+    r"that could|which could|with other people|in the products)|interests? to (?:disclose|declare|report)|"
+    r"nothing to (?:disclose|declare)|\bno (?:relevant |other |additional )?(?:financial )?disclosures?\b|"
+    r"relationships? to disclose", re.I)
+_COI_WORDS = re.compile(  # ... or discloses one (a fee, a role, a stake): COI on its own, without opening a run
+    _DECLARES.pattern + r"|honorari(?:a|um)|speakers?['’]? (?:bureau|fees?)|"
+    r"(?:consult(?:ing|ancy|ation)|lecture|speaker|advisory(?: board)?|personal) fees|royalt(?:y|ies) from|"
+    r"\bconsulted (?:to|for)\b|(?:commercial|financial) interests? in\b|\bholds? (?:a )?patents?\b|\bshareholders?\b|"
+    r"(?:served|serves|serving) (?:as an? |on (?:the |an? )?)(?:paid )?(?:consultant|advis[oe]r|advisory board)|"
+    r"advisory board member|member of (?:the |an? )?(?:scientific )?(?:advisory board|board of advisors)|"
+    r"(?:unrelated to|outside(?: of)?) (?:this|the submitted|the present|the current) (?:work|study|manuscript|article)",
+    re.I)
+# What ends a run of COI sentences, and is kept: a thank-you, the work's funding, the funders' role (a funding-role
+# statement, part of the funding text: "The funders had no role in study design ..."), another section's run-in label
+_THANKS = re.compile(r"\b(?:thank|thanks|grateful|gratitude|acknowledg|appreciat|indebted)", re.I)
+_WORK_FUNDING = re.compile(
+    r"\b(?:supported|funded|financed|sponsored) (?:in part |partly |partially |fully )?by\b|"
+    r"\bfunding (?:was|is|has been) (?:provided|received|obtained)\b|\bfunders?\b.{0,40}\b(?:no|any) role\b|"
+    r"\b(?:this|the|our) (?:work|study|research|project|trial|article|paper|review|manuscript)\b.{0,80}"
+    r"\b(?:was|is|has been|were) (?:\w+ )?(?:supported|funded|financed)\b", re.I)
+_RUN_IN = re.compile(
+    r"^(?:authors?['’]?s?['’]? contributions?|contributions?|funding|financial (?:support|disclosures?)|"
+    r"sources? of (?:funding|support)|data(?: and (?:materials?|code))? availability|availability of data|ethic(?:s|al)|"
+    r"(?:informed |patient )?consent|acknowledge?ments?|presented|previous presentations?|role of the funders?|"
+    r"disclaimer|notes?|footnotes?|additional information|orcid|abbreviations|supplementary|trial registration|"
+    r"provenance)\b", re.I)
+# a clause of a mixed sentence kept: the work's funding, its absence, or a thank-you
+_CLAUSE_KEEP = re.compile(
+    _WORK_FUNDING.pattern + r"|" + _THANKS.pattern + r"|\b(?:financial support|funding|grants?) for (?:this|the|our)\b|"
+    r"\bno (?:\w+ ){0,2}(?:funding|financial support|grants?)\b|\bnot (?:been )?funded\b", re.I)
+_CLAUSE_BREAK = re.compile(r";\s+(?:however,?\s+|but\s+)?|,\s+(?:and|but|while|whereas)\s+|"
+                           r",?\s+(?:and|but)\s+(?=(?:the authors?|we|they|he|she|all|none|no|disclose|declare)\b)", re.I)
+_SENTENCE_BREAK = re.compile(r"(?<=[.!?])\s+(?=[\"“(\[]?[A-Z])")
+_NOT_AN_END = re.compile(  # "Dr. Ma", "T.R. reports", "et al. 2019", "Co. Ltd."
+    r"(?:\b(?:Drs?|Mrs?|Ms|Prof|St|Inc|Ltd|Co|Corp|Nos?|Vol|Figs?|al|vs|cf|Refs?|Jr|Sr|e\.g|i\.e|approx|Dept|Univ)"
+    r"|(?:^|[\s.(-])[A-Z])\.$")
+
+
+def _sentences(paragraph):
+    out = []
+    for part in _SENTENCE_BREAK.split(paragraph):
+        if out and _NOT_AN_END.search(out[-1]):
+            out[-1] += " " + part
+        else:
+            out.append(part)
+    return out
+
+
+def _is_coi(sentence):
+    return bool(_COI_LABEL.match(sentence) or _COI_WORDS.search(sentence))
+
+
+def _kept_clauses(sentence):
+    """Of a sentence that mixes the work's funding or thanks with a COI declaration ("Financial support ... was
+    provided by the North Shore Cancer League of Chicago; however, the authors declare that they have no conflicts of
+    interest."), the funding or thanks clauses, closed with a full stop; None when it has none."""
+    clauses = [c.strip(" ,;") for c in _CLAUSE_BREAK.split(sentence)]
+    # a clause under a COI label alone that names the work's funding is kept ("Disclosure: This work was supported by
+    # NIH grant R01 ..."): a sentence naming a grant is not COI text
+    kept = [c for c in clauses if c and not _COI_WORDS.search(c) and _CLAUSE_KEEP.search(c)]
+    if not kept or len(kept) == len(clauses):
+        return None if not kept else sentence
+    text = "; ".join(kept)
+    text = text[0].upper() + text[1:]
+    return text if text[-1] in ".!?" else text + "."
+
+
+def without_coi(text):
+    """The acknowledgments or funding text without its conflict-of-interest sentences, or None when nothing else is
+    left. A COI sentence names a COI label or declares or discloses interests; the sentences after it in its paragraph
+    are disclosures too ("JCP has received consultation fees ...", "C.L. and N.S. are employees of ...") until a
+    thank-you, the work's funding, a funders'-role statement or another run-in label. A label printed on its own line
+    ("Conflict of interests") carries the run into the next paragraph."""
+    if not text or not ("nterest" in text or "isclosure" in text or _COI_WORDS.search(text)):
+        return text
+    paragraphs, run = [], False
+    for paragraph in text.split("\n"):
+        sentences, kept, changed = _sentences(paragraph.strip()), [], False
+        for sentence in sentences:
+            if _is_coi(sentence):
+                part = _kept_clauses(sentence)
+                kept += [part] if part else []
+                changed = True
+                run = run or bool(_COI_LABEL.match(sentence) or _DECLARES.search(sentence))
+            elif run and not (_RUN_IN.match(sentence) or _THANKS.search(sentence) or _WORK_FUNDING.search(sentence)):
+                changed = True
+            else:
+                run = False
+                kept.append(sentence)
+        # a label alone on its line ("Conflict of interests", "Competing interests:") heads the next paragraph
+        run = len(sentences) == 1 and bool(_COI_LABEL.match(sentences[0])) \
+            and not re.sub(r"^\W*(?:statements?|disclosures?)?\W*", "", _COI_LABEL.sub("", sentences[0], count=1))
+        if kept:
+            paragraphs.append(" ".join(kept) if changed else paragraph)
+    return "\n".join(paragraphs) or None
+
+
 # Any template: a section headed "Acknowledgments" or "Funding" (ScienceDirect's server-rendered body, Atypon's
 # div.ack, PLOS, MDPI ...). The heading's own section: the paragraphs after it, up to the next heading.
 _HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
@@ -417,6 +551,34 @@ def _in_navigation(heading):
             if token in _CHROME_TOKENS or token.startswith(_CHROME_PREFIXES):
                 return True
     return False
+
+
+# A sentence, as against a funder's name with its grant number: a verb a funding statement uses, or a full stop at the end.
+_SENTENCE_WORD = re.compile(
+    r"\b(?:is|are|was|were|be|been|has|have|had|by|thanks?|thanked|grateful(?:ly)?|acknowledge[sd]?|supported|funded|"
+    r"financed|received|receives|provided|granted|awarded|declares?|declared|sponsored)\b", re.I)
+
+
+def funder_list(entries, listed=False):
+    """True when a funding section is a list of funders, not a statement (#2239 round 8): two or more entries, each its
+    own card, badge, list item or line, and none a sentence ("Science and Engineering Research Board EMRII/2017/001475";
+    "NCI" / "WHI" / "NIH"), or entries a <ul>/<ol> lists (Atypon's "Funding Sources": <ul><li>Open Project Program of
+    ...</li></ul>). The rubric's "not a funder list shown only as metadata badges": figshare, ChemRxiv, Atypon and
+    eLife render these from the funders registered with the record. One printed line or paragraph is the page's
+    statement, verb or not ("FONDECYT 1981193", "None.")."""
+    entries = [e for e in entries if e and e.strip()]
+    if not entries or (len(entries) < 2 and not listed):
+        return False
+    return not any(_SENTENCE_WORD.search(e) or e.rstrip().endswith(".") for e in entries)
+
+
+def _list_items(block):
+    """The item texts of a block that is a list (<ul>/<ol>, or a block holding only one), else None."""
+    lists = [block] if block.name in ("ul", "ol") else (
+        block.find_all(["ul", "ol"], recursive=False) if block.find("p") is None else [])
+    if not lists or squash(block.get_text()) != squash(" ".join(squash(l.get_text()) for l in lists)):
+        return None
+    return [squash(li.get_text(" ")) for l in lists for li in l.find_all("li", recursive=False)]
 
 
 def _block_text(block):
@@ -493,7 +655,13 @@ def _section_after(heading, key):
     siblings = header.find_next_siblings()
     if not siblings and not squash(heading.parent.get_text()).replace(squash(heading.get_text()), "").strip():
         siblings = heading.parent.find_next_siblings()  # a heading wrapped alone in its own block
-    paragraphs = []
+    paragraphs, entries, listed = [], [], False
+
+    def statement(texts):
+        if key == "funding_statement" and funder_list(entries, listed):
+            return None  # a funder list (#2239 round 8)
+        return "\n".join(p for p in texts if p) or None
+
     for sibling in siblings:
         if sibling.name in _HEADINGS or any(d.name in _HEADINGS for d in sibling.descendants):
             break
@@ -501,9 +669,13 @@ def _section_after(heading, key):
         labels = _other_section_labels(sibling) if key == "funding_statement" and texts else ()
         for i, text in enumerate(texts):
             if (_RUN_IN_LABEL[key].match(text) or text in labels) and (paragraphs or i):
-                return "\n".join(p for p in paragraphs + texts[:i] if p) or None
+                entries += texts[:i]
+                return statement(paragraphs + texts[:i])
         paragraphs += texts
-    return "\n".join(p for p in paragraphs if p) or None
+        items = _list_items(sibling) if texts else None
+        entries += items if items is not None else texts
+        listed = listed or items is not None
+    return statement(paragraphs)
 
 
 def headed_back_matter(soup, lp_content):
