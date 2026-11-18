@@ -149,10 +149,13 @@ def test_reference_work_entry_definition_fallback_skips_boilerplate() -> None:
     </html>
     """
 
-    parsed = parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1007/example")
+    # The Springer parser's own definition fallback skips the boilerplate; parse_page then gives an entry with no
+    # Abstract section no abstract at all: its opening is a preview of the body (#2239 round 8b)
+    abstract = Springer(BeautifulSoup(html, "lxml")).parse()["abstract"]
 
-    assert parsed["abstract"].startswith("A solution in which")
-    assert not parsed["abstract"].startswith("n ")
+    assert abstract.startswith("A solution in which")
+    assert not abstract.startswith("n ")
+    assert parse_page(html, namespace="doi", resolved_url="https://doi.org/10.1007/example")["abstract"] is None
 
 
 def test_nature_summary_fallback_uses_first_substantive_content_block() -> None:

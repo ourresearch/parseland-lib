@@ -10,6 +10,8 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.abstract_language import english_part, is_english, is_other_language
+from parseland_lib.digibib import digibib_creator_values, digibib_pdf, is_digibib_record
+from parseland_lib.repository.parsers.zenodo import zenodo_affiliations
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
 from parseland_lib.parse_publisher_authors_abstract import get_authors_and_abstract
 from parseland_lib.publisher.parsers.aps import aps_abstract, aps_corresponding_names
@@ -88,10 +90,37 @@ def _has_no_abstract_of_its_own(soup, lp_content, *urls):
     if _has(lp_content, 'class="article-id"') and _has(lp_content, "10.1371/journal.") and _PLOS_PART_DOI.search(
             lp_content if isinstance(lp_content, str) else lp_content.decode("utf-8", "replace")):
         return True
+    if _has(lp_content, "link.springer.com/") and _is_springer_entry_without_abstract(soup):
+        return True
     if _has(lp_content, "og:type"):
         kind = soup.find("meta", attrs={"property": "og:type"})
         return kind is not None and (kind.get("content") or "").strip().lower() == "profile"
     return False
+
+
+# A SpringerLink reference-work entry (an encyclopedia or dictionary entry): when it prints no Abstract section, what
+# the readers find (the meta description, the Introduction's or Definition's first paragraph) is the entry's opening,
+# a preview of its body, not an abstract (#2239 round 8b: 6 of 6 labelled such pages, gold none; the 13 labelled
+# entries with an Abstract section keep theirs).
+_SPRINGER_ENTRY_URL = re.compile(r"//link\.springer\.com/(?:referenceworkentry|rwe)/10\.", re.I)
+
+
+# The entry's abstract section, as SpringerLink titles it in the entry's language ("Zusammenfassung" in the German
+# Kindler entries)
+_SPRINGER_ABSTRACT_TITLES = {"abstract", "summary", "zusammenfassung", "résumé", "resume", "resumen", "resumo",
+                             "riassunto", "samenvatting", "sammanfattning", "streszczenie", "abstrakt", "аннотация",
+                             "резюме", "摘要", "要旨", "초록"}
+
+
+def _is_springer_entry_without_abstract(soup):
+    page = soup.find("meta", attrs={"property": "og:url"})
+    if page is None or not _SPRINGER_ENTRY_URL.search(page.get("content") or ""):
+        return False
+    if soup.find("section", class_="Abstract"):
+        return False
+    titles = [section.get("data-title") or "" for section in soup.find_all("section", attrs={"data-title": True})]
+    titles += [h2.get_text(" ", strip=True) for h2 in soup.select("section > h2")]
+    return not any(title.strip().lower() in _SPRINGER_ABSTRACT_TITLES for title in titles)
 
 
 _STRUCTURED_PARTS = re.compile(r"\b(Methods?|Results?|Conclusions?)\s*:")
@@ -376,6 +405,11 @@ def record_page_authors(soup, lp_content):
         return _as_authors(lexicon_signature(soup))
     if _has(lp_content, "metaListOfAuthors") and (authors := gms_byline(soup)):
         return authors
+    # DIGIBIB portals (Americanae, Hispana): the meta tags describe the portal; the record's own authors are its
+    # "Autor/Productor" rows (#2239 round 8b)
+    if _has(lp_content, "panel_ficha_dc") and is_digibib_record(soup):
+        names = _creator_names(digibib_creator_values(soup))
+        return _as_authors([n for n in names if not _INSTITUTION_WORD.search(n)])
     authors = dublin_core_authors(soup)
     # Figshare (and the institutional portals built on it) lists an item's creators as DataCite.contributor
     if not authors and _has(lp_content, "figshare"):
@@ -667,6 +701,10 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # PubMed Central marks the corresponding author by a byline symbol (✉, *) keyed to its correspondence footnote, or
     # names them in that footnote (#2239 round 8); the meta-tag parser that wins its pages read neither
     pmc_names = pmc_corresponding_names(soup) if _has(lp_content, 'name="ncbi_db"') else []
+    # A Zenodo record reached by its DOI goes to the publisher parsers, which read its citation_author tags and no
+    # affiliation; the record's JSON-LD creators carry them (#2239 round 8b). Used only when no author got one.
+    zenodo_pairs = zenodo_affiliations(soup) if namespace == "doi" and _has(lp_content, "zenodo.org") and _has(
+        lp_content, '"affiliation"') else []
 
     # Springer Nature's reference list, acknowledgments and funding sections (#2239 round 6): read before the parsers
     # run, used for each key the winning parser left empty
@@ -706,6 +744,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
                         if not _is_structured_abstract(text := tag.get_text(" ", strip=True)))
     openings = [o for o in openings if o]
 
+    digibib_record = namespace == "pmh" and _has(lp_content, "panel_ficha_dc") and is_digibib_record(soup)
     raw_authors_and_abstract = get_authors_and_abstract(soup, namespace)
     # ojs_page: an OJS journal's footer may state the journal's own licence (#2239, round 5)
     if namespace == "doi":
@@ -895,6 +934,7 @@ def parse_page(lp_content, namespace, resolved_url=None):
                 authors = _in_tag_order(authors, tag_names)
         authors_and_abstract['authors'] = authors
         _fill_affiliations_by_name(authors, jci_pairs)
+        _fill_affiliations_by_name(authors, zenodo_pairs)
         # Copernicus pages mark the corresponding authors themselves (#2218): those marks replace any the winning
         # parser guessed (the meta-tag parser marks only the authors its e-mail tags pair with, often one of two)
         if cop_names and any(same_person(a["name"], n) for a in authors for n in cop_names):
@@ -942,6 +982,9 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # Merge into a single response
     response = authors_and_abstract
     response.update(fulltext_location or {})
+    # A DIGIBIB record's PDF is in its harvested metadata, not in a link the PDF finder reads (#2239 round 8b)
+    if namespace == "pmh" and not response.get("pdf_url") and digibib_record:
+        response["pdf_url"] = digibib_pdf(soup)
     # Figshare's "Download" link serves whatever the item's file is (a TIFF figure, a spreadsheet): it is a PDF link
     # only when the item lists a PDF file (#2239: 15 of 1,000 sampled records were figures and datasets).
     if (namespace == "pmh" and "/ndownloader/files/" in (response.get("pdf_url") or "")
