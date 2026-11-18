@@ -256,9 +256,18 @@ _CC_SHORTHAND_RE = re.compile(
     r'(?<![a-z0-9])cc[\s\-]*by(?:[\s\-]*nc)?(?:[\s\-]*(?:nd|sa))?(?![a-z0-9])', re.IGNORECASE)
 
 
+# The family name and the short form without "CC", in words: "Licencia Creative Commons BY-NC-ND 4.0", an article's own
+# licence block (#2239, round 8: revistas.cef.udima.es). Read as "CC BY-NC-ND". Capitals and a space after the family
+# name, two terms or more: "Creative Commons by ..." is also plain English, and a file name such as
+# "creative-commons-by-nc-nd-300x104.png" is a picture, not words.
+_CC_FAMILY_SHORT_FORM = re.compile(r"(?i:creative\s+commons)\s+(BY(?:[\s\-](?:NC|ND|SA)){1,2})\b")
+
+
 def find_normalized_license(text, is_dataset=False):
     if not text:
         return None
+    if 'ommons BY' in text:
+        text = _CC_FAMILY_SHORT_FORM.sub(r"CC \1", text)
 
     # "NonDerivative(s)" is "NoDerivatives": "Creative Commons Attribution-NonCommercial-NonDerivative 4.0" read as
     # cc-by-nc, the name cut short (#2239, round 6: an OJS journal's footer, revistas.ucr.ac.cr)

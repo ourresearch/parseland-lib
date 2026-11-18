@@ -134,8 +134,13 @@ _OJS_SUBJECT = re.compile(
     r"|\bce(?:tte|\(tte\))?\s+(?:œuvre|oeuvre|revue|travail)\b|\bles\s+articles\b|\bquest['’]\s?opera\b"
     r"|\bquesta\s+(?:opera|rivista)\b|\bdieses\s+werk\b|\bdiese\s+zeitschrift\b"
     r"|\bbu\s+(?:eser|çalışma|dergi)\b|\byay[ıi][mn]lanan\s+makaleler\b"
-    # Arabic, Russian, Ukrainian: "this work", "this journal"
-    r"|هذا\s+(?:العمل|المصنف)|هذه\s+المجلة|\bэто\s+произведение\b|\bц[яей]\s+(?:робота|твір|журнал)\b"
+    # Arabic, Russian, Ukrainian: "this work", "this journal" (round 8: Ukrainian "цей твір", "ця робота"; the class
+    # [яей] took one letter, so "цей" never matched)
+    r"|هذا\s+(?:العمل|المصنف)|هذه\s+المجلة|\bэто\s+произведение\b|\bц(?:ей|я|е)\s+(?:робота|твір|журнал)\b"
+    # Persian: "this journal", "this work" (Sinaweb and OJS journals in Iran; round 8)
+    r"|این\s+(?:نشریه|مجله|اثر)"
+    # "Articles are published under ..." (round 8)
+    r"|\barticles\s+(?:are|is)\s+(?:published|licen[sc]ed|distributed)\b"
     # Russian and Polish: the journal's materials, the journal, its articles (round 7)
     r"|\bматериалы\s+журнала\b|\bстатьи\s+журнала\b|\bвсе\s+статьи\b|\bczasopism[oa]\b|\bartyku[łl]y\b",
     re.IGNORECASE)
@@ -155,8 +160,12 @@ _JOURNAL_SUBJECT = re.compile(
     r"(?:revistas?|peri[oó]dicos?)\b(?:\s+de\s+este\s+(?:sitio|portal)\b|\s+deste\s+(?:site|s[ií]tio|portal)\b)?"
     r"|\b(?:los|os)\s+(?:art[ií]culos|artigos)\b"
     r"|\bcette\s+revue\b|\bles\s+articles\b|\bquesta\s+rivista\b|\bdiese\s+zeitschrift\b"
-    r"|\bbu\s+dergi\b|\byay[ıi][mn]lanan\s+makaleler\b|هذه\s+المجلة|\bц[ейя]\s+журнал\b"
-    r"|\bматериалы\s+журнала\b|\bстатьи\s+журнала\b|\bвсе\s+статьи\b|\bczasopism[oa]\b|\bartyku[łl]y\b",
+    r"|\bbu\s+dergi\b|\byay[ıi][mn]lanan\s+makaleler\b|هذه\s+المجلة|\bц(?:ей|я)\s+журнал\b"
+    r"|\bматериалы\s+журнала\b|\bстатьи\s+журнала\b|\bвсе\s+статьи\b|\bczasopism[oa]\b|\bartyku[łl]y\b"
+    # round 8: Persian "this journal" (Sinaweb: "این نشریه تحت مجوز ... می باشد"); "Articles are published under ...";
+    # a conference's own materials, "All LREC proceedings (...) are licenced under ..."
+    r"|این\s+(?:نشریه|مجله)|\barticles\s+(?:are|is)\s+(?:published|licen[sc]ed|distributed)\b"
+    r"|\ball\s+(?:[\w\-]+\s+){0,2}?proceedings\b",
     re.IGNORECASE)
 _NOT_THE_JOURNAL_WORDS = (
     r"\b(?:web|websites?|webpages?|sites?|sitios?|sítios?|situs|laman|portal|platform|plataforma|pages?|p[aá]ginas?"
@@ -187,10 +196,11 @@ _LICENSING_WORD = re.compile(
 #   anywhere in its sentence (_NOT_THE_JOURNAL), no condition, no date range;
 # - not a badge: the licence is named in the text, not only in a link's or a picture's address.
 # Two licences in the chrome still license nothing (_clear_site_chrome).
-# (verbs and prepositions only: the licence's own name, "Licença Creative Commons ..." beside a badge, says nothing)
+# (verbs and prepositions only: the licence's own name, "Licença Creative Commons ..." beside a badge, says nothing;
+# round 8: Italian "È edita da <press> ed è distribuita con Licenza ...", ojs.unica.it)
 _LINE_VERB = re.compile(
     r"\b(?:licen[sc]ed|licen[sc]iad[oa]s?|licenziat[oaie]|lizenziert|\w*lisensikan|lisansl\w*|distributed"
-    r"|distribu[ií]d[oa]s?|distribu[ée]e?s?|published|publica|publican|publicad[oa]s?|pubblicat[oaie]"
+    r"|distribu[ií]d[oa]s?|distribu[ée]e?s?|distribuit[oaie]|published|publica|publican|publicad[oa]s?|pubblicat[oaie]"
     r"|under|bajo|sob|unter|sous|enligt|bawah|terms|t[ée]rminos|termos|available|disponibles?|dispon[ií]ve(?:l|is))\b",
     re.IGNORECASE)
 _HAS_OWN_SUBJECT = re.compile(
@@ -213,6 +223,25 @@ _NO_NAME = frozenset(('journal', 'journals', 'jurnal', 'revista', 'home', 'index
 # PKP's software for books and preprints shares OJS's templates (is_ojs_page is true for both); a press's or a
 # preprint server's footer is not a journal's
 _OTHER_PKP_SOFTWARE = re.compile(r"open\s+(?:monograph\s+press|preprint\s+systems)", re.IGNORECASE)
+
+
+# A journal named by its title in words where the page has no journal meta tags (round 8; rule 2: Drupal journal sites,
+# "The Technology Innovation Management Review is published under a ...", "GSC Advanced Research and Reviews (GSCARR)
+# is licensed under a ..."): a run of capitalised words, directly before "is published/licensed/distributed under",
+# that holds a word only a periodical's title holds (_JOURNAL_WORD). Never after "by" (a credit: "<theme> by <name>"),
+# and a lower-case word ends the run ("The Journal of X website is licensed ...": the website).
+_TITLE_TOKEN = r"(?:[A-Z][\w’'\-]*|\([A-Z][\w\-]*\)|of|and|for|in|on|the|&|de|y|e)"
+_JOURNAL_TITLE_LICENSED = re.compile(
+    r"(?<![\w.’'])(?<!\bby\s)[A-Z][\w’'\-]*(?:\s+" + _TITLE_TOKEN + r"){1,12}"
+    r"(?=\s+is\s+(?:published|licen[sc]ed|distributed)\s+under\b)")
+_JOURNAL_WORD = re.compile(r"\b(?:Journal|Review|Reviews|Revista|Annals|Bulletin|Quarterly|Transactions|Letters"
+                           r"|Proceedings|Magazine|Archives|Jurnal|Zeitschrift|Rivista|Revue)\b")
+# A statement cut in two by markup (round 8: "<p>by INKLUSI: Journal of Disability Studies is licensed under a</p>
+# <p><a ...>Creative Commons Attribution-NonCommercial 4.0 International License</a></p>"): a block that ends on its
+# licensing preposition goes on in the next block.
+_ENDS_UNDER = re.compile(
+    r"\b(?:under|bajo|sob|unter|sous|enligt|bawah|terms\s+of)"
+    r"(?:\s+(?:a|an|the|una?|uma?|la|el|einer?|der|une?))?\s*$", re.IGNORECASE)
 
 
 def _fold(text):
@@ -340,16 +369,25 @@ def _journal_statements(section, names, ojs=True):
         if (element.tag in _FLOW_TAGS and element is not section) or element.tag in ('script', 'style'):
             continue  # inline markup is read with its block
         text = _flow_text(element)
+        following = element.getnext()
+        if following is not None and isinstance(following.tag, str) and following.tag not in _FLOW_TAGS \
+                and _ENDS_UNDER.search(text):
+            text = f"{text} {_flow_text(following)}"  # the statement goes on in the next block (round 8)
         if not _LICENSE_HINT.search(text):
             continue
         text = re.sub(r"\s+", " ", text)
         found = len(statements)
         subjects = [(subject, False) for subject in (_OJS_SUBJECT if ojs else _JOURNAL_SUBJECT).finditer(text)] + [
             (subject, True) for subject in (names.finditer(_fold(text)) if names else ())]
+        if not ojs and not names and 'under' in text:  # off OJS, the journal's title in words where no tag names it
+            subjects += [(subject, True) for subject in _JOURNAL_TITLE_LICENSED.finditer(text)
+                         if _JOURNAL_WORD.search(subject.group(0))]
+        block = []  # the licences the block itself names, read once and only when needed
         for subject, is_name in subjects:
             # the subject, and the rest of its sentence (a name may hold a full stop: "Rilce. Revista de ...")
             # (cut from `text`: a name is found in the text without its accents, at the same place)
             statement = text[subject.start():subject.end()] + _SENTENCE_FROM.match(text, subject.end()).group(0)
+            statement = _with_block_licence(statement, element, block)
             subject_end = subject.end() - subject.start()
             license_start = _LICENSE_START.search(statement, subject_end)
             if not license_start or not (find_normalized_license(statement) or '').startswith('cc-by'):
@@ -374,6 +412,24 @@ def _journal_statements(section, names, ojs=True):
         if ojs and len(statements) == found:
             statements.extend(_licence_lines(text))
     return statements
+
+
+def _with_block_licence(statement, element, block):
+    """A statement that names Creative Commons in words this reader cannot read ("Este trabalho está licenciado sob uma
+    Licença Creative Commons Atribuição 4.0 Internacional", its badge link before it, the address after "visite:")
+    with the address of the one licence its block names, when the words spell that licence's terms (_TERMS_IN_WORDS:
+    English, Spanish, Portuguese); otherwise the statement as it is (round 8). `block`: a list that keeps the block's
+    licences once read."""
+    if find_normalized_license(statement) or not _CREATIVE_COMMONS.search(statement):
+        return statement
+    if not block:
+        block.append(_licenses_named(element))
+    if len(block[0]) != 1:
+        return statement  # none, or several: the words do not say which
+    license = next(iter(block[0]))
+    if 'cc-' + "".join(term for term, words in _TERMS_IN_WORDS if words.search(statement)) != license:
+        return statement
+    return f"{statement} https://creativecommons.org/licenses/{license[3:]}/"
 
 
 def _licence_lines(text):
@@ -465,6 +521,9 @@ def _clear_all_but_main(element, mains, holders):
 
 # class="article-footer", "article__footer", "articleFooter": the article's footer by the page's own naming
 _ARTICLE_OWN_FOOTER = re.compile(r"(?:^|\s)article[\w\-]*footer", re.IGNORECASE)
+# <div id="not-footer">: a sticky-footer layout's wrapper of everything that is NOT the footer (Atmire's Open Repository
+# theme wraps the whole item page in it; round 8). The finders' "-footer" matched it and cleared the item's own licence.
+_NOT_FOOTER = re.compile(r"(?:^|\s)no[nt]?[\-_]footer(?:\s|$)", re.IGNORECASE)
 
 
 def _clear_site_chrome(tree, journal_statements=None, ojs=True):
@@ -509,7 +568,8 @@ def _clear_site_chrome(tree, journal_statements=None, ojs=True):
     named, kept = set(), []  # the licences the cleared chrome names; the article statements left in it
     for section_finder in SITE_CHROME_FINDERS:
         for section in tree.xpath(section_finder):
-            if section in mains or section.tag in ('html', 'body'):
+            if section in mains or section.tag in ('html', 'body') \
+                    or _NOT_FOOTER.search(f"{section.get('id') or ''} {section.get('class') or ''}"):
                 continue  # <main class="has-footer">, <body class="ast-footer-overlay">: the content itself
             if _ARTICLE_OWN_FOOTER.search(section.get('class') or '') \
                     and next(section.iterancestors('article'), None) is not None:
@@ -611,13 +671,22 @@ _MAP_ATTRIBUTION = re.compile(
     r"(?:</?a\b[^>]*>|&lt;/?a\b(?:(?!&gt;)[^\n])*&gt;|[^\"<>\n]){0,200}")
 # cheap gate for _IMAGE_CREDIT, which would otherwise scan every page: the usual casings only
 _IMAGE_CREDIT_HINTS = ("mage by", "hoto by", "icture by", "mage credit", "hoto credit")
+# (round 8: or a dash before the licence, "Photo by <name> via Flickr - CC BY-SA", a blog post's description)
 _IMAGE_CREDIT = re.compile(
     r"\b(?:image|photo|picture)\s+(?:by|credit)\b"
-    r"(?:(?!\b(?:article|paper|work|post|text|content)\b)(?:[^\"<>]|</?a\b[^>]*>)){0,80}?(?:\bunder\b|\(\s*CC\b)"
+    r"(?:(?!\b(?:article|paper|work|post|text|content)\b)(?:[^\"<>]|</?a\b[^>]*>)){0,80}?"
+    r"(?:\bunder\b|\(\s*CC\b|\s[\-–—]\s*CC\b)"
     r"(?:[^\"<>.]|\.(?!\s+[A-Z])){0,120}", re.IGNORECASE)
 # anchored on the newline before the comment (the caller prepends one): a fixed first character keeps the scan fast
 _LICENSE_IN_CODE_COMMENT = re.compile(
     r"\n[ \t]*//[^\r\n]*(?:public\s*domain|creative\s*commons)[^\r\n]*", re.IGNORECASE)
+
+
+# - a subject term named "Public Domain" (round 8): SAGE Knowledge pages list the encyclopedia's whole taxonomy in a
+#   script ({'type': 'NV', 'name': ' Public Domain', 'position': '614'}), and every entry read as public-domain. Only
+#   a value that is the phrase alone, under a name, label, term, keyword, subject or tag key.
+_TERM_NAMED_PUBLIC_DOMAIN = re.compile(
+    r"""['"](?:name|label|term|keyword|subject|tag)['"]\s*:\s*['"]\s*public\s+domain\s*['"]""", re.IGNORECASE)
 
 
 def _drop_code_comments_naming_a_license(tree):
@@ -645,6 +714,8 @@ def _drop_non_statements(text):
         text = _IMAGE_CREDIT.sub('', text)
     if _ACCEPTED_MANUSCRIPT_HINT.search(text):
         text = _ACCEPTED_MANUSCRIPT_PROMISE.sub('', text)
+    if 'omain' in text:
+        text = _TERM_NAMED_PUBLIC_DOMAIN.sub('', text)
     return text
 
 
@@ -761,8 +832,36 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     acl_license_text = acl_anthology_license_text(page, resolved_url)
     if acl_license_text is not None:
         return acl_license_text
+    escholarship_text = escholarship_item_license_text(page, resolved_url)
+    if escholarship_text is not None:
+        return escholarship_text
     return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url),
                                        ojs_page=ojs_page, journal_footer=journal_footer)
+
+
+# eScholarship (escholarship.org) item pages hold the item in the page's JSON with its own licence, alphabetical keys:
+#   "genre":"article","id":"53f3s8gg","index_digest":"...",...,"published":"2017","rights":null
+# and, in the same JSON, the journal's navigation: every issue with ITS licence ("attrs":{...,"rights":"https://
+# creativecommons.org/licenses/by-nc-nd/4.0/"}). Read anywhere, an issue's licence licensed an item that has none
+# (#2239, round 8: check1 dfd279ce, "rights":null, read as cc-by-nc-nd). The item's own field is its licence; the
+# page prints it as its "c-pubinfo__license" link.
+_ESCHOLARSHIP_ITEM_RIGHTS = re.compile(
+    r'"genre":"[^"]*","id":"[0-9a-z]{8}","index_digest":"[^"]*",(?:"[a-z_]+":(?:null|"[^"]*"|-?\d+),){0,10}?'
+    r'"rights":(null|"[^"]*")')
+
+
+def escholarship_item_license_text(page, resolved_url=None):
+    """The eScholarship item's own licence (its "rights" address), or '' when it states none.
+
+    None when the page is not an eScholarship item page, so other pages keep the whole-page search.
+    """
+    if not page or '"index_digest":' not in page or not (
+            'escholarship.org' in page or (resolved_url and _host_in(resolved_url, ('escholarship.org',)))):
+        return None
+    rights = _ESCHOLARSHIP_ITEM_RIGHTS.search(page)
+    if rights is None:
+        return None
+    return '' if rights.group(1) == 'null' else rights.group(1).strip('"')
 
 
 # The ACL Anthology (aclanthology.org) states its licence once, in the site footer, by year of publication:
