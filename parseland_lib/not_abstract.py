@@ -61,6 +61,8 @@ def key(text: str) -> str:
 _NO = r"(?:no|not an?|without(?: an?)?|there is no)"
 _ABS = r"(?:english )?(?:abstract|summary|extract|résumé|resumen|resumo|riassunto|zusammenfassung|abstrakt|аннотация)"
 _ITEM = r"(?:article|paper|chapter|content|item|record|publication|document|contribution|entry|issue|presentation)"
+_FRONT_PART = r"(?:front cover|cover|table of contents|title page|splash (?:page|screen))"
+_ROLES = r"(?:staff|board members|committee members|society officers|editorial board members)"
 _KEY_PATTERNS = [
     # "No abstract available.", "No abstract is available for this article.", "Without abstract"
     rf"{_NO} {_ABS}(?: is| was| has been)?(?: currently)?(?: available| provided| supplied| present| given| published| included| for perspectives)?(?: for this {_ITEM})?(?: in english)?(?: doi .+)?",
@@ -84,10 +86,27 @@ _KEY_PATTERNS = [
     r"(?:disclosure compliance )?i understand",
     # IEEE Xplore's whole "abstract" for an advertisement page, the item's kind standing alone like the labels above:
     # "Advertisement.", "Advertisement, IEEE." (#2239 round 6: 3 of 33,557 sampled pages; gold none on both labelled
-    # ones). An advertisement given with its text stays. So do IEEE's sentences for other front matter ("Presents the
-    # table of contents of the proceedings."): the gate's gold keeps one as the item's own abstract field, the loop's
-    # labels keep 11 of 12, and the 30 wordings in KNOWN are dropped; that split is the loop owner's to settle.
+    # ones). An advertisement given with its text stays.
     r"advertisement(?: ieee)?",
+    # IEEE Xplore's stock sentences for front matter: "Presents the table of contents/splash page of the proceedings
+    # record.", "Presents the front cover/table of contents for this issue of the periodical.", "The author index
+    # contains an entry for each author and coauthor included in the proceedings record.", "Provides instructions and
+    # guidelines to prospective authors who wish to submit manuscripts." They say what kind of item it is, not what it
+    # says; the stored parse has none on these pages, so none is never worse (#2239 round 8: the loop's call, after
+    # check1's tripwire; the gate's gold kept one, the labels most). Exact wordings only: a sentence that goes on is
+    # kept. 30 more wordings (editorials, welcome messages) are in KNOWN.
+    rf"presents the {_FRONT_PART}(?: (?:or )?{_FRONT_PART})* (?:for|of|from) (?:this issue of the (?:periodical|"
+    r"publication|magazine|journal)|the proceedings record|the conference proceedings record|the proceedings of this "
+    r"conference)",
+    r"the author index contains an entry for each author and coauthor included in the proceedings record",
+    r"presents an index of the authors whose articles are published in the conference proceedings record",
+    r"provides instructions and guidelines to prospective authors who wish to submit manuscripts",
+    r"presents the copyright information for the conference(?: may include reprint permission information)?",
+    rf"provides a listing of (?:current )?{_ROLES}(?:(?: and)? {_ROLES})*",
+    r"presents a listing of conference committees",
+    r"lists the conference organizers sponsors patrons and or committee members",
+    r"presents the welcome message from this conference",
+    r"provides notice of upcoming conference events of interest to practitioners and researchers",
 ]
 _KEY_RE = re.compile("|".join(f"(?:{p})" for p in _KEY_PATTERNS))
 
@@ -174,6 +193,15 @@ _TEMPLATE_RES = [
                r"peer[- ]reviewed|open[- ]access|hybrid|refereed|scholarly|academic|online|double[- ]blind|scientific|"
                r"bi-?annual|quarterly|multidisciplinary|interdisciplinary)[ ,]*(?:and )?)*(?:journal|web portal|"
                r"portal web)\b"),
+    # NIMS MDR's phonon datasets: one generated description per record, the compound and space group filled in: "Ab-initio
+    # phonon calculation for BaNd2ZnO5 / I4/mcm (140)\nPhonon band structure, phonon DOS, thermal properties at constant
+    # volume, and phonon raw data are presented.\nThe initial crystal structure ... is obtained from the Materials
+    # Project using pymatgen MPRester. The phonon band structure paths are determined using SeeK-path." Stock text like
+    # Materials Project's description in KNOWN (#2239 round 8: check1's tripwire, 3 records).
+    re.compile(r"ab-initio phonon calculation for \S{1,60} / \S{1,30} \(\d{1,3}\) phonon band structure, phonon dos, thermal "
+               r"properties at constant volume, and phonon raw data are presented\. the initial crystal structure used to "
+               r"perform phonon calculation is obtained from the materials project using pymatgen mprester\. the phonon "
+               r"band structure paths are determined using seek-path\.?$"),
     # IntechOpen's author card read under its empty "Abstract": "Author Information Show + Alcínia Zita Sampaio *
     # Department of Civil Engineering, ... Address all correspondence to: ..."
     re.compile(r"author information (?:show|hide)\b"),
