@@ -9,10 +9,19 @@ University School of Medicine, St. Louis, Mo.") or the article's whole numbered 
 Pathology ... <sup>2</sup>Department of Medicine ..."), in which case the byline's ``<sup>1,2</sup>`` picks the
 author's. ``jci_affiliations`` reads those pairs; parse_page fills them in when the winning parser gave no author an
 affiliation.
+
+Since oxjob #2338 the JCI class claims both journals' pages on jci.org and adds their back matter, which no reader took
+before: the "Acknowledgments" accordion (div#acknowledgments; its "Address correspondence to" note is not part of it,
+and jci.org prints funding sentences there under no label of their own, so funding_statement stays None) and the
+numbered reference list (div#references > ol > li.reference value="N", each entry followed by its "View this article
+via" links, the CrossRef one a doi.org link to the cited work). On The Journal of Clinical Investigation's pages the
+authors and abstract stay the generic reader's, as before.
 """
+import copy
 import html
 import re
 
+from parseland_lib.publisher.parsers.generic import GenericPublisherParser
 from parseland_lib.publisher.parsers.parser import PublisherParser
 from parseland_lib.publisher.parsers.utils import squash
 
@@ -22,6 +31,11 @@ _SUP = re.compile(r"<sup\b[^>]*>(.*?)</sup>", re.S | re.I)
 _TAG = re.compile(r"<[^>]+>")
 # the "and" joining the last two names, or the last two affiliations of a numbered list
 _AND = re.compile(r"[\s,;]+and$")
+_ASCI = "American Society for Clinical Investigation"
+_JCI_HTML_URL = re.compile(r"^https?://(?:[\w-]+\.)*jci\.org/", re.I)
+# the correspondence note jci.org prints as the acknowledgments' last paragraph
+_CORRESPONDENCE_NOTE = re.compile(r"^address (?:correspondence|reprint requests)\b", re.I)
+_MORE_MARKER = re.compile(r"\b(?:show|load|view) (?:more|all)\b", re.I)
 
 
 def _text(fragment):
@@ -78,14 +92,82 @@ def jci_affiliations(soup):
     return pairs
 
 
+def _jci_head(soup):
+    """jci.org's own article page: the American Society for Clinical Investigation's publisher tag and a
+    citation_html_url on jci.org (a copy elsewhere, PubMed Central's, keeps the publisher tag). Read from <head>'s
+    direct children only: every parser's claim runs on every DOI page (#2239: under 0.5 ms a page it does not claim)."""
+    root = soup.find("html", recursive=False)
+    head = (root or soup).find("head", recursive=False)
+    if head is None:
+        return False
+    publisher = html_url = None
+    for meta in head.find_all("meta", recursive=False):
+        name = meta.get("name")
+        if name == "citation_publisher":
+            publisher = meta.get("content")
+        elif name == "citation_html_url":
+            html_url = meta.get("content")
+    return publisher == _ASCI and bool(html_url and _JCI_HTML_URL.match(html_url))
+
+
+def _acknowledgments(soup):
+    """The Acknowledgments accordion's paragraphs, newline-joined, without the correspondence note; None without one."""
+    block = soup.find("div", id="acknowledgments")
+    if block is None:
+        return None
+    paragraphs = [text for p in block.find_all("p") if (text := squash(p.get_text()))
+                  and not _CORRESPONDENCE_NOTE.match(text)]
+    return "\n".join(paragraphs) or None
+
+
+def _references(soup):
+    """(references, references_complete) from the numbered list. Whole only when the one <ol> starts at 1, its
+    value="N" labels run 1..n, every entry has text, and nothing outside the entries or a "show more" says otherwise."""
+    # imported here: back_matter imports parsers.utils, whose package imports every parser, this one included
+    from parseland_lib.back_matter import _linked_doi, _numbering_whole
+    block = soup.find("div", id="references")
+    lists = block.find_all("ol") if block is not None else []
+    items = [li for ol in lists for li in ol.find_all("li", class_="reference")]
+    if not items:
+        return None, False
+    references = []
+    for item in items:
+        entry = copy.copy(item)  # the other parsers still read this soup
+        for links in entry.select("div.reference_linkouts"):
+            links.decompose()
+        if raw := squash(entry.get_text()):
+            references.append({"position": len(references) + 1, "raw": raw, "doi": _linked_doi(item)})
+    ol = lists[0]
+    loose_text = any(squash(t) for node in (block, ol) for t in node.find_all(string=True, recursive=False))
+    complete = (len(lists) == 1 and (ol.get("start") or "1").strip() == "1" and len(references) == len(items)
+                and _numbering_whole([li.get("value") for li in items]) and not loose_text
+                and not _MORE_MARKER.search(block.get_text(" ")))
+    return references, complete
+
+
 class JCI(PublisherParser):
     parser_name = "jci"
 
+    def __init__(self, soup):
+        super().__init__(soup)
+        self._claimed = None
+        self._parsed = None
+
     def is_publisher_specific_parser(self):
+        if self._claimed is None:
+            self._claimed = _jci_head(self.soup)
+        return self._claimed
+
+    def _is_insight(self):
         return self.substr_in_citation_journal_title('JCI Insight')
 
     def authors_found(self):
-        return bool(self.soup.select_one('.author-list'))
+        if not self.is_publisher_specific_parser():
+            return False
+        if self._is_insight():
+            return bool(self.soup.select_one('.author-list'))
+        parsed = self.parse()
+        return bool(parsed.get('authors') or parsed.get('abstract'))
 
     def parse_affs_map(self):
         affs_map = {}
@@ -115,4 +197,16 @@ class JCI(PublisherParser):
         return authors
 
     def parse(self):
-        return {'authors': self.parse_authors(), 'abstract': self.parse_abstract_meta_tags()}
+        # once per page: the JCI Insight byline reader removes the <sup> labels it reads
+        if self._parsed is None:
+            if self._is_insight():
+                parsed = {'authors': self.parse_authors(), 'abstract': self.parse_abstract_meta_tags()}
+            else:
+                # The Journal of Clinical Investigation: the generic reader's authors and abstract, as before this
+                # parser claimed its pages (parse_page still fills the byline pop-ups' affiliations, #2252)
+                parsed = dict(GenericPublisherParser(self.soup).parse())
+            references, complete = _references(self.soup)
+            parsed.update(acknowledgments=_acknowledgments(self.soup), funding_statement=None,
+                          references=references, references_complete=complete)
+            self._parsed = parsed
+        return self._parsed
