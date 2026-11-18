@@ -186,6 +186,27 @@ _NOT_AN_AFFILIATION = re.compile(
     r"(?:created|completed) date\b|orcid\b|"
     r"see (?:the )?(?:original|related|accompanying|companion) (?:paper|article)\b)",
     re.I)
+# A record date of the author-info notes: "Created Date: 08 February 1973", "Online date: November 16, 2020",
+# "Manuscript submitted May 6, 1997", "accepted in revised form June 30, 2022", "First revision date: December 2,
+# 2002", "Final revision submitted: March 25, 2010". A history word (after at most two qualifiers), at most three more
+# words, then a full date: a bare year, or a history word followed by anything else, is not enough (#2239 round 8d).
+_MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
+_RECORD_DATE = re.compile(
+    r"(?:(?:manuscript|final|first|second|third|fourth|article|paper|online|electronically|date\s+of)\s+){0,2}"
+    r"(?:submitted|submission|received|revised|revision|accepted|acceptance|published|publication|created|completed|"
+    r"online|acknowledge?ment|epub)\b(?:\s+[^\W\d_]+){0,3}?\s*:?\s*(?:on\s+)?"
+    rf"(?:\d{{1,2}}\s+{_MONTH},?\s+\d{{4}}|{_MONTH}\s+(?:\d{{1,2}},?\s+)?\d{{4}}|\d{{1,4}}[/.-]\d{{1,2}}[/.-]\d{{2,4}})"
+    r"[\s.;,]*", re.I)
+
+
+def _is_record_dates(text):
+    """True when an author-info line is only record dates, each sentence or ';' part one of them ("Submitted July 8,
+    1997. Revision received September 2, 1997. Accepted September 4, 1997."). A line that also names anything else
+    stays as it was (#2239 round 8d: "Created Date: ...; Completed Date: ..." was a page's only affiliation)."""
+    parts = re.split(r"(?<=[.;])\s+(?=[^\W\d_])", re.sub(r"\s+", " ", text or "").strip())
+    return bool(parts and parts[0]) and all(_RECORD_DATE.fullmatch(part) for part in parts)
+
+
 # A sentence about a person: "<strong>Ethan Stonerook</strong> is assistant professor at ..." (a biography) or
 # "<strong>Brian T. Maurer, PA-C</strong>, department editor" (a column credit) (#2239 round 8c)
 _PERSON_NOTE_REST = re.compile(r"^\s*(?:(?:is|was|has been|serves as)\b|,\s*(?:[\w-]+\s+){0,2}editors?\b)", re.I)
@@ -501,7 +522,8 @@ class Lippincott(PublisherParser):
                 if substr in aff_text.lower():
                     return True
             # "The author has disclosed no conflicts of interest." stood as the affiliation (#2239)
-            return bool(_DISCLOSURE.search(aff_text) or _NOT_AN_AFFILIATION.match(aff_text.strip()))
+            return bool(_DISCLOSURE.search(aff_text) or _NOT_AN_AFFILIATION.match(aff_text.strip())
+                        or _is_record_dates(aff_text))
 
         def cleanup_aff(aff_text):
             # aff.next_element.next_element is usually the NavigableString after
@@ -568,7 +590,8 @@ class Lippincott(PublisherParser):
                 # no mark: the raw segment
                 org = aff_text.split(aff_id)[-1] if aff_id else aff_text
                 results.append(Affiliation(aff_id=aff_id, organization=org))
-            return results
+            # this path skips exclude_aff below; record dates still go (#2239 round 8d)
+            return [result for result in results if not _is_record_dates(result.organization)]
 
         for aff in affiliations:
             if aff.sup:

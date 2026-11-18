@@ -69,8 +69,8 @@ def corresponding_names(soup):
             primary = primary or any(_label(s.get_text()) == "primary author" for s in entry.find_all("small")) or (
                 link is not None and _label(link.get("title")) == "primary author")
     else:
-        starred_primary, entries = [], [e for e in soup.select("div[id^=author]") if _AUTHOR_ID.match(e.get("id", ""))]
-        for entry in entries:
+        starred_primary, entries = {}, [e for e in soup.select("div[id^=author]") if _AUTHOR_ID.match(e.get("id", ""))]
+        for i, entry in enumerate(entries):
             link = entry.select_one('a[href*="/pub/@"]')
             if link is None or not any(s.get_text(strip=True) == "*" for s in link.find_all("sup")):
                 continue
@@ -78,12 +78,14 @@ def corresponding_names(soup):
                 names.append(_display_name(entry))
             elif _label(link.get("title")) == "primary author":
                 primary = True
-                starred_primary.append(_display_name(entry))
-        # The English interface's "Primary Author" link with its '*' is the "Sorumlu Yazar" mark translated: on a
-        # byline where it singles out some authors it marks them; on every author (a sole author) it marks no one
-        # (#2239 round 8c: label-v2 gold on both such labelled pages).
-        if not names and starred_primary and len(starred_primary) < len(entries):
-            names = starred_primary
+                starred_primary[i] = _display_name(entry)
+        # The English interface's "Primary Author" link with its '*' is the "Sorumlu Yazar" mark translated, but the
+        # label also reads as "first author", and nothing else on the page ties it to correspondence. So it marks the
+        # authors it singles out only when the first-listed author is not among them (there it cannot mean "first
+        # author"); on the first author, or a sole author, it marks no one (#2239 rounds 8c and 8d: label-v2 gold on
+        # all four labelled such pages, check1 cf543741 and 92021365 marked, af27a4fc and 00e1f51f not).
+        if not names and starred_primary and 0 not in starred_primary:
+            names = list(starred_primary.values())
     names = [n for n in names if n]
     return names or ([] if primary else None)
 
