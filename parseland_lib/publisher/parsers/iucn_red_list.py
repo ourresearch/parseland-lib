@@ -15,6 +15,8 @@ do (label-v1), and:
   off, with no affiliation. A parenthetical naming an organisation is one even beside such words;
 - the split is at the last balanced parenthetical, so a group name with its own acronym keeps it
   ("Botanic Gardens Conservation International (BGCI) (Botanic Gardens ... (BGCI), Descanso House, ...)");
+- a tag naming several assessors in citation style ("Van Damme, D. & Ghamizi, M.", ~3% of pages) is split into
+  one author each ("D. Van Damme", "M. Ghamizi"), with no affiliation;
 - an e-mail address written as an author ("false.email@globaltrees.org", a placeholder account) is not a name and is
   dropped; a page whose only author is one keeps the generic reader's output.
 No author is marked corresponding (None, as the meta-tag reader leaves it): the page marks no one.
@@ -27,6 +29,8 @@ from parseland_lib.publisher.parsers.utils import squash
 _JOURNAL = "IUCN Red List of Threatened Species"
 _SITE = "iucnredlist.org/species/"
 _EMAIL = re.compile(r"^\S+@\S+\.\S+$")
+# one tag naming several assessors in citation style: "Sheppard, A., Fenner, D., Abrar, M. & Ochavillo, D."
+_CITED = re.compile(r"^([^\W\d_][^,&()]*), ((?:[^\W\d_]{1,2}\.\s?-?)+)$")
 # shortcut: word lists, not a model, read off the parentheticals on ~165 stored pages. An organisation word wins
 # ("SRLI Reptile Assessment / Vadodara Zoo"); otherwise an assessment project, a role or a run of place and taxon
 # words ("Europe, North Africa, Africa", "South American Marsupials") is not an affiliation, and anything else is
@@ -60,6 +64,22 @@ def _is_affiliation(text):
         return False
     words = [w.casefold() for w in re.findall(r"[^\W\d_]+", text)]
     return not (words and all(w in _PLACE_OR_TAXON for w in words))
+
+
+def _cited_list(value):
+    """'Sheppard, A., Fenner, D. & Ochavillo, D.' -> ['A. Sheppard', 'D. Fenner', 'D. Ochavillo']; None unless the
+    whole tag is two or more 'Family, I.' items joined by ', ' and a final ' & '."""
+    value = squash(value)
+    if " & " not in value:
+        return None
+    items = re.split(r"\s+&\s+|(?<=\.),\s+", value)
+    names = []
+    for item in items:
+        m = _CITED.match(item.strip())
+        if not m:
+            return None
+        names.append(f"{m.group(2).strip()} {m.group(1).strip()}")
+    return names if len(names) > 1 else None
 
 
 def _head(soup):
@@ -118,6 +138,10 @@ class IUCNRedList(PublisherParser):
     def parse_authors(self):
         authors = []
         for raw in self._raw_authors():
+            cited = _cited_list(raw)
+            if cited:
+                authors.extend({"name": n, "affiliations": [], "is_corresponding": None} for n in cited)
+                continue
             name, aff = _split(raw)
             if not name or _EMAIL.match(name):
                 continue
