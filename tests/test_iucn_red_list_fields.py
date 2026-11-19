@@ -62,6 +62,27 @@ def test_group_whose_parenthetical_repeats_its_name_has_no_affiliation():
     assert [(a["name"], a["affiliations"]) for a in authors] == [("BirdLife International", [])]
 
 
+def test_group_whose_parenthetical_is_part_of_its_name_has_no_affiliation():
+    authors = _authors(_page(["IUCN SSC Amphibian Specialist Group (IUCN SSC)"]))
+    assert [(a["name"], a["affiliations"]) for a in authors] == [("IUCN SSC Amphibian Specialist Group", [])]
+
+
+def test_region_taxon_group_project_or_role_is_not_an_affiliation():
+    # what assessors also put in the parenthetical; both blind labellers give these authors no affiliation
+    authors = _authors(_page(["Dirk Van Damme (Europe, North Africa, Africa)", "M Weksler (South American Marsupials)",
+                              "Francesca Cassola (Global Mammal Assessment)",
+                              "Gianbattista Nardi (European Red List: terrestrial mollusc assessor)"]))
+    assert [a["name"] for a in authors] == ["Dirk Van Damme", "M Weksler", "Francesca Cassola", "Gianbattista Nardi"]
+    assert all(a["affiliations"] == [] for a in authors)
+
+
+def test_specialist_groups_and_red_list_authorities_are_affiliations():
+    authors = _authors(_page(["Konstantinos Triantis (IUCN SSC Mollusc Specialist Group)",
+                              "Rémy Amice (New-Caledonia Plant RLA)", "Emily Beech (IUCN SSC Global Tree SG / BGCI)"]))
+    assert [[f["name"] for f in a["affiliations"]] for a in authors] == [
+        ["IUCN SSC Mollusc Specialist Group"], ["New-Caledonia Plant RLA"], ["IUCN SSC Global Tree SG / BGCI"]]
+
+
 def test_nested_parentheses_split_at_the_last_balanced_group():
     group = "Botanic Gardens Conservation International (BGCI)"
     authors = _authors(_page([f"{group} ({group}, Descanso House, 199 Kew Road, Richmond TW9 3BW, England)"]))

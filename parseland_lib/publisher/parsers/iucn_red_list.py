@@ -7,8 +7,12 @@ anyway). What the generic reader gets wrong is the byline: every citation_author
 affiliation in a closing parenthetical ("Nigel Taylor (RBG Kew)", "Duniel Barrios (Jardín Botánico Nacional,
 Universidad de La Habana, Cuba)"), which it keeps inside the name. This parser splits it off, as both blind labellers
 do (label-v1), and:
-- a group whose parenthetical only repeats its name ("BirdLife International (BirdLife International)") is one author
-  with no affiliation;
+- a group whose parenthetical only repeats its name or a part of it ("BirdLife International (BirdLife
+  International)", "IUCN SSC Amphibian Specialist Group (IUCN SSC)") is one author with no affiliation;
+- assessors also put a region ("Europe, North Africa, Africa"), a taxon group ("South American Marsupials"), an
+  assessment project ("Global Mammal Assessment") or a role ("terrestrial mollusc assessor") in the parenthetical,
+  and none of those is an affiliation (both blind labellers, fresh claimed set, #2330): the name is still split
+  off, with no affiliation. A parenthetical naming an organisation is one even beside such words;
 - the split is at the last balanced parenthetical, so a group name with its own acronym keeps it
   ("Botanic Gardens Conservation International (BGCI) (Botanic Gardens ... (BGCI), Descanso House, ...)");
 - an e-mail address written as an author ("false.email@globaltrees.org", a placeholder account) is not a name and is
@@ -23,6 +27,39 @@ from parseland_lib.publisher.parsers.utils import squash
 _JOURNAL = "IUCN Red List of Threatened Species"
 _SITE = "iucnredlist.org/species/"
 _EMAIL = re.compile(r"^\S+@\S+\.\S+$")
+# shortcut: word lists, not a model, read off the parentheticals on ~165 stored pages. An organisation word wins
+# ("SRLI Reptile Assessment / Vadodara Zoo"); otherwise an assessment project, a role or a run of place and taxon
+# words ("Europe, North Africa, Africa", "South American Marsupials") is not an affiliation, and anything else is
+# (a bare brand or acronym: "VALE", "SPUN", "Seriously Fish", as both labellers read them). Widen the lists if a
+# later sample shows other kinds of parenthetical.
+_ORG = re.compile(
+    r"univers|universid|college|colegio|school|escola|escuela|institut|museum|museo|museu|herbari|botanic|botánic"
+    r"|botânic|jard[ií]n|jardim|garden|arboretum|\bzoo|zoolog|biopark|aquarium|department|departamento|\bdept\b"
+    r"|minist|government|gobierno|governo|office|agency|service|survey|centre|center|centro|foundation|fundaci"
+    r"|funda[cç][aã]o|society|sociedad|sociedade|trust|council|consejo|conselho|research|academy|academ|laborator"
+    r"|conservation|conservancy|smithsonian|\bkew\b|noaa|birdlife|\bbgci\b|\bwcs\b|specialist group|\bs?sg\b"
+    r"|\brla\b|red list authority|iucn|association|asociaci|associa[cç][aã]o|station|estaci|fisheries|forestry"
+    r"|wildlife|commission|national|nacional|biodiversity|natural history|\bngo\b|\bltd\b|\binc\b|company"
+    r"|corporation", re.I)
+_ROLE = re.compile(r"\bassessor", re.I)
+_NOT_ORG = re.compile(r"assessment|\bproject\b|^independent\b|\berl\b", re.I)
+_PLACE_OR_TAXON = set("""
+    europe european africa african asia asian america american americas oceania australia australasia pacific atlantic
+    indian ocean mediterranean caribbean arctic antarctic north south east west central northern southern eastern
+    western global world and the of marsupials reptiles amphibians mammals birds fish fishes freshwater marine plants
+    moths butterflies molluscs mollusks snails corals trees cacti insects dragonflies bats primates sharks rays crabs
+    invertebrates fungi lichens mosses""".split())
+
+
+def _is_affiliation(text):
+    if _ROLE.search(text):
+        return False
+    if _ORG.search(text):
+        return True
+    if _NOT_ORG.search(text):
+        return False
+    words = [w.casefold() for w in re.findall(r"[^\W\d_]+", text)]
+    return not (words and all(w in _PLACE_OR_TAXON for w in words))
 
 
 def _head(soup):
@@ -34,7 +71,8 @@ def _head(soup):
 
 def _split(value):
     """'Name (Affiliation)' -> ('Name', 'Affiliation'); the affiliation is the last balanced parenthetical and is
-    None when there is none, when it only repeats the name, or when nothing precedes it."""
+    None when there is none, when it only repeats (part of) the name, when it names no organisation, or when nothing
+    precedes it."""
     value = squash(value)
     if not value.endswith(")"):
         return value, None
@@ -51,7 +89,7 @@ def _split(value):
     name, aff = value[:i].strip(), value[i + 1:-1].strip()
     if not name:
         return value, None
-    if not aff or aff.casefold() == name.casefold():
+    if not aff or aff.casefold() in name.casefold() or not _is_affiliation(aff):
         return name, None
     return name, aff
 
