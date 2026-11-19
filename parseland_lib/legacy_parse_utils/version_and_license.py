@@ -813,11 +813,37 @@ def sciencedirect_article_license_text(page):
     return license_url.group(1) if license_url else ''
 
 
+# IEEE Xplore document pages state the article's own access in the page's metadata object, on every template:
+#   xplGlobal.document.metadata={..."isOpenAccess":false,...,"openAccessFlag":"F",...};
+# An open-access article also names its licence in a "ccby-indicator" line ("Under a Creative Commons License", linked).
+# The page template's stylesheet styles that banner on every page, open or not
+# (".document-header-metrics-banner.ccby-document{padding-bottom:0}"), and the class name read as "cc by". IEEE pages
+# fetched whole carry that stylesheet inline: 147,579 of the 148,479 parsed in the week of 2 Nov 2026 read cc-by,
+# ~160K paywalled works served as hybrid open access (oxjob #2417). A stylesheet never states a licence.
+_IEEE_METADATA = 'xplGlobal.document.metadata='
+_IEEE_IS_OPEN_ACCESS = re.compile(r'"isOpenAccess":\s*(true|false)')
+_STYLE_BLOCK = re.compile(r'<style\b[^>]*>.*?</style\s*>', re.IGNORECASE | re.DOTALL)
+
+
+def ieee_article_page(page):
+    """True / False: the IEEE Xplore article's metadata says it is / is not open access. None when the page carries
+    no IEEE Xplore document metadata, so other pages keep the whole-page search."""
+    if not page:
+        return None
+    start = page.find(_IEEE_METADATA)
+    if start == -1:
+        return None
+    end = page.find('</script>', start)
+    flag = _IEEE_IS_OPEN_ACCESS.search(page, start, end if end != -1 else len(page))
+    return None if flag is None else flag.group(1) == 'true'
+
+
 def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=False):
     """The text the licence regexes run over, on both the publisher and the repository path.
 
     A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
-    deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), a Taylor & Francis
+    deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), an IEEE Xplore
+    page none when its metadata says the article is not open access (else the page without its stylesheets), a Taylor & Francis
     book page its product's, an ACL Anthology page the footer sentence for the paper's year; any other page is
     searched whole, minus site chrome (kept on hosts whose footer licenses every article). `ojs_page`: the page is an
     Open Journal Systems page (is_ojs_page), whose footer may state the journal's own licence. `journal_footer`: any
@@ -826,6 +852,11 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     sd_license_text = sciencedirect_article_license_text(page)
     if sd_license_text is not None:
         return sd_license_text
+    ieee_open = ieee_article_page(page)
+    if ieee_open is False:
+        return ''
+    if ieee_open:
+        page = _STYLE_BLOCK.sub('', page)
     tf_license_text = taylorfrancis_product_license_text(page)
     if tf_license_text is not None:
         return tf_license_text
