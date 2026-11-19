@@ -123,3 +123,17 @@ def test_lookalike_page_from_another_site_is_not_claimed():
 def test_journal_title_alone_does_not_claim_a_page_off_the_site():
     html = _page(["Ana Silva (Universidade de Lisboa)"], canonical="https://mirror.example.org/species/1/2")
     assert not IUCNRedList(_soup(html)).is_publisher_specific_parser()
+
+
+def test_one_tag_naming_several_assessors_is_split():
+    authors = _authors(_page(["Sheppard, A., Fenner, D., Edwards, A., Abrar, M. & Ochavillo, D."]))
+    assert [(a["name"], a["affiliations"]) for a in authors] == [
+        ("A. Sheppard", []), ("D. Fenner", []), ("A. Edwards", []), ("M. Abrar", []), ("D. Ochavillo", [])]
+    assert [a["name"] for a in _authors(_page(["Moelants, T., Contreras-MacBeath, T. & Van Damme, D."]))] == [
+        "T. Moelants", "T. Contreras-MacBeath", "D. Van Damme"]
+
+
+def test_names_with_an_ampersand_that_are_not_a_cited_list_stay_whole():
+    authors = _authors(_page(["Allen Allison (Global Amphibian, Reptile & Mammal Assessments / Bishop Museum, Hawaii)",
+                              "Fauna & Flora International"]))
+    assert [a["name"] for a in authors] == ["Allen Allison", "Fauna & Flora International"]
