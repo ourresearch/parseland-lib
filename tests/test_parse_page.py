@@ -20,7 +20,8 @@ from parseland_lib.publisher.parsers.parser import PublisherParser
 
 MINIMAL_HTML = "<html><body><p>hello world</p></body></html>"
 RESPONSE_KEYS = {"authors", "urls", "license", "version", "abstract",
-                 "acknowledgments", "funding_statement", "references", "references_complete"}  # #2215
+                 "acknowledgments", "funding_statement", "references", "references_complete",  # #2215
+                 "biblio"}  # #1098
 
 
 @pytest.mark.parametrize("namespace", [None, "", "unknown", "DOI", "Pmh"])

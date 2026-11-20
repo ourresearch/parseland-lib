@@ -11,6 +11,7 @@ from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_l
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
 from parseland_lib.abstract_language import english_part, is_english, is_other_language
+from parseland_lib.biblio_meta import meta_biblio
 from parseland_lib.digibib import digibib_creator_values, digibib_pdf, is_digibib_record
 from parseland_lib.repository.parsers.zenodo import zenodo_affiliations
 from parseland_lib.not_abstract import clean_abstract, is_not_abstract
@@ -648,6 +649,8 @@ def _entries_look_whole(texts):
 def parse_page(lp_content, namespace, resolved_url=None):
     soup = BeautifulSoup(lp_content, parser='lxml', features='lxml')
     given_url = resolved_url  # before the doi.org sniff below: a review report's DOI is only in this one
+    # volume, issue and pages as the page's citation meta tags state them (oxjob #1098); read before any parser runs
+    biblio = meta_biblio(soup)
 
     # If the caller passed a bare doi.org link, the relative-PDF-URL joiner
     # downstream produces broken hosts like https://doi.org/doi/pdf/... .
@@ -1047,6 +1050,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
         "funding_statement": _statement(response.get("funding_statement"), funding=True),
         "references": references,
         "references_complete": references_complete,
+        # {volume, issue, first_page, last_page} from citation_* / PRISM meta tags, or None (oxjob #1098)
+        "biblio": biblio,
     }
 
     return ordered_response

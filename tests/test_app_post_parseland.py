@@ -18,7 +18,8 @@ from app import app as flask_app
 MINIMAL_HTML = "<html><body><p>hello world</p></body></html>"
 
 EXPECTED_KEYS = {"authors", "urls", "license", "version", "abstract",
-                 "acknowledgments", "funding_statement", "references", "references_complete"}  # #2215
+                 "acknowledgments", "funding_statement", "references", "references_complete",  # #2215
+                 "biblio"}  # #1098
 
 
 @pytest.fixture
