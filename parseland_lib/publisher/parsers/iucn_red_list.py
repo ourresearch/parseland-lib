@@ -13,6 +13,9 @@ do (label-v1), and:
   assessment project ("Global Mammal Assessment") or a role ("terrestrial mollusc assessor") in the parenthetical,
   and none of those is an affiliation (both blind labellers, fresh claimed set, #2330): the name is still split
   off, with no affiliation. A parenthetical naming an organisation is one even beside such words;
+- nor is a placeholder ("N/A", "??"), what the person is ("Bee expert", "Consultant", "Undergraduate student"), or
+  a red list or assessment acronym ("European Red List of Bees", "SRLI", "GAA"): ~14K authors on the 253,780 stored
+  pages, found reading the production pilot (21 Nov);
 - the split is at the last balanced parenthetical, so a group name with its own acronym keeps it
   ("Botanic Gardens Conservation International (BGCI) (Botanic Gardens ... (BGCI), Descanso House, ...)");
 - a tag naming several assessors in citation style ("Van Damme, D. & Ghamizi, M.", ~3% of pages) is split into
@@ -46,17 +49,24 @@ _ORG = re.compile(
     r"|wildlife|commission|national|nacional|biodiversity|natural history|\bngo\b|\bltd\b|\binc\b|company"
     r"|corporation", re.I)
 _ROLE = re.compile(r"\bassessor", re.I)
-_NOT_ORG = re.compile(r"assessment|\bproject\b|^independent\b|\berl\b", re.I)
+# after an organisation word fails: assessment projects and red lists ("European Red List of Bees", "SRLI",
+# "Mediterranean RL of Anthozoa", "GAA, GRA, SRLI"), and what a person is rather than where ("Bee expert",
+# "European Bee Specialist", "Consultant", "Undergraduate student working with SSC Global Trees Group"). An organisation
+# word still wins ("IUCN SSC Shark Specialist Group", "PhD student, University of Oxford"). Second pilot read, 21 Nov.
+_NOT_ORG = re.compile(r"assessment|\bprojects?\b|^independent\b|\berl\b|red list of|\brl of\b|\bsrli\b|\bgaa\b"
+                      r"|\bgra\b|\bexpert|\bspecialist\b|consul?tant|consultor|\bstudent|freelance", re.I)
+# a placeholder, not an affiliation: "N/A", "??", "See Rinchen ??? for contact details"
+_PLACEHOLDER = re.compile(r"^\W*(?:n\.?\s?/?\s?a\.?|none|unknown|not known|tbc|tbd)\W*$|\?\?|contact details", re.I)
 _PLACE_OR_TAXON = set("""
     europe european africa african asia asian america american americas oceania australia australasia pacific atlantic
     indian ocean mediterranean caribbean arctic antarctic north south east west central northern southern eastern
     western global world and the of marsupials reptiles amphibians mammals birds fish fishes freshwater marine plants
     moths butterflies molluscs mollusks snails corals trees cacti insects dragonflies bats primates sharks rays crabs
-    invertebrates fungi lichens mosses""".split())
+    invertebrates fungi lichens mosses med new zealand worldwide azores bony""".split())
 
 
 def _is_affiliation(text):
-    if _ROLE.search(text):
+    if _ROLE.search(text) or _PLACEHOLDER.search(text) or not re.search(r"[^\W\d_]", text):
         return False
     if _ORG.search(text):
         return True
