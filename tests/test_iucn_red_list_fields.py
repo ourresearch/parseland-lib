@@ -137,3 +137,23 @@ def test_names_with_an_ampersand_that_are_not_a_cited_list_stay_whole():
     authors = _authors(_page(["Allen Allison (Global Amphibian, Reptile & Mammal Assessments / Bishop Museum, Hawaii)",
                               "Fauna & Flora International"]))
     assert [a["name"] for a in authors] == ["Allen Allison", "Fauna & Flora International"]
+
+
+def test_placeholders_roles_and_red_lists_are_not_affiliations():
+    # second pilot read (21 Nov): "N/A", "??", what a person is ("Bee expert", "Consultant") and an assessment's own
+    # red list or project ("European Red List of Bees", "SRLI") were being written as affiliations
+    authors = _authors(_page(["Patrick Siro Masinde (N/A)", "A Person (??)", "Stuart Roberts (Bee expert)",
+                              "Ana Nieto (European Red List of Bees)", "Ben Collen (SRLI)", "J Doe (Consultant)",
+                              "K Roe (Undergraduate student working with SSC Global Trees Group)",
+                              "L Poe (Europe & Med)", "M Hoe (11-13 July 2006)", "N Foe (SE Asia & Australia)",
+                              "NatureServe (Red List Partner & Red List Authority)"]))
+    assert [a["name"] for a in authors] == ["Patrick Siro Masinde", "A Person", "Stuart Roberts", "Ana Nieto",
+                                            "Ben Collen", "J Doe", "K Roe", "L Poe", "M Hoe", "N Foe", "NatureServe"]
+    assert all(a["affiliations"] == [] for a in authors)
+
+
+def test_an_organisation_word_still_wins_over_a_role():
+    authors = _authors(_page(["Colin Simpfendorfer (IUCN SSC Shark Specialist Group)",
+                              "M Moe (PhD student, University of Oxford)"]))
+    assert [[f["name"] for f in a["affiliations"]] for a in authors] == [
+        ["IUCN SSC Shark Specialist Group"], ["PhD student, University of Oxford"]]
