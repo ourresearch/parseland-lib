@@ -1,3 +1,4 @@
+import json
 import re
 import unicodedata
 from urllib.parse import unquote
@@ -844,7 +845,8 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     A ScienceDirect page counts only its article's own licence statement (repository records such as Zenodo
     deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), an IEEE Xplore
     page none when its metadata says the article is not open access (else the page without its stylesheets), a Taylor & Francis
-    book page its product's, an ACL Anthology page the footer sentence for the paper's year; any other page is
+    book page its product's, an ACL Anthology page the footer sentence for the paper's year, a Common Ground
+    (cgscholar.com) article page its article's licenseType; any other page is
     searched whole, minus site chrome (kept on hosts whose footer licenses every article). `ojs_page`: the page is an
     Open Journal Systems page (is_ojs_page), whose footer may state the journal's own licence. `journal_footer`: any
     other page's footer may too, in a sentence that names the journal, its articles or its materials (round 7).
@@ -866,6 +868,9 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     escholarship_text = escholarship_item_license_text(page, resolved_url)
     if escholarship_text is not None:
         return escholarship_text
+    cgscholar_text = cgscholar_article_license_text(page, resolved_url)
+    if cgscholar_text is not None:
+        return cgscholar_text
     return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url),
                                        ojs_page=ojs_page, journal_footer=journal_footer)
 
@@ -1160,4 +1165,55 @@ def detect_sd_author_manuscript(soup):
     if bool(soup.find(lambda tag: tag.text == 'View Open Manuscript')):
         return 'open (author manuscript)'
 
+    return None
+
+
+# Common Ground Research Networks article pages (cgscholar.com, DOIs 10.18848/...) are Nuxt pages: the article, with its
+# own licence, is one object in the page's __NUXT_DATA__ array, every value an index into that array:
+#   {"id":..,"title":..,"doi":..,"copyrightStatement":19,"licenseType":20,..,"journalAccessModel":28,..}
+#   ... "© 2026 Common Ground Research Networks. All rights reserved.","all_rights_reserved", ...
+# licenseType is "all_rights_reserved" on a subscription article (its PDF is for sale), "cc_by_nc_nd" or "cc_by_4" on an
+# open one. The same array holds the site's label list for every licence on offer ("Gold Open Access (CC-BY)", "Open
+# Access (CC-BY-NC-ND)"), on every page, so the whole-page search read cc-by-nc-nd on paywalled articles in hybrid
+# journals: 5 of 8 sampled cc-by-nc-nd works were all_rights_reserved with a priced PDF (oxjob #1168, 21 Nov 2026;
+# tickets 27748, 28098). The article's licenseType is its licence.
+_NUXT_DATA = r'<script\b[^>]*\bid="__NUXT_DATA__"[^>]*>(.*?)</script\s*>'
+_CGSCHOLAR_LICENSE_VERSION = r'(?:_\d+(?:_\d+)?)+$'
+
+
+def cgscholar_article_license_text(page, resolved_url=None):
+    """The Common Ground article's own licence, in words ("CC BY-NC-ND"), or '' when its licenseType is
+    all_rights_reserved or empty.
+
+    None when the page is not a cgscholar.com article page carrying that object, so other pages keep the whole-page
+    search.
+    """
+    if not page or '"licenseType"' not in page or '__NUXT_DATA__' not in page or not (
+            'cgscholar.com' in page or (resolved_url and _host_in(resolved_url, ('cgscholar.com',)))):
+        return None
+    m = re.search(_NUXT_DATA, page, re.DOTALL)
+    if m is None:
+        return None
+    try:
+        data = json.loads(m.group(1))
+    except ValueError:
+        return None
+    if not isinstance(data, list):
+        return None
+    for item in data:
+        if not (isinstance(item, dict) and 'licenseType' in item and 'doi' in item and 'journalAccessModel' in item):
+            continue
+        ref = item['licenseType']
+        value = data[ref] if isinstance(ref, int) and 0 <= ref < len(data) else ref
+        if value is None or value == '':
+            return ''
+        if not isinstance(value, str):
+            continue
+        value = value.strip().lower()
+        if value in ('all_rights_reserved', 'none', 'copyright'):
+            return ''
+        words = re.sub(_CGSCHOLAR_LICENSE_VERSION, '', value).split('_')
+        if words[0] == 'cc' and len(words) > 1:
+            return 'CC ' + '-'.join(words[1:]).upper()
+        return value.replace('_', ' ')
     return None
