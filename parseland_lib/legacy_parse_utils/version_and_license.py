@@ -862,6 +862,7 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     if sd_license_text is not None:
         return sd_license_text
     page = drop_dspace_cris_licence_vocabulary(page)
+    page = drop_weko3_search_form(page)
     ieee_open = ieee_article_page(page)
     if ieee_open is False:
         return ''
@@ -930,6 +931,31 @@ def drop_dspace_cris_licence_vocabulary(page):
         page = re.sub(_I18N_LABEL, '', page)
         page = re.sub(_I18N_LABEL_PLAIN, '', page)
     return page
+
+
+# WEKO3 repositories (the JAIRO Cloud sites *.repo.nii.ac.jp, and repo.qst.go.jp, repository.exst.jaxa.jp, ...) put
+# their search form's settings on every record page, in one attribute:
+#   <div ng-init="initData({&#34;condition_setting&#34;: [... {&#34;check_val&#34;: [{&#34;contents&#34;: &#34;CC0&#34;,
+#   &#34;id&#34;: &#34;license_12&#34;}, ... {&#34;contents&#34;: &#34;CC BY-NC-ND 4.0&#34;, &#34;id&#34;: &#34;license_5&#34;},
+#   ...], &#34;contents&#34;: &#34;License&#34;, ...}, ...]})">
+# The licence filter's option list, every licence the form offers, so the whole-page search read the most specific one:
+# every WEKO3 record came out cc-by-nc-nd (690,409 *.repo.nii.ac.jp record pages with a file read cc-by-nc-nd, and
+# no other licence), metadata-only records included, and Walden counts a page's CC licence as an open copy (oxjob
+# #1165; #891 found it for IRDB and dropped the licence in Walden for IRDB items only). A search form is not a
+# statement. The record's own licence is its file's "Creative Commons Licenses" link (<a class="creative-commons"
+# href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.ja">), outside the attribute, and stays. The
+# attribute's quotes are escaped (&#34;), so it ends at the first raw quote; the licence search reads BeautifulSoup's
+# serialisation, which writes it in single quotes with raw double quotes inside (or, when the value holds both kinds,
+# in double quotes with &quot;).
+_WEKO3_SEARCH_FORM = (r'\sng-init=(?:"initData\(\{(?:&#34;|&quot;)condition_setting[^"]*"'
+                      r"|'initData\(\{\"condition_setting[^']*')")
+
+
+def drop_weko3_search_form(page):
+    """The page without a WEKO3 search form's settings attribute (its licence filter lists every licence)."""
+    if not page or 'condition_setting' not in page:
+        return page
+    return re.sub(_WEKO3_SEARCH_FORM, '', page)
 
 
 # eScholarship (escholarship.org) item pages hold the item in the page's JSON with its own licence, alphabetical keys:
