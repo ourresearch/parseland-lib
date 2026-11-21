@@ -854,6 +854,7 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     sd_license_text = sciencedirect_article_license_text(page)
     if sd_license_text is not None:
         return sd_license_text
+    page = drop_dspace_cris_licence_vocabulary(page)
     ieee_open = ieee_article_page(page)
     if ieee_open is False:
         return ''
@@ -873,6 +874,25 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
         return cgscholar_text
     return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url),
                                        ojs_page=ojs_page, journal_footer=journal_footer)
+
+
+# DSpace-CRIS sites keep their Angular app config in the page's TransferState JSON (<script id="dspace-angular-state">,
+# `"` escaped as `&q;`). EPFL Infoscience's config, on every record page, holds the lookup table of its Unpaywall widget:
+#   &q;epflUnpaywallMetadata&q;:{&q;oaire_licenseCondition&q;:{&q;cc_by&q;:&q;CC BY&q;,&q;cc_by_sa&q;:&q;CC BY-SA&q;,...,
+#   &q;cc_by_nc_nd&q;:&q;CC BY-NC-ND&q;,&q;cc_0&q;:&q;CC0&q;,&q;pdm&q;:&q;PDM&q;},&q;oaire_version&q;:{...},...}
+# Every licence in the list, so the whole-page search read the most specific one: every Infoscience record came out
+# cc-by-nc-nd, metadata-only records included, and Walden counts a page's CC licence as an open copy (oxjob #1165,
+# ticket 21970: 208,789 Infoscience pages cc-by-nc-nd; 58 of 73 sampled records have no file). A lookup table is not
+# a statement. The item's own licence is the metadata field `oaire.licenseCondition` (a dot, and a list of values),
+# which stays; the table is the config key with an underscore and an object of labels, and only it goes.
+_LICENCE_VOCABULARY = r'(?:&(?:amp;)?q;|")oaire_licenseCondition(?:&(?:amp;)?q;|")\s*:\s*\{[^{}]*\}'
+
+
+def drop_dspace_cris_licence_vocabulary(page):
+    """The page without a DSpace-CRIS config's licence lookup table (Infoscience's `oaire_licenseCondition` map)."""
+    if not page or 'oaire_licenseCondition' not in page:
+        return page
+    return re.sub(_LICENCE_VOCABULARY, '', page)
 
 
 # eScholarship (escholarship.org) item pages hold the item in the page's JSON with its own licence, alphabetical keys:
