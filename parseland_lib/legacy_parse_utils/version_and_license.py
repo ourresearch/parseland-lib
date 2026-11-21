@@ -846,8 +846,8 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     deposits often resolve to the ScienceDirect page, so the repository path needs the same rule), an IEEE Xplore
     page none when its metadata says the article is not open access (else the page without its stylesheets), a Taylor & Francis
     book page its product's, an ACL Anthology page the footer sentence for the paper's year, a Common Ground
-    (cgscholar.com) article page its article's licenseType; any other page is
-    searched whole, minus site chrome (kept on hosts whose footer licenses every article). `ojs_page`: the page is an
+    (cgscholar.com) article page its article's licenseType, a UNSWorks item page its own dc.rights values; any other
+    page is searched whole, minus site chrome (kept on hosts whose footer licenses every article). `ojs_page`: the page is an
     Open Journal Systems page (is_ojs_page), whose footer may state the journal's own licence. `journal_footer`: any
     other page's footer may too, in a sentence that names the journal, its articles or its materials (round 7).
     """
@@ -872,6 +872,9 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
     cgscholar_text = cgscholar_article_license_text(page, resolved_url)
     if cgscholar_text is not None:
         return cgscholar_text
+    unsworks_license_text = unsworks_item_license_text(page, resolved_url)
+    if unsworks_license_text is not None:
+        return unsworks_license_text
     return page_potential_license_text(page, keep_site_chrome=site_license_covers_articles(resolved_url),
                                        ojs_page=ojs_page, journal_footer=journal_footer)
 
@@ -983,6 +986,36 @@ def taylorfrancis_product_license_text(page):
     if m is None:
         return None
     return '' if m.group(1) == 'null' else m.group(1).replace('&q;', '"')
+
+
+# UNSWorks (unsworks.unsw.edu.au, UNSW's DSpace 7 repository) keeps the item's metadata in Angular TransferState JSON,
+# `"` escaped as `&q;`, one array of values per field:
+#   &q;dc.rights&q;:[{&q;uuid&q;:...,&q;value&q;:&q;CC-BY&q;,...}]          (or "CC BY-NC-ND 3.0", "No Licence")
+#   &q;dc.rights.uri&q;:[{...,&q;value&q;:&q;https://creativecommons.org/licenses/by/4.0/&q;,...}]
+#   &q;dcterms.license&q;:[{...,&q;value&q;:&q;https://creativecommons.org/licenses/by-nc-nd/3.0/au/&q;,...}]
+# dcterms.license is not the item's licence: it reads by-nc-nd/3.0/au on items whose dc.rights says CC BY or
+# "No Licence" (oxjob #1096, ZD 7949: 4 of 5 item pages fetched 17 Nov 2026 carry it, CC BY and "No Licence" items
+# alike; the item's OAI record and its PDF cover state the dc.rights licence). The whole-page search read it as the
+# licence: CC BY items and IEEE / ACS accepted manuscripts marked "No Licence" became cc-by-nc-nd (about 290 such
+# "No Licence" copies served on 17 Nov). So only the item's own dc.rights and dc.rights.uri values are read.
+_UNSWORKS_HOSTS = ('unsworks.unsw.edu.au',)
+_UNSWORKS_ITEM_STATE = 'unsworks.unsw.edu.au/server/api/core/items/'
+_DSPACE7_RIGHTS = r'&q;dc\.rights(?:\.uri)?&q;:\[([^\]]*)\]'  # pattern strings (re caches them)
+_DSPACE7_VALUE = r'&q;value&q;:&q;(.*?)&q;'
+
+
+def unsworks_item_license_text(page, resolved_url=None):
+    """The UNSWorks item's own licence statement (its dc.rights and dc.rights.uri values), '' when it has none.
+
+    None when the page is not a UNSWorks item page, so other pages keep the whole-page search. Stored pages often
+    carry the handle.net address or none, so the item state in the page identifies UNSWorks too.
+    """
+    if not page or '&q;dc.' not in page:
+        return None
+    if _UNSWORKS_ITEM_STATE not in page and not (resolved_url and _host_in(resolved_url, _UNSWORKS_HOSTS)):
+        return None
+    return ' '.join(value for field in re.finditer(_DSPACE7_RIGHTS, page)
+                    for value in re.findall(_DSPACE7_VALUE, field.group(1)))
 
 
 def detect_bronze(soup, resolved_url):
