@@ -988,6 +988,32 @@ def find_sciencedirect_pdf_link(resolved_url, soup, page_with_scripts=None):
     return None
 
 
+# sui generis Verlag (suigeneris-verlag.ch, DOIs 10.38107/NNN): every book page carries the whole catalogue, one
+# div.book_content.content_slug_<NNN> block per book, each with its own "OA-PDF laden" link (a.download_oa). Only
+# the page's div.detail_page_buecher data-book attribute names the page's own book; its og:url is the home page, so
+# a doi.org address sniffs to that. The finder took the first PDF on the page, the newest book's (oa_pdf-080 for
+# every book), and stored parses held another book's PDF (056, 060, 067 -> 078; 015 -> 025; 041 -> 071). A book page
+# gives only its own book's link, or none. Oxjob #937.
+def is_suigeneris_page(resolved_url, soup):
+    og_url = soup.find('meta', attrs={'property': 'og:url'})
+    hosts = [urlparse(resolved_url or '').hostname or '',
+             urlparse(og_url.get('content', '') if og_url else '').hostname or '']
+    return any(h.lower().endswith('suigeneris-verlag.ch') for h in hosts)
+
+
+def find_suigeneris_book_pdf_link(resolved_url, soup):
+    """(True, the page's own book's OA-PDF link or None) for a sui generis book page; (False, None) otherwise."""
+    page = soup.find('div', class_='detail_page_buecher', attrs={'data-book': True})
+    if page is None or not is_suigeneris_page(resolved_url, soup):
+        return False, None
+    book = (page.get('data-book') or '').strip()
+    block = soup.find('div', class_=f'content_slug_{book}') if book else None
+    link = block.find('a', class_='download_oa', href=True) if block is not None else None
+    if link is None or not link['href'].strip():
+        return True, None
+    return True, DuckLink(href=link['href'].strip(), anchor='OA-PDF')
+
+
 def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
     from parseland_lib.publisher.parsers.utp import UniversityOfTorontoPress
     # before looking in links, look in meta for the pdf link
@@ -1003,6 +1029,10 @@ def find_pdf_link(resolved_url, soup, page_with_scripts=None) -> DuckLink:
         sd_link = find_sciencedirect_pdf_link(resolved_url, soup, page_with_scripts)
         if sd_link:
             return sd_link
+
+    is_sg_book_page, sg_link = find_suigeneris_book_pdf_link(resolved_url, soup)
+    if is_sg_book_page:
+        return sg_link
 
     links = [get_pdf_in_meta(page)] + [get_pdf_from_javascript(page_with_scripts or page)] + get_useful_links(page)
     links = [link for link in links if link is not None]
