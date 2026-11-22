@@ -754,6 +754,13 @@ def page_potential_license_text(page, keep_site_chrome=False, ojs_page=False, jo
         "//div[contains(@class, 'media') or contains(@class, 'license')]"
         "[contains(normalize-space(.), 'subscription basis')]"
         "[contains(., 'Accepted Manuscript')][contains(., 'embargo')]",
+        # Worktribe repositories (Durham, UWE, SOAS, Nottingham, Napier, Hull, ...) print an "About" dialog on every
+        # output page crediting the open-source libraries the site uses, one of them Font Awesome's icon licence:
+        # "This application uses the following open-source libraries: ... Font Awesome ... CC BY 3.0
+        # (http://creativecommons.org/licenses/by/3.0/)". Read as the output's licence it made every metadata-only
+        # record cc-by, an open copy (oxjob #1165, ticket 23016: 51,244 Durham pages with no file read cc-by; ~146K
+        # across Worktribe hosts). The output's own licence ("Publisher Licence URL" in its file details) stays.
+        "//div[contains(@class, 'modal')][contains(normalize-space(.), 'uses the following open-source libraries')]",
     ]
     if 'component-table-of-contents' in page:
         # PubFactory book pages (Brill) print the book's table of contents on every chapter page, each chapter with
