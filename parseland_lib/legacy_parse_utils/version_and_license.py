@@ -891,11 +891,38 @@ def license_search_text(page, resolved_url=None, ojs_page=False, journal_footer=
 _LICENCE_VOCABULARY = r'(?:&(?:amp;)?q;|")oaire_licenseCondition(?:&(?:amp;)?q;|")\s*:\s*\{[^{}]*\}'
 
 
+# DSpace 7 pages (Angular SSR, <script id="dspace-angular-state">) also embed the site's translation dictionary in that
+# state: a label per key, among them every licence the submission form or the journal-policy widget can show:
+#   &q;item.page.rights.CCBYNCND40&q;:&q;CC BY-NC-ND 4.0&q;,&q;item.page.rights.cc-by-nc-nd&q;:&q;Except as otherwise
+#   noted, this item is licensed under the Attribution-NonCommercial-NoDerivatives 4.0 International&q;,
+#   &q;journal.page.oapermission.license.cc-by-nc-nd&q;:&q;CC BY-NC-ND&q;,...
+# Read as the record's licence they made every record of the site cc-by-nc-nd (oxjob #1165, ticket 22598: Jagiellonian
+# University's RUJ, 66,870 pages with no file, the record's own dc.rights "Dodaję tylko opis bibliograficzny", i.e.
+# bibliographic description only). A translation label is never the record's statement, so on a DSpace 7 page every
+# label pair (a dotted key and a string) goes; that also takes the deposit agreement's text ("submission.agreement.
+# content.text", which grants CC0 on the metadata at repozytorium.uw.edu.pl). The record's own fields stay: they are
+# lists of value objects
+# (&q;dc.rights.uri&q;:[{...&q;value&q;:&q;http://creativecommons.org/licenses/by/4.0/&q;...}]), not label strings.
+# TransferState escapes & ' < > as &a; &s; &l; &g;.
+_I18N_LABEL = (r'&q;[a-z][\w-]*\.(?:[\w.,-]|&s;)*&q;'
+               r':&q;(?:[^&]|&[asgl];)*&q;')
+# ... which newer DSpace 7 releases write as plain JSON (repozytorium.uw.edu.pl, digitalcollection.zhaw.ch,
+# repositorium.uminho.pt): "item.page.rights.CCBYNCND30":"CC BY-NC-ND 3.0", "licence.cc-by-nc-nd":"CC-BY-NC-ND",
+# "controlledVocabulary.dc.rights.httpscreativecommonsorglicensesby-nc-nd10":"CC BY-NC-ND 1.0: ...".
+_I18N_LABEL_PLAIN = r'"[a-z][\w-]*\.[\w.,\'-]*"\s*:\s*"(?:[^"\\]|\\.)*"'
+
+
 def drop_dspace_cris_licence_vocabulary(page):
-    """The page without a DSpace-CRIS config's licence lookup table (Infoscience's `oaire_licenseCondition` map)."""
-    if not page or 'oaire_licenseCondition' not in page:
+    """The page without a DSpace-CRIS config's licence lookup table (Infoscience's `oaire_licenseCondition` map), and,
+    on a DSpace 7 page, without its translation labels."""
+    if not page:
         return page
-    return re.sub(_LICENCE_VOCABULARY, '', page)
+    if 'oaire_licenseCondition' in page:
+        page = re.sub(_LICENCE_VOCABULARY, '', page)
+    if 'dspace-angular-state' in page:
+        page = re.sub(_I18N_LABEL, '', page)
+        page = re.sub(_I18N_LABEL_PLAIN, '', page)
+    return page
 
 
 # eScholarship (escholarship.org) item pages hold the item in the page's JSON with its own licence, alphabetical keys:
