@@ -12,11 +12,13 @@ _LETTER = re.compile(r"[^\W\d_]")
 _DOI_LINK = re.compile(r"doi\.org/(10\.[^\s?#]+)")
 _REF_NUMBER = re.compile(r"^\[?(\d+)[\].]?$")
 _MORE = re.compile(r"\b(?:show|load|view|see) (?:more|all)\b", re.I)
-_SITE_LINKS = re.compile(r"\[\s*(?:PMID:\s*)?\x00[^\x01]*\x01\s*\]")
+_SITE_LINKS = re.compile(r"\s*\[\s*(?:PMID:\s*)?\x00[^\x01]*\x01\s*\]")
+_LINK_OUT = re.compile(r"doi\.org/|ncbi\.nlm\.nih\.gov/|pubmed|crossref\.org", re.I)
 
 
 def _entry_text(contact):
-    """A reference entry's text without the site's bracketed [DOI] / [PMID: n] links; any other link's text stays."""
+    """A reference entry's text without the site's bracketed [DOI] / [PMID: n] link-outs (a bracketed link to a DOI,
+    PubMed, PMC or Crossref page); any other link's text stays, bracketed or not."""
     parts = []
     for node in contact.children:
         if isinstance(node, Comment):
@@ -24,14 +26,14 @@ def _entry_text(contact):
         if isinstance(node, Tag):
             if node.name == "br":
                 parts.append(" ")
-            elif node.name == "a":
+            elif node.name == "a" and _LINK_OUT.search(node.get("href") or ""):
                 parts.append("\x00" + node.get_text(" ") + "\x01")
             else:
                 parts.append(node.get_text(" "))
         else:
             parts.append(str(node))
-    text = _SITE_LINKS.sub(" ", "".join(parts)).replace("\x00", "").replace("\x01", "")
-    return re.sub(r"\s+;", ";", " ".join(text.split())).strip(" ;")
+    text = _SITE_LINKS.sub("", "".join(parts)).replace("\x00", "").replace("\x01", "")
+    return " ".join(text.split()).strip(" ;")
 
 
 def _on_bentham_site(soup):

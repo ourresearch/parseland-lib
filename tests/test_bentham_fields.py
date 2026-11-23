@@ -173,6 +173,13 @@ def test_link_inside_the_citation_is_kept():
                                            "(Accessed on: 2020).")
 
 
+def test_bracketed_link_that_is_not_a_link_out_is_kept():
+    contact = ('Smith J. Dataset of soils [<a href="https://archive.example.org/item/9">archived record</a>]. 2019.<br> '
+               '[<a target="_blank" href="http://dx.doi.org/10.1000/xyz">http://dx.doi.org/10.1000/xyz</a>]<br>')
+    out = _parsed(_article(" Kenji Okajima and Naoaki Harada ", _box(_ref_line(1, contact))))
+    assert out["references"][0]["raw"] == "Smith J. Dataset of soils [archived record]. 2019."
+
+
 def test_page_without_reference_list():
     out = _parsed(_article(" Kenji Okajima and Naoaki Harada "))
     assert "references" not in out
