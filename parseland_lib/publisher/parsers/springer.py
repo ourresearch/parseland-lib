@@ -636,6 +636,9 @@ class Springer(PublisherParser):
         'bds', 'mds', 'mdcm', 'mb', 'bch', 'mbbch', 'bmbs', 'bmedsci', 'chb', 'dm', 'dpm', 'dvm', 'facs', 'facr', 'fcfp',
         'fccp', 'frcpsych', 'franzcp', 'fracs', 'frcsed', 'fwacs', 'mrcs', 'msci', 'mrcp', 'frcog', 'frcr',
     }
+    # Degrees and titles that are also names: "Zhe Ma", "Md. Habibur Rahman", "Phil Jones". Written as a name
+    # (capital, then lower case) they are the name; "MA", "MD" and "Dr. phil." stay degrees and titles (oxjob #2352).
+    NOTE_NAME_LIKE_TITLE_TOKENS = {'ma', 'md', 'ba', 'phil', 'nat', 'dent'}
 
     @classmethod
     def _note_name_tokens(cls, value):
@@ -643,7 +646,12 @@ class Springer(PublisherParser):
         tokens = set()
         for token in re.findall(r'[^\W\d_]+', value or '', flags=re.UNICODE):
             compact = ''.join(c for c in normalize('NFKD', token) if not combining(c)).casefold()
-            if len(compact) > 1 and compact not in cls.NOTE_TITLE_TOKENS and not cls._is_author_suffix_token(token):
+            if len(compact) < 2:
+                continue
+            is_title = compact in cls.NOTE_TITLE_TOKENS or cls._is_author_suffix_token(token)
+            if is_title and compact in cls.NOTE_NAME_LIKE_TITLE_TOKENS and token[0].isupper() and token[1:].islower():
+                is_title = False
+            if not is_title:
                 tokens.add(compact)
         return tokens
 

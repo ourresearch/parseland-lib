@@ -113,3 +113,25 @@ def test_elsevier_signal_outside_references_still_dispatches():
     assert ElsevierBV(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
     html = '<html><head><meta name="dc.relation" content="https://www.sciencedirect.com/x"/></head><body/></html>'
     assert not ElsevierBV(BeautifulSoup(html, "lxml")).is_publisher_specific_parser()
+
+
+def test_surname_ma_is_a_name_not_the_degree_ma():
+    """10.1007/s11726-026-1593-6 and 10.1007/s10853-015-9625-5: the degree list holds MA, MD and BA, so 'Zhe Ma' kept
+    one token and 'D. C. Ma' none, and the note's 'Zhe Ma or Luyi Wu' named only Luyi Wu."""
+    people = [("Zhe Ma", True), ("Li Chen", False), ("Luyi Wu", True)]
+    note = ('<a href="mailto:a@x.org">Zhe Ma</a> ( 马喆 ) or <a href="mailto:b@x.org">Luyi Wu</a> ( 吴璐一 )')
+    assert _corresponding(_page(people, note)) == ["Zhe Ma", "Luyi Wu"]
+    people = [("D. C. Ma", True), ("Hong Li", False), ("Biao Wang", True)]
+    note = '<a href="mailto:a@x.org">D. C. Ma</a> or <a href="mailto:b@x.org">Biao Wang</a>'
+    assert _corresponding(_page(people, note)) == ["D. C. Ma", "Biao Wang"]
+    people = [("Md. Habibur Rahman", True), ("Md. Masum Billah", False)]
+    assert _corresponding(_page(people, '<a href="mailto:a@x.org">Md. Habibur Rahman</a>')) == ["Md. Habibur Rahman"]
+
+
+def test_degrees_written_as_degrees_still_name_no_one():
+    """'MA' and 'MD' in capitals are degrees: a co-author sharing only the degree is not the noted author."""
+    people = [("Anna Berg MA", False), ("Carl Dahl MA", True)]
+    assert _corresponding(_page(people, '<a href="mailto:c@x.org">Carl Dahl MA</a>')) == ["Carl Dahl MA"]
+    people = [("Robert J. Greenstein MD", True), ("Paul Rowe MD", False)]
+    assert _corresponding(_page(people, '<a href="mailto:r@x.org">Robert J. Greenstein MD</a>, FACS')) == [
+        "Robert J. Greenstein MD"]
