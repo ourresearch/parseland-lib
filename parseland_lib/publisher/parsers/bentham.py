@@ -12,6 +12,26 @@ _LETTER = re.compile(r"[^\W\d_]")
 _DOI_LINK = re.compile(r"doi\.org/(10\.[^\s?#]+)")
 _REF_NUMBER = re.compile(r"^\[?(\d+)[\].]?$")
 _MORE = re.compile(r"\b(?:show|load|view|see) (?:more|all)\b", re.I)
+_SITE_LINKS = re.compile(r"\[\s*(?:PMID:\s*)?\x00[^\x01]*\x01\s*\]")
+
+
+def _entry_text(contact):
+    """A reference entry's text without the site's bracketed [DOI] / [PMID: n] links; any other link's text stays."""
+    parts = []
+    for node in contact.children:
+        if isinstance(node, Comment):
+            continue
+        if isinstance(node, Tag):
+            if node.name == "br":
+                parts.append(" ")
+            elif node.name == "a":
+                parts.append("\x00" + node.get_text(" ") + "\x01")
+            else:
+                parts.append(node.get_text(" "))
+        else:
+            parts.append(str(node))
+    text = _SITE_LINKS.sub(" ", "".join(parts)).replace("\x00", "").replace("\x01", "")
+    return re.sub(r"\s+;", ";", " ".join(text.split())).strip(" ;")
 
 
 def _on_bentham_site(soup):
@@ -110,7 +130,9 @@ class BenthamScience(PublisherParser):
 
     def parse_references(self):
         """Newer article pages print the whole list in #reference-box: one div.line per entry, its number "[n]" in
-        .list-count and its text in .list-contact, followed after a <br> by the site's [DOI] and [PMID] links."""
+        .list-count and its text in .list-contact, each citation followed after a <br> by the site's [DOI] and [PMID]
+        links. An entry can hold several citations ("a) ...; <br>b) ..."), so the entry is the whole .list-contact
+        text with only those bracketed site links taken out (oxjob #2215: cutting at the first <br> kept part a) only)."""
         box = self.soup.find(id="reference-box")
         if box is None:
             return [], False
@@ -119,12 +141,7 @@ class BenthamScience(PublisherParser):
             contact = line.find(class_="list-contact")
             if contact is None:
                 continue
-            parts = []
-            for node in contact.children:
-                if isinstance(node, Tag) and node.name == "br":
-                    break
-                parts.append(node.get_text(" ") if isinstance(node, Tag) else str(node))
-            raw = " ".join("".join(parts).split()) or " ".join(contact.get_text(" ").split())
+            raw = _entry_text(contact)
             if not raw:
                 continue
             count = line.find(class_="list-count")

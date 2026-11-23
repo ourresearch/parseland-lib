@@ -138,6 +138,41 @@ def test_reference_list_with_a_gap_is_not_whole():
     assert out["references_complete"] is False
 
 
+def _ref_line(i, contact):
+    return (f'<div class="line"><a name="r{i}"></a><div class="list-count">[{i}]</div>'
+            f'<div class="list-contact">{contact}</div></div>')
+
+
+def _box(lines):
+    return (f'<div class="card"><button id="refrences"><strong>References</strong></button><div class="collapse">'
+            f'<div class="card-body"><div id="reference-box"><div class="reference">{lines}</div></div></div></div></div>')
+
+
+def test_compound_entry_keeps_every_citation():
+    # chemistry journals print several citations in one numbered entry: a) ...; b) ...; each with its own site links
+    compound = ('a) Donalson, W.A. <i>Tetrahedron</i><i>, </i> <b>2001</b>, <em>57</em>, 8589-8627.<br> '
+                '[<a target="_blank" href="http://dx.doi.org/10.1016/S0040-4020(01)00777-3">'
+                'http://dx.doi.org/10.1016/S0040-4020(01)00777-3</a>]; <br>b) <i>J. Chem. Rev.</i><i>, </i> '
+                '<b>2003</b>, <em>103</em>, 1051-1070.; <br>c) Wessjohann, L.A.; Brandt, W. <i>Chem. Rev.</i><i>, </i> '
+                '<b>2003</b>, <em>103</em>(4), 1625-1648.<br> [<a target="_blank" href="http://dx.doi.org/10.1021/cr0100188">'
+                'http://dx.doi.org/10.1021/cr0100188</a>] [PMID: <a target="_blank" '
+                'href="http://www.ncbi.nlm.nih.gov/pubmed/12683792">12683792</a>]<br>')
+    out = _parsed(_article(" Kenji Okajima and Naoaki Harada ", _box(_ref_line(1, compound))))
+    assert out["references"][0]["raw"] == ("a) Donalson, W.A. Tetrahedron, 2001, 57, 8589-8627.; b) J. Chem. Rev., "
+                                           "2003, 103, 1051-1070.; c) Wessjohann, L.A.; Brandt, W. Chem. Rev., 2003, "
+                                           "103(4), 1625-1648.")
+    assert out["references"][0]["doi"] == "10.1016/S0040-4020(01)00777-3"
+    assert out["references_complete"] is True
+
+
+def test_link_inside_the_citation_is_kept():
+    contact = ('WHO. Global report. Available from: <a href="https://www.who.int/report">https://www.who.int/report</a> '
+               '(Accessed on: 2020).<br>')
+    out = _parsed(_article(" Kenji Okajima and Naoaki Harada ", _box(_ref_line(1, contact))))
+    assert out["references"][0]["raw"] == ("WHO. Global report. Available from: https://www.who.int/report "
+                                           "(Accessed on: 2020).")
+
+
 def test_page_without_reference_list():
     out = _parsed(_article(" Kenji Okajima and Naoaki Harada "))
     assert "references" not in out
