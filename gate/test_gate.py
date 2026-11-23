@@ -15,11 +15,11 @@ from gate.run_parser import shard_rows  # noqa: E402
 from gate.score import cells, other_paper  # noqa: E402
 
 
-def page(pid, cell, right=None, crash=False, dont_care=False, emits=True):
+def page(pid, cell, right=None, crash=False, dont_care=False, emits=True, fields=F.FIELDS):
     right = right or {}
     return {"page_id": pid, "cell": cell, "stratum": "host", "crash": crash, "dont_care": dont_care,
-            "right": {f: right.get(f, True) for f in F.FIELDS},
-            "gold_present": {f: True for f in F.FIELDS}, "cand_present": {f: emits for f in F.FIELDS}}
+            "right": {f: right.get(f, True) for f in fields},
+            "gold_present": {f: True for f in fields}, "cand_present": {f: emits for f in fields}}
 
 
 def run(base, head, baseline=None):
@@ -125,6 +125,95 @@ def test_extra_value_is_wrong():
     cand = {"authors": [{"name": "A B", "affiliations": [], "is_corresponding": False}], "abstract": "x" * 50,
             "pdf_url": "https://x/login.html", "license": "cc-by"}
     assert not any(F.compare(f, gold, cand) for f in ("authors", "abstract", "pdf_url", "license"))
+
+
+def entry(i):
+    return f"{i}. Author{i} A, Writer B. A study of item number {i} in practice. J Things. 20{i:02d};{i}:1-9."
+
+
+def refs(n, complete=True, dois=None, raw=entry):
+    dois = dois or [None] * n
+    return {"references": [{"raw": raw(i), "doi": dois[i]} for i in range(n)], "references_complete": complete}
+
+
+def both(field, gold, cand):
+    return F.compare(field, gold, cand), F.compare(f"{field}_safe" if field == "references" else field, gold, cand)
+
+
+def test_reference_list_rules():
+    """Downstream takes a list only when it is whole: a partial list called whole is wrong (#2215)."""
+    whole, partial, none = refs(5), refs(3, complete=False), {"references": None, "references_complete": False}
+    assert both("references", whole, refs(5)) == (True, True)
+    assert both("references", whole, refs(4)) == (False, False)                    # an entry lost or merged
+    assert both("references", partial, refs(3)) == (False, False)                  # a partial list called whole
+    assert both("references", whole, refs(5, complete=False)) == (False, True)     # a miss, not unsafe
+    assert both("references", partial, refs(2, complete=False)) == (True, True)    # two partial lists: neither used
+    assert F.compare("references", none, partial) and F.compare("references", none, none)
+    assert both("references", none, refs(2)) == (False, False)
+    assert F.present("references", whole) and not F.present("references", partial)
+
+
+def test_reference_entries_and_dois():
+    """Same-count corruption is wrong: blank, cut or key=value entries, and lost or conflicting DOIs (#2215 Test 3)."""
+    dois = [f"10.1/x{i}" for i in range(10)]
+    gold = refs(10, dois=dois)
+    assert both("references", gold, refs(10, dois=[f"https://doi.org/10.1%2FX{i}" for i in range(10)])) == (True, True)
+    assert both("references", gold, refs(10)) == (False, True)                     # every DOI dropped: poorer, safe
+    assert both("references", gold, refs(10, dois=["10.1/x0"] * 10)) == (False, False)  # conflicting DOIs
+    assert both("references", gold, refs(10, dois=dois, raw=lambda i: "")) == (False, False)  # blank entries
+    cut = refs(10, dois=dois, raw=lambda i: entry(i)[:40])
+    assert both("references", gold, cut) == (False, False)                         # entries cut short
+    kv = refs(10, dois=dois, raw=lambda i: f"citation_author=Author{i}; citation_year=20{i:02d}")
+    assert both("references", gold, kv) == (False, False)
+    one_odd = refs(10, dois=dois, raw=lambda i: entry(i) if i else "x")
+    assert both("references", gold, one_odd) == (True, True)                       # >= 90% of entries hold
+    linked = refs(10, dois=dois, raw=lambda i: entry(i) + f" DOI: https://doi.org/10.1/x{i}")
+    assert both("references", gold, linked) == (True, True)                        # link text in the entry is fine
+
+
+def test_statement_rules():
+    g = {"acknowledgments": "Acknowledgments: We thank the staff of the archive for their help with the records.",
+         "funding_statement": "Funding: This work was funded by the National Science Foundation (grant 1234567)."}
+    assert F.compare("acknowledgments", g, {"acknowledgments": "We thank the staff of the archive for their help "
+                                                               "with the records."})
+    assert not F.compare("acknowledgments", g, {"acknowledgments": "We thank the staff."})
+    assert not F.compare("acknowledgments", g, {"acknowledgments": None})
+    assert not F.compare("acknowledgments", g, {"acknowledgments": "Acknowledgments"})  # a heading alone is nothing
+    assert F.norm_statement("Funding:") is None and F.norm_statement("Funding") is None
+    assert F.compare("funding_statement", g, {"funding_statement": "This work was funded by the National Science "
+                                                                   "Foundation (grant 1234567)."})
+    assert not F.compare("funding_statement", g, {"funding_statement": "This work was funded by the National Science "
+                                                                       "Foundation (grant 1234568)."})
+    assert F.compare("funding_statement", {"funding_statement": None}, {"funding_statement": "  "})
+
+
+def test_doi_forms():
+    assert F.norm_doi("doi:https://doi.org/10.1/A") == F.norm_doi("//dx.doi.org/10.1%2Fa") == "10.1/a"
+    assert F.norm_doi(None) is None and F.norm_doi("") is None
+
+
+def test_lock_pins_both_splits():
+    lk = corpus.lock()
+    assert {"dev", "holdout"} <= set(lk) and lk["holdout"]["encrypted"] and not lk["dev"]["encrypted"]
+
+
+def test_pages_are_judged_on_their_own_fields():
+    """Back matter is scored only where the gold labelled it; cells and rules run over each page's own fields."""
+    base = [page(f"p{i}", "springer.com", fields=F.ALL_FIELDS) for i in range(6)] + [
+        page(f"q{i}", "x.com") for i in range(6)]
+    head = [page(f"p{i}", "springer.com", {"references": i >= 2}, fields=F.ALL_FIELDS) for i in range(6)] + base[6:]
+    c = cells(head)
+    assert c["springer.com|references"] == {"n": 6, "right": 4, "gold_present": 6, "cand_present": 6, "true_pos": 4}
+    assert "x.com|references" not in c and c["*|references"]["n"] == 6 and c["*|authors"]["n"] == 12
+    res = run(base, head)
+    assert res["verdict"] == "refuse" and res["reasons"][0].startswith("springer.com references: 2 pages worse")
+    assert res["fields"]["references"] == {"n": 6, "gold_present": 6, "before": 6, "after": 4}
+
+
+def test_runs_scoring_different_fields_error():
+    base = [page("p0", "x.com")]
+    head = [page("p0", "x.com", fields=F.ALL_FIELDS)]
+    assert run(base, head)["verdict"] == "error"
 
 
 def test_shards_cover_every_page_once_and_balance_by_size():

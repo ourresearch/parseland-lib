@@ -5,9 +5,9 @@ Every push to `main` now runs this gate before the ECS deploy, and the deploy ha
 `oxjobs/plans/landing-pages.md`). Two parts:
 
 1. **Unit tests, offline.** `pytest tests` with the network off. Besides the hand-written tests, every page of the
-   frozen **dev corpus** (~1,900 stored landing pages with gold labels) is a test: each page x field is pinned to
+   frozen **dev corpus** (~4,000 stored landing pages with gold labels) is a test: each page x field is pinned to
    `gate/known_failures.json`.
-2. **The sealed holdout.** ~1,900 other stored pages whose gold no improvement session ever sees. CI parses them with
+2. **The sealed holdout.** ~2,000 other stored pages whose gold no improvement session ever sees. CI parses them with
    this commit and with the commit now running in ECS, scores both against the gold, and refuses the deploy when a
    field gets worse on a publisher beyond noise (rules below). It prints counts per publisher x field only.
 
@@ -58,6 +58,12 @@ baseline; the unit test for such a dev page skips. Both the gate summary and `le
 Only the crash rule still sees them. Lanes never change gate rules: the charter session decides, #1791 implements.
 Fields: authors (names, order), affiliations (strings per author, strict), corresponding author, abstract (>= 0.90
 similarity), PDF link (canonical URL), licence (Parseland's slugs). A value the gold doesn't have counts as wrong.
+**Back matter (since v1.7, #2215's keys):** acknowledgments and funding statement (>= 0.90 similarity after dropping a
+leading heading word) and references: right when `references_complete` is what the gold says and, when the gold's
+list is whole, the entry count is the same and no entry's DOI conflicts with the gold's. Downstream takes only whole
+lists, so a partial list called whole is wrong and two partial lists are right. A page is scored on the fields its
+gold row lists (`"fields"`); the back matter is scored on the 1,997 random dev pages (pooled cell `random`) and on
+every holdout page, in the holdout's usual publisher cells, under the same rules as the six.
 
 ## Rules for sessions
 
@@ -90,6 +96,8 @@ similarity), PDF link (canonical URL), licence (Parseland's slugs). A value the 
 | v1.3 (25 Oct) | **attribute-held data is page data**: the views now carry attributes whose name, or whose element's name, says author, affiliation, corresponding, abstract, licence, ORCID or email (De Gruyter `<contributor-popdown affiliations= email=>`, Emerald `corresp="yes"`, JATS `<corresp>`). The 98 pages whose view changed were re-labelled (selected by page bytes only); 14 values moved. Plus a **current-template stratum**: 50 pages each of ACS and RSC on Silverchair, MDPI's Nuxt front end and Frontiers' V4 template (normal harvest since 1 Sep; none from #1802's pilot or #1805's fixtures), split dev/holdout by the corpus rule; cells `template:<name>`. |
 | v1.4 (16 Nov) | **An OJS journal's footer licence is the article's licence** (charter § 6 2026-11-16 09:30): on an Open Journal Systems page, a footer sentence that licenses the journal, "this work" or its articles under a Creative Commons (or other named open) licence counts, unless the page states a different licence for the article. Still none: a badge or bare link alone, a footer naming two different licences, a site-, content- or metadata-only statement, another journal's name. Every OJS page (generator tag or PKP markup: dev 227, holdout 199) was read by #1791 and re-checked by Opus 5.5; 24 licence cells moved (dev 17, holdout 7): 23 from none to the footer's licence, 1 (a footer naming two licences) to none. Non-OJS footers stay excluded (f77943e). |
 | v1.5 (16 Nov) | Three disputes ruled, 14 cells (dev 9, holdout 5). **IOP's author e-mail is its corresponding mark** (charter § 6 2026-11-10 20:40, #2146): an e-mail shown for some authors but not all, in an author card or the 'Author e-mails' block, marks that author; one shown for every author still isn't (dev 8, holdout 4). **World Scientific's 'The following sections are included:' list is a stand-in, not an abstract** (charter § 6 2026-10-24 14:17; dev 1). **A whole-site footer licence counts on the ACL Anthology** (the exception for whole-site hosts in charter § 6 2026-11-16 09:30): the paper's year picks the sentence (holdout 1; the gold had its two ACL pages both ways). |
+| v1.6 (17 Nov) | Footer licences under charter § 6 2026-11-17 08:20: on OJS a footer line naming one licence counts with or without a subject; off OJS a footer sentence naming the journal counts. Every licence-none page in scope read by page bytes (dev 177, holdout 169); 4 dev cells moved, 0 holdout. |
+| v1.7 (23 Nov) | **Back-matter cells** (acknowledgments, funding statement, references; #2215). Dev gains 1,997 random stored pages labelled for them by #2239 (label-v2: this gate's rubric plus #2215's contract, same two-pass method), scored on the back matter only. The holdout's back matter was labelled on its own 1,994 sealed pages with the same labeller, with wider page views (400K / 300K characters) so long reference lists aren't cut; the six fields keep their gold. |
 
 Disputes are ruled in `disputes.ndjson` (`ruling` field) and land in the next gold version.
 

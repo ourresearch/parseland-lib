@@ -9,6 +9,7 @@ already scored (s3://openalex-parseland-gate/runs/<sha>/head_scores.ndjson, same
 from __future__ import annotations
 
 import argparse
+import collections
 import datetime
 import json
 import os
@@ -18,31 +19,39 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from gate import corpus  # noqa: E402
 from gate import fields as F  # noqa: E402
-from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
+from gate.score import cells, fields_of, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
 from gate.shard import parse_and_score  # noqa: E402
 
 SHORT = {"authors": "authors", "affiliations": "affil.", "corresponding": "corresp.", "abstract": "abstract",
-         "pdf_url": "PDF", "license": "licence"}
+         "pdf_url": "PDF", "license": "licence", "acknowledgments": "ack.", "funding_statement": "funding",
+         "references": "whole refs", "references_safe": "refs safe"}
 
 
 def table(c, results, op):
     results = scored(results)  # pages of a different paper are don't-care (charter § 6, 24 Oct 2026)
-    hosts = sorted({r["cell"] for r in results if r["stratum"] == "host"},
-                   key=lambda h: -c[f"{h}|authors"]["n"])
-    pooled = ["tail", "repository", "unresolved", "wall"]
+    cols = fields_of(results)
+    size = collections.Counter(r["cell"] for r in results)
+    size["*"] = len(results)
+    hosts = sorted({r["cell"] for r in results if r["stratum"] == "host"}, key=lambda h: -size[h])
+    pooled = ["tail", "repository", "unresolved", "wall", "random"]
     tmpl = sorted({r["cell"] for r in results if r["stratum"] == "template"})
     fail = sorted({r["cell"] for r in results if r["stratum"] == "failure"})
-    head = "| Publisher (holdout pages) | Pages | " + " | ".join(SHORT[f] for f in F.FIELDS) + " |"
-    lines = [head, "|---|" + "---:|" * (len(F.FIELDS) + 1)]
-    for h in hosts + [p for p in pooled if f"{p}|authors" in c] + tmpl + fail + ["*"]:
-        n = c[f"{h}|authors"]["n"]
+    head = "| Publisher (holdout pages) | Pages | " + " | ".join(SHORT.get(f, f) for f in cols) + " |"
+    lines = [head, "|---|" + "---:|" * (len(cols) + 1)]
+    for h in hosts + [p for p in pooled if p in size] + tmpl + fail + ["*"]:
+        n = size[h]
         name = {"*": "**all holdout pages**", "tail": "long tail (pooled)", "repository": "repository pages",
-                "unresolved": "unresolved older pages", "wall": "walls and shells"}.get(h, h)
+                "unresolved": "unresolved older pages", "wall": "walls and shells",
+                "random": "random pages (pooled)"}.get(h, h)
         lines.append(f"| {name} | {n} | " + " | ".join(
-            f"{round(100 * c[f'{h}|{f}']['right'] / n)}" for f in F.FIELDS) + " |")
+            f"{round(100 * c[f'{h}|{f}']['right'] / c[f'{h}|{f}']['n'])}" if f"{h}|{f}" in c else "-"
+            for f in cols) + " |")
     lines.append("")
     lines.append("% of pages where Parseland's value matches the gold (absent-and-absent counts as right; an extra "
-                 "value counts as wrong).")
+                 "value counts as wrong). Back matter (ack., funding, whole refs, refs safe) is scored only on pages "
+                 "labelled for it (corpus v1.7): whole refs = called whole exactly when the gold's list is, and then "
+                 "the same entries and DOIs; refs safe = no list called whole that isn't the gold's whole list "
+                 "(rules in gate/fields.py).")
     lines.append("")
     lines.append(other_paper_line(op) + ".")
     return "\n".join(lines)

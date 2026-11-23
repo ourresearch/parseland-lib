@@ -12,6 +12,22 @@ A "record" is {"authors": [{"name", "affiliations": [str], "is_corresponding"}],
   pdf_url         both absent, or the candidate equals the gold link or one of its alternates (canonicalised)
   license         same slug ("none" when absent)
 
+The back matter (#2215's output contract; scored since corpus v1.7, only on pages whose gold row lists them in
+"fields", see score.py):
+
+  acknowledgments    both absent, or similarity >= 0.90 after folding and dropping a leading heading word, and the
+                     same digit-bearing tokens (grant numbers, years: a one-digit change scores ~0.99)
+  funding_statement  same rule
+  references         both lists called whole or both not (downstream takes a list only when it is whole, so a
+                     partial list called whole is wrong, and two partial lists are right whatever their entries);
+                     when both are whole: the same number of entries, >= 90% of entries holding the gold entry's
+                     first and last 20 letters and digits (links and DOIs dropped; the gold is a model's
+                     transcription, so formatting differs), no entry DOI that conflicts with the gold's, and >= 90% of
+                     the gold's entry DOIs given
+  references_safe    the precision side: right unless the candidate calls a list whole that isn't the gold's whole
+                     list (as above, without the DOI share). A page wrong on references both before and after can
+                     still turn unsafe; this field counts that as a loss, and wins on references never offset it.
+
 Unlike June's scorer, a value the gold doesn't have counts as wrong (no dropped rows), and empty-vs-empty is
 "right" but reported separately (see presence()).
 """
@@ -25,6 +41,13 @@ from urllib.parse import unquote, urljoin, urlsplit
 from rapidfuzz import fuzz
 
 FIELDS = ["authors", "affiliations", "corresponding", "abstract", "pdf_url", "license"]
+# #2215's keys, scored where the gold has them; references_safe is the precision side of references (see compare())
+BACK_MATTER = ["acknowledgments", "funding_statement", "references", "references_safe"]
+ALL_FIELDS = FIELDS + BACK_MATTER
+# the label keys a back-matter field reads: a gold row vouching for the field must carry them (score.page_fields)
+GOLD_KEYS = {"acknowledgments": ["acknowledgments"], "funding_statement": ["funding_statement"],
+             "references": ["references", "references_complete"],
+             "references_safe": ["references", "references_complete"]}
 LICENSES = {"cc-by", "cc-by-sa", "cc-by-nd", "cc-by-nc", "cc-by-nc-sa", "cc-by-nc-nd", "public-domain",
             "publisher-specific-oa", "other-oa", "unspecified-oa"}
 ABSTRACT_MIN = 0.90
@@ -155,7 +178,86 @@ def norm_abstract(s):
     return s or None
 
 
+STATEMENT_HEADING = re.compile(
+    r"^(acknowledge?ments?|funding( information| statement| sources?)?|financial support)(?:[\s:.-]+|$)")
+DIGIT_TOKEN = re.compile(r"\S*\d\S*")
+
+
+def norm_statement(s):
+    """Acknowledgments or funding text, folded, without a leading heading word (as #2239's scorer, work/newfields.py);
+    a heading alone is no statement."""
+    return STATEMENT_HEADING.sub("", fold(s if isinstance(s, str) else "")) or None
+
+
+def digit_tokens(s):
+    """Grant numbers, years and other digit-bearing tokens, punctuation dropped: the facts a 0.90 ratio can miss."""
+    return sorted(re.sub(r"[^\w]+", "", t) for t in DIGIT_TOKEN.findall(s or ""))
+
+
+DOI_PREFIX = re.compile(r"^(?:doi:\s*)?(?:(?:https?:)?//(?:dx\.)?doi\.org/)?")
+
+
+def norm_doi(d):
+    d = fold(unquote(d)) if isinstance(d, str) else ""
+    return DOI_PREFIX.sub("", d).strip() or None
+
+
+ALNUM = re.compile(r"[^0-9a-z]+")
+LINKS = re.compile(r"(?:https?://|www\.|doi:\s*)\S*")
+ENTRY_ENDS = 20  # alphanumerics compared at each end of an entry
+ENTRIES_RIGHT = 0.9  # share of entries whose text and DOI must hold for a whole list to be right
+DOI_RECALL = 0.9  # share of the gold's entry DOIs the candidate must give at the same positions
+
+
+def entry_key(raw):
+    """An entry's text as letters and digits only, links and DOIs dropped (they're checked on their own)."""
+    return ALNUM.sub("", LINKS.sub(" ", fold(raw if isinstance(raw, str) else "")))
+
+
+def entry_match(g, c) -> bool:
+    """The candidate entry holds the gold entry's first and last alphanumerics: a cut entry ("a) ...; b) ..." kept to
+    a)), an entry run into the next, markup or key=value text in place of the entry all miss (#2215 Test 3)."""
+    x, y = entry_key(g.get("raw")), entry_key(c.get("raw"))
+    if not x:
+        return True  # the gold entry is a link or DOI alone: its DOI decides
+    return x[:ENTRY_ENDS] in y and x[-ENTRY_ENDS:] in y
+
+
+def whole_list(rec: dict) -> list | None:
+    """The record's reference list if it is called whole, else None (downstream takes only whole lists; parse_page
+    never calls an empty list whole)."""
+    refs = rec.get("references")
+    return refs if rec.get("references_complete") is True and isinstance(refs, list) and refs else None
+
+
+def lists_match(g: list, c: list, doi_recall: bool = True) -> bool:
+    """Same entry count, >= 90% of entries holding the gold entry's text, no DOI that differs from the gold's at the
+    same position, and (doi_recall) >= 90% of the gold's entry DOIs given."""
+    if len(g) != len(c):
+        return False
+    gd = [norm_doi(a.get("doi")) for a in g]
+    cd = [norm_doi(b.get("doi")) for b in c]
+    if any(x and y and x != y for x, y in zip(gd, cd)):
+        return False
+    if doi_recall and any(gd) and sum(1 for x, y in zip(gd, cd) if x and x == y) < DOI_RECALL * sum(map(bool, gd)):
+        return False
+    return sum(entry_match(a, b) for a, b in zip(g, c)) >= ENTRIES_RIGHT * len(g)
+
+
 def compare(field: str, gold: dict, cand: dict) -> bool:
+    if field in ("acknowledgments", "funding_statement"):
+        x, y = norm_statement(gold.get(field)), norm_statement(cand.get(field))
+        if not x or not y:
+            return not x and not y
+        return fuzz.ratio(x, y) / 100 >= ABSTRACT_MIN and digit_tokens(x) == digit_tokens(y)
+    if field in ("references", "references_safe"):
+        g, c = whole_list(gold), whole_list(cand)
+        if field == "references_safe" and c is None:
+            return True  # nothing called whole: nothing unsafe to ingest
+        if g is None or c is None:
+            return g is None and c is None
+        # a whole list missing some entry DOIs is a poorer ingest, not a wrong one: safety doesn't ask for them
+        return lists_match(g, c, doi_recall=field == "references")
     ga, ca = gold.get("authors") or [], cand.get("authors") or []
     if field == "authors":
         return len(ga) == len(ca) and all(name_match(g["name"], c["name"]) for g, c in zip(ga, ca))
@@ -207,7 +309,17 @@ def present(field: str, rec: dict) -> bool:
         "abstract": bool(norm_abstract(rec.get("abstract"))),
         "pdf_url": bool(rec.get("pdf_url")),
         "license": norm_license(rec.get("license")) != "none",
+        "acknowledgments": bool(norm_statement(rec.get("acknowledgments"))),
+        "funding_statement": bool(norm_statement(rec.get("funding_statement"))),
+        "references": whole_list(rec) is not None,  # present = a whole list, the only kind downstream takes
+        "references_safe": whole_list(rec) is not None,
     }[field]
+
+
+def _refs(refs):
+    if not isinstance(refs, list):
+        return None
+    return [{"raw": r.get("raw") or "", "doi": r.get("doi")} for r in refs if isinstance(r, dict)]
 
 
 def from_label(label: dict) -> dict:
@@ -220,6 +332,10 @@ def from_label(label: dict) -> dict:
         "pdf_url": label.get("pdf_url"),
         "pdf_alternates": label.get("pdf_url_alternates") or [],
         "license": label.get("license"),
+        "acknowledgments": label.get("acknowledgments"),
+        "funding_statement": label.get("funding_statement"),
+        "references": _refs(label.get("references")),
+        "references_complete": label.get("references_complete") is True,
     }
 
 
@@ -233,6 +349,10 @@ def from_parseland(out: dict) -> dict:
         "abstract": out.get("abstract"),
         "pdf_url": pdf,
         "license": out.get("license"),
+        "acknowledgments": out.get("acknowledgments"),
+        "funding_statement": out.get("funding_statement"),
+        "references": _refs(out.get("references")),
+        "references_complete": out.get("references_complete") is True,
     }
 
 

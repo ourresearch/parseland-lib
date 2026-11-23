@@ -4,6 +4,10 @@ Usage: python gate/score.py --corpus <bundle dir> --parsed parsed.ndjson --out s
 Each output line: {"page_id", "cell", "stratum", "page_kind", "dont_care": bool, "right": {field: bool},
                    "gold_present": {...}, "cand_present": {...}, "crash": bool, "ms": float}
 
+Which fields a page is scored on comes from its gold row's "fields" (corpus v1.7): the six original fields when the
+row has none; the back matter (acknowledgments, funding_statement, references) only where the gold labelled it. So
+"right" holds the fields that page is judged on, and every count below runs over each row's own fields.
+
 Don't-care pages (charter plans/landing-pages.md § 6, 24 Oct 12:58 CT): a stored page the gold marks as showing a
 different paper (page_kind "different_item", e.g. a DOI one digit off) is a fetch error the parser can't see. Its row
 keeps the raw right/wrong, but "dont_care" is set and no count the gate or the ledger judges on includes it (cells(),
@@ -48,6 +52,25 @@ def cell_of(m):
     return m["stratum"]
 
 
+def page_fields(gold_row):
+    """The fields this page's gold vouches for, in F.ALL_FIELDS order: the row's "fields", or the six original fields
+    when it has none. A row naming an unknown field, no field, or a field whose gold keys are missing stops the run."""
+    want = gold_row.get("fields", F.FIELDS)
+    pid = gold_row["page_id"][:8]
+    if not want or set(want) - set(F.ALL_FIELDS):
+        raise SystemExit(f"gold row {pid}: bad fields {want}")
+    missing = [k for f in want for k in F.GOLD_KEYS.get(f, []) if k not in gold_row["gold"]]
+    if missing:
+        raise SystemExit(f"gold row {pid} vouches for back matter but lacks {sorted(set(missing))}")
+    return [f for f in F.ALL_FIELDS if f in want]
+
+
+def fields_of(results):
+    """Every field any row is scored on, in F.ALL_FIELDS order."""
+    seen = {f for r in results for f in r["right"]}
+    return [f for f in F.ALL_FIELDS if f in seen]
+
+
 def score_corpus(corpus, parsed_path):
     man = {m["page_id"]: m for m in load_ndjson(os.path.join(corpus, "manifest.ndjson"))}
     gold = {g["page_id"]: g for g in load_ndjson(os.path.join(corpus, "gold.ndjson"))}
@@ -59,12 +82,13 @@ def score_corpus(corpus, parsed_path):
         g = F.from_label(gold[pid]["gold"])
         c = F.from_parseland(p["out"]) if p.get("out") else dict(EMPTY)
         kind = gold[pid]["gold"].get("page_kind")
+        fields = page_fields(gold[pid])
         out.append({
             "page_id": pid, "cell": cell_of(man[pid]), "stratum": man[pid]["stratum"],
             "page_kind": kind, "dont_care": kind in DONT_CARE_KINDS,
-            "right": {f: F.compare(f, g, c) for f in F.FIELDS},
-            "gold_present": {f: F.present(f, g) for f in F.FIELDS},
-            "cand_present": {f: F.present(f, c) for f in F.FIELDS},
+            "right": {f: F.compare(f, g, c) for f in fields},
+            "gold_present": {f: F.present(f, g) for f in fields},
+            "cand_present": {f: F.present(f, c) for f in fields},
             "crash": bool(p.get("error")), "ms": p.get("ms"),
         })
     return out
@@ -78,12 +102,12 @@ def scored(results):
 def other_paper(results):
     """Don't-care pages, reported apart: {"pages", "emits": {field: pages where Parseland emits a value}, "crash"}."""
     dc = [r for r in results if r.get("dont_care")]
-    return {"pages": len(dc), "emits": {f: sum(bool(r["cand_present"][f]) for r in dc) for f in F.FIELDS},
+    return {"pages": len(dc), "emits": {f: sum(bool(r["cand_present"].get(f)) for r in dc) for f in fields_of(dc)},
             "crash": sum(bool(r["crash"]) for r in dc)}
 
 
 def other_paper_line(o, label="Pages of a different paper (gold page_kind different_item; don't-care, not scored)"):
-    emits = ", ".join(f"{f} {o['emits'][f]}" for f in F.FIELDS)
+    emits = ", ".join(f"{f} {n}" for f, n in o["emits"].items()) or "nothing"
     return f"{label}: {o['pages']} pages; Parseland emits a value on: {emits}" + (
         f"; {o['crash']} crash" if o.get("crash") else "")
 
@@ -93,7 +117,7 @@ def cells(results):
     Don't-care pages are left out."""
     agg = collections.defaultdict(lambda: collections.Counter())
     for r in scored(results):
-        for f in F.FIELDS:
+        for f in r["right"]:
             for key in ((r["cell"], f), ("*", f)):
                 a = agg[key]
                 a["n"] += 1
@@ -117,5 +141,5 @@ if __name__ == "__main__":
         json.dump(cells(res), open(a.cells, "w"), indent=1)
     sc = scored(res)
     tot = sum(sum(r["right"].values()) for r in sc)
-    print(f"scored {len(sc)} pages: {tot}/{len(sc) * len(F.FIELDS)} page-fields right", file=sys.stderr)
+    print(f"scored {len(sc)} pages: {tot}/{sum(len(r['right']) for r in sc)} page-fields right", file=sys.stderr)
     print(other_paper_line(other_paper(res)), file=sys.stderr)

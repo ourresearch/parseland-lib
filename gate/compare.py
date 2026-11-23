@@ -10,6 +10,9 @@ Pages of a different paper (gold page_kind "different_item": the stored page sho
 for every field (charter § 6, 24 Oct 2026): no rule counts them, the summary reports them on a separate line, and only
 the crash rule still sees them (a crash is a code fault whatever the page shows).
 
+Each page is judged on the fields its gold row vouches for (score.py; the back matter on pages labelled for it, since
+corpus v1.7); the rules above apply to every field alike, the back matter included.
+
 A "loss" is a page that was right and is now wrong; a "win" the reverse. Parseland is deterministic, so a flip is a
 real output change; one lone loss passes (it can be a gold error or a one-off page) and is reported.
 Output is counts per cell only, never page ids, URLs or values: this runs in a public repo's CI.
@@ -28,7 +31,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gate import fields as F  # noqa: E402
-from gate.score import cells, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
+from gate.score import cells, fields_of, load_ndjson, other_paper, other_paper_line, scored  # noqa: E402
 
 CELL_MIN_LOSSES = 2
 POOLED_MAX_NET_LOSS = 3
@@ -40,6 +43,9 @@ def decide(base, head, baseline=None):
     h = {r["page_id"]: r for r in head}
     if set(b) != set(h):
         return {"verdict": "error", "reasons": [f"runs differ: {len(set(b) ^ set(h))} pages not in both"]}
+    differ = sum(h[pid]["right"].keys() != b[pid]["right"].keys() for pid in h)
+    if differ:  # e.g. production's saved scores from before a gold version added fields
+        return {"verdict": "error", "reasons": [f"runs score different fields on {differ} pages: rescore both"]}
     # don't-care pages: flagged by the scorer on either run (both runs score the same gold); flag both runs alike
     dc = {pid for pid in h if h[pid].get("dont_care") or b[pid].get("dont_care")}
     base = [dict(r, dont_care=r["page_id"] in dc) for r in base]
@@ -52,7 +58,7 @@ def decide(base, head, baseline=None):
         new_crashes += hr["crash"] and not br["crash"]
         if pid in dc:
             continue
-        for f in F.FIELDS:
+        for f in hr["right"]:
             if hr["right"][f] == br["right"][f]:
                 continue
             k = "wins" if hr["right"][f] else "losses"
@@ -83,6 +89,9 @@ def decide(base, head, baseline=None):
     return {"verdict": "refuse" if reasons else "pass", "reasons": reasons, "changed_cells": rows,
             "pooled": {f: dict(v) for f, v in pooled.items()}, "new_crashes": new_crashes,
             "pages": len(scored(head)), "baseline_drops": drops,
+            "fields": {f: {"n": hc[f"*|{f}"]["n"], "gold_present": hc[f"*|{f}"]["gold_present"],
+                           "before": bc[f"*|{f}"]["right"], "after": hc[f"*|{f}"]["right"]}
+                       for f in fields_of(scored(head))},
             "other_paper": {"before": other_paper(base), "after": other_paper(head)},
             "right_total": {"before": sum(sum(r["right"].values()) for r in scored(base)),
                             "after": sum(sum(r["right"].values()) for r in scored(head))}}
@@ -102,6 +111,13 @@ def markdown(res, override=None):
     if op and op["after"]["pages"]:
         lines += ["", other_paper_line(op["after"], "Pages of a different paper (don't-care, not scored), this commit"),
                   "", other_paper_line(op["before"], "Same pages, production")]
+    if res.get("fields"):
+        lines += ["", "| Field | Pages | Gold has a value | Right in production | Right with this commit |",
+                  "|---|---|---|---|---|"]
+        lines += [f"| {f} | {v['n']} | {v['gold_present']} | {v['before']} | {v['after']} |"
+                  for f, v in res["fields"].items()]
+        lines += ["", "Back matter (#2215): references = a whole list matching the gold's; references_safe = no list "
+                      "called whole that isn't the gold's whole list. Gold has a value: for references, a whole list."]
     if res.get("reasons"):
         lines += ["", "**Why:**"] + [f"- {r}" for r in res["reasons"]]
     if res.get("changed_cells"):
