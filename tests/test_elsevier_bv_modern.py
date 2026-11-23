@@ -368,6 +368,49 @@ def test_cell_press_portal_skips_when_aff_count_mismatches():
         assert a.affiliations == []
 
 
+
+CELL_PRESS_PORTAL_WITH_INSTITUTION_METAS = """
+<html>
+  <head>
+    <meta name="citation_author" content="Ana Ruiz" />
+    <meta name="citation_author_institution" content="Hospital Uno, Madrid, Spain" />
+    <meta name="citation_author" content="Tomas Ferrer" />
+    <meta name="citation_author_institution" content="Instituto Dos, Valencia, Spain" />
+    <meta name="citation_author" content="Lia Costa" />
+    <meta name="citation_author_institution" content="Hospital Uno, Madrid, Spain" />
+  </head>
+  <body>
+    <div class="core-author-affiliations">Affiliations Hospital Uno, Madrid, Spain</div>
+    <span class="corresponding-author">Tomas Ferrer , MD</span>
+    <div class="core-author-affiliations">Affiliations Instituto Dos, Valencia, Spain</div>
+    <div class="core-author-affiliations">Affiliations Hospital Uno, Madrid, Spain</div>
+  </body>
+</html>
+"""
+
+
+def test_cell_press_portal_reads_ca_span_when_metas_give_affiliations():
+    """Portal pages that also carry citation_author_institution metas keep the
+    meta affiliations, and their <span class="corresponding-author"> still
+    marks the corresponding author (oxjob #2288: the span step used to be
+    skipped with the affiliation step, so these pages flagged no one)."""
+    soup = BeautifulSoup(CELL_PRESS_PORTAL_WITH_INSTITUTION_METAS, "lxml")
+    authors = ElsevierBV(soup).parse()["authors"]
+    assert [a.name for a in authors] == ["Ana Ruiz", "Tomas Ferrer", "Lia Costa"]
+    assert [a.is_corresponding for a in authors] == [False, True, False]
+    assert authors[1].affiliations == ["Instituto Dos, Valencia, Spain"]
+
+
+def test_cell_press_portal_ca_span_without_matching_aff_count():
+    """The corresponding-author span is read even when the affiliation blocks
+    don't line up with the authors (affiliations stay empty)."""
+    html = CELL_PRESS_COUNT_MISMATCH.replace(
+        "<body>", '<body><span class="corresponding-author">B. Two</span>'
+    )
+    authors = ElsevierBV(BeautifulSoup(html, "lxml")).parse()["authors"]
+    assert [a.is_corresponding for a in authors] == [False, True, False]
+    assert all(a.affiliations == [] for a in authors)
+
 MULTIPLE_AUTHOR_GROUPS = """
 <html><body>
 <div class="author-group">
@@ -701,3 +744,24 @@ def test_description_meta_does_not_replace_compact_body_abstract():
     soup = BeautifulSoup(html, "lxml")
     result = ElsevierBV(soup).parse()
     assert result["abstract"] == body_abstract
+
+
+def test_cell_press_portal_ca_span_never_guesses_between_shared_surnames():
+    """A span names the author whose whole name it holds; a co-author with the
+    same surname is not flagged in their place (oxjob #2288: gold page
+    10.1016/j.matt.2026.102760, Gi-Hwan Kim's span flagged Jongbeom Kim)."""
+    html = """
+    <html><head>
+      <meta name="citation_author" content="Jongbeom Kim" />
+      <meta name="citation_author_institution" content="Uni A" />
+      <meta name="citation_author" content="Bo Ram Lee" />
+      <meta name="citation_author_institution" content="Uni B" />
+      <meta name="citation_author" content="Gi-Hwan Kim" />
+      <meta name="citation_author_institution" content="Uni C" />
+    </head><body>
+      <span class="corresponding-author">Gi-Hwan Kim ghkim@example.org</span>
+      <span class="corresponding-author">Kim</span>
+    </body></html>
+    """
+    authors = ElsevierBV(BeautifulSoup(html, "lxml")).parse()["authors"]
+    assert [a.is_corresponding for a in authors] == [False, False, True]
