@@ -756,6 +756,10 @@ def has_bad_href_word(href):
         # https://repository.hkust.edu.hk/ir/usage-metrics/download/1783.1-136951, anchor "Full-text downloads".
         # Only a path part named so: a file called "...non-linear metrics contribution.pdf" is still a file.
         r'/(?:usage|downloads?)[-_]?(?:metrics|statistics|stats)(?:[/?#]|$)',
+        # A National Academies study's project page lists "Download all bios" (the committee members' biographies,
+        # an 8-page dompdf file) before the report's own "Download PDF"; 160 NAP reports served the bios file as
+        # their PDF (oxjob #1152, ZD 28305, 10.17226/28582 via projects/HMD-FNB-23-06/publication/28582).
+        r'nationalacademies\.org/projects/[^/?#]+/download-bios(?:[/?#]|$)',
     ]
 
     for bad_pattern in bad_patterns:
