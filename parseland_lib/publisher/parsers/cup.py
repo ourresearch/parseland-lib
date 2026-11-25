@@ -52,6 +52,12 @@ class CUP(PublisherParser):
         r"(an abstract|a summary) is not available for this content", re.I
     )
 
+    # On a page with no abstract (book reviews, notes, obituaries) Cambridge Core's og:description and description are
+    # the page's citation line: "<title, or the reviewed book's citation> - Volume 87 Issue 1-2" (or "- Volume 38").
+    # A template, not an abstract (landing-pages charter § 6, 24 Oct 2026); ~206K works showed it (oxjob #2604). The
+    # page's visible abstract, when it has one, is read instead.
+    _VOLUME_ISSUE_LINE = re.compile(r"^.+ - Volume \d+( Issue \S+)?\s*$", re.S)
+
     # When a chapter or article has no abstract, Cambridge Core shows its opening instead and marks it on the page:
     # a chapter's "Summary" holds div.abstract with data-abstract-type="extract", an article's section is headed
     # "Extract" (oxjob #2162). An opening is body text, not an abstract (landing-pages charter § 6, 24 Oct 2026; gold
@@ -414,6 +420,8 @@ class CUP(PublisherParser):
         # missing or too short to be a real abstract.
         abstract = self.parse_abstract_meta_tags()
         if abstract and self._NO_ABSTRACT_NOTICE.search(abstract):
+            abstract = None
+        if abstract and self._VOLUME_ISSUE_LINE.match(abstract):
             abstract = None
         # The meta abstract (citation_abstract) repeats the opening on pages that mark it as an extract (#2162).
         if abstract and any(same_opening_text(abstract, opening) for opening in self.marked_openings()):
