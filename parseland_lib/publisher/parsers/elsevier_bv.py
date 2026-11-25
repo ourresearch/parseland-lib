@@ -129,6 +129,105 @@ def emc_abstract(pane):
     return next((v for v in versions if is_english(v)), versions[0] if versions else None)
 
 
+# oxjob #1052 step 7 (ZD 8297): citation markers on Elsevier's journal portals (thelancet.com, cell.com and the other
+# els-jbs sites). Older template: <div class="dropBlock reference-citations"><sup><a href="#bib1"
+# class="reference-citations__ctrl">1</a></sup><div class="dropBlock__holder">(the whole reference, hidden)</div></div>;
+# newer: <a href="#bib1" role="doc-biblioref"><sup>1</sup></a>. The page's og:description (the abstract of a Comment or
+# Correspondence, which has no Summary) is its first paragraph with each marker flattened into the text ("gridlock.1
+# Confidence", "colleagues2 did"). Only a superscript LINKED to a bibliography entry is a marker: an unlinked one is
+# text (10<sup>5</sup> cells, m<sup>2</sup>, Ca<sup>2+</sup>), and so is a number the page itself prints inline.
+_CITATION_HREF = r"(?i)^#(?:bib|bbib|cebib|ref|b)\d"
+_CITATION_LABEL = r"^[\d\s,\u2013\u2014-]+$"
+_MARK_OPEN, _MARK_CLOSE = "\ue000", "\ue001"
+_MARKED = "\ue000[^\ue001]*\ue001"
+_ADJACENT_MARKERS = "\ue001(\\s*[,\u2013\u2014-]?\\s*)\ue000"
+# what a flattened marker looks like in meta text: a letter or its closing punctuation, a citation number, then a space
+_GLUED_MARKER = r"[^\W\d_][.,;:)\]'\u2019\"\u201d]?\d{1,3}(?:[,\u2013-]\d{1,3})*(?=\s|$)"
+
+
+def _is_citation_link(a):
+    return (re.match(_CITATION_HREF, a.get("href") or "") is not None
+            or a.get("role") == "doc-biblioref"
+            or "reference-citations__ctrl" in (a.get("class") or []))
+
+
+def _citation_marker_units(root):
+    """root's citation markers: a <sup> whose links all point at bibliography entries, or a bibliography link wrapping a
+    <sup>; the label is numbers only ("1", "1,2", "3-5")."""
+    units = []
+    for sup in root.find_all("sup"):
+        if not re.match(_CITATION_LABEL, sup.get_text()):
+            continue
+        parent = sup.parent
+        if (isinstance(parent, Tag) and parent.name == "a" and _is_citation_link(parent)
+                and re.match(_CITATION_LABEL, parent.get_text())):
+            units.append(parent)
+        elif (links := sup.find_all("a")) and all(_is_citation_link(a) for a in links):
+            units.append(sup)
+    return units
+
+
+def _marked_text(tag):
+    """tag's text (the strings tag.get_text() joins) with each citation marker wrapped in _MARK_OPEN/_MARK_CLOSE, the
+    hidden reference pop-ups (div.dropBlock__holder) left out, and markers with only a separator between them ("1, 2")
+    merged into one. Reads the page without changing it (copying a tag can fail in bs4 on these pages)."""
+    skip, opens = set(), {}
+    for holder in tag.select("div.dropBlock__holder"):
+        skip.update(id(s) for s in holder._all_strings())
+    for unit in _citation_marker_units(tag):
+        strings = list(unit._all_strings())
+        if strings and id(strings[0]) not in skip:  # not one inside a pop-up or another marker
+            skip.update(id(s) for s in strings)
+            opens[id(strings[0])] = _MARK_OPEN + "".join(strings) + _MARK_CLOSE
+    parts = []
+    for string in tag._all_strings():
+        if id(string) in opens:
+            parts.append(opens[id(string)])
+        elif id(string) not in skip:
+            parts.append(string)
+    return re.sub(_ADJACENT_MARKERS, r"\1", "".join(parts))
+
+
+def citation_free_text(tag):
+    """tag's text without its citation markers and reference pop-ups (``tag.text`` keeps both)."""
+    return re.sub(_MARKED, "", _marked_text(tag))
+
+
+def without_flattened_citations(text, soup):
+    """text (a meta abstract) without the citation numbers flattened into it, when text is a stretch of one of the
+    page's paragraphs and those numbers are that paragraph's linked citation markers. Otherwise text unchanged."""
+    if not text or not re.search(_GLUED_MARKER, text):
+        return text
+    want = re.sub(r"\s+", " ", text).strip()
+    tail = ""
+    for ellipsis in ("...", "\u2026"):
+        if want.endswith(ellipsis):
+            want, tail = want[:-len(ellipsis)].rstrip(), ellipsis
+            break
+    for paragraph in soup.select("div.section-paragraph, div[role=paragraph]"):
+        marked = _marked_text(paragraph)
+        if _MARK_OPEN not in marked:
+            continue
+        chars, in_marker, inside = [], [], False
+        for ch in re.sub(r"\s+", " ", marked).strip():
+            if ch == _MARK_OPEN:
+                inside = True
+            elif ch == _MARK_CLOSE:
+                inside = False
+            else:
+                chars.append(ch)
+                in_marker.append(inside)
+        start = "".join(chars).find(want)
+        if start < 0:
+            continue
+        end = start + len(want)
+        if not any(in_marker[start:end]):
+            return text
+        kept = "".join(c for c, m in zip(chars[start:end], in_marker[start:end]) if not m)
+        return re.sub(r"\s+", " ", kept).strip() + tail
+    return text
+
+
 class ElsevierBV(PublisherParser):
     parser_name = "Elsevier BV"
 
@@ -607,13 +706,16 @@ class ElsevierBV(PublisherParser):
             if id(r) in linked:
                 r.affiliations = linked[id(r)]
 
-    def parse_abstract(self):
+    def parse_abstract(self, citation_free=True):
+        # oxjob #1052: citation_free=False reads paragraphs as tag.text (markers' numbers and hidden references kept), so
+        # parse() can test the body for noise exactly as before the markers were dropped.
+        paragraph_text = citation_free_text if citation_free else (lambda tag: tag.text)
 
         if abs_header := self.soup.find(lambda tag: is_h_tag(tag) and tag.text.lower().strip() == 'abstract'):
             if abs_tag := abs_header.find_next_sibling('div', class_='section-paragraph'):
-                return abs_tag.text
+                return paragraph_text(abs_tag)
         if abs_tag := self.soup.select_one('h2[data-left-hand-nav="Summary"] + div.section-paragraph'):
-            return abs_tag.text
+            return paragraph_text(abs_tag)
 
         abs_text = ''
         for i, tag in enumerate(self.soup.select('div[class*=article__sections] div.section-paragraph')):
@@ -624,7 +726,7 @@ class ElsevierBV(PublisherParser):
             prev_sibling = tag.find_previous_sibling()
             if prev_sibling and is_h_tag(prev_sibling) and 'introduction' in prev_sibling.text.lower():
                 break
-            abs_text += tag.text
+            abs_text += paragraph_text(tag)
             if prev_sibling and is_h_tag(prev_sibling) and any([word in prev_sibling.text.lower() for word in {'funding', 'conclusion'}]):
                 break
             # if prev_sibling and is_h_tag(prev_sibling) and 'funding' in prev_sibling.text.lower():
@@ -917,14 +1019,18 @@ class ElsevierBV(PublisherParser):
         if not abstract:
             body_abstract = self.parse_abstract()
             description_abstract = self.parse_description_abstract_meta()
+            # oxjob #1052: the noise test reads the body as it did before citation markers were dropped from it
+            noisy_body = self.parse_abstract(citation_free=False) if body_abstract and description_abstract else None
             abstract = (
                 self.prefer_description_meta_over_noisy_body(
-                    body_abstract,
+                    noisy_body,
                     description_abstract,
                 )
                 or body_abstract
                 or self.parse_abstract_meta_tags()
             )
+        # oxjob #1052 step 7 (ZD 8297): a meta abstract keeps the page's citation numbers glued to its words
+        abstract = without_flattened_citations(abstract, self.soup)
 
         return {
             "authors": author_results,
