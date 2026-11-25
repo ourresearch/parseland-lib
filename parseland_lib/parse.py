@@ -1034,11 +1034,13 @@ def parse_page(lp_content, namespace, resolved_url=None):
             response[key] = back_matter[key]
     # then the page's funding notes (#2630); a funding note the acknowledgments already print is theirs: a combined
     # section leaves funding_statement empty
+    note = notes.get("funding_statement")
     if not response.get("acknowledgments") and notes.get("acknowledgments"):
         response["acknowledgments"] = notes["acknowledgments"]
+    elif notes.get("thanked_funding"):  # the acknowledgments came from elsewhere: a thanking note's funding sentences
+        note = "\n".join(filter(None, (note, notes["thanked_funding"])))
     acknowledgments = response.get("acknowledgments") if isinstance(response.get("acknowledgments"), str) else ""
-    if not response.get("funding_statement") and (note := notes.get("funding_statement")) and \
-            _letters_key(note[:80]) not in _letters_key(acknowledgments):
+    if not response.get("funding_statement") and note and _letters_key(note[:80]) not in _letters_key(acknowledgments):
         response["funding_statement"] = note
     if not response.get("references") and back_matter.get("references"):
         response["references"] = back_matter["references"]

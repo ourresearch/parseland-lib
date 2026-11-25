@@ -842,8 +842,10 @@ _FUNDER_WORD = re.compile(
     r"\b(?:grants?|funds?|funding|foundations?|councils?|ministry|ministerio|minist[eè]re|agency|agencies|programm?e?s?|"
     r"institutes?|institutions?|national|federal|government|governo|gobierno|departments?|office|universit(?:y|ies|é|à|ad|ade)|"
     r"trust|society|association|academy|award|fellowships?|scholarships?|contracts?|projects?|commission|company|"
-    r"corporation|corp|inc|ltd|gmbh|laboratories|service|bureau|fundaç[aã]o|fundaci[oó]n|conselho|consejo|cnpq|capes|"
-    r"fapesp|fapemig|conacyt|conicet|nih|nsf|nsfc|usphs|phs|dfg|erc|eu)\b|(?-i:\b[A-Z][A-Z.]+[A-Z]\b)", re.I)
+    r"corporation|corp|inc|ltd|gmbh|ag|plc|llc|laboratories|service|bureau|hospitals?|clinic|cent(?:er|re)s?|"
+    r"fundaç[aã]o|fundaci[oó]n|fondation|fondazione|fonds|stiftung|forschungsgemeinschaft|ministerium|conselho|"
+    r"consejo|cnpq|capes|fapesp|fapemig|conacyt|conicet|nih|nsf|nsfc|usphs|phs|dfg|erc|eu)\b|"
+    r"(?-i:\b[A-Z][A-Z.]+[A-Z]\b|\b[A-Z]{2,}[A-Z0-9-]*\b)", re.I)
 _NO_FUNDING = re.compile(  # in a note, a sentence saying there was none is not a funding note
     r"\bno (?:[\w-]+ ){0,3}(?:funding|financial support|grants?|funds|sponsorship)\b|\bnot (?:[\w-]+ ){0,2}"
     r"(?:funded|supported|sponsored)\b|\bwithout (?:any )?(?:[\w-]+ )?(?:funding|financial support)\b", re.I)
@@ -867,8 +869,8 @@ _TITLE_CLASSES = {"title", "sec-title", "section-title"}
 
 _NOTE_MARK = re.compile(r"^(?:(?:foot)?notes?\b\s*:?\s*)?(?:(?:\d{1,2}|[*†‡§¶#☆✝]+)\s+)?(?=\S)", re.I)
 # one word after a label is a glossary or a widget ("Funding: Foundation" on an encyclopedia entry), unless it is an
-# acronym ("Funding: JDRF") or says there was none ("Nil.")
-_ONE_WORD_OK = re.compile(r"^(?:[A-Z][A-Z0-9&-]{1,15}|(?i:nil|none|n/?a))\.?$")
+# acronym ("Funding: JDRF"), a company's run-together name ("GlaxoSmithKline.") or says there was none ("Nil.")
+_ONE_WORD_OK = re.compile(r"^(?:[A-Z][A-Z0-9&-]{1,15}|[A-Z][a-z]+(?:[A-Z][a-z]*)+|(?i:nil|none|n/?a))\.?$")
 _NUMBER_ABBREVIATION = re.compile(r"\b(?:no|nos|nr|grant)\.$", re.I)  # "project no. B81-21X-4803-6A"
 
 
@@ -903,11 +905,17 @@ def _note_sentences(paragraph):
     return out
 
 
+# a note that opens with its funding verb and names the payer right after "by" ("Supported by Novartis Pharma AG")
+_OPENS_BY_NAME = re.compile(r"^(?:(?:partially|partly|research|financially|generously|also)\s+)?(?:supported|funded|"
+                            r"sponsored|financed|aided)\s+(?:in part |partly |partially )?by (?:the )?(?-i:[A-Z])", re.I)
+
+
 def _says_funding(sentence):
     """A note sentence that says who paid for the work: a funding phrase, then a payer's kind of name or an acronym
-    outside that phrase; not COI and not "no funding"."""
+    outside that phrase (or a name right after an opening "Supported by"); not COI and not "no funding"."""
     rest, n = _NOTE_FUNDING.subn(" ", sentence)
-    return bool(n and _FUNDER_WORD.search(rest)) and not _is_coi(sentence) and not _NO_FUNDING.search(sentence)
+    return bool(n and (_FUNDER_WORD.search(rest) or _OPENS_BY_NAME.match(sentence))) and not _is_coi(sentence) \
+        and not _NO_FUNDING.search(sentence)
 
 
 def _funding_sentences(paragraph):
@@ -972,9 +980,11 @@ def _label_headed(tags):
 def funding_notes(soup, lp_content):
     """{"funding_statement": text, "acknowledgments": text} from the page's funding notes or run-in funding labels,
     each key only when found (#2630). A note that thanks someone as well as naming the funding is an acknowledgment
-    ("We are grateful to ... This work was supported by ..."), whole, as the gold reads such a paragraph. parse.py uses
-    each key only where no other reader found one, and a funding note only when the acknowledgments don't hold it."""
-    texts, thanks = [], []
+    ("We are grateful to ... This work was supported by ..."), whole, as the gold reads such a paragraph; its funding
+    sentences come too ("thanked_funding"), for a page whose acknowledgments another reader already filled. parse.py
+    uses each key only where no other reader found one, and a funding note only when the acknowledgments don't hold
+    it."""
+    texts, thanks, thanked_funding = [], [], []
     if any(raw_has(lp_content, w) for w in _LABEL_WORDS):
         # one name-set scan of the tree for both readers (find_all() with a list of names is ~15x slower)
         tags = [t for t in soup.descendants if t.name in ("div", "p", "span", "li")]
@@ -992,6 +1002,7 @@ def funding_notes(soup, lp_content):
                     continue
                 if _THANKS.search(paragraph) and not _FUNDING_LABEL.match(paragraph):
                     thanks.append(paragraph)
+                    thanked_funding.append(funding)
                 else:
                     texts.append(funding)
     out = {}
@@ -999,4 +1010,5 @@ def funding_notes(soup, lp_content):
         out["funding_statement"] = "\n".join(dict.fromkeys(texts))
     if thanks:
         out["acknowledgments"] = "\n".join(dict.fromkeys(thanks))
+        out["thanked_funding"] = "\n".join(dict.fromkeys(thanked_funding))
     return out
