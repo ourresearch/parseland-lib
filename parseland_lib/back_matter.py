@@ -110,8 +110,9 @@ def _numbering_whole(labels):
 
 
 _ACK_HEADING = re.compile(r"^acknowledge?ments?$", re.I)
-_FUNDING_HEADING = re.compile(r"^(?:funding(?: information| sources?| statement)?|financial support|"
-                              r"sources? of (?:funding|support))$", re.I)
+_FUNDING_HEADING = re.compile(r"^(?:funding(?: information| sources?| statement|/support| and support)?|"
+                              r"financial support(?: and sponsorship)?|grant support|sources? of (?:funding|support)|"
+                              r"role of (?:the )?funding sources?)$", re.I)  # #2630: LWW's "Financial support and sponsorship", JAMA's "Funding/Support"
 
 
 def _key_for(title):
@@ -535,7 +536,7 @@ def without_coi(text):
 # Any template: a section headed "Acknowledgments" or "Funding" (ScienceDirect's server-rendered body, Atypon's
 # div.ack, PLOS, MDPI ...). The heading's own section: the paragraphs after it, up to the next heading.
 _HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
-_HEADED_WORDS = ("cknowledg", "CKNOWLEDG", "unding", "UNDING", "inancial", "INANCIAL")
+_HEADED_WORDS = ("cknowledg", "CKNOWLEDG", "unding", "UNDING", "inancial", "INANCIAL", "rant support", "RANT SUPPORT")
 _CHROME_TAGS = {"nav", "footer"}  # not <aside>: Springer Nature leaves an ad <aside> open around the whole body
 _CHROME_TOKENS = ("nav", "menu", "toc", "outline", "sidebar", "footer", "breadcrumb")
 _CHROME_PREFIXES = tuple(t + "-" for t in _CHROME_TOKENS if t != "toc")  # not "toc-": PLOS's body is "toc-section"
@@ -807,3 +808,195 @@ def scielo_back_matter(soup, lp_content):
     if not refs:
         return {}
     return {"references": refs, "references_complete": sure and len(refs) == len(texts) and _numbering_whole(labels)}
+
+
+# Funding notes (#2630): where a page prints who funded the work outside any "Funding" heading. Older articles carry it
+# as a first-page footnote ("Supported by PHS grant AM 10951-01"), newer ones as a run-in label ("Funding: ...",
+# "Financial support and sponsorship: Nil."). Measured on a seeded sample of pages whose work has no funder: ~2.2M
+# works name a funder only this way (ScienceDirect, Atypon, Springer, Silverchair, LWW; #2630 EXPLORE § 1).
+# Each template's note blocks: ScienceDirect's footnotes; Wiley's header notes; Atypon's core and NLM footnote groups;
+# HighWire's footnote list; Springer Nature's "Additional information"; LWW's author notes; Silverchair's footnotes;
+# SciELO's footnote lists.
+_NOTE_BLOCKS = (
+    "div.Footnotes dd, div.footnotes dd, div.header-note-content, div.core-footnotes, div.core-author-notes, "
+    "section.core-authors-notes, div.fn-group, div.fnGroup, ul.foot-notes, div.artice-notes, div.article-notes, "
+    "#additional-information-content, div.ejp-article-authors-info-holder, div.footnote, div.summation-section, "
+    "ul.articleFootnotes, ul.footnote, div.author-notes, div.authorNotes")
+_NOTE_UNITS = ["p", "li", "dd"]
+# A sentence that says who funded the work: a funding verb after an auxiliary ("This work was partly supported by"), or
+# a note's usual openings ("Supported in part by", "Partially supported by the NSF", "Aided by grants from", "with
+# grants from"), in English, Portuguese and Spanish. Not a funding verb in a relative clause: "continue in the project
+# funded by ..." says who funds another project.
+_NOTE_FUNDING = re.compile(
+    r"\b(?:was|were|is|are|been|being|be)\s+(?:[\w,-]+\s+){0,3}?(?:supported|funded|sponsored|financed|aided|"
+    r"subsidi[sz]ed)\b|^(?:[\w.,-]+\s+){0,3}?(?:supported|funded|sponsored|financed|aided)\b|"
+    r"\bfunding\b.{0,60}\b(?:was|were|is|has been) (?:provided|received|obtained)\b|"
+    r"\b(?:aided|assisted) by (?:a |the )?(?:[\w.-]+ ){0,3}grants?\b|"
+    r"\b(?:with|by|under|through) (?:a |an |the )?(?:[\w.-]+ ){0,3}(?:grants?|fellowships?)(?: [\w./-]+)? (?:from|of)\b|"
+    r"\bfinancial(?:ly)? support(?:ed)?\b|\bfinancial assistance (?:from|of)\b|"
+    r"\b(?:financiad|subvencionad|patrocinad|subsidiad)[oa]s? (?:por|pel[oa]s?)\b|"
+    r"\bapoio (?:financeiro )?(?:d[aoe]s?|pel[oa]s?)\b|\bcon (?:el )?(?:apoyo|financiamiento|financiación)\b", re.I)
+# ... and names who paid: a funder's kind of name, a grant or an acronym. An endnote's "This view is supported by Smith
+# (1990)" or "no financial aid is provided to flood victims" is not a funding note.
+_FUNDER_WORD = re.compile(
+    r"\b(?:grants?|funds?|funding|foundations?|councils?|ministry|ministerio|minist[eè]re|agency|agencies|programm?e?s?|"
+    r"institutes?|institutions?|national|federal|government|governo|gobierno|departments?|office|universit(?:y|ies|é|à|ad|ade)|"
+    r"trust|society|association|academy|award|fellowships?|scholarships?|contracts?|projects?|commission|company|"
+    r"corporation|corp|inc|ltd|gmbh|laboratories|service|bureau|fundaç[aã]o|fundaci[oó]n|conselho|consejo|cnpq|capes|"
+    r"fapesp|fapemig|conacyt|conicet|nih|nsf|nsfc|usphs|phs|dfg|erc|eu)\b|(?-i:\b[A-Z][A-Z.]+[A-Z]\b)", re.I)
+_NO_FUNDING = re.compile(  # in a note, a sentence saying there was none is not a funding note
+    r"\bno (?:[\w-]+ ){0,3}(?:funding|financial support|grants?|funds|sponsorship)\b|\bnot (?:[\w-]+ ){0,2}"
+    r"(?:funded|supported|sponsored)\b|\bwithout (?:any )?(?:[\w-]+ )?(?:funding|financial support)\b", re.I)
+# A paragraph that opens with a funding label, run in ("Funding: ...", "Funding/Support: ...", "Foundation item: ...")
+_FUNDING_LABEL = re.compile(
+    r"^(?:(?:study )?funding(?:/support| information| sources?| statements?| and support)?|"
+    r"financial support(?: and sponsorship)?|grant support|sources? of (?:financial )?(?:funding|support)|support|"
+    r"foundation items?|fund(?:ing)? projects?|financiamento|financiaci[oó]n|financiamiento|"
+    r"fuentes? de financiaci[oó]n|financement)\s*:\s*", re.I)
+# ... or a note that opens with its label and no colon (BMJ's footnotes: "Funding The R L Gardner Cancer Research Fund")
+_NOTE_LABEL = re.compile(r"^(?i:funding|financial support|grant support|sources? of (?:funding|support))\s+(?=[A-Z])")
+# A disclosure block lists each author's interests ("Research Funding: Roche (Inst)", ASCO): COI, never the work's funding
+_DISCLOSURE_BLOCK = re.compile(r"disclos|conflict|competing|\bcoi\b", re.I)
+_LABEL_WORDS = ("unding", "UNDING", "upport", "UPPORT", "oundation item", "inanc", "INANC")
+_NOTE_WORDS = ("upport", "UPPORT", "unded", "ponsor", "inanc", "ided by", "rant", "apoio", "apoyo")
+# a class string every _NOTE_BLOCKS selector needs: no page without one of them has a note block
+_NOTE_MARKUP = ("ootnote", "oot-note", "note-content", "uthor-notes", "uthors-notes", "uthorNotes", "fn-group",
+                "fnGroup", "rtice-notes", "rticle-notes", "additional-information-content",
+                "ejp-article-authors-info-holder", "summation-section")
+_TITLE_CLASSES = {"title", "sec-title", "section-title"}
+
+_NOTE_MARK = re.compile(r"^(?:(?:foot)?notes?\b\s*:?\s*)?(?:(?:\d{1,2}|[*†‡§¶#☆✝]+)\s+)?(?=\S)", re.I)
+# one word after a label is a glossary or a widget ("Funding: Foundation" on an encyclopedia entry), unless it is an
+# acronym ("Funding: JDRF") or says there was none ("Nil.")
+_ONE_WORD_OK = re.compile(r"^(?:[A-Z][A-Z0-9&-]{1,15}|(?i:nil|none|n/?a))\.?$")
+_NUMBER_ABBREVIATION = re.compile(r"\b(?:no|nos|nr|grant)\.$", re.I)  # "project no. B81-21X-4803-6A"
+
+
+def _statement_after_label(text, label):
+    rest = text[label.end():].strip()
+    if len(rest) < 3 or (" " not in rest and not _ONE_WORD_OK.match(rest)):
+        return None
+    return rest
+
+
+def _title_label(tag):
+    """A <div>/<span> a template uses as a section label ("<div class="title">Funding</div>", Silverchair)."""
+    return tag.name in ("div", "span") and any(c in _TITLE_CLASSES for c in tag.get("class") or [])
+
+
+def _note_units(block):
+    """A note block's paragraphs: its <p>, <li> or <dd> items, else its own text, without a leading "Notes" heading
+    or note mark ("Notes 1 Supported by PHS grant ...", "† This work ...")."""
+    units = block.find_all(_NOTE_UNITS)
+    units = [u for u in units if not u.find(_NOTE_UNITS)] or [block]
+    return [_NOTE_MARK.sub("", text) for u in units if (text := squash(u.get_text(" ")))]
+
+
+def _note_sentences(paragraph):
+    """_sentences, without breaking after a lower-case "no." before a grant number."""
+    out = []
+    for part in _sentences(paragraph):
+        if out and _NUMBER_ABBREVIATION.search(out[-1]):
+            out[-1] += " " + part
+        else:
+            out.append(part)
+    return out
+
+
+def _says_funding(sentence):
+    """A note sentence that says who paid for the work: a funding phrase, then a payer's kind of name or an acronym
+    outside that phrase; not COI and not "no funding"."""
+    rest, n = _NOTE_FUNDING.subn(" ", sentence)
+    return bool(n and _FUNDER_WORD.search(rest)) and not _is_coi(sentence) and not _NO_FUNDING.search(sentence)
+
+
+def _funding_sentences(paragraph):
+    """A note paragraph's sentences that say who funded the work, verbatim, or None: the whole paragraph when every
+    sentence in it is about funding ("... continue in the project funded by X. Part of this work was funded by Y."). A
+    paragraph that opens with a funding label is the statement whole, after its label."""
+    if label := _FUNDING_LABEL.match(paragraph) or _NOTE_LABEL.match(paragraph):
+        return _statement_after_label(paragraph, label)
+    sentences = _note_sentences(paragraph)
+    kept = [s for s in sentences if _says_funding(s)]
+    if kept and all(s in kept or (_WORK_FUNDING.search(s) and not _is_coi(s) and not _NO_FUNDING.search(s))
+                    for s in sentences):
+        return paragraph
+    return " ".join(kept) or None
+
+
+def _labelled_paragraphs(tags):
+    """Paragraphs anywhere outside navigation that open with a funding label in bold, italics or a label span
+    ("<p><strong>Funding:</strong> This work ...", JAMA's "Funding/Support:", BMJ's footnote "Funding: ..."), the text
+    after the label; PLOS prints its funding this way in the article information."""
+    out = []
+    for p in tags:
+        if p.name not in ("p", "li"):
+            continue
+        first = next((c for c in p.children if not (isinstance(c, str) and not c.strip())), None)
+        if first is None or isinstance(first, str) or first.name not in ("strong", "b", "em", "i", "span", "label"):
+            continue
+        if not _FUNDING_LABEL.match(squash(first.get_text()) + ":"):  # the label, with or without its colon
+            continue
+        text = squash(p.get_text(" "))
+        if (label := _FUNDING_LABEL.match(text)) and (statement := _statement_after_label(text, label)) and not \
+                _in_navigation(p) and not any(_DISCLOSURE_BLOCK.search(" ".join(
+                    [a.get("id") or ""] + (a.get("class") or []))) for a in p.parents):
+            out.append(statement)
+    return out
+
+
+def _label_headed(tags):
+    """A funding section headed by a label that is not a heading tag (Silverchair's <div class="title">Funding</div>,
+    AHA's <p><strong>Sources of Funding</strong></p>): the blocks after it, up to the next heading or label, at most
+    three."""
+    out = []
+    for label in tags:
+        if label.name == "p":
+            text = _bold_label(label)
+        elif _title_label(label) and label.find(True) is None:
+            text = squash(label.get_text())
+        else:
+            continue
+        if not text or _key_for(text) != "funding_statement" or _in_navigation(label):
+            continue
+        paragraphs = []
+        for sibling in label.find_next_siblings(limit=3):
+            if sibling.name in _HEADINGS or _bold_label(sibling) or _title_label(sibling):
+                break
+            paragraphs += _block_text(sibling)
+        if (statement := "\n".join(t for t in paragraphs if t)) and not funder_list(paragraphs):
+            out.append(statement)
+    return out
+
+
+def funding_notes(soup, lp_content):
+    """{"funding_statement": text, "acknowledgments": text} from the page's funding notes or run-in funding labels,
+    each key only when found (#2630). A note that thanks someone as well as naming the funding is an acknowledgment
+    ("We are grateful to ... This work was supported by ..."), whole, as the gold reads such a paragraph. parse.py uses
+    each key only where no other reader found one, and a funding note only when the acknowledgments don't hold it."""
+    texts, thanks = [], []
+    if any(raw_has(lp_content, w) for w in _LABEL_WORDS):
+        # one name-set scan of the tree for both readers (find_all() with a list of names is ~15x slower)
+        tags = [t for t in soup.descendants if t.name in ("div", "p", "span", "li")]
+        texts = _label_headed(tags) or _labelled_paragraphs(tags)
+    if not texts and any(raw_has(lp_content, w) for w in _NOTE_WORDS) and any(
+            raw_has(lp_content, m) for m in _NOTE_MARKUP):
+        seen = set()  # ids: a Tag hashes by its serialized markup, which re-serializes the page per ancestor
+        # the selectors name article notes, so no navigation check: HighWire nests its footnotes in a "toc" pane
+        for block in soup.select(_NOTE_BLOCKS):
+            if any(id(parent) in seen for parent in block.parents):
+                continue
+            seen.add(id(block))
+            for paragraph in _note_units(block):
+                if not (funding := _funding_sentences(paragraph)):
+                    continue
+                if _THANKS.search(paragraph) and not _FUNDING_LABEL.match(paragraph):
+                    thanks.append(paragraph)
+                else:
+                    texts.append(funding)
+    out = {}
+    if texts:
+        out["funding_statement"] = "\n".join(dict.fromkeys(texts))
+    if thanks:
+        out["acknowledgments"] = "\n".join(dict.fromkeys(thanks))
+    return out

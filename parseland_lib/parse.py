@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 from parseland_lib.back_matter import _YEAR, _numbering_whole, headed_back_matter, literatum_back_matter, \
     ojs_back_matter, plain_citation_tags, scielo_back_matter, springer_nature_back_matter, without_coi, \
-    before_other_section, tex_letters
+    before_other_section, tex_letters, funding_notes
 from parseland_lib.legacy_parse_utils.fulltext import parse_publisher_fulltext_location
 from parseland_lib.legacy_parse_utils.pdf import is_not_pdf_file
 from parseland_lib.legacy_parse_utils.fulltext import parse_repo_fulltext_location
@@ -737,6 +737,8 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # then any page's own "Acknowledgments" / "Funding" sections, for the keys still empty
     if not ("acknowledgments" in back_matter and "funding_statement" in back_matter):
         back_matter = {**headed_back_matter(soup, lp_content), **back_matter}
+    # then a funding footnote or a run-in "Funding:" label, for a funding statement no section gave (#2630)
+    notes = funding_notes(soup, lp_content) if "funding_statement" not in back_matter else {}
 
     # read before the parsers run (the fulltext step changes this soup): openings the page marks as such (#2162)
     openings = []
@@ -1024,12 +1026,20 @@ def parse_page(lp_content, namespace, resolved_url=None):
     # the reviewed article's reference list, acknowledgments and funding, not the report's: none of them is the
     # report's, whichever reader found them (#2239).
     if any(url and _REPORT_PAGE.search(url) for url in (given_url, resolved_url)):
-        back_matter = {}
+        back_matter, notes = {}, {}
         response.update(acknowledgments=None, funding_statement=None, references=None, references_complete=False)
     # the page template's back matter fills each key the winning parser left empty (#2239 round 6)
     for key in ("acknowledgments", "funding_statement"):
         if not response.get(key) and back_matter.get(key):
             response[key] = back_matter[key]
+    # then the page's funding notes (#2630); a funding note the acknowledgments already print is theirs: a combined
+    # section leaves funding_statement empty
+    if not response.get("acknowledgments") and notes.get("acknowledgments"):
+        response["acknowledgments"] = notes["acknowledgments"]
+    acknowledgments = response.get("acknowledgments") if isinstance(response.get("acknowledgments"), str) else ""
+    if not response.get("funding_statement") and (note := notes.get("funding_statement")) and \
+            _letters_key(note[:80]) not in _letters_key(acknowledgments):
+        response["funding_statement"] = note
     if not response.get("references") and back_matter.get("references"):
         response["references"] = back_matter["references"]
         response["references_complete"] = back_matter["references_complete"]
