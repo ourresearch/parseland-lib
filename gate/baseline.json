@@ -37,9 +37,9 @@
 },
 "*|funding_statement": {
 "cand_present": 114,
-"gold_present": 177,
+"gold_present": 179,
 "n": 1972,
-"right": 1901,
+"right": 1899,
 "true_pos": 109
 },
 "*|license": {
@@ -457,9 +457,9 @@
 },
 "arxiv.org|funding_statement": {
 "cand_present": 0,
-"gold_present": 0,
+"gold_present": 1,
 "n": 14,
-"right": 14,
+"right": 13,
 "true_pos": 0
 },
 "arxiv.org|license": {
@@ -3887,9 +3887,9 @@
 },
 "tail|funding_statement": {
 "cand_present": 7,
-"gold_present": 25,
+"gold_present": 26,
 "n": 604,
-"right": 584,
+"right": 583,
 "true_pos": 5
 },
 "tail|license": {
@@ -4761,9 +4761,9 @@
 "true_pos": 0
 }
 },
-"commit": "8130f2fa5f1ad78b0080b9b2064a6f1ea16117fc",
-"computed_at": "2026-11-23T18:52:42+00:00",
-"corpus": "v1.7",
+"commit": "0670fffdb1d239627b38fbc84bf3ce102b190e1a",
+"computed_at": "2026-11-25T18:48:39+00:00",
+"corpus": "v1.8",
 "other_paper": {
 "crash": 0,
 "emits": {
