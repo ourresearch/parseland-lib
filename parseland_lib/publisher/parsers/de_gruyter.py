@@ -26,6 +26,11 @@ def _email_owner(authors, email):
     return hits[0] if len(hits) == 1 else None
 
 
+# A chapter page with no abstract has its citation line as og:description: "<chapter title> was published in <book> on
+# page 53." A template, not an abstract (landing-pages charter § 6, 24 Oct 2026); ~67K works showed it (oxjob #2604).
+CHAPTER_LINE = re.compile(r'^.{3,}? was published in .{2,400} on page [0-9ivxlcdm]+\.?$', re.I)
+
+
 class DeGruyter(PublisherParser):
     parser_name = "de_gruyter"
 
@@ -132,7 +137,7 @@ class DeGruyter(PublisherParser):
             if text:
                 return text
 
-        if text := self.parse_abstract_meta_tags():
+        if (text := self.parse_abstract_meta_tags()) and not (len(text) < 2500 and CHAPTER_LINE.match(text.strip())):
             return self.clean_abstract_text(text)
 
         if abstract_tag := self.soup.select_one('div.abstract'):

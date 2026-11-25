@@ -56,7 +56,7 @@ class CUP(PublisherParser):
     # the page's citation line: "<title, or the reviewed book's citation> - Volume 87 Issue 1-2" (or "- Volume 38").
     # A template, not an abstract (landing-pages charter § 6, 24 Oct 2026); ~206K works showed it (oxjob #2604). The
     # page's visible abstract, when it has one, is read instead.
-    _VOLUME_ISSUE_LINE = re.compile(r"^.+ - Volume \d+( Issue \S+)?\s*$", re.S)
+    _VOLUME_ISSUE_LINE = re.compile(r"^.+ - Volume \d+( Issue \S+)?\s*$")
 
     # When a chapter or article has no abstract, Cambridge Core shows its opening instead and marks it on the page:
     # a chapter's "Summary" holds div.abstract with data-abstract-type="extract", an article's section is headed
@@ -421,7 +421,7 @@ class CUP(PublisherParser):
         abstract = self.parse_abstract_meta_tags()
         if abstract and self._NO_ABSTRACT_NOTICE.search(abstract):
             abstract = None
-        if abstract and self._VOLUME_ISSUE_LINE.match(abstract):
+        if abstract and len(abstract) < 2000 and self._VOLUME_ISSUE_LINE.match(abstract):
             abstract = None
         # The meta abstract (citation_abstract) repeats the opening on pages that mark it as an extract (#2162).
         if abstract and any(same_opening_text(abstract, opening) for opening in self.marked_openings()):
