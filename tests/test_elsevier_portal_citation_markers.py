@@ -130,3 +130,35 @@ def test_adjacent_markers_leave_no_separator():
     established. {_popup(1)}, {_popup(2)} Some of the trials say so.</div></div></body></html>"""
     text = citation_free_text(_soup(html).select_one("div.section-paragraph"))
     assert " ".join(text.split()) == "Its value is yet to be established. Some of the trials say so."
+
+
+def test_line_break_before_marker_and_a_range_of_markers():
+    """Step 7b (3,361 Lancet pages kept their numbers after the first fix): the older template breaks the line before
+    each pop-up marker ("children.\\n <div class="dropBlock ...">"), and the meta writes the run of markers "1", "2", "3"
+    as "1–3". Shape of 10.1016/S0140-6736(18)32325-0 as stored."""
+    html = f"""<html><head>{HEAD}</head><body><div class="article__sections"><div class="section-paragraph">Increasing
+      rates of caesarean section are debated because of worse outcomes for mothers and their children.
+      {_popup(1)} As Ties Boerma and colleagues
+      {_popup(2)} report in this Series on optimising caesarean section use,
+      {_popup(1)},{_popup(2)},{_popup(3)} there are unacceptable disparities in 2015 data.</div></div></body></html>"""
+    soup = _soup(html)
+    text = ("Increasing rates of caesarean section are debated because of worse outcomes for mothers\nand their "
+            "children.1 As Ties Boerma and colleagues2 report in this Series on optimising caesarean section use,1–3\n"
+            "there are unacceptable")
+    assert without_flattened_citations(text, soup) == (
+        "Increasing rates of caesarean section are debated because of worse outcomes for mothers and their children. "
+        "As Ties Boerma and colleagues report in this Series on optimising caesarean section use, there are "
+        "unacceptable")
+    assert without_flattened_citations(text + "...", soup).endswith("there are unacceptable...")
+
+
+def test_number_in_meta_that_is_not_the_markers_label_is_kept():
+    """A number in the meta where the page has a marker, but not the marker's own label, means the meta is not this
+    paragraph's flattened text: leave it alone. A number right after a marker that the page prints as text stays."""
+    html = f"""<html><body><div class="article__sections"><div class="section-paragraph">Cases rose in the north,
+    {_popup(4)} 2014 saw more.</div></div></body></html>"""
+    soup = _soup(html)
+    assert without_flattened_citations("Cases rose in the north,4 2014 saw more.", soup) == (
+        "Cases rose in the north, 2014 saw more.")
+    assert without_flattened_citations("Cases rose in the north,7 2014 saw more.", soup) == (
+        "Cases rose in the north,7 2014 saw more.")

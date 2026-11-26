@@ -193,9 +193,67 @@ def citation_free_text(tag):
     return re.sub(_MARKED, "", _marked_text(tag))
 
 
+_FLAT_CITATION_CHARS = "0123456789,\u2013\u2014-"
+
+
+def _paragraph_tokens(paragraph):
+    """paragraph's visible text without whitespace, one token per character, None for each citation marker."""
+    tokens = []
+    for piece in re.split(f"({_MARKED})", _marked_text(paragraph)):
+        if piece.startswith(_MARK_OPEN):
+            tokens.append(None)
+        else:
+            tokens.extend(ch for ch in piece if not ch.isspace())
+    return tokens
+
+
+def _first_number(text):
+    found = re.search(r"\d+", text)
+    return found.group(0) if found else None
+
+
+def _flattened_spans(meta, tokens, labels, start):
+    """Where meta (no whitespace) reads as the paragraph from tokens[start] on, the spans of meta its citation markers
+    were flattened into ("1\u20133" in the meta for markers "1", "2", "3"); None when it does not read so. labels: each
+    marker's text, in order of the Nones in tokens."""
+    spans, i, j = [], 0, start
+    marker = sum(1 for t in tokens[:start] if t is None)
+    while i < len(meta):
+        if j >= len(tokens):
+            return None
+        if tokens[j] is not None:
+            if meta[i] != tokens[j]:
+                return None
+            i, j = i + 1, j + 1
+            continue
+        # a marker: the meta holds its flattened numbers here, or nothing. Take the longest run that lets the
+        # paragraph's next characters (up to the next marker, at most 8) follow it.
+        end = i
+        while end < len(meta) and meta[end] in _FLAT_CITATION_CHARS:
+            end += 1
+        after = []
+        for t in tokens[j + 1:]:
+            if t is None or len(after) == 8:
+                break
+            after.append(t)
+        after = "".join(after)
+        for k in range(end, i - 1, -1):
+            rest = meta[k:k + len(after)]
+            if after.startswith(rest) and (k == i or _first_number(meta[i:k]) == _first_number(labels[marker])):
+                break
+        else:
+            return None
+        if k > i:
+            spans.append((i, k))
+        i, j, marker = k, j + 1, marker + 1
+    return spans
+
+
 def without_flattened_citations(text, soup):
     """text (a meta abstract) without the citation numbers flattened into it, when text is a stretch of one of the
-    page's paragraphs and those numbers are that paragraph's linked citation markers. Otherwise text unchanged."""
+    page's paragraphs and those numbers are that paragraph's linked citation markers. Otherwise text unchanged.
+    Whitespace is not compared: the older template breaks the line before each marker ("children.\n <div
+    class="dropBlock ..."><sup>1</sup>"), and a run of markers ("1", "2", "3") may read "1\u20133" in the meta."""
     if not text or not re.search(_GLUED_MARKER, text):
         return text
     want = re.sub(r"\s+", " ", text).strip()
@@ -204,27 +262,27 @@ def without_flattened_citations(text, soup):
         if want.endswith(ellipsis):
             want, tail = want[:-len(ellipsis)].rstrip(), ellipsis
             break
+    visible = [i for i, ch in enumerate(want) if not ch.isspace()]
+    meta = "".join(want[i] for i in visible)
+    if not meta:
+        return text
     for paragraph in soup.select("div.section-paragraph, div[role=paragraph]"):
         marked = _marked_text(paragraph)
         if _MARK_OPEN not in marked:
             continue
-        chars, in_marker, inside = [], [], False
-        for ch in re.sub(r"\s+", " ", marked).strip():
-            if ch == _MARK_OPEN:
-                inside = True
-            elif ch == _MARK_CLOSE:
-                inside = False
-            else:
-                chars.append(ch)
-                in_marker.append(inside)
-        start = "".join(chars).find(want)
-        if start < 0:
-            continue
-        end = start + len(want)
-        if not any(in_marker[start:end]):
-            return text
-        kept = "".join(c for c, m in zip(chars[start:end], in_marker[start:end]) if not m)
-        return re.sub(r"\s+", " ", kept).strip() + tail
+        tokens = _paragraph_tokens(paragraph)
+        labels = [m[1:-1] for m in re.findall(_MARKED, marked)]
+        for start, token in enumerate(tokens):
+            if token != meta[0]:
+                continue
+            spans = _flattened_spans(meta, tokens, labels, start)
+            if spans is None:
+                continue
+            if not spans:
+                return text
+            drop = {visible[k] for a, b in spans for k in range(a, b)}
+            kept = "".join(ch for i, ch in enumerate(want) if i not in drop)
+            return re.sub(r"\s+", " ", kept).strip() + tail
     return text
 
 
